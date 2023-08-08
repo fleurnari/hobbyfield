@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.hobbyfield.app.member.mapper.MemberMapper">
+
+	<!-- 회원 가입 수행 -->
+	<insert id="memberJoin" parameterType="MemberVO">
+		INSERT INTO member (
+							member_email
+							, member_pwd
+							, member_nm
+							<if test="memberZip != null and !memberZip.equals('')">
+							, member_zip
+							</if>
+							<if test="memberBaseaddr != null and !memberBaseaddr.equals('')">
+							, member_baseaddr
+							</if>
+							<if test="memberDetaaddr != null and !memberDetaaddr.equals('')">
+							, member_detaaddr
+							</if>
+							<if test="memberBizno != null and !memberBizno.equals('')">
+							, member_bizno
+							</if>
+							, member_cntinfo
+							, member_grd
+							
+							)
+		VALUES (
+							#{memberEmail}
+							, #{memberPwd}
+							, #{memberNm}
+							<if test="memberZip != null and !memberZip.equals('')">
+							, #{memberZip}
+							</if>
+							<if test="memberBaseaddr != null and !memberBaseaddr.equals('')">
+							, #{memberBaseaddr}
+							</if>
+							<if test="memberDetaaddr != null and !memberDetaaddr.equals('')">
+							, #{memberDetaaddr}
+							</if>
+							<if test="memberBizno != null and !memberBizno.equals('')">
+							, #{memberBizno}
+							</if>
+							, #{memberCntinfo}
+							, #{memberGrd}
+		
+							)
+	</insert>
+
+	<!-- 아이디 중복 체크 -->
+	<select id="idChk" resultType="int">
+		SELECT COUNT(*)
+		FROM member
+		WHERE member_email = #{memberEmail}
+	</select>
+
+  </mapper>
