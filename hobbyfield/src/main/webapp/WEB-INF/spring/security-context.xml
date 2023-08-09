@@ -7,7 +7,7 @@
 		
 	<security:http pattern="/css/**" security="none" />
 	<security:http pattern="/home" security="none" />
-	
+
 	
 	<security:authentication-manager>
 		<security:authentication-provider>

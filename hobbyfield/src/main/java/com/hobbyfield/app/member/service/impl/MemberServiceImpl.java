@@ -21,9 +21,9 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public int idChk(MemberVO memberVO) {
+	public int idCheck(String memberEmail) {
 	
-		return memberMapper.idChk(memberVO);
+		return memberMapper.idCheck(memberEmail);
 	}
 
 }

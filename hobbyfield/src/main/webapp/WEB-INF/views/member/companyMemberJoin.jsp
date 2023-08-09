@@ -11,7 +11,7 @@
 			<div class="col-12">
 				<div class="card">
 					<div class="card-body px-5 pb-0">
-						<div class="row gx-8">
+						<div">
 							<form id="frm" action="memberInsert" onsubmit="return formCheck()" method="get">
 									<div>
 										<table>
