@@ -48,12 +48,13 @@
 		<button type="reset">취소</button>
 	</form>
 	<script>
-	document.getElementById('fudStartDay').valueAsDate = new Date();
-		document.querySelector('form[name="insertForm"]')
+
+	document.getElementById('fndStartDay').valueAsDate = new Date();
+		document.querySelector('form[name="insertPostForm"]')
 				.addEventListener('submit', function(e){
 					e.preventDefault();
 					
-					let funPostNumber = document.getElementsByName('fndPostNumber')[0];
+					let fndPostNumber = document.getElementsByName('fndPostNumber')[0];
 					let fndTitle = document.getElementsByName('fndTitle')[0];
 					let fndMainImg = document.getElementsByName('fndMainImg')[0];
 					let fndMainImgPath = document.getElementsByName('fndMainImgPath')[0];
