@@ -15,6 +15,8 @@ public class MemberController {
 	
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
 	StandardPBEStringEncryptor encryptor;
 
 	// 회원 가입 페이지
@@ -38,25 +40,34 @@ public class MemberController {
 	
 	// 아이디 중복 체크
 	@ResponseBody
-	@PostMapping("/idChk")
-	public int idChk(MemberVO memberVO) {
-		int result = memberService.idChk(memberVO);
-		return result; 
+	@PostMapping("/memberEmailChk")
+	public String memberEmailChk(String memberEmail) {
+		
+		int result = memberService.idCheck(memberEmail);
+		
+		if (result == 1) {
+			
+			return "fail";
+		} else {
+			
+			return "success";
+		}
+
 	}
 	
 	// 회원 가입 수행
 	@PostMapping("/memberInsert")
 	public String memberInsert(MemberVO memberVO) {
-		int result = memberService.idChk(memberVO);
-		if (result == 1) {
-			return "member/memberJoinSelect";
-		} else {
 			String rawPwd = memberVO.getMemberPwd();
 			String encryptedPwd = encryptor.encrypt(rawPwd);
 			memberVO.setMemberPwd(encryptedPwd);
+			if (memberVO.getMemberBizno().equals("")) {
+				memberVO.setMemberGrd("A1");
+			} else {
+				memberVO.setMemberGrd("A2");
+			}
 			memberService.insertMember(memberVO);
-		}
-		return "home";
+		return "member/loginForm";
 	}
 	
 }
