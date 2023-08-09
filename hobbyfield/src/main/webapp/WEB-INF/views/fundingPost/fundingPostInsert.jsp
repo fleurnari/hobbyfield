@@ -48,6 +48,7 @@
 		<button type="reset">취소</button>
 	</form>
 	<script>
+
 	document.getElementById('fndStartDay').valueAsDate = new Date();
 		document.querySelector('form[name="insertPostForm"]')
 				.addEventListener('submit', function(e){

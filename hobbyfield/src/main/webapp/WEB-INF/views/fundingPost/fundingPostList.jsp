@@ -112,7 +112,9 @@ flex-wrap:wrap;
 		</thead>
 		<tbody>
 			<c:forEach items="${fundingPostList }" var="fundingPost">
+
 				<tr onclick="location.href='fundingPostInfo?fndPostNumber=${fundingPost.fndPostNumber }'">
+
 					<td>${fundingPost.fndTitle }</td>
 					<fmt:parseDate value="${fundingPost.fndStartDate}" type="DATE" pattern="yyyy-MM-dd" var="currentDate" />
 					<td><fmt:formatDate value="${currentDate}"  pattern="yyyy년MM월dd일"/></td>
@@ -155,6 +157,7 @@ flex-wrap:wrap;
 		</tbody>
 	</table>
  --%>
+
 
 </body>
 </html>
