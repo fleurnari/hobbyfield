@@ -210,6 +210,11 @@
 .final_name_ck{
     display: none;
 }
+
+.final_bizno_ck{
+	display: none;
+}
+
 .final_mail_ck{
     display: none;
 }
@@ -219,7 +224,8 @@
  
 .final_tel_ck{
 	display: none;
-} 
+}
+
 
 
 /* 비밀번호 확인 일치 유효성검사 */

@@ -1,11 +1,15 @@
 package com.hobbyfield.app.member.web;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hobbyfield.app.member.service.MemberService;
 import com.hobbyfield.app.member.service.MemberVO;
@@ -67,7 +71,46 @@ public class MemberController {
 				memberVO.setMemberGrd("A2");
 			}
 			memberService.insertMember(memberVO);
-		return "member/loginForm";
+		return "member/login";
 	}
+	
+	// 로그인 페이지
+	@GetMapping("/login")
+		public String loginForm() {
+			return "member/login";
+		}
+	
+	// 로그인 수행
+	@PostMapping("/login")
+		public String login(MemberVO memberVO, HttpServletRequest request, RedirectAttributes rttr) {
+			HttpSession session = request.getSession();
+			String rawPwd = "";
+			String encryptedPwd = "";
+			
+			MemberVO member = memberService.memberLogin(memberVO);
+			
+			if (member != null) {
+				rawPwd = memberVO.getMemberPwd();
+				encryptedPwd = member.getMemberPwd();
+				
+				if (rawPwd.equals(encryptor.decrypt(encryptedPwd))) {
+					member.setMemberPwd("");
+					memberService.memberLtstUpdate(member);
+					session.setAttribute("member", member);
+					return "home";
+					
+				} else {
+					rttr.addFlashAttribute("result", 0);
+					return "redirect:/login";
+				}
+				
+			} else {
+				rttr.addFlashAttribute("result", 0);
+				return "redirect:/login";
+			}
+			
+			
+	}
+	
 	
 }

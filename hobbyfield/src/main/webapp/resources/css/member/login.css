@@ -29,7 +29,7 @@
 /* 로그인 area */
 .id_input_box{
 	border: 1px solid black;
-	height:31px;
+	height:50px;
 	padding: 10px 14px;	
 	display: block;
 	width : 80%;
@@ -48,7 +48,7 @@
 }
 .pw_input_box{
 	border: 1px solid black;
-	height:31px;
+	height:50px;
 	padding: 10px 14px;	
 	display: block;
 	width : 80%;
@@ -80,3 +80,27 @@
 .clearfix{
 	clear: both;
 }
+
+ 
+/* 로그인 실패시 경고글 */
+.login_warn{
+    margin-top: 30px;
+    text-align: center;
+    color : red;
+}
+
+/* 로그인 성공 영역 */
+.login_success_area{
+    height: 62%;
+    width: 80%;
+    border: 2px solid #7474ad;
+    border-radius: 15px;
+    margin: 5% auto;
+    padding-top: 5%;
+}
+.login_success_area>span{
+    display : block;
+    text-align: left;
+    margin-left: 10%;
+}
+ 
