@@ -73,7 +73,7 @@
 									<div class="user_wrap">
 										<div class="user_info">연락처</div>
 										<div class="user_input_box">
-											<input class="user_input" type="text" id="memberCntinfo" name="memberCntinfo">
+											<input class="user_input" type="text" id="memberCntinfo" name="memberCntinfo" placeholder="'-'을 포함하여 입력해 주세요.">
 										</div>
 										<span class="final_tel_ck">연락처를 입력해주세요.</span>
 									</div>

@@ -41,5 +41,23 @@
 		FROM member
 		WHERE member_email = #{memberEmail}
 	</select>
+	
+	<!-- 로그인 -->
+	<select id="memberLogin" resultType="com.hobbyfield.app.member.service.MemberVO">
+		SELECT * FROM member WHERE member_email = #{memberEmail}
+	</select>
+	
+	<!-- 로그인 성공 시 최근 접속일 갱신 -->
+	<update id="memberLtstUpdate" parameterType="com.hobbyfield.app.member.service.MemberVO">
+		UPDATE member SET member_ltstconn = SYSDATE WHERE member_email = #{memberEmail}
+	</update>
+	
+	<!-- 금일 첫 로그인 시 활동 포인트 갱신 -->
+	<update id="memberPntUpdate" parameterType="com.hobbyfield.app.member.service.MemberVO">
+		UPDATE member SET member_actpnt = member_actpnt + 200 WHERE member_email = #{memberEmail}
+	</update>
+	
+	
+	
 
   </mapper>
