@@ -11,7 +11,10 @@
 					<a class="btn btn-sm btn-warning rounded-pill"
 						href="${pageContext.request.contextPath}/memberJoinSelect"><i
 						class="fas fa-camera me-2"></i>지금 가입하기</a>
-				</div>
+				</div><br>
+				<a href="${pageContext.request.contextPath}/insertClub">
+				<i class=""></i>소모임생성</a>
+				
 			</div>
 		</div>
 	</div>

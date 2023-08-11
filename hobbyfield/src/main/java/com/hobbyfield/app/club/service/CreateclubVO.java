@@ -1,11 +1,10 @@
-package com.hobbyfield.app.createclub.service;
+package com.hobbyfield.app.club.service;
 
 import lombok.Data;
 
 @Data
 public class CreateclubVO {
 	private int clubNumber;
-	private String profileNickname;
 	private String clubName;
 	private String clubCategory;
 	private String clubType;
@@ -19,6 +18,12 @@ public class CreateclubVO {
 	private String clubImg;
 	private String clubImgPath;
 	private Integer clubTotal;
+	
+	//profile table
+	private String eamil; 
+	private String profileNickname;
+	private String profileImg;
+	private String profileImgPath;
 	
 
 }
