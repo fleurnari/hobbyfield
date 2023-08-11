@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <section class="py-0" id="header">
 	<div class="container">
@@ -8,9 +9,11 @@
 				<h1 class="lh-sm fs-lg-6 fs-xxl-7">HOBBY FIELD</h1>
 				<p class="text-700">취미 공유 통합 플랫폼</p>
 				<div class="mt-5">
-					<a class="btn btn-sm btn-warning rounded-pill"
-						href="${pageContext.request.contextPath}/memberJoinSelect"><i
-						class="fas fa-camera me-2"></i>지금 가입하기</a>
+				    <c:if test = "${member == null}">
+						<a class="btn btn-sm btn-warning rounded-pill"
+							href="${pageContext.request.contextPath}/memberJoinSelect"><i
+							class="fas fa-camera me-2"></i>지금 가입하기</a>
+					</c:if>
 				</div>
 			</div>
 		</div>
