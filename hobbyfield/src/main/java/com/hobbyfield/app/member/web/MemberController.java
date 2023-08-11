@@ -1,5 +1,8 @@
 package com.hobbyfield.app.member.web;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -13,12 +16,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hobbyfield.app.member.service.MemberService;
 import com.hobbyfield.app.member.service.MemberVO;
+import com.hobbyfield.app.pointrecord.service.PointRecordService;
+import com.hobbyfield.app.pointrecord.service.PointRecordVO;
 
 @Controller
 public class MemberController {
 	
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	PointRecordService pointRecordService;
 	
 	@Autowired
 	StandardPBEStringEncryptor encryptor;
@@ -69,6 +77,7 @@ public class MemberController {
 				memberVO.setMemberGrd("A1");
 			} else {
 				memberVO.setMemberGrd("A2");
+				memberVO.setMemberComaccp("AJ1");
 			}
 			memberService.insertMember(memberVO);
 		return "member/login";
@@ -94,11 +103,29 @@ public class MemberController {
 				encryptedPwd = member.getMemberPwd();
 				
 				if (rawPwd.equals(encryptor.decrypt(encryptedPwd))) {
+					if (member.getMemberGrd().equals("A2") && member.getMemberComaccp().equals("AJ1")) {
+						rttr.addFlashAttribute("result", 1);
+						return "redirect:/login";
+					} else if (member.getMemberGrd().equals("A2") && member.getMemberComaccp().equals("AJ3")) {
+						rttr.addFlashAttribute("result", 2);
+						return "redirect:/login";
+						
+					} else {
 					member.setMemberPwd("");
-					memberService.memberLtstUpdate(member);
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+					
+					if ((member.getMemberLtstconn() == null) || !(dateFormat.format(new Date()).equals(dateFormat.format(member.getMemberLtstconn())))) {
+						memberService.memberLtstUpdate(member);
+						memberService.memberPntUpdate(member);
+						
+						PointRecordVO pointRecord = new PointRecordVO();
+						pointRecord.setMemberEmail(member.getMemberEmail());
+						pointRecordService.loginPointInsert(pointRecord);
+						
+					}
 					session.setAttribute("member", member);
 					return "home";
-					
+				  }
 				} else {
 					rttr.addFlashAttribute("result", 0);
 					return "redirect:/login";
@@ -108,9 +135,18 @@ public class MemberController {
 				rttr.addFlashAttribute("result", 0);
 				return "redirect:/login";
 			}
-			
-			
+					
 	}
 	
+	// 로그아웃 수행
+	@GetMapping("/logout")
+		public String logout(HttpServletRequest request) {
+		
+			HttpSession session = request.getSession();
+			
+			session.invalidate();
+			
+			return "home";
+		}
+	}
 	
-}

@@ -30,6 +30,12 @@
 						<c:if test = "${result == 0}">
 							<div class = "login_warn">이메일 또는 비밀번호를 잘못 입력하셨습니다.</div>
 						</c:if>
+						<c:if test = "${result == 1}">
+							<div class = "login_warn">관리자 승인 대기 중인 기업 회원입니다.</div>
+						</c:if>
+						<c:if test = "${result == 2}">
+							<div class = "login_warn">가입 승인이 거부된 기업 회원입니다.</div>
+						</c:if>
 						<div class="login_button_wrap">
 							<input type="button" class="login_button" value="로그인">
 						</div>			

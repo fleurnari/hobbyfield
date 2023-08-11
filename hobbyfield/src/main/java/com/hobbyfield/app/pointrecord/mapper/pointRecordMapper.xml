@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.hobbyfield.app.pointrecord.mapper.PointRecordMapper">
+  
+  	<!-- 금일 첫 로그인 성공 시 로그 추가 -->
+	<insert id="loginPointInsert" parameterType="com.hobbyfield.app.pointrecord.service.PointRecordVO">
+		<selectKey keyProperty="pointRecordNum" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(point_record_num),0) + 1
+			FROM point_record
+		</selectKey>
+		INSERT INTO point_record
+					(
+						point_record_num
+					  , member_email
+					  , point_type
+					)
+		VALUES (
+					#{pointRecordNum}
+				  , #{memberEmail}
+				  , 'AB1'
+		)
+	</insert>
+	
+
+  </mapper>
