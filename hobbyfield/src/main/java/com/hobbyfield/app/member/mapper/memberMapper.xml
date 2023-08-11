@@ -14,11 +14,12 @@
 							, member_zip
 							, member_baseaddr
 							, member_detaaddr
-							<if test="memberBizno != null and !memberBizno.equals('')">
-							, member_bizno
-							</if>
 							, member_cntinfo
 							, member_grd
+							<if test="memberBizno != null and !memberBizno.equals('')">
+							, member_bizno
+							, member_comaccp
+							</if>
 							)
 		VALUES (
 							#{memberEmail}
@@ -27,11 +28,12 @@
 							, #{memberZip}
 							, #{memberBaseaddr}
 							, #{memberDetaaddr}
-							<if test="memberBizno != null and !memberBizno.equals('')">
-							, #{memberBizno}
-							</if>
 							, #{memberCntinfo}
 							, #{memberGrd}
+							<if test="memberBizno != null and !memberBizno.equals('')">
+							, #{memberBizno}
+							, #{memberComaccp}
+							</if>
 							)
 	</insert>
 
@@ -56,8 +58,7 @@
 	<update id="memberPntUpdate" parameterType="com.hobbyfield.app.member.service.MemberVO">
 		UPDATE member SET member_actpnt = member_actpnt + 200 WHERE member_email = #{memberEmail}
 	</update>
-	
-	
+
 	
 
   </mapper>

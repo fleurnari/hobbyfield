@@ -5,8 +5,6 @@
 
 <link href="${pageContext.request.contextPath}/resources/css/theme.css" rel="stylesheet">
 
-
-
       <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 d-block" data-navbar-on-scroll="data-navbar-on-scroll">
         <div class="container"><a class="navbar-brand d-inline-flex" href="${pageContext.request.contextPath}/"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FIELD</span></span></a>
           <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -22,9 +20,10 @@
             		<div class="ms-lg-5"><a class="btn btn-primary" href="${pageContext.request.contextPath}/login">로그인</a></div>
           		</c:if>
           		<c:if test = "${member != null}">
-          			 <div class="login_success_area">
+          			 <div>
 						<span>${member.memberNm} 님 환영합니다.</span>
 						<span>최근 접속일 : <fmt:formatDate value="${member.memberLtstconn}" pattern="yyyy-MM-dd" /></span>
+						<a href="logout">로그아웃</a>
                     </div>
           		</c:if>
           </div>

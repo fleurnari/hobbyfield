@@ -18,7 +18,5 @@ public interface MemberMapper {
 	
 	// 금일 첫 로그인 시 활동포인트 갱신
 	public int memberPntUpdate(MemberVO memberVO);
-	
-	// 포인트 적립 테이블 로그 추가
 
 }

@@ -15,7 +15,8 @@ public class MemberVO {
 	private String memberBizno;
 	private String memberCntinfo;
 	private String memberGrd;
-	private int memberActpnt;
-	private int memberRprtcnt;
+	private Integer memberActpnt;
+	private Integer memberRprtcnt;
 	private Date memberLtstconn;
+	private String memberComaccp;
 }
