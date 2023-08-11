@@ -121,17 +121,116 @@ table, th, td {
 	cursor: pointer; /* 마우스 포인터 효과 */
 }
 
-.pop-btn.confirm { /* 확인버튼 */
-	border-right: 1px solid #3b5fbf; /* 오른쪽 줄 */
+.product-option {
+  display: flex;
+  justify-content: space-around;
+}
+
+.option-box {
+  width: 600px; /* 옵션창을 더 길게 만들기 */
+  margin: 10px; /* 간격을 주기 위한 margin 추가 */
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 10px; /* 모서리 둥글게 설정 */
+}
+
+.option-box:hover {
+  background-color: #f0f0f0;
+}
+
+.option-name {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.option-description,
+.option-details {
+  display: none;
+  margin-top: 10px; /* 조금 더 큰 간격 */
+}
+
+.option-box.active .option-description,
+.option-box.active .option-details {
+  display: block;
+}
+
+.quantity {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.decrement,
+.increment {
+  padding: 5px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px; /* 모서리 둥글게 설정 */
+}
+
+.decrement {
+  margin-right: 5px; /* 간격 추가 */
+}
+
+.quantity-value {
+  margin: 0 10px;
+}
+
+.confirm-button {
+  margin-top: 10px;
+  width: 500px;
+  padding: 5px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 5px; /* 모서리 둥글게 설정 */
+}
+
+.confirm-button:hover {
+  background-color: #0056b3;
+
+  transform: scale(1); /* 마우스 오버 시 크기 변화 없애기 */
 }
 </style>
 </head>
 
 <body>
 
-
+<!-- 옵션선택 모달창 -->
 	<div class="modal">
-		<div class="modal_body">Modal테스트</div>
+		<div class="modal_body">
+		<c:forEach items="${fundingGoodsInfo }" var="fundingGoods">
+			<%-- <p>${fundingGoods.fndGoodsName }</p>
+			<p>${fundingGoods.fndGoodsContent }</p>
+			<p>${fundingGoods.fndGoodsAmount }</p>
+			<p>${fundingGoods.fndGoodsPrice }</p> --%>
+		<div class="product-option">
+  <div class="option-box" onclick="toggleDetails(this)">
+    <p class="option-name">${fundingGoods.fndGoodsName }<br>${fundingGoods.fndGoodsAmount }<br>${fundingGoods.fndGoodsPrice }<br>텍스트</p>
+    <p class="option-description">${fundingGoods.fndGoodsContent }</p>
+    <div class="option-details">
+      <p class="option-details-content">상세 설명이 여기에 나타납니다.</p>
+      <div class="quantity">
+    <button class="decrement">-</button>
+    <span class="quantity-value">1</span>
+    <button class="increment">+</button>
+  </div>
+
+  <button class="confirm-button" data-price="${fundingGoods.fndGoodsPrice}">
+    ${fundingGoods.fndGoodsPrice}
+  </button>
+    </div>
+  </div>
+  <!-- 다른 옵션 박스들도 추가 가능 -->
+</div>
+		</c:forEach>
+		</div>
 	</div>
 
 	<section>
@@ -140,7 +239,7 @@ table, th, td {
 				<div class="funding-Title" style="text-align: center";>
 					<font style="font-weight: bold;" size=6;>${fundingPostInfo.fndTitle }</font>
 				</div>
-				<div class="fudning-Img">
+				<div class="funding-Img">
 					<figure>
 						<img id="img"
 							src="resources/images/${fundingPostInfo.fndMainImg }" alt="img"
@@ -150,6 +249,7 @@ table, th, td {
 			</form>
 			<form>
 				<div>
+				<p>${fundingPostInfo.fndPostNumber }</p>
 					<h3>모인금액</h3>
 					<br> <font class="time" style="font-weight: bold;" size=6>
 						<fmt:formatNumber value="${fundingPostInfo.fndCurrentAmount }"
@@ -158,26 +258,26 @@ table, th, td {
 				</div>
 				<div>
 					<h3>남은시간</h3>
-					<font class="time" style="font-weight: bold;" size=6> <jsp:useBean
-							id="now" class="java.util.Date" /> <fmt:parseNumber
-							value="${now.time / (1000*60*60*24)}" integerOnly="true"
-							var="nowfmtTime" scope="request" /> <fmt:parseDate
-							value="${fundingPostInfo.fndEndDate}" pattern="yyyy-MM-dd"
-							var="endPlanDate" /> <fmt:parseNumber
-							value="${endPlanDate.time / (1000*60*60*24)}" integerOnly="true"
-							var="endDate" /> <c:choose>
-							<c:when test="${endDate - nowfmtTime >= 1}">
+					<font class="time" style="font-weight: bold;" size=6> 
+					<!-- 현재 시간을 가져온다 -->
+					<jsp:useBean id="now" class="java.util.Date" />
+					<!-- now에 담아서 온 것을 number로 값 변경을 위해 --> 
+					<fmt:parseNumber value="${now.time / (1000*60*60*24)}" integerOnly="true" var="nowfmtTime" scope="request" /> 
+					<fmt:parseDate value="${fundingPostInfo.fndEndDate}" pattern="yyyy-MM-dd" var="endPlanDate" /> 
+					<fmt:parseNumber value="${endPlanDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate" /> 
+					<c:choose>
+						<c:when test="${endDate - nowfmtTime >= 1}">
             				${endDate - nowfmtTime + 1}
-           					<span>일 남음</span>
-							</c:when>
-							<c:otherwise>
-								<div>
-									<span id="d-day-hour">00</span> <span class="col">:</span> <span
-										id="d-day-min">00</span> <span class="col">:</span> <span
-										id="d-day-sec">00</span>
-								</div>
-							</c:otherwise>
-						</c:choose>
+           				<span>일 남음</span>
+						</c:when>
+						<c:otherwise>
+							<div>
+								<span id="d-day-hour">00</span> <span class="col">:</span> 
+								<span id="d-day-min">00</span> <span class="col">:</span> 
+								<span id="d-day-sec">00</span>
+							</div>
+						</c:otherwise>
+					</c:choose>
 					</font>
 				</div>
 				<br>
@@ -187,27 +287,25 @@ table, th, td {
 						${fundingPostInfo.fndParticipants } </font>
 				</div>
 				<br>
-				<hr
-					style="border-width: 1px 0 0 0; border-style: dashed; border-color: #bbb;">
+				<hr style="border-width: 1px 0 0 0; border-style: dashed; border-color: #bbb;">
 				<div>
 					<font class="time" style="font-weight: bold;" size=3> 목표금액 </font>
-					<font> <fmt:formatNumber
-							value="${fundingPostInfo.fndTargetAmount }" pattern="#,###원" />
+					<font> 
+						<fmt:formatNumber value="${fundingPostInfo.fndTargetAmount }" pattern="#,###원" />
 					</font>
 				</div>
 				<div>
 					<font class="time" style="font-weight: bold;" size=3> 펀딩기간 </font>
-					<font> <fmt:parseDate
-							value="${fundingPostInfo.fndStartDate}" type="DATE"
-							pattern="yyyy-MM-dd" var="currentDate" /> <fmt:formatDate
-							value="${currentDate}" pattern="yyyy.MM.dd" /> ~ <fmt:parseDate
-							value="${fundingPostInfo.fndEndDate}" type="DATE"
-							pattern="yyyy-MM-dd" var="endPlanDate" /> <fmt:formatDate
-							value="${endPlanDate}" pattern="yyyy.MM.dd" />
+					<font> 
+						<fmt:parseDate value="${fundingPostInfo.fndStartDate}" type="DATE" pattern="yyyy-MM-dd" var="currentDate" /> 
+						<fmt:formatDate value="${currentDate}" pattern="yyyy.MM.dd" /> ~ 
+						<fmt:parseDate value="${fundingPostInfo.fndEndDate}" type="DATE" pattern="yyyy-MM-dd" var="endPlanDate" /> 
+						<fmt:formatDate value="${endPlanDate}" pattern="yyyy.MM.dd" />
 					</font> <br>
-					<button type="button" class="btn btn-dark"
-						onclick="location.href=''">관심목록</button>
-					<button type="button" id="modal-open">모달창 열기</button>
+					<button type="button" class="btn btn-dark" onclick="location.href=''">관심목록</button>
+					<!-- 공유하기 모달창 -->
+					<button type="button" id="modal-open">공유하기</button>
+					<!-- 옵션선택 모달창 -->
 					<button type="button" class="btn-open-popup">이 프로젝트 후원하기</button>
 				</div>
 			</form>
@@ -216,7 +314,7 @@ table, th, td {
 				<hr style="border: 0; height: 1px; background: #000;">
 				<font> | 프로젝트 소개 </font>
 			</form>
-			<!-- 공유하기 모달창 -->
+			<!-- 공유하기 모달창 body -->
 			<div class="container">
 				<div class="popup-wrap" id="popup">
 					<div class="popup">
@@ -231,6 +329,7 @@ table, th, td {
 								<hr>
 								<div class="body-contentbox">
 									<div>
+										<!-- 아래 스크립트단 처리 -->
   										<a href="javascript:sendLink()"><img src="resources/images/icon-kakao.png " style="padding:20px"/></a>
 										<a href="javascript:shareFacebook()"><img src="resources/images/icon-facebook.png " style="padding:20px"/></a>
 										<a href="javascript:shareTwitter()"><img src="resources/images/icon-twitter.png "style="padding:20px"/></a>	
@@ -249,8 +348,9 @@ table, th, td {
 	</section>
 
 
+<!-- 카카오톡 공유하기를 위한 초기화 -->
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-	<script type="text/javascript">
+<script type="text/javascript">
 
 function remaindTime() {
 	 
@@ -288,6 +388,7 @@ function remaindTime() {
 }
  setInterval(remaindTime,1000); 
 
+ //옵션선택 모달 관련
  const body = document.querySelector('body');
  const modal = document.querySelector('.modal');
  const btnOpenPopup = document.querySelector('.btn-open-popup');
@@ -310,6 +411,7 @@ function remaindTime() {
    }
  });
 
+ //공유하기 모달 관련
  $(function(){
 	  $("#confirm").click(function(){
 	      modalClose(); //모달 닫기 함수 호출
@@ -332,16 +434,7 @@ function remaindTime() {
  Kakao.init('9e8afa7d0fe61fc9e80faaea5d5589a0'); // 초기화
  console.log(Kakao.isInitialized());
  
-/*  function sendLink() { // 카카오톡 공유하기
-   Kakao.Link.sendDefault({
-     objectType: 'text',
-     text: '기본 템플릿으로 제공되는 텍스트 템플릿은 텍스트를 최대 200자까지 표시할 수 있습니다. 텍스트 템플릿은 텍스트 영역과 하나의 기본 버튼을 가집니다. 임의의 버튼을 설정할 수도 있습니다. 여러 장의 이미지, 프로필 정보 등 보다 확장된 형태의 카카오링크는 다른 템플릿을 이용해 보낼 수 있습니다.',
-     link: {
-       mobileWebUrl: 'https://developers.kakao.com/docs/js/kakaotalklink#텍스트-템플릿-보내기',
-       webUrl: 'https://developers.kakao.com/docs/js/kakaotalklink#텍스트-템플릿-보내기',
-     },
-   })
- }; */
+
  function sendLink() {
 	 var dummy   = document.createElement("textarea");
 	 var text    = location.href;
@@ -353,30 +446,78 @@ function remaindTime() {
 	            description: '공유될내용',
 	            imageUrl: 'http://localhost:8080/app/resources/images/${fundingPostInfo.fndMainImg }',
 	            link: {
-	                mobileWebUrl: 'text',
-	                webUrl: 'text',
+	                mobileWebUrl: location.href,
+	                webUrl: location.href,
 	            },
 	        },
 	        buttons: [
 	            {
 	                title: '상품 보기',
 	                link: {
-	                    mobileWebUrl: 'text',
-	                    webUrl: 'text',
+	                    mobileWebUrl: location.href,
+	                    webUrl: location.href,
 	                },
 	            }
 	        ],
 	    })
 	};
+	//페이스북 공유하기
 	function shareFacebook() {
 	    window.open("http://www.facebook.com/share.php?u=" + encodeURIComponent(location.href));
 	};
-	
+	//트위터 공유하기
 	function shareTwitter() {
 	    var sendText = "${fundingPostInfo.fndTitle }"; // 전달할 텍스트
 	    var sendUrl = "text"; // 전달할 URL
 	    window.open("https://twitter.com/intent/tweet?text=" + sendText + "&url=" + sendUrl);
 	};
+	function toggleDetails(option) {
+		  var options = document.querySelectorAll('.option-box');
+		  options.forEach(function(item) {
+		    if (item !== option) {
+		      item.classList.remove('active');
+		    }
+		  });
+		  option.classList.toggle('active');
+		}
+
+	// 수량 조절 및 총 가격 업데이트 함수
+    function updateTotalPrice(button, quantity) {
+      var initialPrice = parseFloat(button.getAttribute('data-price'));
+      var totalPrice = initialPrice * quantity;
+      button.textContent = totalPrice;
+
+     
+    }
+
+    // 수량 조절 함수
+    function adjustQuantity(button, valueChange) {
+      var quantityValue = button.parentElement.querySelector('.quantity-value');
+      var value = parseInt(quantityValue.textContent) + valueChange;
+
+      if (value >= 1) {
+        quantityValue.textContent = value;
+        updateTotalPrice(button.closest('.option-box').querySelector('.confirm-button'), value);
+      }
+    }
+
+    // 감소 버튼 클릭 이벤트
+    document.querySelectorAll('.decrement').forEach(function (button) {
+      button.addEventListener('click', function (event) {
+        event.stopPropagation();
+        adjustQuantity(this, -1);
+      });
+    });
+
+    // 증가 버튼 클릭 이벤트
+    document.querySelectorAll('.increment').forEach(function (button) {
+      button.addEventListener('click', function (event) {
+        event.stopPropagation();
+        adjustQuantity(this, 1);
+      });
+    });
+		
+	
 </script>
 </body>
 </html>
