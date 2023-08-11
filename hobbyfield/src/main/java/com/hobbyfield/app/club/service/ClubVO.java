@@ -1,9 +1,9 @@
-package com.hobbyfield.app.createclub.service;
+package com.hobbyfield.app.club.service;
 
 import lombok.Data;
 
 @Data
-public class CreateclubVO {
+public class ClubVO {
 	private int clubNumber;
 	private String profileNickname;
 	private String clubName;

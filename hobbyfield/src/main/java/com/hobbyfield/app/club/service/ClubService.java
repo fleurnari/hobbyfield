@@ -1,16 +1,19 @@
-package com.hobbyfield.app.createclub.service;
+package com.hobbyfield.app.club.service;
 
 import java.util.List;
 
-public interface CreateclubService {
+import org.springframework.stereotype.Service;
+
+@Service
+public interface ClubService {
 	
 	//소모임 전체조회
-	public List<CreateclubVO> getCreateClubList();
+	public List<ClubVO> getCreateClubList();
 	
 	//소모임 세부조회
 	
 	//소모임 등록
-	public int insertClubInfo(CreateclubVO createclubVO);
+	public int insertClubInfo(ClubVO createclubVO);
 	
 	//소모임 수정
 	
