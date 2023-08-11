@@ -23,6 +23,7 @@
   	<!-- 단건조회 -->
   	<select id="selectFundingPost" resultType="FundingPostVO">
   		SELECT
+  			Fnd_Post_Number,
   			Fnd_Title,
   			Fnd_Main_Img,
   			Fnd_Main_ImgPath,
