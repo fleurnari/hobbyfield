@@ -1,21 +1,21 @@
-package com.hobbyfield.app.createclub.mapper;
+package com.hobbyfield.app.club.mapper;
 
 import java.util.List;
 
-import com.hobbyfield.app.createclub.service.CreateclubVO;
+import com.hobbyfield.app.club.service.ClubVO;
 
-public interface CreateclubMapper {
+public interface ClubMapper {
 	//소모임 전체조회
-	public List<CreateclubVO> selectClubAllList();
+	public List<ClubVO> selectClubAllList();
 	
 	//소모임 세부조회
 	
 	
 	//소모임 등록
-	public int insertClub(CreateclubVO createclubVO);
+	public int insertClub(ClubVO createclubVO);
 	
 	//지역 리스트
-	public List<CreateclubVO> createclubVO();
+	public List<ClubVO> createclubVO();
 	
 	//소모임 수정
 	
