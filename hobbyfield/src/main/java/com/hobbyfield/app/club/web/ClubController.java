@@ -1,4 +1,4 @@
-package com.hobbyfield.app.createclub.web;
+package com.hobbyfield.app.club.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.hobbyfield.app.createclub.service.CreateclubService;
-import com.hobbyfield.app.createclub.service.CreateclubVO;
+import com.hobbyfield.app.club.service.ClubVO;
+import com.hobbyfield.app.club.service.ClubService;
 
 
 @Controller
-public class CreateclubController {
-	private static final Logger logger = LoggerFactory.getLogger(CreateclubController.class);
+public class ClubController {
+	private static final Logger logger = LoggerFactory.getLogger(ClubController.class);
 	
 	@Autowired
-	CreateclubService createclubService;
+	ClubService createclubService;
 	
 	//소모임 전체조회
 	@GetMapping("clubList")
@@ -40,7 +40,7 @@ public class CreateclubController {
 	
 	//소모임 등록 처리
 	@PostMapping("insertClub")
-	public String clubInsertProcess(CreateclubVO createclubVO) {
+	public String clubInsertProcess(ClubVO createclubVO) {
 		createclubService.insertClubInfo(createclubVO);
 		return "redirect:clubList";
 	}
@@ -73,5 +73,18 @@ public class CreateclubController {
 	
 	//소모임 수정
 	
-	//소모임 삭제?
+	//소모임 삭제
+	
+	//소모임 게시글 생성 
+	@GetMapping("clubBoardInsert")
+	public String clubBoardInsertForm() {
+		return "club/clubBoardInsert";
+	}
+	
+
+	// 이미지 테스트
+	@GetMapping("TESTIMG")
+	public String TestImg() {
+		return "club/TESTIMG";
+	}
 }
