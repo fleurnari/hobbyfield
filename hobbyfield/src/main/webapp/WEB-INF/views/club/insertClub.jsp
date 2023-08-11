@@ -227,7 +227,10 @@ $('.nick_input').on("propertychange change keyup paste input", function(){
 
 	/* 지역 대분류 소분류 카테고리 미완-진행중 */
 
+
 	    var majorLocation = document.querySelector('.major-location');
+
+
 	
 	majorLocation.onchange = function() {
 		var subLocation = document.querySelector('.sub-location');
@@ -339,6 +342,8 @@ $('.nick_input').on("propertychange change keyup paste input", function(){
 		var option = document.createElement('option');
 		option.value = subOption[i];
 		subLocation.appen(option);
+
 	}
+
 </script>
 </html>

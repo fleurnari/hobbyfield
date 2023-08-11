@@ -7,10 +7,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.hobbyfield.app.club.service.CreateclubService;
-import com.hobbyfield.app.club.service.CreateclubVO;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.hobbyfield.app.club.service.ClubVO;
+import com.hobbyfield.app.club.service.ClubService;
+
 
 
 @Controller
@@ -18,7 +24,8 @@ public class ClubController {
 	private static final Logger logger = LoggerFactory.getLogger(ClubController.class);
 	
 	@Autowired
-	CreateclubService createclubService;
+
+	ClubService createclubService;
 	
 	//소모임 전체조회
 	@GetMapping("clubList")
@@ -31,26 +38,29 @@ public class ClubController {
 	
 	
 	//소모임 등록 페이지
+
 	@GetMapping("/insertClub")
 	public String clubInsertForm() {
 		return "club/insertClub";
 	}
 	
 	//소모임 등록 처리
-	@PostMapping("/insertClub")
-	public String clubInsertProcess(CreateclubVO createclubVO) {
+
+	@PostMapping("insertClub")
+	public String clubInsertProcess(ClubVO createclubVO) {
 		createclubService.insertClubInfo(createclubVO);
 		return "redirect:clubList";
 	}
 	
 	//닉네임 중복체크
+
 	/* @RequestMapping(value = "nickChk", method = RequestMethod.POST) */
 	@ResponseBody
 	@PostMapping("/nickChk")
 	public String nickChkPOST(String profileNickname){
 	
 		int result = createclubService.nickChk(profileNickname);
-		
+
 		if(result != 0) {
 			
 			return "fail";	// 중복 닉네임 존재
@@ -63,6 +73,7 @@ public class ClubController {
 	}
 	
 	//소모임 이름 중복체크
+
 	@ResponseBody
 	@PostMapping("/clubnameChk")
 	public String clubnameChkPOST(String clubName) {
@@ -99,7 +110,19 @@ public class ClubController {
 	}
 	
 	//프로필 이미지 수정
+  
+	
+	//소모임 게시글 생성 
+	@GetMapping("clubBoardInsert")
+	public String clubBoardInsertForm() {
+		return "club/clubBoardInsert";
+	}
 	
 
-	
+	// 이미지 테스트
+	@GetMapping("TESTIMG")
+	public String TestImg() {
+		return "club/TESTIMG";
+	}
+
 }

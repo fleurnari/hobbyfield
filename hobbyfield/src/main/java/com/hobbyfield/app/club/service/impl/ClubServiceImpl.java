@@ -1,30 +1,30 @@
-package com.hobbyfield.app.createclub.service.impl;
+package com.hobbyfield.app.club.service.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hobbyfield.app.createclub.mapper.CreateclubMapper;
-import com.hobbyfield.app.createclub.service.CreateclubService;
-import com.hobbyfield.app.createclub.service.CreateclubVO;
+import com.hobbyfield.app.club.mapper.ClubMapper;
+import com.hobbyfield.app.club.service.ClubVO;
+import com.hobbyfield.app.club.service.ClubService;
 
 @Service
-public class CreateclubServiceImpl implements CreateclubService {
+public class ClubServiceImpl implements ClubService {
 
 	@Autowired
-	CreateclubMapper createclubMapper;
+	ClubMapper createclubMapper;
 	
 	//소모임 전체조회 
 	@Override
-	public List<CreateclubVO> getCreateClubList() {
+	public List<ClubVO> getCreateClubList() {
 		return createclubMapper.selectClubAllList();
 	}
 	
 	
 	//소모임 등록
 	@Override
-	public int insertClubInfo(CreateclubVO createclubVO) {
+	public int insertClubInfo(ClubVO createclubVO) {
 		int result = createclubMapper.insertClub(createclubVO);
 		
 		if(result == 1) {
@@ -46,6 +46,9 @@ public class CreateclubServiceImpl implements CreateclubService {
 	public int clubnameChk(String clubName) throws Exception {
 		return createclubMapper.clubnameChk(clubName);
 	}
-
+	
+	
+	
+	
 
 }
