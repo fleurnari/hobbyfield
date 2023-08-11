@@ -26,4 +26,22 @@ public class MemberServiceImpl implements MemberService{
 		return memberMapper.idCheck(memberEmail);
 	}
 
+	@Override
+	public MemberVO memberLogin(MemberVO memberVO) {
+
+		return memberMapper.memberLogin(memberVO);
+	}
+
+	@Override
+	public int memberLtstUpdate(MemberVO memberVO) {
+
+		return memberMapper.memberLtstUpdate(memberVO);
+	}
+
+	@Override
+	public int memberPntUpdate(MemberVO memberVO) {
+
+		return memberMapper.memberPntUpdate(memberVO);
+	}
+
 }
