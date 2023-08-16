@@ -22,6 +22,7 @@
           		<c:if test = "${member != null}">
           			 <div>
 						<span>${member.memberNm} 님 환영합니다.</span>
+						<span>활동 포인트 : ${member.memberActpnt} </span>
 						<span>최근 접속일 : <fmt:formatDate value="${member.memberLtstconn}" pattern="yyyy-MM-dd" /></span>
 						<a href="logout">로그아웃</a>
                     </div>

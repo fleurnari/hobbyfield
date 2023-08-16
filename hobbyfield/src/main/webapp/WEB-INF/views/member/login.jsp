@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,9 +37,17 @@
 						<c:if test = "${result == 2}">
 							<div class = "login_warn">가입 승인이 거부된 기업 회원입니다.</div>
 						</c:if>
+						<c:if test = "${result == 3}">
+							<div class = "login_warn">존재하지 않는 아이디입니다. 회원가입 후 간편 로그인을 진행해 주세요.</div>
+						</c:if>
 						<div class="login_button_wrap">
 							<input type="button" class="login_button" value="로그인">
-						</div>			
+						</div>
+						<!-- 카카오 로그인 -->
+						<spring:eval var="key" expression="@property['key.KAKAO']" />
+						<a class="p-2" href="https://kauth.kakao.com/oauth/authorize?client_id=${key}&redirect_uri=http://localhost/app/kakaoLogin&response_type=code">
+							<img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" style="height:60px">
+						</a>			
 					</div>
 				</form>
 			</div>
