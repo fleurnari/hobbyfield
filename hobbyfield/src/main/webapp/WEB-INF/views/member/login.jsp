@@ -11,7 +11,6 @@
 </head>
 <body>
 		<div class="wrapper">
-			
 			<div class="wrap">
 					<form id="login_form" action="login" method="post">
 					<div class="logo_wrap">
@@ -35,7 +34,7 @@
 							<div class = "login_warn">관리자 승인 대기 중인 기업 회원입니다.</div>
 						</c:if>
 						<c:if test = "${result == 2}">
-							<div class = "login_warn">가입 승인이 거부된 기업 회원입니다.</div>
+							<div class = "login_warn">가입 승인이 거부된 기업 회원입니다. 관리자에게 문의해 주세요.</div>
 						</c:if>
 						<c:if test = "${result == 3}">
 							<div class = "login_warn">존재하지 않는 아이디입니다. 회원가입 후 간편 로그인을 진행해 주세요.</div>
@@ -49,6 +48,7 @@
 							<img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" style="height:60px">
 						</a>			
 					</div>
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				</form>
 			</div>
 		</div>

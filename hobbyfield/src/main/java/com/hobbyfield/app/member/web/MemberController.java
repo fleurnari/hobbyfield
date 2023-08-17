@@ -7,9 +7,10 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,7 +32,7 @@ public class MemberController {
 	PointRecordService pointRecordService;
 	
 	@Autowired
-	StandardPBEStringEncryptor encryptor;
+	BCryptPasswordEncoder pwEncoder;
 
 	// 회원 가입 페이지
 	@GetMapping("/memberJoinSelect")
@@ -73,7 +74,7 @@ public class MemberController {
 	@PostMapping("/memberInsert")
 	public String memberInsert(MemberVO memberVO) {
 			String rawPwd = memberVO.getMemberPwd();
-			String encryptedPwd = encryptor.encrypt(rawPwd);
+			String encryptedPwd = pwEncoder.encode(rawPwd);
 			memberVO.setMemberPwd(encryptedPwd);
 			if (memberVO.getMemberBizno().equals("")) {
 				memberVO.setMemberGrd("A1");
@@ -104,7 +105,7 @@ public class MemberController {
 				rawPwd = memberVO.getMemberPwd();
 				encryptedPwd = member.getMemberPwd();
 				
-				if (rawPwd.equals(encryptor.decrypt(encryptedPwd))) {
+				if (pwEncoder.matches(rawPwd, encryptedPwd)) {
 					if (member.getMemberGrd().equals("A2") && member.getMemberComaccp().equals("AJ1")) {
 						rttr.addFlashAttribute("result", 1);
 						return "redirect:/login";
@@ -173,15 +174,15 @@ public class MemberController {
 		
 	}
 	
-	// 로그아웃 수행
-	@GetMapping("/logout")
-		public String logout(HttpServletRequest request) {
-		
-			HttpSession session = request.getSession();
-			
-			session.invalidate();
-			
-			return "home";
-		}
+
+	// 마이페이지
+	@GetMapping("mypage")
+	public String myPage(HttpSession session, Model model) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		model.addAttribute("info", memberService.memberLogin(member));
+		return "mypage/myPage";
 	}
+
+}
+
 	
