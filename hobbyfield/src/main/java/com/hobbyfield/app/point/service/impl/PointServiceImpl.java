@@ -29,8 +29,8 @@ public class PointServiceImpl implements PointService {
 
 	// 포인트 상품 등록
 	@Override
-	public int insertPoint(PointVO pointVO) {
-		int result = pointMapper.insertPoint(pointVO);
+	public int insertPointInfo(PointVO pointVO) {
+		int result = pointMapper.insertPointInfo(pointVO);
 		if (result == 1) {
 			return pointVO.getPointId();
 		} else {
@@ -59,4 +59,10 @@ public class PointServiceImpl implements PointService {
 			return -1;
 		}
 	}
+	// 포인트 상품 조회수 업데이트
+		@Override
+		public int pointViewCount(PointVO pointVO) {
+			return pointMapper.updatePoint(pointVO);
+		}
+
 }

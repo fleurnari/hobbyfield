@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member/join.css?after">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member/join.css">
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 
@@ -23,7 +23,6 @@
 										<span class="id_input_re_1">사용 가능한 이메일입니다.</span>
 										<span class="id_input_re_2">이미 존재하는 이메일입니다.</span>
 										<span class="final_email_ck">아이디를 입력해주세요.</span>
-										<span class="mail_input_box_warn"></span>
 									</div>
 									<div class="pw_wrap">
 										<div class="pw_name">비밀번호</div>
@@ -74,7 +73,7 @@
 									<div class="user_wrap">
 										<div class="user_info">연락처</div>
 										<div class="user_input_box">
-											<input class="user_input" type="text" id="memberCntinfo" name="memberCntinfo" placeholder="'-'을 포함하여 입력해 주세요.">
+											<input class="user_input" type="text" id="memberCntinfo" name="memberCntinfo">
 										</div>
 										<span class="final_tel_ck">연락처를 입력해주세요.</span>
 									</div>
@@ -128,7 +127,6 @@
 					emailCheck = true;
 				}
 				
-
 				// 비밀번호 유효성 검사
 		        if(pw == ""){
 		            $('.final_pw_ck').css('display','block');
@@ -188,7 +186,6 @@
 			
 			var memberEmail = $('.id_input').val();
 			var data = {memberEmail : memberEmail}
-			var warnMsg = $(".mail_input_box_warn"); // 이메일 형식 유효성 검사
 			
 			$.ajax({
 				type : "post",
@@ -196,18 +193,10 @@
 				data : data,
 				success : function(result){
 					if(result != 'fail'){
-						if (!(mailFormCheck(memberEmail))){
-							$('.id_input_re_1').css("display", "none");
-					        warnMsg.text("올바르지 못한 이메일 형식입니다.");
-					        warnMsg.css("display", "inline-block");				
-					} else {
-						warnMsg.css("display", "none");
 						$('.id_input_re_1').css("display","inline-block");
 						$('.id_input_re_2').css("display", "none");
 						emailckCheck = true;
-					}
 					} else {
-						warnMsg.css("display", "none");	
 						$('.id_input_re_2').css("display","inline-block");
 						$('.id_input_re_1').css("display", "none");
 						emailckCheck = false;
@@ -285,13 +274,7 @@
 	        $('.pwck_input_re_2').css('display','block');
 	        pwckcorCheck = false;
 	    } 
-	});
-	
-	 /* 입력 이메일 형식 유효성 검사 */
-	 function mailFormCheck(email){
-	    var form = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-	 	return form.test(email);
-	}
+	});    
 
 </script>
 

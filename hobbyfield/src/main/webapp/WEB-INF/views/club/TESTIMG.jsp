@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
+<script src="//cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -10,7 +12,7 @@
 	<br>
 	<br>
 	<div align="center">
-		<form name="insertForm" action="clubBoardInsert" method="post">
+		
 			<div>
 				<h3>게시글 정보</h3>
 			</div>
@@ -24,15 +26,23 @@
 			</div>
 
 			<div>
-				<label>첨부이미지</label> <input type="file" onchange="readURL(this);"> 
-<img id="preview" />
+				<label>첨부이미지</label><input type="file" onchange="readURL(this);">
+				<img id="preview"/>
 			</div>
+			
 
+
+			<div class="mb-3" style="width: 50%; margin: 0 auto;">
+				<textarea id = "editor4" name = "editor4"></textarea>
+
+			</div>
+			
+				
 			<div>
 				<button type="submit">등록</button>
 				<button type="reset">취소</button>
 			</div>
-		</form>
+
 	</div>
 	<script type="text/javascript">
 	function readURL(input) {
@@ -46,7 +56,17 @@
     	document.getElementById('preview').src = "";
   		}
 	}
+	
 	</script>
+	<script src = "../resources/ckeditor/ckeditor.js"></script>
+	<script src="/resources/ckeditor/ckeditor.js"></script>
+
+	<script> 
+		CKEDITOR.replace('ckeditor',{
+			filebrowerUploadUrl : "/ckEditorUpload"
+		}); // 에디터로 생성
+	 </script>
+	
 </body>
 </html>
 </body>

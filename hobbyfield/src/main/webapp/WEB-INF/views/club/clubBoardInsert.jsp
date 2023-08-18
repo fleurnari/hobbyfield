@@ -6,8 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>게시글 작성</title>
-<script
-	src="https://cdn.ckeditor.com/ckeditor5/31.1.0/classic/ckeditor.js"></script>
+
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+
 <style>
 .ck.ck-editor {
 	width: 80%;
@@ -22,7 +23,7 @@
 <body>
 	<br><br>
 	<div align="center">
-		<form name="insertForm" action="clubBoardInsert" method="post">
+		<form name="insertForm" action="clubBoardInsert" method="post" >
 			<div>
 				<h3>게시글 정보</h3>
 			</div>
@@ -58,17 +59,15 @@
 		src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
 	<script>
 	ClassicEditor
-	.create(document.querySelector('#editor'), {
-		ckfinder: {
-			uploadUrl : '/image/upload'
-		}
-	})
-	.then(editor => {
-		console.log('Editor was initialized');
-	})
-	.catch(error => {
-		console.error(error);
-	});
+    .create( document.querySelector( '#editor' ), {
+    	language:"ko",
+    	ckfinder: {
+    		uploadUrl : 'ajax/upload'
+    	}
+    })
+    .catch( error => {
+        console.error( error );
+    } );
 	</script>
 </body>
 </html>

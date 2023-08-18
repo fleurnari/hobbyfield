@@ -1,35 +1,26 @@
 @charset "UTF-8";
+
 .club_create_sub{
 	margin-top : 100px;
 }
 
-
 /* 유효성 검사 문구 css적용단 */
 .final_name_ck{
-    display : none;
+	color : green;
+    display: none;
 }
 .final_club_ck{
-    display : none;
+	clolor : red;
+    display: none;
 }
 
 /*중복 닉네임 체크 */
 .nick_input_re1{
 	color : green;
-	display : none;	
+	display: none;	
 }
 
 .nick_input_re2{
 	color : red;
 	display : none;	
-}
-
-/* 중복 모임 이름 체크 */
-.club_input_re1{
-	color : green;
-	display : none;	
-}
-
-.club_input_re2{
-	color : red;
-	display : none;
 }
