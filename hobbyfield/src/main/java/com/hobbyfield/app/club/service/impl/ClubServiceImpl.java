@@ -13,19 +13,19 @@ import com.hobbyfield.app.club.service.ClubService;
 public class ClubServiceImpl implements ClubService {
 
 	@Autowired
-	ClubMapper createclubMapper;
+	ClubMapper clubMapper;
 	
 	//소모임 전체조회 
 	@Override
 	public List<ClubVO> getCreateClubList() {
-		return createclubMapper.selectClubAllList();
+		return clubMapper.selectClubAllList();
 	}
 	
 	
 	//소모임 등록
 	@Override
 	public int insertClubInfo(ClubVO createclubVO) {
-		int result = createclubMapper.insertClub(createclubVO);
+		int result = clubMapper.insertClub(createclubVO);
 		
 		if(result == 1) {
 			return createclubVO.getClubNumber();
@@ -38,13 +38,13 @@ public class ClubServiceImpl implements ClubService {
 	//닉네임 중복체크
 	@Override
 	public int nickChk(String profileNickname) throws Exception {
-		return createclubMapper.nickChk(profileNickname);
+		return clubMapper.nickChk(profileNickname);
 	}
 
 	//모임 이름 중복체크
 	@Override
 	public int clubnameChk(String clubName) throws Exception {
-		return createclubMapper.clubnameChk(clubName);
+		return clubMapper.clubnameChk(clubName);
 	}
 	
 	
