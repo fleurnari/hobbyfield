@@ -4,8 +4,27 @@
 
 	<!-- 포인트 상품 전체조회 -->
 	<select id="selectPointAllList" resultType="PointVO">
-		SELECT point_id,
+		SELECT *
+		<!-- point_id, -->
+		<!-- point_name, -->
+		<!-- point_item_type, -->
+		<!-- point_state, -->
+		<!-- point_view, -->
+		<!-- point_regdate, -->
+		<!-- point_endterm, -->
+		<!-- point_img_name, -->
+		<!-- point_img_path -->
+		FROM POINT
+		ORDER BY
+		point_id DESC
+	</select>
+
+	<!-- 포인트 상품 단건조회 -->
+	<select id="selectPointInfo" resultType="PointVO">
+		SELECT
+		point_id,
 		point_name,
+		point_content,
 		point_item_type,
 		point_state,
 		point_view,
@@ -13,76 +32,61 @@
 		point_endterm,
 		point_img_name,
 		point_img_path
-		FROM POINT
-		ORDER BY
-		point_endterm DESC
+		FROM point
+		WHERE point_id = #{pointId}
 	</select>
+	<!-- po.point_opt_id, -->
+	<!-- po.point_period, -->
+	<!-- po.point_price, -->
 
+	<!-- e.emoji_id, -->
+	<!-- e.emoji_img_name, -->
+	<!-- e.emoji_img_path -->
+	<!-- FROM point p -->
+	<!-- FULL OUTER JOIN -->
+	<!-- point_option po ON p.point_id = po.point_id -->
+	<!-- FULL OUTER JOIN emoji e ON po.point_id -->
+	<!-- = e.point_id -->
+	<!-- WHERE p.point_id = #{pointId} -->
 
-	<!-- 포인트 상품 단건조회 -->
-	<select id="selectPointInfo" resultType="PointVO">
-		SELECT p.point_id,
-		p.point_name,
-		p.point_content,
-		p.point_item_type,
-		p.point_state,
-		p.point_view,
-		p.point_regdate,
-		p.point_endterm,
-		p.point_img_name,
-		p.point_img_path,
-
-		po.point_opt_id,
-		po.point_period,
-		po.point_price,
-
-		e.emoji_id,
-		e.emoji_img_name,
-		e.emoji_img_path
-		FROM point p
-		JOIN
-		point_option po ON p.point_id = po.point_id
-		JOIN emoji e ON po.point_id
-		= e.point_id
-		WHERE p.point_id = #{pointId}
-
-	</select>
 
 	<!-- 포인트 상품 등록 -->
 	<insert id="insertPoint" parameterType="PointVO">
-		<selectKey keyProperty="pointId" resultType="int" order="BEFORE">
+		<selectKey keyProperty="pointId" resultType="int"
+			order="BEFORE">
 			SELECT NVL(MAX(point_id), 0) + 1
 			FROM point
 		</selectKey>
 		INSERT INTO point(
 		point_id,
 		point_name,
-		point_price,
 		point_content,
 		point_item_type,
 		point_state,
 		point_regdate,
 		point_endterm,
 		point_img_name,
-		point_img_path
+		point_img_path,
+		point_view
 		) VALUES (
 		#{pointId},
 		#{pointName},
-		#{pointPrice},
 		#{pointContent},
 		#{pointItemType},
 		#{pointState},
 		<choose>
 			<when test="pointRegdate != null">
-				 #{pointRegdate}
+				#{pointRegdate}
 			</when>
 			<otherwise>
-				SYSDATE
+				<![CDATA[SYSDATE]]>
 			</otherwise>
-		</choose>,
+		</choose>
+		,
 		#{pointEndterm},
 		#{pointImgName},
-		#{pointImgPath}
+		#{pointImgPath},
+		#{pointView}
 		)
 	</insert>
 
@@ -91,22 +95,22 @@
 	<update id="updatePoint" parameterType="PointVO">
 		UPDATE point
 		<set>
-			<if test="point_name != null and !pointName.equals('')">
+			<if test="pointName != null and !pointName.equals('')">
 				point_name = #{pointName},
 			</if>
-			<if test="point_content != null and !pointContent.equals('')">
+			<if test="pointContent != null and !pointContent.equals('')">
 				point_content = #{pointContent},
 			</if>
-			<if test="point_regdate != null and !pointRegdate.equals('')">
-				point_regdate = #{pointRegdate}
+			<if test="pointRegdate != null and !pointRegdate.equals('')">
+				point_regdate = TO_CHAR(SYSDATE, 'YYYY/MM/DD'),
 			</if>
-			<if test="point_endterm != null and pointEndterm.equals'')">
-				point_endterm = #{pointEndterm}
+			<if test="pointEndterm != null and pointEndterm.equals('')">
+				point_endterm = TO_CHAR(SYSDATE, 'YYYY/MM/DD'),
 			</if>
-			<if test="point_img_name != null and !pointImgName.equlas('')">
-				point_img_name = #{pointImgName}
+			<if test="pointImgName != null and !pointImgName.equals('')">
+				point_img_name = #{pointImgName},
 			</if>
-			<if test="point_img_path != null and !pointImgPath.equlas('')">
+			<if test="pointImgPath != null and !pointImgPath.equals('')">
 				point_img_path = #{pointImgPath}
 			</if>
 		</set>
@@ -121,12 +125,12 @@
 	</delete>
 
 	<!-- 조회수 업데이트 -->
-	<!-- <update id="PointViewCount" parameterType="PointVO"> -->
-	<!-- UPDATE point -->
-	<!-- SET -->
-	<!-- point_view = point_view + 1 -->
-	<!-- WHERE point_id = #{pointId} -->
-	<!-- </update> -->
+	<update id="pointViewCount" parameterType="PointVO">
+		UPDATE point
+		SET
+		point_view = point_view + 1
+		WHERE point_id = #{pointId}
+	</update>
 
 
 </mapper>
