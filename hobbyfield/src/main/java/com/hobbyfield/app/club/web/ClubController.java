@@ -25,6 +25,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.hobbyfield.app.club.service.CreateclubService;
 import com.hobbyfield.app.club.service.CreateclubVO;
 import com.hobbyfield.app.comm.mapper.CommCodeMapper;
+
 
 
 
@@ -48,7 +50,9 @@ public class ClubController {
    //소모임 전체조회
    @GetMapping("clubList")
    public String clubList(Model model) {
+
       model.addAttribute("clubList", createClubService.getCreateClubList());
+
       return "club/clubList";
    }
    
@@ -56,16 +60,19 @@ public class ClubController {
    
    
    //소모임 등록 페이지
+
    @GetMapping("/insertClub")
    public String clubInsertForm(Model model) {
 	  model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); //지역대그룹 코드
 	  model.addAttribute("F", commCodeMapper.selectCommsubList("0F")); //지역소그룹 코드
 	  model.addAttribute("C", commCodeMapper.commCategoryList("0C")); //모임카테고리 그룹코드
 	  model.addAttribute("D", commCodeMapper.clubTypeList("0D")); //모임분류 그룹코드
+
       return "club/insertClub";
    }
    
    //소모임 등록 처리
+
    @PostMapping("/insertClub")
    public String clubInsertProcess(CreateclubVO clubVO) {
 	   createClubService.insertClubInfo(clubVO);
@@ -106,6 +113,7 @@ public class ClubController {
    public String clubnameChkPOST(String clubName) throws Exception {
       
       int result = createClubService.clubnameChk(clubName);
+
       
       if(result !=0) {
          
@@ -118,6 +126,8 @@ public class ClubController {
    }
    
    //소모임 수정
+
+  
    //소모임 삭제?
    
    
@@ -256,8 +266,13 @@ public class ClubController {
 	}
    
 	//프로필 이미지 수정
-  
+
+   public String ImgProcess(ClubVO clubVO) {
+      clubService.insertClubInfo(clubVO);
+      return "redirect:clubList";
+   }
    
+
    //소모임 게시글 생성 
    @GetMapping("clubBoardInsert")
    public String clubBoardInsertForm() {
