@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>게시글 작성</title>
+
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 
 <style>
