@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hobbyfield.app.club.mapper.CreateclubMapper">
+	<!-- 소모임 전체조회 -->
+	<select id="selectClubAllList" resultType="CreateclubVO">
+		SELECT club_number
+			   , profile_nickname
+			   , club_name
+			   , club_category
+			   , club_type
+			   , club_info
+			   , major_location
+			   , sub_location
+			   , club_public
+			   , singup_question1
+			   , singup_question2
+			   , singup_question3
+			   , club_img
+			   , club_img_path
+			   , club_total
+		FROM club
+		ORDER BY club_number
+	</select>
+	
+	<!-- 소모임 세부조회 -->
+	
+	<!-- 소모임 등록 --> <!-- 카테고리/모임IMG등록/인원정수 구현해야함 -->
+	<insert id="insertClub" parameterType="CreateclubVO">
+		<selectKey keyProperty="clubNumber" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(club_number), 0) + 1
+			FROM club
+		</selectKey>
+		INSERT INTO club
+				(
+					club_number
+					<if test="profileNickname != null and !profileNickname.equals('')" >
+					, profile_nickname
+					</if>
+					<if test="clubName != null">
+					, club_name
+					</if>
+					<if test="clubCategory != null">
+					, club_category
+					</if>
+					<if test="clubType != null">
+					, club_type
+					</if>
+					<if test="clubInfo != null">
+					, club_info
+					</if>
+					<if test="majorLocation != null">
+					, major_location
+					</if>
+					<if test="subLocation != null">
+					, sub_location
+					</if >
+					<if test="clubPublic != null">
+					, club_public
+					</if>
+					, singup_question1
+					, singup_question2
+					, singup_question3
+					, club_img
+					, club_img_path
+					, club_total
+				)
+		VALUES
+				(
+					#{clubNumber}
+					<if test="profileNickname != null and !profileNickname.equals('')" >
+					, #{profileNickname}
+					</if>
+					<if test="clubName != null">
+					, #{clubName}
+					</if>
+					<if test="clubCategory != null">
+					, #{clubCategory}
+					</if>
+					<if test="clubType != null">
+					, #{clubType}
+					</if>
+					<if test="clubInfo != null">
+					, #{clubInfo}
+					</if>
+					<if test="majorLocation != null">
+					, #{majorLocation}
+					</if>
+					<if test="subLocation != null">
+					, #{subLocation}
+					</if>
+					<if test="clubPublic != null">
+					, #{clubPublic}
+					</if>
+					, #{singupQuestion1}
+					, #{singupQuestion2}
+					, #{singupQuestion3}
+					, #{clubImg}
+					, #{clubImgPath}
+					, #{clubTotal}
+				)
+			
+	</insert>
+	
+	<!-- 닉네임 중복체크 -->
+	<select id="nickChk" resultType="int">
+		SELECT count(*) 
+		FROM club
+		WHERE profile_nickname = #{profileNickname}
+	</select>
+	
+	<!-- 소모임 이름 중복체크 -->
+	<select id="clubnameChk" resultType="int">
+		SELECT count(*) 
+		FROM club
+		WHERE club_name = #{clubName}
+	</select>
+	
+	<!-- 지역 대분류 소분류 리스트 -->
+	
+	
+	<!-- 소모임 수정 -->
+	
+	<!-- 소모임 삭제? -->
+	
+	<!-- 이미지 등록 -->
+
+</mapper>
