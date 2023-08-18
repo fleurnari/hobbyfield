@@ -27,6 +27,7 @@
 								<input type="password" class="pw_iput" id="memberPwd" name="memberPwd" placeholder="비밀번호">
 							</div>
 						</div>
+						<!--  
 						<c:if test = "${result == 0}">
 							<div class = "login_warn">이메일 또는 비밀번호를 잘못 입력하셨습니다.</div>
 						</c:if>
@@ -38,6 +39,10 @@
 						</c:if>
 						<c:if test = "${result == 3}">
 							<div class = "login_warn">존재하지 않는 아이디입니다. 회원가입 후 간편 로그인을 진행해 주세요.</div>
+						</c:if>
+						-->
+						<c:if test = "${error ne null}">
+						<div class = "login_warn">${exception}</div>
 						</c:if>
 						<div class="login_button_wrap">
 							<input type="button" class="login_button" value="로그인">

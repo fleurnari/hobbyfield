@@ -49,7 +49,9 @@ public class CustomUser implements UserDetails {
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
+		if (member.getMemberGrd().equals("A2") && member.getMemberComaccp().equals("AJ3")) {
+			return false;
+		}
 		return true;
 	}
 
@@ -61,7 +63,9 @@ public class CustomUser implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
+		if (member.getMemberGrd().equals("A2") && member.getMemberComaccp().equals("AJ1")) {
+			return false;
+		}
 		return true;
 	}
 

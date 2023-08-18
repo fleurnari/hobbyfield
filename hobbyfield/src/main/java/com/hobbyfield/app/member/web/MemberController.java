@@ -1,16 +1,23 @@
 package com.hobbyfield.app.member.web;
 
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +28,7 @@ import com.hobbyfield.app.member.service.MemberService;
 import com.hobbyfield.app.member.service.MemberVO;
 import com.hobbyfield.app.pointrecord.service.PointRecordService;
 import com.hobbyfield.app.pointrecord.service.PointRecordVO;
+import com.hobbyfield.app.security.CustomUser;
 
 @Controller
 public class MemberController {
@@ -88,58 +96,13 @@ public class MemberController {
 	
 	// 로그인 페이지
 	@GetMapping("/login")
-		public String loginForm() {
+		public String loginForm(@RequestParam(value = "error", required = false) String error,
+								@RequestParam(value = "exception", required = false) String exception,
+								Model model) {
+			model.addAttribute("error", error);
+			model.addAttribute("exception", exception);
 			return "member/login";
 		}
-	
-	// 로그인 수행
-	@PostMapping("/login")
-		public String login(MemberVO memberVO, HttpServletRequest request, RedirectAttributes rttr) {
-			HttpSession session = request.getSession();
-			String rawPwd = "";
-			String encryptedPwd = "";
-			
-			MemberVO member = memberService.memberLogin(memberVO);
-			
-			if (member != null) {
-				rawPwd = memberVO.getMemberPwd();
-				encryptedPwd = member.getMemberPwd();
-				
-				if (pwEncoder.matches(rawPwd, encryptedPwd)) {
-					if (member.getMemberGrd().equals("A2") && member.getMemberComaccp().equals("AJ1")) {
-						rttr.addFlashAttribute("result", 1);
-						return "redirect:/login";
-					} else if (member.getMemberGrd().equals("A2") && member.getMemberComaccp().equals("AJ3")) {
-						rttr.addFlashAttribute("result", 2);
-						return "redirect:/login";
-						
-					} else {
-					member.setMemberPwd("");
-					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-					
-					if ((member.getMemberLtstconn() == null) || !(dateFormat.format(new Date()).equals(dateFormat.format(member.getMemberLtstconn())))) {
-						memberService.memberLtstUpdate(member);
-						memberService.memberPntUpdate(member);
-						
-						PointRecordVO pointRecord = new PointRecordVO();
-						pointRecord.setMemberEmail(member.getMemberEmail());
-						pointRecordService.loginPointInsert(pointRecord);
-						
-					}
-					session.setAttribute("member", member);
-					return "home";
-				  }
-				} else {
-					rttr.addFlashAttribute("result", 0);
-					return "redirect:/login";
-				}
-				
-			} else {
-				rttr.addFlashAttribute("result", 0);
-				return "redirect:/login";
-			}
-					
-	}
 	
 	// 카카오 로그인
 	@GetMapping("/kakaoLogin")
@@ -153,6 +116,11 @@ public class MemberController {
 		MemberVO kakaoMember = memberService.memberLogin(member);
 		
 		if (kakaoMember != null) {
+			CustomUser user = new CustomUser(kakaoMember);
+			Collection<? extends GrantedAuthority> roles = user.getAuthorities();
+			Authentication auth = new UsernamePasswordAuthenticationToken(user, null, roles);
+			SecurityContextHolder.getContext().setAuthentication(auth);
+			
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 			
 			if ((kakaoMember.getMemberLtstconn() == null) || !(dateFormat.format(new Date()).equals(dateFormat.format(kakaoMember.getMemberLtstconn())))) {
