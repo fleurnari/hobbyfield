@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hobbyfield.app.fnd.mapper.FundingGoodsMapper">
+
+<!-- 펀딩옵션 가져오기 -->
+<select id="selectFundingGoods" resultType="FundingGoodsVO" >
+  		SELECT 
+  			Fnd_Goods_name,
+  			Fnd_Goods_Content,
+  			Fnd_Goods_Amount,
+  			Fnd_Goods_Price,
+  			Fnd_Goods_IMG
+  		FROM Funding_Goods
+  		WHERE Fnd_Post_Number = #{fndPostNumber}
+  		ORDER BY Fnd_Goods_Number
+  	</select>
+
+</mapper>

@@ -3,6 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.hobbyfield.app.club.board.mapper.ClubBoardMapper">
+
   	<select id="getClubBoardList" resultType="ClubBoardVO">
 		SELECT BOARD_NUMBER, CLUB_NUMBER, CLUB_BOARD_WRITER, CLUB_BOARD_TITLE, CLUB_BOARD_CONTENT, 
 			CLUB_BOARD_WDATE, CLUB_BOARD_VIEWS, CLUB_BOARD_TYPE, SCHEDULE_DATE, CLUB_BOARD_BLIND

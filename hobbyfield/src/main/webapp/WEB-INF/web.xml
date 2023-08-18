@@ -22,7 +22,7 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/
 			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
-		
+	
 	<multipart-config>
 			<location>C:\\upload\\temp</location>
 			<max-file-size>20971520</max-file-size> 
@@ -37,7 +37,6 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
-	
 
 	<filter>
 		<filter-name>encodingFilter</filter-name>
