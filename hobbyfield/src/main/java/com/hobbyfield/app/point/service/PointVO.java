@@ -13,8 +13,8 @@ public class PointVO {
 	private String pointItemType;
 	private String pointState;
 	private int pointView;
-	private String pointRegdate;
-	private String pointEndterm;
+	private Date pointRegdate;
+	private Date pointEndterm;
 	private String pointImgName;
 	private String pointImgPath;
 	

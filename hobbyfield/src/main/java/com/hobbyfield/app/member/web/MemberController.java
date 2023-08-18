@@ -1,14 +1,5 @@
 package com.hobbyfield.app.member.web;
 
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,13 +13,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hobbyfield.app.member.service.MemberService;
 import com.hobbyfield.app.member.service.MemberVO;
+
 import com.hobbyfield.app.pointrecord.service.PointRecordService;
 import com.hobbyfield.app.pointrecord.service.PointRecordVO;
 import com.hobbyfield.app.security.CustomUser;
+
 
 @Controller
 public class MemberController {
@@ -41,6 +33,7 @@ public class MemberController {
 	
 	@Autowired
 	BCryptPasswordEncoder pwEncoder;
+
 
 	// 회원 가입 페이지
 	@GetMapping("/memberJoinSelect")
@@ -88,7 +81,6 @@ public class MemberController {
 				memberVO.setMemberGrd("A1");
 			} else {
 				memberVO.setMemberGrd("A2");
-				memberVO.setMemberComaccp("AJ1");
 			}
 			memberService.insertMember(memberVO);
 		return "member/login";

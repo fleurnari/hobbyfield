@@ -32,7 +32,7 @@ public class PointController {
 	public String getPointInfo(PointVO pointVO, Model model) {
 		PointVO findVO = pointService.getPointInfo(pointVO);
 		model.addAttribute("pointInfo", findVO);
-		return "point/pointList";
+		return "point/pointInfo";
 	}
 
 	// 등록 - Form
@@ -44,8 +44,8 @@ public class PointController {
 	// 등록 - Process
 	@PostMapping("/pointInsert")
 	public String pointInsertProcess(PointVO pointVO) {
-		pointService.insertPoint(pointVO);
-		 return "redirect:pointList";
+		pointService.insertPointInfo(pointVO);
+		return "redirect:pointList";
 	}
 
 	// 수정 - Form
@@ -80,12 +80,5 @@ public class PointController {
 		pointService.deletePoint(pointId);
 		return "redirect:pointList";
 	}
-	
-	// 상품 판매 마감
-	
-	
-	
-	
-	
 
 }

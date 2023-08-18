@@ -5,17 +5,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club/insertclub.css">
+<link rel="stylesheet" href="resources/css/club/insertclub.css?v=1">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <title>소모임 등록</title>
-
 </head>
 
 <body>
 <!-- 카테고리, 지역 대분류, 소분류 미구현  -->
 <form action="insertClub" method="post">
-	<div align="center" class="top">
-		<div class="club_create_sub">
+	<div align="center">
+		<div>
 			<h2>소모임 정보</h2>		
 		</div>
 		<div>
@@ -36,11 +35,12 @@
 					<input type="text" class="club_input" name="clubName"><br>
 				</div>
 				<span class="club_input_re1">사용 가능한 모임 이름입니다.</span>
-				<span class="club_input_re2">모임 이름이 이미 존재합니다. </span>
+				<span class="club input_re2">모임 이름이 이미 존재합니다. </span>
 				<span class="final_club_ck">모임 이름을 정해주세요</span>
 			</div>
 			
 			<div>
+
 				<!-- 테이블에서 불러올 수 있을지 의문 -->
 				<label>모임카테고리 : </label>
 					<select class="club_category" name="clubCategory">
@@ -48,6 +48,7 @@
 						<option value="${category.subcode }">${category.literal}</option>
 						</c:forEach>
 					</select>
+
 			</div>
 			
 			<div>
@@ -70,6 +71,7 @@
 					</c:forEach>
 				</select>
 				
+
 				<select class="sublocation" name="subLocation" id="subLocation">
 					<c:forEach items="${F}" var="sub">
 						<option value="${sub.subcode}">${sub.literal}</option>
@@ -106,18 +108,19 @@
 
 <script>
 
-	// 유효성 검사 통과 유무 변수 
-	var nickCheck = false; //닉네임 
-	var nickchCheck = false; //닉네임 중복체크
-	var clubName = false; //모임이름 
-	var clubnameCheck = false; //모임이름 중복체크
+// 유효성 검사 통과 유무 변수 
+var nickCheck = false; //닉네임 
+var nickchCheck = false; //닉네임 중복체크
+var clubName = false; //모임이름 
+var clubnameCheck = false; //모임이름 중복체크
 	
 $(document).ready(function(){
 	//모임생성 버튼(모임생성 기능 작동)
-	$(".join_button").on("click", function() {
+	$(".join_button").click(function() {
 		
 		//입력값 변수
 		var nick = $('.nick_input').val(); //닉네임 입력란
+		console.log(nick);
 		var club = $('.club_input').val(); //소모임 이름 입력란 
 		
 		/* 닉네임 유효성검사 */
@@ -130,19 +133,13 @@ $(document).ready(function(){
 		}
 		
 		/* 모임이름 유효성 검사*/
-		if(clubName == ""){
-			$('.final_club_ck').css('display', 'block');
-			clubnameChk = false;
-		}else{
-			$('.final_club_ck').css('display', 'none');	
-			clubnameChk = true;
-		}
 		
 		/* 최종 유효성 검사를 진행하고 form에 말아서 전달 */
 		if(nickCheck&&nickchCheck&&clubName&&clubnameCheck){
 		
 		/* $("#join_form").attr("action", "/club/insetClub"); attr삭제해야 하는 이유? */
 		/* $("#join_form").prop("action", "/club/insetClub"); */
+
         $("#join_form").submit();
 			
 		}
@@ -157,7 +154,8 @@ $(document).ready(function(){
 $('.nick_input').on("propertychange change keyup paste input", function(){
 		/* console.log("keyup 테스트"); */
 		
-	var profileNickname = $('.nick_input').val();  //.nick_input 입력될값
+	var profileNickname = '둘리'/* $('.nick_input').val(); */ //.nick_input 입력될값
+	console.log(profileNickname);
 	var data = {profileNickname : profileNickname} //컨트롤에 넘길 데이터 이름 : 데이터(.nick_input에 입력되는 값)
 	
 	$.ajax({
@@ -170,7 +168,7 @@ $('.nick_input').on("propertychange change keyup paste input", function(){
 				$('.nick_input_re1').css("display", "inline-block");
 				$('.nick_input_re2').css("display", "none");
 				nickchCheck = true;
-			}else{
+			}else {
 				$('.nick_input_re2').css("display", "inline-block");
 				$('.nick_input_re1').css("display", "none");
 				nickchCheck = false;
@@ -284,6 +282,7 @@ $('.nick_input').on("propertychange change keyup paste input", function(){
 		    
 		}
 	
+
 	 $(document).ready(function() {
 	        $('.majorlocation').change(function() {
 	            var selectedMajor = $(this).val();
@@ -303,7 +302,5 @@ $('.nick_input').on("propertychange change keyup paste input", function(){
             });
         } */
 
-
-	
 </script>
 </html>
