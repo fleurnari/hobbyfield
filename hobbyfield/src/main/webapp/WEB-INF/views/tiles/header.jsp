@@ -16,7 +16,22 @@
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/pointList">포인트샵</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/talentMain">재능기부</a></li>
             </ul>
-            <div class="ms-lg-5"><a class="btn btn-primary" href="#">로그인</a></div>
+
+            	<c:if test = "${member == null}">
+            		<div class="ms-lg-5"><a class="btn btn-primary" href="${pageContext.request.contextPath}/login">로그인</a></div>
+          		</c:if>
+          		<c:if test = "${member != null}">
+          			 <div>
+						<span>${member.memberNm} 님 환영합니다.</span>
+						<span>활동 포인트 : ${member.memberActpnt} </span>
+						<span>최근 접속일 : <fmt:formatDate value="${member.memberLtstconn}" pattern="yyyy-MM-dd" /></span>
+						<a href="mypage">마이페이지</a>
+						<form action="logout" method="post">
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+							<button class="btn btn-primary">로그아웃</button>
+						</form>
+                    </div>
+          		</c:if>
           </div>
         </div>
       </nav>

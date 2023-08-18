@@ -34,6 +34,7 @@ public class PointController {
 		pointService.pointViewCount(findVO);
 		model.addAttribute("point", findVO);
 		return "point/pointList";
+
 	}
 
 	// 등록 - Form
@@ -45,8 +46,8 @@ public class PointController {
 	// 등록 - Process
 	@PostMapping("/pointInsert")
 	public String pointInsertProcess(PointVO pointVO) {
-		pointService.insertPoint(pointVO);
-		 return "redirect:pointList";
+		pointService.insertPointInfo(pointVO);
+		return "redirect:pointList";
 	}
 
 	// 수정 - Form
