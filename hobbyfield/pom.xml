@@ -142,6 +142,12 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.13.2.2</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.dataformat</groupId>
+		    <artifactId>jackson-dataformat-xml</artifactId>
+		    <version>2.12.1</version>
+		</dependency>
 		<!-- Database connection pool -->
 		<dependency>
 			<groupId>com.zaxxer</groupId>
@@ -220,9 +226,21 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${org.springframework.security-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>${org.springframework.security-version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.7</version>
+		</dependency>
+		
    </dependencies>
    
     <build>

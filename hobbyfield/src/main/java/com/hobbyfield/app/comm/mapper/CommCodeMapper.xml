@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hobbyfield.app.comm.mapper.CommCodeMapper">
+	
+	
+	<!-- majorLocation 공통코드 조회 sql문 -->
+	<select id="selectCommCodeList" resultType="CommCodeVO">
+		select subcode, literal
+		from code_tree
+		where code = #{code}
+	</select>
+	
+	<!-- subLocation 공통코드 조회 sql문 -->
+	<select id="selectCommsubList" resultType="CommCodeVO">
+		select subcode, literal
+		from code_tree
+		where subcode like '%'||#{subcode}||'%' AND NOT subcode = #{subcode}
+	</select>
+
+	<!-- 카테고리 공통코드 조회 sql문 -->
+	<select id="commCategoryList" resultType="CommCodeVO">
+		select subcode, literal
+		from code_tree
+		where code = #{code}
+	</select>
+	
+	<!-- 모임분류 조회 공통코드 sql문 -->
+	<select id="clubTypeList" resultType="CommCodeVO">
+		SELECT subcode, literal
+		from code_tree
+		where code = #{code}
+	</select>
+	
+	<!-- 모임공개 여부 공통코드 sql문  -->
+</mapper>
