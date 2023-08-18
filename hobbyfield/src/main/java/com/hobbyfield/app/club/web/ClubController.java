@@ -1,5 +1,7 @@
 package com.hobbyfield.app.club.web;
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,16 +77,48 @@ public class ClubController {
 	
 	//소모임 삭제
 	
+	
+	
 	//소모임 게시글 생성 
 	@GetMapping("clubBoardInsert")
 	public String clubBoardInsertForm() {
 		return "club/clubBoardInsert";
 	}
+		
+	// 게시글 리스트
+	@GetMapping("clubBoardList")
+	public String clubBoardList() {
+		return "club/clubBoardList";
 	
-
+	}
+	
+	// 게시글 상세보기
+	@PostMapping("clubBoardInfo")
+	public String clubBoardInfo() {
+		
+		return "club/clubBoardInfo";
+	}
+	
+	
+	// 게시글 수정
+	@PostMapping("clubBoardUpdate")
+	public String clubBoardUpdate() {
+		
+		return "club/clubBoardList";
+	}
+	
+	// 게시글 삭제 
+	@PostMapping("clubBoardDelete")
+	public String clubBoardDelete() {
+		
+		return "club/clubObardList";
+	}
+	
 	// 이미지 테스트
 	@GetMapping("TESTIMG")
 	public String TestImg() {
 		return "club/TESTIMG";
 	}
+	
+	
 }
