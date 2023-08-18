@@ -1,4 +1,9 @@
 @charset "UTF-8";
+
+.club_create_sub{
+	margin-top : 100px;
+}
+
 /* 유효성 검사 문구 css적용단 */
 .final_name_ck{
 	color : green;

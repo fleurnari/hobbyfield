@@ -24,7 +24,7 @@ public interface PointMapper {
 	
 	// 포인트 상품 삭제
 	public int deletePointInfo(int pointId);
-	
+  
 	// 포인트 상품 조회수
 	public int pointViewCount(PointVO pointVO);
 

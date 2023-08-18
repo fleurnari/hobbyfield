@@ -50,8 +50,7 @@ public class FundingPostServiceImpl implements FundingPostService {
 		}
 	}
 	
-	
-	//펀딩 조회수
+
 	@Override
 	public int updateFundingPostViews(FundingPostVO fundingPostVO) {
 		return fundingPostMapper.FundingPostViewsCount(fundingPostVO);

@@ -51,8 +51,6 @@
 			<button type="button" onclick="location.href='pointInsert'">상품등록</button>
 		</div>
 		<%-- 		</c:if> --%>
-
-
 		<form class="sort-right">
 			<select class="form-control" id="sortOption" name="sortOption"
 				onchange="changeOptionSelect()">
@@ -63,7 +61,7 @@
 				<option value="high">높은가격순</option>
 			</select>
 		</form>
-
+    
 		<div class="state">
 			<div>
 				<button type="button" name="state1" value="V1"

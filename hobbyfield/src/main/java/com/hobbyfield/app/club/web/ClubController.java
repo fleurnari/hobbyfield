@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.hobbyfield.app.club.service.CreateclubService;
 import com.hobbyfield.app.club.service.CreateclubVO;
 import com.hobbyfield.app.comm.mapper.CommCodeMapper;
-
 
 
 
@@ -200,6 +200,7 @@ public class ClubController {
 			String uploadFileName = multipartFile.getOriginalFilename();			
 			vo.setProfileImg(uploadFileName);
 			vo.setProfileImgPath(datePath);
+
 			
 			/* uuid 적용 파일 이름 */
 			String uuid = UUID.randomUUID().toString();
@@ -241,6 +242,7 @@ public class ClubController {
 		return result; //ResponseEntity 객체를 반환
 	}
 	
+
 	//프로필 이미지 출력
 	@GetMapping("/profileView")
 	public ResponseEntity<byte[]> getprofileImg(String fileName){

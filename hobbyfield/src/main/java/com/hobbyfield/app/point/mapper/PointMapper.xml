@@ -39,16 +39,6 @@
 	<!-- po.point_period, -->
 	<!-- po.point_price, -->
 
-	<!-- e.emoji_id, -->
-	<!-- e.emoji_img_name, -->
-	<!-- e.emoji_img_path -->
-	<!-- FROM point p -->
-	<!-- FULL OUTER JOIN -->
-	<!-- point_option po ON p.point_id = po.point_id -->
-	<!-- FULL OUTER JOIN emoji e ON po.point_id -->
-	<!-- = e.point_id -->
-	<!-- WHERE p.point_id = #{pointId} -->
-
 	<!-- 포인트 상품 등록 -->
 	<insert id="insertPoint" parameterType="PointVO">
 		<selectKey keyProperty="pointId" resultType="int"
