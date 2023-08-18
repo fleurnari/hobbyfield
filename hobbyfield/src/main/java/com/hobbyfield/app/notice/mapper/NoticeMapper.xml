@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hobbyfield.app.notice.mapper.NoticeMapper">
+
+	<select id="selectnoticeAllList"
+		resultType="com.hobbyfield.app.notice.service.NoticeVO">
+		SELECT * FROM notice
+	</select>
+
+	<select id="selectNoticeInfo"
+		parameterType="com.hobbyfield.app.notice.service.NoticeVO"
+		resultType="NoticeVO">
+		SELECT
+		notice_id,
+		notice_cate,
+		notice_title,
+		notice_subject,
+		notice_writer,
+		notice_wdate,
+		notice_view
+		FROM notice
+		WHERE notice_id =
+		#{noticeId}
+	</select>
+
+
+	<insert id="insertNotice" parameterType="NoticeVO">
+		<selectKey keyProperty="noticeId" resultType="int"
+			order="BEFORE">
+			SELECT NVL(MAX(notice_id), 0) + 1
+			FROM notice
+		</selectKey>
+		INSERT INTO notice(
+		notice_id,
+		notice_cate,
+		notice_title,
+		notice_subject,
+		notice_writer,
+		notice_wdate,
+		notice_view
+		) VALUES(
+		#{noticeId},
+		#{noticeCate},
+		#{noticeTitle},
+		#{noticeSubject},
+		#{noticeWriter},
+		<choose>
+			<when test="noticeWdate != null">
+				#{noticeWdate}
+			</when>
+			<otherwise>
+				SYSDATE
+			</otherwise>
+		</choose>
+		,
+		#{noticeView}
+		)
+	</insert>
+
+	<update id="updateNotice"
+		parameterType="com.hobbyfield.app.notice.service.NoticeVO">
+		UPDATE notice
+		SET notice_title = #{noticeTitle},
+		notice_subject = #{noticeSubject}
+		WHERE notice_id = #{noticeId}
+	</update>
+
+	<delete id="deleteNoticeInfo" parameterType="int">
+		DELETE FROM notice
+		WHERE notice_id = #{noticeId}
+	</delete>
+
+	<!-- 조회수 업데이트 -->
+	<update id="noticeViewCount" parameterType="NoticeVO">
+		UPDATE notice
+		SET
+		notice_view = notice_view + 1
+		WHERE notice_id = #{noticeId}
+	</update>
+
+</mapper>
+
+
+<!-- NOTICE_ID -->
+<!-- NOTICE_CATE -->
+<!-- NOTICE_TITLE -->
+<!-- NOTICE_SUBJECT -->
+<!-- NOTICE_WRITER -->
+<!-- NOTICE_WDATE -->
+<!-- NOTICE_VIEW -->
+
+  

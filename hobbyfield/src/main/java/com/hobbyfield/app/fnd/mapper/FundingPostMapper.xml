@@ -16,9 +16,13 @@
   			Fnd_Status,
   			Fnd_Target_Amount,
   			Fnd_Current_Amount,
-  			Fnd_Views
+  			Fnd_Views,
+  			Member_Email
   		FROM Funding_Post
+  		ORDER BY Fnd_Post_Number DESC
   	</select>
+  	
+
   	
   	<!-- 단건조회 -->
   	<select id="selectFundingPost" resultType="FundingPostVO">
@@ -40,32 +44,62 @@
   	
   	<!-- 등록 -->
   	<insert id="insertFundingPost" parameterType="FundingPostVO">
-	
+		<selectKey keyProperty="fndPostNumber" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(Fnd_Post_Number), 0) + 1
+			FROM funding_Post
+		</selectKey>
 		INSERT INTO funding_Post
 				(
 				Fnd_Post_Number
-				, Fnd_Title
+				<if test="fndCategory != null">
 				, Fnd_Category
+				</if>
+				<if test="fndTitle != null">
+				, Fnd_Title
+				</if>
+				<if test="fndMainImg != null">
 				, Fnd_Main_Img
+				</if>
+				)
+		VALUES( 
+				#{fndPostNumber}
+				<if test="fndCategory != null">
+				, #{fndCategory}
+				</if>
+				<if test="fndTitle != null">
+				, #{fndTitle}
+				</if>
+				<if test="fndMainImg != null">
+				, #{fndMainImg}
+				</if>
+				)
+	</insert>
+	
+	<!-- 펀딩 임시저장 후 등록 -->
+	<update id="updateFundingPost" parameterType="FundingPostVO">
+		
+		UPDATE Funding_Post
+		SET Fnd_Main_Img = #{fndMainImg}
+		  , Fnd_Target_Amount = #{fndTargetAmount}
+		  , Fnd_Start_Date = #{fndStartDate}
+		  , Fnd_End_Date = #{fndEndDate}
+		  , Fnd_Wdate = SYSDATE
+		WHERE fnd_Post_Number = #{fndPostNumber}
+		
+	</update>
+	
+	<!-- , Fnd_Main_Img
 				, Fnd_Main_ImgPath
 				, Fnd_Target_Amount
 				, Fnd_Start_Date
 				, Fnd_End_Date
 				, Fnd_Wdate
-				)
-				
-		VALUES( #{fndPostNumber},
-				#{fndCategory},
-				#{fndTitle},
 				#{fndMainImg},
 				#{fndMainImgPath},
 				#{fndTargetAmount},
 				#{fndStartDate},
 				#{fndEndDate},
-				SYSDATE
-				)
-	</insert>
-	
+				SYSDATE -->
 	<!-- 조회수 업데이트 -->
 	<update id="FundingPostViewsCount" parameterType="FundingPostVO">
 	

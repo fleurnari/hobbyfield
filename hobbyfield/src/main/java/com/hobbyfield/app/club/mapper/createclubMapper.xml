@@ -63,7 +63,6 @@
 					, singup_question2
 					, singup_question3
 					, club_img
-					, club_img_path
 					, club_total
 				)
 		VALUES
@@ -97,7 +96,6 @@
 					, #{singupQuestion2}
 					, #{singupQuestion3}
 					, #{clubImg}
-					, #{clubImgPath}
 					, #{clubTotal}
 				)
 			
@@ -125,5 +123,13 @@
 	<!-- 소모임 삭제? -->
 	
 	<!-- 이미지 등록 -->
-
+	<insert id="ProfileImg" parameterType="CreateclubVO">
+		INSERT INTO profile(
+			profile_img
+		)
+		VALUES(
+			#{profileImg}
+		)
+		
+	</insert>
 </mapper>

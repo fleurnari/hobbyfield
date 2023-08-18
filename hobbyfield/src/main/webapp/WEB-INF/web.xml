@@ -22,13 +22,22 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/
 			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
-	
+
 	<multipart-config>
 			<location>C:\\upload\\temp</location>
 			<max-file-size>20971520</max-file-size> 
 			<max-request-size>41943040</max-request-size> 
 			<file-size-threshold>20971520</file-size-threshold> 
-		</multipart-config>
+
+		
+		<!-- 업로드 관련 설정 -->
+    <!--
+		<multipart-config>
+			<location>C:\\upload\\</location>		
+			<max-file-size>20971520</max-file-size>					<!-- 1MB * 20 -->
+			<max-request-size>41943040</max-request-size>			<!-- 40MB -->
+			<file-size-threshold>20971520</file-size-threshold>		<!-- 20MB -->
+		</multipart-config> -->
 		
 	</servlet>
 		
