@@ -14,6 +14,9 @@ public interface FundingPostMapper {
 	//등록
 	public int insertFundingPost(FundingPostVO fundingPostVO);
 	
+	//수정
+	public int updateFundingPost(FundingPostVO fundingPostVO);
+	
 	//조회수
 	public int FundingPostViewsCount(FundingPostVO fundingPostVO);
 }

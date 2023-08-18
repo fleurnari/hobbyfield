@@ -11,7 +11,12 @@ public interface FundingPostService {
 		
 	//등록
 	public int insertFundingPostInfo(FundingPostVO fundingPostVO);
-		
+	
+	//임시저장 업데이트
+	public int updateFundingPostInfo(FundingPostVO fundingPostVO);
+	
 	//조회수
 	public int updateFundingPostViews(FundingPostVO fundingPostVO);
+	
+	
 }

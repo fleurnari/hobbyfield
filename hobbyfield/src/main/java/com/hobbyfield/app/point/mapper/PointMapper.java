@@ -14,7 +14,7 @@ public interface PointMapper {
 	
 	// 포인트 상품 등록
 	// - 상품 판매기간 카운트
-	public int insertPoint(PointVO pointVO);
+	public int insertPointInfo(PointVO pointVO);
 	
 	// 포인트 상품 수정
 	public int updatePoint(PointVO pointVO);
@@ -22,8 +22,6 @@ public interface PointMapper {
 	// 포인트 상품 삭제
 	public int deletePointInfo(int pointId);
 	
-	// 포인트 상품 조회수
-	public int PointViewsCount(PointVO pointVO);
 
 	
 	
