@@ -7,16 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <title>포인트 상점 수정</title>
-<style>
- body {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        min-height: 100vh;
-        margin: 0;
-    }
-</style>
 </head>
 <body>
 	<table>

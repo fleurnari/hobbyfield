@@ -377,6 +377,53 @@ function remaindTime() {
 	    var sendUrl = "text"; // 전달할 URL
 	    window.open("https://twitter.com/intent/tweet?text=" + sendText + "&url=" + sendUrl);
 	};
+
+	function toggleDetails(option) {
+		  var options = document.querySelectorAll('.option-box');
+		  options.forEach(function(item) {
+		    if (item !== option) {
+		      item.classList.remove('active');
+		    }
+		  });
+		  option.classList.toggle('active');
+		}
+
+	// 수량 조절 및 총 가격 업데이트 함수
+    function updateTotalPrice(button, quantity) {
+      var initialPrice = parseFloat(button.getAttribute('data-price'));
+      var totalPrice = initialPrice * quantity;
+      button.textContent = totalPrice;
+
+     
+    }
+
+    // 수량 조절 함수
+    function adjustQuantity(button, valueChange) {
+      var quantityValue = button.parentElement.querySelector('.quantity-value');
+      var value = parseInt(quantityValue.textContent) + valueChange;
+
+      if (value >= 1) {
+        quantityValue.textContent = value;
+        updateTotalPrice(button.closest('.option-box').querySelector('.confirm-button'), value);
+      }
+    }
+
+    // 감소 버튼 클릭 이벤트
+    document.querySelectorAll('.decrement').forEach(function (button) {
+      button.addEventListener('click', function (event) {
+        event.stopPropagation();
+        adjustQuantity(this, -1);
+      });
+    });
+
+    // 증가 버튼 클릭 이벤트
+    document.querySelectorAll('.increment').forEach(function (button) {
+      button.addEventListener('click', function (event) {
+        event.stopPropagation();
+        adjustQuantity(this, 1);
+      });
+    });
+
 </script>
 </body>
 </html>

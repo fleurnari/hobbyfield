@@ -1,57 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <title>포인트상점</title>
 <style>
-body {
-	/*         display: flex; */
-	/*         flex-direction: column; */
-	/*         justify-content: space-between; */
-	/*         align-items: center; */
-	/*         min-height: 100vh; */
-	/*         margin: 0; */
-	
+.header-left {
+	float: left;
 }
 
-.header-left {
-	margin-top: 150px;
+.header-right {
+	float: right;
+	text-align: left;
 }
 
 .sort-right {
-	width: 200px;
-	align-items: right;
-	width: 200px;
-}
-
-.state {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
-	width:
+	float: right;
+	width: 120px;
+	height: 20px;
+	margin: 3px;
 }
 
 .main-body {
-	display: flex;
-	justify-content: center;
+	
 }
 
 .product {
-	margin: 0 10px;
-	text-align: center;
+	
 }
 
-.form-control {
-	display: inlineblock;
+.row {
+	float: center;
 }
 </style>
 </head>
 <body>
-	<div>
+	<header>
 		<div class="header-left">
 			<a href="${pageContext.request.contextPath}/noticeList">공지사항</a>
 		</div>
@@ -67,10 +52,11 @@ body {
 		</div>
 		<%-- 		</c:if> --%>
 
+
 		<form class="sort-right">
 			<select class="form-control" id="sortOption" name="sortOption"
 				onchange="changeOptionSelect()">
-				<option selected disabled hidden>▼조회순</option>
+				<option selected disabled hidden>▼ 조회순</option>
 				<option value="latest">최신순</option>
 				<option value="latest">조회많은순</option>
 				<option value="low">낮은가격순</option>
@@ -86,6 +72,7 @@ body {
 			<div>
 				<button type="button" name="state2" value="V2"
 					onclick="changestate('판매종료')">판매종료</button>
+
 			</div>
 		</div>
 		<div>
