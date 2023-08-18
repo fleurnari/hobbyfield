@@ -34,7 +34,7 @@ public class PointController {
 		pointService.pointViewCount(findVO);
 		model.addAttribute("point", findVO);
 		return "point/pointList";
-
+    
 	}
 
 	// 등록 - Form
@@ -81,6 +81,5 @@ public class PointController {
 		pointService.deletePoint(pointId);
 		return "redirect:pointList";
 	}
-
 
 }

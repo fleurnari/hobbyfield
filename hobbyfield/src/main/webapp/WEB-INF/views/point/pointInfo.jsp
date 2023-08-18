@@ -9,6 +9,7 @@
 .jb-division-line {
 	border-top: 1px solid #444444;
 	margin: 30px;
+
 }
 </style>
 </head>
@@ -26,7 +27,6 @@
 			<p>${point.pointImgName}</p>
 			<p>${point.pointImgPath}</p>
 			<p>${point.pointView}</p>
-
 		</div>
 	</div>
 	<div class="jb-division-line"></div>

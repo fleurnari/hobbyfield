@@ -16,7 +16,7 @@ public interface PointService {
 	// 포인트샵 상품 등록
 	// - 상품 판매기간 카운트
 	public int insertPoint(PointVO pointVO);
-
+  
 	// 포인트샵 상품 수정
 	public int updatePoint(PointVO pointVO);
 

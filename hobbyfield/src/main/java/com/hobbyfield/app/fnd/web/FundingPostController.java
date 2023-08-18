@@ -31,7 +31,6 @@ public class FundingPostController {
 	
 
 	//펀딩 프로젝트 상세보기
-
 	@GetMapping("fundingPostInfo")
 	public String fundingPostInfo(FundingPostVO fundingPostVO, Model model) {
 		FundingPostVO findVO = fundingPostService.getFundingPostInfo(fundingPostVO);
