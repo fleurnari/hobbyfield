@@ -69,5 +69,5 @@ public class MemberController {
 			memberService.insertMember(memberVO);
 		return "member/loginForm";
 	}
-	
+ 	
 }
