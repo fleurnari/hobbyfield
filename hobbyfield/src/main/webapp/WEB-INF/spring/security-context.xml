@@ -5,19 +5,41 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.2.xsd">
 		
-	<security:http pattern="/css/**" security="none" />
-	<security:http pattern="/home" security="none" />
+   <security:http pattern="/**/resources/**" security="none" />
+   <security:http pattern="/**/tiles/**" security="none" />
 
-	
-	<security:authentication-manager>
-		<security:authentication-provider>
-			<security:user-service>
-				<security:user name="user" password="{noop}1234"
-					authorities="ROLE_USER" />
-				<security:user name="admin" password="{noop}1234"
-					authorities="ROLE_ADMIN" />
-			</security:user-service>
-		</security:authentication-provider>
-	</security:authentication-manager>
+	<security:http use-expressions="true"> 
+      <security:intercept-url pattern="/" access="permitAll()" />
+      <security:intercept-url pattern="home" access="permitAll()" />
+      <security:intercept-url pattern="/memberJoinSelect" access="permitAll()" />
+      <security:intercept-url pattern="/generalMemberJoin" access="permitAll()" />
+      <security:intercept-url pattern="/companyMemberJoin" access="permitAll()" />
+      <security:intercept-url pattern="/memberInsert" access="permitAll()" />
+      <security:intercept-url pattern="/login" access="permitAll()" />
+      <security:intercept-url pattern="/kakaoLogin" access="permitAll()" />
+      <security:intercept-url pattern="/admin/**" access="hasAuthority('A3')" />
+      <security:intercept-url pattern="/**" access="isAuthenticated()" />
+      <security:form-login login-page="/login"
+                       username-parameter="memberEmail"
+                       password-parameter="memberPwd"
+                      authentication-success-handler-ref="customLoginSuccess"
+                      authentication-failure-handler-ref="customLoginFailure" />
+      <security:logout logout-url="/logout"
+      				   success-handler-ref="customLogoutSuccess"
+      				   invalidate-session="true" />
+      <security:csrf disabled="true" />
+	</security:http>
+
+   <bean id="userDetailService" class="com.hobbyfield.app.security.CustomUserDetailService" />
+   <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+   <bean id="customLoginSuccess" class="com.hobbyfield.app.security.CustomLoginSuccessHandler" />
+   <bean id="customLoginFailure" class="com.hobbyfield.app.security.CustomLoginFailureHandler" />
+   <bean id="customLogoutSuccess" class="com.hobbyfield.app.security.CustomLogoutSuccessHandler" />
+   
+   <security:authentication-manager>
+      <security:authentication-provider user-service-ref="userDetailService">
+      	<security:password-encoder ref="bcryptPasswordEncoder" />
+      </security:authentication-provider>
+   </security:authentication-manager>
 
 </beans>
