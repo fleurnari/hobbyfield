@@ -27,7 +27,6 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -266,13 +265,6 @@ public class ClubController {
 		
 		return result;
 	}
-   
-	//프로필 이미지 수정
-
-   public String ImgProcess(ClubVO clubVO) {
-      clubService.insertClubInfo(clubVO);
-      return "redirect:clubList";
-   }
    
 
    //소모임 게시글 생성 
