@@ -59,4 +59,10 @@ public class PointServiceImpl implements PointService {
 			return -1;
 		}
 	}
+	// 포인트 상품 조회수 업데이트
+		@Override
+		public int pointViewCount(PointVO pointVO) {
+			return pointMapper.updatePoint(pointVO);
+		}
+
 }
