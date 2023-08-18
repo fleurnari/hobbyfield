@@ -13,10 +13,6 @@ body {
 	justify-content: space-between;
 	align-items: center;
 	min-height: 100vh;
-	margin: 0;
-}
-
-.insertForm {
 	margin-top: 150px;
 }
 
@@ -26,41 +22,31 @@ body {
 </style>
 </head>
 <body>
-	<form action="pointInsert" class="insertForm" method="post">
+	<form action="pointInsert" class="pointInsert" method="post">
 		<div>
 			<h3>포인트상품등록</h3>
 		</div>
-		<div class="pointItemType">
-			<h5>상품유형</h5>
-			<select class="form-control" id="pointItemType" name="pointItemType">
+		<div class="form-group">
+			<label for="pointItemType"><h5>상품유형</h5></label> <select
+				class="form-control" id="pointItemType" name="pointItemType">
 				<option selected disabled>상품유형</option>
-				<option value="clubCapacity">소모임 증원권</option>
-				<option value="emoji">이모티콘</option>
+				<option value="W2">소모임 증원권</option>
+				<option value="W1">이모티콘</option>
 			</select>
 		</div>
-
 		<div>
 			<h5>상품이름</h5>
-			<input type="text" id="pointName" name="title" required="required"
+			<input type="text" id="pointName" name="pointName" required="required"
 				placeholder="상품이름을 입력하세요.">
 		</div>
 		<div>
-			<h5>상품가격</h5>
-			<input type="number" id="pointPrice" name="pointPrice"
-				required="required">
-		</div>
-		<div>
 			<h5>내용</h5>
-			<textarea name="content" id="pointContent" name="pointContent"
-				required="required" placeholder="내용을 입력하세요."></textarea>
-		</div>
-
-		<div>
-		<h5>이미지 첨부</h5>
-			<input name="uploadFiles" type="file" multiple>
+			<textarea id="pointContent" name="pointContent" required="required" 
+			placeholder="내용을 입력하세요."></textarea>
 		</div>
 		<div>
-			<h5>상품등록일</h5>
+			<h5>이미지 첨부</h5>
+			<input name="uploadFiles" id="pointImgName" type="file" multiple>
 		</div>
 		<div>
 			<h5>상품판매 마감일</h5>
@@ -76,8 +62,7 @@ body {
 	document.querySelector('form.insertForm').addEventListener('submit', function(e) {
 		e.preventDefault();
 
-		let pointName = document.querySelector('input[name="title"]');
-		let pointPrice = document.querySelector('input[name="pointPrice"]');
+		let pointName = document.querySelector('input[name="pointName"]');
 		let pointContent = document.querySelector('textarea[name="pointContent"]');
 		let pointRegdate = document.querySelector('input[name="pointRegdate"]');
 		let pointEndterm = document.querySelector('input[name="pointEndterm"]');
@@ -93,11 +78,6 @@ body {
 					if (pointName.value == '') {
 						alert('상품이름을 입력하세요.');
 						pointName.focus();
-						return;
-					}
-					if (pointPrice.value == '') {
-						alert('상품가격을 입력하세요.');
-						pointPrice.focus();
 						return;
 					}
 					if (pointContent.value == '') {
@@ -117,7 +97,7 @@ body {
 					}
 						
 					this.submit();		
-				}
+				});
 		document.querySelector('.uploadBtn')
 		.addEventListener('click',function(e){
 			let formData = new FormData();
@@ -143,8 +123,8 @@ body {
 	         $.ajax({
 	             url: 'uploadsAjax',	
 	             type: 'POST',
-	             processData: false,	// 기본값은 true, ajax 통신을 통해 데이터를 전송할 때, 기본적으로 key와 value값을 Query String으로 변환해서 보냅니다.
-	             contentType: false,	// multipart/form-data타입을 사용하기위해 false 로 지정합니다.
+	             processData: false,	// 기본값은 true, ajax 통신을 통해 데이터를 전송할 때, 기본적으로 key와 value값을 Query String으로 변환
+	             contentType: false,	// multipart/form-data타입을 사용하기위해 false
 	             data: formData,               
 	             success: function(result){
 	                 for(let images of result){

@@ -14,7 +14,7 @@
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/fundingPostList">펀딩</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="#">쇼핑몰</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/pointList">포인트샵</a></li>
-              <li class="nav-item px-2"><a class="nav-link fw-bold" href="#">재능기부</a></li>
+              <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/talentMain">재능기부</a></li>
             </ul>
             <div class="ms-lg-5"><a class="btn btn-primary" href="#">로그인</a></div>
           </div>
