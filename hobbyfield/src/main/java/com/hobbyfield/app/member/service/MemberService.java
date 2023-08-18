@@ -24,5 +24,5 @@ public interface MemberService {
 	
 	// 카카오 로그인 유저 정보 얻어오기
 	public HashMap<String, Object> getUserInfo(String access_Token);
-	
+
 }

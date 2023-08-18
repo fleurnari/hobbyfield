@@ -49,6 +49,7 @@
 						</c:forEach>
 					</select>
 
+
 			</div>
 			
 			<div>
@@ -137,6 +138,7 @@ $(document).ready(function(){
 		/* 최종 유효성 검사를 진행하고 form에 말아서 전달 */
 		if(nickCheck&&nickchCheck&&clubName&&clubnameCheck){
 		
+
 		/* $("#join_form").attr("action", "/club/insetClub"); attr삭제해야 하는 이유? */
 		/* $("#join_form").prop("action", "/club/insetClub"); */
 
@@ -301,6 +303,5 @@ $('.nick_input').on("propertychange change keyup paste input", function(){
                 subLocationSelect.append('<option value="' + item + '">' + item + '</option>');
             });
         } */
-
 </script>
 </html>

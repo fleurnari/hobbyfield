@@ -21,22 +21,24 @@ public class PointController {
 	PointService pointService;
 
 	// 전체조회
-	@GetMapping("pointList")
+	@GetMapping("/pointList")
 	public String getPointAllList(Model model) {
 		model.addAttribute("pointList", pointService.getPointAllList());
 		return "point/pointList";
 	}
 
 	// 단건조회
-	@GetMapping("pointInfo")
+	@GetMapping("/pointInfo")
 	public String getPointInfo(PointVO pointVO, Model model) {
 		PointVO findVO = pointService.getPointInfo(pointVO);
-		model.addAttribute("pointInfo", findVO);
-		return "point/pointInfo";
+		pointService.pointViewCount(findVO);
+		model.addAttribute("point", findVO);
+		return "point/pointList";
+
 	}
 
 	// 등록 - Form
-	@GetMapping("pointInsert")
+	@GetMapping("/pointInsert")
 	public String pointInsertForm() {
 		return "point/pointInsert";
 	}
@@ -49,7 +51,7 @@ public class PointController {
 	}
 
 	// 수정 - Form
-	@GetMapping("pointUpdate")
+	@GetMapping("/pointUpdate")
 	public String pointUpdateForm(PointVO pointVO, Model model) {
 		PointVO findVO = pointService.getPointInfo(pointVO);
 		model.addAttribute("pointInfo", findVO);
@@ -70,15 +72,15 @@ public class PointController {
 		map.put("result", result);
 		map.put("pointInfo", pointVO);
 
-		return "redirect:pointList";
+		return "redirect:/pointInfo";
 	}
 
 	// 삭제
-	@PostMapping(value = "/pointDelete", produces = "text/plain;charset-UTF-8")
-	@ResponseBody
-	public String deletePointInfo(@RequestParam(name = "pointId", defaultValue = "0") int pointId) {
+	@PostMapping("/pointDelete")
+	public String deletePointInfo(@RequestParam(name = "pointId") int pointId) {
 		pointService.deletePoint(pointId);
 		return "redirect:pointList";
 	}
+
 
 }

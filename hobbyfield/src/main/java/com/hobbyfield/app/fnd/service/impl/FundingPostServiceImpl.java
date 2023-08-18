@@ -15,17 +15,17 @@ public class FundingPostServiceImpl implements FundingPostService {
 	@Autowired
 	FundingPostMapper fundingPostMapper;
 	
-	//펀딩 프로젝트 리스트
+	
 	@Override
 	public List<FundingPostVO> getFundingPostList() {
 		return fundingPostMapper.selectFundingPostList();
 	}
-	//펀딩 프로젝트 상세보기
+	
 	@Override
 	public FundingPostVO getFundingPostInfo(FundingPostVO fundingPostVO) {
 		return fundingPostMapper.selectFundingPost(fundingPostVO);
 	}
-	//펀딩 프로젝트 등록
+	
 	@Override
 	public int insertFundingPostInfo(FundingPostVO fundingPostVO) {
 		int result = fundingPostMapper.insertFundingPost(fundingPostVO);
@@ -37,6 +37,7 @@ public class FundingPostServiceImpl implements FundingPostService {
 		}
 	}
 	
+
 	//펀딩 임시저장 업데이트
 	@Override
 	public int updateFundingPostInfo(FundingPostVO fundingPostVO) {

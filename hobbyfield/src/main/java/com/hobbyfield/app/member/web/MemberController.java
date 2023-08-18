@@ -21,7 +21,6 @@ import com.hobbyfield.app.pointrecord.service.PointRecordService;
 import com.hobbyfield.app.pointrecord.service.PointRecordVO;
 import com.hobbyfield.app.security.CustomUser;
 
-
 @Controller
 public class MemberController {
 	
@@ -33,7 +32,6 @@ public class MemberController {
 	
 	@Autowired
 	BCryptPasswordEncoder pwEncoder;
-
 
 	// 회원 가입 페이지
 	@GetMapping("/memberJoinSelect")
