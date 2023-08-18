@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hobbyfield.app.talent.mapper.TalentMapper">
+
+	<!-- 재능기부 전체조회 -->
+	<select id="getAllTalent" resultType="TalentVO">
+		SELECT * FROM TALENT
+	</select>
+
+	<!-- 재능기부 단건조회 -->
+	<select id="getTalentInfo" parameterType="int"
+		resultType="TalentVO">
+		SELECT * FROM TALENT WHERE TLNT_ID = #{tlntId}
+	</select>
+
+	<!-- 재능기부 등록 -->
+	<insert id="createTalent" parameterType="TalentVO">
+		INSERT INTO TALENT (
+		TLNT_CATE, TLNT_TITLE, TLNT_CONTENT, TLNT_WRITER,
+		TLNT_WDATE,
+		TLNT_VIEW, TLNT_STARTDAY, TLNT_ENDDAY,
+		TLNT_CAP, TLNT_STATUS,
+		TLNT_REGEND
+		) VALUES (
+		#{tlntCate},
+		#{tlntTitle},
+		#{tlntContent},
+		#{tlntWriter},
+		#{tlntWdate},
+		#{tlntView},
+		#{tlntStartday},
+		#{tlntEndday},
+		#{tlntCap},
+		#{tlntStatus},
+		#{tlntRegEnd}
+		)
+	</insert>
+
+	<!-- 재능기부 수정 -->
+	<update id="updateTalent" parameterType="TalentVO">
+		UPDATE TALENT SET
+		TLNT_CATE = #{tlntCate},
+		TLNT_TITLE = #{tlntTitle},
+		TLNT_CONTENT =
+		#{tlntContent},
+		TLNT_WRITER = #{tlntWriter},
+		TLNT_WDATE = #{tlntWdate},
+		TLNT_VIEW = #{tlntView},
+		TLNT_STARTDAY = #{tlntStartday},
+		TLNT_ENDDAY =
+		#{tlntEndday},
+		TLNT_CAP = #{tlntCap},
+		TLNT_STATUS = #{tlntStatus},
+		TLNT_REGEND = #{tlntRegEnd}
+		WHERE TLNT_ID = #{tlntId}
+	</update>
+
+	<!-- 재능기부 글 삭제 -->
+	<delete id="deleteTalent" parameterType="int">
+		DELETE FROM TALENT WHERE
+		TLNT_ID = #{tlntId}
+	</delete>
+
+	<!-- 재능기부 조회수 -->
+	<update id="increaseViewCount" parameterType="int">
+		UPDATE TALENT SET
+		TLNT_VIEW = TLNT_VIEW + 1 WHERE TLNT_ID = #{tlntId}
+	</update>
+</mapper>

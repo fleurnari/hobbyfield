@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>포인트상점</title>
@@ -39,18 +38,21 @@
 <body>
 	<header>
 		<div class="header-left">
-			<a href="/noticeList">공지사항</a>
+			<a href="${pageContext.request.contextPath}/noticeList">공지사항</a>
 		</div>
-		<div class="header-right">
-			<input type="text" placeholder="검색어를 입력하세요.">
-			<button type="submit">검색</button>
-		</div>
-	</header>
+		<!-- 		<form action=pointListSearch> -->
+		<!-- 			<input type="text" name="pointListSearch" placeholder="검색어를 입력하세요" -->
+		<!-- 				onclick="location.href='#'"> <input type="submit" value="검색"> -->
+		<!-- 		</form> -->
+	</div>
 	<main>
-	<!-- 관리자에게만 보이도록해야함 --> 
-			<div class="btn-group">
-				<button type="button">상품등록</button>
-			</div>
+		<%-- 		<c:if test="${memberGrd eq A3}"> --%>
+		<div class="btn-group">
+			<button type="button" onclick="location.href='pointInsert'">상품등록</button>
+		</div>
+		<%-- 		</c:if> --%>
+
+
 		<form class="sort-right">
 			<select class="form-control" id="sortOption" name="sortOption"
 				onchange="changeOptionSelect()">
@@ -62,38 +64,65 @@
 			</select>
 		</form>
 
-		<div class="main-body">
-			<div class="row">
-				<div class="col">
-					<button type="button" name="status1" value="판매중">판매중</button>
-				</div>
-				<div class="col">
-					<button type="button" name="status2" value="판매종료">판매완료</button>
-				</div>
+		<div class="state">
+			<div>
+				<button type="button" name="state1" value="V1"
+					onclick="changestate('판매중')">판매중</button>
 			</div>
-			<div class="product">
-				<img src="resources/images/bikini bottom2.jpg" alt="bees">
-				<div class="product-info">
-					<h6>소모임 증원</h6>
-					<p>상품 설명</p>
-					<p>판매 기간: 2023-03-10 ~ 2024-03-10</p>
-				</div>
-			</div>
-			<div class="product">
-				<img src="resources/images/bikini bottom2.jpg" alt="bees">
-				<div class="product-info">
-					<h6>이모티콘</h6>
-					<p>판매 기간: 2023-03-08 ~ 2023-03-22</p>
-				</div>
-			</div>
-			<div class="product">
-				<img src="resources/images/bikini bottom2.jpg" alt="bees">
-				<div class="product-info">
-					<h6>이모티콘1</h6>
-					<p>판매 기간: 2023-03-08 ~ 2023-03-22</p>
-				</div>
+			<div>
+				<button type="button" name="state2" value="V2"
+					onclick="changestate('판매종료')">판매종료</button>
+
 			</div>
 		</div>
+		<div>
+		<table>
+			<tr>
+				<th>조회수</th>
+				<th>이름</th>
+				<th>내용</th>
+				<th>등록일</th>
+				<th>판매종료일</th>
+				<th>이미지이름</th>
+				<th>이미지경로</th>
+			</tr>
+			<c:forEach items="${pointList}" var="point">
+				<tr onclick="location.href='pointInfo?pointId=${point.pointId}'">
+					<th>${point.pointView}</th>
+					<th>${point.pointName}</th>
+					<th>${point.pointContent}</th>
+					<th>${point.pointRegdate}</th>
+					<th>${point.pointEndterm}</th>
+					<th>${point.pointImgName}</th>
+					<th>${point.pointImgPath}</th>
+				</tr>
+			</c:forEach>
+		</table>
+		<span>
+			<jsp:useBean id="now" class="java.util.Date"/>
+			
+			<fmt:parseNumber value="${now.time / (1000*60*60*24)}" integerOnly="true" var="nowfmtTime" scope="request"/>
+			
+			<fmt:parseDate value="${today}" pattern="yyyy-MM-dd" var="strPlanDate" />
+			<fmt:parseNumber value="${strPlanDate.time / (1000*60*60*24) }" integerOnly="true" var="strDate" />
+			
+			<fmt:parseDate value="${pointInfo.pointEndterm }" pattern="yyyy-MM-dd" var="endPlanDate" />
+			<fmt:parseNumber value="${endPlanDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate" />
+			
+			<c:choose>
+				<c:when test="${endDate - nowfmtTime >= 1}">
+				${endDate - nowfmtTime + 1}
+			</c:when>
+		
+		</c:choose>
+		
+		</span>
+		</div>
+		
+		
 	</main>
+	<script>
+	
+	</script>
 </body>
 </html>
