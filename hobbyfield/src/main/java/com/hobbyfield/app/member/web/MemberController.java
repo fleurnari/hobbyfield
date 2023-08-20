@@ -87,6 +87,7 @@ public class MemberController {
 				memberVO.setMemberGrd("A1");
 			} else {
 				memberVO.setMemberGrd("A2");
+				memberVO.setMemberComaccp("AJ1");
 			}
 			memberService.insertMember(memberVO);
 		return "member/login";
@@ -114,6 +115,7 @@ public class MemberController {
 		MemberVO kakaoMember = memberService.memberLogin(member);
 		
 		if (kakaoMember != null) {
+			
 			CustomUser user = new CustomUser(kakaoMember);
 			Collection<? extends GrantedAuthority> roles = user.getAuthorities();
 			Authentication auth = new UsernamePasswordAuthenticationToken(user, null, roles);
@@ -121,20 +123,20 @@ public class MemberController {
 			
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 			
-			if ((kakaoMember.getMemberLtstconn() == null) || !(dateFormat.format(new Date()).equals(dateFormat.format(kakaoMember.getMemberLtstconn())))) {
-				memberService.memberLtstUpdate(kakaoMember);
-				memberService.memberPntUpdate(kakaoMember);
+			if ((member.getMemberLtstconn() == null) || !(dateFormat.format(new Date()).equals(dateFormat.format(member.getMemberLtstconn())))) {
+				memberService.memberLtstUpdate(member);
+				memberService.memberPntUpdate(member);
 				
 				PointRecordVO pointRecord = new PointRecordVO();
-				pointRecord.setMemberEmail(kakaoMember.getMemberEmail());
+				pointRecord.setMemberEmail(member.getMemberEmail());
 				pointRecordService.loginPointInsert(pointRecord);
 				
 			}
-			
+		
 			session.setAttribute("member", kakaoMember);
 			return "home";
 		} else {
-			rttr.addFlashAttribute("result", 3);
+			rttr.addFlashAttribute("result", 1);
 			return "redirect:/login";
 		}
 		
@@ -146,7 +148,7 @@ public class MemberController {
 	public String myPage(HttpSession session, Model model) {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		model.addAttribute("info", memberService.memberLogin(member));
-		return "mypage/myPage";
+		return "member/myPage";
 	}
 
 }
