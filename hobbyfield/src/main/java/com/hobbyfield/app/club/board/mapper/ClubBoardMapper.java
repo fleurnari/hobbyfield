@@ -19,4 +19,6 @@ public interface ClubBoardMapper {
 	// 수정
 	public int updateClubBoard(ClubBoardVO vo);
 	
+	// 조회수, 블라인드처리
+	
 }
