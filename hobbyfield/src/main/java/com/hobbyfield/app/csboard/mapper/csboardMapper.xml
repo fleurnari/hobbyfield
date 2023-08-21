@@ -28,7 +28,7 @@
 			<if test="searchType == 't'.toString()">AND CS_TITLE LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'c'.toString()">AND CS_CONTENTS LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'w'.toString()">AND CS_WRITER LIKE '%' || #{keyword} || '%'</if>
-			<if test="searchType == 'tc'.toString()">AND (CS_TITLE LIKE '%' || #{keyword} || '%') or (CS_CONTENTS LIKE '%' || #{keyword} || '%')</if>
+			<if test="searchType == 'tc'.toString()">AND( (CS_TITLE LIKE '%' || #{keyword} || '%') or (CS_CONTENTS LIKE '%' || #{keyword} || '%') )</if>
 		</if>
 	</sql>
 	<select id="selectAllCSList" resultType="CSBoardVO" parameterType="Criteria">
@@ -70,28 +70,20 @@
 			INSERT INTO cs
 				(  cs_number
 					, cs_title
-					<if test="csContents != null and !csContents.equals('')">
 					, cs_contents
-					</if>
 					, cs_writer
 					, cs_date
-					<if test ="csImgName != null and !csImgName.equals('')">
 					,cs_img_name
-					</if>
 				)
 				
 				VALUES
 				(
 					#{csNumber}
 					, #{csTitle}
-					<if test="csContents != null and !csContents.equals('')">			
 					, #{csContents}
-					</if>	
 					, #{csWriter}
 					, sysdate
-					<if test="csImgName != null and !csImgName.equals('')">
 					, #{csImgName}
-					</if>
 				)	
 				</insert>
 				

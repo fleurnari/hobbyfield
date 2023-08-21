@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
-
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,125 +26,117 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.hobbyfield.app.club.service.CreateclubService;
 import com.hobbyfield.app.club.service.CreateclubVO;
 import com.hobbyfield.app.comm.mapper.CommCodeMapper;
+import com.hobbyfield.app.comm.service.CommCodeVO;
 
-
+//0821 이선호 (소모임 관리)
 
 @Controller
 public class ClubController {
-   private static final Logger logger = LoggerFactory.getLogger(ClubController.class);
-   
-   @Autowired
-   CreateclubService createClubService;
-   
-   @Autowired
-   CommCodeMapper commCodeMapper;
-   
-   //소모임 전체조회
-   @GetMapping("clubList")
-   public String clubList(Model model) {
+	private static final Logger logger = LoggerFactory.getLogger(ClubController.class);
 
-      model.addAttribute("clubList", createClubService.getCreateClubList());
+	@Autowired
+	CreateclubService createClubService;
 
-      return "club/clubList";
-   }
-   
-   //소모임 세부조회
-   
-   
-   //소모임 등록 페이지
+	@Autowired
+	CommCodeMapper commCodeMapper;
 
-   @GetMapping("/insertClub")
-   public String clubInsertForm(Model model) {
-	  model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); //지역대그룹 코드
-	  model.addAttribute("F", commCodeMapper.selectCommsubList("0F")); //지역소그룹 코드
-	  model.addAttribute("C", commCodeMapper.commCategoryList("0C")); //모임카테고리 그룹코드
-	  model.addAttribute("D", commCodeMapper.clubTypeList("0D")); //모임분류 그룹코드
+	// 소모임 전체조회
+	@GetMapping("clubList")
+	public String clubList(Model model) {
+		model.addAttribute("clubList", createClubService.getCreateClubList());
+		return "club/clubList";
+	}
 
-      return "club/insertClub";
-   }
-   
-   //소모임 등록 처리
+	// 소모임 세부조회
 
-   @PostMapping("/insertClub")
-   public String clubInsertProcess(CreateclubVO clubVO) {
-	   createClubService.insertClubInfo(clubVO);
-      return "redirect:clubList";
-   }
-   
-   //소모임 지역분류 카테고리 처리
-	/*
-	 * @PostMapping("/subLocation")
-	 * 
-	 * @ResponseBody public List<SubLocation>
-	 * getSubLocation(@RequestParam("majorLocation") String majorLocation){
-	 * List<SubLocation> subLocations = service.getsub }
-	 */
-   
-   //닉네임 중복체크
-   /* @RequestMapping(value = "nickChk", method = RequestMethod.POST) */
-   @ResponseBody
-   @PostMapping("/nickChk")
-   public String nickChkPOST(String profileNickname) throws Exception{
-   
-      int result = createClubService.nickChk(profileNickname);
+	// 소모임 등록 페이지
+	@GetMapping("insertClub")
+	public String clubInsertForm(Model model) {
+		model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); // 지역대그룹 코드
+		model.addAttribute("F", commCodeMapper.selectCommsubList("0F")); // 지역소그룹 코드
+		model.addAttribute("C", commCodeMapper.commCategoryList("0C")); // 모임카테고리 그룹코드
+		model.addAttribute("D", commCodeMapper.clubTypeList("0D")); // 모임분류 그룹코드
+		return "club/insertClub";
+	}
 
-      if(result != 0) {
-         
-         return "fail";   // 중복 닉네임 존재
-         
-      } else {
-         
-         return "success";   // 중복 닉네임 없음
-         
-      }   
-   }
-   
-   //소모임 이름 중복체크
-   @ResponseBody
-   @PostMapping("/clubnameChk")
-   public String clubnameChkPOST(String clubName) throws Exception {
-      
-      int result = createClubService.clubnameChk(clubName);
+	// 소모임 등록 처리
+	@PostMapping("insertClub")
+	public String clubInsertProcess(CreateclubVO clubVO) {
+		createClubService.insertClubInfo(clubVO);
+		return "redirect:clubList";
+	}
 
-      
-      if(result !=0) {
-         
-         return "fail"; //중복 모임 이름 존재
-               
-      } else {
-         
-         return "success";  //중복 모임 이름 없음
-      }
-   }
-   
-   //소모임 수정
+	// 소모임 등록 - 하위지역 반응 처리
+	@ResponseBody
+	@GetMapping("/selectCommsubList")
+	public List<CommCodeVO> getSubLocations(String code) {
+		// 상위 카테고리 값에 따라 하위 카테고리 목록을 데이터베이스에서 조회
+		List<CommCodeVO> subLocations = commCodeMapper.selectCommsubList(code);
+		return subLocations;
+	}
 
-  
-   //소모임 삭제?
-   
-   
-   //프로필 이미지 등록
-   @GetMapping("/profileImg")
-   public String img() {
-      return "club/profileImg";
-   }
-      
-   //프로필 이미지 등록 과정
-   @PostMapping("/profileImg")
-   public String ImgProcess(CreateclubVO clubVO) {
-	   createClubService.insertClubInfo(clubVO);
-      return "redirect:clubList";
-   }
-   
-   //프로필이미지 업로드
-	@PostMapping(value="/uploadsAjax", produces = MediaType.APPLICATION_PROBLEM_JSON_UTF8_VALUE)
+	// 닉네임 중복체크
+	/* @RequestMapping(value = "nickChk", method = RequestMethod.POST) */
+	@ResponseBody
+	@PostMapping("/nickChk")
+	public String nickChkPOST(String profileNickname) throws Exception {
+
+		int result = createClubService.nickChk(profileNickname);
+
+		if (result != 0) {
+
+			return "fail"; // 중복 닉네임 존재
+
+		} else {
+
+			return "success"; // 중복 닉네임 없음
+
+		}
+	}
+
+	// 소모임 이름 중복체크
+	@ResponseBody
+	@PostMapping("/clubnameChk")
+	public String clubnameChkPOST(String clubName) throws Exception {
+
+		int result = createClubService.clubnameChk(clubName);
+
+		if (result != 0) {
+
+			return "fail"; // 중복 모임 이름 존재
+
+		} else {
+
+			return "success"; // 중복 모임 이름 없음
+		}
+	}
+
+	// 소모임 수정
+	// 소모임 삭제?
+
+	// 프로필 이미지 등록
+//	@GetMapping("/profileImg")
+//	public String img() {
+//		return "club/profileImg";
+//	}
+
+	// 프로필 이미지 등록 과정
+//	@PostMapping("/profileImg")
+//	public String ImgProcess(CreateclubVO clubVO) {
+//		createClubService.insertClubInfo(clubVO);
+//		return "redirect:clubList";
+//	}
+
+	// 프로필이미지 업로드, 수정
+	@PostMapping(value="/uploadsAjax")
 	@ResponseBody
 	public ResponseEntity<List<CreateclubVO>> uploadImg(MultipartFile[] profileImg) {
 		logger.info("uploadsAjax.....");
@@ -199,7 +191,6 @@ public class ClubController {
 			String uploadFileName = multipartFile.getOriginalFilename();			
 			vo.setProfileImg(uploadFileName);
 			vo.setProfileImgPath(datePath);
-
 			
 			/* uuid 적용 파일 이름 */
 			String uuid = UUID.randomUUID().toString();
@@ -240,44 +231,18 @@ public class ClubController {
 		
 		return result; //ResponseEntity 객체를 반환
 	}
-	
 
-	//프로필 이미지 출력
-	@GetMapping("/profileView")
-	public ResponseEntity<byte[]> getprofileImg(String fileName){
-		logger.info("getprofileImg()....." + fileName);
-		
-		File file = new File("c:\\upload\\" + fileName);
-		
-		ResponseEntity<byte[]> result = null;
-		
-		try {
-			
-			HttpHeaders header = new HttpHeaders();
-			
-			header.add("Content-type", Files.probeContentType(file.toPath()));
-			
-			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
-			
-		}catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return result;
+
+	// 소모임 게시글 생성
+	@GetMapping("clubBoardInsert")
+	public String clubBoardInsertForm() {
+		return "club/clubBoardInsert";
 	}
-   
 
-   //소모임 게시글 생성 
-   @GetMapping("clubBoardInsert")
-   public String clubBoardInsertForm() {
-      return "club/clubBoardInsert";
-   }
-   
-
-   // 이미지 테스트
-   @GetMapping("TESTIMG")
-   public String TestImg() {
-      return "club/TESTIMG";
-   }
+	// 이미지 테스트
+	@GetMapping("TESTIMG")
+	public String TestImg() {
+		return "club/TESTIMG";
+	}
 
 }

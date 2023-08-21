@@ -35,30 +35,14 @@
 		INSERT INTO club
 				(
 					club_number
-					<if test="profileNickname != null and !profileNickname.equals('')" >
 					, profile_nickname
-					</if>
-					<if test="clubName != null">
 					, club_name
-					</if>
-					<if test="clubCategory != null">
 					, club_category
-					</if>
-					<if test="clubType != null">
 					, club_type
-					</if>
-					<if test="clubInfo != null">
 					, club_info
-					</if>
-					<if test="majorLocation != null">
 					, major_location
-					</if>
-					<if test="subLocation != null">
 					, sub_location
-					</if >
-					<if test="clubPublic != null">
 					, club_public
-					</if>
 					, singup_question1
 					, singup_question2
 					, singup_question3
@@ -68,35 +52,19 @@
 		VALUES
 				(
 					#{clubNumber}
-					<if test="profileNickname != null and !profileNickname.equals('')" >
 					, #{profileNickname}
-					</if>
-					<if test="clubName != null">
 					, #{clubName}
-					</if>
-					<if test="clubCategory != null">
 					, #{clubCategory}
-					</if>
-					<if test="clubType != null">
 					, #{clubType}
-					</if>
-					<if test="clubInfo != null">
 					, #{clubInfo}
-					</if>
-					<if test="majorLocation != null">
 					, #{majorLocation}
-					</if>
-					<if test="subLocation != null">
 					, #{subLocation}
-					</if>
-					<if test="clubPublic != null">
 					, #{clubPublic}
-					</if>
 					, #{singupQuestion1}
 					, #{singupQuestion2}
 					, #{singupQuestion3}
 					, #{clubImg}
-					, #{clubTotal}
+					, 50
 				)
 			
 	</insert>
@@ -125,10 +93,17 @@
 	<!-- 이미지 등록 -->
 	<insert id="ProfileImg" parameterType="CreateclubVO">
 		INSERT INTO profile(
-			profile_img
+			profile_nickname
+			,member_email
+			,profile_img
+			,profile_img_path
+			
 		)
 		VALUES(
-			#{profileImg}
+			#{profileNickname}
+			,#{memberEamil}
+			,#{profileImg}
+			,#{profileImgPath}
 		)
 		
 	</insert>

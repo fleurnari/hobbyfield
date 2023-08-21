@@ -30,9 +30,9 @@ public class NoticeController {
 	@GetMapping("/noticeInfo")
 	public String getNoticeInfo(NoticeVO noticeVO, Model model) {
 		NoticeVO findVO = noticeService.getNoticeInfo(noticeVO);
+		noticeService.noticeViewCount(findVO);
 		model.addAttribute("noticeInfo", findVO);
-		noticeService.noticeViewCount(noticeVO);
-		return "notice/noticeList";
+		return "notice/noticeInfo";
 	}
 
 	// 공지사항 등록 - Form
@@ -44,7 +44,7 @@ public class NoticeController {
 	// 공지사항 등록 - Process
 	@PostMapping("/noticeInsert")
 	public String noticeInsertProcess(NoticeVO noticeVO) {
-		noticeService.insertNotice(noticeVO);
+		noticeService.noticeInsert(noticeVO);
 		return "redirect:noticeList";
 	}
 
@@ -59,11 +59,11 @@ public class NoticeController {
 	// 공지사항 수정 - Process
 	@PostMapping("noticeUpdate")
 	@ResponseBody
-	public Map<String, Object> updateNoticeProcess(NoticeVO noticeVO) {
+	public Map<String, Object> noticeUpdateProcess(NoticeVO noticeVO) {
 		boolean result = false;
 
-		int noticeId = noticeService.updateNotice(noticeVO);
-		if (noticeId > -1) {
+		int noticeId = noticeService.noticeUpdate(noticeVO);
+		if (noticeId > 0) {
 			result = true;
 		}
 		Map<String, Object> map = new HashMap<>();
@@ -76,7 +76,7 @@ public class NoticeController {
 	// 공지사항 삭제 - Process
 	@PostMapping("/noticeDelete")
 	public String noticeDeleteProcess(@RequestParam(name = "noticeId") int noticeId) {
-		noticeService.deleteNotice(noticeId);
+		noticeService.noticeDelete(noticeId);
 		return "redirect:/noticeList";
 	}
 }
