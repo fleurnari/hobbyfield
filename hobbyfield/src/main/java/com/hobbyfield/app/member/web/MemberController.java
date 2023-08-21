@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -142,13 +143,45 @@ public class MemberController {
 		
 	}
 	
-
 	// 마이페이지
-	@GetMapping("mypage")
+	@GetMapping("/mypage")
 	public String myPage(HttpSession session, Model model) {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		model.addAttribute("info", memberService.memberLogin(member));
 		return "member/myPage";
 	}
+	
+	// 회원 정보 수정 페이지로 이동
+	@GetMapping("/memberUpdate")
+	public String memberUpdateForm(HttpSession session, Model model) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		model.addAttribute("info", memberService.memberLogin(member));
+		return "member/memberUpdate";
+	}
+	
+	// 회원 정보 수정 수행
+	@PostMapping("/memberUpdate")
+	@ResponseBody
+	public Map<String, Object> memberUpdate(MemberVO memberVO) {
+		boolean result = false;
+		
+		int updated = memberService.memberUpdate(memberVO);
+		
+		if (updated == 1) {
+			result = true;
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("result", result);
+		map.put("info", memberVO);
+		
+		return map;
+	}
+	
+	// 비밀번호 수정 페이지로 이동
+	
+	// 비밀번호 수정 수행
+	
+	// 회원 탈퇴
 
 }

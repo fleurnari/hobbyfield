@@ -25,4 +25,13 @@ public interface MemberService {
 	// 카카오 로그인 유저 정보 얻어오기
 	public HashMap<String, Object> getUserInfo(String access_Token);
 
+	// 회원 정보 수정
+	public int memberUpdate(MemberVO memberVO);
+	
+	// 비밀번호 수정
+	public int memberPwdUpdate(MemberVO memberVO);
+	
+	// 회원 탈퇴
+	public int memberDelete(MemberVO memberVO);
+	
 }

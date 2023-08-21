@@ -166,4 +166,22 @@ public class MemberServiceImpl implements MemberService{
 		return userInfo;
 	}
 
+	@Override
+	public int memberUpdate(MemberVO memberVO) {
+
+		return memberMapper.memberUpdate(memberVO);
+	}
+
+	@Override
+	public int memberPwdUpdate(MemberVO memberVO) {
+
+		return memberMapper.memberPwdUpdate(memberVO);
+	}
+
+	@Override
+	public int memberDelete(MemberVO memberVO) {
+
+		return memberMapper.memberDelete(memberVO);
+	}
+
 }
