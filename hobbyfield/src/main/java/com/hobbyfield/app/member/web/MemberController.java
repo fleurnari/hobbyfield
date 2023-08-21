@@ -179,6 +179,13 @@ public class MemberController {
 	}
 	
 	// 비밀번호 수정 페이지로 이동
+	@GetMapping("/memberPwdUpdate")
+	public String memberPwdUpdateForm(HttpSession session, Model model) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		model.addAttribute("info", memberService.memberLogin(member));
+		return "member/memberPwdUpdate";	
+	}
+	
 	
 	// 비밀번호 수정 수행
 	
