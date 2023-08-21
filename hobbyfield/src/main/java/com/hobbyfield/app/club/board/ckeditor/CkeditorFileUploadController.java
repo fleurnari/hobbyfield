@@ -45,7 +45,7 @@ public class CkeditorFileUploadController {
 		List<MultipartFile> fileList = request.getFiles("upload");
 
 		String imgPath = null;
-		
+    
 		for (MultipartFile mf : fileList) {
 			if (fileList.get(0).getSize() > 0) {
 				String originFileName = mf.getOriginalFilename(); // 원본 파일 명
@@ -62,11 +62,14 @@ public class CkeditorFileUploadController {
 				if(!"local".equals(mode)) {
 					Runtime.getRuntime().exec("chmod 666 " + file);
 				}
+
 			}
+
 		}
 
 	    mv.put("uploaded", true);
 	    mv.put("url", imgPath);
+
 	    System.out.print(mv + "1");
 	    //JSONObject json =  new JSONObject(mv);
 	    return mv;

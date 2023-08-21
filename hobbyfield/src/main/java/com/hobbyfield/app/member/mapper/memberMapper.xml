@@ -58,7 +58,41 @@
 	<update id="memberPntUpdate" parameterType="com.hobbyfield.app.member.service.MemberVO">
 		UPDATE member SET member_actpnt = member_actpnt + 200 WHERE member_email = #{memberEmail}
 	</update>
-
 	
-
+	<!-- 회원 정보 수정 -->
+	<update id="memberUpdate" parameterType="com.hobbyfield.app.member.service.MemberVO">
+		UPDATE member
+		<set>
+			<if test="memberNm != null and !memberNm.equals('')">
+				member_nm = #{memberNm},
+			</if>
+			<if test="memberZip != null and !memberZip.equals('')">
+				member_zip = #{memberZip},
+			</if>
+			<if test="memberBaseaddr != null and !memberBaseaddr.equals('')">
+				member_baseaddr = #{memberBaseaddr},
+			</if>
+			<if test="memberDetaaddr != null and !memberDetaaddr.equals('')">
+				member_detaaddr = #{memberDetaaddr},
+			</if>
+			<if test="memberCntinfo != null and !memberCntinfo.equals('')">
+				member_cntinfo = #{memberCntinfo},
+			</if>
+		</set>
+		WHERE member_email = #{memberEmail}
+	</update>
+		
+	<!-- 비밀번호 수정 -->
+	<update id="memberPwdUpdate" parameterType="com.hobbyfield.app.member.service.MemberVO">
+		UPDATE member
+		SET member_pwd = #{memberPwd}
+		WHERE member_email = #{memberEmail}
+	</update>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="memberDelete" parameterType="com.hobbyfield.app.member.service.MemberVO">
+		DELETE FROM member
+		WHERE member_email = #{memberEmail}
+	</delete>
   </mapper>
+  

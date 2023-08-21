@@ -18,5 +18,14 @@ public interface MemberMapper {
 	
 	// 금일 첫 로그인 시 활동포인트 갱신
 	public int memberPntUpdate(MemberVO memberVO);
+	
+	// 회원 정보 수정
+	public int memberUpdate(MemberVO memberVO);
+	
+	// 비밀번호 수정
+	public int memberPwdUpdate(MemberVO memberVO);
+	
+	// 회원 탈퇴
+	public int memberDelete(MemberVO memberVO);
 
 }
