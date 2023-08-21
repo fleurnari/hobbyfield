@@ -29,8 +29,8 @@ public class PointServiceImpl implements PointService {
 
 	// 포인트 상품 등록
 	@Override
-	public int insertPointInfo(PointVO pointVO) {
-		int result = pointMapper.insertPointInfo(pointVO);
+	public int insertPoint(PointVO pointVO) {
+		int result = pointMapper.insertPoint(pointVO);
 		if (result == 1) {
 			return pointVO.getPointId();
 		} else {
@@ -51,8 +51,8 @@ public class PointServiceImpl implements PointService {
 
 	// 포인트 상품 삭제
 	@Override
-	public int deletePoint(int delete) {
-		int result = pointMapper.deletePointInfo(delete);
+	public int pointDelete(int delete) {
+		int result = pointMapper.pointDelete(delete);
 		if (result > 0) {
 			return delete;
 		} else {

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hobbyfield.app.point.service.PointService;
 import com.hobbyfield.app.point.service.PointVO;
+// 2023.08.21 천혜련 - 포인트 상점
 
 @Controller
 public class PointController {
@@ -33,8 +34,7 @@ public class PointController {
 		PointVO findVO = pointService.getPointInfo(pointVO);
 		pointService.pointViewCount(findVO);
 		model.addAttribute("point", findVO);
-		return "point/pointList";
-    
+		return "point/pointInfo";
 	}
 
 	// 등록 - Form
@@ -46,8 +46,8 @@ public class PointController {
 	// 등록 - Process
 	@PostMapping("/pointInsert")
 	public String pointInsertProcess(PointVO pointVO) {
-		pointService.insertPointInfo(pointVO);
-		return "redirect:pointList";
+		pointService.insertPoint(pointVO);
+		 return "redirect:pointList";
 	}
 
 	// 수정 - Form
@@ -65,21 +65,22 @@ public class PointController {
 		boolean result = false;
 
 		int pointId = pointService.updatePoint(pointVO);
-		if (pointId > -1) {
+		if (pointId > 0) {
 			result = true;
 		}
 		Map<String, Object> map = new HashMap<>();
 		map.put("result", result);
 		map.put("pointInfo", pointVO);
 
-		return "redirect:/pointInfo";
+		return "redirect:/pointInfo?pointId="+pointVO.getPointId();
 	}
 
 	// 삭제
-	@PostMapping("/pointDelete")
-	public String deletePointInfo(@RequestParam(name = "pointId") int pointId) {
-		pointService.deletePoint(pointId);
-		return "redirect:pointList";
+	@GetMapping("/pointDelete")
+	public String pointDelete(@RequestParam(name = "pointId") int pointId) {
+		pointService.pointDelete(pointId);
+		return "redirect:/pointList";
 	}
+
 
 }

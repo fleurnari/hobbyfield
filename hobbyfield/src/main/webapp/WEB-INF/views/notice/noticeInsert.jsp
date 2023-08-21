@@ -11,7 +11,7 @@ body {
 	justify-content: center;
 	align-items: center;
 	min-height: 100vh;
-	margin: 0;
+	margin-top: 150px;
 	font-family: Arial, sans-serif;
 }
 
@@ -24,13 +24,6 @@ body {
 	padding: 10px 20px;
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 	z-index: 100;
-}
-
-.container {
-	width: 400px;
-	background-color: #f0f0f0;
-	padding: 20px;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
 .form-input {

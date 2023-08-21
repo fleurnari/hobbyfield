@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.hobbyfield.app.talent.service.TalentService;
 import com.hobbyfield.app.talent.service.TalentVO;
-
+//2023.08.21 천혜련 - 재능기부 게시판관리
 @Controller
 public class TalentController {
 
@@ -48,7 +48,7 @@ public class TalentController {
 	@PostMapping("/talent/create")
 	public String createTalent(TalentVO talentVO) {
 		talentService.createTalent(talentVO);
-		return "redirect:/talent"; // 재능기부 목록 페이지로 리다이렉트
+		return "redirect:/talentList"; // 재능기부 목록 페이지로 리다이렉트
 	}
 
 	// 수정 - Form
@@ -70,6 +70,6 @@ public class TalentController {
 	@PostMapping("/talent/{tlntId}/delete")
 	public String deleteTalent(@PathVariable int tlntId) {
 		talentService.deleteTalent(tlntId);
-		return "redirect:/talent"; // 재능기부 목록 페이지로 리다이렉트
+		return "redirect:/talentList"; // 재능기부 목록 페이지로 리다이렉트
 	}
 }

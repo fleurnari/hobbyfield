@@ -1,7 +1,5 @@
 package com.hobbyfield.app.notice.service;
 
-import java.util.Date;
-
 import lombok.Data;
 
 @Data
@@ -11,7 +9,7 @@ public class NoticeVO {
 	private String noticeTitle;
 	private String noticeSubject;
 	private String noticeWriter;
-	private Date noticeWdate;
+	private String noticeWdate;
 	private int noticeView;
 }
 

@@ -9,24 +9,24 @@ import lombok.Data;
 public class PointVO {
 
 	// 포인트
-	private int pointId;
+	private Integer pointId;
 	private String pointName;
 	private String pointContent;
 	private String pointItemType;
 	private String pointState;
-	private int pointView;
-	private Date pointRegdate;
-	private Date pointEndterm;
+	private Integer pointView;
+	private String pointRegdate;
+	private String pointEndterm;
 	private String pointImgName;
 	private String pointImgPath;
 
 	// 포인트 옵션
-	private int pointOptId;
+	private Integer pointOptId;
 	private Date pointPeriod;
-	private int pointPrice;
+	private Integer pointPrice;
 
 	// 이모티콘
-	private int emojiId;
+	private Integer emojiId;
 	private String emojiName;
 	private String emojiImgName;
 	private String emojiImgPath;

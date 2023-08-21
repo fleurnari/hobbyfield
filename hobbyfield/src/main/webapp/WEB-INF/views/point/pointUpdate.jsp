@@ -7,30 +7,40 @@
 <head>
 <meta charset="UTF-8">
 <title>포인트 상점 수정</title>
+<style>
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	min-height: 100vh;
+	margin: 0;
+}
+</style>
 </head>
 <body>
 	<table>
 		<thead>
 			<tr>
 				<th>포인트 상품번호</th>
-				<td>${pointInfo.pointId }</td>
-			</tr>
-			<tr>
+				<th>작성일</th>
 				<th>제목</th>
-				<td>${pointInfo.pointName }</td>
-			</tr>
-			<tr>
 				<th>작성자</th>
-				<td>${pointInfo.pointWriter }</td>
-			</tr>
-			<tr>
 				<th>내용</th>
-				<td><textarea rows="3" cols="2" style="width: 100px;" readonly>
+				<th>첨부이미지</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>${point.pointId }</td>
+				<td><fmt:formatDate value="${pointInfo.pointRegdate }"
+						pattern="yyyy/MM/dd" /></td>
+				<td>${point.pointName }</td>
+				<td>${pointInfo.pointWriter }</td>
+				<td><textarea rows="3" cols="2" style="width: 100px;"
+						placeholder="내용을 입력하세요.">
 				${pointInfo.pointContent }
 				</textarea></td>
-			</tr>
-			<tr>
-				<th>첨부이미지</th>
 				<c:choose>
 					<c:when test="${ not empty pointInfo.pointImgPath }">
 						<td><img
@@ -41,19 +51,12 @@
 						<td>파일없음</td>
 					</c:otherwise>
 				</c:choose>
-			</tr>
-			<tr>
-				<th>작성일</th>
-				<td><fmt:formatDate value="${pointInfo.pointRegdate }" pattern="yyyy/MM/dd" /></td>
-			</tr>
-		</thead>
 		</tbody>
 	</table>
-	<button type="button"
-		onclick="location.href='pointUpdate?pointId=${pointInfo.pointId }'">수정</button>
-	<button type="button"
-		onclick="location.href='pointDelete?pointId=${pointInfo.pointId }'">삭제</button>
-
-
+	<div class="buttonGroup">
+		<button type="submit">수정완료</button>
+		<button type="button" onclick="location.href='pointList'">목록</button>
+		<button type="reset" onclick="location.href='pointUpdate'">취소</button>
+	</div>
 </body>
 </html>

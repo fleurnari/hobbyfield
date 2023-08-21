@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,7 +51,6 @@ body {
 	width: 80%;
 	margin: 0 auto;
 	border-collapse: collapse;
-	
 }
 
 .notice-list th, .notice-list td {
@@ -59,42 +59,51 @@ body {
 	height: 30px;
 	text-align: center;
 }
-
 </style>
 </head>
 <body>
 	<div class="header">
 		<h1 class="title">공지사항</h1>
 		<div>
-<%-- 			<c:if test="${memberGrd eq 'A3'}"> --%>
-				<div class="btn-group">
-					<button type="button" onclick="location.href='noticeInsert'">등록</button>
-				</div>
-<%-- 			</c:if> --%>
+			<%-- 			<c:if test="${memberGrd eq 'A3'}"> --%>
+			<div class="btn-group">
+				<button type="button" onclick="location.href='noticeInsert'">등록</button>
+			</div>
+			<%-- 			</c:if> --%>
 		</div>
 		<input type="text" placeholder="검색어를 입력하세요">
 		<button class="search-button">검색</button>
 	</div>
 
 	<table class="notice-list">
-		<tr>
-			<th>글번호</th>
-			<th>작성자</th>
-			<th>제목</th>
-			<th>날짜</th>
-		</tr>
-		<c:forEach var="notice" items="${noticeList}" varStatus="status">
+		<thead>
 			<tr>
-				<td>${notice.noticeId}</td>
-				<td>${notice.noticeWriter}</td>
-				<td><a href="noticeInfo?id=${notice.noticeId}">${notice.noticeTitle}</a></td>
-				<td>${notice.noticeWdate}</td>
+				<th>조회수</th>
+				<th>글번호</th>
+				<th>작성자</th>
+				<th>제목</th>
+				<th>작성일자</th>
 			</tr>
-		</c:forEach>
+		</thead>
+		<tbody>
+			<c:forEach var="notice" items="${noticeList}" varStatus="status">
+				<tr onclick="location.href='noticeInfo?id=${notice.noticeId}'">
+					<td>${notice.noticeView}</td>
+					<td>${notice.noticeId}</td>
+					<td>${notice.noticeWriter}</td>
+					<td>${notice.noticeTitle}</td>
+					<td><fmt:parseDate value="${notice.noticeWdate}"
+							pattern="yyyy-MM-dd" var="noticeWdate" /> <fmt:formatDate
+							value="${noticeWdate}" pattern="yyyy-MM-dd" /></td>
+				</tr>
+			</c:forEach>
+		</tbody>
 	</table>
+
 	<script type="text/javascript">
 		document.addEventListener("DOMContentLoaded", function() {
-			var noticeRows = document.querySelectorAll(".notice-list tr[data-notice-id]");
+			var noticeRows = document
+					.querySelectorAll(".notice-list tr[data-notice-id]");
 
 			noticeRows.forEach(function(row) {
 				row.addEventListener("click", function() {
