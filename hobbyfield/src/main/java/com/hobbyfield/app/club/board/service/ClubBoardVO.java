@@ -2,6 +2,8 @@ package com.hobbyfield.app.club.board.service;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -16,14 +18,16 @@ public class ClubBoardVO {
 //	CLUB_BOARD_TYPE    NOT NULL VARCHAR2(4)    
 //	SCHEDULE_DATE               DATE           
 //	CLUB_BOARD_BLIND            VARCHAR2(4)   
-	private Integer boardNumber;
+	private int boardNumber;
 	private Integer clubNumber;
 	private String clubBoardWriter;
 	private String clubBoardTitle;
 	private String clubBoardContent;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date clubBoardWdate;
 	private Integer clubBoardViews;
 	private String clubBoardType;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date scheduleDate;
 	private String clubBoardBlind;
 }

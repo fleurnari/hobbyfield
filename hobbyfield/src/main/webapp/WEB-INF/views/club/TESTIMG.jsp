@@ -4,8 +4,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="//cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+
 <meta charset="UTF-8">
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+
 <title>Insert title here</title>
 </head>
 <body>
@@ -27,14 +30,13 @@
 
 			<div>
 				<label>첨부이미지</label><input type="file" onchange="readURL(this);">
-				<img id="preview"/>
+				<img id="preview" style="width: 200px; height: 200px" />
 			</div>
 			
 
 
 			<div class="mb-3" style="width: 50%; margin: 0 auto;">
-				<textarea id = "editor4" name = "editor4"></textarea>
-
+				<textarea id="editor" name="editor" ></textarea>
 			</div>
 			
 				
@@ -58,13 +60,15 @@
 	}
 	
 	</script>
-	<script src = "../resources/ckeditor/ckeditor.js"></script>
-	<script src="/resources/ckeditor/ckeditor.js"></script>
-
+	
 	<script> 
-		CKEDITOR.replace('ckeditor',{
-			filebrowerUploadUrl : "/ckEditorUpload"
-		}); // 에디터로 생성
+	ClassicEditor
+    .create( document.querySelector( '#editor' ), {
+    	language:"ko",
+    	ckfinder: {
+    		uploadUrl : 'ajax/upload'
+    	}
+    })
 	 </script>
 	
 </body>
