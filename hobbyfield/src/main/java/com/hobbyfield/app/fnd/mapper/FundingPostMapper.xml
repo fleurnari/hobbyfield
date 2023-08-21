@@ -79,11 +79,12 @@
 	<update id="updateFundingPost" parameterType="FundingPostVO">
 		
 		UPDATE Funding_Post
-		SET Fnd_Main_Img = #{fndMainImg}
-		  , Fnd_Target_Amount = #{fndTargetAmount}
+		SET 
+			Fnd_Target_Amount = #{fndTargetAmount}
 		  , Fnd_Start_Date = #{fndStartDate}
 		  , Fnd_End_Date = #{fndEndDate}
 		  , Fnd_Wdate = SYSDATE
+		  , Fnd_Status = #{fndStatus}
 		WHERE fnd_Post_Number = #{fndPostNumber}
 		
 	</update>

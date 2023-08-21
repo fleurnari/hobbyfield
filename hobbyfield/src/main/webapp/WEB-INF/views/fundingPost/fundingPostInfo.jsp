@@ -234,6 +234,7 @@ table, th, td {
   										<a href="javascript:sendLink()"><img src="resources/images/icon-kakao.png " style="padding:20px"/></a>
 										<a href="javascript:shareFacebook()"><img src="resources/images/icon-facebook.png " style="padding:20px"/></a>
 										<a href="javascript:shareTwitter()"><img src="resources/images/icon-twitter.png "style="padding:20px"/></a>	
+										<a href="#" onclick="clip(); return false;"><img src="resources/images/icon-pngwing.png " style="padding: 20px" /></a>
 									</div>
 								</div>
 							</div>
@@ -387,7 +388,21 @@ function remaindTime() {
 		  });
 		  option.classList.toggle('active');
 		}
+	
+	//링크복사
+	function clip(){
 
+		var url = '';
+		var textarea = document.createElement("textarea");
+		document.body.appendChild(textarea);
+		url = window.document.location.href;
+		textarea.value = url;
+		textarea.select();
+		document.execCommand("copy");
+		document.body.removeChild(textarea);
+		alert("URL이 복사되었습니다.")
+	}
+	
 	// 수량 조절 및 총 가격 업데이트 함수
     function updateTotalPrice(button, quantity) {
       var initialPrice = parseFloat(button.getAttribute('data-price'));

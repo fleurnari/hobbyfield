@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +11,18 @@
 <body>
 
 	<section>
+	<div class="container">
+		<div class="container2">
+			<c:forEach items="${fundingPostList }" var="fundingPost">
+			<div onclick="location.href='fundingPostInsert?fndPostNumber=${fundingPost.fndPostNumber }'">
+			<p>
+					<span><h3>프로젝트 이름</h3></span>
+					<span>${fundingPost.fndTitle }</span>
+				</p>
+			</div>
+		</c:forEach>
+	</div>
+	</div>
 		<div class="container">
 			<div class="text-center">
 				<form id="frm" name="insertPostForm" action="fundingPostInsert" method="post">
@@ -24,6 +36,7 @@
 					<br>
 					<br>
 					<div class="container">
+						
 						<div class="row">
 							<div class="col-sm-6">
 								<h4>
