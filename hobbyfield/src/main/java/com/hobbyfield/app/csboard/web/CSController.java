@@ -1,4 +1,4 @@
-package com.hobbyfield.app;
+package com.hobbyfield.app.csboard.web;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +18,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hobbyfield.app.common.PageMaker;
@@ -27,6 +31,8 @@ import com.hobbyfield.app.csboard.reply.service.ReplyVO;
 import com.hobbyfield.app.csboard.service1.CSBoardVO;
 import com.hobbyfield.app.csboard.service1.CSboardService;
 
+// 0821 ì •ë³‘ê¶Œ
+// ê²Œì‹œíŒ CRUD, í˜ì´ì§•
 @Controller
 @RequestMapping("CSboard/")
 public class CSController {
@@ -37,7 +43,17 @@ public class CSController {
 	@Autowired 
 	ReplyService replyService;
 	
-	//CS°Ô½Ã±Û ¸ñ·ÏÁ¶È¸
+	
+	@Value("${editor.img.save.url}")
+	private String saveUrl;
+
+	@Value("${editor.img.load.url}")
+	private String loadUrl;
+
+	@Value("${editor.mode}")
+	private String mode;
+	
+	//CSê²Œì‹œê¸€ë¦¬ìŠ¤íŠ¸
 	  @GetMapping("CSboardList") 
 	  public String CSboardList(Model model, @ModelAttribute("scri") SearchCriteria scri) {
 		  model.addAttribute("CSboardList", csboardService.getCSBoardList(scri));
@@ -49,7 +65,7 @@ public class CSController {
 	  }
 
 
-	// CS°Ô½Ã±Û »ó¼¼º¸±â
+	// CSê²Œì‹œê¸€ìƒì„¸ë³´ê¸°
 	@GetMapping("CSboardInfo")
 	public String CSboardInfo(CSBoardVO csboardVO, @ModelAttribute("scri") SearchCriteria scri, Model model) {
 		model.addAttribute("CSboardInfo", csboardService.getCSBoardInfo(csboardVO.getCsNumber()));
@@ -58,20 +74,20 @@ public class CSController {
 		return "CSboard/CSboardInfo";
 	}
 
-	// CS°Ô½Ã±Û µî·ÏÆäÀÌÁö
+	// CSê²Œì‹œê¸€ë“±ë¡í¼
 	@GetMapping("CSboardInsert")
 	public String CSboardInsertForm() {
 		return "CSboard/CSboardInsert";
 	}
 	
-	// CS°Ô½Ã±Û µî·Ï
+	// CSï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½
 	@PostMapping("CSboardInsert")
 	public String CSboardInsertProcess(CSBoardVO csboardVO) {
 		csboardService.insertCSboardInfo(csboardVO);
 		return "redirect:CSboardList";
 	}
 
-	// CS°Ô½Ã±Û ¼öÁ¤ÆäÀÌÁö
+	// CSï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@GetMapping("CSboardUpdate")
 	public String CSboardUpdateForm(CSBoardVO csboardVO, @ModelAttribute("scri") SearchCriteria scri, Model model) {
 		model.addAttribute("CSboardInfo", csboardService.getCSBoardInfo(csboardVO.getCsNumber()));
@@ -79,12 +95,12 @@ public class CSController {
 		return "CSboard/CSboardUpdate";
 	}
 	
-	// CS°Ô½Ã±Û ¼öÁ¤
+	// CSï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@PostMapping("CSboardUpdate")
 	public String CSboardUpdate(CSBoardVO csboardVO, @ModelAttribute("scri") SearchCriteria scri, RedirectAttributes rttr) {
 		csboardService.UpdateCSBoard(csboardVO);
 		
-		/* ¸®´ÙÀÌ·ºÆ® ÈÄ¿¡µµ °Ë»öÀ¯Çü, °Ë»ö¾î¸¦ À¯ÁöÇÏ±â À§ÇÑ ±â´É, º¸·ù
+		/* ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½Æ® ï¿½Ä¿ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ë»ï¿½ï¿½î¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½
 		 * rttr.addAttribute("page", scri.getPage()); rttr.addAttribute("perPageNum",
 		 * scri.getPerPageNum()); rttr.addAttribute("searchType", scri.getSearchType());
 		 * rttr.addAttribute("keyword", scri.getKeyword());
@@ -94,7 +110,7 @@ public class CSController {
 		
 	}
 
-	// CS°Ô½Ã±Û »èÁ¦
+	// CSï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@PostMapping("CSboardDelete")
 	public String CSboardDelete(CSBoardVO csboardVO) {
 		
@@ -104,9 +120,9 @@ public class CSController {
 
 	
 	
-	//´ñ±Û ÀÛ¼º
+	//ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½
 	
-	// Ã·ºÎ ÆÄÀÏ ¾÷·Îµå
+	// Ã·ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½
 	@PostMapping("uploadAjax")
 	@ResponseBody
 	public void uploadImg(MultipartFile[] csImgName) {
@@ -120,7 +136,7 @@ public class CSController {
 		
 		String datePath = str.replace("-", File.separator);
 		
-		// Æú´õ »ı¼º
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		File uploadPath = new File(uploadFolder, datePath);
 		
 		if(uploadPath.exists() == false) {
@@ -129,19 +145,19 @@ public class CSController {
 		
 		for(MultipartFile multipartFile : csImgName) {
 			
-			//ÆÄÀÏ ¸í 
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 
 			String uploadFileName = multipartFile.getOriginalFilename();			
 			
-			//uuid Àû¿ë ÆÄÀÏ¸í°°Àº ÆÄÀÏ¸í Áßº¹¹æÁö
+			//uuid ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ßºï¿½ï¿½ï¿½ï¿½ï¿½
 			String uuid = UUID.randomUUID().toString();
 			
 			uploadFileName = uuid + "_" + uploadFileName;
 			
 
-			// ÆÄÀÏ À§Ä¡, ÆÄÀÏ ÀÌ¸§À» ÇÕÄ£ File °´Ã¼ 
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡, ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½Ä£ File ï¿½ï¿½Ã¼ 
 			File saveFile = new File(uploadPath, uploadFileName);
 			
-			// ÆÄÀÏ ÀúÀå
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			try {
 				multipartFile.transferTo(saveFile);
 			} catch (Exception e) {
@@ -149,6 +165,43 @@ public class CSController {
 			} 
 		}
 	}
+	
+
+	@RequestMapping(value="ajax/upload")
+	@ResponseBody
+	public Map<String , Object> image(@RequestParam Map<String, Object> map, MultipartHttpServletRequest request) throws Exception{
+		Map<String , Object> mv = new HashMap<String , Object>();
+
+		List<MultipartFile> fileList = request.getFiles("upload");
+
+		String imgPath = null;
+
+		for (MultipartFile mf : fileList) {
+			if (fileList.get(0).getSize() > 0) {
+				String originFileName = mf.getOriginalFilename(); // ì›ë³¸ íŒŒì¼ ëª…
+				// log.debug("originFileName==" + originFileName);
+				String ext = FilenameUtils.getExtension(originFileName);
+				String newInfImgFileName = "img_" + UUID.randomUUID() + "." + ext;
+
+				imgPath = loadUrl + newInfImgFileName;
+
+				File file = new File(saveUrl + newInfImgFileName);
+
+				mf.transferTo(file);
+
+				if(!"local".equals(mode)) {
+					Runtime.getRuntime().exec("chmod 666 " + file);
+				}
+
+			}
+
+		}
+
+	    mv.put("uploaded", true);
+	    mv.put("url", imgPath);
+	    return mv;
+	}
+	
 	
 	
 }
