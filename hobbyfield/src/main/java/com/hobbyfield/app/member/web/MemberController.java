@@ -162,20 +162,15 @@ public class MemberController {
 	// 회원 정보 수정 수행
 	@PostMapping("/memberUpdate")
 	@ResponseBody
-	public Map<String, Object> memberUpdate(MemberVO memberVO) {
-		boolean result = false;
+	public boolean memberUpdate(MemberVO memberVO) {
 		
-		int updated = memberService.memberUpdate(memberVO);
+		int result = memberService.memberUpdate(memberVO);
 		
-		if (updated == 1) {
-			result = true;
+		if (result == 0) {
+			return false;
 		}
 		
-		Map<String, Object> map = new HashMap<>();
-		map.put("result", result);
-		map.put("info", memberVO);
-		
-		return map;
+		return true;
 	}
 	
 	// 비밀번호 수정 페이지로 이동
@@ -185,6 +180,8 @@ public class MemberController {
 		model.addAttribute("info", memberService.memberLogin(member));
 		return "member/memberPwdUpdate";	
 	}
+	
+	// 비밀번호 확인
 	
 	
 	// 비밀번호 수정 수행

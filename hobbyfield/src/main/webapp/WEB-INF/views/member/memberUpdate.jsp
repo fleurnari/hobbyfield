@@ -122,9 +122,8 @@
   			data : objData
   		})
   		.done(data => {
-  			if (data.result){
-  				let message = data.info.memberEmail + "의 회원 정보 수정이 완료 되었습니다."
-  				alert(message);
+  			if (data){
+  				alert("회원 정보 수정이 완료 되었습니다.");
   			} else {
   				alert("회원 정보 수정에 실패 했습니다.");
   			}

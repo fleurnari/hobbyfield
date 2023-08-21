@@ -15,6 +15,7 @@
               <h1 class="text-center lh-sm fs-lg-6 fs-xxl-7">비밀번호 변경</h1>
             </div>
           </div>
+          <input type="hidden" id="memberEmail" name="memberEmail" value="${info.memberEmail}">
 			<div>
 				<p>변경하실 비밀번호를 입력해 주세요.</p>
 				<div>
@@ -32,5 +33,8 @@
         <button type="button" onclick="location.href='${pageContext.request.contextPath}/memberUpdate'">뒤로 가기</button>
         </form>
    </section>
+   <script>
+   
+   </script>
 </body>
 </html>
