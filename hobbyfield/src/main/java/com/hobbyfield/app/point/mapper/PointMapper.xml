@@ -16,7 +16,7 @@
 		<!-- point_img_path -->
 		FROM POINT
 		ORDER BY
-		point_id DESC
+		point_view 
 	</select>
 
 	<!-- 포인트 상품 단건조회 -->
@@ -39,7 +39,18 @@
 	<!-- po.point_period, -->
 	<!-- po.point_price, -->
 
-	<!-- 포인트 상품 등록 -->
+	<!-- e.emoji_id, -->
+	<!-- e.emoji_img_name, -->
+	<!-- e.emoji_img_path -->
+	<!-- FROM point p -->
+	<!-- FULL OUTER JOIN -->
+	<!-- point_option po ON p.point_id = po.point_id -->
+	<!-- FULL OUTER JOIN emoji e ON po.point_id -->
+	<!-- = e.point_id -->
+	<!-- WHERE p.point_id = #{pointId} -->
+
+
+	<!-- 포인트 상품등록 -->
 	<insert id="insertPoint" parameterType="PointVO">
 		<selectKey keyProperty="pointId" resultType="int"
 			order="BEFORE">
@@ -52,7 +63,6 @@
 		point_content,
 		point_item_type,
 		point_state,
-		point_view,
 		point_regdate,
 		point_endterm,
 		point_img_name,
@@ -64,7 +74,6 @@
 		#{pointContent},
 		#{pointItemType},
 		#{pointState},
-		#{pointView} + 1,
 		<choose>
 			<when test="pointRegdate != null">
 				#{pointRegdate}
@@ -108,12 +117,13 @@
 		WHERE point_id = #{pointId}
 	</update>
 
+
 	<!-- 포인트 상품 삭제 -->
-	<delete id="deletePointInfo" parameterType="int">
+	<delete id="pointDelete" parameterType="int">
 		DELETE FROM point
 		WHERE point_id = #{pointId}
-  </delete>  
-  
+	</delete>
+
 	<!-- 조회수 업데이트 -->
 	<update id="pointViewCount" parameterType="PointVO">
 		UPDATE point
@@ -121,5 +131,6 @@
 		point_view = point_view + 1
 		WHERE point_id = #{pointId}
 	</update>
+
 
 </mapper>

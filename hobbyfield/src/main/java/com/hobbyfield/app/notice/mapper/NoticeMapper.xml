@@ -3,12 +3,16 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hobbyfield.app.notice.mapper.NoticeMapper">
-
+	<!-- 공지사항 전체조회 -->
 	<select id="selectnoticeAllList"
 		resultType="com.hobbyfield.app.notice.service.NoticeVO">
-		SELECT * FROM notice
+		SELECT * 
+		FROM notice
+		ORDER BY 
+		notice_id DESC
 	</select>
 
+	<!-- 공지사항 단건조회 -->
 	<select id="selectNoticeInfo"
 		parameterType="com.hobbyfield.app.notice.service.NoticeVO"
 		resultType="NoticeVO">
@@ -23,10 +27,11 @@
 		FROM notice
 		WHERE notice_id =
 		#{noticeId}
+		ORDER BY notice_id DESC
 	</select>
 
-
-	<insert id="insertNotice" parameterType="NoticeVO">
+	<!-- 공지사항 상품등록 -->
+	<insert id="noticeInsert" parameterType="NoticeVO">
 		<selectKey keyProperty="noticeId" resultType="int"
 			order="BEFORE">
 			SELECT NVL(MAX(notice_id), 0) + 1
@@ -59,15 +64,17 @@
 		)
 	</insert>
 
-	<update id="updateNotice"
+	<!-- 공지사항 수정 -->
+	<update id="noticeUpdate"
 		parameterType="com.hobbyfield.app.notice.service.NoticeVO">
 		UPDATE notice
 		SET notice_title = #{noticeTitle},
 		notice_subject = #{noticeSubject}
 		WHERE notice_id = #{noticeId}
 	</update>
-
-	<delete id="deleteNoticeInfo" parameterType="int">
+	
+	<!-- 공지사항 삭제 -->
+	<delete id="noticeDelete" parameterType="int">
 		DELETE FROM notice
 		WHERE notice_id = #{noticeId}
 	</delete>

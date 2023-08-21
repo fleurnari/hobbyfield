@@ -13,13 +13,13 @@ public interface NoticeMapper {
 	NoticeVO selectNoticeInfo(NoticeVO noticeVO);
 
 	// 공지사항 등록
-	int insertNotice(NoticeVO noticeVO);
+	int noticeInsert(NoticeVO noticeVO);
 
 	// 공지사항 수정
-	int updateNotice(NoticeVO noticeVO);
+	int noticeUpdate(NoticeVO noticeVO);
 
 	// 공지사항 삭제
-	int deleteNoticeInfo(int delete);
+	int noticeDelete(int delete);
 
 	// 공지사항 조회수
 	int noticeViewCount(NoticeVO noticeVO);

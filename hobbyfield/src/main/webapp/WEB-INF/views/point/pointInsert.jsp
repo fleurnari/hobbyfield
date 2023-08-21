@@ -27,7 +27,7 @@ body {
 			<h3>포인트상품등록</h3>
 		</div>
 		<div class="form-group">
-			<label for="pointItemType"><h5>상품유형</h5></label> <select
+			<h5><label for="pointItemType">상품유형</label></h5><select
 				class="form-control" id="pointItemType" name="pointItemType">
 				<option selected disabled>상품유형</option>
 				<option value="W2">소모임 증원권</option>
@@ -36,13 +36,13 @@ body {
 		</div>
 		<div>
 			<h5>상품이름</h5>
-			<input type="text" id="pointName" name="pointName" required="required"
-				placeholder="상품이름을 입력하세요.">
+			<input type="text" id="pointName" name="pointName"
+				required="required" placeholder="상품이름을 입력하세요.">
 		</div>
 		<div>
 			<h5>내용</h5>
-			<textarea id="pointContent" name="pointContent" required="required" 
-			placeholder="내용을 입력하세요."></textarea>
+			<textarea id="pointContent" name="pointContent" required="required"
+				placeholder="내용을 입력하세요."></textarea>
 		</div>
 		<div>
 			<h5>이미지 첨부</h5>
@@ -53,9 +53,11 @@ body {
 			<input type="date" id="pointEndterm" name="pointEndterm"
 				required="required">
 		</div>
-		<button type="submit">등록</button>
-		<button type="button" onclick="location.href='poinList'">목록</button>
-		<button type="reset" onclick="location.href='pointInsert'">취소</button>
+		<div class="buttonGroup">
+			<button type="submit">등록</button>
+			<button type="button" onclick="location.href='poinList'">목록</button>
+			<button type="reset" onclick="location.href='pointInsert'">취소</button>
+		</div>
 	</form>
 	<script>
 	document.getElementById('pointRegdate').valueAsDate = new Date();

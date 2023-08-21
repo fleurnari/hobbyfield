@@ -13,13 +13,13 @@ public interface NoticeService {
 	public NoticeVO getNoticeInfo(NoticeVO noticeVO);
 
 	// 공지사항 등록
-	public int insertNotice(NoticeVO noticeVO);
+	public int noticeInsert(NoticeVO noticeVO);
 
 	// 공지사항 수정
-	public int updateNotice(NoticeVO noticeVO);
+	public int noticeUpdate(NoticeVO noticeVO);
 
 	// 공지사항 삭제
-	public int deleteNotice(int noticeId);
+	public int noticeDelete(int noticeId);
 
 	// 공지사항 조회수
 	public int noticeViewCount(NoticeVO noticeVO);
