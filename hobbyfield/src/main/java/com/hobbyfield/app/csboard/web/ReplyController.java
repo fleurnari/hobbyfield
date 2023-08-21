@@ -1,4 +1,4 @@
-package com.hobbyfield.app;
+package com.hobbyfield.app.csboard.web;
 
 import java.util.List;
 
@@ -29,23 +29,23 @@ public class ReplyController {
 	private ReplyService replyService;
 	
 	
-	//´ñ±Ûµî·Ï, consumes¿Í MediaType => Á¤ÇØÁø Å¸ÀÔÀÇ µ¥ÀÌÅÍµé¸¸ ¹Þ±â À§ÇÔ.
+	//ï¿½ï¿½Ûµï¿½ï¿½, consumesï¿½ï¿½ MediaType => ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Íµé¸¸ ï¿½Þ±ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	@PostMapping(value="/new", consumes = "application/json"
 			, produces = {MediaType.TEXT_PLAIN_VALUE})
 	public ResponseEntity<String> create(@RequestBody ReplyVO replyVO) {
-		// @RequestBody´Â json ÇüÅÂ·Î ¹ÞÀº °ªÀ» °´Ã¼·Î º¯È¯ÇÑ´Ù.
+		// @RequestBodyï¿½ï¿½ json ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 		int insertCount = replyService.insert(replyVO);
 		
 		return insertCount == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		
-		// ResponseEntity : À¥ÆäÀÌÁö »ý¼º(»óÅÂ, Çì´õ, ÀÀ´ä, µ¥ÀÌÅÍ)
-		// 3Ç× ¿¬»êÀÚ ÀÌ¿ë. (Àß ¸ð¸£°ÚÀ½)
-		// HttpStatus ÆäÀÌÁö »óÅÂ¸¦ Àü´Þ.
-		// ¸®ÅÏÀÇ ÄÚµå´Â Á¤»ó Ã³¸®µÇ¸é Á¤»ó Ã³¸® µÈ »óÅÂ(status)¸¦ Àü´ÞÇÏ°í, ¾Æ´Ï¸é ¿À·ù»óÅÂ(status) Àü´ÞÇÑ´Ù´Â ÀÇ¹Ì
+		// ResponseEntity : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+		// 3ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½. (ï¿½ï¿½ ï¿½ð¸£°ï¿½ï¿½ï¿½)
+		// HttpStatus ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½ï¿½.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(status)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½, ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(status) ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´Ù´ï¿½ ï¿½Ç¹ï¿½
 	}
 	
-	//¸ñ·Ï
+	//ï¿½ï¿½ï¿½
 	@GetMapping(value="/pages/{csNumber}/{page}", produces= {
 			MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE
 	})
@@ -59,7 +59,7 @@ public class ReplyController {
 	
 	
 	
-	//Á¶È¸
+	//ï¿½ï¿½È¸
 	@GetMapping(value="/{rno}", produces= {
 			MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE
 	})
@@ -69,7 +69,7 @@ public class ReplyController {
 		return new ResponseEntity<>(replyService.read(rno), HttpStatus.OK);
 	}
 	
-	//»èÁ¦
+	//ï¿½ï¿½ï¿½ï¿½
 	@DeleteMapping(value="/{rno}", produces = {
 			MediaType.TEXT_PLAIN_VALUE
 	}) 
