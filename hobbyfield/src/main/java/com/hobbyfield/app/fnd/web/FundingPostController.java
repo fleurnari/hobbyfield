@@ -45,18 +45,20 @@ public class FundingPostController {
 	}
 		
 	@GetMapping("fundingPostInsert")
-	public String fundingPostInsert() {
+	public String fundingPostInsert(Model model) {
+		model.addAttribute("fundingPostList", fundingPostService.getFundingPostList());
 		return "fundingPost/fundingPostInsert";
 	}
 
-	
-	//펀딩 프로젝트 등록폼2
-	@GetMapping("fundingPostInsert20")
-	public String fundingPostInsert20(FundingPostVO fundingPostVO, Model model) {
-		FundingPostVO findVO = fundingPostService.getFundingPostInfo(fundingPostVO);
-		model.addAttribute("fundingPostInfo", findVO);
-		return "fundingPost/fundingPostInsert20";
+	//펀딩 프로젝트 등록
+		@PostMapping("fundingPostInsert")
+		public String fundingPostInsertProcess(FundingPostVO fundingPostVO, Model model) {
+			fundingPostService.insertFundingPostInfo(fundingPostVO);
+			model.addAttribute("fundingPostInsert20",fundingPostVO);
+			
+			return "fundingPost/fundingPostInsert20";
 	}
+
 	//펀딩 프로젝트 임시저장
 	//데이터가 돌아와야하므로 post처리
 	@PostMapping("fundingPostUpdate")
@@ -67,21 +69,15 @@ public class FundingPostController {
 		boolean result = false;
 		
 		int fundingNo = fundingPostService.updateFundingPostInfo(fundingPostVO);
-		if(fundingNo > 0) {
+		if(fundingNo > -1) {
 			result = true;
 		}
 		Map<String, Object> map = new HashMap<>();
 		map.put("result", result);
-		map.put("fundingPostInfo", fundingPostVO);
+		map.put("fundingPostInsert20", fundingPostVO);
 		return map;
 	}
 	
-	//펀딩 프로젝트 등록
-	@PostMapping("fundingPostInsert")
-	public String fundingPostInsertProcess(FundingPostVO fundingPostVO) {
-		fundingPostService.insertFundingPostInfo(fundingPostVO);
-			
-		return "redirect:fundingPostInsert20";
-	}
+	
 }
 

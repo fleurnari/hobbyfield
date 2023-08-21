@@ -18,6 +18,10 @@
   	</select>
   
   	<insert id="insertClubBoard" parameterType="ClubBoardVO">
+  		<selectKey keyProperty="boardNumber" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(board_number),100) + 1
+			FROM board		
+		</selectKey>
   		INSERT INTO CLUB_BOARD
   						(
   						BOARD_NUMBER
@@ -32,7 +36,15 @@
 						, CLUB_BOARD_BLIND
 						) 
 				VALUES (
-						
+						#{boardNumber},
+						#{clubNumber},
+						#{clubBoardWriter},
+						#{clubBoardTitle},
+						#{clubBoardContent},
+						sysdate,
+						0,
+						#{scheduleDate},
+						'N'
 						)
   	</insert>
   	

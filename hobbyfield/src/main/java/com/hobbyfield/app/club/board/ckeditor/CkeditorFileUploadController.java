@@ -1,7 +1,7 @@
 package com.hobbyfield.app.club.board.ckeditor;
 
+//import java.nio.charset.StandardCharsets;
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +45,7 @@ public class CkeditorFileUploadController {
 		List<MultipartFile> fileList = request.getFiles("upload");
 
 		String imgPath = null;
-
+    
 		for (MultipartFile mf : fileList) {
 			if (fileList.get(0).getSize() > 0) {
 				String originFileName = mf.getOriginalFilename(); // 원본 파일 명
@@ -69,8 +69,12 @@ public class CkeditorFileUploadController {
 
 	    mv.put("uploaded", true);
 	    mv.put("url", imgPath);
+
+	    System.out.print(mv + "1");
+	    //JSONObject json =  new JSONObject(mv);
 	    return mv;
 	}
+	
 	  @GetMapping(value="/download/img/{filename}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	  public ResponseEntity<Resource> downloadImg(@PathVariable String filename) {
 		  System.out.println(filename);
