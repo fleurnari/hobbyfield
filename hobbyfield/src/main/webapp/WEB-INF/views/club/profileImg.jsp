@@ -47,13 +47,14 @@
 				<h1>프로필이미지 업로드</h1>
 			</div>
 		</div>
-		
+
 		<div class="profileSerction">
 			<label>첨부이미지</label>
 			<div class="profileSection-title">
-				<input type="file" id="fileItem" class="profileImg" name="profileImg" style="height: 30px;">
+				<input type="file" id="fileItem" class="profileImg" name="profileImg" style="height: 30px;" onchange="readURL(this);">
+				<img id="preview" style="width: 200px; height: 200px" />
 				<div id="uploadResult">
-				
+		
 					 <!-- <div id="result_card">
 						<div class="imgDeleteBtn">x</div>
 						<img src="profileView?fileName=anonymous.png">
@@ -154,6 +155,17 @@ function showUploadImage(uploadResultArr){
 	uploadResult.append(str);  
 }
 
+function readURL(input) {
+	   if (input.files && input.files[0]) {
+	      var reader = new FileReader();
+	       reader.onload = function(e) {
+	            document.getElementById('preview').src = e.target.result;
+	       };
+	       reader.readAsDataURL(input.files[0]);
+	        } else {
+	       document.getElementById('preview').src = "";
+	     }
+	}
 </script>
 
 </body>
