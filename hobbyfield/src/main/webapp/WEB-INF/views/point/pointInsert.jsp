@@ -56,7 +56,7 @@ body {
 		<div class="buttonGroup">
 			<button type="submit">등록</button>
 			<button type="button" onclick="location.href='poinList'">목록</button>
-			<button type="reset" onclick="location.href='pointInsert'">취소</button>
+			<button type="reset" onclick="location.href='pointInsert'">초기화</button>
 		</div>
 	</form>
 	<script>

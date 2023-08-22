@@ -23,8 +23,8 @@ public class TalentReplyServiceImpl implements TalentReplyService {
 
 	// 댓글 등록
 	@Override
-	public void createTalentReply(TalentReplyVO talentReplyVO) {
-		talentReplyMapper.createTalentReply(talentReplyVO);
+	public void insertTalentReply(TalentReplyVO talentReplyVO) {
+		talentReplyMapper.insertTalentReply(talentReplyVO);
 	}
 
 	// 댓글 수정

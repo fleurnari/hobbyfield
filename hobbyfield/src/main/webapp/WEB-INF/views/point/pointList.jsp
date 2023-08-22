@@ -65,6 +65,7 @@ th {
 </style>
 </head>
 <body>
+	<h3>포인트 상점</h3>
 	<div>
 		<div class="header-left">
 			<a href="${pageContext.request.contextPath}/noticeList">공지사항</a>
@@ -74,10 +75,11 @@ th {
 				<button type="button" onclick="location.href='pointInsert'">상품등록</button>
 			</div>
 
+			<!-- 공통코드 하고 css -->
 			<form class="sort-right">
 				<select class="form-control" id="sortOption" name="sortOption"
 					onchange="changeOptionSelect()">
-					<option selected disabled hidden>▼조회순</option>
+					<option disabled selected>▼조회순</option>
 					<option value="latest">최신순</option>
 					<option value="latest">조회많은순</option>
 					<option value="low">낮은가격순</option>
@@ -96,49 +98,56 @@ th {
 				</div>
 			</div>
 			<div>
+
+				<div class="point-List">
+					<div class="point-product">
+						<p></p>
+					</div>
+				</div>
+
 				<table>
-				<thead>
-					<tr>
-						<th>조회수</th>
-						<th>상품이름</th>
-						<th>남은기간</th>
-						<th>판매종료일</th>
-					</tr>
+					<thead>
+						<tr>
+							<th>조회수</th> 
+							<th>상품이름</th>
+							<th>남은기간</th>
+							<th>판매종료일</th>
+						</tr>
 					</thead>
 					<tbody class="point">
-					<c:forEach items="${pointList}" var="point">
-						<tr onclick="location.href='pointInfo?pointId=${point.pointId}'" data-state="${point.pointState }">
-							<td>${point.pointView}</td>
-							<td>${point.pointName}</td>
-							<td class="time"> <jsp:useBean id="now"
-									class="java.util.Date" /> <fmt:parseNumber
-									value="${now.time / (1000*60*60*24)}" integerOnly="true"
-									var="nowfmtTime" scope="request" /> <fmt:parseDate
-									value="${today}" pattern="yyyy-MM-dd" var="strPlanDate" /> <fmt:parseNumber
-									value="${strPlanDate.time / (1000*60*60*24)}"
-									integerOnly="true" var="strDate" /> <fmt:parseDate
-									value="${point.pointEndterm}" pattern="yyyy-MM-dd"
-									var="endPlanDate" /> <fmt:parseNumber
-									value="${endPlanDate.time / (1000*60*60*24)}"
-									integerOnly="true" var="endDate" /> <c:choose>
-									<c:when test="${endDate - nowfmtTime >= 1}">
+						<c:forEach items="${pointList}" var="point">
+							<tr onclick="location.href='pointInfo?pointId=${point.pointId}'"
+								data-state="${point.pointState }">
+								<td>${point.pointView}</td>
+								<td>${point.pointName}</td>
+								<td class="time"><jsp:useBean id="now"
+										class="java.util.Date" /> <fmt:parseNumber
+										value="${now.time / (1000*60*60*24)}" integerOnly="true"
+										var="nowfmtTime" scope="request" /> <fmt:parseDate
+										value="${today}" pattern="yyyy-MM-dd" var="strPlanDate" /> <fmt:parseNumber
+										value="${strPlanDate.time / (1000*60*60*24)}"
+										integerOnly="true" var="strDate" /> <fmt:parseDate
+										value="${point.pointEndterm}" pattern="yyyy-MM-dd"
+										var="endPlanDate" /> <fmt:parseNumber
+										value="${endPlanDate.time / (1000*60*60*24)}"
+										integerOnly="true" var="endDate" /> <c:choose>
+										<c:when test="${endDate - nowfmtTime >= 1}">
             					${endDate - nowfmtTime + 1}
            						<span>일 남음</span>
-									</c:when>
-									<c:when test="${endDate - nowfmtTime == 0}">
-										<span>오늘 마감</span>
-									</c:when>
-									<c:otherwise>
-										<span>마감</span>
-									</c:otherwise>
-								</c:choose>
-							</td>
-							<td><fmt:parseDate value="${point.pointEndterm}" pattern="yyyy-MM-dd"  var="pointEndterm"/> 
-<!-- 							string으로 저장한 pointEndterm을 date로 -->
-							<fmt:formatDate value="${pointEndterm}" pattern="yyyy-MM-dd" /></td>
-<!-- 								date로 변환한 pointEndterm에 format 입히기 -->
-						</tr>
-					</c:forEach>
+										</c:when>
+										<c:when test="${endDate - nowfmtTime == 0}">
+											<span>오늘 마감</span>
+										</c:when>
+										<c:otherwise>
+											<span>마감</span>
+										</c:otherwise>
+									</c:choose></td>
+								<td><fmt:parseDate value="${point.pointEndterm}"
+										pattern="yyyy-MM-dd" var="pointEndterm" /> <!-- 							string으로 저장한 pointEndterm을 date로 -->
+									<fmt:formatDate value="${pointEndterm}" pattern="yyyy-MM-dd" /></td>
+								<!-- 								date로 변환한 pointEndterm에 format 입히기 -->
+							</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 			</div>

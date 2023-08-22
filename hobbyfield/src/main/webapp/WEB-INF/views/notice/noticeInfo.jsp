@@ -29,7 +29,6 @@ body {
 	<table class="notice-info">
 		<thead>
 			<tr>
-				<th>조회수</th>
 				<th>글번호</th>
 				<th>작성자</th>
 				<th>카테고리</th>
@@ -39,9 +38,7 @@ body {
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${noticeInfo}" var="notice">
 				<tr>
-					<td>${notice.noticeView}</td>
 					<td>${notice.noticeId}</td>
 					<td>${notice.noticeWriter}</td>
 					<td>${notice.noticeCate}</td>
@@ -51,17 +48,13 @@ body {
 							pattern="yyyy-MM-dd" var="noticeWdate" /> <fmt:formatDate
 							value="${noticeWdate}" pattern="yyyy-MM-dd" /></td>
 				</tr>
-			</c:forEach>
 		</tbody>
 	</table>
 	<!-- 버튼 -->
 	<div class="buttonGroup">
-<%-- 		<c:if test="${memberGrd eq 'A3'}"> --%>
-			<button type="submit" onclick="location.href='noticeUpdate'">수정</button>
-			<button type="button" onclick="location.href='noticeDelete?noticeId=${notice.noticeId}'">삭제</button>
-<%-- 		</c:if> --%>
-			<button type="button" onclick="location.href='noticeList'">목록</button>
-
+		<button type="submit" onclick="location.href='updateNotice'">수정</button>
+		<button type="button" onclick="location.href='deleteNotice?noticeId=${notice.noticeId}'">삭제</button>
+		<button type="button" onclick="location.href='noticeList'">목록</button>
 	</div>
 </body>
 </html>

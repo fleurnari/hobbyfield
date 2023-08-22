@@ -67,7 +67,7 @@ body {
 		<div>
 			<%-- 			<c:if test="${memberGrd eq 'A3'}"> --%>
 			<div class="btn-group">
-				<button type="button" onclick="location.href='noticeInsert'">등록</button>
+				<button type="button" onclick="location.href='insertNotice'">등록</button>
 			</div>
 			<%-- 			</c:if> --%>
 		</div>
@@ -78,19 +78,19 @@ body {
 	<table class="notice-list">
 		<thead>
 			<tr>
-				<th>조회수</th>
 				<th>글번호</th>
 				<th>작성자</th>
+				<th>카테고리</th>
 				<th>제목</th>
 				<th>작성일자</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="notice" items="${noticeList}" varStatus="status">
-				<tr onclick="location.href='noticeInfo?id=${notice.noticeId}'">
-					<td>${notice.noticeView}</td>
+				<tr onclick="location.href='noticeInfo?noticeId=${notice.noticeId}'">
 					<td>${notice.noticeId}</td>
 					<td>${notice.noticeWriter}</td>
+					<td>${notice.noticeCate}</td>
 					<td>${notice.noticeTitle}</td>
 					<td><fmt:parseDate value="${notice.noticeWdate}"
 							pattern="yyyy-MM-dd" var="noticeWdate" /> <fmt:formatDate
@@ -109,7 +109,7 @@ body {
 				row.addEventListener("click", function() {
 					var noticeId = row.getAttribute("data-notice-id");
 					if (noticeId) {
-						location.href = "noticeDetail?id=" + noticeId;
+						location.href = "noticeInfo?noticeId=" + noticeId;
 					}
 				});
 			});

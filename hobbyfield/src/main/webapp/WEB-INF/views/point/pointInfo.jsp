@@ -17,6 +17,10 @@ body {
 	margin-top: 100px;
 }
 
+.product-img {
+	float: left;
+}
+
 .jb-division-line {
 	border-top: 1px solid #444444;
 	margin: 30px;
@@ -24,22 +28,14 @@ body {
 </style>
 </head>
 <body>
-	<div>
-		<img alt="" src="">
+	<div class="product-img">
+		<img alt="" src="main/webapp/resources/images/bikini bottom2.jpg">
 	</div>
-	
-	
-	
-	<table>
-	
-	
-	
-	</table>
-	<div class="container">
+
+	<div class="container">x
 		<div class="row">
 			<h3>${point.pointName}</h3>
-			<p>=-------------------pointPrice---------------</p>
-			<p>${point.pointContent}</p>
+			<p>-------------------pointPrice---------------</p>
 			<p>${point.pointItemType}</p>
 			<p>${point.pointState}</p>
 			<p>
@@ -74,11 +70,13 @@ body {
 	<div>
 		<p>${point.pointContent}</p>
 	</div>
-	
+
 	<!-- 버튼 -->
 	<div class="buttonGroup">
+	
 		<button type="submit" onclick="location.href='pointUpdate'">수정</button>
-		<button type="button" id="" onclick="location.href='pointDelete?pointId=${point.pointId}'">삭제</button>
+		<button type="button" id=""
+			onclick="location.href='pointDelete?pointId=${point.pointId}'">삭제</button>
 		<button type="button" onclick="location.href='pointList'">목록</button>
 	</div>
 
