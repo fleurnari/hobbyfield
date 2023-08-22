@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hobbyfield.app.fnd.service.FundingGoodsService;
 import com.hobbyfield.app.fnd.service.FundingPostService;
 import com.hobbyfield.app.fnd.service.FundingPostVO;
 
@@ -19,6 +20,8 @@ public class FundingPostController {
 
 	@Autowired
 	FundingPostService fundingPostService;
+	@Autowired
+	FundingGoodsService fundingGoodsService;
 
 	//전체조회
 	@GetMapping("fundingPostList")
@@ -34,23 +37,24 @@ public class FundingPostController {
 	@GetMapping("fundingPostInfo")
 	public String fundingPostInfo(FundingPostVO fundingPostVO, Model model) {
 		FundingPostVO findVO = fundingPostService.getFundingPostInfo(fundingPostVO);
-		model.addAttribute("fundingPostGoods",findVO);
+		model.addAttribute("fundingPostInfo",findVO);
+		model.addAttribute("fundingGoodsInfo",fundingGoodsService.getFundingGoods(fundingPostVO));
 		return "fundingPost/fundingPostInfo";
 	}
 	
-	
+	//펀딩 프로젝트 등록폼
 	@GetMapping("fundingPostInsertForm")
 	public String fundingPostInsertForm() {
 		return "fundingPost/fundingPostInsertForm";
 	}
-		
+	//펀딩 프로젝트 등록	
 	@GetMapping("fundingPostInsert")
 	public String fundingPostInsert(Model model) {
 		model.addAttribute("fundingPostList", fundingPostService.getFundingPostList());
 		return "fundingPost/fundingPostInsert";
 	}
 
-	//펀딩 프로젝트 등록
+	//펀딩 프로젝트 등록폼2
 		@PostMapping("fundingPostInsert")
 		public String fundingPostInsertProcess(FundingPostVO fundingPostVO, Model model) {
 			fundingPostService.insertFundingPostInfo(fundingPostVO);
