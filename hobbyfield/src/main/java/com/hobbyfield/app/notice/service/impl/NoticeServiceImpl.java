@@ -28,8 +28,8 @@ public class NoticeServiceImpl implements NoticeService {
 
 	// 공지사항 등록
 	@Override
-	public int noticeInsert(NoticeVO noticeVO) {
-		int result = noticeMapper.noticeInsert(noticeVO);
+	public int insertNotice(NoticeVO noticeVO) {
+		int result = noticeMapper.insertNotice(noticeVO);
 		if (result == 1) {
 			return noticeVO.getNoticeId();
 		} else {
@@ -39,8 +39,8 @@ public class NoticeServiceImpl implements NoticeService {
 
 	// 공지사항 수정
 	@Override
-	public int noticeUpdate(NoticeVO noticeVO) {
-		int result = noticeMapper.noticeUpdate(noticeVO);
+	public int updateNotice(NoticeVO noticeVO) {
+		int result = noticeMapper.updateNotice(noticeVO);
 		if (result == 1) {
 			return noticeVO.getNoticeId(); //
 		} else {
@@ -50,8 +50,8 @@ public class NoticeServiceImpl implements NoticeService {
 
 	// 공지사항 삭제
 	@Override
-	public int noticeDelete(int delete) {
-		int result = noticeMapper.noticeDelete(delete);
+	public int deleteNotice(int delete) {
+		int result = noticeMapper.deleteNotice(delete);
 		if (result > 0) {
 			return delete;
 		} else {
@@ -61,8 +61,8 @@ public class NoticeServiceImpl implements NoticeService {
 
 	// 공지사항 조회수
 	@Override
-	public int noticeViewCount(NoticeVO noticeVO) {
-		int result = noticeMapper.noticeViewCount(noticeVO);
+	public int updateNoticeView(NoticeVO noticeVO) {
+		int result = noticeMapper.updateNoticeView(noticeVO);
 		
 		return result;
 	}

@@ -9,15 +9,16 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 </head>
 <body>
-	<div align="center">
+	<div align="center" style="margin-top: 100px;">
 		<br>
 		<br>
 		<div>
 			<p>테스트</p>
 		</div>
 		<div>
-			<input type="file" name="uploadFile" multiple="multiple" onchange="readURL(this);">
-			<img id="preview" />
+<!-- 			<input type="file" name="uploadFile" multiple="multiple" onchange="readURL(this);"> 
+			<img id="preview" /> -->
+			<input type="file" name="uploadFile" multiple="multiple" >
 			<button id="uploadBtn">upload</button>
 		</div>
 	</div>
@@ -33,14 +34,24 @@
 			return false;
 		}
 		
-		if(regex.test(fileName){
+		if(regex.test(fileName)){
 			alert("해당 종류의 파일은 업로드 불가");
 			return false;
 		}
 		return true;	
 	}		
 	
-	
+// 	function readURL(input) {
+//   		if (input.files && input.files[0]) {
+//     		var reader = new FileReader();
+//     		reader.onload = function(e) {
+//       		document.getElementById('preview').src = e.target.result;
+//     		};
+//     		reader.readAsDataURL(input.files[0]);
+//   		} else {
+//     	document.getElementById('preview').src = "";
+//   		}
+// 	}
 		$(document).ready(function() {
 			$("#uploadBtn").on("click", function(e) {
 				var formData = new FormData();
@@ -54,20 +65,22 @@
 				// file 데이터를 formData로 추가 
 				for (var i = 0; i < files.length; i++) {
 					
-					if(!checkExtension(file[i].name, file[i].size) ){
-						return false;
-					}
+// 					if(!checkExtension(file[i].name, file[i].size) ){
+// 						return false;
+// 					}
 					
 					formData.append("uploadFile", files[i]);
 				}
 
 				$.ajax({
-					url : "uploadAjax",
+					url : "uploadAjaxFile",
 					processData : false,
 					contentType : false,
 					data : formData,
 					type : 'POST',
 					success : function(reuslt) {
+						console.log(reuslt)
+						
 						alert("Upload성공");
 					}
 				})

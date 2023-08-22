@@ -8,11 +8,11 @@
 		SELECT club_number
 			   , profile_nickname
 			   , club_name
-			   , club_category
-			   , club_type
+			   , FIND_CODE_NM(club_category) AS club_category
+			   , FIND_CODE_NM(club_type) AS club_type
 			   , club_info
-			   , major_location
-			   , sub_location
+			   , FIND_CODE_NM(major_location) AS major_location
+			   , FIND_CODE_NM(sub_location) AS major_location
 			   , club_public
 			   , singup_question1
 			   , singup_question2
@@ -28,15 +28,10 @@
 	
 	<!-- 소모임 등록 --> <!-- 카테고리/모임IMG등록/인원정수 구현해야함 -->
 	<insert id="insertClub" parameterType="CreateclubVO">
-		<selectKey keyProperty="clubNumber" resultType="int" order="BEFORE">
-			SELECT NVL(MAX(club_number), 0) + 1
-			FROM club
-		</selectKey>
-		INSERT INTO club
+		INSERT ALL INTO club
 				(
-					club_number
-					, profile_nickname
 					, club_name
+					, profile_nickname
 					, club_category
 					, club_type
 					, club_info
@@ -51,9 +46,8 @@
 				)
 		VALUES
 				(
-					#{clubNumber}
-					, #{profileNickname}
 					, #{clubName}
+					, #{profileNickname}
 					, #{clubCategory}
 					, #{clubType}
 					, #{clubInfo}
@@ -83,15 +77,40 @@
 		WHERE club_name = #{clubName}
 	</select>
 	
-	<!-- 지역 대분류 소분류 리스트 -->
-	
 	
 	<!-- 소모임 수정 -->
+	<update id="updateClub" parameterType="CreateclubVO">
+		UPDATE club
+		<set>
+			club_number = #{clubNumber}
+			, profile_nickname = #{profileNickname}
+			, club_name = #{clubName}
+			, club_category = #{clubCategory}
+			, club_type = #{clubType}
+			, club_info = #{clubInfo}
+			, major_location = #{majorLocation}
+			, sub_location = #{subLocation}
+			, club_public = #{clubPublic}
+			, singup_question1 = #{singupQuestion1}
+			, singup_question2 = #{singupQuestion2}
+			, singup_question3 = #{singupQuestion3}
+			, club_img = #{clubImg}
+			, 50
+		WHERE club_name = #{clubName}
+		</set>
+	</update>
+	
 	
 	<!-- 소모임 삭제? -->
 	
-	<!-- 이미지 등록 -->
-	<insert id="ProfileImg" parameterType="CreateclubVO">
+	<!-- 프로필 이미지 등록 -->
+	<!-- 해당 유저의 아이디가 존재하는지 확인 -->
+	<select id="checkMemberEmailExists" resultType="int">
+    SELECT COUNT(*) FROM member
+    WHERE member_email = #{memberEmail} AND profile_nickname = #{profileNickname}
+	</select>
+	
+	<insert id="profileImg" parameterType="CreateclubVO">
 		INSERT INTO profile(
 			profile_nickname
 			,member_email
@@ -101,10 +120,17 @@
 		)
 		VALUES(
 			#{profileNickname}
-			,#{memberEamil}
+			,#{memberEmail}
 			,#{profileImg}
 			,#{profileImgPath}
 		)
 		
 	</insert>
+	
+	<!-- 프로필 화면 : 개인정보 조회 -->
+	<select id="getNomalMypage" resultType="CreateclubVO">
+	 SELECT profile_nickname 
+     FROM club
+     WHERE profile_nickname = #{profileNickname}
+	</select>
 </mapper>

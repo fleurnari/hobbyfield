@@ -33,21 +33,21 @@ public class TalentController {
 	@GetMapping("talent/{tlntId}")
 	public String getTalentInfo(@PathVariable int tlntId, Model model) {
 		TalentVO talent = talentService.getTalentInfo(tlntId);
-		talentService.increaseViewCount(tlntId);
+		talentService.updateTalentView(tlntId);
 		model.addAttribute("talent", talent);
 		return "talent/talentInfo";
 	}
 
 	// 등록 - Form
-	@GetMapping("/talent/create")
-	public String createTalentForm() {
-		return "talent/createTalentForm";
+	@GetMapping("/talent/insert")
+	public String insertTalentForm() {
+		return "talent/insertTalentForm";
 	}
 
 	// 등록 - Process
-	@PostMapping("/talent/create")
-	public String createTalent(TalentVO talentVO) {
-		talentService.createTalent(talentVO);
+	@PostMapping("/talent/insert")
+	public String insertTalent(TalentVO talentVO) {
+		talentService.insertTalent(talentVO);
 		return "redirect:/talentList"; // 재능기부 목록 페이지로 리다이렉트
 	}
 

@@ -9,7 +9,7 @@
           <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
           <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-              <li class="nav-item px-2"><a class="nav-link fw-bold" href="#">소모임</a></li>
+              <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/clubList">소모임</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/fundingPostList">펀딩</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath }/CSboard/CSboardList">쇼핑몰</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/pointList">포인트샵</a></li>
@@ -23,8 +23,11 @@
 						<span>${member.memberNm} 님 환영합니다.</span>
 						<span>활동 포인트 : ${member.memberActpnt} </span>
 						<span>최근 접속일 : <fmt:formatDate value="${member.memberLtstconn}" pattern="yyyy-MM-dd" /></span>
-						<a href="${pageContext.request.contextPath}/mypage">마이페이지</a>
-						<form action="logout" method="post">
+						<a href="${pageContext.request.contextPath}/myPage">마이페이지</a>
+						<c:if test="${member.memberGrd eq 'A3'}">
+							<a href="${pageContext.request.contextPath}/admin/adminPage">관리자 페이지</a>
+						</c:if>
+						<form action="${pageContext.request.contextPath}/logout" method="post">
 							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 							<button class="btn btn-primary">로그아웃</button>
 						</form>

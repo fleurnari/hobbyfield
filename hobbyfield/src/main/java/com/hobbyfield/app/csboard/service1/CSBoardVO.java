@@ -8,25 +8,25 @@ import lombok.Data;
 @Data
 public class CSBoardVO {
 	
-	private Integer csNumber; 		//CS°Ô½Ã±Û¹øÈ£
-	private String csTitle;		//CS°Ô½Ã±ÛÁ¦¸ñ
-	private int prdtNumber;		//»óÇ°¹øÈ£
+	private Integer csNumber; 		//CSê²Œì‹œê¸€ë²ˆí˜¸
+	private String csTitle;		//CSê²Œì‹œê¸€ì œëª©
+	private int prdtNumber;		//ìƒí’ˆë²ˆí˜¸
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date csDate;		//CS°Ô½Ã±ÛÀÛ¼ºÀÏ
+	private Date csDate;		//CSê²Œì‹œê¸€ìž‘ì„±ì¼
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date csUpdate;		//CS°Ô½Ã±Û¼öÁ¤ÀÏ
-	private String csContents;	//CS°Ô½Ã±Û³»¿ë
-	private String csWriter;	//CS°Ô½Ã±ÛÀÛ¼ºÀÚ
-	private String csSecret;	//CS°Ô½Ã±Û°ø°³¿©ºÎ
-	private int csGroupOrd; 	// ¿ø±Û(´ä±ÛÆ÷ÇÔÇØ¼­)¿¡ ´ëÇÑ ¼ø¼­
-	private int csOriginNumber; // ¿ø±Û¹øÈ£
-	private int csLv;		// ´ä±Û °èÃþ(¿ø±Û¿¡ ´ëÇÑ ´ä±ÛÀÎÁö, ´ä±Û¿¡ ´ëÇÑ ´ä±ÛÀÎÁö ±¸ºÐÇÏ±â À§ÇÔ) 
-	private String csCate;		//CS°Ô½Ã±ÛÄ«Å×°í¸®
-	private String csImgName;	//CS°Ô½Ã±ÛÀÌ¹ÌÁöÆÄÀÏ¸í
-	private String csImgPath;	//CS°Ô½Ã±ÛÀÌ¹ÌÁöÆÄÀÏÀúÀå°æ·Î
+	private Date csUpdate;		//CSê²Œì‹œê¸€ìˆ˜ì •ì¼
+	private String csContents;	//CSê²Œì‹œê¸€ë‚´ìš©
+	private String csWriter;	//CSê²Œì‹œê¸€ìž‘ì„±ìž
+	private String csSecret;	//CSê²Œì‹œê¸€ ê³µê°œì—¬ë¶€
+	private int csGroupOrd; 	// ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	private int csOriginNumber; // ï¿½ï¿½ï¿½Û¹ï¿½È£
+	private int csLv;		// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½) 
+	private String csCate;		//CSê²Œì‹œê¸€ì¹´í…Œê³ ë¦¬
+	private String csImgName;	//CSì´ë¯¸ì§€íŒŒì¼ëª…
+	private String csImgPath;	//CSì´ë¯¸ì§€íŒŒì¼ì €ìž¥ê²½ë¡œ
 	
 	
-	//cs_origin_number = ¿ø±Û¹øÈ£, cs_group_ord = ´ä±Û¼ø¼­, cs_lv => ¿ø±Û¿¡ ´ëÇÑ ´ä±ÛÀÎÁö, ´ä±Û¿¡ ´ëÇÑ ´ä±ÛÀÎÁö ±¸ºÐ
+	//cs_origin_number = ï¿½ï¿½ï¿½Û¹ï¿½È£, cs_group_ord = ï¿½ï¿½Û¼ï¿½ï¿½ï¿½, cs_lv => ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	
 	
 	

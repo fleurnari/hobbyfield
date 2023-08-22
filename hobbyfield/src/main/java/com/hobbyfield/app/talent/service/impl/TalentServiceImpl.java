@@ -25,8 +25,8 @@ public class TalentServiceImpl implements TalentService{
 	}
 
 	@Override
-	public void createTalent(TalentVO talentVO) {
-		talentMapper.createTalent(talentVO);
+	public void insertTalent(TalentVO talentVO) {
+		talentMapper.insertTalent(talentVO);
 	}
 
 	@Override
@@ -40,8 +40,8 @@ public class TalentServiceImpl implements TalentService{
 	}
 
 	@Override
-	public void increaseViewCount(int tlntId) {
-		talentMapper.increaseViewCount(tlntId);
+	public void updateTalentView(int tlntId) {
+		talentMapper.updateTalentView(tlntId);
 	}
 
 }

@@ -20,10 +20,12 @@ public class CreateclubVO {
 	private Integer clubTotal;
 	
 	//profile table
-	private String eamil; 
 	private String profileNickname;
 	private String profileImg;
 	private String profileImgPath;
+	//member table
+	private Integer memberActpnt;
+	private String memberEmail; 
 	
 
 }

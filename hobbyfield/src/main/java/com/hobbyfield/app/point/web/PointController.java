@@ -32,7 +32,7 @@ public class PointController {
 	@GetMapping("/pointInfo")
 	public String getPointInfo(PointVO pointVO, Model model) {
 		PointVO findVO = pointService.getPointInfo(pointVO);
-		pointService.pointViewCount(findVO);
+		pointService.updatePointView(findVO);
 		model.addAttribute("point", findVO);
 		return "point/pointInfo";
 	}
@@ -78,7 +78,7 @@ public class PointController {
 	// 삭제
 	@GetMapping("/pointDelete")
 	public String pointDelete(@RequestParam(name = "pointId") int pointId) {
-		pointService.pointDelete(pointId);
+		pointService.deletePoint(pointId);
 		return "redirect:/pointList";
 	}
 

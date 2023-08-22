@@ -30,26 +30,26 @@ public class NoticeController {
 	@GetMapping("/noticeInfo")
 	public String getNoticeInfo(NoticeVO noticeVO, Model model) {
 		NoticeVO findVO = noticeService.getNoticeInfo(noticeVO);
-		noticeService.noticeViewCount(findVO);
-		model.addAttribute("noticeInfo", findVO);
+		noticeService.updateNoticeView(findVO);
+		model.addAttribute("notice", findVO);
 		return "notice/noticeInfo";
 	}
 
 	// 공지사항 등록 - Form
-	@GetMapping("/noticeInsert")
+	@GetMapping("/insertNotice")
 	public String noticeInsertForm() {
 		return "notice/noticeInsert";
 	}
 
 	// 공지사항 등록 - Process
-	@PostMapping("/noticeInsert")
+	@PostMapping("/insertNotice")
 	public String noticeInsertProcess(NoticeVO noticeVO) {
-		noticeService.noticeInsert(noticeVO);
+		noticeService.insertNotice(noticeVO);
 		return "redirect:noticeList";
 	}
 
 	// 공지사항 수정 - Form
-	@GetMapping("/noticeUpdate")
+	@GetMapping("/updateNotice")
 	public String noticeUpdateForm(NoticeVO noticeVO, Model model) {
 		NoticeVO findVO = noticeService.getNoticeInfo(noticeVO);
 		model.addAttribute("noticeInfo", findVO);
@@ -57,12 +57,12 @@ public class NoticeController {
 	}
 
 	// 공지사항 수정 - Process
-	@PostMapping("noticeUpdate")
+	@PostMapping("/updateNotice")
 	@ResponseBody
-	public Map<String, Object> noticeUpdateProcess(NoticeVO noticeVO) {
+	public String noticeUpdateProcess(NoticeVO noticeVO) {
 		boolean result = false;
 
-		int noticeId = noticeService.noticeUpdate(noticeVO);
+		int noticeId = noticeService.updateNotice(noticeVO);
 		if (noticeId > 0) {
 			result = true;
 		}
@@ -70,13 +70,13 @@ public class NoticeController {
 		map.put("result", result);
 		map.put("noticeInfo", noticeVO);
 
-		return map;
+		return "redirect:/noticeInfo?noticeId="+noticeVO.getNoticeId();
 	}
 
 	// 공지사항 삭제 - Process
-	@PostMapping("/noticeDelete")
+	@GetMapping("/deleteNotice")
 	public String noticeDeleteProcess(@RequestParam(name = "noticeId") int noticeId) {
-		noticeService.noticeDelete(noticeId);
+		noticeService.deleteNotice(noticeId);
 		return "redirect:/noticeList";
 	}
 }

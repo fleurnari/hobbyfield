@@ -51,7 +51,7 @@
 		<div class="profileSerction">
 			<label>첨부이미지</label>
 			<div class="profileSection-title">
-				<input type="file" id="fileItem" class="profileImg" name="profileImg" style="height: 30px;" onchange="readURL(this);">
+				<input type="file" id="fileItem" class="profileImg" name="profileImg" onchange="readURL(this);">
 				<img id="preview" style="width: 200px; height: 200px" />
 				<div id="uploadResult">
 		
@@ -68,7 +68,14 @@
 			<button type="reset" class="returnBtn">취소</button>
 			<button type="submit" class="btn">등록</button>	
 		</div>
+		
 	</form>
+		<div>
+			<%-- <label>닉네임 : ${profile[0].profileNickname}</label><br> --%>
+			<label>이메일 : ${member.memberEmail}</label><br>
+			<label>활동포인트 : ${member.memberActpnt}</label>
+		</div>
+		
 </div>	
 
 <script type="text/javascript">
@@ -94,7 +101,7 @@ $("input[type='file']").on("change", function(e){
 	} 
 	
 	$.ajax({
-		url: 'uploadsAjax',
+		url: 'uploadAjax',
     	processData : false,
     	contentType : false,
     	data : formData,
@@ -132,29 +139,7 @@ $("input[type='file']").on("change", function(e){
 		}
 	
 //이미지 출력
-function showUploadImage(uploadResultArr){
-	/* 전달받은 데이터 검증 */
-	if(!uploadResultArr || uploadResultArr.length == 0){return}
-	
-	let uploadResult = $("#uploadResult");
-	
-	let obj = uploadResultArr[0];
-	
-	let str = "";
-	
-	// encodeURIComponent 모든문자를 utf-8로 인코딩하여 이스케이프 문자로 변환해줌
-	/* let fileCallPath = obj.uploadPath.replace(/\\/g, '/') + "/s_" + obj.uuid + "_" + obj.fileName; */
-	let fileCallPath = encodeURIComponent(obj.uploadPath.replace(/\\/g, '/') + "/s_" + obj.uuid + "_" + obj.fileName);
-	
-	
-	str += "<div id='result_card'>";
-	str += "<img src='profileView?fileName=" + fileCallPath +"'>";
-	str += "<div class='imgDeleteBtn'>x</div>";
-	str += "</div>";		
-	
-	uploadResult.append(str);  
-}
-
+//이미지 미리보기(썸네일 X)
 function readURL(input) {
 	   if (input.files && input.files[0]) {
 	      var reader = new FileReader();

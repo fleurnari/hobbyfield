@@ -21,7 +21,6 @@ public class ClubBoardVO {
 	private int boardNumber;
 	private Integer clubNumber;
 	private String clubBoardWriter;
-	private String clubBoardTitle;
 	private String clubBoardContent;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date clubBoardWdate;

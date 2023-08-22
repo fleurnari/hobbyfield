@@ -11,7 +11,7 @@ public interface TalentService {
     public TalentVO getTalentInfo(int tlntId);
 
     // 재능기부 글 등록
-    public void createTalent(TalentVO talentVO);
+    public void insertTalent(TalentVO talentVO);
 
     // 재능기부 글 수정
     public void updateTalent(TalentVO talentVO);
@@ -20,5 +20,5 @@ public interface TalentService {
     public void deleteTalent(int tlntId);
 
     // 재능기부 글 조회수 증가
-    public void increaseViewCount(int tlntId);
+    public void updateTalentView(int tlntId);
 }

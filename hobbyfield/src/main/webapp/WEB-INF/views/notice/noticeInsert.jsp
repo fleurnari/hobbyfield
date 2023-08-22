@@ -63,11 +63,10 @@ body {
 	<div>
 		<h3>공지사항 등록</h3>
 	</div>
-	<form action="noticeInsert" method="post">
+	<form action="insertNotice" method="post">
 		<div class="form-input">
 			<label for="noticeCate">카테고리</label> <select id="noticeCate"
 				name="noticeCate" required>
-				<!-- 선택에 따라 데이터가 테이블로 전달되어야하나? -->
 				<option value="" disabled selected>카테고리</option>
 				<option value="소모임">소모임</option>
 				<option value="쇼핑몰">쇼핑몰</option>
@@ -88,11 +87,28 @@ body {
 				
 			</div>
 			<div class="submit-buttons">
-				<button class="submit" type="submit" onclick="location.href='noticeInsert'">등록</button>
+				<button class="submit" type="submit" onclick="location.href='InsertNotice'">등록</button>
 				<button class="submit" type="button"
-					onclick="location.href='noticeList'">취소</button>
+					onclick="location.href='noticeList'">초기화</button>
 			</div>
 		</div>
 	</form>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

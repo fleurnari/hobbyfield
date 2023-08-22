@@ -51,18 +51,19 @@ public class PointServiceImpl implements PointService {
 
 	// 포인트 상품 삭제
 	@Override
-	public int pointDelete(int delete) {
-		int result = pointMapper.pointDelete(delete);
+	public int deletePoint(int delete) {
+		int result = pointMapper.deletePoint(delete);
 		if (result > 0) {
 			return delete;
 		} else {
 			return -1;
 		}
 	}
+	@Override
 	// 포인트 상품 조회수 업데이트
-		@Override
-		public int pointViewCount(PointVO pointVO) {
+		public int updatePointView(PointVO pointVO) {
 			return pointMapper.updatePoint(pointVO);
 		}
+
 
 }

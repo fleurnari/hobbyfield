@@ -16,8 +16,8 @@ public class TalentReplyController {
 
 	// 댓글 등록
 	@PostMapping("/talent/replycreate")
-	public String createTalentReply(TalentReplyVO talentReplyVO) {
-		talentReplyService.createTalentReply(talentReplyVO);
+	public String insertTalentReply(TalentReplyVO talentReplyVO) {
+		talentReplyService.insertTalentReply(talentReplyVO);
 		return "redirect:/talent/talentReplyInfo" + talentReplyVO.getTlntId();
 	}
 

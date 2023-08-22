@@ -10,7 +10,7 @@
 	</select>
 
 	<!-- 댓글 등록 -->
-	<insert id="createTalentReply" parameterType="TalentReplyVO">
+	<insert id="insertTalentReply" parameterType="TalentReplyVO">
 		INSERT INTO TALENT_REPLY (
 		TLNT_ID, TLNT_RPLY_SUBJECT, TLNT_RPLY_WDATE,
 		TLNT_RPLY_PNUM, TLNT_RPLY_PARENT, TLNT_RPLY_SCRET,
