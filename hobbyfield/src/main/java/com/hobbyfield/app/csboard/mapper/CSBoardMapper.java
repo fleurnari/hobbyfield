@@ -7,22 +7,20 @@ import com.hobbyfield.app.common.SearchCriteria;
 import com.hobbyfield.app.csboard.service1.CSBoardVO;
 
 public interface CSBoardMapper {
-	//°Ô½Ã±Û ÃÑ°¹¼ö Á¶È¸
+	//CSê²Œì‹œê¸€ìˆ˜ 
 	public int getTotalCount(SearchCriteria scri);
 	
-	//CS°Ô½Ã±Û ¸®½ºÆ® Á¶È¸
+	//CSê²Œì‹œê¸€ ëª©ë¡
 	public List<CSBoardVO> selectAllCSList(SearchCriteria scri);
 	
-	//°Ô½Ã±Û »ó¼¼º¸±â
+	//CSê²Œì‹œê¸€ ìƒì„¸ë³´ê¸°
 	public CSBoardVO selectCSBoard(int csNumber);
 	
-	//°Ô½Ã±Û µî·Ï
+	//CSê²Œì‹œê¸€ ë“±ë¡
 	public int insertCSBoard(CSBoardVO CSboard);
 	
-	//°Ô½Ã±Û ¼öÁ¤
+	//CSê²Œì‹œê¸€ ìˆ˜ì •
 	public void UpdateCSBoard(CSBoardVO csboardVO);
-	//°Ô½Ã±Û »èÁ¦
+	//CSê²Œì‹œê¸€ ì‚­ì œ
 	public void deleteBoard(int boardNo);
-	
-	
 }
