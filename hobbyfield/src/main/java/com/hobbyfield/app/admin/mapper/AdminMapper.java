@@ -9,11 +9,11 @@ public interface AdminMapper {
 	// 전체 회원 조회
 	public List<MemberVO> selectMemberList();
 	
+	// 가입 대기 중인 기업 회원 목록 조회
+	public List<MemberVO> selectComMemberList();
+	
 	// 회원 상세 조회
 	public MemberVO selectMember(MemberVO memberVO);
-	
-	// 회원 정보 수정
-	public int updateMember(MemberVO memberVO);
 	
 	// 기업 회원 가입 승인/거부
 	public int updateComMember(MemberVO memberVO);

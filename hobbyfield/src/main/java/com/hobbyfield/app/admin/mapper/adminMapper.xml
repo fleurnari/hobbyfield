@@ -8,6 +8,12 @@
 		SELECT *
 		FROM member
 	</select>
+	
+	<select id="selectComMemberList" resultType="com.hobbyfield.app.member.service.MemberVO">
+		SELECT *
+		FROM member
+		WHERE member_comaccp = 'AJ1'
+	</select>
 
 	<select id="selectMember" resultType="com.hobbyfield.app.member.service.MemberVO">
 		SELECT *
@@ -15,16 +21,15 @@
 		WHERE member_email = #{memberEmail}
 	</select>
 
-	<update id="updateMember" parameterType="com.hobbyfield.app.member.service.MemberVO">
-	
-	</update>
-
 	<update id="updateComMember" parameterType="com.hobbyfield.app.member.service.MemberVO">
-	
+		UPDATE member
+		SET member_comaccp = #{memberComaccp}
+		WHERE member_email = #{memberEmail}
 	</update>
 
 	<delete id="deleteMember">
-	
+		DELETE FROM member
+		WHERE member_email = #{memberEmail}
 	</delete>
 
 </mapper>
