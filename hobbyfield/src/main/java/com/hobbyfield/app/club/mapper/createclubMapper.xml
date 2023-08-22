@@ -8,11 +8,11 @@
 		SELECT club_number
 			   , profile_nickname
 			   , club_name
-			   , club_category
-			   , club_type
+			   , FIND_CODE_NM(club_category) AS club_category
+			   , FIND_CODE_NM(club_type) AS club_type
 			   , club_info
-			   , major_location
-			   , sub_location
+			   , FIND_CODE_NM(major_location) AS major_location
+			   , FIND_CODE_NM(sub_location) AS major_location
 			   , club_public
 			   , singup_question1
 			   , singup_question2

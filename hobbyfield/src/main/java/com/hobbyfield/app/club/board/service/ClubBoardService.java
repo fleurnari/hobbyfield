@@ -4,8 +4,13 @@ import java.util.List;
 
 public interface ClubBoardService {
 	
-	// 전체조회(로그인한 프로필의 가입된소모임 게시글만 가져오게 매개변수)
-	public List<ClubBoardVO> getClubBoardList();
+	// 전체조회(전체 소모임 게시글 조회)
+	public List<ClubBoardVO> getAllClubBoardList();
+	
+	
+	// 소모임 상세보기 들어가서 원하는 소모임만 보기(매개변수)
+	public List<ClubBoardVO> getSelectClubBoardList(ClubBoardVO vo);
+	
 	
 	// 단건조회
 	public ClubBoardVO getClubBoardInfo(ClubBoardVO vo);
@@ -16,4 +21,9 @@ public interface ClubBoardService {
 	// 수정
 	public int updateClubBoard(ClubBoardVO vo);
 	
+	// 조회수 
+	public int updateViewClubBoard(ClubBoardVO vo);
+	
+	// 블라인드처리 
+	public int updateBlindClubBoard(ClubBoardVO vo);
 }
