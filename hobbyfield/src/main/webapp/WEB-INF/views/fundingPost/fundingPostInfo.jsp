@@ -419,7 +419,29 @@ function remaindTime() {
      }
    }
  });
+//옵션선택 모달 관련
+ const body = document.querySelector('body');
+ const modal = document.getElementById('modal');
+ const btnOpenPopup = document.getElementById('btnOpenPopup');
 
+ btnOpenPopup.addEventListener('click', () => {
+   modal.classList.toggle('show');
+
+   if (modal.classList.contains('show')) {
+     body.style.overflow = 'hidden';
+   }
+ });
+
+ modal.addEventListener('click', (event) => {
+   if (event.target === modal) {
+     modal.classList.toggle('show');
+
+     if (!modal.classList.contains('show')) {
+       body.style.overflow = 'auto';
+     }
+   }
+ });
+//공유하기 모달 관련
  $(function(){
 	  $("#confirm").click(function(){
 	      modalClose(); //모달 닫기 함수 호출
@@ -478,10 +500,11 @@ function remaindTime() {
 	        ],
 	    })
 	};
+	//페이스북 공유하기
 	function shareFacebook() {
 	    window.open("http://www.facebook.com/share.php?u=" + encodeURIComponent(location.href));
 	};
-	
+	//트위터 공유하기
 	function shareTwitter() {
 	    var sendText = "${fundingPostInfo.fndTitle }"; // 전달할 텍스트
 	    var sendUrl = "text"; // 전달할 URL
