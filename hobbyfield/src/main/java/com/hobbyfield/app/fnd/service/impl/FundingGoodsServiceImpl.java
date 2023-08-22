@@ -22,5 +22,17 @@ public class FundingGoodsServiceImpl implements FundingGoodsService {
 	public List<FundingGoodsVO> getFundingGoods(FundingPostVO fundingPostVO) {
 		return fundingGoodsMapper.selectFundingGoods(fundingPostVO);
 	}
-
+	
+	//펀딩 옵션 등록
+	@Override
+	public int insertFundingGoodsInfo(FundingGoodsVO fundingGoodsVO) {
+		System.out.println(fundingGoodsVO.getFndPostNumber());
+		int result = fundingGoodsMapper.insertFundingGoods(fundingGoodsVO);
+		
+		if (result == 1) {
+			return fundingGoodsVO.getFndPostNumber();
+		} else {			
+			return -1;
+		}
+	}
 }

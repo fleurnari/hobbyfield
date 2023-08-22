@@ -11,7 +11,7 @@
 <body>
 
 	<section>
-	<div class="container">
+	<%-- <div class="container">
 		<div class="container2">
 			<c:forEach items="${fundingPostList }" var="fundingPost">
 			<div onclick="location.href='fundingPostInsert?fndPostNumber=${fundingPost.fndPostNumber }'">
@@ -22,7 +22,7 @@
 			</div>
 		</c:forEach>
 	</div>
-	</div>
+	</div> --%>
 		<div class="container">
 			<div class="text-center">
 				<form id="frm" name="insertPostForm" action="fundingPostInsert" method="post">

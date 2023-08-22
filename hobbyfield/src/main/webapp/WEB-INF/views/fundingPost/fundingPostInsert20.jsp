@@ -8,14 +8,21 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<Section>
+	
+			<div class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <span class="nav-item px-2"><a class="nav-link fw-bold" id="fundingGoodsLink" onclick="location.href='${pageContext.request.contextPath}/fundingPostGoods?fndPostNumber=${fundingPostInsert20.fndPostNumber}'">옵션 구성</a></span>
+            </div>
+       
+	</Section>
 	<section>
 		<div class="container">
 			<div class="text-center">
 				<form id="frm" name="fundingPostUpdate" action="fundingPostUpdate"
 					method="post">
 					<div>
-						<h3>프로젝트 기획</h3>
-						<p>프로젝트의 카테고리를 선택해주세요</p>
+						<h3>프로젝트 설정</h3>
+						<p>프로젝트를 설정해주세요</p>
 					</div>
 					<br> <br> <br> <br> <br>
 					<div class="container">	
@@ -36,7 +43,7 @@
 							<div class="col-sm-6">
 								<div class="input-group mb-3">
 									<input type="text" class="form-control"
-										aria-label="Recipient's username" name="fndTargetAmount" value="${fudningPostInfo.fndTargetAmount }"
+										aria-label="Recipient's username" name="fndTargetAmount" value="${fundingPostInsert20.fndTargetAmount }"
 										aria-describedby="basic-addon2" > <span
 										class="input-group-text" id="basic-addon2">원</span>
 								</div>
@@ -55,11 +62,11 @@
 							</div>
 							<div class="col-sm-6">
 								<div class="mb-3">
-									시작날짜: <input type="date" name="fndStartDate" value="${fudningPostInfo.fndStartDate }">
+									시작날짜: <input type="date" name="fndStartDate" value="${fundingPostInsert20.fndStartDate }">
 								</div>
 								<br>
 								<div class="mb-3">
-									종료일자: <input type="date" name="fndEndDate" value="${fudningPostInfo.fndEndDate }">
+									종료일자: <input type="date" name="fndEndDate" value="${fundingPostInsert20.fndEndDate }">
 								</div>
 							</div>
 						</div>
@@ -74,7 +81,9 @@
 		</div>
 	</section>
 </body>
+
 <script type="text/javascript">
+    
 //목표금액에 000,000 콤마
 /*     function comma(str) {
         str = String(str);
@@ -113,10 +122,10 @@
 		.done(data => {
 			if(data.result){
 				//alert이라 텍스트형식만 가능하기때문에 객체형식인 boardInfo에서 bno만 가져와야함
-				let message = '수정되었습니다.\n게시글 번호 : ' + data.boardInfo.bno;
+				let message = '저장되었습니다.';
 				alert(message);
 			}else{
-				alert('수정되지 않았습니다.\n정보를 확인해주세요');
+				alert('저장되지 않았습니다.\n정보를 확인해주세요');
 			}
 		})
 		.fail(reject => console.log(reject));
@@ -124,21 +133,7 @@
 		return false;
 	});
 	
-	function serializeObject(){
-		let formData = $('form').serializeArray();
-		// serialize는 폼태그에서만 사용가능하고 
-		// 이런방식으로 [ { name : 'tilte, value='Hello'}, {name : 'writer', value : '여행자'}, ...]
-		
-		let formObject = {};
-		$.each(formData, function(idx, obj){
-			let field = obj.name;
-			let val = obj.value;
-			
-			formObject[field] = val;
-		})
-		
-		return formObject;
-	};
+
 	function serializeObject(){
 		let formData = $('form').serializeArray();
 		// serialize는 폼태그에서만 사용가능하고 

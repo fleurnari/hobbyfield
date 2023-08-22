@@ -29,14 +29,14 @@ flex-wrap:wrap;
 <body>
 	<Section>
 	<div class="container"><a class="navbar-brand d-inline-flex" href="${pageContext.request.contextPath}/fundingPostList"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></a>
-			<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-              <li class="nav-item px-2"><a class="nav-link fw-bold" href="#">카테고리</a></li>
-              <li class="nav-item px-2"><a class="nav-link fw-bold" href="#">인기</a></li>
-              <li class="nav-item px-2"><a class="nav-link fw-bold" href="#">마감임박</a></li>
-              <li class="nav-item px-2"><a class="nav-link fw-bold" href="#">공지사항</a></li>
-              <li class="nav-item px-2"><a class="nav-link fw-bold" href="#">후원현황</a></li>
-              <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/fundingPostInsertForm">프로젝트만들기</a></li>
-            </ul>
+			<div class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <span class="nav-item px-2"><a class="nav-link fw-bold" href="#">카테고리</a></span>
+              <span class="nav-item px-2"><a class="nav-link fw-bold" href="#">인기</a></span>
+              <span class="nav-item px-2"><a class="nav-link fw-bold" href="#">마감임박</a></span>
+              <span class="nav-item px-2"><a class="nav-link fw-bold" href="#">공지사항</a></span>
+              <span class="nav-item px-2"><a class="nav-link fw-bold" href="#">후원현황</a></span>
+              <span class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/fundingPostInsertForm">프로젝트만들기</a></span>
+            </div>
         </div>
 	</Section>
 	<Section>
