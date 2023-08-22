@@ -34,7 +34,7 @@ public class FundingPostController {
 	@GetMapping("fundingPostInfo")
 	public String fundingPostInfo(FundingPostVO fundingPostVO, Model model) {
 		FundingPostVO findVO = fundingPostService.getFundingPostInfo(fundingPostVO);
-		model.addAttribute("fundingPostInfo",findVO);
+		model.addAttribute("fundingPostGoods",findVO);
 		return "fundingPost/fundingPostInfo";
 	}
 	
@@ -80,4 +80,5 @@ public class FundingPostController {
 	
 	
 }
+
 
