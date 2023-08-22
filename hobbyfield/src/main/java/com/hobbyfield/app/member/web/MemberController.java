@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -66,7 +65,7 @@ public class MemberController {
 	@PostMapping("/memberEmailChk")
 	public String memberEmailChk(String memberEmail) {
 		
-		int result = memberService.idCheck(memberEmail);
+		int result = memberService.chkMemberEmail(memberEmail);
 		
 		if (result == 1) {
 			
@@ -113,7 +112,7 @@ public class MemberController {
 		
 		MemberVO member = new MemberVO();
 		member.setMemberEmail(String.valueOf(userInfo.get("email")));
-		MemberVO kakaoMember = memberService.memberLogin(member);
+		MemberVO kakaoMember = memberService.loginMember(member);
 		
 		if (kakaoMember != null) {
 			
@@ -125,12 +124,12 @@ public class MemberController {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 			
 			if ((member.getMemberLtstconn() == null) || !(dateFormat.format(new Date()).equals(dateFormat.format(member.getMemberLtstconn())))) {
-				memberService.memberLtstUpdate(member);
-				memberService.memberPntUpdate(member);
+				memberService.updateMemberLtst(member);
+				memberService.updateMemberPnt(member);
 				
 				PointRecordVO pointRecord = new PointRecordVO();
 				pointRecord.setMemberEmail(member.getMemberEmail());
-				pointRecordService.loginPointInsert(pointRecord);
+				pointRecordService.insertLoginPoint(pointRecord);
 				
 			}
 		
@@ -144,10 +143,10 @@ public class MemberController {
 	}
 	
 	// 마이페이지
-	@GetMapping("/mypage")
+	@GetMapping("/myPage")
 	public String myPage(HttpSession session, Model model) {
 		MemberVO member = (MemberVO) session.getAttribute("member");
-		model.addAttribute("info", memberService.memberLogin(member));
+		model.addAttribute("info", memberService.loginMember(member));
 		return "member/myPage";
 	}
 	
@@ -155,7 +154,7 @@ public class MemberController {
 	@GetMapping("/memberUpdate")
 	public String memberUpdateForm(HttpSession session, Model model) {
 		MemberVO member = (MemberVO) session.getAttribute("member");
-		model.addAttribute("info", memberService.memberLogin(member));
+		model.addAttribute("info", memberService.loginMember(member));
 		return "member/memberUpdate";
 	}
 	
@@ -164,7 +163,7 @@ public class MemberController {
 	@ResponseBody
 	public boolean memberUpdate(MemberVO memberVO) {
 		
-		int result = memberService.memberUpdate(memberVO);
+		int result = memberService.updateMember(memberVO);
 		
 		if (result == 0) {
 			return false;
@@ -176,16 +175,48 @@ public class MemberController {
 	// 비밀번호 수정 페이지로 이동
 	@GetMapping("/memberPwdUpdate")
 	public String memberPwdUpdateForm(HttpSession session, Model model) {
-		MemberVO member = (MemberVO) session.getAttribute("member");
-		model.addAttribute("info", memberService.memberLogin(member));
 		return "member/memberPwdUpdate";	
 	}
 	
 	// 비밀번호 확인
+	@ResponseBody
+	@PostMapping("/memberPwdChk")
+	public int memberPwdChk(MemberVO memberVO) {
+		String memberPwd = memberService.chkMemberPwd(memberVO.getMemberEmail());
+		if (memberVO == null || !pwEncoder.matches(memberVO.getMemberPwd(), memberPwd)) {
+			return 0;
+		}
+		
+		return 1;
+	}
+
 	
 	
 	// 비밀번호 수정 수행
+	@PostMapping("/memberPwdUpdate")
+	public String memberPwdUpdate(String memberEmail, String newMemberPwd, HttpSession session) {
+		String encodePwd = pwEncoder.encode(newMemberPwd);
+		memberService.updateMemberPwd(memberEmail, encodePwd);
+		session.invalidate();
+		
+		return "redirect:/login";
+	}
 	
-	// 회원 탈퇴
+
+	// 회원 탈퇴 페이지 이동
+	@GetMapping("/memberDelete")
+	public String memberDeleteView() {
+		return "member/memberDelete";
+	}
+	
+	// 회원 탈퇴 수행
+	@PostMapping("/memberDelete")
+	public String memberDelete(String memberEmail, HttpSession session) {
+		memberService.deleteMember(memberEmail);
+		session.invalidate();
+		
+		return "redirect:/login";
+	}
+	
 
 }

@@ -32,17 +32,17 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 		MemberVO member = new MemberVO();
 		member.setMemberEmail(authentication.getName());
 		
-		member = memberMapper.memberLogin(member);
+		member = memberMapper.loginMember(member);
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 		
 		if ((member.getMemberLtstconn() == null) || !(dateFormat.format(new Date()).equals(dateFormat.format(member.getMemberLtstconn())))) {
-			memberMapper.memberLtstUpdate(member);
-			memberMapper.memberPntUpdate(member);
+			memberMapper.updateMemberLtst(member);
+			memberMapper.updateMemberPnt(member);
 			
 			PointRecordVO pointRecord = new PointRecordVO();
 			pointRecord.setMemberEmail(member.getMemberEmail());
-			pointRecordMapper.loginPointInsert(pointRecord);
+			pointRecordMapper.insertLoginPoint(pointRecord);
 			
 		}
 		

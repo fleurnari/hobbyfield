@@ -23,8 +23,11 @@
 						<span>${member.memberNm} 님 환영합니다.</span>
 						<span>활동 포인트 : ${member.memberActpnt} </span>
 						<span>최근 접속일 : <fmt:formatDate value="${member.memberLtstconn}" pattern="yyyy-MM-dd" /></span>
-						<a href="${pageContext.request.contextPath}/mypage">마이페이지</a>
-						<form action="logout" method="post">
+						<a href="${pageContext.request.contextPath}/myPage">마이페이지</a>
+						<c:if test="${member.memberGrd eq 'A3'}">
+							<a href="${pageContext.request.contextPath}/admin/adminPage">관리자 페이지</a>
+						</c:if>
+						<form action="${pageContext.request.contextPath}/logout" method="post">
 							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 							<button class="btn btn-primary">로그아웃</button>
 						</form>

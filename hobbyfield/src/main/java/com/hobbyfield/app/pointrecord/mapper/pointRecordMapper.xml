@@ -6,7 +6,7 @@
   <mapper namespace="com.hobbyfield.app.pointrecord.mapper.PointRecordMapper">
   
   	<!-- 금일 첫 로그인 성공 시 로그 추가 -->
-	<insert id="loginPointInsert" parameterType="com.hobbyfield.app.pointrecord.service.PointRecordVO">
+	<insert id="insertLoginPoint" parameterType="com.hobbyfield.app.pointrecord.service.PointRecordVO">
 		<selectKey keyProperty="pointRecordNum" resultType="int" order="BEFORE">
 			SELECT NVL(MAX(point_record_num),0) + 1
 			FROM point_record

@@ -55,7 +55,7 @@
 			</div>
         </div>
         <button type="submit">수정</button>
-        <button type="button" onclick="location.href='${pageContext.request.contextPath}/mypage'">뒤로 가기</button>
+        <button type="button" onclick="location.href='${pageContext.request.contextPath}/myPage'">뒤로 가기</button>
         </form>
    </section>
    <script>

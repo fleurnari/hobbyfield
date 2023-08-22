@@ -18,7 +18,7 @@ public class CustomUserDetailService implements UserDetailsService {
 	
 		MemberVO member = new MemberVO();
 		member.setMemberEmail(username);
-		MemberVO vo = memberMapper.memberLogin(member);
+		MemberVO vo = memberMapper.loginMember(member);
 		
 		return vo == null ? null : new CustomUser(vo);
 	}
