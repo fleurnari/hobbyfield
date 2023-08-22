@@ -14,9 +14,9 @@ public class PointRecordServiceImpl implements PointRecordService{
 	PointRecordMapper pointRecordMapper;
 
 	@Override
-	public int loginPointInsert(PointRecordVO pointRecordVO) {
+	public int insertLoginPoint(PointRecordVO pointRecordVO) {
 
-		return pointRecordMapper.loginPointInsert(pointRecordVO);
+		return pointRecordMapper.insertLoginPoint(pointRecordVO);
 	}
 	
 }

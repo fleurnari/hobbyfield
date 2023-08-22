@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hobbyfield.app.admin.mapper.AdminMapper">
+	
+	<select id="selectMemberList" resultType="com.hobbyfield.app.member.service.MemberVO">
+		SELECT *
+		FROM member
+	</select>
+
+	<select id="selectMember" resultType="com.hobbyfield.app.member.service.MemberVO">
+		SELECT *
+		FROM member
+		WHERE member_email = #{memberEmail}
+	</select>
+
+	<update id="updateMember" parameterType="com.hobbyfield.app.member.service.MemberVO">
+	
+	</update>
+
+	<update id="updateComMember" parameterType="com.hobbyfield.app.member.service.MemberVO">
+	
+	</update>
+
+	<delete id="deleteMember">
+	
+	</delete>
+
+</mapper>

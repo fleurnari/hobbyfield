@@ -47,7 +47,7 @@
 					<fmt:formatDate value="${member.memberLtstconn}" pattern="yyyy-MM-dd" />
 				</div>				
 				<div class="ms-lg-5"><a class="btn btn-primary" href="${pageContext.request.contextPath}/memberUpdate">회원 정보 수정</a></div>
-				<div class="ms-lg-5"><a class="btn btn-primary" href="#">회원 탈퇴</a></div>
+				<div class="ms-lg-5"><a class="btn btn-primary" href="${pageContext.request.contextPath}/memberDelete">회원 탈퇴</a></div>
 			</div>
         </div>
        </div>

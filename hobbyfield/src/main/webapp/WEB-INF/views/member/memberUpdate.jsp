@@ -19,12 +19,14 @@
 			<div>
 				<div>
 				<div>
-					<label for="memberEmail">아이디</label> <input type="text" name="memberEmail"
-						id="memberEmail" value="${info.memberEmail}" readonly>
+				<input type="hidden" name="memberEmail" id="memberEmail" value="${info.memberEmail}" readonly>
 				</div>
 				<div>
 					<label for="memberNm">이름</label> <input type="text" name="memberNm"
 						id="memberNm" value="${info.memberNm}">
+				</div>
+				<div>
+					<div class="ms-lg-5"><a class="btn btn-primary" href="${pageContext.request.contextPath}/memberPwdUpdate">비밀번호 변경</a></div>
 				</div>
 				<div class="address_name">주소</div>
 					<div class="address_input_1_wrap">
@@ -53,7 +55,7 @@
 			</div>
         </div>
         <button type="submit">수정</button>
-        <button type="button" onclick="location.href='${pageContext.request.contextPath}/mypage'">뒤로 가기</button>
+        <button type="button" onclick="location.href='${pageContext.request.contextPath}/myPage'">뒤로 가기</button>
         </form>
    </section>
    <script>
@@ -120,9 +122,8 @@
   			data : objData
   		})
   		.done(data => {
-  			if (data.result){
-  				let message = data.info.memberEmail + "의 회원 정보 수정이 완료 되었습니다."
-  				alert(message);
+  			if (data){
+  				alert("회원 정보 수정이 완료 되었습니다.");
   			} else {
   				alert("회원 정보 수정에 실패 했습니다.");
   			}
