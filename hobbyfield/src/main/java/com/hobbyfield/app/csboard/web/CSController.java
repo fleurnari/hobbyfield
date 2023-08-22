@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,9 +27,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hobbyfield.app.common.PageMaker;
 import com.hobbyfield.app.common.SearchCriteria;
-import com.hobbyfield.app.csboard.reply.service.ReplyService;
-import com.hobbyfield.app.csboard.reply.service.ReplyVO;
 import com.hobbyfield.app.csboard.service1.CSBoardVO;
+import com.hobbyfield.app.csboard.service1.CSReplyVO;
 import com.hobbyfield.app.csboard.service1.CSboardService;
 
 // 0821 정병권
@@ -39,9 +39,6 @@ public class CSController {
 
 	@Autowired
 	CSboardService csboardService;
-	
-	@Autowired 
-	ReplyService replyService;
 	
 	
 	@Value("${editor.img.save.url}")
@@ -60,10 +57,11 @@ public class CSController {
 		  PageMaker pageMaker = new PageMaker(); pageMaker.setCri(scri);
 		  pageMaker.setTotalCount(csboardService.csCount(scri));
 		  
+		  
 		  model.addAttribute("pageMaker", pageMaker); 
 		  return "CSboard/CSboardList";
 	  }
-
+	  
 
 	// CS게시글상세보기
 	@GetMapping("CSboardInfo")
@@ -71,23 +69,37 @@ public class CSController {
 		model.addAttribute("CSboardInfo", csboardService.getCSBoardInfo(csboardVO.getCsNumber()));
 		model.addAttribute("scri", scri);
 		
+		List<CSReplyVO> replyList = csboardService.readReply(csboardVO.getCsNumber());
+		model.addAttribute("replyList", replyList);
 		return "CSboard/CSboardInfo";
 	}
-
+	
+	//댓글 작성
+	@PostMapping("insertReply")
+    @ResponseBody
+    public String insertReply(@RequestBody CSReplyVO replyVO) {
+        csboardService.insertReply(replyVO); 
+        return "redirect:CSboardList";
+    }
+	
+	//댓글 수정
+	
+	
+	
 	// CS게시글등록폼
 	@GetMapping("CSboardInsert")
 	public String CSboardInsertForm() {
 		return "CSboard/CSboardInsert";
 	}
 	
-	// CS�Խñ� ���
+	// CS게시글등록
 	@PostMapping("CSboardInsert")
 	public String CSboardInsertProcess(CSBoardVO csboardVO) {
 		csboardService.insertCSboardInfo(csboardVO);
 		return "redirect:CSboardList";
 	}
 
-	// CS�Խñ� ����������
+	// CS게시글수정폼
 	@GetMapping("CSboardUpdate")
 	public String CSboardUpdateForm(CSBoardVO csboardVO, @ModelAttribute("scri") SearchCriteria scri, Model model) {
 		model.addAttribute("CSboardInfo", csboardService.getCSBoardInfo(csboardVO.getCsNumber()));
@@ -95,7 +107,7 @@ public class CSController {
 		return "CSboard/CSboardUpdate";
 	}
 	
-	// CS�Խñ� ����
+	// CS게시글수정
 	@PostMapping("CSboardUpdate")
 	public String CSboardUpdate(CSBoardVO csboardVO, @ModelAttribute("scri") SearchCriteria scri, RedirectAttributes rttr) {
 		csboardService.UpdateCSBoard(csboardVO);
@@ -110,7 +122,7 @@ public class CSController {
 		
 	}
 
-	// CS�Խñ� ����
+	// CS게시글삭제
 	@PostMapping("CSboardDelete")
 	public String CSboardDelete(CSBoardVO csboardVO) {
 		
