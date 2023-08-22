@@ -17,7 +17,6 @@
       <security:intercept-url pattern="/memberInsert" access="permitAll()" />
       <security:intercept-url pattern="/login" access="permitAll()" />
       <security:intercept-url pattern="/kakaoLogin" access="permitAll()" />
-      <security:intercept-url pattern="/clubBoardInsert" access="permitAll()"/>
       <security:intercept-url pattern="/admin/**" access="hasAuthority('A3')" />
       <security:intercept-url pattern="/**" access="isAuthenticated()" />
       <security:form-login login-page="/login"
