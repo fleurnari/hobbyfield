@@ -24,7 +24,7 @@ public class FundingGoodsController {
 			@GetMapping("fundingPostGoods")
 			public String fundingPostGoods(FundingPostVO fundingPostVO, Model model) {
 				FundingPostVO findVO = fundingPostService.getFundingPostInfo(fundingPostVO);
-				model.addAttribute("fundingPostInfo",findVO);
+				model.addAttribute("fundingPostGoods",findVO);
 				return "fundingPost/fundingPostGoods";
 			}
 			

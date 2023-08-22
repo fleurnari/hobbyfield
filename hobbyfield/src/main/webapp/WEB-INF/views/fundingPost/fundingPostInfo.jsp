@@ -15,32 +15,50 @@ table, th, td {
 }
 
 .modal {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	display: none;
-	background-color: rgba(0, 0, 0, 0.5);
-	position: fixed;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  opacity: 0;
+  pointer-events: none; /* Prevent interactions with hidden modal */
+  transition: background-color 0.3s ease, opacity 0.3s ease;
 }
 
 .modal.show {
-	display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 1;
+  pointer-events: auto; /* Enable interactions with shown modal */
 }
 
 .modal_body {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 800px;
-	height: 950px;
-	padding: 40px;
-	text-align: center;
-	background-color: rgb(255, 255, 255);
-	border-radius: 10px;
-	box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-	transform: translateX(-50%) translateY(-50%);
+  position: absolute;
+  width: 800px;
+  max-width: 90%;
+  padding: 40px;
+  text-align: center;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal.show .modal_body {
+  opacity: 1;
+}
+
+/* Prevent scrolling on body when modal is open */
+body.modal-open {
+  overflow: hidden;
 }
 
 .popup-wrap {
@@ -110,7 +128,7 @@ table, th, td {
 }
 
 .pop-btn { /* 각각의 버튼  */
-	display:inline-flex;
+	display: inline-flex;
 	/* 한줄로 나열하기 위한 inline속성과 flex속성 혼합 */
 	width: 100%; /* 2개 버튼 각각 50% 영역 */
 	height: 100%; /* 50px */
@@ -121,19 +139,110 @@ table, th, td {
 	cursor: pointer; /* 마우스 포인터 효과 */
 }
 
-.pop-btn.confirm { /* 확인버튼 */
-	border-right: 1px solid #3b5fbf; /* 오른쪽 줄 */
+.product-option {
+	display: flex;
+	justify-content: space-around;
+}
+
+.option-box {
+	width: 600px; /* 옵션창을 더 길게 만들기 */
+	margin: 10px; /* 간격을 주기 위한 margin 추가 */
+	padding: 10px;
+	border: 1px solid #ccc;
+	text-align: center;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	border-radius: 10px; /* 모서리 둥글게 설정 */
+}
+
+.option-box:hover {
+	background-color: #f0f0f0;
+}
+
+.option-name {
+	font-weight: bold;
+	margin-top: 10px;
+}
+
+.option-description, .option-details {
+	display: none;
+	margin-top: 10px; /* 조금 더 큰 간격 */
+}
+
+.option-box.active .option-description, .option-box.active .option-details
+	{
+	display: block;
+}
+
+.quantity {
+	margin-top: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.decrement, .increment {
+	padding: 5px 10px;
+	font-size: 16px;
+	cursor: pointer;
+	border-radius: 5px; /* 모서리 둥글게 설정 */
+}
+
+.decrement {
+	margin-right: 5px; /* 간격 추가 */
+}
+
+.quantity-value {
+	margin: 0 10px;
+}
+
+.confirm-button {
+	margin-top: 10px;
+	width: 500px;
+	padding: 5px 15px;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	border-radius: 5px; /* 모서리 둥글게 설정 */
+}
+
+.confirm-button:hover {
+	background-color: #0056b3;
+	transform: scale(1); /* 마우스 오버 시 크기 변화 없애기 */
 }
 </style>
 </head>
 
 <body>
+<!-- 옵션선택 모달창 -->
+	<div id="modal" class="modal">
+		<div class="modal_body">
+			<c:forEach items="${fundingGoodsInfo }" var="fundingGoods">
+				<div class="product-option">
+					<div class="option-box" onclick="toggleDetails(this)">
+						<p class="option-name">${fundingGoods.fndGoodsName }<br>${fundingGoods.fndGoodsAmount }<br>${fundingGoods.fndGoodsPrice }<br>텍스트
+						</p>
+						<p class="option-description">${fundingGoods.fndGoodsContent }</p>
+						<div class="option-details">
+							<p class="option-details-content">상세 설명이 여기에 나타납니다.</p>
+							<div class="quantity">
+								<button class="decrement">-</button>
+								<span class="quantity-value">1</span>
+								<button class="increment">+</button>
+							</div>
 
-
-	<div class="modal">
-		<div class="modal_body">Modal테스트</div>
+							<button class="confirm-button"
+								data-price="${fundingGoods.fndGoodsPrice}">
+								${fundingGoods.fndGoodsPrice}</button>
+						</div>
+					</div>
+					<!-- 다른 옵션 박스들도 추가 가능 -->
+				</div>
+			</c:forEach>
+		</div>
 	</div>
-
 	<section>
 		<div class="container">
 			<form method="post" name="fundingFrm">
@@ -310,7 +419,29 @@ function remaindTime() {
      }
    }
  });
+//옵션선택 모달 관련
+ const body = document.querySelector('body');
+ const modal = document.getElementById('modal');
+ const btnOpenPopup = document.getElementById('btnOpenPopup');
 
+ btnOpenPopup.addEventListener('click', () => {
+   modal.classList.toggle('show');
+
+   if (modal.classList.contains('show')) {
+     body.style.overflow = 'hidden';
+   }
+ });
+
+ modal.addEventListener('click', (event) => {
+   if (event.target === modal) {
+     modal.classList.toggle('show');
+
+     if (!modal.classList.contains('show')) {
+       body.style.overflow = 'auto';
+     }
+   }
+ });
+//공유하기 모달 관련
  $(function(){
 	  $("#confirm").click(function(){
 	      modalClose(); //모달 닫기 함수 호출
@@ -369,10 +500,11 @@ function remaindTime() {
 	        ],
 	    })
 	};
+	//페이스북 공유하기
 	function shareFacebook() {
 	    window.open("http://www.facebook.com/share.php?u=" + encodeURIComponent(location.href));
 	};
-	
+	//트위터 공유하기
 	function shareTwitter() {
 	    var sendText = "${fundingPostInfo.fndTitle }"; // 전달할 텍스트
 	    var sendUrl = "text"; // 전달할 URL

@@ -36,7 +36,8 @@
   			Fnd_End_Date,
   			Fnd_Content,
   			member_Email,
-  			Fnd_Participants
+  			Fnd_Participants,
+  			Fnd_Post_Number
   		FROM Funding_Post
   		WHERE Fnd_Post_Number = #{fndPostNumber}
   	</select>
