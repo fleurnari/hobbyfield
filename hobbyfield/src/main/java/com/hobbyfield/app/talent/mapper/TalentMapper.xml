@@ -4,9 +4,9 @@
 
 	<!-- 재능기부 전체조회 -->
 	<select id="getAllTalent" resultType="TalentVO">
-		SELECT * 
-		  FROM TALENT 
-		 ORDER BY talent_id DESC
+		SELECT *
+		FROM TALENT
+		ORDER BY talent_id DESC
 	</select>
 
 	<!-- 재능기부 단건조회 -->
@@ -16,50 +16,55 @@
 	</select>
 
 	<!-- 재능기부 등록 -->
-	<insert id="createTalent" parameterType="TalentVO">
+	<insert id="insertTalent" parameterType="TalentVO">
+		<selectKey keyProperty="tlntId" resultType="int"
+			order="BEFORE">
+			SELECT NVL(MAX(notice_id), 0) + 1
+			FROM TALENT
+		</selectKey>
 		INSERT INTO TALENT (
-				TLNT_ID,
-				TLNT_CATE, 
-				TLNT_TITLE, 
-				TLNT_CONTENT, 
-				TLNT_WRITER,
-				TLNT_WDATE,
-				TLNT_VIEW, 
-				TLNT_STARTDAY, 
-				TLNT_ENDDAY,
-				TLNT_CAP, 
-				TLNT_STATUS,
-				TLNT_REGEND
+		TLNT_ID,
+		TLNT_CATE,
+		TLNT_TITLE,
+		TLNT_CONTENT,
+		TLNT_WRITER,
+		TLNT_WDATE,
+		TLNT_VIEW,
+		TLNT_STARTDAY,
+		TLNT_ENDDAY,
+		TLNT_CAP,
+		TLNT_STATUS,
+		TLNT_REGEND
 		) VALUES (
-				#{tlntId},
-				#{tlntCate},
-				#{tlntTitle},
-				#{tlntContent},
-				#{tlntWriter},
-				#{tlntWdate},
-				#{tlntView},
-				#{tlntStartday},
-				#{tlntEndday},
-				#{tlntCap},
-				#{tlntStatus},
-				#{tlntRegEnd}
+		#{tlntId},
+		#{tlntCate},
+		#{tlntTitle},
+		#{tlntContent},
+		#{tlntWriter},
+		#{tlntWdate},
+		#{tlntView},
+		#{tlntStartday},
+		#{tlntEndday},
+		#{tlntCap},
+		#{tlntStatus},
+		#{tlntRegEnd}
 		)
 	</insert>
 
 	<!-- 재능기부 수정 -->
 	<update id="updateTalent" parameterType="TalentVO">
 		UPDATE TALENT SET
-				TLNT_CATE     = #{tlntCate},
-				TLNT_TITLE    = #{tlntTitle},
-				TLNT_CONTENT  = #{tlntContent},
-				TLNT_WRITER   = #{tlntWriter},
-				TLNT_WDATE 	  = #{tlntWdate},
-				TLNT_VIEW     = #{tlntView},
-				TLNT_STARTDAY = #{tlntStartday},
-				TLNT_ENDDAY   = #{tlntEndday},
-				TLNT_CAP      = #{tlntCap},
-				TLNT_STATUS   = #{tlntStatus},
-				TLNT_REGEND   = #{tlntRegEnd}
+		TLNT_CATE = #{tlntCate},
+		TLNT_TITLE = #{tlntTitle},
+		TLNT_CONTENT = #{tlntContent},
+		TLNT_WRITER = #{tlntWriter},
+		TLNT_WDATE = #{tlntWdate},
+		TLNT_VIEW = #{tlntView},
+		TLNT_STARTDAY = #{tlntStartday},
+		TLNT_ENDDAY = #{tlntEndday},
+		TLNT_CAP = #{tlntCap},
+		TLNT_STATUS = #{tlntStatus},
+		TLNT_REGEND = #{tlntRegEnd}
 		WHERE TLNT_ID = #{tlntId}
 	</update>
 
@@ -70,9 +75,9 @@
 	</delete>
 
 	<!-- 재능기부 조회수 -->
-	<update id="increaseViewCount" parameterType="int">
+	<update id="updateTalentView" parameterType="int">
 		UPDATE TALENT SET
-				TLNT_VIEW = TLNT_VIEW + 1 
+		TLNT_VIEW = TLNT_VIEW + 1
 		WHERE TLNT_ID = #{tlntId}
 	</update>
 </mapper>

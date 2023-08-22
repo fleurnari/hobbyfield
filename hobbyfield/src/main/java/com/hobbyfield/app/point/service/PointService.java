@@ -21,8 +21,8 @@ public interface PointService {
 	public int updatePoint(PointVO pointVO);
 
 	// 포인트샵 상품 삭제
-	public int pointDelete(int pointId);
+	public int deletePoint(int pointId);
 
 	// 포인트샵 상품 조회수
-	public int pointViewCount(PointVO pointVO);
+	public int updatePointView(PointVO pointVO);
 }

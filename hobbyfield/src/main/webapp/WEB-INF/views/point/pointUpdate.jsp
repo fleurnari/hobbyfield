@@ -14,49 +14,40 @@ body {
 	justify-content: space-between;
 	align-items: center;
 	min-height: 100vh;
-	margin: 0;
+	margin-top: 150px;
 }
 </style>
 </head>
 <body>
-	<table>
-		<thead>
-			<tr>
-				<th>포인트 상품번호</th>
-				<th>작성일</th>
-				<th>제목</th>
-				<th>작성자</th>
-				<th>내용</th>
-				<th>첨부이미지</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>${point.pointId }</td>
-				<td><fmt:formatDate value="${pointInfo.pointRegdate }"
-						pattern="yyyy/MM/dd" /></td>
-				<td>${point.pointName }</td>
-				<td>${pointInfo.pointWriter }</td>
-				<td><textarea rows="3" cols="2" style="width: 100px;"
-						placeholder="내용을 입력하세요.">
-				${pointInfo.pointContent }
-				</textarea></td>
-				<c:choose>
-					<c:when test="${ not empty pointInfo.pointImgPath }">
-						<td><img
-							src='<c:url value="/resources/${pointInfo.pointImgPath }" />'
-							style="width: 200px;"></td>
-					</c:when>
-					<c:otherwise>
-						<td>파일없음</td>
-					</c:otherwise>
-				</c:choose>
-		</tbody>
-	</table>
-	<div class="buttonGroup">
-		<button type="submit">수정완료</button>
-		<button type="button" onclick="location.href='pointList'">목록</button>
-		<button type="reset" onclick="location.href='pointUpdate'">취소</button>
+	<div class="container">
+		<div>
+			<h3>포인트상품 수정</h3>
+		</div>
+		<div class="form-input">
+			<label for="pointName">포인트 상품명</label> <input type="text"
+				id="pointName" name="pointName" value="${point.pointName}"
+				placeholder="${point.pointName}">
+		</div>
+		<div class="formp-input">
+			<label for="pointContent">상세설명</label>
+			<textarea id="pointContent" name="pointContent" rows="10" required>${point.pointContent}</textarea>
+		</div>
+		<div>
+			<label for="pointEndterm">상품판매 마감일</label><input type="date"
+				id="pointEndterm" name="pointEndterm" required="required">
+		</div>
+		<div>=================이미지업로드================</div>
+		<div class="buttonGroup">
+			<button type="submit">수정완료</button>
+			<button type="button" onclick="location.href='poinList'">목록</button>
+			<button type="reset" onclick="location.href='pointUpdate'">초기화</button>
+		</div>
 	</div>
+	
+	<script type="text/javascript">
+	
+	
+	
+	</script>
 </body>
 </html>

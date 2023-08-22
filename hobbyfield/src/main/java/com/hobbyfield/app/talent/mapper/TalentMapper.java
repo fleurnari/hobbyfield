@@ -13,7 +13,7 @@ public interface TalentMapper {
     public TalentVO getTalentInfo(int tlntId);
 
     // 재능기부 글 등록
-    public void createTalent(TalentVO talent);
+    public void insertTalent(TalentVO talent);
 
     // 재능기부 글 수정
     public void updateTalent(TalentVO talent);
@@ -22,5 +22,5 @@ public interface TalentMapper {
     public void deleteTalent(int tlntId);
 
     // 재능기부 글 조회수 증가
-    public void increaseViewCount(int tlntId);
+    public void updateTalentView(int tlntId);
 }

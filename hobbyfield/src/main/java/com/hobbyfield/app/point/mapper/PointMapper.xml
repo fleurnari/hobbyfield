@@ -35,19 +35,19 @@
 		FROM point
 		WHERE point_id = #{pointId}
 	</select>
-	<!-- po.point_opt_id, -->
-	<!-- po.point_period, -->
-	<!-- po.point_price, -->
+<!-- 	po.point_opt_id, -->
+<!-- 	po.point_period, -->
+<!-- 	po.point_price, -->
 
-	<!-- e.emoji_id, -->
-	<!-- e.emoji_img_name, -->
-	<!-- e.emoji_img_path -->
-	<!-- FROM point p -->
-	<!-- FULL OUTER JOIN -->
-	<!-- point_option po ON p.point_id = po.point_id -->
-	<!-- FULL OUTER JOIN emoji e ON po.point_id -->
-	<!-- = e.point_id -->
-	<!-- WHERE p.point_id = #{pointId} -->
+<!-- 	e.emoji_id, -->
+<!-- 	e.emoji_img_name, -->
+<!-- 	e.emoji_img_path -->
+<!-- 	FROM point p -->
+<!-- 	FULL OUTER JOIN -->
+<!-- 	point_option po ON p.point_id = po.point_id -->
+<!-- 	FULL OUTER JOIN emoji e ON po.point_id -->
+<!-- 	= e.point_id -->
+<!-- 	WHERE p.point_id = #{pointId} -->
 
 
 	<!-- 포인트 상품등록 -->
@@ -119,13 +119,13 @@
 
 
 	<!-- 포인트 상품 삭제 -->
-	<delete id="pointDelete" parameterType="int">
+	<delete id="deletePoint" parameterType="int">
 		DELETE FROM point
 		WHERE point_id = #{pointId}
 	</delete>
 
 	<!-- 조회수 업데이트 -->
-	<update id="pointViewCount" parameterType="PointVO">
+	<update id="updatePointView" parameterType="PointVO">
 		UPDATE point
 		SET
 		point_view = point_view + 1
