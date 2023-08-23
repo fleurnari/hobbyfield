@@ -1,54 +1,49 @@
 package com.hobbyfield.app.club.web;
 
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
-import javax.imageio.ImageIO;
+
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
+
+
+import com.hobbyfield.app.club.profile.service.ClubProfileService;
+import com.hobbyfield.app.club.profile.service.ClubProfileVO;
+
+import com.hobbyfield.app.club.board.service.ClubBoardService;
+import com.hobbyfield.app.club.board.service.ClubBoardVO;
 
 import com.hobbyfield.app.club.service.CreateclubService;
 import com.hobbyfield.app.club.service.CreateclubVO;
 import com.hobbyfield.app.comm.mapper.CommCodeMapper;
 import com.hobbyfield.app.comm.service.CommCodeVO;
+import com.hobbyfield.app.member.service.MemberVO;
 
 //0821 이선호 (소모임 관리)
-
 @Controller
 public class ClubController {
-	private static final Logger logger = LoggerFactory.getLogger(ClubController.class);
+	//private static final Logger logger = LoggerFactory.getLogger(ClubController.class);
 
 	@Autowired
 	CreateclubService createClubService;
+	
+	@Autowired
+	ClubBoardService clubBoardService;
 
+	@Autowired
+	ClubProfileService clubprofileService;
+	
 	@Autowired
 	CommCodeMapper commCodeMapper;
 	
@@ -95,7 +90,7 @@ public class ClubController {
 	@PostMapping("/nickChk")
 	public String nickChkPOST(String profileNickname) throws Exception {
 
-		int result = createClubService.nickChk(profileNickname);
+		int result = clubprofileService.nickChk(profileNickname);
 
 		if (result != 0) {
 
@@ -125,7 +120,7 @@ public class ClubController {
 		}
 	}
 
-	// 소모임 수정
+	// 소모임 수정 (구현중)
 	@PostMapping("updateClub")
 	@ResponseBody
 	public Map<String, String> updateClub(@RequestBody CreateclubVO createclubVO){
@@ -134,124 +129,63 @@ public class ClubController {
 	
 	// 소모임 삭제?
 
+
+	/*========= 마이페이지 개인정보 : 프로필 이미지 등록, 개인정보 조회=========*/
+
 	/* 마이페이지 개인정보 : 프로필 이미지 등록, 개인정보 조회 */
+	
+	
+	// 프로필 추후 이동 ==
+
 	// 프로필 이미지 등록
-	@GetMapping("/profileImg")
-	public String img(Model model) {
-		model.addAttribute("profile", createClubService.getNomalMypage());
-		return "club/profileImg";
-	}
-
-	// 프로필 이미지 등록 과정
-	@PostMapping("/profileImg")
-	public String ImgProcess(CreateclubVO clubVO) {
-		createClubService.insertClubInfo(clubVO);
-		return "redirect:clubList";
-	}
-
-	// 프로필이미지 업로드, 수정
-//	@PostMapping(value="/uploadsAjax")
-//	@ResponseBody
-//	public ResponseEntity<List<CreateclubVO>> uploadImg(MultipartFile[] profileImg) {
-//		logger.info("uploadsAjax.....");
-//		
-//		for(MultipartFile multipartFile: profileImg) {
-//			
-//			File checkfile = new File(multipartFile.getOriginalFilename());
-//			// MIME TYPE을 저장할 String 타입의 type 변수를 선언하고 null로 초기화
-//			String type = null;
-//			
-//			
-//			try {
-//			// Files의 probeContetype() 메서드를 호출하여 반환하는 MIME TYPE 데이터를 type 변수에 대입
-//				type = Files.probeContentType(checkfile.toPath());
-//				logger.info("MIME TYPE : " + type);
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//			
-//			if(!type.startsWith("image")) {
-//				List<CreateclubVO> list = null;
-//				return new ResponseEntity<>(list, HttpStatus.BAD_REQUEST);
-//			}
-//		}
-//		
-//		
-//		String uploadFolder = "c:\\upload";
-//		//날짜 폴더 경로
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//		
-//		Date date = new Date();
-//		
-//		String str = sdf.format(date);
-//		
-//		String datePath = str.replace("-", File.separator);
-//		
-//		//폴더생성
-//		File uploadPath = new File(uploadFolder, datePath);
-//		
-//		if(uploadPath.exists() == false) { 
-//			uploadPath.mkdirs(); 
-//		}
-//		
-//		/* 이미지 정보 담는 객체 */
-//		List<CreateclubVO> list = new ArrayList();
-//		
-//		
-//		for(MultipartFile multipartFile : profileImg) {
-//			/* 이미지 정보 객체 */
-//			CreateclubVO vo  = new CreateclubVO();
-//			
-//			/* 파일 이름 // VO 객체에 경로 설정 */
-//			String uploadFileName = multipartFile.getOriginalFilename();			
-//			vo.setProfileImg(uploadFileName);
-//			vo.setProfileImgPath(datePath);
-//			
-//			/* uuid 적용 파일 이름 */
-//			String uuid = UUID.randomUUID().toString();
-//			
-//			uploadFileName = uuid + "_" + uploadFileName;
-//			
-//			/* 파일 위치, 파일 이름을 합친 File 객체 */
-//			File saveFile = new File(uploadPath, uploadFileName);
-//			
-//			// DB에 경로 저장
-//	        createClubService.saveProfileImagePath(vo);
+//	@GetMapping("/profileImg")
+//	public String img(Model model) {
+//		model.addAttribute("profile", createClubService.getNomalMypage());
+//		return "club/profileImg";
+//	}
 //
-//			
-//			/* 파일 저장 */
-//			try {
-//				multipartFile.transferTo(saveFile);
-//				/* 썸네일 생성 */
-//				File thumbnailFile = new File(uploadPath, "s_" + uploadFileName);
-//				
-//				BufferedImage bo_image = ImageIO.read(saveFile);
-//				//비율
-//				double ratio = 3;
-//				//넓이 높이
-//				int width = (int) (bo_image.getWidth() / ratio);
-//				int height = (int) (bo_image.getHeight() / ratio);
-//				
-//				BufferedImage bt_image = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
-//								
-//				Graphics2D graphic = bt_image.createGraphics();
-//				
-//				graphic.drawImage(bo_image, 0, 0,width,height, null);
-//					
-//				ImageIO.write(bt_image, "jpg", thumbnailFile);
-//				
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			} 
-//			list.add(vo); //이미지 정보가 저장된 createClubVO객체를 List의 요소로 추가
-//		}
-//		
-//		ResponseEntity<List<CreateclubVO>> result = new ResponseEntity<List<CreateclubVO>>(list, HttpStatus.OK);
-//		
-//		return result; //ResponseEntity 객체를 반환
+//	// 프로필 이미지 등록 과정
+//	@PostMapping("/profileImg")
+//	public String ImgProcess(CreateclubVO clubVO) {
+//		createClubService.insertClubInfo(clubVO);
+//		return "redirect:clubList";
 //	}
 	
+	//프로필 등록 Form(페이지)
+	@GetMapping("insertProfile")
+	public String profileInsertForm(Model model) {
+	    return "club/insertProfile";  // 프로필 입력 폼 페이지의 뷰 이름
+	}
+
 	
+	// 프로필 등록 처리
+	@PostMapping("insertProfile")
+	public String profileInsertProcess(ClubProfileVO profileVO) {
+	    // 프로필 정보를 DB에 저장하는 서비스 메서드를 호출합니다.
+		clubprofileService.insertProfile(profileVO);
+	    
+	    // 프로필 정보 저장 후 원하는 페이지로 리다이렉트 
+	    return "redirect:insertProfile";
+	}
+	
+	//프로필 개인정보 조회
+	@GetMapping("/getNomalMypage")
+	public String getNomalMypage(ClubProfileVO clubprofileVO, Model model, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		clubprofileVO.setMemberEmail(member.getMemberEmail());
+		ClubProfileVO findVO = clubprofileService.getNomalMypage(clubprofileVO);
+		model.addAttribute("getNomalMypage", findVO);
+		return "club/getNomalMypage";
+	}
+	
+	//프로필 수정 (이미지 포함)
+	@PostMapping("updateProfile")
+	@ResponseBody
+	public Map<String, String> updateProcess(@RequestBody ClubProfileVO clubprofileVO){
+		return clubprofileService.updateProfile(clubprofileVO);
+	}
+
+	// 게시글 ==
 	// 소모임 게시글 생성
 	@GetMapping("clubBoardInsert")
 	public String clubBoardInsertForm() {
@@ -263,5 +197,38 @@ public class ClubController {
 	public String TestImg() {
 		return "club/TESTIMG";
 	}
+	
+	@GetMapping("uploadForm")
+	public String uploadForm() {
+		return "club/uploadForm";
+	}
+	
+	
+	@PostMapping("clubBoardInsert")
+	public String insertClubBoard(ClubBoardVO vo) {
+		clubBoardService.insertClubBoard(vo);
+		
+		return "club/clubBoardList";
+	}
+	
+	@GetMapping("clubBoardList")
+	public String clubBoardList(Model model) {
+		List<ClubBoardVO> clubBoardList = clubBoardService.getAllClubBoardList();
+		model.addAttribute("boardList", clubBoardList);
+		
+		return "club/clubBoardList";
+	}
+	
+	@GetMapping("clubBoardInfo")
+	public String clubBoardInfo(Model model,CreateclubVO vo) {
+		
+		/*
+		 * clubBoardService.getClubBoardInfo(vo); model.addAttribute("board", );
+		 */
+		
+		
+		return "club/clubBoardInfo";
+	}
+	
 
 }

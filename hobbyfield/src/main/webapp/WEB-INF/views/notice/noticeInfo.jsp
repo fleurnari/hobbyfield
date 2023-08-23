@@ -52,7 +52,7 @@ body {
 	</table>
 	<!-- 버튼 -->
 	<div class="buttonGroup">
-		<button type="submit" onclick="location.href='updateNotice'">수정</button>
+		<button type="submit" onclick="location.href='updateNotice?noticeId=${notice.noticeId}'">수정</button>
 		<button type="button" onclick="location.href='deleteNotice?noticeId=${notice.noticeId}'">삭제</button>
 		<button type="button" onclick="location.href='noticeList'">목록</button>
 	</div>

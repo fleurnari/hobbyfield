@@ -1,19 +1,14 @@
 package com.hobbyfield.app.point.web;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hobbyfield.app.point.service.PointService;
 import com.hobbyfield.app.point.service.PointVO;
-// 2023.08.21 천혜련 - 포인트 상점
 
 @Controller
 public class PointController {
@@ -46,33 +41,28 @@ public class PointController {
 	// 등록 - Process
 	@PostMapping("/pointInsert")
 	public String pointInsertProcess(PointVO pointVO) {
+		System.out.println(pointVO);
+		//이모티콘 첨부파일
+		
 		pointService.insertPoint(pointVO);
-		 return "redirect:pointList";
+		return "redirect:pointList";
 	}
 
 	// 수정 - Form
 	@GetMapping("/pointUpdate")
 	public String pointUpdateForm(PointVO pointVO, Model model) {
 		PointVO findVO = pointService.getPointInfo(pointVO);
-		model.addAttribute("pointInfo", findVO);
+		model.addAttribute("point", findVO);
 		return "point/pointUpdate";
 	}
 
 	// 수정 - Process
 	@PostMapping("/pointUpdate")
-	@ResponseBody
 	public String pointUpdateProcess(PointVO pointVO) {
-		boolean result = false;
 
 		int pointId = pointService.updatePoint(pointVO);
-		if (pointId > 0) {
-			result = true;
-		}
-		Map<String, Object> map = new HashMap<>();
-		map.put("result", result);
-		map.put("pointInfo", pointVO);
 
-		return "redirect:/pointInfo?pointId="+pointVO.getPointId();
+		return "redirect:pointList";
 	}
 
 	// 삭제
@@ -81,6 +71,5 @@ public class PointController {
 		pointService.deletePoint(pointId);
 		return "redirect:/pointList";
 	}
-
 
 }

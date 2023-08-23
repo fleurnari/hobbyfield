@@ -26,13 +26,13 @@ public class CreateclubServiceImpl implements CreateclubService {
 	
 	//소모임 등록
 	@Override
-	public int insertClubInfo(CreateclubVO createclubVO) {
+	public String insertClubInfo(CreateclubVO createclubVO) {
 		int result = createclubMapper.insertClub(createclubVO);
 		
 		if(result == 1) {
-			return createclubVO.getClubNumber();
+			return createclubVO.getClubName();
 		}else {
-			return -1;
+			return "ERROR";
 		}
 	
 	}
@@ -54,10 +54,10 @@ public class CreateclubServiceImpl implements CreateclubService {
 	}
 
 	//닉네임 중복체크
-	@Override
-	public int nickChk(String profileNickname) {
-		return createclubMapper.nickChk(profileNickname);
-	}
+//	@Override
+//	public int nickChk(String profileNickname) {
+//		return createclubMapper.nickChk(profileNickname);
+//	}
 
 	//모임 이름 중복체크 
 	@Override
@@ -65,37 +65,27 @@ public class CreateclubServiceImpl implements CreateclubService {
 		return createclubMapper.clubnameChk(clubName);
 	}
 
+
+
 	/*==== 마이페이지	===============================	*/
 	//프로필 이미지 등록
-	@Override
-	public int insertImgInfo(CreateclubVO createclubVO) {
-		return createclubMapper.profileImg(createclubVO);
-	}
+//	@Override
+//	public int insertImgInfo(CreateclubVO createclubVO) {
+//		return createclubMapper.profileImg(createclubVO);
+//	}
 
-	//프로필 내정보 조회
-	@Override
-	public List<CreateclubVO> getNomalMypage() {
-		return createclubMapper.getNomalMypage();
-	}
+	//프로필 등록
+//	@Override
+//	public int insertProfile(CreateclubVO createclubVO) {
+//	    return createclubMapper.insertProfile(createclubVO);
+//	}
+//	
+//	//프로필 내정보 조회
+//	@Override
+//	public CreateclubVO getNomalMypage(CreateclubVO createclubVO) {
+//		return createclubMapper.getNomalMypage(createclubVO);
+//	}
 
-	//프로필 이미지 저장
-	@Override
-	public void saveProfileImagePath(CreateclubVO vo) {
-		createclubMapper.profileImg(vo);
-		
-	}
-
-	@Override
-	public void insertProfileImage(CreateclubVO vo) throws Exception {
-		try {
-			createclubMapper.profileImg(vo);
-		} catch (Exception e) {
-			// 예외를 다시 throw하여 컨트롤러에서 처리하도록 합니다.
-            throw new Exception("Failed to insert profile image. Check member details.", e);
-		}
-	}
-
-
-
-
+	
+	
 }
