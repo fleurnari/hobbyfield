@@ -16,13 +16,15 @@
 			<p>테스트</p>
 		</div>
 		<div>
-<!-- 			<input type="file" name="uploadFile" multiple="multiple" onchange="readURL(this);"> 
+<!-- 		<input type="file" name="uploadFile" multiple="multiple" onchange="readURL(this);"> 
 			<img id="preview" /> -->
-			<input type="file" name="uploadFile" multiple="multiple" >
+			<input name="uploadFile" type="file" name="uploadFile" multiple="multiple" >
 			<button id="uploadBtn">upload</button>
+			<img id="preview" style="width: 200px; height: 200px;"/>
 		</div>
+		<img src="download/img/common.png" style="width: 200px; height: 200px;">
 	</div>
-
+	
 	<script type="text/javascript">
 	
 	var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
@@ -41,18 +43,19 @@
 		return true;	
 	}		
 	
-// 	function readURL(input) {
-//   		if (input.files && input.files[0]) {
-//     		var reader = new FileReader();
-//     		reader.onload = function(e) {
-//       		document.getElementById('preview').src = e.target.result;
-//     		};
-//     		reader.readAsDataURL(input.files[0]);
-//   		} else {
-//     	document.getElementById('preview').src = "";
-//   		}
-// 	}
-		$(document).ready(function() {
+	function readURL(input) {
+  		if (input.files && input.files[0]) {
+    		var reader = new FileReader();
+    		reader.onload = function(e) {
+      		document.getElementById('preview').src = e.target.result;
+    		};
+    		reader.readAsDataURL(input.files[0]);
+  		} else {
+    	document.getElementById('preview').src = "";
+  		}
+	}
+	
+	$(document).ready(function() {
 			$("#uploadBtn").on("click", function(e) {
 				var formData = new FormData();
 
@@ -71,17 +74,21 @@
 					
 					formData.append("uploadFile", files[i]);
 				}
-
+					
 				$.ajax({
 					url : "uploadAjaxFile",
 					processData : false,
 					contentType : false,
 					data : formData,
 					type : 'POST',
-					success : function(reuslt) {
-						console.log(reuslt)
-						
+					success : function(mv) {
+						console.log(mv.url + " => url");
+						console.log(mv.UUID + " => UUID");
 						alert("Upload성공");
+						
+						var imgTag = document.getElementById("preview");
+						imgTag.src = mv.url+ mv.UUID; 
+						targetElement.appendChild(imgTag);
 					}
 				})
 

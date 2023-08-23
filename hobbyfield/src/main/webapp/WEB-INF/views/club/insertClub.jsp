@@ -29,7 +29,9 @@
 				<span class="nick_input_re2">닉네임이 이미 존재합니다.</span>
 				<span class="final_name_ck">사용할 닉네임을 입력하세요.</span>
 			</div>
-			
+			<div>
+				<input name="uploadFile" type="file" name="uploadFile" multiple="multiple" onchange="">
+			</div>
 			<div>
 				<div>	
 					<label>모임이름</label>
@@ -209,39 +211,49 @@ $('.nick_input').on("propertychange change keyup paste input", function(){
 
 		});
 	});
-	
-	
-	/* //비동기 방식으로 이미지 파일 미리보기 + 사이즈 및 용량제한
-	const fileDOM = document.querySelector('#logo');
-	const preview = document.querySelector('.image-box');
+	// 파일 선택 1개로 제한 
+	$(function(){
+	    $("input[type='submit']").click(function(){
+	        var $fileUpload = $("input[type='file']");
+	        if (parseInt($fileUpload.get(0).files.length)>2){
+	         alert("1개의 이미지 파일만 선택해주세요.");
+	        }
+	    });    
+	});​
+	$(document).ready(function() {
+		$("#uploadBtn").on("click", function(e) {
+			var formData = new FormData();
 
-	let maxWidth = fileDOM.dataset.width;
-	let maxHeigth = fileDOM.dataset.height;
-	let maxSize = 512000;
+			var inputFile = $("input[name='uploadFile']");
 
-	fileDOM.addEventListener('change', function() {
-		//파일 용량 제한
-		if(fileDOM.files[0].size > maxSize) {
-			alert('500KB이하의 이미지만 등록할 수 있습니다.');
-			fileDOM.value = '';
-			return false;		
-		}
+			var files = inputFile[0].files;
 
-		//이미지 사이즈 제한
-		let img = new Image();
-		img.src = URL.createObjectURL(fileDOM.files[0]);
-		
-		img.onload = function() {
-			if(this.width > maxWidth || this.heigth > maxHeigth) {
-				alert('400 * 100px 이미지만 등록할 수 있습니다.');
-				fileDOM.value = '';
-			} else {
-				//미리보기 이미지 출력
-				preview.src = URL.createObjectURL(fileDOM.files[0]);		
+			for (var i = 0; i < files.length; i++) {
+
+				
+				formData.append("uploadFile", files[i]);
 			}
-		};
+				
+			$.ajax({
+				url : "uploadAjaxFile",
+				processData : false,
+				contentType : false,
+				data : formData,
+				type : 'POST',
+				success : function(mv) {
+					console.log(mv.url + " => url");
+					console.log(mv.UUID + " => UUID");
+					alert("Upload성공");
+					
+					var imgTag = document.getElementById("preview");
+					imgTag.src = mv.url+ mv.UUID; 
+					targetElement.appendChild(imgTag);
+				}
+			})
+
+		});
 	});
-	 */
+
 	
 		$(document).ready(function() {
 		    // 상위 카테고리가 변경될 때

@@ -4,6 +4,9 @@ import java.util.List;
 
 public interface ImgFileService {
 	
+	// 서버 업로드 호출
+	public List<ImgFileVO> uploadServer(ImgFileVO vo);
+	
 	
 	// 파일 전체 조회
 	public List<ImgFileVO> getImgFileList();
