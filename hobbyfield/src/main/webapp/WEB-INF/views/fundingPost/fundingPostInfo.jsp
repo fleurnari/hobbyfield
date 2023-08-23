@@ -15,50 +15,50 @@ table, th, td {
 }
 
 .modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0);
-  opacity: 0;
-  pointer-events: none; /* Prevent interactions with hidden modal */
-  transition: background-color 0.3s ease, opacity 0.3s ease;
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0);
+	opacity: 0;
+	pointer-events: none; /* Prevent interactions with hidden modal */
+	transition: background-color 0.3s ease, opacity 0.3s ease;
 }
 
 .modal.show {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.5);
-  opacity: 1;
-  pointer-events: auto; /* Enable interactions with shown modal */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(0, 0, 0, 0.5);
+	opacity: 1;
+	pointer-events: auto; /* Enable interactions with shown modal */
 }
 
 .modal_body {
-  position: absolute;
-  width: 800px;
-  max-width: 90%;
-  padding: 40px;
-  text-align: center;
-  background-color: rgb(255, 255, 255);
-  border-radius: 10px;
-  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+	position: absolute;
+	width: 800px;
+	max-width: 90%;
+	padding: 40px;
+	text-align: center;
+	background-color: rgb(255, 255, 255);
+	border-radius: 10px;
+	box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	opacity: 0;
+	transition: opacity 0.3s ease;
 }
 
 .modal.show .modal_body {
-  opacity: 1;
+	opacity: 1;
 }
 
 /* Prevent scrolling on body when modal is open */
 body.modal-open {
-  overflow: hidden;
+	overflow: hidden;
 }
 
 .popup-wrap {
@@ -216,7 +216,7 @@ body.modal-open {
 </head>
 
 <body>
-<!-- 옵션선택 모달창 -->
+	<!-- 옵션선택 모달창 -->
 	<div id="modal" class="modal">
 		<div class="modal_body">
 			<c:forEach items="${fundingGoodsInfo }" var="fundingGoods">
@@ -232,8 +232,10 @@ body.modal-open {
 								<span class="quantity-value">1</span>
 								<button class="increment">+</button>
 							</div>
-
+${fundingGoods.fndGoodsNumber }===
+${fundingPostInfo.fndPostNumber }
 							<button class="confirm-button"
+								id="AddPayment"
 								data-price="${fundingGoods.fndGoodsPrice}">
 								${fundingGoods.fndGoodsPrice}</button>
 						</div>
@@ -315,9 +317,11 @@ body.modal-open {
 							value="${endPlanDate}" pattern="yyyy.MM.dd" />
 					</font> <br>
 					<button type="button" class="btn btn-dark"
-						onclick="location.href=''">관심목록</button>
-					<button type="button" id="modal-open">모달창 열기</button>
-					<button type="button" class="btn-open-popup">이 프로젝트 후원하기</button>
+								onclick="location.href=''">관심목록</button>
+							<!-- 공유하기 모달창 -->
+							<button type="button" class="btn btn-secondary" id="modal-open">공유하기</button>
+							<!-- 옵션선택 모달창 -->
+							<button type="button" class="btn btn-danger" id="btnOpenPopup">이 프로젝트 후원하기</button>
 				</div>
 			</form>
 			<form>
@@ -335,19 +339,24 @@ body.modal-open {
 						<div class="popup-body">
 							<div class="body-content">
 								<div class="body-titlebox">
-									<h1>공유하기</h1>
-								</div>
-								<hr>
-								<div class="body-contentbox">
-									<div>
-  										<a href="javascript:sendLink()"><img src="resources/images/icon-kakao.png " style="padding:20px"/></a>
-										<a href="javascript:shareFacebook()"><img src="resources/images/icon-facebook.png " style="padding:20px"/></a>
-										<a href="javascript:shareTwitter()"><img src="resources/images/icon-twitter.png "style="padding:20px"/></a>	
-										<a href="#" onclick="clip(); return false;"><img src="resources/images/icon-pngwing.png " style="padding: 20px" /></a>
-									</div>
+								<h1>공유하기</h1>
+							</div>
+							<hr>
+							<div class="body-contentbox">
+								<div>
+									<!-- 아래 스크립트단 처리 -->
+									<a href="javascript:sendLink()">
+									<img src="resources/images/icon-kakao.png " style="padding: 20px" /></a>
+									<a href="javascript:shareFacebook()">
+									<img src="resources/images/icon-facebook.png " style="padding: 20px" /></a> 
+									<a href="javascript:shareTwitter()">
+									<img src="resources/images/icon-twitter.png " style="padding: 20px" /></a>
+									<a href="#" onclick="clip(); return false;">
+									<img src="resources/images/icon-pngwing.png " style="padding: 20px" /></a>
 								</div>
 							</div>
 						</div>
+					</div>
 						<div class="popup-foot">
 							<!-- <span class="pop-btn confirm" id="confirm">확인</span>  -->
 							<span class="pop-btn close" id="close">창 닫기</span>
@@ -355,12 +364,11 @@ body.modal-open {
 					</div>
 				</div>
 			</div>
-			
-	</section>
+</section>
 
 
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-	<script type="text/javascript">
+<script type="text/javascript">
 
 function remaindTime() {
 	 
@@ -398,27 +406,7 @@ function remaindTime() {
 }
  setInterval(remaindTime,1000); 
 
- const body = document.querySelector('body');
- const modal = document.querySelector('.modal');
- const btnOpenPopup = document.querySelector('.btn-open-popup');
-
- btnOpenPopup.addEventListener('click', () => {
-   modal.classList.toggle('show');
-
-   if (modal.classList.contains('show')) {
-     body.style.overflow = 'hidden';
-   }
- });
-
- modal.addEventListener('click', (event) => {
-   if (event.target === modal) {
-     modal.classList.toggle('show');
-
-     if (!modal.classList.contains('show')) {
-       body.style.overflow = 'auto';
-     }
-   }
- });
+ 
 //옵션선택 모달 관련
  const body = document.querySelector('body');
  const modal = document.getElementById('modal');
@@ -441,7 +429,8 @@ function remaindTime() {
      }
    }
  });
-//공유하기 모달 관련
+
+ //공유하기 모달 관련
  $(function(){
 	  $("#confirm").click(function(){
 	      modalClose(); //모달 닫기 함수 호출
@@ -570,7 +559,18 @@ function remaindTime() {
         adjustQuantity(this, 1);
       });
     });
+	
 
+    
+/*     document.getElementById('AddPayment')addEventListener('click', (event){
+    	var fndGoodsNumber = '${fundingGoods.fndGoodsNumber }';
+    	var fndPostNumber = '${fundingPostInfo.fndPostNumber }';
+    	var quantityValue = button.parentElement.querySelector('.quantity-value');
+    	if (value >= 1) {
+            quantityValue.textContent = value;
+    	}
+    	
+    }); */
 </script>
 </body>
 </html>

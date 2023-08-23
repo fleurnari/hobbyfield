@@ -85,6 +85,7 @@ body {
 					for="noticeSubject">내용</label>
 				<textarea id="noticeSubject" name="noticeSubject" rows="5" required></textarea>
 				
+				
 			</div>
 			<div class="submit-buttons">
 				<button class="submit" type="submit" onclick="location.href='InsertNotice'">등록</button>
