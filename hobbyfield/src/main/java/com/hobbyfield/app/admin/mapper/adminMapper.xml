@@ -5,8 +5,16 @@
 <mapper namespace="com.hobbyfield.app.admin.mapper.AdminMapper">
 	
 	<select id="selectMemberList" resultType="com.hobbyfield.app.member.service.MemberVO">
+		SELECT * FROM member
+		WHERE member_comaccp IS NULL
+		OR member_comaccp = 'AJ2'
+		ORDER BY member_ltstconn DESC
+	</select>
+	
+	<select id="selectComMemberList" resultType="com.hobbyfield.app.member.service.MemberVO">
 		SELECT *
 		FROM member
+		WHERE member_grd = 'A2' AND member_comaccp IN ('AJ1', 'AJ3')
 	</select>
 
 	<select id="selectMember" resultType="com.hobbyfield.app.member.service.MemberVO">
@@ -15,16 +23,15 @@
 		WHERE member_email = #{memberEmail}
 	</select>
 
-	<update id="updateMember" parameterType="com.hobbyfield.app.member.service.MemberVO">
-	
-	</update>
-
 	<update id="updateComMember" parameterType="com.hobbyfield.app.member.service.MemberVO">
-	
+		UPDATE member
+		SET member_comaccp = #{memberComaccp}
+		WHERE member_email = #{memberEmail}
 	</update>
 
 	<delete id="deleteMember">
-	
+		DELETE FROM member
+		WHERE member_email = #{memberEmail}
 	</delete>
 
 </mapper>
