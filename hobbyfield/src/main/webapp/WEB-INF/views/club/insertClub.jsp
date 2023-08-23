@@ -19,7 +19,7 @@
 			<h2>소모임 정보</h2>		
 		</div>
 		<div>
-			
+
 			<div>
 				<div>	
 					<label>모임이름</label>
@@ -155,7 +155,53 @@ $(document).ready(function(){
 
 		});
 	});
+
 	
+
+	// 파일 선택 1개로 제한 
+	$(function(){
+	    $("input[type='submit']").click(function(){
+	        var $fileUpload = $("input[type='file']");
+	        if (parseInt($fileUpload.get(0).files.length)>2){
+	         alert("1개의 이미지 파일만 선택해주세요.");
+	        }
+	    });    
+	});
+	$(document).ready(function() {
+		$("#uploadBtn").on("click", function(e) {
+			var formData = new FormData();
+
+			var inputFile = $("input[name='uploadFile']");
+
+			var files = inputFile[0].files;
+
+			for (var i = 0; i < files.length; i++) {
+
+				
+				formData.append("uploadFile", files[i]);
+			}
+				
+			$.ajax({
+				url : "uploadAjaxFile",
+				processData : false,
+				contentType : false,
+				data : formData,
+				type : 'POST',
+				success : function(mv) {
+					console.log(mv.url + " => url");
+					console.log(mv.UUID + " => UUID");
+					alert("Upload성공");
+					
+					var imgTag = document.getElementById("preview");
+					imgTag.src = mv.url+ mv.UUID; 
+					targetElement.appendChild(imgTag);
+				}
+			})
+
+		});
+	});
+
+
 	
 		$(document).ready(function() {
 		    // 상위 카테고리가 변경될 때

@@ -72,10 +72,6 @@
 					
 					<form name="getCSboardInfo" method="post">
 						  <input type="hidden" name="csNumber" id="csNumber" value="${CSboardInfo.csNumber}">
-						  <input type="hidden" id="page" name="page" value="${scri.page}"> 
-						  <input type="hidden" id="perPageNum" name="perPageNum" value="${scri.perPageNum}"> 
-						  <input type="hidden" id="searchType" name="searchType" value="${scri.searchType}"> 
-						  <input type="hidden" id="keyword" name="keyword" value="${scri.keyword}"> 
 					</form>
                         <nav>
                             <h1 class="title">${CSboardInfo.csTitle}</h1>
@@ -105,12 +101,25 @@
 										작성자 : ${replyList.replyWriter}<br /> 
 										작성 날짜 : <fmt:formatDate value="${replyList.regDate}" pattern="yyyy-MM-dd" />
 										</p>
+										<div>
+										  <button type="button" class="replyUpdateBtn" data-replyId="${replyList.replyId}">수정</button>
+										  <button type="button" class="replyDeleteBtn" data-replyId="${replyList.replyId}">삭제</button>
+										</div>
 
 										<p>${replyList.content}</p>
 									</li>
 								</c:forEach>
 							</ol>
 						</div>
+						<!-- 모달 -->
+<div class="modal-background" id="modalBackground">
+    <div class="modal-container">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <div class="modal-content" id="modalContent">
+            <!-- 댓글 수정 폼이 여기에 로드될 것입니다. -->
+        </div>
+    </div>
+</div>
 
 						<form id="replyForm" method="post">
 						    <input type="hidden" id="csNumber" value="${CSboardInfo.csNumber}" />
@@ -121,8 +130,9 @@
 					</article>
                 </section>
             </div>
-        </section>	
-         <footer>
+            
+        </section>
+		<footer>
          
             <ul>
                 <li>
@@ -170,6 +180,7 @@
     
   	<script>
 	
+  	//게시글 수정, 삭제 , 목록
     $(document).ready(function(){
 		var formObj = $("form[name='getCSboardInfo']");
 		
@@ -200,18 +211,53 @@
 		})
 	})
 	
-    </script>
+   </script>
+   
    <script>
-function submitReply() {
-    var csNumber = $("#csNumber").val();
-    var content = $("#content").val();
-    var writer = $("#replyWriter").val(); // 작성자 이름 입력란의 ID를 사용하여 값을 가져옵니다.
+    // 댓글 수정 버튼 클릭 시 모달 열기와 댓글 수정 폼 로드
+    $(".replyUpdateBtn").on("click", function(){
+        var replyId = $(this).attr("data-replyId");
+        openModal();
 
-    var data = {
-        csNumber: csNumber,
-        content: content,
-        replyWriter: writer
-    };
+        // 댓글 수정 폼 로드를 위한 Ajax 요청
+        $.ajax({
+            type: "GET",
+            url: "replyUpdateView",
+            data: { csNumber: "${CSboardInfo.csNumber}", replyId: replyId },
+            success: function(response) {
+                $("#modalContent").html(response); // 모달 내용에 댓글 수정 폼 로드
+            },
+            error: function(xhr, status, error) {
+                // 오류 처리
+            }
+        });
+    });
+
+    // 모달 닫기
+    function closeModal() {
+        $("#modalBackground").hide();
+    }
+
+    // 모달 열기
+    function openModal() {
+        $("#modalBackground").show();
+    }
+   </script>
+   
+   <script>
+   
+   //댓글 목록조회
+	function submitReply() {
+	    var csNumber = $("#csNumber").val();
+	    var content = $("#content").val();
+	    var writer = $("#replyWriter").val(); 
+	    
+	
+	    var data = {
+	        csNumber: csNumber,
+	        content: content,
+	        replyWriter: writer
+	    };
 
     $.ajax({
         type: "POST",
@@ -220,12 +266,27 @@ function submitReply() {
         contentType: "application/json",
         success: function(response) {
             alert("댓글 작성 완료")
+            location.reload();
         },
         error: function(xhr, status, error) {
             alert("댓글 작성에 실패하였습니다.");
         }
     });
 }
+   
+//    	//수정
+// 	$(".replyUpdateBtn").on("click", function(){
+// 		location.href = "replyUpdateView?csNumber=${CSboardInfo.csNumber}"
+// 						+ "&replyId="+$(this).attr("data-replyId");
+// 	});
+   	
+	// 삭제
+	$(".replyDeleteBtn").on("click", function(){
+		location.href = "replyDeleteView?csNumber=${CSboardInfo.csNumber}"
+						+ "&replyId="+$(this).attr("data-replyId");
+	});
+	
+	
 </script>
 </body>
 </html>

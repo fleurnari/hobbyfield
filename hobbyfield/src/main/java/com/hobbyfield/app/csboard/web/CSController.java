@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,9 +64,8 @@ public class CSController {
 
 	// CS게시글상세보기
 	@GetMapping("CSboardInfo")
-	public String CSboardInfo(CSBoardVO csboardVO, @ModelAttribute("scri") SearchCriteria scri, Model model) {
+	public String CSboardInfo(CSBoardVO csboardVO, Model model) {
 		model.addAttribute("CSboardInfo", csboardService.getCSBoardInfo(csboardVO.getCsNumber()));
-		model.addAttribute("scri", scri);
 		
 		List<CSReplyVO> replyList = csboardService.readReply(csboardVO.getCsNumber());
 		model.addAttribute("replyList", replyList);
@@ -79,11 +77,53 @@ public class CSController {
     @ResponseBody
     public String insertReply(@RequestBody CSReplyVO replyVO) {
         csboardService.insertReply(replyVO); 
-        return "redirect:CSboardList";
+        return "";
     }
 	
-	//댓글 수정
+	// 댓글상세보기
+	@GetMapping("CSboardReplyInfo")
+	public String CSboardViewReply(int replyId, Model model) {
+		CSReplyVO replyVO = csboardService.getReply(replyId);
+		model.addAttribute("reply", replyVO);
+		return "CSboard/CSboardReplyInfo";
+	}
 	
+	//댓글수정폼
+	@GetMapping("replyUpdateView")
+	public String replyUpdateView(CSReplyVO replyVO, Model model){
+		
+		model.addAttribute("replyUpdate", csboardService.getReply(replyVO.getReplyId()));
+		
+		return "CSboard/replyUpdateView";
+	}
+	
+	//댓글수정
+	@PostMapping("replyUpdate")
+	public String replyUpdate(CSReplyVO replyVO) {
+		
+		csboardService.updateReply(replyVO);
+		
+		
+		return "redirect:CSboardList";
+	}
+	
+	
+	//댓글삭제폼
+	@GetMapping("replyDeleteView")
+	public String replyDeleteView(CSReplyVO replyVO, Model model) {
+		model.addAttribute("replyDelete", csboardService.getReply(replyVO.getReplyId()));
+		
+		return "CSboard/replyDeleteView";
+	}
+	
+	//댓글삭제
+	@PostMapping("replyDelete")
+	public String CSboardReplyDelete(CSReplyVO replyVO) {
+		
+		csboardService.deleteReply(replyVO);
+		
+		return "redirect:CSboardList";
+	}
 	
 	
 	// CS게시글등록폼
@@ -101,22 +141,15 @@ public class CSController {
 
 	// CS게시글수정폼
 	@GetMapping("CSboardUpdate")
-	public String CSboardUpdateForm(CSBoardVO csboardVO, @ModelAttribute("scri") SearchCriteria scri, Model model) {
+	public String CSboardUpdateForm(CSBoardVO csboardVO, Model model) {
 		model.addAttribute("CSboardInfo", csboardService.getCSBoardInfo(csboardVO.getCsNumber()));
-		model.addAttribute("scri", scri);
 		return "CSboard/CSboardUpdate";
 	}
 	
 	// CS게시글수정
 	@PostMapping("CSboardUpdate")
-	public String CSboardUpdate(CSBoardVO csboardVO, @ModelAttribute("scri") SearchCriteria scri, RedirectAttributes rttr) {
+	public String CSboardUpdate(CSBoardVO csboardVO) {
 		csboardService.UpdateCSBoard(csboardVO);
-		
-		/* �����̷�Ʈ �Ŀ��� �˻�����, �˻�� �����ϱ� ���� ���, ����
-		 * rttr.addAttribute("page", scri.getPage()); rttr.addAttribute("perPageNum",
-		 * scri.getPerPageNum()); rttr.addAttribute("searchType", scri.getSearchType());
-		 * rttr.addAttribute("keyword", scri.getKeyword());
-		 */
 		
 		return "redirect:CSboardList";
 		

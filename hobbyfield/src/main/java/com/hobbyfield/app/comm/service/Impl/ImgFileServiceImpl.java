@@ -2,10 +2,22 @@ package com.hobbyfield.app.comm.service.Impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.hobbyfield.app.comm.service.ImgFileService;
 import com.hobbyfield.app.comm.service.ImgFileVO;
 
 public class ImgFileServiceImpl implements ImgFileService {
+	
+	
+	@Autowired
+	
+	
+	@Override
+	public List<ImgFileVO> uploadServer(ImgFileVO vo) {
+		return null;
+	}
+
 	
 	
 	@Override
@@ -28,4 +40,5 @@ public class ImgFileServiceImpl implements ImgFileService {
 		return 0;
 	}
 
+	
 }

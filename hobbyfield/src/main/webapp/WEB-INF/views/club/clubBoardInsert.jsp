@@ -19,45 +19,44 @@
 	height: 80vh;
 }
 /* 모달 스타일 */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
 
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 60%;
-            max-width: 600px;
-        }
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%;
+    max-width: 600px;
+}
 
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
 
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
 </style>
 </head>
 <body>
-	<div align="center">
-	<div style="margin-top: 100px;">
+	<div align="center" style="margin-top: 100px;">
 		<form name="insertForm" action="clubBoardInsert" method="post" enctype="multipart/form-data">
 			<div>
 				<h3>게시글 작성</h3>
@@ -80,7 +79,11 @@
 			공지사항등록 <input type="checkbox" id="typeCheckbox" name="typeCheckbox" value="공지사항 등록">
 			<input type="hidden" name="clubBoardType" id="clubBoardType" value="">
 			<div>
-			
+			<!-- 추후 넣을값 : club_number, club_board_type -> -->
+			<div>
+				<input type="text" id="clubNumber" name="clubNumber" value="1">
+				<input type="text" id="clubBoardType" name="clubBoardType" value="N">
+			</div>
 			</div>
 			<button type="submit">등록</button>
 			<button type="reset">취소</button>
