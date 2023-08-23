@@ -16,18 +16,22 @@
         WHERE cs_number = #{csNumber}
         ORDER BY reply_id DESC
     </select>
-    
+    <!-- 댓글 상세보기 -->
+    <select id="getReply" resultType="CSReplyVO">
+        SELECT reply_id, cs_number, content, reply_writer, reg_date
+        FROM cs_reply
+        WHERE reply_id = #{replyId}
+    </select>
     
     <!-- 댓글 수정 -->
 	<update id="updateReply" parameterType="CSReplyVO">
-		UPDATE cs_reply SET content = #{content}
-		WHERE reply_id = #{replyId}
+	    UPDATE cs_reply
+	    SET content = #{content}
+	    WHERE reply_id = #{replyId}
 	</update>
-
-	<!-- 댓글 삭제 -->
-	<delete id="deleteReply" parameterType="CSReplyVO">
-		DELETE FROM cs_reply
-		WHERE reply_id = #{replyId}
+	<!-- 댓글 삭제  -->
+	<delete id="deleteReply" parameterType="int">
+    	DELETE FROM cs_reply WHERE reply_id = #{replyId}
 	</delete>
 	
 </mapper>
