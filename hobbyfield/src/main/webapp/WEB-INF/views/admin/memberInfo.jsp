@@ -80,7 +80,7 @@
 						</c:if>
 					</table>
 					<c:if test="${memberInfo.memberGrd eq 'A2' && memberInfo.memberComaccp ne 'AJ2'}">
-						<button type="submit">승인 여부 수정</button>
+						<button type="button" id="memUpdate" name="memUpdate">승인 여부 수정</button>
 					</c:if>
 					<c:if test="${memberInfo.memberGrd ne 'A3'}">
 						<button type="button" id="memDelete" name="memDelete">강제 탈퇴</button>
@@ -91,7 +91,7 @@
        </div>
     </section>
     <script>
-	  	$('form').on('submit', function(e){
+	  	$('#memUpdate').on('click', function(e){
 	  		
 	  		let objData = serializeObject();
 	  		
@@ -103,8 +103,33 @@
 	  		.done(data => {
 	  			if (data){
 	  				alert("기업 회원 승인 여부 처리를 완료 했습니다.");
+	  				$('form').submit;
 	  			} else {
 	  				alert("기업 회원 승인 여부 처리에 실패 했습니다.");
+	  				return;
+	  			}
+	  		})
+	  		.fail(reject => console.log(reject));
+	  		
+	  		return false;
+	  	});
+	  	
+	  	$('#memDelete').on('click', function(e){
+	  		
+	  		let objData = serializeObject();
+	  		
+	  		$.ajax({
+	  			url : 'forcedDeleteMember',
+	  			method : 'POST',
+	  			data : objData
+	  		})
+	  		.done(data => {
+	  			if (data){
+	  				alert("강제 탈퇴 처리를 완료 했습니다.");
+	  				$('form').submit;
+	  			} else {
+	  				alert("강제 탈퇴 처리에 실패 했습니다.");
+	  				return;
 	  			}
 	  		})
 	  		.fail(reject => console.log(reject));

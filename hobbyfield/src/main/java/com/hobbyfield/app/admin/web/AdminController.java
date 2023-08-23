@@ -68,6 +68,18 @@ public class AdminController {
 	
 	
 	// 회원 강제 탈퇴
+	@PostMapping("/forcedDeleteMember")
+	@ResponseBody
+	public boolean forcedDeleteMember(String memberEmail) {
+		
+		int result = adminService.deleteMember(memberEmail);
+		
+		if (result == 0) {
+			return false;
+		}
+		
+		return true;
+	}
 	
 
 }
