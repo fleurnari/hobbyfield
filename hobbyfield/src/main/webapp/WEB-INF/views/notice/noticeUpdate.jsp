@@ -38,7 +38,7 @@ h3 {
 					value="${noticeInfo.noticeTitle}" required> <label
 					for="noticeSubject">내용</label>
 				<textarea id="noticeSubject" name="noticeSubject" rows="10" required>${noticeInfo.noticeSubject}</textarea>
-
+				<input type="text" name="noticeId" value="${noticeInfo.noticeId }">
 				<div class="buttonGroup">
 					<button type="submit">수정완료</button>
 					<button type="button"
@@ -56,7 +56,7 @@ h3 {
 			let objData = serializeObject();
 
 			$.ajax({
-				url : '/updateNotice',
+				url : 'updateNotice',
 				method : 'post',
 				data : objData,
 				success : function(data) {

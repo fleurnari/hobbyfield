@@ -7,6 +7,7 @@
 <!-- 펀딩옵션 가져오기 -->
 <select id="selectFundingGoods" resultType="FundingGoodsVO" >
   		SELECT 
+  			Fnd_Goods_Number,
   			Fnd_Goods_name,
   			Fnd_Goods_Content,
   			Fnd_Goods_Amount,

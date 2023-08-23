@@ -63,7 +63,7 @@ public class FundingPostController {
 			return "fundingPost/fundingPostInsert20";
 	}
 
-	//펀딩 프로젝트 임시저장
+	//펀딩 프로젝트 임시저장(update)
 	//데이터가 돌아와야하므로 post처리
 	@PostMapping("fundingPostUpdate")
 	//데이터 돌려주기위함
@@ -73,7 +73,7 @@ public class FundingPostController {
 		boolean result = false;
 		
 		int fundingNo = fundingPostService.updateFundingPostInfo(fundingPostVO);
-		if(fundingNo > -1) {
+		if(fundingNo > 0) {
 			result = true;
 		}
 		Map<String, Object> map = new HashMap<>();
@@ -82,7 +82,7 @@ public class FundingPostController {
 		return map;
 	}
 	
-	
+
 }
 
 
