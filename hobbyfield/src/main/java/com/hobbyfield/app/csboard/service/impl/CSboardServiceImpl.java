@@ -72,11 +72,18 @@ public class CSboardServiceImpl implements CSboardService{
 	public void updateReply(CSReplyVO replyVO) {
 		csReplyMapper.updateReply(replyVO);
 	}
+	
 	@Override
 	public void deleteReply(CSReplyVO replyVO) {
+		
 		csReplyMapper.deleteReply(replyVO);
+		
 	}
-	
+	@Override
+	public CSReplyVO getReply(int replyId) {
+		return csReplyMapper.getReply(replyId);
+	}
+
 	
 
 	
