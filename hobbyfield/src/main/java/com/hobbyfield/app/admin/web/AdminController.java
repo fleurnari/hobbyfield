@@ -4,9 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hobbyfield.app.admin.service.AdminService;
+import com.hobbyfield.app.comm.mapper.CommCodeMapper;
 import com.hobbyfield.app.member.service.MemberVO;
 
 @Controller
@@ -15,6 +18,9 @@ public class AdminController {
 	
 	@Autowired
 	AdminService adminService;
+	
+	@Autowired
+	CommCodeMapper codeMapper;
 	
 	// 관리자 페이지
 	@GetMapping("/adminPage")
@@ -41,12 +47,27 @@ public class AdminController {
 	public String selectMember(MemberVO memberVO, Model model) {
 		MemberVO findVO = adminService.selectMember(memberVO);
 		model.addAttribute("memberInfo", findVO);
-		return "admin/adminInfo";
+		model.addAttribute("AJ", codeMapper.selectCommCodeList("0AJ"));
+		
+		return "admin/memberInfo";
 	}
 	
 	// 기업 회원 승인
+	@PostMapping("/updateComMember")
+	@ResponseBody
+	public boolean updateComMember(MemberVO memberVO) {
+		
+		int result = adminService.updateComMember(memberVO);
+		
+		if (result == 0) {
+			return false;
+		}
+		
+		return true;
+	}
 	
 	
 	// 회원 강제 탈퇴
+	
 
 }

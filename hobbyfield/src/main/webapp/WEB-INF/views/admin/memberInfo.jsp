@@ -18,6 +18,7 @@
          </div>
 			<div align="center">
 				<form>
+					<input type="hidden" id="memberEmail" name="memberEmail" value="${memberInfo.memberEmail}">
 					<table>
 						<tr>
 							<th>아이디</th>
@@ -65,23 +66,71 @@
 							<th>최근 접속일</th>
 								<td><fmt:formatDate value="${memberInfo.memberLtstconn}" pattern="yyyy-MM-dd"/> </td>
 						</tr>
-						<c:if test="${memberInfo.memberGrd eq 'A2'}">
+						<c:if test="${memberInfo.memberGrd eq 'A2' && memberInfo.memberComaccp ne 'AJ2'}">
 							<tr>
 								<th>기업 회원 승인 여부</th>
-									<td> ${memberInfo.memberComaccp} </td>
+									<td>
+										<select name="memberComaccp">
+												<c:forEach items="${AJ}" var="type">
+													<option value="${type.subcode}">${type.literal}</option>
+												</c:forEach>
+										</select>
+									</td>
 							</tr>
 						</c:if>
 					</table>
 					<c:if test="${memberInfo.memberGrd eq 'A2' && memberInfo.memberComaccp ne 'AJ2'}">
-						<button type="button" onclick="location.href='#'">승인 여부 수정</button>
+						<button type="submit">승인 여부 수정</button>
 					</c:if>
 					<c:if test="${memberInfo.memberGrd ne 'A3'}">
-						<button type="button" onclick="location.href='#'">강제 탈퇴</button>
+						<button type="button" id="memDelete" name="memDelete">강제 탈퇴</button>
 					</c:if>
 					<button type="button" onclick="location.href='#'">목록으로</button>
 				</form>
 			</div>
        </div>
     </section>
+    <script>
+	  	$('form').on('submit', function(e){
+	  		
+	  		let objData = serializeObject();
+	  		
+	  		$.ajax({
+	  			url : 'updateComMember',
+	  			method : 'POST',
+	  			data : objData
+	  		})
+	  		.done(data => {
+	  			if (data){
+	  				alert("기업 회원 승인 여부 처리를 완료 했습니다.");
+	  			} else {
+	  				alert("기업 회원 승인 여부 처리에 실패 했습니다.");
+	  			}
+	  		})
+	  		.fail(reject => console.log(reject));
+	  		
+	  		return false;
+	  	});
+	  	
+		function serializeObject(){
+			let formData = $('form').serializeArray();
+			
+			let formObject = {};
+			$.each(formData, function(idx, obj){
+				let field = obj.name;
+				let val = obj.value;
+				
+				formObject[field] = val;
+			});
+			
+			return formObject;
+		}
+		
+		$("#memDelete").on("click", function(){
+			
+			
+		})
+		
+   </script>
 </body>
 </html>

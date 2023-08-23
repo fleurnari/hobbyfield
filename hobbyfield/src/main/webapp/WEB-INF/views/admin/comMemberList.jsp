@@ -28,7 +28,7 @@
 					</thead>
 					<tbody>
 						<c:forEach items="${comMemberList}" var="comMem">
-							<tr onclick="#">
+							<tr onclick="location.href='memberInfo?memberEmail=${comMem.memberEmail}'">
 								<td>${comMem.memberEmail}</td>
 								<td>${comMem.memberNm}</td>
 								<td>${comMem.memberGrd}</td>
