@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hobbyfield.app.point.mapper.PointMapper;
+import com.hobbyfield.app.point.service.EmojiVO;
+import com.hobbyfield.app.point.service.PointOptionVO;
 import com.hobbyfield.app.point.service.PointService;
 import com.hobbyfield.app.point.service.PointVO;
 
@@ -31,6 +33,21 @@ public class PointServiceImpl implements PointService {
 	@Override
 	public int insertPoint(PointVO pointVO) {
 		int result = pointMapper.insertPoint(pointVO);
+		
+		//옵션등록
+		List<PointOptionVO> list=pointVO.getPointOptionVO();
+		for(PointOptionVO opt: list)
+		{
+			opt.setPointId(pointVO.getPointId());
+			pointMapper.insertPointOption(pointVO);
+		}
+		//이모지등록
+		List<EmojiVO> emojiList=pointVO.getEmojiVO();
+		for(EmojiVO emoji: emojiList) {
+			emoji.setPointId(pointVO.getPointId());
+			pointMapper.insertEmoji(pointVO);
+		}
+		
 		if (result == 1) {
 			return pointVO.getPointId();
 		} else {
@@ -62,8 +79,9 @@ public class PointServiceImpl implements PointService {
 	@Override
 	// 포인트 상품 조회수 업데이트
 		public int updatePointView(PointVO pointVO) {
-			return pointMapper.updatePoint(pointVO);
+			return pointMapper.updatePointView(pointVO);
 		}
+
 
 
 }
