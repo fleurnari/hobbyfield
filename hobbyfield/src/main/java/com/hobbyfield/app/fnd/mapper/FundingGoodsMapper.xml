@@ -7,6 +7,7 @@
 <!-- 펀딩옵션 가져오기 -->
 <select id="selectFundingGoods" resultType="FundingGoodsVO" >
   		SELECT 
+  			Fnd_Goods_Number,
   			Fnd_Goods_name,
   			Fnd_Goods_Content,
   			Fnd_Goods_Amount,
@@ -17,4 +18,30 @@
   		ORDER BY Fnd_Goods_Number
   	</select>
 
+<insert id="insertFundingGoods" parameterType="FundingGoodsVO">
+	<selectKey keyProperty="fndGoodsNumber" resultType="int" order="BEFORE">
+		SELECT NVL(MAX(Fnd_Goods_Number), 0) + 1
+		FROM funding_goods
+	</selectKey>
+		INSERT INTO funding_goods
+				(
+				Fnd_Goods_Number
+				, Fnd_Goods_Name
+				, Fnd_Goods_Content
+				, Fnd_Goods_Amount
+				, Fnd_Goods_Price
+				, Fnd_Goods_Img
+				, Fnd_Post_Number
+				)
+		VALUES
+				(
+				#{fndGoodsNumber}
+				, #{fndGoodsName}
+				, #{fndGoodsContent}
+				, #{fndGoodsAmount}
+				, #{fndGoodsPrice}
+				, #{fndGoodsImg}
+				, #{fndPostNumber}
+				)
+</insert>
 </mapper>

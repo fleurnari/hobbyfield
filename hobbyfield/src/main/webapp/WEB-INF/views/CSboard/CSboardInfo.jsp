@@ -72,10 +72,6 @@
 					
 					<form name="getCSboardInfo" method="post">
 						  <input type="hidden" name="csNumber" id="csNumber" value="${CSboardInfo.csNumber}">
-						  <input type="hidden" id="page" name="page" value="${scri.page}"> 
-						  <input type="hidden" id="perPageNum" name="perPageNum" value="${scri.perPageNum}"> 
-						  <input type="hidden" id="searchType" name="searchType" value="${scri.searchType}"> 
-						  <input type="hidden" id="keyword" name="keyword" value="${scri.keyword}"> 
 					</form>
                         <nav>
                             <h1 class="title">${CSboardInfo.csTitle}</h1>
@@ -96,41 +92,47 @@
 							<button type="submit" class="delete_btn">삭제</button>
 							<button type="submit" class="list_btn">목록</button>	
 						</div>
-	<div class="row">
-    <div class="col-sm-12" style="margin-top: 10px;">
-        <div id="comment">
-            <div class=" commont-write">
-                <form class="comment_form" role="form"  method="post">
-                     <label>
-                        <div class="input-group">
-                            <textarea name="replyContents" 
-                                      id="replyContents"
-                                      class="form-control p-10" 
-                                      placeholder="댓글입력"></textarea>
-                            <span class="input-group-btn">
-                                <button class="btn btn-white btn-lg" id="comment-btn" type="button" style="background-color: #ddd">
-                                    <i class="far fa-edit">댓글등록</i>
-                                </button>
-                            </span>
-                        </div>
-                    </label>
-                </form>    
-            </div>
-            <div class="comment-none">
-                <div class="well text-center">
-                    등록된 내용이 없습니다.
-                </div>
-            </div>
+						<!-- 댓글 -->
+						<div id="reply">
+							<ol class="replyList">
+								<c:forEach items="${replyList}" var="replyList">
+									<li>
+										<p>
+										작성자 : ${replyList.replyWriter}<br /> 
+										작성 날짜 : <fmt:formatDate value="${replyList.regDate}" pattern="yyyy-MM-dd" />
+										</p>
+										<div>
+										  <button type="button" class="replyUpdateBtn" data-replyId="${replyList.replyId}">수정</button>
+										  <button type="button" class="replyDeleteBtn" data-replyId="${replyList.replyId}">삭제</button>
+										</div>
+
+										<p>${replyList.content}</p>
+									</li>
+								</c:forEach>
+							</ol>
+						</div>
+						<!-- 모달 -->
+<div class="modal-background" id="modalBackground">
+    <div class="modal-container">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <div class="modal-content" id="modalContent">
+            <!-- 댓글 수정 폼이 여기에 로드될 것입니다. -->
         </div>
     </div>
 </div>
 
-						
-                    </article>
+						<form id="replyForm" method="post">
+						    <input type="hidden" id="csNumber" value="${CSboardInfo.csNumber}" />
+						    <input type="hidden" id="replyWriter" value="test" />
+						    <textarea id="content"></textarea>
+						    <button type="button" onclick="submitReply()">댓글 작성</button>
+						</form>
+					</article>
                 </section>
             </div>
-        </section>	
-         <footer>
+            
+        </section>
+		<footer>
          
             <ul>
                 <li>
@@ -177,85 +179,8 @@
     </div>
     
   	<script>
-  	$(document).ready(function(){
-        
-  	    // 목록페이지 번호 변수 선언, 1로 초기화(첫번째 페이지) 
-  	    var commentPage = 1;
-  	 
-  	    commentList(commentPage);
-  	    
-  	    $("#comment-btn").click(function() {
-  	        var comment = $("#comments").val();
-  	        var board_code = <c:out value="${board.code}"/>;
-  	        
-  	        $.ajax({ 
-  	            type : "POST", 
-  	            headers : { "Content-type" : "application/json", "X-HTTP-Method-Override" : "POST" },
-  	            url : "/comment/write",
-  	            data : JSON.stringify({
-  	                    comment:comment,
-  	                    board_code:board_code,
-  	                    writer:"관리자"
-  	                }),
-  	            dataType : "text",
-  	            success : function (data) {
-  	                $("#comments").val(''); // 댓글 작성시 댓글 입력란 초기화
-  	                $("#commentList").html(''); // 댓글 리스트 초기화
-  	                commentList(1); // 새로운 댓글 리스트 
-  	            }
-  	        });
-  	    });
-  	    
-  	    function commentList(commentPage) {
-  	        $.getJSON("/comment/pages/"+${board.code}+"/"+commentPage, function (data) { 
-  	            $("#commentList").html('');
-  	            var html = "<ul class='list-group'>";
-  	            $(data).each(function(){
-  	                html += "<li class='list-group-item comments'>";
-  	                html +=     "<div class='comment'>";
-  	                html +=         "<a href='javascript:; class='comment-img'>";
-  	                html +=             "<img src='' width='50' height='50'>";
-  	                html +=         "</a>";
-  	                html +=         "<div class='comment-info'>";
-  	                html +=             "<span class='date'>"+ getFormatDate(new Date(this.write_date)) +"</span>";
-  	                html +=             "<a href='javascript:;' class='name'>"+ this.writer +"</a>";
-  	                html +=             "<div class='comment-text'> "+ this.comment +"</div>";
-  	                html +=             "<div class='comment_etc'>";
-  	                html +=                 "<div class='comment-info'>";
-  	                html +=                 "<a href='javascript:;' class='btn btn-secondary btn-icon-split comment_delete'>";
-  	                html +=                      "<span class='text'>답글(0)</span>";
-  	                html +=                 "</a>";
-  	                html +=                 "<a href='javascript:;' class='btn btn-danger btn-icon-split comment_delete'>";
-  	                html +=                      "<span class='text'>삭제</span>";
-  	                html +=                 "</a>";
-  	                html +=                 "<a href='javascript:;' class='btn btn-primary btn-icon-split comment_delete'>";
-  	                html +=                      "<span class='text'>수정</span>";
-  	                html +=                 "</a>";
-  	                html +=             "</div>";
-  	                html +=         "</div>";
-  	                html +=     "</div>";
-  	                html += "</li>";
-  	            });
-  	            html += "</ul>";
-  	        
-  	            $("#commentList").append(html);
-  	        });
-  	    }
-  	    
-  	    /**
-  	     *  yyyy-MM-dd 포맷으로 반환
-  	     */
-  	    function getFormatDate(date){
-  	        var year = date.getFullYear();              //yyyy
-  	        var month = (1 + date.getMonth());          //M
-  	        month = month >= 10 ? month : '0' + month;  //month 두자리로 저장
-  	        var day = date.getDate();                   //d
-  	        day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
-  	        return  year + '-' + month + '-' + day;       //'-' 추가하여 yyyy-mm-dd 형태 생성 가능
-  	    }
-  	});
 	
-	
+  	//게시글 수정, 삭제 , 목록
     $(document).ready(function(){
 		var formObj = $("form[name='getCSboardInfo']");
 		
@@ -286,11 +211,82 @@
 		})
 	})
 	
-	
-	
+   </script>
+   
+   <script>
+    // 댓글 수정 버튼 클릭 시 모달 열기와 댓글 수정 폼 로드
+    $(".replyUpdateBtn").on("click", function(){
+        var replyId = $(this).attr("data-replyId");
+        openModal();
 
+        // 댓글 수정 폼 로드를 위한 Ajax 요청
+        $.ajax({
+            type: "GET",
+            url: "replyUpdateView",
+            data: { csNumber: "${CSboardInfo.csNumber}", replyId: replyId },
+            success: function(response) {
+                $("#modalContent").html(response); // 모달 내용에 댓글 수정 폼 로드
+            },
+            error: function(xhr, status, error) {
+                // 오류 처리
+            }
+        });
+    });
+
+    // 모달 닫기
+    function closeModal() {
+        $("#modalBackground").hide();
+    }
+
+    // 모달 열기
+    function openModal() {
+        $("#modalBackground").show();
+    }
+   </script>
+   
+   <script>
+   
+   //댓글 목록조회
+	function submitReply() {
+	    var csNumber = $("#csNumber").val();
+	    var content = $("#content").val();
+	    var writer = $("#replyWriter").val(); 
+	    
+	
+	    var data = {
+	        csNumber: csNumber,
+	        content: content,
+	        replyWriter: writer
+	    };
+
+    $.ajax({
+        type: "POST",
+        url: "insertReply",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(response) {
+            alert("댓글 작성 완료")
+            location.reload();
+        },
+        error: function(xhr, status, error) {
+            alert("댓글 작성에 실패하였습니다.");
+        }
+    });
+}
+   
+//    	//수정
+// 	$(".replyUpdateBtn").on("click", function(){
+// 		location.href = "replyUpdateView?csNumber=${CSboardInfo.csNumber}"
+// 						+ "&replyId="+$(this).attr("data-replyId");
+// 	});
+   	
+	// 삭제
+	$(".replyDeleteBtn").on("click", function(){
+		location.href = "replyDeleteView?csNumber=${CSboardInfo.csNumber}"
+						+ "&replyId="+$(this).attr("data-replyId");
+	});
 	
 	
-    </script>
+</script>
 </body>
 </html>

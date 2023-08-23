@@ -38,6 +38,7 @@ h3 {
 					value="${noticeInfo.noticeTitle}" required> <label
 					for="noticeSubject">내용</label>
 				<textarea id="noticeSubject" name="noticeSubject" rows="10" required>${noticeInfo.noticeSubject}</textarea>
+        
 				<input type="hidden" name="noticeId" value="${noticeInfo.noticeId}">
 
 				<button type="submit">수정완료</button>

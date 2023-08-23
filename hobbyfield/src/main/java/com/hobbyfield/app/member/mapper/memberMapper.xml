@@ -6,7 +6,7 @@
   <mapper namespace="com.hobbyfield.app.member.mapper.MemberMapper">
 
 	<!-- 회원 가입 수행 -->
-	<insert id="memberJoin" parameterType="MemberVO">
+	<insert id="insertMember" parameterType="MemberVO">
 		INSERT INTO member (
 							member_email
 							, member_pwd
@@ -38,27 +38,68 @@
 	</insert>
 
 	<!-- 아이디 중복 체크 -->
-	<select id="idCheck" resultType="int">
+	<select id="chkMemberEmail" resultType="int">
 		SELECT COUNT(*)
 		FROM member
 		WHERE member_email = #{memberEmail}
 	</select>
 	
 	<!-- 로그인 -->
-	<select id="memberLogin" resultType="com.hobbyfield.app.member.service.MemberVO">
+	<select id="loginMember" resultType="com.hobbyfield.app.member.service.MemberVO">
 		SELECT * FROM member WHERE member_email = #{memberEmail}
 	</select>
 	
 	<!-- 로그인 성공 시 최근 접속일 갱신 -->
-	<update id="memberLtstUpdate" parameterType="com.hobbyfield.app.member.service.MemberVO">
+	<update id="updateMemberLtst" parameterType="com.hobbyfield.app.member.service.MemberVO">
 		UPDATE member SET member_ltstconn = SYSDATE WHERE member_email = #{memberEmail}
 	</update>
 	
 	<!-- 금일 첫 로그인 시 활동 포인트 갱신 -->
-	<update id="memberPntUpdate" parameterType="com.hobbyfield.app.member.service.MemberVO">
+	<update id="updateMemberPnt" parameterType="com.hobbyfield.app.member.service.MemberVO">
 		UPDATE member SET member_actpnt = member_actpnt + 200 WHERE member_email = #{memberEmail}
 	</update>
-
 	
-
+	<!-- 회원 정보 수정 -->
+	<update id="updateMember" parameterType="com.hobbyfield.app.member.service.MemberVO">
+		UPDATE member
+		<set>
+			<if test="memberNm != null and !memberNm.equals('')">
+				member_nm = #{memberNm},
+			</if>
+			<if test="memberZip != null and !memberZip.equals('')">
+				member_zip = #{memberZip},
+			</if>
+			<if test="memberBaseaddr != null and !memberBaseaddr.equals('')">
+				member_baseaddr = #{memberBaseaddr},
+			</if>
+			<if test="memberDetaaddr != null and !memberDetaaddr.equals('')">
+				member_detaaddr = #{memberDetaaddr},
+			</if>
+			<if test="memberCntinfo != null and !memberCntinfo.equals('')">
+				member_cntinfo = #{memberCntinfo},
+			</if>
+		</set>
+		WHERE member_email = #{memberEmail}
+	</update>
+	
+	<!-- 비밀번호 체크 -->
+	<select id="chkMemberPwd" resultType="String">
+		SELECT member_pwd
+		FROM member
+		WHERE member_email = #{memberEmail}
+	</select>
+	
+	<!-- 비밀번호 수정 -->
+	<update id="updateMemberPwd">
+		UPDATE member
+		SET member_pwd = #{memberPwd}
+		WHERE member_email = #{memberEmail}
+	</update>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="deleteMember">
+		DELETE FROM member
+		WHERE member_email = #{memberEmail}
+	</delete>
   </mapper>
+  

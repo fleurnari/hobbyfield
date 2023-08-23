@@ -8,7 +8,8 @@
 <title>클럽목록</title>
 </head>
 <body>
-	<%-- <div>
+	<div align="center" style="margin-top: 100px;">
+	<input type="text" id="memberEmail" value="${member.memberEmail}">
 		<table>
 			<thead>
 				<tr>
@@ -22,13 +23,13 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${clubList }" var="club">
-					<tr>
+				<c:forEach items="${clubList}" var="club">
+					<tr onclick="location.href='boardInfo?bno=${board.bno}'">
 						<td>${club.profileNickname}</td>
-						<td>${club.name}</td>
-						<td>${club.category}</td>
-						<td>${club.type}</td>
-						<td>${club.info}</td>
+						<td>${club.clubName}</td>
+						<td>${club.clubCategory}</td>
+						<td>${club.clubType}</td>
+						<td>${club.clubInfo}</td>
 						<td>${club.majorLocation}</td>
 						<td>${club.subLocation}</td>
 					</tr>
@@ -36,6 +37,6 @@
 			</tbody>
 		</table>
 		
-	</div> --%>
+	</div>
 </body>
 </html>

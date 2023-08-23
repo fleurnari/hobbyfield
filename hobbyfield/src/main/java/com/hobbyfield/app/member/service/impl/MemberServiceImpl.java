@@ -35,31 +35,31 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int insertMember(MemberVO memberVO) {
 
-		return memberMapper.memberJoin(memberVO);
+		return memberMapper.insertMember(memberVO);
 	}
 
 	@Override
-	public int idCheck(String memberEmail) {
+	public int chkMemberEmail(String memberEmail) {
 	
-		return memberMapper.idCheck(memberEmail);
+		return memberMapper.chkMemberEmail(memberEmail);
 	}
 
 	@Override
-	public MemberVO memberLogin(MemberVO memberVO) {
+	public MemberVO loginMember(MemberVO memberVO) {
 
-		return memberMapper.memberLogin(memberVO);
+		return memberMapper.loginMember(memberVO);
 	}
 
 	@Override
-	public int memberLtstUpdate(MemberVO memberVO) {
+	public int updateMemberLtst(MemberVO memberVO) {
 
-		return memberMapper.memberLtstUpdate(memberVO);
+		return memberMapper.updateMemberLtst(memberVO);
 	}
 
 	@Override
-	public int memberPntUpdate(MemberVO memberVO) {
+	public int updateMemberPnt(MemberVO memberVO) {
 
-		return memberMapper.memberPntUpdate(memberVO);
+		return memberMapper.updateMemberPnt(memberVO);
 	}
 
 	@Override
@@ -165,5 +165,32 @@ public class MemberServiceImpl implements MemberService{
 		}
 		return userInfo;
 	}
+
+	@Override
+	public int updateMember(MemberVO memberVO) {
+
+		return memberMapper.updateMember(memberVO);
+	}
+	
+	@Override
+	public String chkMemberPwd(String memberEmail) {
+		
+		return memberMapper.chkMemberPwd(memberEmail);
+	}
+
+	@Override
+	public void updateMemberPwd(String memberEmail, String encodePwd) {
+		
+		memberMapper.updateMemberPwd(memberEmail, encodePwd);
+	}
+
+
+	@Override
+	public void deleteMember(String memberEmail) {
+
+		memberMapper.deleteMember(memberEmail);
+	}
+
+
 
 }

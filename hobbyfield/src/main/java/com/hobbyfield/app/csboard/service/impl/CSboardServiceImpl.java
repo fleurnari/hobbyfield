@@ -5,10 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hobbyfield.app.common.Criteria;
 import com.hobbyfield.app.common.SearchCriteria;
 import com.hobbyfield.app.csboard.mapper.CSBoardMapper;
+import com.hobbyfield.app.csboard.mapper.CSReplyMapper;
 import com.hobbyfield.app.csboard.service1.CSBoardVO;
+import com.hobbyfield.app.csboard.service1.CSReplyVO;
 import com.hobbyfield.app.csboard.service1.CSboardService;
 
 @Service
@@ -17,23 +18,26 @@ public class CSboardServiceImpl implements CSboardService{
 	@Autowired
 	CSBoardMapper csboardMapper;
 	
-	//CS°Ô½Ã±Û ÃÑ °¹¼ö
+	@Autowired
+	CSReplyMapper csReplyMapper;
+	//CSï¿½Ô½Ã±ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@Override
 	public int csCount(SearchCriteria scri) {
 		return csboardMapper.getTotalCount(scri);
 	}
-	//CS°Ô½Ã±Û Á¶È¸
+	//CSï¿½Ô½Ã±ï¿½ ï¿½ï¿½È¸
 	@Override
 	public List<CSBoardVO> getCSBoardList(SearchCriteria scri) {
 		return csboardMapper.selectAllCSList(scri);
 	}
-	//CS°Ô½Ã±Û »ó¼¼º¸±â
+	
+	//CSï¿½Ô½Ã±ï¿½ ï¿½ó¼¼ºï¿½ï¿½ï¿½
 	@Override
 	public CSBoardVO getCSBoardInfo(int csNumber) {
 		return csboardMapper.selectCSBoard(csNumber);
 	}
 	
-	//CS°Ô½Ã±Û µî·Ï
+	//CSï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½
 	@Override
 	public int insertCSboardInfo(CSBoardVO csboardVO) {
 		int result =csboardMapper.insertCSBoard(csboardVO);
@@ -45,17 +49,41 @@ public class CSboardServiceImpl implements CSboardService{
 		}
 	}
 
-	//CS°Ô½Ã±Û »èÁ¦
+	//CSï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@Override
 	public void deleteCSboardInfo(int csboardNo) {
 		csboardMapper.deleteBoard(csboardNo);
 	}
-	//CS°Ô½Ã±Û ¼öÁ¤
+	//CSï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@Override
 	public void UpdateCSBoard(CSBoardVO csboardVO) {
 			csboardMapper.UpdateCSBoard(csboardVO);
 	}
+	@Override
+	public void insertReply(CSReplyVO replyVO) {
+		csReplyMapper.insertReply(replyVO);
+		
+	}
+	@Override
+	public List<CSReplyVO> readReply(int csNumber) {
+		return csReplyMapper.readReply(csNumber);
+	}
+	@Override
+	public void updateReply(CSReplyVO replyVO) {
+		csReplyMapper.updateReply(replyVO);
+	}
 	
+	@Override
+	public void deleteReply(CSReplyVO replyVO) {
+		
+		csReplyMapper.deleteReply(replyVO);
+		
+	}
+	@Override
+	public CSReplyVO getReply(int replyId) {
+		return csReplyMapper.getReply(replyId);
+	}
+
 	
 
 	

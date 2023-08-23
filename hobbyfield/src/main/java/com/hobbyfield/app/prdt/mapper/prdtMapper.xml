@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.hobbyfield.app.prdt.mapper.PrdtMapper">
+  
+  	<select id="prdtList" resultType="PrdtVO">
+  		SELECT * FROM prdt ORDER BY prdt_regdate DESC
+  	
+  	</select>
+  	
+  	
+  	<select id="prdtInfo" resultType="PrdtVO">
+  		SELECT * FROM prdt WHERE prdt_id = #{prdtId}
+  	</select>
+  </mapper>

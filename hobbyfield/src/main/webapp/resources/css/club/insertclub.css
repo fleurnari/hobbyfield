@@ -4,6 +4,10 @@
 	margin-top : 100px;
 }
 
+.profile_top{
+	margin-top : 100px;
+}
+
 /* 유효성 검사 문구 css적용단 */
 .final_name_ck{
 	color : green;
@@ -23,4 +27,16 @@
 .nick_input_re2{
 	color : red;
 	display : none;	
+}
+
+/*중복 모임이름 체크 */
+
+.club_input_re1{
+	color : green;
+	display: none;
+}
+
+.club_input_re2{
+	color : red;
+	display : none;
 }

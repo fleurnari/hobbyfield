@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class CreateclubVO {
-	private int clubNumber;
 	private String clubName;
 	private String clubCategory;
+	private String profileNickname;
 	private String clubType;
 	private String clubInfo;
 	private String majorLocation;
@@ -19,11 +19,9 @@ public class CreateclubVO {
 	private String clubImgPath;
 	private Integer clubTotal;
 	
-	//profile table
-	private String eamil; 
-	private String profileNickname;
-	private String profileImg;
-	private String profileImgPath;
+	//member table
+	private Integer memberActpnt;
+	
 	
 
 }

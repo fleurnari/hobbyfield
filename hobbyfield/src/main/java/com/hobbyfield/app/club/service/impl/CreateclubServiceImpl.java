@@ -1,6 +1,8 @@
 package com.hobbyfield.app.club.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,22 +26,38 @@ public class CreateclubServiceImpl implements CreateclubService {
 	
 	//소모임 등록
 	@Override
-	public int insertClubInfo(CreateclubVO createclubVO) {
+	public String insertClubInfo(CreateclubVO createclubVO) {
 		int result = createclubMapper.insertClub(createclubVO);
 		
 		if(result == 1) {
-			return createclubVO.getClubNumber();
+			return createclubVO.getClubName();
 		}else {
-			return -1;
+			return "ERROR";
 		}
 	
 	}
+	
+	//소모임 수정
+	@Override
+	public Map<String, String> updateClub(CreateclubVO createclubVO) {
+		Map<String, String> map = new HashMap<>();
+		map.put("소모임이름", String.valueOf(createclubVO.getClubName()));
+		
+		int result = createclubMapper.updateClub(createclubVO);
+		
+		if(result > 0) {
+			map.put("결과", "Success");
+		}else {
+			map.put("결과", "Fail");
+		}
+		return map;
+	}
 
 	//닉네임 중복체크
-	@Override
-	public int nickChk(String profileNickname) {
-		return createclubMapper.nickChk(profileNickname);
-	}
+//	@Override
+//	public int nickChk(String profileNickname) {
+//		return createclubMapper.nickChk(profileNickname);
+//	}
 
 	//모임 이름 중복체크 
 	@Override
@@ -47,11 +65,27 @@ public class CreateclubServiceImpl implements CreateclubService {
 		return createclubMapper.clubnameChk(clubName);
 	}
 
+
+
+	/*==== 마이페이지	===============================	*/
 	//프로필 이미지 등록
-	@Override
-	public int insertImgInfo(CreateclubVO createclubVO) {
-		return createclubMapper.insertImg(createclubVO);
-	}
+//	@Override
+//	public int insertImgInfo(CreateclubVO createclubVO) {
+//		return createclubMapper.profileImg(createclubVO);
+//	}
 
+	//프로필 등록
+//	@Override
+//	public int insertProfile(CreateclubVO createclubVO) {
+//	    return createclubMapper.insertProfile(createclubVO);
+//	}
+//	
+//	//프로필 내정보 조회
+//	@Override
+//	public CreateclubVO getNomalMypage(CreateclubVO createclubVO) {
+//		return createclubMapper.getNomalMypage(createclubVO);
+//	}
 
+	
+	
 }

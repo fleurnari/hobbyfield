@@ -8,8 +8,10 @@
 <title>소모임 게시글</title>
 </head>
 <body>
+<div align="center" style="margin-top: 100px;">
 	<h1>게시글 목록</h1>
 
+	<p>${member.memberEmail}</p>
 <table border="1">
     <thead>
         <tr>
@@ -27,20 +29,17 @@
     </thead>
     <tbody>
         <c:forEach items="${boardList}" var="board">
-            <tr>
+            <tr onclick="location.href='clubBoardInfo?boardNumber=${board.boardNumber}'">
                 <td>${board.boardNumber}</td>
-                <td>${board.clubNumber}</td>
+                <td>${board.clubName}</td>
                 <td>${board.clubBoardWriter}</td>
-                <td>${board.clubBoardTitle}</td>
-                <td>${board.clubBoardContent}</td>
                 <td>${board.clubBoardWdate}</td>
                 <td>${board.clubBoardViews}</td>
                 <td>${board.clubBoardType}</td>
-                <td>${board.scheduleDate}</td>
-                <td>${board.clubBoardBlind}</td>
             </tr>
         </c:forEach>
     </tbody>
 </table>
+</div>
 </body>
 </html>

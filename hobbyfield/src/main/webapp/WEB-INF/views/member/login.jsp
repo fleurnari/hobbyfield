@@ -30,6 +30,9 @@
 						<c:if test = "${error ne null}">
 						<div class = "login_warn">${exception}</div>
 						</c:if>
+						<c:if test = "${result == 1}">
+						<div class = "login_warn">존재하지 않는 아이디입니다. 회원가입 후 간편 로그인을 진행해 주세요.</div>
+						</c:if>
 						<div class="login_button_wrap">
 							<input type="button" class="login_button" value="로그인">
 						</div>
