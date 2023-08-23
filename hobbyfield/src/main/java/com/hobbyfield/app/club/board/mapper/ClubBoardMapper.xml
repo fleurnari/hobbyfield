@@ -4,11 +4,10 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.hobbyfield.app.club.board.mapper.ClubBoardMapper">
 
-  	<select id="getClubBoardList" resultType="ClubBoardVO">
+  	<select id="getAllClubBoardList" resultType="ClubBoardVO">
 		SELECT  BOARD_NUMBER, 
 				CLUB_NUMBER, 
 				CLUB_BOARD_WRITER, 
-				CLUB_BOARD_TITLE, 
 				CLUB_BOARD_CONTENT, 
 				CLUB_BOARD_WDATE, 
 				CLUB_BOARD_VIEWS, 
@@ -17,8 +16,8 @@
 				CLUB_BOARD_BLIND
 		FROM 	CLUB_BOARD
   	</select>
-  	
-  	<select id="getClubBoardInfo" parameterType="ClubBoardVO" resultType="ClubBoardVO">
+  		
+  	<select id="getSelectClubBoardList" parameterType="ClubBoardVO" resultType="ClubBoardVO">
   		SELECT  BOARD_NUMBER,
   				CLUB_NUMBER, 
   				CLUB_BOARD_WRITER, 
@@ -32,7 +31,21 @@
 		FROM CLUB_BOARD
 		WHERE BOARD_NUMBER = #{boardNumber}
   	</select>
-  
+  	
+  	<select id="getClubBoardInfo" parameterType="ClubBoardVO" resultType="ClubBoardVO">
+  		SELECT  BOARD_NUMBER,      
+				CLUB_NUMBER,           
+				CLUB_BOARD_WRITER,  
+				CLUB_BOARD_CONTENT, 
+				CLUB_BOARD_WDATE,    
+				CLUB_BOARD_VIEWS,        
+				CLUB_BOARD_TYPE,   
+				SCHEDULE_DATE,                    
+				CLUB_BOARD_BLIND,      
+		FROM club_board
+		WHERE board_number = #{clubBoardNumber}      
+  	</select>
+  	
   	<insert id="insertClubBoard" parameterType="ClubBoardVO">
   		<selectKey keyProperty="boardNumber" resultType="int" order="BEFORE">
 			SELECT NVL(MAX(board_number),100) + 1
