@@ -19,6 +19,10 @@ body {
 .pointItemType {
 	width: 300px;
 }
+
+.capacity, .emoji {
+	display: none;
+}
 </style>
 </head>
 <body>
@@ -27,8 +31,10 @@ body {
 			<h3>포인트상품등록</h3>
 		</div>
 		<div class="form-group">
-			<h5><label for="pointItemType">상품유형</label></h5><select
-				class="form-control" id="pointItemType" name="pointItemType">
+			<h5>
+				<label for="pointItemType">상품유형</label>
+			</h5>
+			<select class="form-control" id="pointItemType" name="pointItemType">
 				<option selected disabled>상품유형</option>
 				<option value="W2">소모임 증원권</option>
 				<option value="W1">이모티콘</option>
@@ -58,24 +64,58 @@ body {
 			<button type="button" onclick="location.href='poinList'">목록</button>
 			<button type="reset" onclick="location.href='pointInsert'">초기화</button>
 		</div>
+
+		<!-- 증원권 -->
+		<div class="capacity">
+			<input type="text" name="pointCapPrice">
+		</div>
+
+		<div class="emoji">
+			<div>
+				7일<input type="hidden" name="pointOptionVO[0].pointPeriod" value="7"><span><input
+					type="text" name="pointOptionVO[0].pointPrice"></span>
+			</div>
+			<div>
+				14일<input type="hidden" name="pointOptionVO[1].pointPeriod"
+					value="14"><span> <input type="text"
+					name="pointOptionVO[1].pointPrice">
+				</span>
+			</div>
+			<div>
+				30일<input type="hidden" name="pointOptionVO[2].pointPeriod"
+					value="30"><span><input type="text"
+					name="pointOptionVO[2].pointPrice"></span>
+			</div>
+			<div>
+				영구<input type="hidden" name="pointOptionVO[3].pointPeriod" value="0"><span><input
+					type="text" name="pointOptionVO[3].pointPrice"></span>
+			</div>
+			<input type="file" name="emojiName" multiple>
+		</div>
 	</form>
 	<script>
-	document.getElementById('pointRegdate').valueAsDate = new Date();
-	document.querySelector('form.insertForm').addEventListener('submit', function(e) {
-		e.preventDefault();
+		//등록 버튼 핸들러
+		document.querySelector('form.pointInsert').addEventListener(
+				'submit',
+				function(e) {
+					e.preventDefault();
 
-		let pointName = document.querySelector('input[name="pointName"]');
-		let pointContent = document.querySelector('textarea[name="pointContent"]');
-		let pointRegdate = document.querySelector('input[name="pointRegdate"]');
-		let pointEndterm = document.querySelector('input[name="pointEndterm"]');
-		let pointImgName = document.querySelector('input[name="pointImgName"]');
-		let pointImgPath = document.querySelector('input[name="pointImgPath"]');
-					
-		      		let list = [];
-		      		let today = new Date();
-		      		let year = today.getFullYear(); 
-		      		let month = today.getMonth() + 1
-		      		console.log(today);
+					let pointName = document
+							.querySelector('input[name="pointName"]');
+					let pointContent = document
+							.querySelector('textarea[name="pointContent"]');
+					let pointRegdate = document
+							.querySelector('input[name="pointRegdate"]');
+					let pointEndterm = document
+							.querySelector('input[name="pointEndterm"]');
+// 					let pointImgName = document
+// 							.querySelector('input[name="pointImgName"]');
+
+					let list = [];
+					let today = new Date();
+					let year = today.getFullYear();
+					let month = today.getMonth() + 1
+					console.log(today);
 
 					if (pointName.value == '') {
 						alert('상품이름을 입력하세요.');
@@ -87,57 +127,37 @@ body {
 						pointContent.focus();
 						return;
 					}
-					if (pointImgName.value == '') {
-						alert('이미지를 등록하세요.');
-						pointImgName.focus();
-						return;
-					}
-					if (pointImgPath.value == '') {
-						alert('이미지 경로를 입력하세요.');
-						pointImgPath.focus();
-						return;
-					}
-						
-					this.submit();		
+// 					if (pointimgname.value == '') {
+// 						alert('이미지를 등록하세요.');
+// 						pointimgname.focus();
+// 						return;
+// 					}
+
+
+					this.submit();
 				});
-		document.querySelector('.uploadBtn')
-		.addEventListener('click',function(e){
-			let formData = new FormData();
-			
-			let inputTag = document.querySelector('input[name="uploadFiles"]');
-			
-			let files = inputTag.files;
-			
-			for(let i=0; i < files.length; i++){
-				console.log(files[i]);
-				formData.append("uploadFiles", files[i]);
-			}
-			
-			fetch('uploadsAjax',{ //formdata를 기반으로 보낼때 주로 사용
-				method : 'post',
-				body : formData
-			})
-			.then(response => response.json())
-			.then(data => console.log(data))
-			.catch(err => console.log(err));
-			
-		//jQuery.ajax
-	         $.ajax({
-	             url: 'uploadsAjax',	
-	             type: 'POST',
-	             processData: false,	// 기본값은 true, ajax 통신을 통해 데이터를 전송할 때, 기본적으로 key와 value값을 Query String으로 변환
-	             contentType: false,	// multipart/form-data타입을 사용하기위해 false
-	             data: formData,               
-	             success: function(result){
-	                 for(let images of result){
-	                	 let path = '${pagecontext.request.contextPath}/images/'+result;
-	                	 let imgTag = $('img').prop('src','path');
-	                	 $('div').append(imgTag);
-	                 }
-	             },
-	             error: function(reject){	
-                  console.log(reject);
-           		}
+
+		document.querySelector('.capacity').style.display = "none";
+		document.querySelector('.emoji').style.display = "none";
+
+		//상품옵션 변경 핸들러
+		document
+				.querySelector('#pointItemType')
+				.addEventListener(
+						'change',
+						function(e) {
+							// div 둘다 안보이게
+							let pointItemType = e.target.value;
+							// if  w1보이게 else w2보이게
+							if (pointItemType == 'W2') {
+								document.querySelector('.capacity').style.display = "block";
+								document.querySelector('.emoji').style.display = "none";
+							} else if (pointItemType == 'W1') {
+								document.querySelector('.emoji').style.display = "block";
+								document.querySelector('.capacity').style.display = "none";
+							}
+
+						});
 	</script>
 </body>
 </html>

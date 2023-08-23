@@ -18,7 +18,7 @@ h3 {
 		<div>
 			<h3>공지사항 수정</h3>
 		</div>
-		<form action="updateNotice" method="post">
+		<form method="post">
 			<div class="form-input">
 				<label for="noticeCate">카테고리</label> <select id="noticeCate"
 					name="noticeCate" required>
@@ -38,36 +38,41 @@ h3 {
 					value="${noticeInfo.noticeTitle}" required> <label
 					for="noticeSubject">내용</label>
 				<textarea id="noticeSubject" name="noticeSubject" rows="10" required>${noticeInfo.noticeSubject}</textarea>
-				<input type="text" name="noticeId" value="${noticeInfo.noticeId }">
-				<div class="buttonGroup">
-					<button type="submit">수정완료</button>
-					<button type="button"
-						onclick="location.href='noticeInfo?noticeId=${noticeInfo.noticeId}'">취소</button>
-					<button type="button" onclick="location.href='noticeUpdate'">초기화</button>
-				</div>
+        
+				<input type="hidden" name="noticeId" value="${noticeInfo.noticeId}">
+
+				<button type="submit">수정완료</button>
+				<button type="button"
+					onclick="location.href='noticeInfo?noticeId=${noticeInfo.noticeId}'">취소</button>
+				<button type="button" onclick="location.href='noticeUpdate'">초기화</button>
+
 			</div>
 		</form>
 	</div>
 
 	<script>
 		$('form').on('submit', function(e) {
-			e.preventDefault();
 
 			let objData = serializeObject();
 
 			$.ajax({
 				url : 'updateNotice',
 				method : 'post',
-				data : objData,
-				success : function(data) {
-					console.log(data);
-				},
-				error : function(xhr, status, error) {
-					console.error(error);
-				}
-			});
-		});
-
+				data : objData
+			})
+			.done(data => {
+		if(data.result){
+// 			let message = '수정되었습니다.';
+// 			alert(message);
+		}else{
+// 				alert('수정되지 않았습니다.');
+		}
+	})
+	.fail(reject => console.log(reject));
+			return false;
+			
+		});	
+			
 		function serializeObject() {
 			let formData = $('form').serializeArray();
 

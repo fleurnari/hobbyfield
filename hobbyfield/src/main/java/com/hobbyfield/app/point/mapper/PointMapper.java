@@ -16,8 +16,13 @@ public interface PointMapper {
 //	public List<PointVO> searchPointList();
 	
 	// 포인트 상품 등록
-	// - 상품 판매기간 카운트
 	public int insertPoint(PointVO pointVO);
+	
+	// 포인트 상품 옵션 
+	public int insertPointOption(PointVO pointVO);
+	
+	// 포인트 이모티콘 
+	public int insertEmoji(PointVO pointVO);
 	
 	// 포인트 상품 수정
 	public int updatePoint(PointVO pointVO);

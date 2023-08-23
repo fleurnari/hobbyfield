@@ -16,7 +16,7 @@
 		<!-- point_img_path -->
 		FROM POINT
 		ORDER BY
-		point_view 
+		point_view
 	</select>
 
 	<!-- 포인트 상품 단건조회 -->
@@ -34,21 +34,21 @@
 		point_img_path
 		FROM point
 		WHERE point_id = #{pointId}
+
+		<!-- po.point_opt_id, -->
+		<!-- po.point_period, -->
+		<!-- po.point_price, -->
+
+		<!-- e.emoji_id, -->
+		<!-- e.emoji_img_name, -->
+		<!-- e.emoji_img_path -->
+		<!-- FROM point p -->
+		<!-- FULL OUTER JOIN -->
+		<!-- point_option po ON p.point_id = po.point_id -->
+		<!-- FULL OUTER JOIN emoji e ON po.point_id -->
+		<!-- = e.point_id -->
+		<!-- WHERE p.point_id = #{pointId} -->
 	</select>
-<!-- 	po.point_opt_id, -->
-<!-- 	po.point_period, -->
-<!-- 	po.point_price, -->
-
-<!-- 	e.emoji_id, -->
-<!-- 	e.emoji_img_name, -->
-<!-- 	e.emoji_img_path -->
-<!-- 	FROM point p -->
-<!-- 	FULL OUTER JOIN -->
-<!-- 	point_option po ON p.point_id = po.point_id -->
-<!-- 	FULL OUTER JOIN emoji e ON po.point_id -->
-<!-- 	= e.point_id -->
-<!-- 	WHERE p.point_id = #{pointId} -->
-
 
 	<!-- 포인트 상품등록 -->
 	<insert id="insertPoint" parameterType="PointVO">
@@ -58,36 +58,78 @@
 			FROM point
 		</selectKey>
 		INSERT INTO point(
-		point_id,
-		point_name,
-		point_content,
-		point_item_type,
-		point_state,
-		point_regdate,
-		point_endterm,
-		point_img_name,
-		point_img_path,
-		point_view
+					point_id,
+					point_name,
+					point_content,
+					point_item_type,
+					point_state,
+					point_regdate,
+					point_endterm,
+					point_img_name,
+					point_img_path,
+					point_view
 		) VALUES (
-		#{pointId},
-		#{pointName},
-		#{pointContent},
-		#{pointItemType},
-		#{pointState},
-		<choose>
-			<when test="pointRegdate != null">
-				#{pointRegdate}
-			</when>
-			<otherwise>
-				<![CDATA[SYSDATE]]>
-			</otherwise>
-		</choose>
+					#{pointId},
+					#{pointName},
+					#{pointContent},
+					#{pointItemType},
+					#{pointState},
+		<if test="pointRegdate != null">
+					#{pointRegdate}
+		</if>
+		<if test="pointRegdate == null">
+			SYSDATE
+		</if>
 		,
-		#{pointEndterm},
-		#{pointImgName},
-		#{pointImgPath},
-		#{pointView}
+					#{pointEndterm},
+					#{pointImgName},
+					#{pointImgPath},
+					#{pointView}
 		)
+	</insert>
+	<!-- POINT_OPT_ID -->
+	<!-- POINT_ID -->
+	<!-- POINT_PERIOD -->
+	<!-- POINT_PRICE -->
+
+
+	<!-- 포인트 상품 옵션 -->
+	<insert id="insertPointOption" parameterType="PointVO">
+	<selectKey keyProperty="pointOptId" resultType="int"
+			order="BEFORE">
+			SELECT NVL(MAX(pointOptId), 0) + 1
+			FROM point_option
+		</selectKey>
+	INSERT INTO POINT_OPTION(
+				point_option
+				point_opt_id,
+				point_periond,
+				point_price
+	)VALUES(
+				#{pointOptId},
+				#{pointPeriod},
+				#{pointPrice}
+	)
+	</insert>
+	
+	<!-- 포인트 이모티콘 -->
+	<insert id="insertEmoji" parameterType="PointVO">
+		<selectKey keyProperty="emojiId" resultType="int"
+			order="BEFORE">
+			SELECT NVL(MAX(emojiId), 0) + 1
+			FROM emoji
+		</selectKey>
+	INSERT INTO EMOJI(
+				emoji_id,
+				emoji_name,
+				emoji_img_name,
+				emoji_img_path
+	)VALUES(
+				#{emojiId},
+				#{emojiName},
+				#{emojiImgName},
+				#{emojiImgPath}
+	)
 	</insert>
 
 
@@ -95,22 +137,22 @@
 	<update id="updatePoint" parameterType="PointVO">
 		UPDATE point
 		<set>
-			<if test="pointName != null and !pointName.equals('')">
+			<if test="pointName != null">
 				point_name = #{pointName},
 			</if>
-			<if test="pointContent != null and !pointContent.equals('')">
+			<if test="pointContent != null">
 				point_content = #{pointContent},
 			</if>
-			<if test="pointRegdate != null and !pointRegdate.equals('')">
-				point_regdate = TO_CHAR(SYSDATE, 'YYYY/MM/DD'),
+			<if test="pointRegdate != null">
+				point_regdate = SYSDATE,
 			</if>
-			<if test="pointEndterm != null and pointEndterm.equals('')">
-				point_endterm = TO_CHAR(SYSDATE, 'YYYY/MM/DD'),
+			<if test="pointEndterm != null">
+				point_endterm = #{pointEndterm},
 			</if>
-			<if test="pointImgName != null and !pointImgName.equals('')">
+			<if test="pointImgName != null">
 				point_img_name = #{pointImgName},
 			</if>
-			<if test="pointImgPath != null and !pointImgPath.equals('')">
+			<if test="pointImgPath != null">
 				point_img_path = #{pointImgPath}
 			</if>
 		</set>
@@ -118,10 +160,12 @@
 	</update>
 
 
+
 	<!-- 포인트 상품 삭제 -->
 	<delete id="deletePoint" parameterType="int">
 		DELETE FROM point
-		WHERE point_id = #{pointId}
+		WHERE
+		point_id = #{pointId}
 	</delete>
 
 	<!-- 조회수 업데이트 -->

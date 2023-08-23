@@ -59,7 +59,7 @@ public class NoticeController {
 	// 공지사항 수정 - Process
 	@PostMapping("/updateNotice")
 	@ResponseBody
-	public String noticeUpdateProcess(NoticeVO noticeVO) {
+	public Map<String, Object> noticeUpdateProcess(NoticeVO noticeVO) {
 		boolean result = false;
 
 		int noticeId = noticeService.updateNotice(noticeVO);
@@ -70,7 +70,7 @@ public class NoticeController {
 		map.put("result", result);
 		map.put("noticeInfo", noticeVO);
 
-		return "redirect:/noticeInfo?noticeId="+noticeVO.getNoticeId();
+		return map;
 	}
 
 	// 공지사항 삭제 - Process
