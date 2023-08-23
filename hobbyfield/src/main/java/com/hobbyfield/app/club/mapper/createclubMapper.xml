@@ -12,7 +12,7 @@
 			   , FIND_CODE_NM(club_type) AS club_type
 			   , club_info
 			   , FIND_CODE_NM(major_location) AS major_location
-			   , FIND_CODE_NM(sub_location) AS major_location
+			   , FIND_CODE_NM(sub_location) AS sub_location
 			   , club_public
 			   , singup_question1
 			   , singup_question2
@@ -30,7 +30,7 @@
 	<insert id="insertClub" parameterType="CreateclubVO">
 		INSERT ALL INTO club
 				(
-					, club_name
+					 club_name
 					, profile_nickname
 					, club_category
 					, club_type
@@ -46,8 +46,9 @@
 				)
 		VALUES
 				(
-					, #{clubName}
+					#{clubName}
 					, #{profileNickname}
+					, (SELECT MEMBER_EMAIL FROM profile WHERE PROFILE_NICKNAME = #{profileNickname})
 					, #{clubCategory}
 					, #{clubType}
 					, #{clubInfo}
@@ -60,15 +61,14 @@
 					, #{clubImg}
 					, 50
 				)
-			
 	</insert>
 	
-	<!-- 닉네임 중복체크 -->
-	<select id="nickChk" resultType="int">
-		SELECT count(*) 
-		FROM club
-		WHERE profile_nickname = #{profileNickname}
-	</select>
+ 	<!-- 닉네임 중복체크 --> 
+<!-- 	<select id="nickChk" resultType="int"> -->
+<!-- 		SELECT count(*)  -->
+<!-- 		FROM club -->
+<!-- 		WHERE profile_nickname = #{profileNickname} -->
+<!-- 	</select> -->
 	
 	<!-- 소모임 이름 중복체크 -->
 	<select id="clubnameChk" resultType="int">
@@ -78,7 +78,7 @@
 	</select>
 	
 	
-	<!-- 소모임 수정 -->
+	<!-- 소모임 수정 전체수정 필요함 0823-->
 	<update id="updateClub" parameterType="CreateclubVO">
 		UPDATE club
 		<set>
@@ -103,34 +103,5 @@
 	
 	<!-- 소모임 삭제? -->
 	
-	<!-- 프로필 이미지 등록 -->
-	<!-- 해당 유저의 아이디가 존재하는지 확인 -->
-	<select id="checkMemberEmailExists" resultType="int">
-    SELECT COUNT(*) FROM member
-    WHERE member_email = #{memberEmail} AND profile_nickname = #{profileNickname}
-	</select>
 	
-	<insert id="profileImg" parameterType="CreateclubVO">
-		INSERT INTO profile(
-			profile_nickname
-			,member_email
-			,profile_img
-			,profile_img_path
-			
-		)
-		VALUES(
-			#{profileNickname}
-			,#{memberEmail}
-			,#{profileImg}
-			,#{profileImgPath}
-		)
-		
-	</insert>
-	
-	<!-- 프로필 화면 : 개인정보 조회 -->
-	<select id="getNomalMypage" resultType="CreateclubVO">
-	 SELECT profile_nickname 
-     FROM club
-     WHERE profile_nickname = #{profileNickname}
-	</select>
 </mapper>
