@@ -5,14 +5,16 @@
 <mapper namespace="com.hobbyfield.app.admin.mapper.AdminMapper">
 	
 	<select id="selectMemberList" resultType="com.hobbyfield.app.member.service.MemberVO">
-		SELECT *
-		FROM member
+		SELECT * FROM member
+		WHERE member_comaccp IS NULL
+		OR member_comaccp = 'AJ2'
+		ORDER BY member_ltstconn DESC
 	</select>
 	
 	<select id="selectComMemberList" resultType="com.hobbyfield.app.member.service.MemberVO">
 		SELECT *
 		FROM member
-		WHERE member_comaccp = 'AJ1'
+		WHERE member_grd = 'A2' AND member_comaccp IN ('AJ1', 'AJ3')
 	</select>
 
 	<select id="selectMember" resultType="com.hobbyfield.app.member.service.MemberVO">

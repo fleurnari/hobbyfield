@@ -1,10 +1,10 @@
-package com.hobbyfield.app.admin.mapper;
+package com.hobbyfield.app.admin.service;
 
 import java.util.List;
 
 import com.hobbyfield.app.member.service.MemberVO;
 
-public interface AdminMapper {
+public interface AdminService {
 	
 	// 전체 회원 조회
 	public List<MemberVO> selectMemberList();
@@ -20,5 +20,5 @@ public interface AdminMapper {
 	
 	// 회원 강제 탈퇴
 	public int deleteMember(String memberEmail); 
-	
+
 }
