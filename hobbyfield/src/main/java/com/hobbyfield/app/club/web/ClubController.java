@@ -4,7 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 
+import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -14,12 +17,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
+import com.hobbyfield.app.club.profile.service.ClubProfileService;
+import com.hobbyfield.app.club.profile.service.ClubProfileVO;
+
 import com.hobbyfield.app.club.board.service.ClubBoardService;
 import com.hobbyfield.app.club.board.service.ClubBoardVO;
+
 import com.hobbyfield.app.club.service.CreateclubService;
 import com.hobbyfield.app.club.service.CreateclubVO;
 import com.hobbyfield.app.comm.mapper.CommCodeMapper;
 import com.hobbyfield.app.comm.service.CommCodeVO;
+import com.hobbyfield.app.member.service.MemberVO;
 
 //0821 이선호 (소모임 관리)
 @Controller
@@ -32,6 +41,9 @@ public class ClubController {
 	@Autowired
 	ClubBoardService clubBoardService;
 
+	@Autowired
+	ClubProfileService clubprofileService;
+	
 	@Autowired
 	CommCodeMapper commCodeMapper;
 	
@@ -78,7 +90,7 @@ public class ClubController {
 	@PostMapping("/nickChk")
 	public String nickChkPOST(String profileNickname) throws Exception {
 
-		int result = createClubService.nickChk(profileNickname);
+		int result = clubprofileService.nickChk(profileNickname);
 
 		if (result != 0) {
 
@@ -108,7 +120,7 @@ public class ClubController {
 		}
 	}
 
-	// 소모임 수정
+	// 소모임 수정 (구현중)
 	@PostMapping("updateClub")
 	@ResponseBody
 	public Map<String, String> updateClub(@RequestBody CreateclubVO createclubVO){
@@ -117,22 +129,60 @@ public class ClubController {
 	
 	// 소모임 삭제?
 
+
+	/*========= 마이페이지 개인정보 : 프로필 이미지 등록, 개인정보 조회=========*/
+
 	/* 마이페이지 개인정보 : 프로필 이미지 등록, 개인정보 조회 */
 	
 	
 	// 프로필 추후 이동 ==
+
 	// 프로필 이미지 등록
-	@GetMapping("/profileImg")
-	public String img(Model model) {
-		model.addAttribute("profile", createClubService.getNomalMypage());
-		return "club/profileImg";
+//	@GetMapping("/profileImg")
+//	public String img(Model model) {
+//		model.addAttribute("profile", createClubService.getNomalMypage());
+//		return "club/profileImg";
+//	}
+//
+//	// 프로필 이미지 등록 과정
+//	@PostMapping("/profileImg")
+//	public String ImgProcess(CreateclubVO clubVO) {
+//		createClubService.insertClubInfo(clubVO);
+//		return "redirect:clubList";
+//	}
+	
+	//프로필 등록 Form(페이지)
+	@GetMapping("insertProfile")
+	public String profileInsertForm(Model model) {
+	    return "club/insertProfile";  // 프로필 입력 폼 페이지의 뷰 이름
 	}
 
-	// 프로필 이미지 등록 과정
-	@PostMapping("/profileImg")
-	public String ImgProcess(CreateclubVO clubVO) {
-		createClubService.insertClubInfo(clubVO);
-		return "redirect:clubList";
+	
+	// 프로필 등록 처리
+	@PostMapping("insertProfile")
+	public String profileInsertProcess(ClubProfileVO profileVO) {
+	    // 프로필 정보를 DB에 저장하는 서비스 메서드를 호출합니다.
+		clubprofileService.insertProfile(profileVO);
+	    
+	    // 프로필 정보 저장 후 원하는 페이지로 리다이렉트 
+	    return "redirect:insertProfile";
+	}
+	
+	//프로필 개인정보 조회
+	@GetMapping("/getNomalMypage")
+	public String getNomalMypage(ClubProfileVO clubprofileVO, Model model, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		clubprofileVO.setMemberEmail(member.getMemberEmail());
+		ClubProfileVO findVO = clubprofileService.getNomalMypage(clubprofileVO);
+		model.addAttribute("getNomalMypage", findVO);
+		return "club/getNomalMypage";
+	}
+	
+	//프로필 수정 (이미지 포함)
+	@PostMapping("updateProfile")
+	@ResponseBody
+	public Map<String, String> updateProcess(@RequestBody ClubProfileVO clubprofileVO){
+		return clubprofileService.updateProfile(clubprofileVO);
 	}
 
 	// 게시글 ==

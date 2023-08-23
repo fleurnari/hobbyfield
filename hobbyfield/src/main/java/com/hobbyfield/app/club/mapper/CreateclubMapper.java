@@ -27,18 +27,22 @@ public interface CreateclubMapper {
 	
 	//소모임 삭제?
 	
-	//닉네임 중복체크
-	public int nickChk(String profileNickname);
+//	//닉네임 중복체크
+//	public int nickChk(String profileNickname);
 	
 	//소모임 이름 중복체크
 	public int clubnameChk(String clubName);
 	
-	/*=== 마이페이지 ===*/
-	//프로필 이미지등록
-	public int profileImg(CreateclubVO createclubVO); 
+//	/*=== 마이페이지 ===*/
+//	//프로필 이미지등록
+////	public int profileImg(CreateclubVO createclubVO); 
+//	
+//	//프로필 등록
+//	public int insertProfile(CreateclubVO createclubVO);
+//	
+//	//프로필 화면 : 개인정보 조회
+//	public CreateclubVO getNomalMypage(CreateclubVO createclubVO);
 	
-	//프로필 화면 : 개인정보 조회
-	public List<CreateclubVO> getNomalMypage();
 	
 	
 }

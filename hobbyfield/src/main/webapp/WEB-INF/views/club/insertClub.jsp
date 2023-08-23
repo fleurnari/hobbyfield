@@ -19,19 +19,7 @@
 			<h2>소모임 정보</h2>		
 		</div>
 		<div>
-		
-			<div>
-				<div>
-					<label class="nick_name">닉네임</label>
-					<input type="text" class="nick_input" name="profileNickname"><br>
-				</div>
-				<span class="nick_input_re1">사용 가능한 닉네임 입니다.</span>
-				<span class="nick_input_re2">닉네임이 이미 존재합니다.</span>
-				<span class="final_name_ck">사용할 닉네임을 입력하세요.</span>
-			</div>
-			<div>
-				<input name="uploadFile" type="file" name="uploadFile" multiple="multiple" onchange="">
-			</div>
+
 			<div>
 				<div>	
 					<label>모임이름</label>
@@ -41,18 +29,17 @@
 				<span class="club_input_re2">모임 이름이 이미 존재합니다. </span>
 				<span class="final_club_ck">모임 이름을 정해주세요</span>
 			</div>
-			
-			<div>
-				<!-- 테이블에서 불러올 수 있을지 의문 -->
-				<label>모임카테고리 : </label>
+
+				<div>
+					<label>모임카테고리 : </label> 
 					<select class="club_category" name="clubCategory">
 						<c:forEach items="${C}" var="category">
-						<option value="${category.subcode }">${category.literal}</option>
+							<option value="${category.subcode }">${category.literal}</option>
 						</c:forEach>
 					</select>
-			</div>
-			
-			<div>
+				</div>
+
+				<div>
 				<label>소모임 분류</label>
 				<c:forEach items="${D}" var="type">
 					<input type="radio" name="clubType" value="${type.subcode}" checked="checked" >${type.literal}
@@ -93,10 +80,9 @@
 				<input type="text" name="singupQuestion3"><br>
 			</div>
 			
-			<!-- 소모임 정원 default값 필요 -->
+			<!-- 소모임 정원 default값 50 -->
 			<div class="join_button_wrap">
 				<button type="submit" class="join_button">등록하기</button>
-				<!-- <input type="button" class="join_button" value="등록하기" > -->
 			</div>
 		</div>
 	</div>
@@ -108,8 +94,6 @@
 <script>
 
 	// 유효성 검사 통과 유무 변수 
-	var nickCheck = false; //닉네임 
-	var nickchCheck = false; //닉네임 중복체크
 	/* var clubName = false; //모임이름 
 	var clubnameCheck = false; //모임이름 중복체크 */
 	var clubNameCheck = false; //모임이름 
@@ -120,17 +104,7 @@ $(document).ready(function(){
 	$(".join_button").on("click", function() {
 		
 		//입력값 변수
-		var nick = $('.nick_input').val(); //닉네임 입력란
 		var club = $('.club_input').val(); //소모임 이름 입력란 
-		
-		/* 닉네임 유효성검사 */
-		if(nick == ""){
-			$('.final_name_ck').css('display', 'block');
-			nickCheck = false;
-		}else{
-			$('.final_name_ck').css('display', 'none');
-			nickCheck = true;
-		}
 		
 		/* 모임이름 유효성 검사*/
 		if(clubName == ""){
@@ -142,10 +116,8 @@ $(document).ready(function(){
 		}
 		
 		/* 최종 유효성 검사를 진행하고 form에 말아서 전달 */
-		if(nickCheck&&nickchCheck&&clubName&&clubnameCheck){
+		if(clubName&&clubnameCheck){
 		
-		/* $("#join_form").attr("action", "/club/insetClub"); attr삭제해야 하는 이유? */
-		/* $("#join_form").prop("action", "/club/insetClub"); */
         $("#join_form").submit();
 			
 		}
@@ -154,34 +126,6 @@ $(document).ready(function(){
 	});
 });	
 	
-	
-	
-//닉네임 중복체크
-$('.nick_input').on("propertychange change keyup paste input", function(){
-		/* console.log("keyup 테스트"); */
-		
-	var profileNickname = $('.nick_input').val();  //.nick_input 입력될값
-	var data = {profileNickname : profileNickname} //컨트롤에 넘길 데이터 이름 : 데이터(.nick_input에 입력되는 값)
-	
-	$.ajax({
-		type : "post",
-		url : "nickChk",
-		data : data,
-		success : function(result) {
-			/* console.log("성공" + result); */
-			if(result != 'fail'){
-				$('.nick_input_re1').css("display", "inline-block");
-				$('.nick_input_re2').css("display", "none");
-				nickchCheck = true;
-			}else{
-				$('.nick_input_re2').css("display", "inline-block");
-				$('.nick_input_re1').css("display", "none");
-				nickchCheck = false;
-			}
-		}// success 종료
-	}); // ajax 종료
-}); // function 종료
-
 
 //소모임 이름 중복체크
 
@@ -211,6 +155,9 @@ $('.nick_input').on("propertychange change keyup paste input", function(){
 
 		});
 	});
+
+	
+
 	// 파일 선택 1개로 제한 
 	$(function(){
 	    $("input[type='submit']").click(function(){
@@ -219,7 +166,7 @@ $('.nick_input').on("propertychange change keyup paste input", function(){
 	         alert("1개의 이미지 파일만 선택해주세요.");
 	        }
 	    });    
-	});​
+	});
 	$(document).ready(function() {
 		$("#uploadBtn").on("click", function(e) {
 			var formData = new FormData();
@@ -253,6 +200,7 @@ $('.nick_input').on("propertychange change keyup paste input", function(){
 
 		});
 	});
+
 
 	
 		$(document).ready(function() {
