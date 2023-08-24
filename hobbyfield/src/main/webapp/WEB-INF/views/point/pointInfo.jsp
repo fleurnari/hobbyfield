@@ -18,12 +18,14 @@ body {
 }
 
 .product-img {
-	float: left;
+	align-items: center;
 }
 
 .jb-division-line {
 	border-top: 1px solid #444444;
-	margin: 30px;
+	width: 70%;
+	margin-top: 20px;
+	margin-left: 15%;
 }
 
 .buttonGroup {
@@ -61,13 +63,7 @@ body {
 }
 
 .purchase-button {
-	display: flex;
 	gap: 10px;
-}
-
-/* Additional Styles */
-.product-info {
-	margin-left: 20px;
 }
 
 .time {
@@ -77,34 +73,19 @@ body {
 </style>
 </head>
 <body>
-	<div class="product-img">
-		<img alt="" src="">
-	</div>
-
 	<div class="container">
 		<div class="row">
 			<h3>${point.pointName}</h3>
-			<p>7일 ${point.pointOptionVO[0].pointPrice }</p>
-			<span></span>
-			<p>14일${point.pointOptionVO[1].pointPrice }</p>
-			<p>30일${point.pointOptionVO[2].pointPrice }</p>
-			<p>영구이용${point.pointOptionVO[3].pointPrice }</p>
-			<!-- 화면에 보이기만 할건데 forEach써야하나? -->
-			<%-- 			<c:forEach items="${pointInfo }" var="point"> --%>
-			<!-- 				<div> -->
-
-			<!-- 				</div> -->
-			<%-- 			</c:forEach> --%>
-			
-			<c:forEach items="${point.pointInfo }" var="point">
-			<img src="" alt="상세조회 이미지"><br>
-			
-			</c:forEach>
-			
-			
+			<c:if test="${point.pointItemType} eq 'W1'" >
+				<p>7일${point.pointOptionVO[0].pointPrice }</p>
+				<p>14일${point.pointOptionVO[1].pointPrice }</p>
+				<p>30일${point.pointOptionVO[2].pointPrice }</p>
+				<p>영구이용${point.pointOptionVO[3].pointPrice }</p>
+			</c:if>
 			<p>${point.pointState}</p>
 			<p>${point.pointItemType}</p>
-
+			<p>${point.groupPrice }</p>
+			
 			<p>
 				판매종료 <font class="time" style="font-weight: bold;" size=5> <jsp:useBean
 						id="now" class="java.util.Date" /> <fmt:parseNumber
@@ -115,8 +96,8 @@ body {
 						value="${endPlanDate.time / (1000*60*60*24)}" integerOnly="true"
 						var="endDate" /> <c:choose>
 						<c:when test="${endDate - nowfmtTime >= 1}">
-            				${endDate - nowfmtTime + 1}
-           					<span>일 남음</span>
+          				${endDate - nowfmtTime + 1}
+         					<span>일 남음</span>
 						</c:when>
 						<c:otherwise>
 							<div>
@@ -137,27 +118,38 @@ body {
 				<div class="modal-content">
 					<span class="close" id="closeModalBtn">&times;</span>
 					<div>
-						<c:forEach items="${pointInfo }" var="point">
-							<div><!-- forEach 여기써야하는거 아니야? --></div>
-						</c:forEach>
-<!-- 						<div> -->
-<!-- 							7일<input type="radio" name="pointOptionVO[0].pointPeriod" -->
-<!-- 								value="7"> -->
-<!-- 															<span><input type="text" -->
-<!-- 															name="pointOptionVO[0].pointPrice"></span> -->
-<!-- 							14일<input type="radio" name="pointOptionVO[1].pointPeriod" -->
-<!-- 								value="14"> -->
-<!-- 														<span> <input type="text" name="pointOptionVO[1].pointPrice"> -->
-<!-- 														</span> -->
-<!-- 							30일<input type="radio" name="pointOptionVO[2].pointPeriod" -->
-<!-- 								value="30"> -->
-<!-- 															<span><input type="text" name="pointOptionVO[2].pointPrice"></span> -->
+						<div>
 
-<!-- 							영구<input type="radio" name="pointOptionVO[3].pointPeriod" -->
-<!-- 								value="0"> -->
-<!-- 															<span><input type="text" -->
-<!-- 															name="pointOptionVO[3].pointPrice"></span> -->
-<!-- 						</div> -->
+							7일<input type="radio" name="pointOptionVO[0].pointPeriod"
+								value="7"> 14일<input type="radio"
+								name="pointOptionVO[1].pointPeriod" value="14"> 30일<input
+								type="radio" name="pointOptionVO[2].pointPeriod" value="30">
+							영구<input type="radio" name="pointOptionVO[3].pointPeriod"
+								value="0">
+
+						</div>
+						<!-- 						<div> -->
+						<!-- 							7일<input type="radio" name="pointOptionVO[0].pointPeriod" -->
+						<!-- 								value="7"> -->
+						<!-- <!-- 								 <span><input type="text" -->
+						<!-- <!-- 								name="pointOptionVO[0].pointPrice"></span>  -->
+
+						<!-- 							14일<input -->
+						<!-- 								type="radio" name="pointOptionVO[1].pointPeriod" value="14" > -->
+						<!-- <!-- 								<span> <input type="text" -->
+						<!-- <!-- 									name="pointOptionVO[1].pointPrice"> -->
+						<!-- <!-- 								</span> -->
+						<!-- 							30일<input type="radio" name="pointOptionVO[2].pointPeriod" -->
+						<!-- 								value="30"> -->
+						<!-- <!-- 								 <span><input type="text" -->
+						-->
+						<!-- <!-- 								name="pointOptionVO[2].pointPrice"></span>  -->
+
+						<!-- 							영구<input -->
+						<!-- 								type="radio" name="pointOptionVO[3].pointPeriod" value="0"> -->
+						<!-- <!-- 							<span><input type="text" -->
+						<!-- <!-- 								name="pointOptionVO[3].pointPrice"></span> -->
+						<!-- 						</div> -->
 					</div>
 					<button
 						onclick="location.href='pointInfo?pointId=${point.pointId}'">구매
@@ -170,8 +162,15 @@ body {
 	<div class="jb-division-line"></div>
 	<div>
 		<p>${point.pointContent}</p>
+		<c:forEach items="${point.emojiVO }" var="emoji">
+			<div class="product-img">
+				<img
+					src="${pageContext.request.contextPath}${emoji.emojiImgPath}${emoji.emojiImgName}"
+					alt="상세조회 이미지"><br>
+			</div>
+		</c:forEach>
 	</div>
-	<input type="file" name="emojiName" multiple>
+	<!-- 	<input type="file" name="emojiName" multiple> -->
 	<!-- 버튼 -->
 	<div class="buttonGroup">
 		<button type="submit"
@@ -182,70 +181,70 @@ body {
 	</div>
 
 	<script type="text/javascript">
-	
-	function remaindTime() {
-		 
-		let today = new Date();
-		
 
-		var now = new Date(); //현재시간을 구한다. 
-		console.log(now);
-		var open = Date.parse("${point.pointEndterm}");
-		console.log(open);
-		
-		var nt = now.getTime(); // 현재의 시간만 가져온다
-		
-	  	
-		if(nt<open){ //현재시간이 오픈시간보다 이르면 오픈시간까지의 남은 시간을 구한다.   
-			sec = parseInt(open - nt) / 1000;
-			hour = parseInt(sec/60/60);
-			sec = (sec - (hour*60*60));
-			min = parseInt(sec/60);
-			sec = parseInt(sec-(min*60));
-	  
-	    if(hour<10){hour="0"+hour;}
-	    if(min<10){min="0"+min;}
-	    if(sec<10){sec="0"+sec;}
-			$("#d-day-hour").html(hour);
-			$("#d-day-min").html(min);
-			$("#d-day-sec").html(sec);
-	    }else{ //현재시간이 종료시간보다 크면
-		    $("#d-day-hour").html('00');
-		    $("#d-day-min").html('00');
-		    $("#d-day-sec").html('00'); 	   
-			
-		   
-	   }
-	}
-	 setInterval(remaindTime,1000); 
-	
+function remaindTime() {
 	 
-	 
-	// 모달 열기
-	 function openModal() {
-	   var modal = document.getElementById("myModal");
-	   modal.style.display = "block";
-	 }
+	let today = new Date();
+	
 
-	 // 모달 닫기
-	 function closeModal() {
-	   var modal = document.getElementById("myModal");
-	   modal.style.display = "none";
-	 }
+	var now = new Date(); //현재시간을 구한다. 
+	console.log(now);
+	var open = Date.parse("${point.pointEndterm}");
+	console.log(open);
+	
+	var nt = now.getTime(); // 현재의 시간만 가져온다
+	
+  	
+	if(nt<open){ //현재시간이 오픈시간보다 이르면 오픈시간까지의 남은 시간을 구한다.   
+		sec = parseInt(open - nt) / 1000;
+		hour = parseInt(sec/60/60);
+		sec = (sec - (hour*60*60));
+		min = parseInt(sec/60);
+		sec = parseInt(sec-(min*60));
+  
+    if(hour<10){hour="0"+hour;}
+    if(min<10){min="0"+min;}
+    if(sec<10){sec="0"+sec;}
+		$("#d-day-hour").html(hour);
+		$("#d-day-min").html(min);
+		$("#d-day-sec").html(sec);
+    }else{ //현재시간이 종료시간보다 크면
+	    $("#d-day-hour").html('00');
+	    $("#d-day-min").html('00');
+	    $("#d-day-sec").html('00'); 	   
+		
+	   
+   }
+}
+ setInterval(remaindTime,1000); 
 
-	 // 구입 버튼 클릭 시 모달 열기
-	 document.querySelector("button.purchase").addEventListener("click", openModal);
+ 
+ 
+// 모달 열기
+ function openModal() {
+   var modal = document.getElementById("myModal");
+   modal.style.display = "block";
+ }
 
-	 // 모달 닫기 버튼 및 모달 외부를 클릭하여 모달 닫기
-	 var modal = document.getElementById("myModal");
-	 window.onclick = function (event) {
-	   if (event.target == modal) {
-	     modal.style.display = "none";
-	   }
-	 };
+ // 모달 닫기
+ function closeModal() {
+   var modal = document.getElementById("myModal");
+   modal.style.display = "none";
+ }
 
-	 // 모달 내 닫기 버튼 클릭 시 모달 닫기
-	 document.querySelector(".close").addEventListener("click", closeModal);
+ // 구입 버튼 클릭 시 모달 열기
+ document.querySelector("button.purchase").addEventListener("click", openModal);
+
+ // 모달 닫기 버튼 및 모달 외부를 클릭하여 모달 닫기
+ var modal = document.getElementById("myModal");
+ window.onclick = function (event) {
+   if (event.target == modal) {
+     modal.style.display = "none";
+   }
+ };
+
+ // 모달 내 닫기 버튼 클릭 시 모달 닫기
+ document.querySelector(".close").addEventListener("click", closeModal);
 
 </script>
 </body>

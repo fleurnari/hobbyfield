@@ -2,6 +2,8 @@ package com.hobbyfield.app.point.mapper;
 
 import java.util.List;
 
+import com.hobbyfield.app.point.service.EmojiVO;
+import com.hobbyfield.app.point.service.PointOptionVO;
 import com.hobbyfield.app.point.service.PointVO;
 
 public interface PointMapper {
@@ -12,17 +14,20 @@ public interface PointMapper {
 	// 포인트 상품 단건조회
 	public PointVO selectPointInfo(PointVO pointVO);
 	
-//	// 포인트 검색 조회
-//	public List<PointVO> searchPointList();
+	// 포인트 옵션조회
+	public List<PointOptionVO> selectPointOptInfo(int pointId);
+	
+	// 이모지 조회
+	public List<EmojiVO> selectEmojiInfo(int pointId);
 	
 	// 포인트 상품 등록
 	public int insertPoint(PointVO pointVO);
 	
 	// 포인트 상품 옵션 
-	public int insertPointOption(PointVO pointVO);
+	public int insertPointOption(PointOptionVO pointOptionVO);
 	
 	// 포인트 이모티콘 
-	public int insertEmoji(PointVO pointVO);
+	public int insertEmoji(EmojiVO emojiVO);
 	
 	// 포인트 상품 수정
 	public int updatePoint(PointVO pointVO);

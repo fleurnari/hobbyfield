@@ -6,41 +6,98 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>포인트상점</title>
 <style>
 body {
-	margin: 0;
+	margin-top: 150px;
+	font-family: Arial, sans-serif;
+	background-color: #fff;;
 }
 
 .header-left {
-	margin-top: 150px;
+	margin-top: 20px;
+	margin-left: 20px;
+}
+
+.point {
+	margin-left: 45%;
+	color: #005DFF;
+	display: inline;
+}
+
+.sangjum {
+	color: #FF6A00;
+	display: inline;
+}
+
+.notice-link {
+	margin-left: 10%;
+	font-weight: bold;
+	text-decoration: underline 2px;
+}
+
+.notice-link:hover {
+	color: #FF6A00;
+	font-weight: bold;
+	text-decoration: underline 2px;
+}
+
+.btn-group {
+	margin-bottom: 20px;
+	margin-left: 92%;
 }
 
 .sort-right {
 	width: 200px;
 	text-align: right;
-	margin-right: 20px; /* 수정: 오른쪽 여백 추가 */
+	margin-left: auto;
 }
 
-.state {
+.state-buttons {
 	display: flex;
-	flex-direction: column;
 	justify-content: space-between;
-	align-items: center;
+	margin-bottom: 20px;
 }
 
-.main-body {
+.state-button {
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	padding: 10px 15px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.state-button:hover {
+	background-color: #45a049;
+}
+
+.point-list {
 	display: flex;
-	justify-content: center;
+	flex-wrap: wrap;
+	gap: 20px;
 }
 
-.product {
-	margin: 0 10px;
+.point-item {
+	width: calc(33.33% - 20px);
+	background-color: #fff;
+	padding: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	transition: transform 0.3s;
+	cursor: pointer;
+}
+
+.point-item:hover {
+	transform: translateY(-5px);
+}
+
+.point-item img {
+	max-width: 100%;
+	height: auto;
+}
+
+.point-details {
 	text-align: center;
-}
-
-.form-control {
-	display: inline-block;
+	padding: 10px;
 }
 
 table {
@@ -54,10 +111,6 @@ th, td {
 	text-align: left;
 }
 
-tr:nth-child(even) {
-	background-color: #f2f2f2;
-}
-
 th {
 	background-color: #4CAF50;
 	color: white;
@@ -65,110 +118,88 @@ th {
 </style>
 </head>
 <body>
-	<h3>포인트 상점</h3>
-	<div>
-		<div class="header-left">
-			<a href="${pageContext.request.contextPath}/noticeList">공지사항</a>
+	<h3 class="point">포인트</h3>
+	<span><h3 class="sangjum">상점</h3></span>
+	<div class="header-left">
+		<a href="${pageContext.request.contextPath}/noticeList"
+			class="notice-link">공지사항</a>
+	</div>
+	<div class="container">
+		<div class="btn-group">
+			<button type="button" onclick="location.href='pointInsert'">상품등록</button>
 		</div>
-		<main>
-			<div class="btn-group">
-				<button type="button" onclick="location.href='pointInsert'">상품등록</button>
-			</div>
-
-			<!-- 공통코드 하고 css -->
-			<form class="sort-right">
-				<select class="form-control" id="sortOption" name="sortOption"
-					onchange="changeOptionSelect()">
-					<option disabled selected>▼조회순</option>
-					<option value="latest">최신순</option>
-					<option value="latest">조회많은순</option>
-					<option value="low">낮은가격순</option>
-					<option value="high">높은가격순</option>
-				</select>
-			</form>
-
-			<div class="state">
-				<div>
-					<button type="button" name="state1" value="V1"
-						onclick="changestate('V1')">판매중</button>
-				</div>
-				<div>
-					<button type="button" name="state2" value="V2"
-						onclick="changestate('V2')">판매종료</button>
-				</div>
-			</div>
-			<div>
-
-				<div class="point-List">
-					<div class="point-product">
-						<p></p>
+		<form class="sort-right">
+			<select class="form-control" id="sortOption" name="sortOption"
+				onchange="changeOptionSelect()">
+				<option disabled selected>▼조회순</option>
+				<option value="latest">최신순</option>
+				<option value="latest">조회많은순</option>
+				<option value="low">낮은가격순</option>
+				<option value="high">높은가격순</option>
+			</select>
+		</form>
+		<div class="state-buttons">
+			<button class="state-button" type="button" name="state1" value="V1"
+				onclick="changestate('V1')">판매중</button>
+			<button class="state-button" type="button" name="state2" value="V2"
+				onclick="changestate('V2')">판매종료</button>
+		</div>
+		<div class="point-list">
+			<c:forEach items="${pointList}" var="point">
+				<div class="point-item"
+					onclick="location.href='pointInfo?pointId=${point.pointId}'"
+					data-state="${point.pointState}">
+					<img src="" alt="상품 이미지"><br>
+					<div class="point-details">
+						<p>${point.pointName}</p>
+						<p class="time">
+							<jsp:useBean id="now" class="java.util.Date" />
+							<fmt:parseNumber value="${now.time / (1000*60*60*24)}"
+								integerOnly="true" var="nowfmtTime" scope="request" />
+							<fmt:parseDate value="${today}" pattern="yyyy-MM-dd"
+								var="strPlanDate" />
+							<fmt:parseNumber value="${strPlanDate.time / (1000*60*60*24)}"
+								integerOnly="true" var="strDate" />
+							<fmt:parseDate value="${point.pointEndterm}" pattern="yyyy-MM-dd"
+								var="endPlanDate" />
+							<fmt:parseNumber value="${endPlanDate.time / (1000*60*60*24)}"
+								integerOnly="true" var="endDate" />
+							<c:choose>
+								<c:when test="${endDate - nowfmtTime >= 1}">
+                                    ${endDate - nowfmtTime + 1}
+                                    <span>일 남음</span>
+								</c:when>
+								<c:when test="${endDate - nowfmtTime == 0}">
+									<span>오늘 마감</span>
+								</c:when>
+								<c:otherwise>
+									<span>마감</span>
+								</c:otherwise>
+							</c:choose>
+						</p>
+						<p>
+							<fmt:parseDate value="${point.pointEndterm}" pattern="yyyy-MM-dd"
+								var="pointEndterm" />
+						</p>
 					</div>
 				</div>
-
-				<table>
-					<thead>
-						<tr>
-							<th>조회수</th> 
-							<th>상품이름</th>
-							<th>남은기간</th>
-							<th>판매종료일</th>
-						</tr>
-					</thead>
-					<tbody class="point">
-						<c:forEach items="${pointList}" var="point">
-							<tr onclick="location.href='pointInfo?pointId=${point.pointId}'"
-								data-state="${point.pointState }">
-								<td>${point.pointView}</td>
-								<td>${point.pointName}</td>
-								<td class="time"><jsp:useBean id="now"
-										class="java.util.Date" /> <fmt:parseNumber
-										value="${now.time / (1000*60*60*24)}" integerOnly="true"
-										var="nowfmtTime" scope="request" /> <fmt:parseDate
-										value="${today}" pattern="yyyy-MM-dd" var="strPlanDate" /> <fmt:parseNumber
-										value="${strPlanDate.time / (1000*60*60*24)}"
-										integerOnly="true" var="strDate" /> <fmt:parseDate
-										value="${point.pointEndterm}" pattern="yyyy-MM-dd"
-										var="endPlanDate" /> <fmt:parseNumber
-										value="${endPlanDate.time / (1000*60*60*24)}"
-										integerOnly="true" var="endDate" /> <c:choose>
-										<c:when test="${endDate - nowfmtTime >= 1}">
-            					${endDate - nowfmtTime + 1}
-           						<span>일 남음</span>
-										</c:when>
-										<c:when test="${endDate - nowfmtTime == 0}">
-											<span>오늘 마감</span>
-										</c:when>
-										<c:otherwise>
-											<span>마감</span>
-										</c:otherwise>
-									</c:choose></td>
-								<td><fmt:parseDate value="${point.pointEndterm}"
-										pattern="yyyy-MM-dd" var="pointEndterm" /> <!-- 							string으로 저장한 pointEndterm을 date로 -->
-									<fmt:formatDate value="${pointEndterm}" pattern="yyyy-MM-dd" /></td>
-								<!-- 								date로 변환한 pointEndterm에 format 입히기 -->
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
-			</div>
-		</main>
-		<script>
-    function changestate(state) {
-    	  // 모든 행 숨기기
-    	  const tableRows = document.querySelectorAll('.point tr');
-    	  tableRows.forEach(row => {
-    	    row.style.display = 'none';
-    	  });
-
-    	  // 선택한 행 보여주기
-   	    const sellingRows = document.querySelectorAll('.point tr[data-state="'+state+'"]');
-   	    sellingRows.forEach(row => {
-   	      row.style.display = '';
-   	    });
-    	 
-    }
-
-    </script>
+			</c:forEach>
+		</div>
 	</div>
+	<script>
+        function changestate(state) {
+            // 모든 행 숨기기
+            const pointItems = document.querySelectorAll('.point-item');
+            pointItems.forEach(item => {
+                item.style.display = 'none';
+            });
+
+            // 선택한 행 보여주기
+            const selectedItems = document.querySelectorAll('.point-item[data-state="'+state+'"]');
+            selectedItems.forEach(item => {
+                item.style.display = 'flex';
+            });
+        }
+    </script>
 </body>
 </html>

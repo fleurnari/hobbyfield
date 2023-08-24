@@ -11,11 +11,11 @@
 body {
 	margin-top: 150px;
 	padding: 0;
+	background-color: #ffffff;
 }
 
 .header {
 	text-align: center;
-	background-color: #f0f0f0;
 	padding: 20px;
 	margin-bottom: 50px;
 }
@@ -31,11 +31,17 @@ body {
 	padding: 5px 15px;
 	border-radius: 5px;
 	cursor: pointer;
+	float: left;
+	margin-left: 10%;
 }
 
 .search-bar {
-	float: right;
+	text-align: right;
 	margin-top: 5px;
+}
+
+.search-input {
+	margin-right: 10px;
 }
 
 .search-button {
@@ -45,6 +51,7 @@ body {
 	padding: 5px 10px;
 	border-radius: 5px;
 	cursor: pointer;
+	margin-right: 10%;
 }
 
 .notice-list {
@@ -64,17 +71,12 @@ body {
 <body>
 	<div class="header">
 		<h1 class="title">공지사항</h1>
-		<div>
-			<%-- 			<c:if test="${memberGrd eq 'A3'}"> --%>
-			<div class="btn-group">
-				<button type="button" onclick="location.href='insertNotice'">등록</button>
-			</div>
-			<%-- 			</c:if> --%>
+		<button type="button" onclick="location.href='insertNotice'" class="write-button">등록</button>
+		<div class="search-bar">
+			<input type="text" placeholder="검색어를 입력하세요" class="search-input">
+			<button class="search-button">검색</button>
 		</div>
-		<input type="text" placeholder="검색어를 입력하세요">
-		<button class="search-button">검색</button>
 	</div>
-
 	<table class="notice-list">
 		<thead>
 			<tr>
