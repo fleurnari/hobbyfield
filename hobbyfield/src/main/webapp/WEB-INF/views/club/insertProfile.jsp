@@ -11,6 +11,7 @@
 </head>
 <body>
 <div align="center" class="profile_top">
+
    <form action="insertProfile" method="post" id="join_form">
       <div class="profile_info">
          <h2>프로필 정보</h2><br>
@@ -46,6 +47,7 @@
       </div>
       
    </form>
+
 </div>
 </body>
 
@@ -80,6 +82,7 @@ $(document).ready(function(){
       return false;
    });
 });
+
 
 //닉네임 중복체크
 $('.nick_input').on("propertychange change keyup paste input", function(){
@@ -141,6 +144,7 @@ $("#uploadFile").change(function(e){
 
 	});
 
+
 	/*파일은 jpg, png만 업로드 가능, 업로드 파일 최대 사이즈는 1MB */
 	   let regex = new RegExp("(.*?)\.(jpg|png)$");
 	   let maxSize = 1048576; //1MB   
@@ -175,6 +179,20 @@ $("#uploadFile").change(function(e){
   	}
 
 
+			if(fileSize >= maxSize){
+				alert("파일 용량 초과");
+				return false;
+			}
+				  
+			if(!regex.test(fileName)){
+				alert("JPG, PNG 파일만 업로드가능합니다.");
+				return false;
+			}
+			
+			return true;		
+			
+		}
+	
 
 
 </script>

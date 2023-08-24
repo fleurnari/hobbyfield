@@ -135,7 +135,7 @@ public class ClubController {
 
 
 	/*========= 마이페이지 개인정보 : 프로필 이미지 등록, 개인정보 조회=========*/
-		
+
 	//프로필 등록 Form(페이지)
 	@GetMapping("insertProfile")
 	public String profileInsertForm(Model model) {
@@ -174,6 +174,25 @@ public class ClubController {
 	}
 
 	// 게시글 ==
+	
+	// 소모임 메인페이지 이동(모든 소모임, 게시글 볼 수 있는 페이지);
+	@GetMapping("clubMainPage")
+	public String clubMainPage(Model model) {
+		List<CreateclubVO> clubvo =  createClubService.getCreateClubList();
+		List<ClubBoardVO> boardvo = clubBoardService.getAllClubBoardList();
+		model.addAttribute("club", clubvo);
+		model.addAttribute("board", boardvo);
+		return "club/clubMainPage";
+	}
+	
+	// 선택 소모임 메인페이지
+	@GetMapping("clubSelectMain")
+	public String selectClubMain(Model model, CreateclubVO clvo) {
+		// clubBoardService.getSelectClubBoardList(clvo);
+		
+		return "club/"; 
+	}
+	
 	// 소모임 게시글 생성
 	@GetMapping("clubBoardInsert")
 	public String clubBoardInsertForm() {
@@ -209,13 +228,8 @@ public class ClubController {
 	}
 	
 	@GetMapping("clubBoardInfo")
-	public String clubBoardInfo(Model model,CreateclubVO vo) {
-		
-		/*
-		 * clubBoardService.getClubBoardInfo(vo); model.addAttribute("board", );
-		 */
-		
-		
+	public String clubBoardInfo(Model model,ClubBoardVO vo) {
+		model.addAttribute("board", clubBoardService.getClubBoardInfo(vo));	
 		return "club/clubBoardInfo";
 	}
 	

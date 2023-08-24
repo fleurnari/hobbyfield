@@ -20,7 +20,9 @@ public interface CSBoardMapper {
 	public int insertCSBoard(CSBoardVO CSboard);
 	
 	//CS게시글 수정
+	
 	public void UpdateCSBoard(CSBoardVO csboardVO);
+	
 	//CS게시글 삭제
 	public void deleteBoard(int boardNo);
 }

@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.google.common.net.HttpHeaders;
+import com.hobbyfield.app.comm.service.ImgFileService;
 
 @Controller
 public class ImgFileController {
@@ -37,6 +39,7 @@ public class ImgFileController {
 	@Value("${editor.mode}")
 	private String mode;
 	
+
 	@RequestMapping(value="ckeditor/upload")
 	@ResponseBody
 	public Map<String , Object> image(@RequestParam Map<String, Object> map, MultipartHttpServletRequest request) throws Exception{
@@ -83,33 +86,19 @@ public class ImgFileController {
 		
 		System.out.println("Ajax File 전송");
 		
-		//String uploadFolder = "C:\\upload\\temp";
 		String imgPath = null;
 		String imgUUID = null;
 		String newInfImgFileName = null;
-		
-		
+
 		for(MultipartFile multipartFile : uploadFile) {
 			mv = new HashMap<String , Object>();
 			String originFileName = multipartFile.getOriginalFilename(); // 원본파일명
-			
-			// System.out.println("파일 이름 : " + originFileName);
-			// System.out.println("파일 사이즈 : " + multipartFile.getSize()); 
-			// String uploadFileName = multipartFile.getOriginalFilename();
-			
 			String ext = FilenameUtils.getExtension(originFileName); 
 			imgUUID = UUID.randomUUID().toString();       
-			
-			// 기존 저장파일명 
-			//uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") + 1);
-			//System.out.println("유일 파일 명 : " + uploadFileName);
-			
 			newInfImgFileName = "img_" + imgUUID + "." + ext;
 			imgPath = loadUrl;
 			File saveFile = new File(newInfImgFileName);
-			
 			multipartFile.transferTo(saveFile);
-			
 			try {
 				multipartFile.transferTo(saveFile);
 				mv.put("url", imgPath);

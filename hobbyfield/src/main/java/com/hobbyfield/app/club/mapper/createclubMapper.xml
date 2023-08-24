@@ -5,10 +5,11 @@
 <mapper namespace="com.hobbyfield.app.club.mapper.CreateclubMapper">
 	<!-- 소모임 전체조회 -->
 	<select id="selectClubAllList" resultType="CreateclubVO">
+
 		SELECT 
 				club_number
 			   , profile_nickname
-			   , club_name
+         , club_name
 			   , FIND_CODE_NM(club_category) AS club_category
 			   , FIND_CODE_NM(club_type) AS club_type
 			   , club_info

@@ -18,11 +18,13 @@
 		<div>
 <!-- 		<input type="file" name="uploadFile" multiple="multiple" onchange="readURL(this);"> 
 			<img id="preview" /> -->
-			<input name="uploadFile" type="file" name="uploadFile" multiple="multiple" >
+
+			<input name="uploadFile" type="file" multiple="multiple" >
 			<button id="uploadBtn">upload</button>
 			<div  id="preview" >
 				<img style="width: 200px; height: 200px;"/>
 			</div>
+			
 		</div>
 		<img src="download/img/common.png" style="width: 200px; height: 200px;">
 	</div>
@@ -44,21 +46,9 @@
 		}
 		return true;	
 	}		
-	
-	function readURL(input) {
-  		if (input.files && input.files[0]) {
-    		var reader = new FileReader();
-    		reader.onload = function(e) {
-      		document.getElementById('preview').src = e.target.result;
-    		};
-    		reader.readAsDataURL(input.files[0]);
-  		} else {
-    	document.getElementById('preview').src = "";
-  		}
-	}
-	
+
 	$(document).ready(function() {
-			$("#uploadBtn").on("click", function(e) {
+			$("#uploadFile").change(function(e){
 				var formData = new FormData();
 
 				var inputFile = $("input[name='uploadFile']");
@@ -66,14 +56,8 @@
 				var files = inputFile[0].files;
 
 				console.log(files);
-			
-				// file 데이터를 formData로 추가 
-				for (var i = 0; i < files.length; i++) {
-					
-// 					if(!checkExtension(file[i].name, file[i].size) ){
-// 						return false;
-// 					}
-					
+
+				for (var i = 0; i < files.length; i++) {	
 					formData.append("uploadFile", files[i]);
 				}
 					
@@ -95,6 +79,7 @@
 							imgTag.style.height=200+'px';							
 							preview.appendChild(imgTag);							
 						}
+
 					}
 				})
 

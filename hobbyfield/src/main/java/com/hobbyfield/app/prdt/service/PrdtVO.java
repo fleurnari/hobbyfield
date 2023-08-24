@@ -7,14 +7,19 @@ import lombok.Data;
 @Data
 public class PrdtVO {
 
-	private String prdtId; 			//상품번호
+	private int prdtId; 			//상품번호
+	private String prdtCate;		//상품카테고리
 	private String prdtName;		//상품명
-	private int prdtPrice;			//상품가격
-	private int prdtStock;			//상품재고
-	private String prdtDist;		//상품구분
-	private String prdtInfo;		//상품정보
-	private Date prdtRegDate;		//상품등록일
-	private Date prdtUpdate;		//상품정보수정일
+	private String prdtContents;		//상품상세내용
+	private Date regDate;			//상품등록날짜
+	private Date UpdateDate;		//상품수정날짜
+	private int	prdtPrice;			//상품가격
+	private int prdtCount;			//상품재고
+	private String soldOut;			//상품품절여부
+	private String prdtThum;			//상품썸네일이미지
+	private String memberEmail;			//회원아이디
+	private String prdtOption;			//상품옵션
+	
 	
 	
 	
