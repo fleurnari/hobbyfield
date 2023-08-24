@@ -27,9 +27,11 @@ body {
 }
 
 .buttonGroup {
-	margin-top: 100px;
+	margin-top: 20px;
+	display: flex;
+	gap: 10px;
 }
-/* 모달 스타일 */
+
 .modal {
 	display: none;
 	position: fixed;
@@ -50,13 +52,27 @@ body {
 	position: relative;
 }
 
-/* 모달 닫기 버튼 스타일 */
 .close {
 	position: absolute;
 	top: 0;
 	right: 0;
 	padding: 10px;
 	cursor: pointer;
+}
+
+.purchase-button {
+	display: flex;
+	gap: 10px;
+}
+
+/* Additional Styles */
+.product-info {
+	margin-left: 20px;
+}
+
+.time {
+	font-weight: bold;
+	font-size: 1.2rem;
 }
 </style>
 </head>
@@ -68,9 +84,26 @@ body {
 	<div class="container">
 		<div class="row">
 			<h3>${point.pointName}</h3>
-			<p>포인트 옵션</p>
-			<p>${point.pointItemType}</p>
+			<p>7일 ${point.pointOptionVO[0].pointPrice }</p>
+			<span></span>
+			<p>14일${point.pointOptionVO[1].pointPrice }</p>
+			<p>30일${point.pointOptionVO[2].pointPrice }</p>
+			<p>영구이용${point.pointOptionVO[3].pointPrice }</p>
+			<!-- 화면에 보이기만 할건데 forEach써야하나? -->
+			<%-- 			<c:forEach items="${pointInfo }" var="point"> --%>
+			<!-- 				<div> -->
+
+			<!-- 				</div> -->
+			<%-- 			</c:forEach> --%>
+			
+			<c:forEach items="${point.pointInfo }" var="point">
+			<img src="" alt="상세조회 이미지"><br>
+			
+			</c:forEach>
+			
+			
 			<p>${point.pointState}</p>
+			<p>${point.pointItemType}</p>
 
 			<p>
 				판매종료 <font class="time" style="font-weight: bold;" size=5> <jsp:useBean
@@ -97,19 +130,39 @@ body {
 			</p>
 			<div class="purchase-button">
 				<button type="button" onclick="location.href='wishList'">위시</button>
-				<button type="button" id="openModalBtn">구입</button>
+				<button type="button" id="purchase" onclick="openModal()">구입</button>
 			</div>
 			<!-- 모달 창 -->
 			<div id="myModal" class="modal">
 				<div class="modal-content">
 					<span class="close" id="closeModalBtn">&times;</span>
 					<div>
-<%-- 						<input type="radio" ><span>${point.pointName }</span><span>${point.pointPrice}</span><span>일 이용</span><br>  --%>
-<!-- 						<input type="radio" ><span>일 이용</span><br>  -->
-<!-- 						<input type="radio" ><span>일 이용</span><br>  -->
-<!-- 						<input type="radio" ><span>영구이용</span><br> -->
+						<c:forEach items="${pointInfo }" var="point">
+							<div><!-- forEach 여기써야하는거 아니야? --></div>
+						</c:forEach>
+<!-- 						<div> -->
+<!-- 							7일<input type="radio" name="pointOptionVO[0].pointPeriod" -->
+<!-- 								value="7"> -->
+<!-- 															<span><input type="text" -->
+<!-- 															name="pointOptionVO[0].pointPrice"></span> -->
+<!-- 							14일<input type="radio" name="pointOptionVO[1].pointPeriod" -->
+<!-- 								value="14"> -->
+<!-- 														<span> <input type="text" name="pointOptionVO[1].pointPrice"> -->
+<!-- 														</span> -->
+<!-- 							30일<input type="radio" name="pointOptionVO[2].pointPeriod" -->
+<!-- 								value="30"> -->
+<!-- 															<span><input type="text" name="pointOptionVO[2].pointPrice"></span> -->
+
+<!-- 							영구<input type="radio" name="pointOptionVO[3].pointPeriod" -->
+<!-- 								value="0"> -->
+<!-- 															<span><input type="text" -->
+<!-- 															name="pointOptionVO[3].pointPrice"></span> -->
+<!-- 						</div> -->
 					</div>
-					<button>구매 확인</button>
+					<button
+						onclick="location.href='pointInfo?pointId=${point.pointId}'">구매
+						확인</button>
+					<!-- 임시임 수정해 -->
 				</div>
 			</div>
 		</div>
@@ -118,7 +171,7 @@ body {
 	<div>
 		<p>${point.pointContent}</p>
 	</div>
-
+	<input type="file" name="emojiName" multiple>
 	<!-- 버튼 -->
 	<div class="buttonGroup">
 		<button type="submit"
@@ -181,7 +234,7 @@ body {
 	 }
 
 	 // 구입 버튼 클릭 시 모달 열기
-	 document.querySelector("button#구입").addEventListener("click", openModal);
+	 document.querySelector("button.purchase").addEventListener("click", openModal);
 
 	 // 모달 닫기 버튼 및 모달 외부를 클릭하여 모달 닫기
 	 var modal = document.getElementById("myModal");
