@@ -63,12 +63,12 @@
 			</div>
 			
 			<div>
-			<textarea id="editor" name="clubBoardContent"></textarea>
+				<textarea id="editor" name="clubBoardContent"></textarea>
 			</div>
 			
 			<div>
-			<label>일정설정</label>
-			<input type="date" id="scheduleDate" name="scheduleDate">
+				<label>일정설정</label>
+				<input type="date" id="scheduleDate" name="scheduleDate">
 			</div>
 			<!-- 작성자 값 추후 seesion을 통해 넣을 수 있도록 설정   -->
 			<div>

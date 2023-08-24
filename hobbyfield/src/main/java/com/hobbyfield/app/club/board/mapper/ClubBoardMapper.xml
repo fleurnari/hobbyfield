@@ -17,7 +17,7 @@
 		FROM 	CLUB_BOARD
   	</select>
   		
-  	<select id="getSelectClubBoardList" parameterType="ClubBoardVO" resultType="ClubBoardVO">
+  	<select id="getSelectClubBoardList" parameterType="CreateclubVO" resultType="ClubBoardVO">
   		SELECT  BOARD_NUMBER,
   				CLUB_NUMBER, 
   				CLUB_BOARD_WRITER, 
@@ -29,7 +29,7 @@
 				SCHEDULE_DATE, 
 				CLUB_BOARD_BLIND
 		FROM CLUB_BOARD
-		WHERE BOARD_NUMBER = #{boardNumber}
+		WHERE CLUB_NUMBER = #{clubNumber}
   	</select>
   	
   	<select id="getClubBoardInfo" parameterType="ClubBoardVO" resultType="ClubBoardVO">
@@ -41,9 +41,9 @@
 				CLUB_BOARD_VIEWS,        
 				CLUB_BOARD_TYPE,   
 				SCHEDULE_DATE,                    
-				CLUB_BOARD_BLIND,      
+				CLUB_BOARD_BLIND     
 		FROM club_board
-		WHERE board_number = #{clubBoardNumber}      
+		WHERE board_number = #{boardNumber} 
   	</select>
   	
   	<insert id="insertClubBoard" parameterType="ClubBoardVO">
@@ -85,7 +85,7 @@
   	</update>
   	
   	<update id="updateViewClubBoard">
-  		UPDATE club_board set 
+  		
   	</update>
   	
   

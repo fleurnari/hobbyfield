@@ -23,6 +23,8 @@ public interface CreateclubService {
 	//소모임 중복체크
 	public int clubnameChk(String clubName);
 	
+	// 소모임 검색 
+	public List<CreateclubVO> searchClub(CreateclubVO createclubVO);
 	
 	
 
