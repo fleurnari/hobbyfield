@@ -17,7 +17,7 @@
             </div>
          </div>
 			<div align="center">
-				<form>
+				<form method="post">
 					<input type="hidden" id="memberEmail" name="memberEmail" value="${memberInfo.memberEmail}">
 					<input type="hidden" id="page" name="page" value="${scri.page}"> 
   					<input type="hidden" id="perPageNum" name="perPageNum" value="${scri.perPageNum}"> 

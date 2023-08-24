@@ -35,7 +35,7 @@
 					</thead>
 					<tbody>
 						<c:forEach items="${comMemberList}" var="comMem">
-							<tr onclick="location.href='memberInfo?memberEmail=${comMem.memberEmail}'">
+							<tr onclick="location.href='memberInfo?memberEmail=${comMem.memberEmail}&page=${scri.page}&perPageNum=${scri.perPageNum}&searchType=${scri.searchType}&keyword=${scri.keyword}'">
 								<td>${comMem.memberEmail}</td>
 								<td>${comMem.memberNm}</td>
 								<td>${comMem.memberGrd}</td>
