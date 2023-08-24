@@ -55,7 +55,7 @@ li {
 						<h2>공지사항</h2>
 						<ul>
 							<li class="on"><a href="#">전체</a></li>
-							<li><a href="#">공지사항</a></li>
+							<li><a href="${pageContext.request.contextPath }/CSboard/CSboardList">CS게시판</a></li>
 							<li><a href="#">고객서비스</a></li>
 							<li><a href="#">이벤트당첨</a></li>
 						</ul>

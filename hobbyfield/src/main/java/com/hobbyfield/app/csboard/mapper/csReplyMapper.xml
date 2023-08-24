@@ -8,7 +8,6 @@
         INSERT INTO cs_reply (reply_id, cs_number, content, reply_writer, reg_date)
         VALUES (cs_reply_seq.NEXTVAL, #{csNumber}, #{content}, #{replyWriter}, sysdate)
     </insert>
-    
     <!--댓글 목록조회  -->
      <select id="readReply" resultType="CSReplyVO">
         SELECT reply_id, cs_number, content, reply_writer, reg_date
@@ -22,7 +21,6 @@
         FROM cs_reply
         WHERE reply_id = #{replyId}
     </select>
-    
     <!-- 댓글 수정 -->
 	<update id="updateReply" parameterType="CSReplyVO">
 	    UPDATE cs_reply
@@ -33,5 +31,4 @@
 	<delete id="deleteReply" parameterType="int">
     	DELETE FROM cs_reply WHERE reply_id = #{replyId}
 	</delete>
-	
 </mapper>
