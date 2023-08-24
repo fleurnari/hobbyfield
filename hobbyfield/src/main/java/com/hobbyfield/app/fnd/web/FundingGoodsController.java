@@ -35,6 +35,14 @@ public class FundingGoodsController {
 				
 				return "fundingPost/fundingPostGoods";
 		}
+	
+	//펀딩 옵션 정보 가져오기
+			@GetMapping("fundingGoodsInfo")
+			public String fundingGoodsInfo(FundingGoodsVO fundingGoodsVO, Model model) {
+				FundingGoodsVO findVO = fundingGoodsService.getFundingGoodsInfo(fundingGoodsVO);
+				model.addAttribute("fundingGoosInfo", findVO);
+				return "fundingGoods/fundingGoodsInfo";
+			}
 	/*
 	 * //펀딩옵션리스트 가져오기
 	 * 

@@ -20,4 +20,5 @@ public class FundingGoodsVO {
 	private String fndGoodsImg;
 	//펀딩 이미지 파일경로
 	private String fndGoodsImgPath;
+
 }

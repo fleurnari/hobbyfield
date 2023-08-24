@@ -20,7 +20,15 @@ public class FundingGoodsServiceImpl implements FundingGoodsService {
 	//펀딩 옵션 리스트
 	@Override
 	public List<FundingGoodsVO> getFundingGoods(FundingPostVO fundingPostVO) {
-		return fundingGoodsMapper.selectFundingGoods(fundingPostVO);
+		return fundingGoodsMapper.selectFundingGoodsList(fundingPostVO);
+	}
+	
+	//펀딩 옵션 정보
+	@Override
+	public FundingGoodsVO getFundingGoodsInfo(FundingGoodsVO fundingGoodsVO) {
+		System.out.println(fundingGoodsVO.getFndGoodsNumber());
+		System.out.println(fundingGoodsVO.getFndGoodsAmount());
+		return fundingGoodsMapper.selectFundingGoods(fundingGoodsVO);
 	}
 	
 	//펀딩 옵션 등록
