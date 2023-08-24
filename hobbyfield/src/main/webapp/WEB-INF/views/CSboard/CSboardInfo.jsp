@@ -7,12 +7,57 @@
 <head>
 <meta charset="UTF-8">
 <title>게시글 상세보기</title>
+<style>
+ div.replyModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 1000;
+}
+
+div.modalContent {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 80%;
+    width: 500px; 
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+div.modalContent textarea {
+    font-size: 16px;
+    font-family: '맑은 고딕', verdana;
+    padding: 10px;
+    width: 100%;
+    height: 200px;
+}
+
+div.modalContent button {
+    font-size: 20px;
+    padding: 5px 10px;
+    margin: 10px 0;
+    background: #fff;
+    border: 1px solid #ccc;
+}
+
+div.modalContent button.modal_cancel {
+    margin-left: 20px;
+}
+</style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/common.css?after">
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css?after">
 </head>
 <body>
- <div class="wrapper">
+<div class="wrapper">
         <header>
             <div class="top">
                 <div>
@@ -111,16 +156,6 @@
 								</c:forEach>
 							</ol>
 						</div>
-						<!-- 모달 -->
-<div class="modal-background" id="modalBackground">
-    <div class="modal-container">
-        <span class="modal-close" onclick="closeModal()">&times;</span>
-        <div class="modal-content" id="modalContent">
-            <!-- 댓글 수정 폼이 여기에 로드될 것입니다. -->
-        </div>
-    </div>
-</div>
-
 						<form id="replyForm" method="post">
 						    <input type="hidden" id="csNumber" value="${CSboardInfo.csNumber}" />
 						    <input type="hidden" id="replyWriter" value="test" />
@@ -130,10 +165,15 @@
 					</article>
                 </section>
             </div>
-            
-        </section>
+			<div id="replyUpdateModal" class="modal">
+				<div class="modal-content">
+					<span class="close">&times;</span>
+					<textarea id="replyUpdateContent"></textarea>
+					<button class="modal_update_btn">수정</button>
+				</div>
+			</div>
+		</section>
 		<footer>
-         
             <ul>
                 <li>
                     <a href="#">회사소개</a>
@@ -178,20 +218,20 @@
         </footer>
     </div>
     
-  	<script>
 	
-  	//게시글 수정, 삭제 , 목록
+	<script>
+  	//게시글 수정, 삭제 , 목록, 댓글삭제
     $(document).ready(function(){
 		var formObj = $("form[name='getCSboardInfo']");
 		
-		// 수정 
+		// 게시글수정 
 		$(".update_btn").on("click", function(){
 			formObj.prop("action", "CSboardUpdate");
 			formObj.prop("method", "get");
 			formObj.submit();				
 		})
 		
-		// 삭제
+		// 게시글삭제
 		$(".delete_btn").on("click", function(){
 			
 			let deleteChk = confirm("삭제??");
@@ -203,7 +243,7 @@
 			}
 		})
 		
-		// 목록
+		// 게시글목록
 		$(".list_btn").on("click", function(){
 			
 			location.href = "CSboardList"
@@ -211,42 +251,79 @@
 		})
 	})
 	
-   </script>
-   
-   <script>
-    // 댓글 수정 버튼 클릭 시 모달 열기와 댓글 수정 폼 로드
-    $(".replyUpdateBtn").on("click", function(){
+	//댓글삭제
+	  $(".replyDeleteBtn").on("click", function() {
         var replyId = $(this).attr("data-replyId");
-        openModal();
+        var deleteChk = confirm("댓글을 삭제하시겠습니까?");
 
-        // 댓글 수정 폼 로드를 위한 Ajax 요청
-        $.ajax({
-            type: "GET",
-            url: "replyUpdateView",
-            data: { csNumber: "${CSboardInfo.csNumber}", replyId: replyId },
-            success: function(response) {
-                $("#modalContent").html(response); // 모달 내용에 댓글 수정 폼 로드
-            },
-            error: function(xhr, status, error) {
-                // 오류 처리
-            }
-        });
+        if (deleteChk) {
+            $.ajax({
+                type: "POST",
+                url: "deleteReply",
+                data: {
+                    replyId: replyId
+                },
+                dataType: "json", // 응답 데이터 타입을 JSON으로 설정, 컨트롤러에서도 JSON으로 받을 수 있게 해야함
+                success: function(response) {
+                    if (response.success) {
+                        alert("댓글이 삭제되었습니다.");
+                        location.reload();
+                    } else {
+                        alert("댓글 삭제에 실패하였습니다.");
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert("댓글 삭제에 실패하였습니다.");
+                }
+            });
+        }
+    });
+  	
+ // 댓글 수정 버튼 클릭 시 모달 표시
+    $(".replyUpdateBtn").on("click", function() {
+        var replyId = $(this).attr("data-replyId");
+        var replyContent = $(this).closest("li").find("p:last").text();
+
+        $("#replyUpdateContent").val(replyContent); // 모달 내의 textarea에 댓글 내용을 로드합니다.
+        $(".modal_update_btn").attr("data-replyId", replyId); // 수정 버튼에 댓글 ID 속성 추가
+        $("#replyUpdateModal").show(); // 모달을 보이도록 설정
     });
 
-    // 모달 닫기
-    function closeModal() {
-        $("#modalBackground").hide();
-    }
+    // 모달 수정 버튼 클릭 시 처리
+    $(".modal_update_btn").on("click", function() {
+        var replyId = $(this).attr("data-replyId");
+        var newContent = $("#replyUpdateContent").val();
 
-    // 모달 열기
-    function openModal() {
-        $("#modalBackground").show();
-    }
-   </script>
-   
-   <script>
-   
-   //댓글 목록조회
+        var replyVO = {
+            replyId: replyId,
+            content: newContent
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "updateReply",
+            data: JSON.stringify(replyVO),
+            contentType: "application/json",
+            success: function(response) {
+                alert("댓글이 수정되었습니다.");
+                location.reload(); // 
+            },
+            error: function(xhr, status, error) {
+                alert("댓글 수정에 실패하였습니다.");
+            }
+        });
+
+        $("#replyUpdateModal").hide(); // 모달을 숨깁니다.
+    });
+
+    // 모달 닫기 버튼 클릭 시 처리
+    $(".close").on("click", function() {
+        $("#replyUpdateModal").hide();
+    });
+  	
+  	
+  	
+    //댓글 목록조회
 	function submitReply() {
 	    var csNumber = $("#csNumber").val();
 	    var content = $("#content").val();
@@ -273,20 +350,7 @@
         }
     });
 }
-   
-//    	//수정
-// 	$(".replyUpdateBtn").on("click", function(){
-// 		location.href = "replyUpdateView?csNumber=${CSboardInfo.csNumber}"
-// 						+ "&replyId="+$(this).attr("data-replyId");
-// 	});
-   	
-	// 삭제
-	$(".replyDeleteBtn").on("click", function(){
-		location.href = "replyDeleteView?csNumber=${CSboardInfo.csNumber}"
-						+ "&replyId="+$(this).attr("data-replyId");
-	});
-	
-	
-</script>
+  	
+   </script>
 </body>
-</html>
+</html> 

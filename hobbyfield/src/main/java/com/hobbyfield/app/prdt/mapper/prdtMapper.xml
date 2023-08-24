@@ -3,14 +3,21 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.hobbyfield.app.prdt.mapper.PrdtMapper">
-  
-  	<select id="prdtList" resultType="PrdtVO">
-  		SELECT * FROM prdt ORDER BY prdt_regdate DESC
   	
-  	</select>
+  	<!-- 상품등록  -->
+  	<insert id="insertPrdt" parameterType="PrdtVO">
+	    INSERT INTO prdt(prdt_id, prdt_name, prdt_contents, reg_date, prdt_price, prdt_count, sold_out, prdt_thum)
+	    VALUES(prdt_id_seq.NEXTVAL, #{prdtName}, #{prdtContents}, sysdate, #{prdtPrice}, #{prdtCount}, #{soldOut}, #{prdtThum})
+	</insert>
   	
-  	
-  	<select id="prdtInfo" resultType="PrdtVO">
+  	<!-- 상품상세보기 -->
+  	<select id="seletPrdt" resultType="PrdtVO">
   		SELECT * FROM prdt WHERE prdt_id = #{prdtId}
   	</select>
+  	
+  	<!-- 상품리스트 조회 -->
+	<select id="selectAllPrdt" resultType="PrdtVO">
+	    SELECT prdt_name, prdt_price, prdt_thum FROM prdt
+	    
+	</select>
   </mapper>

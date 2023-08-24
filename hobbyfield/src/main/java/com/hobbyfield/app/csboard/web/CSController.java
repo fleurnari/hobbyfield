@@ -88,43 +88,31 @@ public class CSController {
 		return "CSboard/CSboardReplyInfo";
 	}
 	
-	//댓글수정폼
-	@GetMapping("replyUpdateView")
-	public String replyUpdateView(CSReplyVO replyVO, Model model){
-		
-		model.addAttribute("replyUpdate", csboardService.getReply(replyVO.getReplyId()));
-		
-		return "CSboard/replyUpdateView";
-	}
 	
-	//댓글수정
-	@PostMapping("replyUpdate")
-	public String replyUpdate(CSReplyVO replyVO) {
-		
-		csboardService.updateReply(replyVO);
-		
-		
-		return "redirect:CSboardList";
-	}
-	
-	
-	//댓글삭제폼
-	@GetMapping("replyDeleteView")
-	public String replyDeleteView(CSReplyVO replyVO, Model model) {
-		model.addAttribute("replyDelete", csboardService.getReply(replyVO.getReplyId()));
-		
-		return "CSboard/replyDeleteView";
-	}
+	 //댓글 수정 
+    @PostMapping("updateReply")
+    @ResponseBody
+    public String updateReply(@RequestBody CSReplyVO replyVO) {
+        csboardService.updateReply(replyVO);
+        return "";
+    }
 	
 	//댓글삭제
-	@PostMapping("replyDelete")
-	public String CSboardReplyDelete(CSReplyVO replyVO) {
-		
-		csboardService.deleteReply(replyVO);
-		
-		return "redirect:CSboardList";
-	}
-	
+	@PostMapping("deleteReply")
+	@ResponseBody
+	 public Map<String, Object> deleteReply(@RequestParam int replyId) {
+        Map<String, Object> result = new HashMap<>();
+        CSReplyVO replyVO = csboardService.getReply(replyId);
+
+        if (replyVO != null) {
+            csboardService.deleteReply(replyVO);
+            result.put("success", true);
+        } else {
+            result.put("fail", false);
+        }
+
+        return result;
+    }
 	
 	// CS게시글등록폼
 	@GetMapping("CSboardInsert")
@@ -163,8 +151,6 @@ public class CSController {
 		return "redirect:CSboardList";
 	}
 
-	
-	
 	//��� �ۼ�
 	
 	// ÷�� ���� ���ε�
@@ -211,7 +197,6 @@ public class CSController {
 		}
 	}
 	
-
 	@RequestMapping(value="ajax/upload")
 	@ResponseBody
 	public Map<String , Object> image(@RequestParam Map<String, Object> map, MultipartHttpServletRequest request) throws Exception{
@@ -246,7 +231,6 @@ public class CSController {
 	    mv.put("url", imgPath);
 	    return mv;
 	}
-	
 	
 	
 }
