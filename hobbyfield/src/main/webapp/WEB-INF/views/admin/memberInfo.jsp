@@ -19,6 +19,10 @@
 			<div align="center">
 				<form>
 					<input type="hidden" id="memberEmail" name="memberEmail" value="${memberInfo.memberEmail}">
+					<input type="hidden" id="page" name="page" value="${scri.page}"> 
+  					<input type="hidden" id="perPageNum" name="perPageNum" value="${scri.perPageNum}"> 
+  					<input type="hidden" id="searchType" name="searchType" value="${scri.searchType}"> 
+  					<input type="hidden" id="keyword" name="keyword" value="${scri.keyword}"> 
 					<table>
 						<tr>
 							<th>아이디</th>
@@ -85,7 +89,14 @@
 					<c:if test="${memberInfo.memberGrd ne 'A3'}">
 						<button type="button" id="memDelete" name="memDelete">강제 탈퇴</button>
 					</c:if>
-					<button type="button" onclick="location.href='#'">목록으로</button>
+					<c:choose>
+						<c:when test="${memberInfo.memberComaccp eq null || memberInfo.memberComaccp eq 'AJ2'}">
+							<button id="memberList" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/memberList'">목록으로</button>
+						</c:when>
+						<c:otherwise>
+							<button id="comMemList" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/comMemberList'">목록으로</button>
+						</c:otherwise>
+					</c:choose>
 				</form>
 			</div>
        </div>
@@ -150,12 +161,8 @@
 			
 			return formObject;
 		}
-		
-		$("#memDelete").on("click", function(){
+
 			
-			
-		})
-		
    </script>
 </body>
 </html>
