@@ -49,11 +49,9 @@ body {
 				required="required" placeholder="상품이름을 입력하세요.">
 		</div>
 
-
 		<div>
 			<input type="hidden" id="emojiId" name="emojiId">
 		</div>
-
 
 		<div>
 			<h5>내용</h5>
@@ -69,17 +67,13 @@ body {
 			<input type="date" id="pointEndterm" name="pointEndterm"
 				required="required">
 		</div>
-		<div class="buttonGroup">
-			<button type="submit">등록</button>
-			<button type="button" onclick="location.href='poinList'">목록</button>
-			<button type="reset" onclick="location.href='pointInsert'">초기화</button>
-		</div>
 
 		<!-- 증원권 -->
 		<div class="capacity">
-			<input type="text" name="pointCapPrice">
+			<input type="number" name="groupPrice">
 		</div>
 
+		<!-- 이모티콘 -->
 		<div class="emoji">
 			<div>
 				7일<input type="hidden" name="pointOptionVO[0].pointPeriod" value="7"><span><input
@@ -101,13 +95,19 @@ body {
 					type="text" name="pointOptionVO[3].pointPrice"></span>
 			</div>
 		</div>
-		<div id="emojiFile"></div>
+
+
+		<input type="file" name="uploadFile"
+			multiple="multiple">
+		<button type="button" id="uploadBtn">upload</button>
+
+		<div class="buttonGroup">
+			<button type="submit">등록</button>
+			<button type="button" onclick="location.href='pointList'">목록</button>
+			<button type="reset" onclick="location.href='pointInsert'">초기화</button>
+		</div>
+		<div id="emojiFile"> </div>
 	</form>
-
-	<input name="uploadFile" type="file" name="uploadFile"
-		multiple="multiple">
-	<button id="uploadBtn">upload</button>
-
 	<div id="preview"></div>
 
 
@@ -179,6 +179,7 @@ body {
 						});
 
 		function imgUploadHandler(list) {
+			$('#emojiFile').empty()
 			for (i = 0; i < list.length; i++) {
 				let tag = `<input type="hidden" name="emojiVO[\${i}].emojiImgName" value="\${list[i].UUID}"><input type="hidden" name="emojiVO[\${i}].emojiImgPath" value="\${list[i].url}">`
 				$('#emojiFile').append(tag);
