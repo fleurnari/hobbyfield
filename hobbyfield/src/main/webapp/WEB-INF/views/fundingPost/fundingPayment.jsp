@@ -34,10 +34,10 @@
 					</figure>
 					</td>
 					<td>${fundingPostInfo.fndTitle }</td>
-					<td>${fundingGoods.fndGoodsName }</td>
+					<td>${fundingGoodsInfo.fndGoodsName }</td>
 					<td>${fundingPostInfo.memberEmail }</td>
-					<td>수량</td>
-					<td>${FundingGoods.fndGoodsPrice }</td>
+					<td>${fndGoodsAmount }</td>
+					<td><span id="calculatedResult"></span><span>원</span></td>
 					</tr>
 				</table>
 				<hr style="border-width: 1px 0 0 0; border-style: dashed; border-color: #bbb;">
@@ -49,9 +49,9 @@
 									배송지정보<a style="color:red">*</a>
 								</p>
 								<p>
-									<a>이름: <input type="text" id="memberNm" name="memberNm" value="${member.memberNm}"></a>
+									<a>수신인: <input type="text" id="fndOrderRecipient" name="fndOrderRecipient" value="${member.memberNm}"></a>
 									<br>
-									<a>전화번호: <input type="text" id="memberCntinfo" name="memberCntinfo" value="${member.memberCntinfo}"></a>
+									<a>전화번호: <input type="text" id="fndCntinfo" name="fndCntinfo" value="${member.memberCntinfo}"></a>
 									<br>
 									주소:
 										<div class="form-group">
@@ -70,9 +70,7 @@
 									name="FndOrderRequest"
 									aria-label="default input example">
 									<br>
-									결제수단<br>
-									@@@@@@
-								</p>
+								
 							</div>
 							<div class="col-sm-6">
 									<p>
@@ -81,21 +79,34 @@
 										이메일: ${member.memberEmail}<br>
 										<br>
 										결제상세<br>
-										주문금액 000,000원<br>
+										주문금액 <span id="calculatedResult2"></span>원<br>
 										<br>
 										결제수단<br>
-										kakao pay<br>
+										Naver pay<br>
 									<br>									
 									<button type="submit" form="frm" class="btn btn-primary" style="float: center;">결제하기</button>
 									</p>
 							</div>
 						</div>
 			</div>
+			<input type="text" name="fndPostNumber" value="${fundingPostInfo.fndPostNumber }">
+			<input type="text" name="fndGoodsNumber" value="${fundingGoodsInfo.fndGoodsNumber }">
+			<input type="text" name="MemberEmail" value="${member.memberEmail }">
+			<input type="text" name="fndOrderAmount" value="${fndGoodsAmount }">
+			<input type="text" name="fndTotalPrice" id="calculatedResult3" value="">
 		</form>
 		</div>
 	</Section>
 	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+//Get the values from the HTML
+var fndGoodsAmount = parseFloat(${fndGoodsAmount });
+var fndTotalPrice = parseFloat(${fundingGoodsInfo.fndGoodsPrice });
+// Calculate the product
+var calculatedValue = fndGoodsAmount * fndTotalPrice;
+document.getElementById('calculatedResult').textContent = calculatedValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');;
+document.getElementById('calculatedResult2').textContent = calculatedValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');;
+document.getElementById('calculatedResult3').value = calculatedValue;
     function sample6_execDaumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {
@@ -136,6 +147,7 @@
             }
         }).open();
     }
+ 
 </script>
 </body>
 </html>

@@ -5,7 +5,7 @@
 <mapper namespace="com.hobbyfield.app.fnd.mapper.FundingGoodsMapper">
 
 <!-- 펀딩옵션 가져오기 -->
-<select id="selectFundingGoods" resultType="FundingGoodsVO" >
+<select id="selectFundingGoodsList" resultType="FundingGoodsVO" >
   		SELECT 
   			Fnd_Goods_Number,
   			Fnd_Goods_name,
@@ -17,6 +17,19 @@
   		WHERE Fnd_Post_Number = #{fndPostNumber}
   		ORDER BY Fnd_Goods_Number
   	</select>
+
+<!-- 펀딩 옵션 번호로 가져오기 -->
+<select id="selectFundingGoods" resultType="FundingGoodsVO">
+	SELECT
+		Fnd_Goods_Number,
+		Fnd_Goods_name,
+  		Fnd_Goods_Content,
+  		Fnd_Goods_Amount,
+  		Fnd_Goods_Price,
+  		Fnd_Goods_IMG
+  	FROM Funding_Goods
+  	WHERE Fnd_Goods_Number = #{fndGoodsNumber}
+</select>
 
 <insert id="insertFundingGoods" parameterType="FundingGoodsVO">
 	<selectKey keyProperty="fndGoodsNumber" resultType="int" order="BEFORE">
