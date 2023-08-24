@@ -14,6 +14,7 @@
       <security:intercept-url pattern="/memberJoinSelect" access="permitAll()" />
       <security:intercept-url pattern="/generalMemberJoin" access="permitAll()" />
       <security:intercept-url pattern="/companyMemberJoin" access="permitAll()" />
+      <security:intercept-url pattern="/memberEmailChk" access="permitAll()" />
       <security:intercept-url pattern="/memberInsert" access="permitAll()" />
       <security:intercept-url pattern="/login" access="permitAll()" />
       <security:intercept-url pattern="/kakaoLogin" access="permitAll()" />

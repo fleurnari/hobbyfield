@@ -13,7 +13,7 @@ public interface CreateclubService {
 	//소모임 세부조회
 	
 	//소모임 등록
-	public String insertClubInfo(CreateclubVO createclubVO);
+	public int insertClubInfo(CreateclubVO createclubVO);
 	
 	//소모임 수정
 	public Map<String, String> updateClub(CreateclubVO createclubVO);
@@ -22,6 +22,9 @@ public interface CreateclubService {
 	
 	//소모임 중복체크
 	public int clubnameChk(String clubName);
+	
+	// 소모임 검색 
+	public List<CreateclubVO> searchClub(CreateclubVO createclubVO);
 	
 	
 	

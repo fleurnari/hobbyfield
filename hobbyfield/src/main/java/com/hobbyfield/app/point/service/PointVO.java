@@ -18,6 +18,7 @@ public class PointVO {
 	private String pointEndterm;
 	private String pointImgName;
 	private String pointImgPath;
+	private Integer groupPrice;
 
 	List<PointOptionVO> pointOptionVO;
 	List<EmojiVO> emojiVO;

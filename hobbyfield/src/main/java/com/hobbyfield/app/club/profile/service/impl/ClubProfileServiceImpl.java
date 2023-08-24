@@ -1,6 +1,7 @@
 package com.hobbyfield.app.club.profile.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class ClubProfileServiceImpl implements ClubProfileService {
 	
 	//개인 프로필 조회
 	@Override
-	public ClubProfileVO getNomalMypage(ClubProfileVO clubprofileVO) {
+	public List<ClubProfileVO> getNomalMypage(ClubProfileVO clubprofileVO) {
 		return clubprofileMapper.getNomalMypage(clubprofileVO);
 	}
 

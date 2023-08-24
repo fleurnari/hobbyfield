@@ -75,9 +75,11 @@ public class CSboardServiceImpl implements CSboardService{
 	
 	@Override
 	public void deleteReply(CSReplyVO replyVO) {
-		
-		csReplyMapper.deleteReply(replyVO);
-		
+	    try {
+	        csReplyMapper.deleteReply(replyVO);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
 	@Override
 	public CSReplyVO getReply(int replyId) {

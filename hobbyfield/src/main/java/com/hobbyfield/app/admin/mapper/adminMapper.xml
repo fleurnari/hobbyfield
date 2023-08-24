@@ -4,17 +4,53 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hobbyfield.app.admin.mapper.AdminMapper">
 	
-	<select id="selectMemberList" resultType="com.hobbyfield.app.member.service.MemberVO">
-		SELECT * FROM member
-		WHERE member_comaccp IS NULL
-		OR member_comaccp = 'AJ2'
-		ORDER BY member_ltstconn DESC
+	<select id="selectMemberList" resultType="com.hobbyfield.app.member.service.MemberVO" parameterType="com.hobbyfield.app.common.SearchCriteria">
+		SELECT *
+		FROM (
+		    SELECT mem.*, ROWNUM AS rnum
+		    FROM (
+		        SELECT *
+		        FROM member
+		        WHERE 1=1
+		        	<include refid="search"></include>
+		        AND (member_comaccp IS NULL
+		        OR member_comaccp = 'AJ2')
+		        ORDER BY member_ltstconn DESC
+		    ) mem
+		)
+		WHERE rnum BETWEEN #{rowStart} AND #{rowEnd}
 	</select>
 	
-	<select id="selectComMemberList" resultType="com.hobbyfield.app.member.service.MemberVO">
+	<select id="selectComMemberList" resultType="com.hobbyfield.app.member.service.MemberVO" parameterType="com.hobbyfield.app.common.SearchCriteria">
 		SELECT *
+		FROM (
+		    SELECT mem.*, ROWNUM AS rnum
+		    FROM (
+		        SELECT *
+		        FROM member
+		        WHERE 1=1
+		        	<include refid="search"></include>
+		        AND (member_grd = 'A2'
+		        AND member_comaccp IN ('AJ1', 'AJ3'))
+		    ) mem
+		)
+		WHERE rnum BETWEEN #{rowStart} AND #{rowEnd}
+	</select>
+	
+	<select id="countMember" resultType="int">
+		SELECT COUNT(member_email)
 		FROM member
-		WHERE member_grd = 'A2' AND member_comaccp IN ('AJ1', 'AJ3')
+		WHERE 1=1
+			<include refid="search"></include>
+		AND (member_comaccp IS NULL OR member_comaccp = 'AJ2')
+	</select>
+	
+	<select id="countComMember" resultType="int">
+		SELECT COUNT(member_email)
+		FROM member
+		WHERE 1=1
+			<include refid="search"></include>
+		AND (member_grd = 'A2' AND member_comaccp IN ('AJ1', 'AJ3'))
 	</select>
 
 	<select id="selectMember" resultType="com.hobbyfield.app.member.service.MemberVO">
@@ -33,5 +69,12 @@
 		DELETE FROM member
 		WHERE member_email = #{memberEmail}
 	</delete>
+	
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 'email'.toString()">AND member_email LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'nm'.toString()">AND member_nm LIKE '%' || #{keyword} || '%'</if>
+		</if>
+	</sql>
 
 </mapper>

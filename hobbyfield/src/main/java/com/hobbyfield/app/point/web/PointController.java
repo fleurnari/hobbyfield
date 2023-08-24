@@ -27,6 +27,7 @@ public class PointController {
 	@GetMapping("/pointInfo")
 	public String getPointInfo(PointVO pointVO, Model model) {
 		PointVO findVO = pointService.getPointInfo(pointVO);
+		//포인트상품 조회수 업데이트
 		pointService.updatePointView(findVO);
 		model.addAttribute("point", findVO);
 		return "point/pointInfo";
@@ -42,6 +43,7 @@ public class PointController {
 	@PostMapping("/pointInsert")
 	public String pointInsertProcess(PointVO pointVO) {
 		System.out.println(pointVO);
+		
 		//이모티콘 첨부파일
 		
 		pointService.insertPoint(pointVO);

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.hobbyfield.app.admin.mapper.AdminMapper;
 import com.hobbyfield.app.admin.service.AdminService;
+import com.hobbyfield.app.common.Criteria;
+import com.hobbyfield.app.common.SearchCriteria;
 import com.hobbyfield.app.member.service.MemberVO;
 
 @Service
@@ -16,15 +18,27 @@ public class AdminServiceImpl implements AdminService {
 	AdminMapper adminMapper;
 	
 	@Override
-	public List<MemberVO> selectMemberList() {
+	public List<MemberVO> selectMemberList(SearchCriteria scri) {
 		
-		return adminMapper.selectMemberList();
+		return adminMapper.selectMemberList(scri);
 	}
 
 	@Override
-	public List<MemberVO> selectComMemberList() {
+	public List<MemberVO> selectComMemberList(SearchCriteria scri) {
 		
-		return adminMapper.selectComMemberList();
+		return adminMapper.selectComMemberList(scri);
+	}
+	
+	@Override
+	public int countMember(SearchCriteria scri) {
+		
+		return adminMapper.countMember(scri);
+	}
+	
+	@Override
+	public int countComMember(SearchCriteria scri) {
+		
+		return adminMapper.countComMember(scri);
 	}
 
 	@Override
@@ -44,5 +58,8 @@ public class AdminServiceImpl implements AdminService {
 		
 		return adminMapper.deleteMember(memberEmail);
 	}
+
+
+
 
 }

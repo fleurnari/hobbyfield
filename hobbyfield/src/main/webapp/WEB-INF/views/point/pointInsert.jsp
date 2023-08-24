@@ -24,6 +24,9 @@ body {
 	display: none;
 }
 </style>
+<script type="text/javascript" src="resources/js/common.js">
+	
+</script>
 </head>
 <body>
 	<form action="pointInsert" class="pointInsert" method="post">
@@ -45,6 +48,11 @@ body {
 			<input type="text" id="pointName" name="pointName"
 				required="required" placeholder="상품이름을 입력하세요.">
 		</div>
+
+		<div>
+			<input type="hidden" id="emojiId" name="emojiId">
+		</div>
+
 		<div>
 			<h5>내용</h5>
 			<textarea id="pointContent" name="pointContent" required="required"
@@ -59,17 +67,13 @@ body {
 			<input type="date" id="pointEndterm" name="pointEndterm"
 				required="required">
 		</div>
-		<div class="buttonGroup">
-			<button type="submit">등록</button>
-			<button type="button" onclick="location.href='poinList'">목록</button>
-			<button type="reset" onclick="location.href='pointInsert'">초기화</button>
-		</div>
 
 		<!-- 증원권 -->
 		<div class="capacity">
-			<input type="text" name="pointCapPrice">
+			<input type="number" name="groupPrice">
 		</div>
 
+		<!-- 이모티콘 -->
 		<div class="emoji">
 			<div>
 				7일<input type="hidden" name="pointOptionVO[0].pointPeriod" value="7"><span><input
@@ -90,9 +94,23 @@ body {
 				영구<input type="hidden" name="pointOptionVO[3].pointPeriod" value="0"><span><input
 					type="text" name="pointOptionVO[3].pointPrice"></span>
 			</div>
-			<input type="file" name="emojiName" multiple>
 		</div>
+
+
+		<input type="file" name="uploadFile"
+			multiple="multiple">
+		<button type="button" id="uploadBtn">upload</button>
+
+		<div class="buttonGroup">
+			<button type="submit">등록</button>
+			<button type="button" onclick="location.href='pointList'">목록</button>
+			<button type="reset" onclick="location.href='pointInsert'">초기화</button>
+		</div>
+		<div id="emojiFile"> </div>
 	</form>
+	<div id="preview"></div>
+
+
 	<script>
 		//등록 버튼 핸들러
 		document.querySelector('form.pointInsert').addEventListener(
@@ -102,14 +120,16 @@ body {
 
 					let pointName = document
 							.querySelector('input[name="pointName"]');
+					let emojiId = document
+							.querySelector('input[name="emojiId"]');
 					let pointContent = document
 							.querySelector('textarea[name="pointContent"]');
 					let pointRegdate = document
 							.querySelector('input[name="pointRegdate"]');
 					let pointEndterm = document
 							.querySelector('input[name="pointEndterm"]');
-// 					let pointImgName = document
-// 							.querySelector('input[name="pointImgName"]');
+					// 					let pointImgName = document
+					// 							.querySelector('input[name="pointImgName"]');
 
 					let list = [];
 					let today = new Date();
@@ -127,12 +147,11 @@ body {
 						pointContent.focus();
 						return;
 					}
-// 					if (pointimgname.value == '') {
-// 						alert('이미지를 등록하세요.');
-// 						pointimgname.focus();
-// 						return;
-// 					}
-
+					// 					if (pointimgname.value == '') {
+					// 						alert('이미지를 등록하세요.');
+					// 						pointimgname.focus();
+					// 						return;
+					// 					}
 
 					this.submit();
 				});
@@ -158,6 +177,14 @@ body {
 							}
 
 						});
+
+		function imgUploadHandler(list) {
+			$('#emojiFile').empty()
+			for (i = 0; i < list.length; i++) {
+				let tag = `<input type="hidden" name="emojiVO[\${i}].emojiImgName" value="\${list[i].UUID}"><input type="hidden" name="emojiVO[\${i}].emojiImgPath" value="\${list[i].url}">`
+				$('#emojiFile').append(tag);
+			}
+		}
 	</script>
 </body>
 </html>

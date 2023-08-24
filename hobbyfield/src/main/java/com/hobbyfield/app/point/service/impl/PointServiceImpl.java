@@ -26,7 +26,10 @@ public class PointServiceImpl implements PointService {
 	// 포인트 상품 단건조회
 	@Override
 	public PointVO getPointInfo(PointVO pointVO) {
-		return pointMapper.selectPointInfo(pointVO);
+		pointVO = pointMapper.selectPointInfo(pointVO);
+		pointVO.setPointOptionVO(pointMapper.selectPointOptInfo(pointVO.getPointId()));
+		pointVO.setEmojiVO(pointMapper.selectEmojiInfo(pointVO.getPointId()));
+		return pointVO;
 	}
 
 	// 포인트 상품 등록
@@ -34,18 +37,25 @@ public class PointServiceImpl implements PointService {
 	public int insertPoint(PointVO pointVO) {
 		int result = pointMapper.insertPoint(pointVO);
 		
-		//옵션등록
-		List<PointOptionVO> list=pointVO.getPointOptionVO();
-		for(PointOptionVO opt: list)
-		{
-			opt.setPointId(pointVO.getPointId());
-			pointMapper.insertPointOption(pointVO);
-		}
-		//이모지등록
-		List<EmojiVO> emojiList=pointVO.getEmojiVO();
-		for(EmojiVO emoji: emojiList) {
-			emoji.setPointId(pointVO.getPointId());
-			pointMapper.insertEmoji(pointVO);
+		if(pointVO.getPointItemType().equals("W1")) {
+			//옵션등록
+			List<PointOptionVO> list=pointVO.getPointOptionVO();
+			if(list != null) {
+				for(PointOptionVO opt: list)
+				{
+					opt.setPointId(pointVO.getPointId());
+					pointMapper.insertPointOption(opt);
+				}
+			}
+			
+			//이모지등록
+			List<EmojiVO> emojiList=pointVO.getEmojiVO();
+			if(emojiList != null) {
+				for(EmojiVO emoji: emojiList) {
+					emoji.setPointId(pointVO.getPointId());
+					pointMapper.insertEmoji(emoji);
+				}
+			}
 		}
 		
 		if (result == 1) {

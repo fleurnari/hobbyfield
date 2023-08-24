@@ -10,9 +10,6 @@ import com.hobbyfield.app.comm.service.ImgFileVO;
 public class ImgFileServiceImpl implements ImgFileService {
 	
 	
-	@Autowired
-	
-	
 	@Override
 	public List<ImgFileVO> uploadServer(ImgFileVO vo) {
 		return null;

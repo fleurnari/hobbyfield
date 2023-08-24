@@ -232,10 +232,9 @@ body.modal-open {
 								<span class="quantity-value">1</span>
 								<button class="increment">+</button>
 							</div>
-${fundingGoods.fndGoodsNumber }===
-${fundingPostInfo.fndPostNumber }
-							<button class="confirm-button"
-								id="AddPayment"
+
+							<button class="confirm-button AddPayment"
+								data-goodsnumber="${fundingGoods.fndGoodsNumber }"
 								data-price="${fundingGoods.fndGoodsPrice}">
 								${fundingGoods.fndGoodsPrice}</button>
 						</div>
@@ -246,6 +245,7 @@ ${fundingPostInfo.fndPostNumber }
 		</div>
 	</div>
 	<section>
+	
 		<div class="container">
 			<form method="post" name="fundingFrm">
 				<div class="funding-Title" style="text-align: center";>
@@ -561,16 +561,16 @@ function remaindTime() {
     });
 	
 
-    
-/*     document.getElementById('AddPayment')addEventListener('click', (event){
-    	var fndGoodsNumber = '${fundingGoods.fndGoodsNumber }';
-    	var fndPostNumber = '${fundingPostInfo.fndPostNumber }';
-    	var quantityValue = button.parentElement.querySelector('.quantity-value');
-    	if (value >= 1) {
-            quantityValue.textContent = value;
-    	}
-    	
-    }); */
+
+    $('.AddPayment').click(function(){
+    	var fndGoodsNumber = $(event.target).data('goodsnumber');
+    	var fndPostNumber = ${fundingPostInfo.fndPostNumber };
+    	var quantityValue = $(event.target).closest('.option-details').find('.quantity-value').text();
+		
+    	 location.href='${pageContext.request.contextPath}/fundingPayment?fndPostNumber=${fundingPostInfo.fndPostNumber}&fndGoodsNumber='+fndGoodsNumber+'&fndGoodsAmount='+quantityValue
+     
+    });     
 </script>
 </body>
+
 </html>

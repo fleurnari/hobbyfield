@@ -98,7 +98,4 @@
 		WHERE cs_number = #{csNumber}
 	</delete>
 	
-	
-	
-	
 </mapper>
