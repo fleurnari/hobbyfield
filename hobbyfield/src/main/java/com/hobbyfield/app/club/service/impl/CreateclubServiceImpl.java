@@ -65,6 +65,12 @@ public class CreateclubServiceImpl implements CreateclubService {
 		return createclubMapper.clubnameChk(clubName);
 	}
 
+	// 소모임 검색
+	@Override
+	public List<CreateclubVO> searchClub(CreateclubVO createclubVO) {
+		return null;
+	}
+
 
 
 	/*==== 마이페이지	===============================	*/

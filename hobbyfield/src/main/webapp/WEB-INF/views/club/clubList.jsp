@@ -9,7 +9,6 @@
 </head>
 <body>
 	<div align="center" style="margin-top: 100px;">
-	<input type="text" id="memberEmail" value="${member.memberEmail}">
 		<table>
 			<thead>
 				<tr>
@@ -24,7 +23,7 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${clubList}" var="club">
-					<tr onclick="location.href='boardInfo?bno=${board.bno}'">
+					<tr onclick="location.href='boardInfo?bno=${club.clubNumber}'">
 						<td>${club.profileNickname}</td>
 						<td>${club.clubName}</td>
 						<td>${club.clubCategory}</td>

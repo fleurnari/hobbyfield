@@ -34,8 +34,9 @@
 		<div class="profileSection">
 			<label>첨부이미지</label>
 			<div class="profileSection-title">
-				<input type="file" id="fileItem" class="profileImg" name="profileImg" onchange="readURL(this);">
+				<input type="file" id="uploadFile" class="profileImg" name="uploadFile">
 				<img id="preview" style="width: 200px; height: 200px" />
+				<input type="text" id="profileImg" name="profileImg" value="">
 				<div id="uploadResult">
 		
 					 <!-- <div id="result_card">
@@ -87,40 +88,38 @@ $(document).ready(function(){
 	});
 });
 
-$("input[type='file']").on("change", function(e){
-	
-	let formData = new FormData();
-	
-	let fileInput = $('input[name="profileImg"]');
-	let fileList = fileInput[0].files;
-	let fileObj = fileList[0];
-	
-	if(!fileCheck(fileObj.name, fileObj.size)){
-		return false;
+$("#uploadFile").change(function(e){
+	var formData = new FormData();
+
+	var inputFile = $("input[name='uploadFile']");
+
+	var files = inputFile[0].files;
+
+	console.log(files);
+
+	for (var i = 0; i < files.length; i++) {	
+		formData.append("uploadFile", files[i]);
 	}
-	
-	
-	for(let i = 0; i < fileList.length; i++){
-		formData.append("profileImg", fileObj); //여러개의 파일을 올리려면 obj대신 fileList[i]추가	
-	} 
-	
+		
 	$.ajax({
-		url: 'uploadAjax',
-    	processData : false,
-    	contentType : false,
-    	data : formData,
-    	type : 'POST',
-    	dataType : 'json',
-//     	success : function(result){
-//     		console.log(result);
-//     		//showUploadImage(result);
-//     	},
-//     	error : function(result){
-//     		alert("이미지 파일이 아닙니다.");
-//     	}
-	});
-	
-})
+		url : "uploadAjaxFile",
+		processData : false,
+		contentType : false,
+		data : formData,
+		type : 'POST',
+		success : function(mv) {
+			console.log(mv.url + " => url");
+			console.log(mv.UUID + " => UUID");
+			var inputImgTag = document.getElementById("profileImg");
+			var imgTag = document.getElementById("preview");
+			inputImgTag.value = mv.url+ mv.UUID;
+			imgTag.src = mv.url+ mv.UUID; 
+			targetElement.appendChild(imgTag);
+			console.log("ajax종료");
+		}
+	})
+
+});
 
 /*파일은 jpg, png만 업로드 가능, 업로드 파일 최대 사이즈는 1MB */
 	let regex = new RegExp("(.*?)\.(jpg|png)$");
@@ -142,19 +141,6 @@ $("input[type='file']").on("change", function(e){
 			
 		}
 	
-//이미지 출력
-//이미지 미리보기(썸네일 X)
-function readURL(input) {
-	   if (input.files && input.files[0]) {
-	      var reader = new FileReader();
-	       reader.onload = function(e) {
-	            document.getElementById('preview').src = e.target.result;
-	       };
-	       reader.readAsDataURL(input.files[0]);
-	        } else {
-	       document.getElementById('preview').src = "";
-	     }
-	}
 
 //닉네임 중복체크
 $('.nick_input').on("propertychange change keyup paste input", function(){

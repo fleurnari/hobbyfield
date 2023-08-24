@@ -31,7 +31,6 @@
         <c:forEach items="${boardList}" var="board">
             <tr onclick="location.href='clubBoardInfo?boardNumber=${board.boardNumber}'">
                 <td>${board.boardNumber}</td>
-                <td>${board.clubName}</td>
                 <td>${board.clubBoardWriter}</td>
                 <td>${board.clubBoardWdate}</td>
                 <td>${board.clubBoardViews}</td>
