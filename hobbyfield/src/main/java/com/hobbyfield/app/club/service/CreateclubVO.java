@@ -19,10 +19,6 @@ public class CreateclubVO {
 	private String clubImg;
 	private String clubImgPath;
 	private Integer clubTotal;
-	
-	//member table
-	private Integer memberActpnt;
-	
-	
+	private String memberEmail;
 
 }

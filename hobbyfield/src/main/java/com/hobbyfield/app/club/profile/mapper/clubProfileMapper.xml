@@ -54,11 +54,12 @@
 	<!-- 닉네임 중복체크 -->
 	<select id="nickChk" resultType="int">
 		SELECT count(*) 
-		FROM club
+		FROM profile
 		WHERE profile_nickname = #{profileNickname}
 	</select>
 	
 	<!-- 프로필 수정 -->
+	
 	
 	
 </mapper>

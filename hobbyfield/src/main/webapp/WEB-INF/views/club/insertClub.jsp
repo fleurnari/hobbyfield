@@ -8,8 +8,19 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club/insertclub.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <title>소모임 등록</title>
+<style type="text/css">
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+</style>
+<script type="text/javascript" src="resources/js/common.js">
+
+</script>
 
 </head>
+
 
 <body>
 <!-- 카테고리, 지역 대분류, 소분류 미구현  -->
@@ -19,6 +30,15 @@
 			<h2>소모임 정보</h2>		
 		</div>
 		<div>
+			<div><label>닉네임 선택</label>
+			<input list="profileSelect" id="profile" name="profileNickname" autocapitalize="off"/>
+			<datalist id="profileSelect">
+				<c:forEach items="${getNomalMypage}" var="profile"> <!-- 프로필 선택란 -->
+					<option value="${profile.profileNickname }">${profile.profileNickname}</option>
+				</c:forEach>
+			</datalist>
+			
+			</div>
 
 			<div>
 				<div>	
@@ -79,6 +99,11 @@
 				<label>질문3</label>
 				<input type="text" name="singupQuestion3"><br>
 			</div>
+			
+			
+			<div id="preview"></div>
+			<input name="uploadFile" type="file" value="clubImg" onchange="readURL(this);">
+			<button type="button" id="uploadBtn">upload</button>
 			
 			<!-- 소모임 정원 default값 50 -->
 			<div class="join_button_wrap">
@@ -157,76 +182,44 @@ $(document).ready(function(){
 	});
 
 	
-
-	// 파일 선택 1개로 제한 
-	$(function(){
-	    $("input[type='submit']").click(function(){
-	        var $fileUpload = $("input[type='file']");
-	        if (parseInt($fileUpload.get(0).files.length)>2){
-	         alert("1개의 이미지 파일만 선택해주세요.");
-	        }
-	    });    
-	});
-	$(document).ready(function() {
-		$("#uploadBtn").on("click", function(e) {
-			var formData = new FormData();
-
-			var inputFile = $("input[name='uploadFile']");
-
-			var files = inputFile[0].files;
-
-			for (var i = 0; i < files.length; i++) {
-
-				
-				formData.append("uploadFile", files[i]);
-			}
-				
-			$.ajax({
-				url : "uploadAjaxFile",
-				processData : false,
-				contentType : false,
-				data : formData,
-				type : 'POST',
-				success : function(mv) {
-					console.log(mv.url + " => url");
-					console.log(mv.UUID + " => UUID");
-					alert("Upload성공");
-					
-					var imgTag = document.getElementById("preview");
-					imgTag.src = mv.url+ mv.UUID; 
-					targetElement.appendChild(imgTag);
-				}
-			})
-
-		});
-	});
-
-
 	
-		$(document).ready(function() {
-		    // 상위 카테고리가 변경될 때
-		    $("#majorLocation").change(function() {
-		        var selectedMajor = $(this).val();
-		        
-		        // 서버에 AJAX 요청
-		        $.ajax({
-		        //	type: "POST",
-		            url: "selectCommsubList",
-		            data: { "code": selectedMajor },
-		           // contentType: "application/json; charset=utf-8",
-		            dataType: "json",
-		            success: function(response) {
-		                // 하위 카테고리 내용을 초기화
-		                $("#subLocation").empty();
-		                
-		                // 응답으로 받아온 하위 카테고리를 추가
-		                $.each(response, function(index, item) {
-		                    $("#subLocation").append('<option value="' + item.subcode + '">' + item.literal + '</option>');
-		                });
-		            }
-		        });
-		    });
-		});
+	$(document).ready(function() {
+	    // 상위 카테고리가 변경될 때
+	    $("#majorLocation").change(function() {
+	        var selectedMajor = $(this).val();
+	        
+	        // 서버에 AJAX 요청
+	        $.ajax({
+	        //	type: "POST",
+	            url: "selectCommsubList",
+	            data: { "code": selectedMajor },
+	           // contentType: "application/json; charset=utf-8",
+	            dataType: "json",
+	            success: function(response) {
+	                // 하위 카테고리 내용을 초기화
+	                $("#subLocation").empty();
+	                
+	                // 응답으로 받아온 하위 카테고리를 추가
+	                $.each(response, function(index, item) {
+	                    $("#subLocation").append('<option value="' + item.subcode + '">' + item.literal + '</option>');
+	                });
+	            }
+	        });
+	    });
+	});
+	
+// 	$("#profile").on("input", function() {
+// 	    var value = $(this).val().toLowerCase();
+// 	    $(this).val(value);
+// 	});
+
+	function imgUploadHandler(list) {
+			for (i = 0; i < list.length; i++) {
+				let tag = `<input type="hidden" name="clubImg" value="\${list[i].UUID}">
+				           <input type="hidden" name="clubImgPath" value="\${list[i].url}">`
+				$('#join_form').append(tag);
+			}
+		}
 	
 </script>
 </html>

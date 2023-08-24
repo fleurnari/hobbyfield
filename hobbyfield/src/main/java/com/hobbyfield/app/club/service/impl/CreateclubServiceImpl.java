@@ -26,13 +26,13 @@ public class CreateclubServiceImpl implements CreateclubService {
 	
 	//소모임 등록
 	@Override
-	public String insertClubInfo(CreateclubVO createclubVO) {
+	public int insertClubInfo(CreateclubVO createclubVO) {
 		int result = createclubMapper.insertClub(createclubVO);
 		
 		if(result == 1) {
-			return createclubVO.getClubName();
+			return createclubVO.getClubNumber();
 		}else {
-			return "ERROR";
+			return -1;
 		}
 	
 	}
@@ -53,17 +53,12 @@ public class CreateclubServiceImpl implements CreateclubService {
 		return map;
 	}
 
-	//닉네임 중복체크
-//	@Override
-//	public int nickChk(String profileNickname) {
-//		return createclubMapper.nickChk(profileNickname);
-//	}
-
 	//모임 이름 중복체크 
 	@Override
 	public int clubnameChk(String clubName) {
 		return createclubMapper.clubnameChk(clubName);
 	}
+
 
 	// 소모임 검색
 	@Override
@@ -71,27 +66,5 @@ public class CreateclubServiceImpl implements CreateclubService {
 		return null;
 	}
 
-
-
-	/*==== 마이페이지	===============================	*/
-	//프로필 이미지 등록
-//	@Override
-//	public int insertImgInfo(CreateclubVO createclubVO) {
-//		return createclubMapper.profileImg(createclubVO);
-//	}
-
-	//프로필 등록
-//	@Override
-//	public int insertProfile(CreateclubVO createclubVO) {
-//	    return createclubMapper.insertProfile(createclubVO);
-//	}
-//	
-//	//프로필 내정보 조회
-//	@Override
-//	public CreateclubVO getNomalMypage(CreateclubVO createclubVO) {
-//		return createclubMapper.getNomalMypage(createclubVO);
-//	}
-
-	
 	
 }

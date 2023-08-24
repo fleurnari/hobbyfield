@@ -3,11 +3,9 @@ package com.hobbyfield.app.club.web;
 import java.util.List;
 import java.util.Map;
 
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
-import com.hobbyfield.app.club.profile.service.ClubProfileService;
-import com.hobbyfield.app.club.profile.service.ClubProfileVO;
-
 import com.hobbyfield.app.club.board.service.ClubBoardService;
 import com.hobbyfield.app.club.board.service.ClubBoardVO;
-
+import com.hobbyfield.app.club.profile.mapper.ClubProfileMapper;
+import com.hobbyfield.app.club.profile.service.ClubProfileService;
+import com.hobbyfield.app.club.profile.service.ClubProfileVO;
 import com.hobbyfield.app.club.service.CreateclubService;
 import com.hobbyfield.app.club.service.CreateclubVO;
 import com.hobbyfield.app.comm.mapper.CommCodeMapper;
@@ -43,6 +39,9 @@ public class ClubController {
 	ClubProfileService clubprofileService;
 	
 	@Autowired
+	ClubProfileMapper clubprofileMapper;
+	
+	@Autowired
 	CommCodeMapper commCodeMapper;
 	
 	/*========= 소모임 조회관련 =========*/
@@ -58,22 +57,29 @@ public class ClubController {
 	/*========= 소모임 등록관련 =========*/
 	// 소모임 등록 페이지
 	@GetMapping("insertClub")
-	public String clubInsertForm(Model model) {
+	public String clubInsertForm(ClubProfileVO clubprofileVO ,Model model, HttpSession session) {
 		model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); // 지역대그룹 코드
 		model.addAttribute("F", commCodeMapper.selectCommsubList("0F")); // 지역소그룹 코드
 		model.addAttribute("C", commCodeMapper.commCategoryList("0C")); // 모임카테고리 그룹코드
 		model.addAttribute("D", commCodeMapper.clubTypeList("0D")); // 모임분류 그룹코드
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		clubprofileVO.setMemberEmail(member.getMemberEmail());
+		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
+		model.addAttribute("getNomalMypage", findVO);
 		return "club/insertClub";
 	}
 
-	// 소모임 등록 처리
+	// 소모임 등록 처리 Process
 	@PostMapping("insertClub")
-	public String clubInsertProcess(CreateclubVO clubVO) {
+	public String clubInsertProcess(CreateclubVO clubVO, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		clubVO.setMemberEmail(member.getMemberEmail());
 		createClubService.insertClubInfo(clubVO);
 		return "redirect:clubList";
 	}
+	
 
-	// 소모임 등록 - 하위지역 반응 처리
+	// 소모임 등록 - 하위지역 반응 처리(공통코드받아서)
 	@ResponseBody
 	@GetMapping("/selectCommsubList")
 	public List<CommCodeVO> getSubLocations(String code) {
@@ -130,8 +136,6 @@ public class ClubController {
 
 	/*========= 마이페이지 개인정보 : 프로필 이미지 등록, 개인정보 조회=========*/
 
-	/* 마이페이지 개인정보 : 프로필 이미지 등록, 개인정보 조회 */
-
 	//프로필 등록 Form(페이지)
 	@GetMapping("insertProfile")
 	public String profileInsertForm(Model model) {
@@ -149,15 +153,18 @@ public class ClubController {
 	    return "redirect:insertProfile";
 	}
 	
-	//프로필 개인정보 조회
+	
+	//프로필 개인정보 조회(getNomalMypage)
 	@GetMapping("/getNomalMypage")
-	public String getNomalMypage(ClubProfileVO clubprofileVO, Model model, HttpSession session) {
+	public String selctProfileClub(ClubProfileVO clubprofileVO, Model model, HttpSession session) {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		clubprofileVO.setMemberEmail(member.getMemberEmail());
-		ClubProfileVO findVO = clubprofileService.getNomalMypage(clubprofileVO);
+		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
 		model.addAttribute("getNomalMypage", findVO);
 		return "club/getNomalMypage";
 	}
+	
+	
 	
 	//프로필 수정 (이미지 포함)
 	@PostMapping("updateProfile")
@@ -205,11 +212,9 @@ public class ClubController {
 	
 	
 	@PostMapping("clubBoardInsert")
-	public String insertClubBoard(Model model,ClubBoardVO vo) {
-		clubBoardService.insertClubBoard(vo);
+	public String insertClubBoard(ClubBoardVO vo) {
 		
-		List<ClubBoardVO> clubBoardList = clubBoardService.getAllClubBoardList();
-		model.addAttribute("boardList", clubBoardList);
+		clubBoardService.insertClubBoard(vo);
 		
 		return "club/clubBoardList";
 	}

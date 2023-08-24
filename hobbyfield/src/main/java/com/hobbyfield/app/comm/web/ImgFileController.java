@@ -1,6 +1,7 @@
 package com.hobbyfield.app.comm.web;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import com.google.common.net.HttpHeaders;
 import com.hobbyfield.app.comm.service.ImgFileService;
 
@@ -78,8 +80,9 @@ public class ImgFileController {
 	
 	@RequestMapping("/uploadAjaxFile")
 	@ResponseBody
-	public Map<String , Object> uploadAjaxPost(MultipartFile[] uploadFile) throws Exception{
-		Map<String , Object> mv = new HashMap<String , Object>();
+	public List<Map<String , Object>> uploadAjaxPost(MultipartFile[] uploadFile) throws Exception{
+		List<Map<String , Object>> list=new ArrayList<>();
+		Map<String , Object> mv;
 		
 		System.out.println("Ajax File 전송");
 		
@@ -88,6 +91,7 @@ public class ImgFileController {
 		String newInfImgFileName = null;
 
 		for(MultipartFile multipartFile : uploadFile) {
+			mv = new HashMap<String , Object>();
 			String originFileName = multipartFile.getOriginalFilename(); // 원본파일명
 			String ext = FilenameUtils.getExtension(originFileName); 
 			imgUUID = UUID.randomUUID().toString();       
@@ -102,8 +106,9 @@ public class ImgFileController {
 			} catch(Exception e){
 				System.out.println(e.getMessage());
 			} 
+			list.add(mv);
 		} 
-		return mv;
+		return list;
 	}
 
 	@GetMapping(value="/download/img/{filename}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
