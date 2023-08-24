@@ -5,7 +5,8 @@
 <mapper namespace="com.hobbyfield.app.club.mapper.CreateclubMapper">
 	<!-- 소모임 전체조회 -->
 	<select id="selectClubAllList" resultType="CreateclubVO">
-		SELECT club_number
+		SELECT 
+				club_number
 			   , profile_nickname
 			   , club_name
 			   , FIND_CODE_NM(club_category) AS club_category
@@ -21,17 +22,23 @@
 			   , club_img_path
 			   , club_total
 		FROM club
-		ORDER BY club_number
+		ORDER BY profile_nickname 
 	</select>
 	
 	<!-- 소모임 세부조회 -->
 	
-	<!-- 소모임 등록 --> <!-- 카테고리/모임IMG등록/인원정수 구현해야함 -->
+	<!-- 소모임 등록 -->
 	<insert id="insertClub" parameterType="CreateclubVO">
-		INSERT ALL INTO club
-				(
-					 club_name
+		<selectKey keyProperty="clubNumber" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(club_number), 0) + 1
+			FROM club
+		</selectKey>
+		
+		INSERT INTO club
+				(	
+					club_number
 					, profile_nickname
+					, club_name
 					, club_category
 					, club_type
 					, club_info
@@ -42,13 +49,14 @@
 					, singup_question2
 					, singup_question3
 					, club_img
+					, club_img_path
 					, club_total
 				)
 		VALUES
 				(
-					#{clubName}
+					#{clubNumber}
 					, #{profileNickname}
-					, (SELECT MEMBER_EMAIL FROM profile WHERE PROFILE_NICKNAME = #{profileNickname})
+					, #{clubName}
 					, #{clubCategory}
 					, #{clubType}
 					, #{clubInfo}
@@ -59,6 +67,7 @@
 					, #{singupQuestion2}
 					, #{singupQuestion3}
 					, #{clubImg}
+					, #{clubImgPath}
 					, 50
 				)
 	</insert>
@@ -95,6 +104,7 @@
 			, singup_question2 = #{singupQuestion2}
 			, singup_question3 = #{singupQuestion3}
 			, club_img = #{clubImg}
+			, club_img_path =#{clubImgPath}
 			, 50
 		WHERE club_name = #{clubName}
 		</set>

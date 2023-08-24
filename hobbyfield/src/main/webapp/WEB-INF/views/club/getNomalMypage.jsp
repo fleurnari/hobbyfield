@@ -7,12 +7,17 @@
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <title>프로필 유저정보</title>
+<style type="text/css">
+
+</style>
 </head>
 <body>
-<div>
+<section>
 	<form>
 		<div align="center">
-			<label>닉네임 : ${getNomalMypage.profileNickname }</label>
+			<c:forEach items="${getNomalMypage}" var="profile">
+				<option>닉네임 : ${profile.profileNickname }</option>
+			</c:forEach>
 		</div>
 		<div>
 			<p3>첨부이미지</p3>
@@ -24,7 +29,7 @@
 		
 		<button type="submit">수정</button>
 	</form>
-</div>
+</section>
 	
 <script>
 
