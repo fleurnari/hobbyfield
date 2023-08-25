@@ -28,7 +28,8 @@
 		
 <!-- 	</insert> -->
 	<!-- 프로필 등록 -->
-	<insert id="insertProfile" parameterType="CreateclubVO">
+<!-- 	<insert id="insertProfile" parameterType="CreateclubVO"> -->
+	<insert id="insertProfile" parameterType="ClubProfileVO">
 		INSERT INTO profile(
 			PROFILE_NICKNAME 
 			,MEMBER_EMAIL 
@@ -43,12 +44,22 @@
 		)
 	</insert>
 	
+	<!-- 프로필 단건조회 -->
+	<select id="selectProfileInfo" resultType="ClubProfileVO">
+		SELECT profile_nickname
+				, profile_img
+				, profile_img_path
+				, member_email
+		FROM profile
+		WHERE profile_nickname = #{profileNickname} 
+	</select>
+	
 	
 	<!-- 프로필 화면 : 개인정보 조회 (이미지 조회도 가능해야함)-->
 	<select id="getNomalMypage" resultType="ClubProfileVO">
-	 SELECT profile_nickname 
-     FROM profile
-     WHERE member_email = #{memberEmail}
+	 	SELECT profile_nickname, profile_img, profile_img_path, member_email 
+     	FROM profile
+     	WHERE member_email = #{memberEmail}
 	</select>
 	
 	<!-- 닉네임 중복체크 -->
@@ -59,7 +70,16 @@
 	</select>
 	
 	<!-- 프로필 수정 -->
-	
+	<update id="updateProfile" parameterType="ClubProfileVO">
+		UPDATE profile
+		<set>
+			profile_nickname = #{profileNickname}
+			member_email = #{memberEmail}
+			profile_img = #{profileImg}
+			profile_img_path = #{profileImgPath}
+		</set>
+		WHERE profile_nickname = #{profileNickname}	
+	</update>
 	
 	
 </mapper>

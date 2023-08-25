@@ -54,7 +54,7 @@
 </head>
 
 <body>
-
+<section>
     <div align="center" style="margin-top: 100px;">
         <input type="text" id="memberEmail" value="${member.memberEmail}">
         <div id="clubContainer">
@@ -74,6 +74,7 @@
             </c:forEach>
         </div>
     </div>
+</section>
 </body>
 
 </html>

@@ -160,11 +160,19 @@ public class ClubController {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		clubprofileVO.setMemberEmail(member.getMemberEmail());
 		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
+		if(findVO == null)
 		model.addAttribute("getNomalMypage", findVO);
+		
 		return "club/getNomalMypage";
 	}
 	
-	
+	//프로필 단건조회(getNomalMypage에 뿌려줌)
+	@GetMapping("/selectProfile")
+	public String getProfile(ClubProfileVO clubprofileVO, Model model) {
+		ClubProfileVO selectedProfile = clubprofileService.getProfile(clubprofileVO);
+		model.addAttribute("selectProfile",  selectedProfile);
+		return "club/getNomalMypage";
+	}
 	
 	//프로필 수정 (이미지 포함)
 	@PostMapping("updateProfile")

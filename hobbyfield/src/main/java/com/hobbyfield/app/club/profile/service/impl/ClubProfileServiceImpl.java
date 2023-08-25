@@ -17,6 +17,12 @@ public class ClubProfileServiceImpl implements ClubProfileService {
 	@Autowired
 	ClubProfileMapper clubprofileMapper;
 	
+	//프로필 단건조회
+	@Override
+	public ClubProfileVO getProfile(ClubProfileVO clubProfileVO) {
+		return clubprofileMapper.selectProfileInfo(clubProfileVO);
+	}
+	
 	//프로필 등록
 	@Override
 	public int insertProfile(ClubProfileVO clubProfileVO) {
@@ -51,4 +57,6 @@ public class ClubProfileServiceImpl implements ClubProfileService {
 		
 		return map;
 	}
+
+	
 }
