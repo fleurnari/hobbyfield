@@ -28,12 +28,24 @@ public class PrdtServiceImpl implements PrdtService {
 	//상품상세보기
 	@Override
 	public PrdtVO selectPrdt(int PrdtId) {
-		return prdtMapper.seletPrdt(PrdtId);
+		return prdtMapper.selectPrdt(PrdtId);
 	}
+	
+	
 	//상품목록조회
 	@Override
 	public List<PrdtVO> selectAllPrdt() {
 		return prdtMapper.selectAllPrdt();
+	}
+	
+	//등록상품삭제
+	@Override
+	public void deletePrdt(int prdtId) {
+		prdtMapper.deletePrdt(prdtId);
+	}
+	@Override
+	public void updatePrdt(PrdtVO prdtVO) {
+		prdtMapper.updatePrdt(prdtVO);
 	}
 	
 

@@ -35,7 +35,7 @@
 					</thead>
 					<tbody>
 						<c:forEach items="${comMemberList}" var="comMem">
-							<tr onclick="location.href='memberInfo?memberEmail=${comMem.memberEmail}'">
+							<tr onclick="location.href='memberInfo?memberEmail=${comMem.memberEmail}&page=${scri.page}&perPageNum=${scri.perPageNum}&searchType=${scri.searchType}&keyword=${scri.keyword}'">
 								<td>${comMem.memberEmail}</td>
 								<td>${comMem.memberNm}</td>
 								<td>${comMem.memberGrd}</td>
@@ -51,7 +51,6 @@
 				</table>
 					<div class="search">
 					    <select name="searchType">
-					      <option value="n"<c:out value="${scri.searchType == null ? 'selected' : ''}"/>>-----</option>
 					      <option value="email"<c:out value="${scri.searchType eq 'email' ? 'selected' : ''}"/>>이메일</option>
 					      <option value="nm"<c:out value="${scri.searchType eq 'nm' ? 'selected' : ''}"/>>이름</option>
 					    </select>

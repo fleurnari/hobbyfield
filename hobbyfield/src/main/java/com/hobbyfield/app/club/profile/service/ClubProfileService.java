@@ -14,6 +14,9 @@ public interface ClubProfileService {
 	//프로필화면 : 개인정보 조회
 	public List<ClubProfileVO> getNomalMypage(ClubProfileVO clubprofileVO);
 	
+	// 자신의 프로필 모두 가져오기
+	public List<ClubProfileVO> getMyProfile(ClubProfileVO clubprofileVO);
+	
 	//닉네임 유효성검사
 	public int nickChk(String profileNickname);
 	

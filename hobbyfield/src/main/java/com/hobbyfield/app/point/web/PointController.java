@@ -5,12 +5,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hobbyfield.app.point.service.PointService;
 import com.hobbyfield.app.point.service.PointVO;
 
 @Controller
+@RequestMapping("point")
 public class PointController {
 
 	@Autowired

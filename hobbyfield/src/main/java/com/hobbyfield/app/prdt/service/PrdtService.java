@@ -12,4 +12,9 @@ public interface PrdtService {
 	//상품목록조회
 	public List<PrdtVO> selectAllPrdt();
 	
+	//상품수정하기
+	public void updatePrdt(PrdtVO prdtVO);
+	
+	//등록된상품 삭제
+	public void deletePrdt(int prdtId);
 }

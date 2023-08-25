@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.hobbyfield.app.club.profile.service.ClubProfileVO;
 import com.hobbyfield.app.member.mapper.MemberMapper;
 import com.hobbyfield.app.member.service.MemberVO;
 import com.hobbyfield.app.pointrecord.mapper.PointRecordMapper;
@@ -34,6 +35,9 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 		
 		member = memberMapper.loginMember(member);
 		
+		// 로그인시 Session에 자신의 모든 프로필 담기
+		// ClubProfileVO prfile = new ClubProfileVO();
+		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 		
 		if ((member.getMemberLtstconn() == null) || !(dateFormat.format(new Date()).equals(dateFormat.format(member.getMemberLtstconn())))) {
@@ -47,7 +51,6 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 		}
 		
 		request.getSession().setAttribute("member", member);
-		
 		response.sendRedirect(request.getContextPath() + "/");
 
 	}
