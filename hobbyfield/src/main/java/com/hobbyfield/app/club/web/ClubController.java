@@ -199,12 +199,7 @@ public class ClubController {
 		return "club/clubBoardInsert";
 	}
 
-	// 이미지 테스트
-	@GetMapping("TESTIMG")
-	public String TestImg() {
-		return "club/TESTIMG";
-	}
-	
+
 	@GetMapping("uploadForm")
 	public String uploadForm() {
 		return "club/uploadForm";
@@ -212,8 +207,9 @@ public class ClubController {
 	
 	
 	@PostMapping("clubBoardInsert")
-	public String insertClubBoard(ClubBoardVO vo) {
-		
+	public String insertClubBoard(Model model,ClubBoardVO vo) {
+		List<ClubBoardVO> clubBoardList = clubBoardService.getAllClubBoardList();
+		model.addAttribute("boardList", clubBoardList);
 		clubBoardService.insertClubBoard(vo);
 		
 		return "club/clubBoardList";
