@@ -24,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hobbyfield.app.member.service.MemberService;
 import com.hobbyfield.app.member.service.MemberVO;
+import com.hobbyfield.app.member.service.MyitemService;
 import com.hobbyfield.app.pointrecord.service.PointRecordService;
 import com.hobbyfield.app.pointrecord.service.PointRecordVO;
 import com.hobbyfield.app.security.CustomUser;
@@ -40,6 +41,9 @@ public class MemberController {
 	
 	@Autowired
 	BCryptPasswordEncoder pwEncoder;
+	
+	@Autowired
+	MyitemService myitemService;
 
 	// 회원 가입 페이지
 	@GetMapping("/memberJoinSelect")
@@ -218,5 +222,11 @@ public class MemberController {
 		return "redirect:/login";
 	}
 	
+	// 마이아이템 전체조회
+	@GetMapping("member/myitemList")
+	public String getMyitemAllList(Model model) {
+		model.addAttribute("myitemList", myitemService.selectMyItemAllList());
+		return "member/myitemList";
+	}
 
 }

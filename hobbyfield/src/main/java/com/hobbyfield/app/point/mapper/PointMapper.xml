@@ -18,7 +18,7 @@
 		<!-- point_img_path -->
 		FROM POINT
 		ORDER BY
-		point_id
+		point_endterm asc
 	</select>
 
 	<!-- 포인트 상품 단건조회 -->
