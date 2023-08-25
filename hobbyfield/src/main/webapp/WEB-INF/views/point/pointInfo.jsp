@@ -76,7 +76,7 @@ body {
 	<div class="container">
 		<div class="row">
 			<h3>${point.pointName}</h3>
-			<c:if test="${point.pointItemType} eq 'W1'" >
+			<c:if test="${point.pointItemType} eq 'W1'">
 				<p>7일${point.pointOptionVO[0].pointPrice }</p>
 				<p>14일${point.pointOptionVO[1].pointPrice }</p>
 				<p>30일${point.pointOptionVO[2].pointPrice }</p>
@@ -85,7 +85,7 @@ body {
 			<p>${point.pointState}</p>
 			<p>${point.pointItemType}</p>
 			<p>${point.groupPrice }</p>
-			
+
 			<p>
 				판매종료 <font class="time" style="font-weight: bold;" size=5> <jsp:useBean
 						id="now" class="java.util.Date" /> <fmt:parseNumber
@@ -96,8 +96,8 @@ body {
 						value="${endPlanDate.time / (1000*60*60*24)}" integerOnly="true"
 						var="endDate" /> <c:choose>
 						<c:when test="${endDate - nowfmtTime >= 1}">
-          				${endDate - nowfmtTime + 1}
-         					<span>일 남음</span>
+         				${endDate - nowfmtTime + 1}
+        					<span>일 남음</span>
 						</c:when>
 						<c:otherwise>
 							<div>
@@ -113,47 +113,33 @@ body {
 				<button type="button" onclick="location.href='wishList'">위시</button>
 				<button type="button" id="purchase" onclick="openModal()">구입</button>
 			</div>
+
+			} 
+
 			<!-- 모달 창 -->
 			<div id="myModal" class="modal">
 				<div class="modal-content">
-					<span class="close" id="closeModalBtn">&times;</span>
+					<span class="close" id="closeModalBtn">&times;</span><!-- close안됨 -->
+					<div>
+						<h5>${point.pointName}</h5><br>
+						<p></p>
+						<p>구입하시겠습니까?</p>
+
+					</div>
 					<div>
 						<div>
-
-							7일<input type="radio" name="pointOptionVO[0].pointPeriod"
-								value="7"> 14일<input type="radio"
-								name="pointOptionVO[1].pointPeriod" value="14"> 30일<input
-								type="radio" name="pointOptionVO[2].pointPeriod" value="30">
-							영구<input type="radio" name="pointOptionVO[3].pointPeriod"
-								value="0">
-
+							<!-- 교수님 ..! radio- name  -->
+							<label>7일<input type="radio" name="pointPeriod" value="7" checked>${point.pointOptionVO[0].pointPrice }</label> 
+							<label>14일<input type="radio" name="pointPeriod" value="14">${point.pointOptionVO[1].pointPrice }</label>
+							<label>30일<input type="radio" name="pointPeriod" value="30">${point.pointOptionVO[2].pointPrice }</label> 
+							<label>영구<input type="radio" name="pointPeriod" value="0">${point.pointOptionVO[3].pointPrice }</label>
 						</div>
-						<!-- 						<div> -->
-						<!-- 							7일<input type="radio" name="pointOptionVO[0].pointPeriod" -->
-						<!-- 								value="7"> -->
-						<!-- <!-- 								 <span><input type="text" -->
-						<!-- <!-- 								name="pointOptionVO[0].pointPrice"></span>  -->
 
-						<!-- 							14일<input -->
-						<!-- 								type="radio" name="pointOptionVO[1].pointPeriod" value="14" > -->
-						<!-- <!-- 								<span> <input type="text" -->
-						<!-- <!-- 									name="pointOptionVO[1].pointPrice"> -->
-						<!-- <!-- 								</span> -->
-						<!-- 							30일<input type="radio" name="pointOptionVO[2].pointPeriod" -->
-						<!-- 								value="30"> -->
-						<!-- <!-- 								 <span><input type="text" -->
-						-->
-						<!-- <!-- 								name="pointOptionVO[2].pointPrice"></span>  -->
+						
 
-						<!-- 							영구<input -->
-						<!-- 								type="radio" name="pointOptionVO[3].pointPeriod" value="0"> -->
-						<!-- <!-- 							<span><input type="text" -->
-						<!-- <!-- 								name="pointOptionVO[3].pointPrice"></span> -->
-						<!-- 						</div> -->
 					</div>
 					<button
-						onclick="location.href='pointInfo?pointId=${point.pointId}'">구매
-						확인</button>
+						onclick="location.href='pointInfo?pointId=${point.pointId}'">구매확인</button>
 					<!-- 임시임 수정해 -->
 				</div>
 			</div>
@@ -176,7 +162,7 @@ body {
 		<button type="submit"
 			onclick="location.href='pointUpdate?pointId=${point.pointId}'">수정</button>
 		<button type="button" id=""
-			onclick="location.href='pointDelete?pointId=${point.pointId}'">삭제</button>
+			onclick="location.href='/point.pointDelete?pointId=${point.pointId}'">삭제</button>
 		<button type="button" onclick="location.href='pointList'">목록</button>
 	</div>
 

@@ -17,16 +17,17 @@ body {
 	margin-top: 20px;
 	margin-left: 20px;
 }
-
 .point {
 	margin-left: 45%;
 	color: #005DFF;
 	display: inline;
+	font-weight: bold;
 }
 
 .sangjum {
 	color: #FF6A00;
 	display: inline;
+font-weight: bold;
 }
 
 .notice-link {
@@ -118,10 +119,11 @@ th {
 </style>
 </head>
 <body>
-	<h3 class="point">포인트</h3>
-	<span><h3 class="sangjum">상점</h3></span>
+		<h3 class="point">포인트</h3>
+		<span><h3 class="sangjum">상점</h3></span>
+
 	<div class="header-left">
-		<a href="${pageContext.request.contextPath}/noticeList"
+		<a href="${pageContext.request.contextPath}/notice/noticeList"
 			class="notice-link">공지사항</a>
 	</div>
 	<div class="container">
