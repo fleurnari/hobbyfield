@@ -5,8 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>upload test</title>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="resources/js/common.js"></script>
 </head>
 <body>
 	<div align="center" style="margin-top: 100px;">
@@ -21,23 +21,19 @@
 
 			<input name="uploadFile" type="file" multiple="multiple" >
 			<button id="uploadBtn">upload</button>
-			<div  id="preview" >
-				<img style="width: 200px; height: 200px;"/>
+			<div id="preview">
 			</div>
-			
 		</div>
-		<img src="download/img/common.png" style="width: 200px; height: 200px;">
 	</div>
 	
 	<script type="text/javascript">
 	
-	var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
-	var maxSize = 5242880;
 	
-	function checkExtension(fileName, fileSize){
-		if(fileSize >= maxSize){
-			alert("파일 사이즈 초과");
-			return false;
+	function imgUploadHandler(list) {
+		$('#emojiFile').empty();
+		for (i = 0; i < list.length; i++) {
+			let tag = `<input type="text" name="emojiVO[\${i}].emojiImgName" value="\${list[i].UUID}"><input type="text" name="emojiVO[\${i}].emojiImgPath" value="\${list[i].url}">`
+			$('#im').append(tag);
 		}
 		
 		if(regex.test(fileName)){
@@ -70,7 +66,6 @@
 					success : function(list) {
 						//console.log(mv.url + " => url");
 						//console.log(mv.UUID + " => UUID");
-						//alert("Upload성공");
 						for(file of list) {
 							var preview = document.getElementById("preview");
 							var imgTag = document.createElement("img");
@@ -85,6 +80,10 @@
 
 			});
 		});
+
+	
+	
+
 		
 		
 	

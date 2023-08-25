@@ -10,38 +10,14 @@ import com.hobbyfield.app.talent.service.TalentService;
 import com.hobbyfield.app.talent.service.TalentVO;
 
 @Service
-public class TalentServiceImpl implements TalentService{
+public class TalentServiceImpl implements TalentService {
+	
 	@Autowired
-	private TalentMapper talentMapper;
-
+	TalentMapper talentMapper;
+	
 	@Override
-	public List<TalentVO> getAllTalent() {
-		return talentMapper.getAllTalent();
-	}
-
-	@Override
-	public TalentVO getTalentInfo(int tlntId) {
-		return talentMapper.getTalentInfo(tlntId);
-	}
-
-	@Override
-	public void insertTalent(TalentVO talentVO) {
-		talentMapper.insertTalent(talentVO);
-	}
-
-	@Override
-	public void updateTalent(TalentVO talentVO) {
-		talentMapper.updateTalent(talentVO);
-	}
-
-	@Override
-	public void deleteTalent(int tlntId) {
-		talentMapper.deleteTalent(tlntId);
-	}
-
-	@Override
-	public void updateTalentView(int tlntId) {
-		talentMapper.updateTalentView(tlntId);
+	public List<TalentVO> getTalentAllList() {
+		return talentMapper.selectTalentAllList();
 	}
 
 }

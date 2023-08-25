@@ -160,11 +160,19 @@ public class ClubController {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		clubprofileVO.setMemberEmail(member.getMemberEmail());
 		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
+		if(findVO == null)
 		model.addAttribute("getNomalMypage", findVO);
+		
 		return "club/getNomalMypage";
 	}
 	
-	
+	//프로필 단건조회(getNomalMypage에 뿌려줌)
+	@GetMapping("/selectProfile")
+	public String getProfile(ClubProfileVO clubprofileVO, Model model) {
+		ClubProfileVO selectedProfile = clubprofileService.getProfile(clubprofileVO);
+		model.addAttribute("selectProfile",  selectedProfile);
+		return "club/getNomalMypage";
+	}
 	
 	//프로필 수정 (이미지 포함)
 	@PostMapping("updateProfile")
@@ -199,12 +207,7 @@ public class ClubController {
 		return "club/clubBoardInsert";
 	}
 
-	// 이미지 테스트
-	@GetMapping("TESTIMG")
-	public String TestImg() {
-		return "club/TESTIMG";
-	}
-	
+
 	@GetMapping("uploadForm")
 	public String uploadForm() {
 		return "club/uploadForm";
@@ -212,8 +215,9 @@ public class ClubController {
 	
 	
 	@PostMapping("clubBoardInsert")
-	public String insertClubBoard(ClubBoardVO vo) {
-		
+	public String insertClubBoard(Model model,ClubBoardVO vo) {
+		List<ClubBoardVO> clubBoardList = clubBoardService.getAllClubBoardList();
+		model.addAttribute("boardList", clubBoardList);
 		clubBoardService.insertClubBoard(vo);
 		
 		return "club/clubBoardList";

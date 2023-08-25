@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
 <head>
     <meta charset="UTF-8">
@@ -54,13 +55,13 @@
 </head>
 
 <body>
-
+<section>
     <div align="center" style="margin-top: 100px;">
         <input type="text" id="memberEmail" value="${member.memberEmail}">
         <div id="clubContainer">
             <c:forEach items="${clubList}" var="club">
-                <div class="clubItem">
-                    <img src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}">
+                <div class="clubItem" onclick="">
+                    <img src="${club.clubImgPath}${club.clubImg}">
                     <div class="clubInfo">
                         <p>모임리더: ${club.profileNickname}</p>
                         <p>모임이름: ${club.clubName}</p>
@@ -74,6 +75,16 @@
             </c:forEach>
         </div>
     </div>
+</section>
 </body>
+<script type="text/javascript">
+	$('#clubContainer').on('click',function(e){
+		
+		
+		
+		var linkta
+	});
+	
 
+</script>
 </html>
