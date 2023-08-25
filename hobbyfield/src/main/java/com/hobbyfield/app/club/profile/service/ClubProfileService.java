@@ -4,8 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface ClubProfileService {
-//	//프로필이미지 등록
-//	public int insertImgInfo(CreateclubVO createclubVO);
+	
+	//프로필 단건조회
+	public ClubProfileVO getProfile(ClubProfileVO clubProfileVO);
 	
 	//프로필 등록
 	public int insertProfile(ClubProfileVO clubProfileVO);

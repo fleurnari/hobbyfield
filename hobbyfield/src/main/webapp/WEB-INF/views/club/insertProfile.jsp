@@ -8,6 +8,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club/insertclub.css">
 <title>프로필 등록</title>
+<script type="text/javascript" src="resources/js/common.js"></script>
 </head>
 <body>
 <div align="center" class="profile_top">
@@ -25,6 +26,10 @@
          <span class="nick_input_re1">사용 가능한 닉네임 입니다.</span>
          <span class="nick_input_re2">닉네임이 이미 존재합니다.</span>
          <span class="final_name_ck">사용할 닉네임을 입력하세요.</span>
+         <c:if test="${not empty errorMessage}">
+	     <div class="error">${errorMessage}</div>
+		 </c:if>
+         
       </div>
       
       <div>
@@ -34,12 +39,9 @@
       
       <div class="profileSection">
          <label>첨부이미지</label>
-         <div class="profileSection-title">
-            <input type="file" id="uploadFile" class="profileImg" name="uploadFile" onchange="readURL(this);">
-            <img id="preview" style="width: 200px; height: 200px" />
-            <input type="hidden" id="profileImg" name="profileImg" value="imgTag">
-            
-         </div>
+         <div id="preview"></div>
+			<input name="uploadFile" type="file" value="profileImg" onchange="readURL(this);">
+			<button type="button" id="uploadBtn">upload</button>
       </div>
       
       <div class="join_button_wrap">
@@ -57,7 +59,7 @@ var nickCheck = false; //닉네임
 var nickchCheck = false; //닉네임 중복체크
 
 $(document).ready(function(){
-   //모임생성 버튼(모임생성 기능 작동)
+   //프로필 등록 버튼
    $(".join_button").on("click", function() {
       
       //입력값 변수
@@ -111,87 +113,14 @@ $('.nick_input').on("propertychange change keyup paste input", function(){
 }); // function 종료
 
 /* 이미지 업로드 */
-$("#uploadFile").change(function(e){
-	   var formData = new FormData();
-
-	   var inputFile = $("input[name='uploadFile']");
-
-	   var files = inputFile[0].files;
-
-	   console.log(files);
-
-	   for (var i = 0; i < files.length; i++) {   
-	      formData.append("uploadFile", files[i]);
-	   }
-	      
-	   $.ajax({
-	      url : "uploadAjaxFile",
-	      processData : false,
-	      contentType : false,
-	      data : formData,
-	      type : 'POST',
-	      success : function(list) {
-	         console.log(list[0].url + " => url");
-	         console.log(list[0].UUID + " => UUID");
-	         var inputImgTag = document.getElementById("profileImg");
-	         var imgTag = document.getElementById("preview");
-	         inputImgTag.value = list[0].url + list[0].UUID;
-	         imgTag.src = list[0].url + list[0].UUID; 
-	         //targetElement.appendChild(imgTag);
-	         console.log("ajax종료");
-	      }
-	   })
-
-	});
-
-
-	/*파일은 jpg, png만 업로드 가능, 업로드 파일 최대 사이즈는 1MB */
-	   let regex = new RegExp("(.*?)\.(jpg|png)$");
-	   let maxSize = 1048576; //1MB   
-	      
-	      function fileCheck(fileName, fileSize){
-
-	         if(fileSize >= maxSize){
-	            alert("파일 용량 초과");
-	            return false;
-	         }
-	              
-	         if(!regex.test(fileName)){
-	            alert("JPG, PNG 파일만 업로드가능합니다.");
-	            return false;
-	         }
-	         
-	         return true;      
-	         
-	      }
-	   
-	 /*이미지 미리보기 */
-     function readURL(input) {
-  	   if (input.files && input.files[0]) {
-  	      var reader = new FileReader();
-  	       reader.onload = function(e) {
-  	            document.getElementById('preview').src = e.target.result;
-  	       };
-  	       reader.readAsDataURL(input.files[0]);
-  	        } else {
-  	       document.getElementById('preview').src = "";
-  	     }
-  	}
-
-
-			if(fileSize >= maxSize){
-				alert("파일 용량 초과");
-				return false;
+function imgUploadHandler(list) {
+			for (i = 0; i < list.length; i++) {
+				let tag = `<input type="hidden" name="profileImg" value="\${list[i].UUID}">
+				           <input type="hidden" name="profileImgPath" value="\${list[i].url}">`
+				$('#join_form').append(tag);
 			}
-				  
-			if(!regex.test(fileName)){
-				alert("JPG, PNG 파일만 업로드가능합니다.");
-				return false;
-			}
-			
-			return true;		
-			
 		}
+   
 	
 
 

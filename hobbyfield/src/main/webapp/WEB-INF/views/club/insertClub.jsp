@@ -6,6 +6,78 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club/insertclub.css">
+<style type="text/css">
+/* 메인화면에 맞게 css 수정필요 */
+/* 닉네임 체크를 해서 등록가능하게 할것인지. 아니면 프로필이 없으면 접근못하게 할것인지 결정해야함 */
+
+
+/* 일반 스타일링 */
+body {
+    font-family: Arial, sans-serif; /* 글꼴 설정 */
+    background-color: #f4f4f4; /* 배경색 설정 */
+    margin: 0;
+    padding: 0;
+}
+
+div.top {
+    width: 50%; /* 너비 설정 */
+    margin: 50px auto; /* 중앙 정렬 */
+    background-color: #fff; /* 배경색 설정 */
+    padding: 20px; /* 내부 여백 설정 */
+    border-radius: 10px; /* 테두리 둥글게 설정 */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+}
+
+label {
+    font-weight: bold; /* 레이블 글씨 굵게 설정 */
+    margin-bottom: 10px; /* 아래쪽 여백 설정 */
+}
+
+/* 입력필드 스타일 */
+input[type="text"], input[type="file"], select {
+    width: 100%; /* 너비 설정 */
+    padding: 10px; /* 내부 여백 설정 */
+    margin: 10px 0; /* 외부 여백 설정 */
+    border: 1px solid #ccc; /* 테두리 설정 */
+    border-radius: 5px; /* 테두리 둥글게 설정 */
+}
+
+input[type="radio"] {
+    margin-right: 5px; /* 오른쪽 여백 설정 */
+}
+
+/* 버튼 스타일 */
+
+button {
+    background-color: #4CAF50; /* 배경색 설정 */
+    color: white; /* 글씨색 설정 */
+    padding: 10px 15px; /* 내부 여백 설정 */
+    border: none; /* 테두리 없애기 */
+    border-radius: 5px; /* 테두리 둥글게 설정 */
+    cursor: pointer; /* 마우스 커서를 포인터로 설정 */
+}
+
+button:hover {
+    background-color: #45a049; /* 버튼에 마우스를 올렸을 때의 배경색 설정 */
+}
+
+/* 기타 스타일링 */
+.club_create_sub h2 {
+    border-bottom: 2px solid #4CAF50; /* 아래쪽 테두리 설정 */
+    padding-bottom: 10px; /* 아래쪽 내부 여백 설정 */
+    margin-bottom: 20px; /* 아래쪽 외부 여백 설정 */
+}
+
+span {
+    color: red; /* 글씨색 설정 */
+    display: none; /* 기본적으로 보이지 않게 설정 */
+}
+
+.join_button_wrap {
+    text-align: center; /* 중앙 정렬 */
+    margin-top: 20px; /* 위쪽 여백 설정 */
+}
+</style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <title>소모임 등록</title>
 <style type="text/css">
@@ -15,15 +87,13 @@ label {
 }
 
 </style>
-<script type="text/javascript" src="resources/js/common.js">
+<script type="text/javascript" src="resources/js/common.js"></script>
 
-</script>
 
 </head>
 
 
 <body>
-<!-- 카테고리, 지역 대분류, 소분류 미구현  -->
 <form action="insertClub" method="post" id="join_form">
 	<div align="center" class="top">
 		<div class="club_create_sub">
@@ -31,10 +101,10 @@ label {
 		</div>
 		<div>
 			<div><label>닉네임 선택</label>
-			<input list="profileSelect" id="profile" name="profileNickname" autocapitalize="off"/>
+			<input list="profileSelect" id="profile" name="profileNickname" autocomplete="off" />
 			<datalist id="profileSelect">
-				<c:forEach items="${getNomalMypage}" var="profile"> <!-- 프로필 선택란 -->
-					<option value="${profile.profileNickname }">${profile.profileNickname}</option>
+				<c:forEach items="${getNomalMypage}" var="profile" > <!-- 프로필 선택란 -->
+					<option value="${profile.profileNickname }" >${profile.profileNickname}</option>
 				</c:forEach>
 			</datalist>
 			
@@ -208,10 +278,6 @@ $(document).ready(function(){
 	    });
 	});
 	
-// 	$("#profile").on("input", function() {
-// 	    var value = $(this).val().toLowerCase();
-// 	    $(this).val(value);
-// 	});
 
 	function imgUploadHandler(list) {
 			for (i = 0; i < list.length; i++) {
