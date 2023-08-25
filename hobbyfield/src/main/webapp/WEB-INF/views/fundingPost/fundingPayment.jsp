@@ -5,7 +5,52 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- PortOne SDK -->
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 </head>
+ <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+    <!-- iamport.payment.js -->
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script>
+        var IMP = window.IMP; 
+        IMP.init("imp10078031"); 
+      
+        var today = new Date();   
+        var hours = today.getHours(); // 시
+        var minutes = today.getMinutes();  // 분
+        var seconds = today.getSeconds();  // 초
+        var milliseconds = today.getMilliseconds();
+        var makeMerchantUid = hours +  minutes + seconds + milliseconds;
+        
+        var buyer_addr = 'FndZip' + 'FndBaseAddr' + 'FndDetaAddr';
+
+        function requestPay() {
+            IMP.request_pay({
+                pg : 'kcp',
+                pay_method : 'card',
+                merchant_uid: 'merchant_' + new Date().getTime(),
+                name : '당근 10kg', //결제창에서 보여질 이름
+                amount : 1004, //실제 결제되는 가격
+                buyer_email : '${member.memberEmail}',
+                buyer_name : '${member.memberNm}',
+                buyer_tel : '${member.memberCntinfo}',
+                buyer_addr : '서울특별시 강남구 삼성동',
+                buyer_postcode : '123-456'
+            }, function (rsp) { // callback
+                if (rsp.success) {
+                	var msg = '결제가 완료되었습니다.';
+    		        msg += '고유ID : ' + rsp.imp_uid;
+    		        msg += '상점 거래ID : ' + rsp.merchant_uid;
+    		        msg += '결제 금액 : ' + rsp.paid_amount;
+    		        msg += '카드 승인번호 : ' + rsp.apply_num;
+                } else {
+                	 var msg = '결제에 실패하였습니다.';
+    		         msg += '에러내용 : ' + rsp.error_msg;
+                }
+            });
+        }
+    </script>
 <body>
 	응애
 	<Section>
@@ -83,8 +128,9 @@
 										<br>
 										결제수단<br>
 										Naver pay<br>
-									<br>									
-									<button type="submit" form="frm" class="btn btn-primary" style="float: center;">결제하기</button>
+									<br>	
+									<button onclick="requestPay()">결제하기</button>						
+									
 									</p>
 							</div>
 						</div>
@@ -92,15 +138,17 @@
 			<input type="text" name="fndPostNumber" value="${fundingPostInfo.fndPostNumber }">
 			<input type="text" name="fndGoodsNumber" value="${fundingGoodsInfo.fndGoodsNumber }">
 			<input type="text" name="MemberEmail" value="${member.memberEmail }">
-			<input type="text" name="fndOrderAmount" value="${fndGoodsAmount }">
-			<input type="text" name="fndTotalPrice" id="calculatedResult3" value="">
+			<input type="text" name="fndOrderAmount" value="${GoodsAmount }">
+			<input type="text" name="fndTotalPrice" id="calculatedResult3" value="calculatedValue">
+			<input type="text" value="${fundingGoodsInfo.fndGoodsPrice }">
 		</form>
 		</div>
 	</Section>
+	
 	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 //Get the values from the HTML
-var fndGoodsAmount = parseFloat(${fndGoodsAmount });
+var fndGoodsAmount = parseFloat(${GoodsAmount });
 var fndTotalPrice = parseFloat(${fundingGoodsInfo.fndGoodsPrice });
 // Calculate the product
 var calculatedValue = fndGoodsAmount * fndTotalPrice;
@@ -147,7 +195,7 @@ document.getElementById('calculatedResult3').value = calculatedValue;
             }
         }).open();
     }
- 
+
 </script>
 </body>
 </html>
