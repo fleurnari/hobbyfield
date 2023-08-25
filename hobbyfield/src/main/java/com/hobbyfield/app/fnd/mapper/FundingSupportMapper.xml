@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.hobbyfield.app.fnd.mapper.FundingSupportMapper">
+  	
+  	<!-- 후원 목록 전체조회 -->
+  	<select id="selectFundingSupportList" resultType="FundingSupportVO">
+  		SELECT
+  			Fnd_Support_Number,
+  			Fnd_Post_Number,
+  			Fnd_Goods_Number,
+  			Fnd_Order_Id,
+  			Member_Email,
+  			Fnd_Order_State,
+  			Fnd_Invoice,
+  			Fnd_Order_Date,
+  			Fnd_Payment_Date,
+  			Fnd_Order_Amount,
+  			Fnd_Total_Price,
+  			Fnd_Order_Recipient,
+  			Fnd_Zip,
+  			Fnd_BaseAddr,
+  			Fnd_DetaAddr,
+  			Fnd_Cntinfo,
+  			Fnd_Order_Request,
+  			Fnd_Pay_type,
+  			Fnd_Shipdt
+  		FROM Funding_Support
+  		ORDER BY Fnd_Support_Number DESC			
+  	</select>
+  	
+  	<!-- 후원 목록 단건조회 -->
+  	<select id="selectFundingSupport" resultType="FundingSupportVO">
+  		SELECT
+  			Fnd_Support_Number,
+  			Fnd_Post_Number,
+  			Fnd_Goods_Number,
+  			Fnd_Order_Id,
+  			Member_Email,
+  			Fnd_Order_State,
+  			Fnd_Invoice,
+  			Fnd_Order_Date,
+  			Fnd_Payment_Date,
+  			Fnd_Order_Amount,
+  			Fnd_Total_Price,
+  			Fnd_Order_Recipient,
+  			Fnd_Zip,
+  			Fnd_BaseAddr,
+  			Fnd_DetaAddr,
+  			Fnd_Cntinfo,
+  			Fnd_Order_Request,
+  			Fnd_Pay_type,
+  			Fnd_Shipdt
+  		FROM Funding_Support
+  		WHERE Fnd_Support_Number = #{fndSupportNumber}
+  	</select>
+  	
+  	<!-- 결제 후 등록 -->
+  	<insert id="insertFundingSupport" parameterType="FundingSupportVO">
+  		<selectKey keyProperty="fndSupportNumber" resultType="int" order="BEFORE">
+  			SELECT NVL(MAX(Fnd_Support_Number), 0) + 1
+  			FROM funding_Support
+  		</selectKey>
+  		INSERT INTO funding_Support 
+  				(
+  				Fnd_Support_Number
+  				,Fnd_Post_Number
+  				,Fnd_Goods_Number
+  				,Fnd_Order_Id
+  				,Member_Email
+  				,Fnd_Order_State
+  				,Fnd_Invoice
+  				,Fnd_Order_Date
+  				,Fnd_Payment_Date
+  				,Fnd_Order_Amount
+  				,Fnd_Total_Price
+  				,Fnd_Order_Recipient
+  				,Fnd_Zip
+  				,Fnd_BaseAddr
+  				,Fnd_DetaAddr
+  				,Fnd_Cntinfo
+  				,Fnd_Order_Request
+  				,Fnd_Pay_type
+  				,Fnd_Shipdt
+  				)
+  		VALUES(
+  				#{fndSupportNumber}
+  				,#{fndPostNumber}
+  				,#{fndGoodsNumber}
+  				,#{fndOrderId}
+  				,#{memberEmail}
+  				,#{fndOrderState}
+  				,#{fndInvoice}
+  				,#{fndOrderDate}
+  				,#{fndPaymentDate}
+  				,#{fndOrderAmount}
+  				,#{fndTotalPrice}
+  				,#{fndOrderRecipient}
+  				,#{fndZip}
+  				,#{fndBaseAddr}
+  				,#{fndDetaAddr}
+  				,#{fndCntinfo}
+  				,#{fndOrderRequest}
+  				,#{fndPaytype}
+  				,#{fndShipdt}
+  				)
+  	</insert>
+  	
+  </mapper>
