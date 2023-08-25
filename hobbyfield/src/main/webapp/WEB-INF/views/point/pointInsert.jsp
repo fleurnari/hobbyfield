@@ -179,12 +179,13 @@ body {
 						});
 
 		function imgUploadHandler(list) {
-			$('#emojiFile').empty()
+			$('#emojiFile').empty();
 			for (i = 0; i < list.length; i++) {
 				let tag = `<input type="hidden" name="emojiVO[\${i}].emojiImgName" value="\${list[i].UUID}"><input type="hidden" name="emojiVO[\${i}].emojiImgPath" value="\${list[i].url}">`
 				$('#emojiFile').append(tag);
 			}
 		}
+		
 	</script>
 </body>
 </html>

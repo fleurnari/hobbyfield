@@ -51,4 +51,10 @@ public class ClubProfileServiceImpl implements ClubProfileService {
 		
 		return map;
 	}
+
+	@Override
+	public List<ClubProfileVO> getMyProfile(ClubProfileVO clubprofileVO) {
+		
+		return clubprofileMapper.getMyProfile(clubprofileVO);
+	}
 }

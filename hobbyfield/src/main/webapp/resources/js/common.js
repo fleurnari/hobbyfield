@@ -53,13 +53,17 @@
 					data : formData,
 					type : 'POST',
 					success : function(list) {
-						//console.log(mv.url + " => url");
-						//console.log(mv.UUID + " => UUID");
+						$('#preview').empty();
+						for(check of list){
+							console.log(check.url + " => url");
+							console.log(check.UUID + " => UUID");
+						}
 						//alert("Upload성공");
 						for(mv of list) {
 							var preview = document.getElementById("preview");
 							var imgTag = document.createElement("img");
-							imgTag.src = '/app/' + mv.url+ mv.UUID; 
+							imgTag.src = mv.url+ mv.UUID; 
+							//imgTag.src = '/app/' + mv.url+ mv.UUID; 
 							imgTag.style.width=200+'px';
 							imgTag.style.height=200+'px';							
 							preview.appendChild(imgTag);							
