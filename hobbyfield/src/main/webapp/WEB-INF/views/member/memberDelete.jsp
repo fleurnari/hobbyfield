@@ -27,7 +27,7 @@
 			</div>
         </div>
         <button type="button" id="memDelete" name="memDelete">회원 탈퇴</button>
-        <button type="button" onclick="location.href='${pageContext.request.contextPath}/myPage'">뒤로 가기</button>
+        <button type="button" onclick="location.href='${pageContext.request.contextPath}/member/myPage'">뒤로 가기</button>
         </form>
    </section>
    <script>

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -28,7 +29,7 @@ import com.hobbyfield.app.pointrecord.service.PointRecordService;
 import com.hobbyfield.app.pointrecord.service.PointRecordVO;
 import com.hobbyfield.app.security.CustomUser;
 
-
+@RequestMapping("/member/*")
 @Controller
 public class MemberController {
 	
@@ -137,7 +138,7 @@ public class MemberController {
 			return "home";
 		} else {
 			rttr.addFlashAttribute("result", 1);
-			return "redirect:/login";
+			return "redirect:/member/login";
 		}
 		
 	}
@@ -199,7 +200,7 @@ public class MemberController {
 		memberService.updateMemberPwd(memberEmail, encodePwd);
 		session.invalidate();
 		
-		return "redirect:/login";
+		return "redirect:/member/login";
 	}
 	
 
@@ -215,7 +216,7 @@ public class MemberController {
 		memberService.deleteMember(memberEmail);
 		session.invalidate();
 		
-		return "redirect:/login";
+		return "redirect:/member/login";
 	}
 	
 

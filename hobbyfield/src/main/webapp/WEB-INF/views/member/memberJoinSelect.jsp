@@ -28,7 +28,7 @@
                       <p class="card-text mb-4 fs-1 pe-xxl-8">소모임을 통한 자유로운 취미 활동을 할 수 있습니다.</p>
                   </div>
                   <div class="my-5 text-center">
-                    <button onclick="location.href='generalMemberJoin'" class="btn btn-lg btn-outline-primary rounded-pill" type="button">가입하기</button>
+                    <button onclick="location.href='${pageContext.request.contextPath}/member/generalMemberJoin'" class="btn btn-lg btn-outline-primary rounded-pill" type="button">가입하기</button>
                   </div>
                 </div>
               </div>
@@ -46,7 +46,7 @@
                       <p class="card-text mb-4 fs-1 pe-xxl-8">쇼핑몰에서 상품을 판매할 수 있습니다.</p>
                   </div>
                   <div class="my-5 text-center">
-                    <button onclick="location.href='companyMemberJoin'" class="btn btn-lg btn-outline-success rounded-pill" type="button">가입하기</button>
+                    <button onclick="location.href='${pageContext.request.contextPath}/member/companyMemberJoin'" class="btn btn-lg btn-outline-success rounded-pill" type="button">가입하기</button>
                   </div>
                 </div>
               </div>
