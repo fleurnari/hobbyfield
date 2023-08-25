@@ -6,18 +6,39 @@
   	
   	<!-- 상품등록  -->
   	<insert id="insertPrdt" parameterType="PrdtVO">
-	    INSERT INTO prdt(prdt_id, prdt_name, prdt_contents, reg_date, prdt_price, prdt_count, sold_out, prdt_thum)
-	    VALUES(prdt_id_seq.NEXTVAL, #{prdtName}, #{prdtContents}, sysdate, #{prdtPrice}, #{prdtCount}, #{soldOut}, #{prdtThum})
+	    INSERT INTO prdt(prdt_id, prdt_name, prdt_cate, prdt_contents, reg_date, prdt_price, prdt_count, prdt_soldout, prdt_thum)
+	    VALUES(prdt_id_seq.NEXTVAL, #{prdtName}, #{prdtCate}, #{prdtContents}, sysdate, #{prdtPrice}, #{prdtCount}, #{prdtSoldout}, #{prdtThum})
 	</insert>
   	
   	<!-- 상품상세보기 -->
-  	<select id="seletPrdt" resultType="PrdtVO">
+  	<select id="selectPrdt" resultType="PrdtVO">
   		SELECT * FROM prdt WHERE prdt_id = #{prdtId}
   	</select>
   	
   	<!-- 상품리스트 조회 -->
 	<select id="selectAllPrdt" resultType="PrdtVO">
-	    SELECT prdt_name, prdt_price, prdt_thum FROM prdt
+	    SELECT prdt_name, prdt_id, prdt_price, prdt_thum FROM prdt
 	    
 	</select>
+	<!-- 상품수정하기  -->
+	<update id="updatePrdt" parameterType="PrdtVO">
+		UPDATE prdt
+		SET 
+			prdt_name = #{prdtName},
+		  	prdt_contents = #{prdtContents},
+		  	prdt_cate = #{prdtCate},
+		  	prdt_price = #{prdtPrice},
+		  	prdt_soldout = #{prdtSoldout},
+		  	prdt_thum = #{prdtThum}
+		  
+		WHERE  prdt_id = #{prdtId}
+	</update>
+	
+	<!--등록된 상품 삭제 -->
+	<delete id="deletePrdt" parameterType="int">
+		DELETE FROM prdt
+		WHERE prdt_id = #{prdtId}
+	</delete>
+	
+	
   </mapper>

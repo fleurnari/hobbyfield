@@ -70,7 +70,7 @@
 					success : function(list) {
 						//console.log(mv.url + " => url");
 						//console.log(mv.UUID + " => UUID");
-						//alert("Upload성공");
+						alert("성공ㅎㅎ");
 						for(file of list) {
 							var preview = document.getElementById("preview");
 							var imgTag = document.createElement("img");

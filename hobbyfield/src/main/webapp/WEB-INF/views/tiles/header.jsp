@@ -11,7 +11,7 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/clubList">소모임</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/fundingPostList">펀딩</a></li>
-              <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath }/CSboard/CSboardList">쇼핑몰</a></li>
+              <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath }/prdt/prdtList">쇼핑몰</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/pointList">포인트샵</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/talentMain">재능기부</a></li>
             </ul>
