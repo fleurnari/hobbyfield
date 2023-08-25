@@ -48,10 +48,10 @@
 	<!-- websocket handler -->
 	<beans:bean id="pushHandler" class="com.hobbyfield.app.common.socket.PushHandler" />
 	<websocket:handlers>
-		<websocket:mapping handler="pushHandler" path="/push" />
+		<websocket:mapping handler="pushHandler" path="/push/" />
 		<websocket:handshake-interceptors>
 	         <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
-	      </websocket:handshake-interceptors>
+	     </websocket:handshake-interceptors>
 		<websocket:sockjs websocket-enabled="true"/>
 	</websocket:handlers>
 	

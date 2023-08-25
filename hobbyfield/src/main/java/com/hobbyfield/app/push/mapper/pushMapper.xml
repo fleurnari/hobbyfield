@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hobbyfield.app.push.mapper.PushMapper">
+	
+	<select id="selectPushList" resultType="PushVO">
+		SELECT *
+		FROM push
+		ORDER BY push_id DESC
+	</select>
+	
+	<update id="chkPush" parameterType="PushVO">
+		UPDATE push
+		SET push_chk = 'AG1'
+		WHERE push_id = #{pushId}
+	</update>
+
+	<delete id="deletePush">
+		DELETE
+		FROM push
+		WHERE push_id = #{pushId}
+	</delete>
+
+</mapper>
