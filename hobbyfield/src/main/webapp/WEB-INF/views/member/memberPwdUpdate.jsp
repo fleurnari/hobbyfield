@@ -30,7 +30,7 @@
 			</div>
         </div>
         <button type="button" id="pwdUpdate" name="pwdUpdate">수정</button>
-        <button type="button" onclick="location.href='${pageContext.request.contextPath}/memberUpdate'">뒤로 가기</button>
+        <button type="button" onclick="location.href='${pageContext.request.contextPath}/member/memberUpdate'">뒤로 가기</button>
         </form>
    </section>
    <script>

@@ -11,16 +11,16 @@
 	<security:http use-expressions="true"> 
       <security:intercept-url pattern="/" access="permitAll()" />
       <security:intercept-url pattern="home" access="permitAll()" />
-      <security:intercept-url pattern="/memberJoinSelect" access="permitAll()" />
-      <security:intercept-url pattern="/generalMemberJoin" access="permitAll()" />
-      <security:intercept-url pattern="/companyMemberJoin" access="permitAll()" />
-      <security:intercept-url pattern="/memberEmailChk" access="permitAll()" />
-      <security:intercept-url pattern="/memberInsert" access="permitAll()" />
-      <security:intercept-url pattern="/login" access="permitAll()" />
-      <security:intercept-url pattern="/kakaoLogin" access="permitAll()" />
+      <security:intercept-url pattern="/member/memberJoinSelect" access="permitAll()" />
+      <security:intercept-url pattern="/member/generalMemberJoin" access="permitAll()" />
+      <security:intercept-url pattern="/member/companyMemberJoin" access="permitAll()" />
+      <security:intercept-url pattern="/member/memberEmailChk" access="permitAll()" />
+      <security:intercept-url pattern="/member/memberInsert" access="permitAll()" />
+      <security:intercept-url pattern="/member/login" access="permitAll()" />
+      <security:intercept-url pattern="/member/kakaoLogin" access="permitAll()" />
       <security:intercept-url pattern="/admin/**" access="hasAuthority('A3')" />
-      <security:intercept-url pattern="/**" access="isAuthenticated()" />
-      <security:form-login login-page="/login"
+      <security:intercept-url pattern="/**/**" access="isAuthenticated()" />
+      <security:form-login login-page="/member/login"
                        username-parameter="memberEmail"
                        password-parameter="memberPwd"
                       authentication-success-handler-ref="customLoginSuccess"

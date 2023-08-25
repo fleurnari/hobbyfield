@@ -39,8 +39,9 @@ public class AdminController {
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(scri);
 		pageMaker.setTotalCount(adminService.countMember(scri));
-		
+	
 		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("scri", scri);
 		
 		return "admin/memberList";
 	}
@@ -55,6 +56,7 @@ public class AdminController {
 		pageMaker.setTotalCount(adminService.countComMember(scri));
 		
 		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("scri", scri);
 		
 		return "admin/comMemberList";
 	}
@@ -64,8 +66,8 @@ public class AdminController {
 	public String selectMember(MemberVO memberVO, @ModelAttribute("scri") SearchCriteria scri, Model model) {
 		MemberVO findVO = adminService.selectMember(memberVO);
 		model.addAttribute("memberInfo", findVO);
-		model.addAttribute("AJ", codeMapper.selectCommCodeList("0AJ"));
 		model.addAttribute("scri", scri);
+		model.addAttribute("AJ", codeMapper.selectCommCodeList("0AJ"));
 		
 		return "admin/memberInfo";
 	}

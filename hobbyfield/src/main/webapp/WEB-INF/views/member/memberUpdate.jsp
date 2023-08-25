@@ -26,7 +26,7 @@
 						id="memberNm" value="${info.memberNm}">
 				</div>
 				<div>
-					<div class="ms-lg-5"><a class="btn btn-primary" href="${pageContext.request.contextPath}/memberPwdUpdate">비밀번호 변경</a></div>
+					<div class="ms-lg-5"><a class="btn btn-primary" href="${pageContext.request.contextPath}/member/memberPwdUpdate">비밀번호 변경</a></div>
 				</div>
 				<div class="address_name">주소</div>
 					<div class="address_input_1_wrap">
@@ -55,7 +55,7 @@
 			</div>
         </div>
         <button type="submit">수정</button>
-        <button type="button" onclick="location.href='${pageContext.request.contextPath}/myPage'">뒤로 가기</button>
+        <button type="button" onclick="location.href='${pageContext.request.contextPath}/member/myPage'">뒤로 가기</button>
         </form>
    </section>
    <script>

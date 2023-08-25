@@ -16,14 +16,14 @@
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/talent/talentMain">재능기부</a></li>
             </ul>
             	<c:if test = "${member == null}">
-            		<div class="ms-lg-5"><a class="btn btn-primary" href="${pageContext.request.contextPath}/login">로그인</a></div>
+            		<div class="ms-lg-5"><a class="btn btn-primary" href="${pageContext.request.contextPath}/member/login">로그인</a></div>
           		</c:if>
           		<c:if test = "${member != null}">
           			 <div>
 						<span>${member.memberNm} 님 환영합니다.</span>
 						<span>활동 포인트 : ${member.memberActpnt} </span>
 						<span>최근 접속일 : <fmt:formatDate value="${member.memberLtstconn}" pattern="yyyy-MM-dd" /></span>
-						<a href="${pageContext.request.contextPath}/myPage">마이페이지</a>
+						<a href="${pageContext.request.contextPath}/member/myPage">마이페이지</a>
 						<c:if test="${member.memberGrd eq 'A3'}">
 							<a href="${pageContext.request.contextPath}/admin/adminPage">관리자 페이지</a>
 						</c:if>
