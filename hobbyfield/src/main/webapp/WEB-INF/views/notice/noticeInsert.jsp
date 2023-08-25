@@ -68,12 +68,14 @@ body {
 			<label for="noticeCate">카테고리</label> <select id="noticeCate"
 				name="noticeCate" required>
 				<option value="" disabled selected>카테고리</option>
-				<option value="소모임">소모임</option>
-				<option value="쇼핑몰">쇼핑몰</option>
-				<option value="펀딩">펀딩</option>
-				<option value="포인트">포인트상점</option>
-				<option value="재능기부">재능기부</option>
+				<option value="AA1">전체공지</option>
+				<option value="AA2">소모임</option>
+				<option value="AA3">펀딩</option>
+				<option value="AA4">쇼핑몰</option>
+				<option value="AA5">포인트상점</option>
+				<option value="AA6">재능기부</option>
 			</select>
+
 		</div>
 
 		<div class="form-input">
@@ -84,11 +86,12 @@ body {
 					id="noticeTitle" name="noticeTitle" required> <label
 					for="noticeSubject">내용</label>
 				<textarea id="noticeSubject" name="noticeSubject" rows="5" required></textarea>
-				
-				
+
+
 			</div>
 			<div class="submit-buttons">
-				<button class="submit" type="submit" onclick="location.href='InsertNotice'">등록</button>
+				<button class="submit" type="submit"
+					onclick="location.href='InsertNotice'">등록</button>
 				<button class="submit" type="button"
 					onclick="location.href='noticeList'">초기화</button>
 			</div>

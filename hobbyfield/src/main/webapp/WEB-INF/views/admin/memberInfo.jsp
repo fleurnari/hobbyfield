@@ -17,7 +17,7 @@
             </div>
          </div>
 			<div align="center">
-				<form>
+				<form method="post">
 					<input type="hidden" id="memberEmail" name="memberEmail" value="${memberInfo.memberEmail}">
 					<input type="hidden" id="page" name="page" value="${scri.page}"> 
   					<input type="hidden" id="perPageNum" name="perPageNum" value="${scri.perPageNum}"> 
@@ -25,7 +25,7 @@
   					<input type="hidden" id="keyword" name="keyword" value="${scri.keyword}"> 
 					<table>
 						<tr>
-							<th>아이디</th>
+							<th>이메일</th>
 								<td> ${memberInfo.memberEmail} </td>
 						</tr>
 						<tr>
@@ -91,10 +91,10 @@
 					</c:if>
 					<c:choose>
 						<c:when test="${memberInfo.memberComaccp eq null || memberInfo.memberComaccp eq 'AJ2'}">
-							<button id="memberList" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/memberList'">목록으로</button>
+							<button id="memberList" type="button">목록으로</button>
 						</c:when>
 						<c:otherwise>
-							<button id="comMemList" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/comMemberList'">목록으로</button>
+							<button id="comMemList" type="button">목록으로</button>
 						</c:otherwise>
 					</c:choose>
 				</form>
@@ -161,6 +161,20 @@
 			
 			return formObject;
 		}
+		
+		$("#memberList").on("click", function(){
+
+			location.href = "${pageContext.request.contextPath}/admin/memberList?page=${scri.page}"
+			+"&perPageNum=${scri.perPageNum}"
+			+"&searchType=${scri.searchType}&keyword=${scri.keyword}";
+			})
+			
+		$("#comMemList").on("click", function(){
+
+			location.href = "${pageContext.request.contextPath}/admin/comMemberList?page=${scri.page}"
+			+"&perPageNum=${scri.perPageNum}"
+			+"&searchType=${scri.searchType}&keyword=${scri.keyword}";
+			})			
 
 			
    </script>

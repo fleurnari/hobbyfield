@@ -18,6 +18,7 @@ public class ClubBoardVO {
 //	CLUB_BOARD_TYPE    NOT NULL VARCHAR2(4)    
 //	SCHEDULE_DATE               DATE           
 //	CLUB_BOARD_BLIND            VARCHAR2(4)   
+	
 	private int boardNumber;
 	private Integer clubNumber;
 	private String clubBoardWriter;

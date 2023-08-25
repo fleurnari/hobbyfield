@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hobbyfield.app.member.mapper.MyitemMapper">
+
+	<!-- 나의아이템 전체조회 -->
+	<select id="selectMyItemAllList" resultType="MyitemVO">
+		SELECT * FROM MYITEM
+	</select>
+	
+	
+	<!-- 나의 아이템 등록 -->
+	<insert id="insertMyitem" parameterType="MyitemVO">
+		<selectKey keyProperty="myitemId" resultType="int"
+			order="BEFORE">
+			SELECT NVL(MAX(point_id), 0) + 1
+			FROM MYITEM
+		</selectKey>
+		INSERT INTO MYITEM(
+					POINT_PRICE
+					POINT_OPT_ID
+					POINT_NAME
+					POINT_ITEM_TYPE
+					POINT_IMG_PATH
+					POINT_IMG_NAME
+					POINT_ID
+					MYITEM_USETERM
+					MYITEM_PURCDT
+					MYITEM_ID
+					MEMBER_EMAIL
+		)VALUES(
+		#{pointPrice},
+		#{optId},
+		#{pointName},
+		#{pointItemType},
+		#{pointImgPath},
+		#{pointImgName},
+		#{pointId},
+		#{myitemUseterm},
+		#{myitemPurcdt},
+		#{myitemId},
+		#{memberEmail}
+		)
+	</insert>
+	
+	<!-- 나의 아이템 삭제 -->
+
+</mapper>

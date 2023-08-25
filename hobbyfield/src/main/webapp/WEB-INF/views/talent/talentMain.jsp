@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +8,7 @@
 <title>재능기부 메인</title>
 <style>
 body {
+	margin-top: 150px;
 	font-family: Arial, sans-serif;
 	padding: 0;
 }
@@ -25,8 +27,8 @@ body {
 }
 
 .category-box {
-	width: calc(20% - 20px); <!-- 5
-	개씩 보이게 --> margin-bottom: 20px;
+	width: calc(20% - 20px); <!-- 5개씩 보이도록 --> 
+	margin-bottom: 20px;
 	background-color: #fff;
 	border: 1px solid #ccc;
 	padding: 20px;
@@ -41,7 +43,7 @@ body {
 		<button>검색</button>
 	</div>
 	<div class="talentInsert">
-		<button type="button" onclick="location.href='talentInsert'">재능기부하기</button>
+		<button type="button" onclick="location.href='/talent/talentInsert'">재능기부하기</button>
 	</div>
 	<div class="review-section">
 		<a href="${pageContext.request.contextPath}/tReview">
@@ -53,8 +55,7 @@ body {
 
 	<div class="category-section">
 		<c:forEach items="${tlntCate}" var="category">
-			<a
-				href="${pageContext.request.contextPath}/category/${category.talentCate}">
+			<a href="${pageContext.request.contextPath}/category/${category.talentCate}">
 				<div class="category-box">
 					<img src="${category.imageURL}" alt="${category.talentCate}">
 					<h3>${category.talentCate}</h3>

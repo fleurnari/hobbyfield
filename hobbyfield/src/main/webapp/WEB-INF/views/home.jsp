@@ -10,7 +10,7 @@
 				<div class="mt-5">
 				<c:if test="${member == null}">
 					<a class="btn btn-sm btn-warning rounded-pill"
-						href="${pageContext.request.contextPath}/memberJoinSelect"><i
+						href="${pageContext.request.contextPath}/member/memberJoinSelect"><i
 						class="fas fa-camera me-2"></i>지금 가입하기</a>
 				</c:if>
 				</div>
