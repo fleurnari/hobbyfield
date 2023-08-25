@@ -6,7 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>상품등록</title>
+<link href="../resources/css/prdt/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -19,6 +20,12 @@
 	 <form action="prdtInsert" method="post">
         <label for="prdtName">상품명</label>
         <input type="text" id="prdtName" name="prdtName"><br>
+        <label for="prdtCate">상품카테고리</label>
+          <select id="prdtCate" name="prdtCate">
+            <option value="케이스">케이스</option>
+            <option value="키링">키링</option>
+            <option value="스트랩">스트랩</option>
+        </select><br>
         <label for="prdtPrice">상품가격</label>
         <input type="number" id="prdtPrice" name="prdtPrice"><br>
         <label for="prdtCount">재고</label>
@@ -28,7 +35,11 @@
         <label for="prdtThum">상품이미지</label>
         <input type="text" id="prdtThum" name="prdtThum"><br>
         <button type="submit">상품등록</button>
+        <input type="hidden" id="prdtSoldout" name="prdtSoldout" value="sales">
     </form>
 </div>
 </body>
+<script>
+
+</script>
 </html>

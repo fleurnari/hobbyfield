@@ -30,10 +30,10 @@ import com.hobbyfield.app.csboard.service1.CSBoardVO;
 import com.hobbyfield.app.csboard.service1.CSReplyVO;
 import com.hobbyfield.app.csboard.service1.CSboardService;
 
-// 0821 정병권
+
 // 게시판 CRUD, 페이징
 @Controller
-@RequestMapping("CSboard/")
+@RequestMapping("CSboard/") 
 public class CSController {
 
 	@Autowired

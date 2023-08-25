@@ -35,9 +35,55 @@
 			let tag = `<input type="text" name="emojiVO[\${i}].emojiImgName" value="\${list[i].UUID}"><input type="text" name="emojiVO[\${i}].emojiImgPath" value="\${list[i].url}">`
 			$('#im').append(tag);
 		}
-	}
+		
+		if(regex.test(fileName)){
+			alert("해당 종류의 파일은 업로드 불가");
+			return false;
+		}
+		return true;	
+	}		
+
+	$(document).ready(function() {
+			$("#uploadFile").change(function(e){
+				var formData = new FormData();
+
+				var inputFile = $("input[name='uploadFile']");
+
+				var files = inputFile[0].files;
+
+				console.log(files);
+
+				for (var i = 0; i < files.length; i++) {	
+					formData.append("uploadFile", files[i]);
+				}
+					
+				$.ajax({
+					url : "uploadAjaxFile",
+					processData : false,
+					contentType : false,
+					data : formData,
+					type : 'POST',
+					success : function(list) {
+						//console.log(mv.url + " => url");
+						//console.log(mv.UUID + " => UUID");
+						for(file of list) {
+							var preview = document.getElementById("preview");
+							var imgTag = document.createElement("img");
+							imgTag.src = mv.url+ mv.UUID; 
+							imgTag.style.width=200+'px';
+							imgTag.style.height=200+'px';							
+							preview.appendChild(imgTag);							
+						}
+
+					}
+				})
+
+			});
+		});
+
 	
 	
+
 		
 		
 	
