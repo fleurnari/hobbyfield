@@ -243,3 +243,112 @@
 	clear: both;
 }
  
+ 
+/* 추가적인 스타일링 */
+/* 아이디 영역 */
+.id_input_re_1,
+.id_input_re_2,
+.final_email_ck {
+  font-size: 12px;
+  display: none;
+  margin-top: 5px;
+}
+
+/* 비밀번호 확인 일치 유효성 검사 */
+.pwck_input_re_1,
+.pwck_input_re_2 {
+  font-size: 12px;
+  display: none;
+  margin-top: 5px;
+}
+
+/* 기업명, 사업자번호, 연락처, 주소, 가입하기 버튼 */
+.final_bizno_ck,
+.final_addr_ck,
+.final_tel_ck {
+  font-size: 12px;
+  display: none;
+  margin-top: 5px;
+}
+
+/* 입력 폼 유효성 검사 문구 */
+.final_pw_ck,
+.final_pwck_ck,
+.final_name_ck {
+  font-size: 12px;
+  display: none;
+  margin-top: 5px;
+}
+
+/* 중복 아이디 검사 메시지 */
+.id_input_re_1,
+.id_input_re_2 {
+  font-size: 12px;
+  display: none;
+  margin-top: 5px;
+}
+
+/* 주소 입력 영역 스타일 */
+.address_input_1_wrap,
+.address_input_2_wrap,
+.address_input_3_wrap {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.address_input_1_box,
+.address_input_2_box,
+.address_input_3_box {
+  display: flex;
+  align-items: center;
+}
+
+.address_button {
+  background-color: #ececf7;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-left: 10px;
+}
+
+/* 가입하기 버튼 스타일 */
+.join_button {
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.join_button:hover {
+  background-color: #5e9ad6;
+}
+
+/* 유효성 검사 실패 시 문구 색상 변경 */
+.error-message {
+  color: red;
+  font-size: 12px;
+  display: none;
+  margin-top: 5px;
+}
+
+/* 선택된 주소 텍스트 스타일 */
+.selected-address {
+  font-size: 14px;
+  margin-top: 5px;
+  color: #888;
+}
+
+/* 주소 검색 버튼 스타일 */
+.address-search-button {
+  background-color: #6AAFE6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.address-search-button:hover {
+  background-color: #578fc6;
+}

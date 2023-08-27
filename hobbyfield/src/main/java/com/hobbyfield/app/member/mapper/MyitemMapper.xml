@@ -4,8 +4,9 @@
 <mapper namespace="com.hobbyfield.app.member.mapper.MyitemMapper">
 
 	<!-- 나의아이템 전체조회 -->
-	<select id="selectMyItemAllList" resultType="MyitemVO">
+	<select id="selectMyItemAllList" parameterType="com.hobbyfield.app.member.service.MemberVO" resultType="MyitemVO">
 		SELECT * FROM MYITEM
+		WHERE member_email = #{memberEmail}
 	</select>
 	
 	

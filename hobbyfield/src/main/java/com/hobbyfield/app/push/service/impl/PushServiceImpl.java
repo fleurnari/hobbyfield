@@ -16,15 +16,21 @@ public class PushServiceImpl implements PushService {
 	PushMapper pushMapper;
 	
 	@Override
-	public List<PushVO> selectPushList() {
+	public List<PushVO> selectPushList(String memberEmail) {
 
-		return pushMapper.selectPushList();
+		return pushMapper.selectPushList(memberEmail);
 	}
 	
 	@Override
-	public int chkPush(PushVO pushVO) {
-		
-		return pushMapper.chkPush(pushVO);
+	public int selectPushCount(String memberEmail) {
+
+		return pushMapper.selectPushCount(memberEmail);
+	}
+	
+	@Override
+	public int insertPush(PushVO pushVO) {
+
+		return pushMapper.insertPush(pushVO);
 	}
 
 	@Override
@@ -32,5 +38,7 @@ public class PushServiceImpl implements PushService {
 
 		return pushMapper.deletePush(pushId);
 	}
+
+
 
 }

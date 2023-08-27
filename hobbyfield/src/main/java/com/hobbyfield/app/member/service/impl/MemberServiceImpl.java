@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,10 +17,11 @@ import org.springframework.stereotype.Service;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
+import com.hobbyfield.app.club.service.CreateclubVO;
 import com.hobbyfield.app.member.mapper.MemberMapper;
 import com.hobbyfield.app.member.service.MemberService;
 import com.hobbyfield.app.member.service.MemberVO;
+import com.hobbyfield.app.prdt.service.PrdtVO;
 
 
 @Service
@@ -189,6 +191,18 @@ public class MemberServiceImpl implements MemberService{
 	public void deleteMember(String memberEmail) {
 
 		memberMapper.deleteMember(memberEmail);
+	}
+
+	@Override
+	public List<CreateclubVO> selectJoinClub(MemberVO memberVO) {
+
+		return memberMapper.selectJoinClub(memberVO);
+	}
+
+	@Override
+	public List<PrdtVO> selectSellList(MemberVO memberVO) {
+
+		return memberMapper.selectSellList(memberVO);
 	}
 
 

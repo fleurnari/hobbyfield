@@ -1,6 +1,10 @@
 package com.hobbyfield.app.member.service;
 
 import java.util.HashMap;
+import java.util.List;
+
+import com.hobbyfield.app.club.service.CreateclubVO;
+import com.hobbyfield.app.prdt.service.PrdtVO;
 
 public interface MemberService {
 	
@@ -36,5 +40,11 @@ public interface MemberService {
 	
 	// 회원 탈퇴
 	public void deleteMember(String memberEmail);
+	
+	// 마이 페이지 - 가입한 소모임 조회
+	public List<CreateclubVO> selectJoinClub(MemberVO memberVO);
+
+	// 마이 페이지 - 기업회원의 판매 중인 상품 조회
+	public List<PrdtVO> selectSellList(MemberVO memberVO);
 	
 }

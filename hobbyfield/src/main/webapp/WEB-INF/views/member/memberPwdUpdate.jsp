@@ -6,34 +6,118 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<style>
+	/* Reset some default styling */
+	* {
+	  margin: 0;
+	  padding: 0;
+	  box-sizing: border-box;
+	}
+	
+	/* Body styles */
+	body {
+	  font-family: Arial, sans-serif;
+	  background-color: #f0f0f0;
+	}
+	
+	/* Container styles */
+	.container-lg {
+	  max-width: 600px;
+	  margin: 0 auto;
+	  padding: 20px;
+	  background-color: #fff;
+	  border: 1px solid #ccc;
+	  border-radius: 5px;
+	  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	}
+	
+	/* Heading styles */
+	h1 {
+	  font-size: 2.5rem;
+	  margin-bottom: 20px;
+	  color: #333;
+	  text-align: center;
+	}
+	
+	/* Input styles */
+	input[type="password"] {
+	  width: 100%;
+	  padding: 10px;
+	  margin-bottom: 10px;
+	  border: 1px solid #ccc;
+	  border-radius: 5px;
+	}
+	
+	/* Button styles */
+	button[type="button"] {
+	  display: inline-block;
+	  padding: 10px 20px;
+	  background-color: #007bff;
+	  color: #fff;
+	  text-decoration: none;
+	  border: none;
+	  border-radius: 5px;
+	  margin: 10px 5px;
+	  cursor: pointer;
+	}
+	
+	/* Button hover effect */
+	button[type="button"]:hover {
+	  background-color: #0056b3;
+	}
+	
+	/* Alert styles */
+	.alert {
+	  padding: 10px;
+	  margin-bottom: 10px;
+	  background-color: #f8d7da;
+	  border: 1px solid #f5c6cb;
+	  border-radius: 5px;
+	  color: #721c24;
+	}
+	
+	/* Button container styles */
+	.button-container {
+	  display: flex;
+	  justify-content: center;
+	  margin-top: 20px;
+	}
+	
+	.button-container button {
+	  margin: 0 10px;
+	}
+</style>
 <body>
   <section class="bg-100 py-7" id="packages">
-     <form action="memberPwdUpdate" method="post" id="pwdUpdateForm" name="pwdUpdateForm">
-       <div class="container-lg">
-          <div class="row justify-content-center">
-            <div class="col-12">
-              <h1 class="text-center lh-sm fs-lg-6 fs-xxl-7">비밀번호 변경</h1>
-            </div>
+    <form action="memberPwdUpdate" method="post" id="pwdUpdateForm" name="pwdUpdateForm">
+      <div class="container-lg">
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <h1 class="text-center lh-sm fs-lg-6 fs-xxl-7">비밀번호 변경</h1>
           </div>
-          <input type="hidden" id="memberEmail" name="memberEmail" value="${member.memberEmail}">
-			<div>
-				<p>변경하실 비밀번호를 입력해 주세요.</p>
-				<div>
-					<input type="password" id="memberPwd" name="memberPwd" placeholder="현재 비밀번호" />
-				</div>
-				<div>
-					<input type="password" id="newMemberPwd" name="newMemberPwd" placeholder="새 비밀번호" />
-				</div>
-				<div>
-					<input type="password" id="newPwdChk" name="newPwdChk" placeholder="새 비밀번호 확인" />
-				</div>				
-			</div>
         </div>
-        <button type="button" id="pwdUpdate" name="pwdUpdate">수정</button>
-        <button type="button" onclick="location.href='${pageContext.request.contextPath}/member/memberUpdate'">뒤로 가기</button>
-        </form>
-   </section>
-   <script>
+        <input type="hidden" id="memberEmail" name="memberEmail" value="${member.memberEmail}">
+        <div>
+          <p>변경하실 비밀번호를 입력해 주세요.</p>
+          <div>
+            <input type="password" id="memberPwd" name="memberPwd" placeholder="현재 비밀번호" />
+          </div>
+          <div>
+            <input type="password" id="newMemberPwd" name="newMemberPwd" placeholder="새 비밀번호" />
+          </div>
+          <div>
+            <input type="password" id="newPwdChk" name="newPwdChk" placeholder="새 비밀번호 확인" />
+          </div>				
+        </div>
+        <div class="button-container">
+          <button type="button" id="pwdUpdate" name="pwdUpdate">수정</button>
+          <button type="button" onclick="location.href='${pageContext.request.contextPath}/member/memberUpdate'">뒤로 가기</button>
+        </div>
+      </div>
+    </form>
+  </section>
+  
+  <script>
    $(document).ready(function(){
 	    $("#pwdUpdate").on("click", function(){
 	        if($("#memberPwd").val() === ""){
@@ -76,6 +160,6 @@
 	        });
 	    });
 	});
-   </script>
+  </script>
 </body>
 </html>

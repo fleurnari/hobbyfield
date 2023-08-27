@@ -101,5 +101,26 @@
 		DELETE FROM member
 		WHERE member_email = #{memberEmail}
 	</delete>
+	
+	<!-- 마이 페이지 - 가입한 소모임 조회 -->
+	<select id="selectJoinClub" resultType="com.hobbyfield.app.club.service.CreateclubVO">
+		SELECT c.* 
+		FROM club c
+		JOIN club_member cm
+		ON c.club_number = cm.club_number
+		JOIN profile p
+		ON cm.profile_nickname = p.profile_nickname
+		WHERE p.member_email = #{memberEmail}
+	</select>
+	
+	
+	<!-- 마이 페이지 - 기업회원의 판매 중인 상품 조회 -->
+	<select id="selectSellList" resultType="com.hobbyfield.app.prdt.service.PrdtVO">
+		SELECT *
+		FROM prdt
+		WHERE company = #{memberNm}
+	</select>
+	
+	
   </mapper>
   

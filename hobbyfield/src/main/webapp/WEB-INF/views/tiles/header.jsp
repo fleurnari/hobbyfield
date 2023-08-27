@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+
 <link href="${pageContext.request.contextPath}/resources/css/theme.css" rel="stylesheet">
       <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 d-block" data-navbar-on-scroll="data-navbar-on-scroll">
         <div class="container"><a class="navbar-brand d-inline-flex" href="${pageContext.request.contextPath}/"/><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FIELD</span></span></a>
@@ -14,19 +15,17 @@
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath }/prdt/prdtList">쇼핑몰</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/point/pointList">포인트샵</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/talent/talentMain">재능기부</a></li>
-
             </ul>
+            
             	<c:if test = "${member == null}">
             		<div class="ms-lg-5"><a class="btn btn-primary" href="${pageContext.request.contextPath}/member/login">로그인</a></div>
           		</c:if>
           		<c:if test = "${member != null}">
-          			 <div>
+          			 <div class="ms-lg-5">
 						<span>${member.memberNm} 님 환영합니다.</span>
-						<span>활동 포인트 : ${member.memberActpnt} </span>
-						<span>최근 접속일 : <fmt:formatDate value="${member.memberLtstconn}" pattern="yyyy-MM-dd" /></span>
 						<a href="${pageContext.request.contextPath}/member/myPage">마이페이지</a>
 						<c:if test="${member.memberGrd eq 'A3'}">
-							<a href="${pageContext.request.contextPath}/admin/adminPage">관리자 페이지</a>
+							<a href="${pageContext.request.contextPath}/admin/memberList">관리자 페이지</a>
 						</c:if>
 						<form action="${pageContext.request.contextPath}/logout" method="post">
 							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

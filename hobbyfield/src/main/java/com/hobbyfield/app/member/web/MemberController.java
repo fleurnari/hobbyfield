@@ -23,11 +23,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.hobbyfield.app.club.service.CreateclubService;
 import com.hobbyfield.app.member.service.MemberService;
 import com.hobbyfield.app.member.service.MemberVO;
 import com.hobbyfield.app.member.service.MyitemService;
 import com.hobbyfield.app.pointrecord.service.PointRecordService;
 import com.hobbyfield.app.pointrecord.service.PointRecordVO;
+import com.hobbyfield.app.prdt.service.PrdtService;
 import com.hobbyfield.app.security.CustomUser;
 
 @RequestMapping("/member/*")
@@ -45,7 +47,7 @@ public class MemberController {
 	
 	@Autowired
 	MyitemService myitemService;
-
+	
 	// 회원 가입 페이지
 	@GetMapping("/memberJoinSelect")
 	public String memberJoinSelect() {
@@ -223,11 +225,36 @@ public class MemberController {
 		return "redirect:/member/login";
 	}
 	
-	// 마이아이템 전체조회
-	@GetMapping("member/myitemList")
-	public String getMyitemAllList(Model model) {
-		model.addAttribute("myitemList", myitemService.selectMyItemAllList());
+	// 마이 페이지 - 나의 아이템 전체조회
+	@GetMapping("/myitemList")
+	public String getMyitemAllList(HttpSession session, Model model) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		model.addAttribute("myitemList", myitemService.selectMyItemAllList(member));
+		
 		return "member/myitemList";
 	}
+	
+	// 마이 페이지 - 가입한 소모임 조회
+	@GetMapping("/selectJoinClub")
+	public String selectJoinClub(HttpSession session, Model model) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		model.addAttribute("clubList", memberService.selectJoinClub(member));
+		
+		return "member/selectJoinClub"; 
+		
+	}
+	
+	// 마이 페이지 - 기업회원의 판매 중인 상품 조회	
+	@GetMapping("/selectSellList")
+	public String selectSellList(HttpSession session, Model model) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		model.addAttribute("sellList", memberService.selectSellList(member));
+		
+		return "member/selectSellList";
+	}
+	
+	
+	
+	
 
 }

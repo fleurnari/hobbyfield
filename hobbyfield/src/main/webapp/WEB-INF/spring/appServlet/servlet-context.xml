@@ -45,15 +45,18 @@
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
 	</beans:bean>
 	
-	<!-- websocket handler -->
-	<beans:bean id="pushHandler" class="com.hobbyfield.app.common.socket.PushHandler" />
+	<!-- 웹소켓 -->
+	<beans:bean id="webSocketHandler" class="com.hobbyfield.app.common.socket.WebSocketHandler" />        
+	
 	<websocket:handlers>
-		<websocket:mapping handler="pushHandler" path="/push/" />
-		<websocket:handshake-interceptors>
-	         <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
-	     </websocket:handshake-interceptors>
-		<websocket:sockjs websocket-enabled="true"/>
+	    <websocket:mapping handler="webSocketHandler" path="/push"/>
+	    <websocket:handshake-interceptors>
+	        <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+	    </websocket:handshake-interceptors>
+	    <websocket:sockjs websocket-enabled="true"/>
 	</websocket:handlers>
+		
+	
 	
 	<context:component-scan base-package="com.hobbyfield.app" />
 

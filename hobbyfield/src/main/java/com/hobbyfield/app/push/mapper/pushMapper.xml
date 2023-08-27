@@ -4,18 +4,52 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hobbyfield.app.push.mapper.PushMapper">
 	
+	<!-- 알림 전체 조회 -->
 	<select id="selectPushList" resultType="PushVO">
 		SELECT *
 		FROM push
+		WHERE member_email = #{memberEmail}
 		ORDER BY push_id DESC
 	</select>
-	
-	<update id="chkPush" parameterType="PushVO">
-		UPDATE push
-		SET push_chk = 'AG1'
-		WHERE push_id = #{pushId}
-	</update>
 
+	<!-- 알림 등록 -->
+	<insert id="insertPush" parameterType="PushVO">
+		<selectKey keyProperty="pushId" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(push_id),0) + 1
+			FROM push
+		</selectKey>
+		INSERT INTO push
+						(
+						  push_id
+						, push_target
+						, push_typ
+						, push_cntn
+						<if test="pushUrl != null and !pushUrl.equals('')">
+						, push_url
+						</if>
+						)
+						
+				VALUES (
+						#{pushId}
+					  , #{pushTarget}
+					  , #{pushTyp}
+					  , #{pushCntn}
+					  <if test="pushUrl != null and !pushUrl.equals('')">
+					  , #{pushUrl}
+					  </if>
+					)
+
+	</insert>
+	
+	<!-- 알림 수 가져오기 -->
+	<select id="selectPushCount" resultType="int">
+		SELECT COUNT(*)
+		FROM push
+		WHERE member_email = #{memberEmail}
+	</select> 
+	
+
+	<!-- 알림 삭제 처리 -->
 	<delete id="deletePush">
 		DELETE
 		FROM push
