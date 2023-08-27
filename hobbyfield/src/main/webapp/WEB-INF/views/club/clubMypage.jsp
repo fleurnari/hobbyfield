@@ -15,10 +15,10 @@
 <body>
 <section>
 	<div align="center">
-	<form>
+	<form action="/updateProfile" method="post" enctype="multipart/form-data">
 		<div>
 			<label>닉네임 선택</label>
-			<select>
+			<select name="profileNickname" id="profileNickname" onchange="fetchProfileDetails(this.value)">
 				<option value="">선택</option>
 				<c:forEach items="${getNomalMypage}" var="profile">
 					<option value="${profile.profileNickname }">${profile.profileNickname }</option>
@@ -33,15 +33,27 @@
 		<div>
 			<p3>첨부이미지</p3>
 			<label></label>
-			<c:forEach items="${getNomalMypage}" var="selectImg">
-				<p>${selectImg.profileImgPath }<p>
-				<p>${selectImg.profileImg }<p>
-				<img src="${pageContext.request.contextPath}/${selectImg.profileImgPath}${selectImg.profileImg}">
-			</c:forEach>
-			<button type="button" id="uploadBtn">upload</button>
+<%-- 			<c:forEach items="${getNomalMypage}" var="selectImg"> --%>
+<%-- 				<p>${selectImg.profileImgPath }<p> --%>
+<%-- 				<p>${selectImg.profileImg }<p> --%>
+<%-- 				<img src="${pageContext.request.contextPath}/${selectImg.profileImgPath}${selectImg.profileImg}"> --%>
+<%-- 			</c:forEach> --%>
+
+			<img src="${selectProfile.profileImgPath}${selectProfile.profileImg}" alt="Profile Image">
+
+<!-- 			<img id="preview" src=""> -->
+
+			<!-- 이미지 선택 인풋 -->
+			<input type="file" id="imgInput" onchange="readURL(this);"/>
+			
+			<!-- 이미지 미리보기 -->
+			<img id="preview" src="" alt="Profile Image"/>
+			
+			<!-- 이미지 업로드 버튼 -->
+			<button type="button" id="uploadBtn">Upload</button>
 		</div>
 		
-		<button type="submit">수정</button>
+		<button id="changeImageBtn" type="submit">수정</button>
 	</form>
 	</div>
 </section>
@@ -57,9 +69,76 @@ function imgUploadHandler(list) {
 	}
 }
 
+function fetchProfileDetails(nickname) {
+    if (!nickname) return;  
+
+    $.ajax({
+        url: '/app/selectProfile',
+        type: 'GET',
+        data: { profileNickname: nickname },
+        success: function(data) {
+            let imagePath = (data.profileImgPath || "") + (data.profileImg || "");
+            if(imagePath) {
+                $('#preview').attr('src', imagePath);
+            } else {
+                $('#preview').attr('src', '');
+            }
+        },
+        error: function(error) {
+            console.error("Failed to fetch profile details:", error);
+        }
+    });
+}
+
+
+$(document).ready(function() {
+    // 프로필 닉네임 선택 옵션에서 값이 변경되었을 때의 이벤트 핸들러를 설정합니다.
+    $('#profileNickname').on('change', function() {
+        fetchProfileDetails(this.value);
+    });
+});
 
 	
 //프로필 정보 수정 (진행중)
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#preview').attr('src', e.target.result);
+        };
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        $('#preview').attr('src', '');
+    }
+}
+
+$("#uploadBtn").on("click", function() {
+    var formData = new FormData();
+    var inputFile = $("#imgInput");
+    var file = inputFile[0].files[0];
+    formData.append("uploadFile", file);
+
+    $.ajax({
+        url: "profileImageUpload",
+        processData: false,
+        contentType: false,
+        data: formData,
+        type: 'POST',
+        success: function(data) {
+            if(data.result === "success") {
+                alert("이미지가 수정됐습니다.");
+            } else {
+                alert("이미지 수정에 실패했습니다.");
+            }
+        }
+    });
+});
+
+
+
+
+
+
 // $('form').on('submit', ajaxDeptUpdate);
 	
 // 	function ajaxDeptUpdate(event){

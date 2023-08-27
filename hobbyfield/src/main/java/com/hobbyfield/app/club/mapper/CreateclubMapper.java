@@ -13,7 +13,7 @@ public interface CreateclubMapper {
 	public List<CreateclubVO> selectClubAllList();
 	
 	//소모임 세부조회
-	
+	public CreateclubVO selectClubInfo(CreateclubVO createclubVO);
 	
 	//소모임 등록
 	public int insertClub(CreateclubVO createclubVO);

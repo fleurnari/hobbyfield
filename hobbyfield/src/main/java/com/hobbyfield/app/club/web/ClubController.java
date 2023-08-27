@@ -1,5 +1,6 @@
 package com.hobbyfield.app.club.web;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hobbyfield.app.club.board.service.ClubBoardService;
 import com.hobbyfield.app.club.board.service.ClubBoardVO;
@@ -52,11 +57,27 @@ public class ClubController {
 		return "club/clubList";
 	}
 
-	// 소모임 세부조회
+//	// 소모임 세부조회(백업용)
+//	@GetMapping("/clubInfo")
+//	public String getClubInfo(CreateclubVO clubVO ,Model model) {
+//		CreateclubVO findVO = createClubService.getClub(clubVO);
+//		model.addAttribute("clubInfo", findVO);
+//		return "club/clubInfo";
+//	}
+	@GetMapping("/clubInfo")
+	public String getClubInfo(@RequestParam String profileNickname, Model model) {
+	    CreateclubVO clubVO = new CreateclubVO();
+	    clubVO.setProfileNickname(profileNickname);
+	    CreateclubVO findVO = createClubService.getClub(clubVO);
+	    model.addAttribute("clubInfo", findVO);
+	    return "club/clubInfo";
+	}
+
+	
 
 	/*========= 소모임 등록관련 =========*/
 	// 소모임 등록 페이지
-	@GetMapping("insertClub")
+	@GetMapping("clubInsert")
 	public String clubInsertForm(ClubProfileVO clubprofileVO ,Model model, HttpSession session) {
 		model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); // 지역대그룹 코드
 		model.addAttribute("F", commCodeMapper.selectCommsubList("0F")); // 지역소그룹 코드
@@ -66,11 +87,11 @@ public class ClubController {
 		clubprofileVO.setMemberEmail(member.getMemberEmail());
 		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
 		model.addAttribute("getNomalMypage", findVO);
-		return "club/insertClub";
+		return "club/clubInsert";
 	}
 
 	// 소모임 등록 처리 Process
-	@PostMapping("insertClub")
+	@PostMapping("clubInsert")
 	public String clubInsertProcess(CreateclubVO clubVO, HttpSession session) {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		clubVO.setMemberEmail(member.getMemberEmail());
@@ -137,49 +158,67 @@ public class ClubController {
 	/*========= 마이페이지 개인정보 : 프로필 이미지 등록, 개인정보 조회=========*/
 
 	//프로필 등록 Form(페이지)
-	@GetMapping("insertProfile")
+	@GetMapping("profileInsert")
 	public String profileInsertForm(Model model) {
-	    return "club/insertProfile";  // 프로필 입력 폼 페이지의 뷰 이름
+	    return "club/profileInsert";  // 프로필 입력 폼 페이지의 뷰 이름
 	}
 
 	
 	// 프로필 등록 처리
-	@PostMapping("insertProfile")
+	@PostMapping("profileInsert")
 	public String profileInsertProcess(ClubProfileVO profileVO) {
 	    // 프로필 정보를 DB에 저장하는 서비스 메서드를 호출합니다.
 		clubprofileService.insertProfile(profileVO);
 	    
 	    // 프로필 정보 저장 후 원하는 페이지로 리다이렉트 
-	    return "redirect:insertProfile";
+	    return "redirect:profileInsert";
 	}
 	
 	
-	//프로필 개인정보 조회(getNomalMypage)
-	@GetMapping("/getNomalMypage")
+	//프로필 개인정보 조회 : 전체조회(clubProfile)
+	@GetMapping("/clubMypage")
 	public String selctProfileClub(ClubProfileVO clubprofileVO, Model model, HttpSession session) {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		clubprofileVO.setMemberEmail(member.getMemberEmail());
 		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
-		if(findVO == null)
 		model.addAttribute("getNomalMypage", findVO);
 		
-		return "club/getNomalMypage";
+		return "club/clubMypage";
 	}
 	
-	//프로필 단건조회(getNomalMypage에 뿌려줌)
+	//프로필 단건조회(clubProfile에 뿌려줌)
+	@ResponseBody
 	@GetMapping("/selectProfile")
-	public String getProfile(ClubProfileVO clubprofileVO, Model model) {
-		ClubProfileVO selectedProfile = clubprofileService.getProfile(clubprofileVO);
-		model.addAttribute("selectProfile",  selectedProfile);
-		return "club/getNomalMypage";
+	public ClubProfileVO getProfile(ClubProfileVO clubprofileVO) {
+		System.out.println("getProfile method called with nickname: " + clubprofileVO.getProfileNickname());
+
+	    return clubprofileService.getProfile(clubprofileVO);
 	}
+
+	
 	
 	//프로필 수정 (이미지 포함)
-	@PostMapping("updateProfile")
+//	@PostMapping("updateProfile") 백업용
+//	@ResponseBody
+//	public Map<String, String> updateProcess(@RequestBody ClubProfileVO clubprofileVO){
+//		return clubprofileService.updateProfile(clubprofileVO);
+//	}
+//	@PostMapping("/updateProfile")
+//    @ResponseBody
+//    public Map<String, String> updateProfile(@RequestBody ClubProfileVO clubProfileVO) {
+//        return clubprofileService.updateProfile(clubProfileVO);
+//    }
 	@ResponseBody
-	public Map<String, String> updateProcess(@RequestBody ClubProfileVO clubprofileVO){
-		return clubprofileService.updateProfile(clubprofileVO);
+	@RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
+	public Map<String, String> updateProfile(ClubProfileVO clubProfileVO) {
+	    return clubprofileService.updateProfile(clubProfileVO);
 	}
+
+
+
+	
+	
+	
 
 	// 게시글 ==
 	

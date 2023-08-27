@@ -3,6 +3,8 @@ package com.hobbyfield.app.club.profile.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public interface ClubProfileService {
 	
 	//프로필 단건조회
@@ -22,5 +24,6 @@ public interface ClubProfileService {
 	
 	//프로필 수정
 	public Map<String, String> updateProfile(ClubProfileVO clubProfileVO);
+
 	
 }

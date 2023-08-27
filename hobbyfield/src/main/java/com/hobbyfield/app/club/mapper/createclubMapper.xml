@@ -3,13 +3,13 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hobbyfield.app.club.mapper.CreateclubMapper">
+
 	<!-- 소모임 전체조회 -->
 	<select id="selectClubAllList" resultType="CreateclubVO">
-
 		SELECT 
 				club_number
 			   , profile_nickname
-         , club_name
+         	   , club_name
 			   , FIND_CODE_NM(club_category) AS club_category
 			   , FIND_CODE_NM(club_type) AS club_type
 			   , club_info
@@ -27,6 +27,26 @@
 	</select>
 	
 	<!-- 소모임 세부조회 -->
+	<select id="selectClubInfo" resultType="CreateclubVO">
+		SELECT 
+				club_number
+			   , profile_nickname
+         	   , club_name
+			   , FIND_CODE_NM(club_category) AS club_category
+			   , FIND_CODE_NM(club_type) AS club_type
+			   , club_info
+			   , FIND_CODE_NM(major_location) AS major_location
+			   , FIND_CODE_NM(sub_location) AS sub_location
+			   , club_public
+			   , singup_question1
+			   , singup_question2
+			   , singup_question3
+			   , club_img
+			   , club_img_path
+			   , club_total
+		FROM club
+		WHERE profile_nickname = #{profileNickname}
+	</select>
 	
 	<!-- 소모임 등록 -->
 	<insert id="insertClub" parameterType="CreateclubVO">

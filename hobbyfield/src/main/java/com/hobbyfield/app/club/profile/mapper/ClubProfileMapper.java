@@ -19,11 +19,11 @@ public interface ClubProfileMapper {
 	// 프로필 수정
 	public int updateProfile(ClubProfileVO clubProfileVO);
 
+	
 	// 닉네임 중복체크
-
 	public int nickChk(String profileNickname);
 	
-	// 나의 프로필 조회 
+	// 나의 프로필 전체 조회
 	public List<ClubProfileVO> getMyProfile(ClubProfileVO vo);
 	
 	//모임 생성시 프로필 선택

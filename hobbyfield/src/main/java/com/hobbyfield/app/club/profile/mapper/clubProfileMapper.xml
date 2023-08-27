@@ -27,6 +27,7 @@
 <!-- 		) -->
 		
 <!-- 	</insert> -->
+
 	<!-- 프로필 등록 -->
 <!-- 	<insert id="insertProfile" parameterType="CreateclubVO"> -->
 	<insert id="insertProfile" parameterType="ClubProfileVO">

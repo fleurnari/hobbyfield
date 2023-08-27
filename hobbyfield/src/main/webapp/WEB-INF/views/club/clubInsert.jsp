@@ -94,7 +94,7 @@ label {
 
 
 <body>
-<form action="insertClub" method="post" id="join_form">
+<form action="clubInsert" method="post" id="join_form">
 	<div align="center" class="top">
 		<div class="club_create_sub">
 			<h2>소모임 정보</h2>		

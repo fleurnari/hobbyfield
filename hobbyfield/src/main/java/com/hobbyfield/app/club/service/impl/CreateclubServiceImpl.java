@@ -23,6 +23,13 @@ public class CreateclubServiceImpl implements CreateclubService {
 		return createclubMapper.selectClubAllList();
 	}
 	
+	//소모임 세부조회
+	@Override
+	public CreateclubVO getClub(CreateclubVO createclubVO) {
+		return createclubMapper.selectClubInfo(createclubVO);
+	}
+
+	
 	
 	//소모임 등록
 	@Override
@@ -66,5 +73,6 @@ public class CreateclubServiceImpl implements CreateclubService {
 		return null;
 	}
 
+	
 	
 }
