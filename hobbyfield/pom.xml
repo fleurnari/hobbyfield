@@ -260,6 +260,27 @@
 			<artifactId>spring-websocket</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
+		
+	<!-- mail library -->
+	<dependency>
+		<groupId>javax.mail</groupId>
+		<artifactId>mail</artifactId>
+		<version>1.4.7</version>
+	</dependency>
+	
+	<!-- mail 서포트 -->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context-support</artifactId>
+		<version>${org.springframework-version}</version>
+	</dependency>
+	
+	<!-- oauth 라이브러리 -->	
+	<dependency> 
+		<groupId>com.github.scribejava</groupId>
+		<artifactId>scribejava-core</artifactId>
+		<version>3.3.0</version>
+	</dependency>
    </dependencies>
    
     <build>

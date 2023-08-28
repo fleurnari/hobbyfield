@@ -236,27 +236,28 @@
 	  		return false;
 	  	});
 	  	
-	  	$('#memDelete').on('click', function(e){
-	  		
-	  		let objData = serializeObject();
-	  		
-	  		$.ajax({
-	  			url : 'forcedDeleteMember',
-	  			method : 'POST',
-	  			data : objData
-	  		})
-	  		.done(data => {
-	  			if (data){
-	  				alert("강제 탈퇴 처리를 완료 했습니다.");
-	  				$('form').submit;
-	  			} else {
-	  				alert("강제 탈퇴 처리에 실패 했습니다.");
-	  				return;
-	  			}
-	  		})
-	  		.fail(reject => console.log(reject));
-	  		
-	  		return false;
+	  	$('#memDelete').on('click', function(e) {
+	  	  let objData = serializeObject();
+
+	  	  if (confirm("해당 회원을 강제 탈퇴 처리 하시겠습니까?")) {
+	  	    $.ajax({
+	  	      url: 'forcedDeleteMember',
+	  	      method: 'POST',
+	  	      data: objData
+	  	    })
+	  	    .done(data => {
+	  	      if (data) {
+	  	        alert("강제 탈퇴 처리를 완료 했습니다.");
+	  	        $('form').submit;
+	  	      } else {
+	  	        alert("강제 탈퇴 처리에 실패 했습니다.");
+	  	        return;
+	  	      }
+	  	    })
+	  	    .fail(reject => console.log(reject));
+	  	  }
+
+	  	  return false;
 	  	});
 	  	
 		function serializeObject(){

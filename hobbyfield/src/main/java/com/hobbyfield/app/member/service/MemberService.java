@@ -47,4 +47,10 @@ public interface MemberService {
 	// 마이 페이지 - 기업회원의 판매 중인 상품 조회
 	public List<PrdtVO> selectSellList(MemberVO memberVO);
 	
+	// 비밀번호 찾기 유효성 검사
+	public int findPwCheck(MemberVO memberVO) throws Exception;
+	
+	// 비밀번호 찾기 - 비밀번호 변경
+	public void findPw(String memberEmail, String memberNm) throws Exception;
+
 }
