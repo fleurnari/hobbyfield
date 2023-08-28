@@ -151,8 +151,7 @@
 		UPDATE member
 		SET member_pwd = #{memberPwd}
 		WHERE member_email = #{memberEmail}
-		AND member_nm = #{memberNm}
-		
+		AND member_nm = #{memberNm}	
 	</update>
 	
   </mapper>

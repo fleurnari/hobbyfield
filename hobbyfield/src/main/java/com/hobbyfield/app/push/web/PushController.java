@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.hobbyfield.app.push.service.PushService;
 import com.hobbyfield.app.push.service.PushVO;
 
+
 @Controller
 @RequestMapping("/push/*")
 public class PushController {
@@ -19,50 +20,47 @@ public class PushController {
 	@Autowired
 	PushService pushService;
 	
-	// 알림 조회
+
+
+	// 알림 목록 조회
 	@ResponseBody
 	@GetMapping("/selectPushList")
 	public List<PushVO> selectPushList(String memberEmail) {
 		
 		return pushService.selectPushList(memberEmail);
-				
+	
 	}
 	
-	// 알림 수 가져오기
+	// 알림 수
 	@ResponseBody
 	@GetMapping("/selectPushCount")
 	public int selectPushCount(String memberEmail) {
 		
-		int push = pushService.selectPushCount(memberEmail);
+		int pushCount = pushService.selectPushCount(memberEmail);
 		
-		return push;
+		return pushCount; 
 		
 	}
 	
 	// 알림 등록
 	@ResponseBody
 	@PostMapping("/insertPush")
-	public boolean insertPush(PushVO pushVO) {
-		
+	public int insertPush(PushVO pushVO) {
 		int result = pushService.insertPush(pushVO);
 		
-		if (result == 0) {
-			return false;
-		}
-		
-		return true;
-		
+		return result;
 	}
 	
 	// 알림 삭제
 	@ResponseBody
 	@PostMapping("/deletePush")
-	public void deletePush(int pushId) {
+	public String deletePush(int pushId) {
 		
 		pushService.deletePush(pushId);
 		
+		return null;
 	}
-
+	
 	
 	
 	

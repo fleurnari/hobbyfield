@@ -171,6 +171,20 @@
 	font-size:28px;
 }
 
+/* Add this CSS to your existing stylesheet */
+.address_button button {
+  background-color: #007bff; /* Change to your desired background color */
+  color: white; /* Text color */
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.address_button button:hover {
+  background-color: #0056b3; /* Change to your desired hover color */
+}
+
 /* 가입하기 버튼 */
 .join_button_wrap{
 	margin-top: 40px;

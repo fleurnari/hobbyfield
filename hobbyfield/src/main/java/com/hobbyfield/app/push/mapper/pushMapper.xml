@@ -8,7 +8,7 @@
 	<select id="selectPushList" resultType="PushVO">
 		SELECT *
 		FROM push
-		WHERE member_email = #{memberEmail}
+		WHERE push_target = #{memberEmail}
 		ORDER BY push_id DESC
 	</select>
 
@@ -31,7 +31,7 @@
 						
 				VALUES (
 						#{pushId}
-					  , #{pushTarget}
+					  , #{memberEmail}
 					  , #{pushTyp}
 					  , #{pushCntn}
 					  <if test="pushUrl != null and !pushUrl.equals('')">
@@ -45,10 +45,9 @@
 	<select id="selectPushCount" resultType="int">
 		SELECT COUNT(*)
 		FROM push
-		WHERE member_email = #{memberEmail}
-	</select> 
+		WHERE push_target = #{memberEmail}
+	</select>
 	
-
 	<!-- 알림 삭제 처리 -->
 	<delete id="deletePush">
 		DELETE

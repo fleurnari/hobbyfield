@@ -43,21 +43,11 @@
 
 	<!-- 업로드 관련 빈 -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
-	</beans:bean>
-	
-	<!-- 웹소켓 -->
-	<beans:bean id="webSocketHandler" class="com.hobbyfield.app.common.socket.WebSocketHandler" />        
+	</beans:bean>     
 	
 	<!-- 네이버 로그인 -->
 	<beans:bean id="naverLoginBO" class="com.hobbyfield.app.member.service.NaverLoginBO" />
-	
-	<websocket:handlers>
-	    <websocket:mapping handler="webSocketHandler" path="/push"/>
-	    <websocket:handshake-interceptors>
-	        <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
-	    </websocket:handshake-interceptors>
-	    <websocket:sockjs websocket-enabled="true"/>
-	</websocket:handlers>
+
 	
 	<!-- 회원가입 메일 인증 -->
 	<beans:bean id="mailSender"	class="org.springframework.mail.javamail.JavaMailSenderImpl">

@@ -14,19 +14,19 @@ public class PushServiceImpl implements PushService {
 
 	@Autowired
 	PushMapper pushMapper;
-	
+
 	@Override
 	public List<PushVO> selectPushList(String memberEmail) {
 
 		return pushMapper.selectPushList(memberEmail);
 	}
-	
+
 	@Override
 	public int selectPushCount(String memberEmail) {
 
 		return pushMapper.selectPushCount(memberEmail);
 	}
-	
+
 	@Override
 	public int insertPush(PushVO pushVO) {
 
@@ -38,6 +38,8 @@ public class PushServiceImpl implements PushService {
 
 		return pushMapper.deletePush(pushId);
 	}
+	
+
 
 
 
