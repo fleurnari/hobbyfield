@@ -49,13 +49,29 @@
 	</select>
 	
 	<!-- 소모임 등록 -->
+<!-- 	현재 insert All을 사용해야하고 createclubVO에 해당 club_member가 없어서 문제가 생김 -->
+<!-- 		INSERT  -->
+<!-- 		INTO club_member -->
+<!-- 				( -->
+<!-- 					club_member_number -->
+<!-- 					,profile_nickname -->
+<!-- 					,club_number -->
+<!-- 					,club_join_date -->
+<!-- 				) -->
+<!-- 		VALUES	 -->
+<!-- 				( -->
+<!-- 					(SELECT NVL(MAX(CLUB_MEMBER_NUMBER), 0) + 1 FROM CLUB_member) -->
+<!-- 					,#{profileNickname} -->
+<!-- 					,#{clubNumber} -->
+<!-- 					,#{clubJoinDate} -->
+<!-- 				) -->
 	<insert id="insertClub" parameterType="CreateclubVO">
 		<selectKey keyProperty="clubNumber" resultType="int" order="BEFORE">
 			SELECT NVL(MAX(club_number), 0) + 1
 			FROM club
 		</selectKey>
-		
-		INSERT INTO club
+		INSERT ALL 
+		INTO club
 				(	
 					club_number
 					, profile_nickname
@@ -126,7 +142,6 @@
 			, singup_question3 = #{singupQuestion3}
 			, club_img = #{clubImg}
 			, club_img_path =#{clubImgPath}
-			, 50
 		WHERE club_name = #{clubName}
 		</set>
 	</update>

@@ -10,21 +10,21 @@
 <script type="text/javascript" src="resources/js/common.js"></script>
 </head>
 <body>
-<form action="insertClub" method="post" id="join_form">
+<form action="clubUpdate" method="post" id="join_form">
 	<div align="center" class="update-top">
 		<div class="club_create_sub">
 			<h2>소모임 정보</h2>		
 		</div>
 		<div>
-			<div><label>닉네임 선택</label>
-			<input list="profileSelect" id="profile" name="profileNickname" autocomplete="off" />
-			<datalist id="profileSelect">
-				<c:forEach items="${getNomalMypage}" var="profile" > <!-- 프로필 선택란 -->
-					<option value="${profile.profileNickname }" >${profile.profileNickname}</option>
-				</c:forEach>
-			</datalist>
+<!-- 			<div><label>닉네임 선택</label> -->
+<!-- 			<input list="profileSelect" id="profile" name="profileNickname" autocomplete="off" /> -->
+<!-- 			<datalist id="profileSelect"> -->
+<%-- 				<c:forEach items="${getNomalMypage}" var="profile" > <!-- 프로필 선택란 --> --%>
+<%-- 					<option value="${profile.profileNickname }" >${profile.profileNickname}</option> --%>
+<%-- 				</c:forEach> --%>
+<!-- 			</datalist> -->
 			
-			</div>
+		</div>
 
 			<div>
 				<div>	
@@ -71,11 +71,11 @@
 				</select><br>
 			</div>
 			
-			<div>
-				<label>공개여부 : </label>
-				<input type="radio" name="clubPublic" value="P" checked="checked"/>공개
-				<input type="radio" name="clubPublic" value="S" />비공개
-			</div>
+<!-- 			<div> -->
+<!-- 				<label>공개여부 : </label> -->
+<!-- 				<input type="radio" name="clubPublic" value="P" checked="checked"/>공개 -->
+<!-- 				<input type="radio" name="clubPublic" value="S" />비공개 -->
+<!-- 			</div> -->
 			
 			<div>
 				<label>질문1</label>
@@ -93,10 +93,9 @@
 			
 			<!-- 소모임 정원 default값 50 -->
 			<div class="join_button_wrap">
-				<button type="submit" class="join_button">등록하기</button>
+				<button type="submit" class="join_button">수정하기하기</button>
 			</div>
 		</div>
-	</div>
 </form>
 
 
@@ -207,6 +206,6 @@ $(document).ready(function(){
 			}
 		}
 	
-
+</script>
 </body>
 </html>

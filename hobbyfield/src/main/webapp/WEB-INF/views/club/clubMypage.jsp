@@ -15,7 +15,7 @@
 <body>
 <section>
 	<div align="center">
-	<form action="/updateProfile" method="post" enctype="multipart/form-data">
+	<form action="updateProfile" method="post" id="uploadForm" >
 		<div>
 			<label>닉네임 선택</label>
 			<select name="profileNickname" id="profileNickname" onchange="fetchProfileDetails(this.value)">
@@ -39,18 +39,18 @@
 <%-- 				<img src="${pageContext.request.contextPath}/${selectImg.profileImgPath}${selectImg.profileImg}"> --%>
 <%-- 			</c:forEach> --%>
 
-			<img src="${selectProfile.profileImgPath}${selectProfile.profileImg}" alt="Profile Image">
+<%-- 			<img src="${selectProfile.profileImgPath}${selectProfile.profileImg}" alt="Profile Image"> --%>
 
 <!-- 			<img id="preview" src=""> -->
 
 			<!-- 이미지 선택 인풋 -->
-			<input type="file" id="imgInput" onchange="readURL(this);"/>
+			<input type="file" id="imgInput" name="uploadFile" onchange="readURL(this);"/>
 			
 			<!-- 이미지 미리보기 -->
 			<img id="preview" src="" alt="Profile Image"/>
 			
 			<!-- 이미지 업로드 버튼 -->
-			<button type="button" id="uploadBtn">Upload</button>
+			<button type="button" id="uploadBtn" >Upload</button>
 		</div>
 		
 		<button id="changeImageBtn" type="submit">수정</button>
@@ -65,7 +65,7 @@ function imgUploadHandler(list) {
 	for (i = 0; i < list.length; i++) {
 		let tag = `<input type="hidden" name="profileImg" value="\${list[i].UUID}">
 		           <input type="hidden" name="profileImgPath" value="\${list[i].url}">`
-		$('#join_form').append(tag);
+		$('#uploadForm').append(tag);
 	}
 }
 
@@ -112,66 +112,44 @@ function readURL(input) {
     }
 }
 
-$("#uploadBtn").on("click", function() {
-    var formData = new FormData();
-    var inputFile = $("#imgInput");
-    var file = inputFile[0].files[0];
-    formData.append("uploadFile", file);
-
-    $.ajax({
-        url: "profileImageUpload",
-        processData: false,
-        contentType: false,
-        data: formData,
-        type: 'POST',
-        success: function(data) {
-            if(data.result === "success") {
-                alert("이미지가 수정됐습니다.");
-            } else {
-                alert("이미지 수정에 실패했습니다.");
-            }
-        }
-    });
-});
 
 
 
 
 
+$('form').on('submit', ajaxDeptUpdate);
 
-// $('form').on('submit', ajaxDeptUpdate);
+function ajaxDeptUpdate(event){
+	event.preventDefault();
 	
-// 	function ajaxDeptUpdate(event){
-// 		event.preventDefault();
-		
-// 		let obj = serializeObject();
-		
-// 		$.ajax({
-// 			url : 'updateProfile',  //contenttype이 제이슨이 아니면 작동안한다. text로 보낼거면 텍스트로 
-// 			type : 'post',
-// 			contentType : 'application/json', //content ~ data (obj) json타입은 항상 세트다.
-// 			data : JSON.stringify(obj)
-// 		})
-// 		.done( data => {
-// 			if(data != null && data['결과'] == 'Success'){
-// 				alert(`수정됐습니다.\n부서번호 : ${data['닉네임']}`);	
-// 			}else{
-// 				alert('수정되지 않았습니다.');
-// 			}
-// 		})
-// 		.fail( reject => console.log(reject));
-// 	};
-// 	//serialize , serializeArray를 언제 사용하는지 알아야 한다.
-// 	function serializeObject() {
-// 		let formData = $('form').serializeArray();
-		
-// 		let formObj = {};
-// 		$.each(formData, function(idx, obj) {
-// 			formObj[obj.name] = obj.value;
-// 		});
-		
-// 		return formObj;
-// 	}
+	let obj = serializeObject();
+	
+	$.ajax({
+		url : 'updateProfile',  //contenttype이 제이슨이 아니면 작동안한다. text로 보낼거면 텍스트로 
+		type : 'post',
+		contentType : 'application/json', //content ~ data (obj) json타입은 항상 세트다.
+		data : JSON.stringify(obj)
+	})
+	.done( data => {
+		if(data != null && data['결과'] == 'Success'){
+			alert('수정됐습니다.');	
+		}else{
+			alert('수정되지 않았습니다.');
+		}
+	})
+	.fail( reject => console.log(reject));
+};
+//serialize , serializeArray를 언제 사용하는지 알아야 한다.
+function serializeObject() {
+	let formData = $('form').serializeArray();
+	
+	let formObj = {};
+	$.each(formData, function(idx, obj) {
+		formObj[obj.name] = obj.value;
+	});
+	
+	return formObj;
+}
 	
 
 // 	$(document).ready(function() {

@@ -157,8 +157,8 @@ label {
 			
 			<div>
 				<label>공개여부 : </label>
-				<input type="radio" name="clubPublic" value="P" checked="checked"/>공개
-				<input type="radio" name="clubPublic" value="S" />비공개
+				<input type="radio" name="clubPublic" value="G1" checked="checked"/>공개
+				<input type="radio" name="clubPublic" value="G2" />비공개
 			</div>
 			
 			<div>

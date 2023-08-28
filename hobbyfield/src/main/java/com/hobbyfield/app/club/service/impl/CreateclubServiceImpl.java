@@ -28,7 +28,6 @@ public class CreateclubServiceImpl implements CreateclubService {
 	public CreateclubVO getClub(CreateclubVO createclubVO) {
 		return createclubMapper.selectClubInfo(createclubVO);
 	}
-
 	
 	
 	//소모임 등록

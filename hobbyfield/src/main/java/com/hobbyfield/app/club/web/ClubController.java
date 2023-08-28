@@ -1,6 +1,5 @@
 package com.hobbyfield.app.club.web;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,23 +15,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.hobbyfield.app.club.board.service.ClubBoardService;
 import com.hobbyfield.app.club.board.service.ClubBoardVO;
 import com.hobbyfield.app.club.profile.mapper.ClubProfileMapper;
 import com.hobbyfield.app.club.profile.service.ClubProfileService;
 import com.hobbyfield.app.club.profile.service.ClubProfileVO;
+import com.hobbyfield.app.club.service.ClubJoinService;
+import com.hobbyfield.app.club.service.ClubJoinVO;
 import com.hobbyfield.app.club.service.CreateclubService;
 import com.hobbyfield.app.club.service.CreateclubVO;
 import com.hobbyfield.app.comm.mapper.CommCodeMapper;
 import com.hobbyfield.app.comm.service.CommCodeVO;
 import com.hobbyfield.app.member.service.MemberVO;
 
-//0821 이선호 (소모임 관리)
+//0828 이선호 (소모임 관리)
 @Controller
 public class ClubController {
-	//private static final Logger logger = LoggerFactory.getLogger(ClubController.class);
 
 	@Autowired
 	CreateclubService createClubService;
@@ -49,6 +48,9 @@ public class ClubController {
 	@Autowired
 	CommCodeMapper commCodeMapper;
 	
+	@Autowired
+	ClubJoinService clubJoinService;
+	
 	/*========= 소모임 조회관련 =========*/
 	// 소모임 전체조회
 	@GetMapping("clubList")
@@ -56,16 +58,10 @@ public class ClubController {
 		model.addAttribute("clubList", createClubService.getCreateClubList());
 		return "club/clubList";
 	}
-
-//	// 소모임 세부조회(백업용)
-//	@GetMapping("/clubInfo")
-//	public String getClubInfo(CreateclubVO clubVO ,Model model) {
-//		CreateclubVO findVO = createClubService.getClub(clubVO);
-//		model.addAttribute("clubInfo", findVO);
-//		return "club/clubInfo";
-//	}
+	
+	// 소모임 세부조회
 	@GetMapping("/clubInfo")
-	public String getClubInfo(@RequestParam String profileNickname, Model model) {
+	public String getClubInfo(@RequestParam String profileNickname, ClubJoinVO joinVO , Model model) {
 	    CreateclubVO clubVO = new CreateclubVO();
 	    clubVO.setProfileNickname(profileNickname);
 	    CreateclubVO findVO = createClubService.getClub(clubVO);
@@ -73,7 +69,6 @@ public class ClubController {
 	    return "club/clubInfo";
 	}
 
-	
 
 	/*========= 소모임 등록관련 =========*/
 	// 소모임 등록 페이지
@@ -145,12 +140,22 @@ public class ClubController {
 		}
 	}
 
-	// 소모임 수정 (구현중)
-	@PostMapping("updateClub")
+	// 소모임 수정
+	@PostMapping("clubUpdate")
 	@ResponseBody
-	public Map<String, String> updateClub(@RequestBody CreateclubVO createclubVO){
+	public Map<String, String> clubUpdate(@RequestBody CreateclubVO createclubVO){
 		return createClubService.updateClub(createclubVO);
 	}
+	
+		
+	// 소모임 가입하기 Process
+	@PostMapping("clubJoinProcess")
+	public String clubJoinProcess(ClubJoinVO joinVO ,Model model) {
+		clubJoinService.clubJoinInfo(joinVO);
+		return "redirect:clubList"; 
+	}
+		
+	
 	
 	// 소모임 삭제?
 
@@ -194,33 +199,16 @@ public class ClubController {
 
 	    return clubprofileService.getProfile(clubprofileVO);
 	}
-
 	
 	
 	//프로필 수정 (이미지 포함)
-//	@PostMapping("updateProfile") 백업용
-//	@ResponseBody
-//	public Map<String, String> updateProcess(@RequestBody ClubProfileVO clubprofileVO){
-//		return clubprofileService.updateProfile(clubprofileVO);
-//	}
-//	@PostMapping("/updateProfile")
-//    @ResponseBody
-//    public Map<String, String> updateProfile(@RequestBody ClubProfileVO clubProfileVO) {
-//        return clubprofileService.updateProfile(clubProfileVO);
-//    }
 	@ResponseBody
-	@RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
-	public Map<String, String> updateProfile(ClubProfileVO clubProfileVO) {
+	@RequestMapping(value = "/updateProfile", method = RequestMethod.POST) // @PostMapping("/updateProfile")와 동일함
+	public Map<String, String> updateProfile(@RequestBody ClubProfileVO clubProfileVO) {
 	    return clubprofileService.updateProfile(clubProfileVO);
 	}
-
-
-
 	
-	
-	
-
-	// 게시글 ==
+	/*========= 게시글 =========*/
 	
 	// 소모임 메인페이지 이동(모든 소모임, 게시글 볼 수 있는 페이지);
 	@GetMapping("clubMainPage")
