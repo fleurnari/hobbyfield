@@ -6,7 +6,8 @@
 
 /* 화면 전체 렙 */
 .wrapper{
-	width: 100%;	
+	width: 100%;
+	
 }
 
 /* content 랩 */
@@ -176,7 +177,6 @@
   background-color: #007bff; /* Change to your desired background color */
   color: white; /* Text color */
   border: none;
-  padding: 10px 20px;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
 }
@@ -322,8 +322,6 @@
   background-color: #ececf7;
   cursor: pointer;
   border-radius: 5px;
-  padding: 5px 10px;
-  margin-left: 10px;
 }
 
 /* 가입하기 버튼 스타일 */

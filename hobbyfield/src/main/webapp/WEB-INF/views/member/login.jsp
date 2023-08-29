@@ -76,15 +76,25 @@
     margin-top: 10px;
   }
 
-  .p-2 img {
-    height: 60px;
+  .p-2 img, #naver_id_login img {
+   
     margin-top: 20px;
     border-radius: 4px;
     transition: transform 0.3s ease-in-out;
   }
 
-  .p-2 img:hover {
+  .p-2 img:hover , #naver_id_login img:hover{
     transform: scale(1.1);
+  }
+  
+  .logo_wrap > span{
+  	font-size : 100px;
+  	
+  }
+  
+  .logo_wrap {
+  	margin-top : 40px;
+  	margin-bottom : 40px;
   }
 </style>
 </head>
@@ -119,7 +129,7 @@
 						<!-- 카카오 로그인 -->
 						<spring:eval var="key" expression="@property['key.KAKAO']" />
 						<a class="p-2" href="https://kauth.kakao.com/oauth/authorize?client_id=${key}&redirect_uri=http://localhost/app/member/kakaoLogin&response_type=code">
-							<img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" style="height:60px">
+							<img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" style="width:223px; height:48.22px;">
 						</a>
 						<div id="naver_id_login" style="text-align:center"><a href="${url}">
 						<img width="223" src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png"/></a></div>			

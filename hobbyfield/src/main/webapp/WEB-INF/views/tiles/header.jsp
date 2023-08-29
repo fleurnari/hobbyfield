@@ -2,7 +2,18 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<style>
+	#nemo{
+		background-color : red;
+		border-radius : 70%;
+		width : 15px;
+		height : 15px;
+		text-align : center;
+		color : white;
+		font-size : 10px;
+		font-weight : bold;
+	}
+</style>
 
 <link href="${pageContext.request.contextPath}/resources/css/theme.css?after" rel="stylesheet">
       <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 d-block" data-navbar-on-scroll="data-navbar-on-scroll">
@@ -22,7 +33,8 @@
           		</c:if>
           		<c:if test = "${member != null}">
           			 <div class="ms-lg-5">
-          			    <img src="${pageContext.request.contextPath}/resources/img/push.png" width="30px" onclick="pushList()">
+          			    <img src="${pageContext.request.contextPath}/resources/img/push.png" width="30px" onclick="pushList()" style="position: relative;">
+          			    <div id="nemo" style="position: absolute; top: 0px;">1</div>
 						<span>${member.memberNm} 님 환영합니다.</span>
 						<a href="${pageContext.request.contextPath}/member/myPage">마이페이지</a>
 						<c:if test="${member.memberGrd eq 'A3'}">
@@ -57,6 +69,7 @@
 		    </div>
 		</div>
       <script>
+      pushCount();
     function pushList() {
     	var memberEmail = "${member.memberEmail}";
     	$.ajax({
@@ -72,7 +85,7 @@
 	         		a += '<div>';
 					a += '<div class="small text-gray-500">'+ formattedDate +'</div>';
 					a += '<span class="font-weight-bold"><a href="' + value.pushUrl + '">' + value.pushCntn + '</a></span>';
-					a += '<img src="${pageContext.request.contextPath}/resources/img/close.png" width="30px" onclick="deletePush(' + value.pushId + ', this);">';
+					a += '<img src="${pageContext.request.contextPath}/resources/img/close.png" width="30px" onclick="deletePush(' + value.pushId + ');">';
 					a += '</div><hr/>';	
 					
 	         		 
@@ -94,21 +107,24 @@
     
   //목록 끝
 
-  //알림 삭제
-  function deletePush(pushId, element){
-  	 $.ajax({
+  	//알림 삭제
+  	function deletePush(pushId, element){
+  		event.target.parentNode.nextElementSibling.remove();
+  		event.target.parentNode.remove();
+  		$('#nemo').text(Number($('#nemo').text()) - 1);
+  		$.ajax({
   	        url : '${pageContext.request.contextPath}/push/deletePush',
   	        type : 'post',
   	        data : {'pushId' : pushId},
   	        dataType : "json",
   	        success : function(){
-  	        	 $(element).parent('div').remove();
-
+  	        	
+  	        	
   	        }
-  	    });
+  	   	});
   	
   	
-  }
+  	}
 
 
   //알림 수 
@@ -122,6 +138,8 @@
   	        dataType : "json",
   	      	contentType : 'application/json; charset=utf-8',
   	        success : function(push){
+  	        	console.log(push);
+  	        	$('#nemo').text(push);
   	        }
   	    
   	    });
