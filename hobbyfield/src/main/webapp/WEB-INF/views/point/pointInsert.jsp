@@ -25,7 +25,6 @@ body {
 }
 </style>
 <script type="text/javascript" src="resources/js/common.js">
-	
 </script>
 </head>
 <body>
@@ -181,7 +180,8 @@ body {
 		function imgUploadHandler(list) {
 			$('#emojiFile').empty();
 			for (i = 0; i < list.length; i++) {
-				let tag = `<input type="hidden" name="emojiVO[\${i}].emojiImgName" value="\${list[i].UUID}"><input type="hidden" name="emojiVO[\${i}].emojiImgPath" value="\${list[i].url}">`
+				let tag = `<input type="hidden" name="emojiVO[\${i}].emojiImgName" value="\${list[i].UUID}">
+				<input type="hidden" name="emojiVO[\${i}].emojiImgPath" value="\${list[i].url}">`
 				$('#emojiFile').append(tag);
 			}
 		}

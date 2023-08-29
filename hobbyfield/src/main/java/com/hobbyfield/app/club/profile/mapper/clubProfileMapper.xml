@@ -82,7 +82,11 @@
 	</update>
 	
 	
-	<!-- 해당 소모임 이동시  -->
-
+	<!-- 해당 소모임 이동시 Session에 넣을 프로필 가져오기 -->
+	<select id="getSessionProfile" resultType="ClubProfileVO">
+		SELECT C.PROFILE_NICKNAME, P.PROFILE_IMG, P.PROFILE_IMG_PATH
+		FROM CLUB_MEMBER C JOIN PROFILE P ON(C.PROFILE_NICKNAME = P.PROFILE_NICKNAME)
+		WHERE P.MEMBER_EMAIL = #{memberEmail} AND C.CLUB_NUMBER = #{clubNumber}
+	</select>
 	
 </mapper>

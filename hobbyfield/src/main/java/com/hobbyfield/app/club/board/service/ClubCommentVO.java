@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class ClubCommnetVO {
+public class ClubCommentVO {
 //	COMMENT_NUMBER          NOT NULL NUMBER(4)      
 //	BOARD_NUMBER            NOT NULL NUMBER(4)      
 //	CLUB_NUMBER             NOT NULL NUMBER(4)      
@@ -17,7 +17,6 @@ public class ClubCommnetVO {
 //	PROFILE_NICKNAME        NOT NULL VARCHAR2(50)   
 	private int commentNumber;
 	private int boardNumber;
-	private int clubNumber;  // 굳이 필요X 나중에 삭제 
 	private String clubCommentContent;
 	private Date clubCommentDate;
 	private String clubSecret;
