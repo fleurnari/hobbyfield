@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hobbyfield.app.common.SearchCriteria;
 import com.hobbyfield.app.prdt.mapper.PrdtMapper;
 import com.hobbyfield.app.prdt.service.PrdtService;
 import com.hobbyfield.app.prdt.service.PrdtVO;
@@ -14,12 +13,7 @@ public class PrdtServiceImpl implements PrdtService {
 	
 	@Autowired 
 	PrdtMapper prdtMapper;
-	
-	//등록된 상품갯수
-	@Override
-	public int prdtCount(SearchCriteria scri) {
-		return prdtMapper.prdtCount(scri);
-	}
+
 	//상품등록
 	@Override
 	public int insertPrdt(PrdtVO prdtVO) {
@@ -40,8 +34,8 @@ public class PrdtServiceImpl implements PrdtService {
 	
 	//상품목록조회
 	@Override
-	public List<PrdtVO> selectAllPrdt(SearchCriteria scri) {
-		return prdtMapper.selectAllPrdt(scri);
+	public List<PrdtVO> selectAllPrdt() {
+		return prdtMapper.selectAllPrdt();
 	}
 	
 	//등록상품삭제
@@ -49,13 +43,10 @@ public class PrdtServiceImpl implements PrdtService {
 	public void deletePrdt(int prdtId) {
 		prdtMapper.deletePrdt(prdtId);
 	}
-	
-	//등록상품수정
 	@Override
 	public void updatePrdt(PrdtVO prdtVO) {
 		prdtMapper.updatePrdt(prdtVO);
 	}
-	
 	
 
 }

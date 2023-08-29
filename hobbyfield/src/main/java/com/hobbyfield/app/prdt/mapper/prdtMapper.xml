@@ -4,25 +4,6 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.hobbyfield.app.prdt.mapper.PrdtMapper">
   	
-  	<!-- 등록된 상품 갯수 -->
-  	<select id="prdtCount" resultType="int">
-  		SELECT COUNT(prdt_id)
-  		FROM prdt
-  		WHERE 1=1
-  		<include refid="search"></include>
-		 AND prdt_id > 0
-  	</select>
-  	
-  	
-	<sql id="search">
-		<if test="searchType != null">
-			<if test="searchType == 't'.toString()">AND prdt_name LIKE '%' || #{keyword} || '%'</if>
-			<if test="searchType == 'c'.toString()">AND prdt_CONTENTS LIKE '%' || #{keyword} || '%'</if>
-			<if test="searchType == 'w'.toString()">AND prdt_cate LIKE '%' || #{keyword} || '%'</if>
-			<if test="searchType == 'tc'.toString()">AND( (prdt_name LIKE '%' || #{keyword} || '%') or (prdt_CONTENTS LIKE '%' || #{keyword} || '%') )</if>
-		</if>
-	</sql>
-  	
   	<!-- 상품등록  -->
   	<insert id="insertPrdt" parameterType="PrdtVO">
 	    INSERT INTO prdt(prdt_id, prdt_name, prdt_cate, prdt_contents, reg_date, prdt_price, prdt_count, prdt_soldout, prdt_thum)
@@ -34,22 +15,10 @@
   		SELECT * FROM prdt WHERE prdt_id = #{prdtId}
   	</select>
   	
-  	<!-- 상품리스트 조회(페이징,검색) -->
-	<select id="selectAllPrdt" resultType="PrdtVO" parameterType="Criteria">
-	    SELECT prdt_name, prdt_id, prdt_price, prdt_thum 
-	    FROM ( 
-            SELECT  
-                   prdt_name,
-                   prdt_id, 
-                   prdt_price, 
-                   prdt_thum,  
-                   ROW_NUMBER() OVER(ORDER BY prdt_id DESC) AS RNUM
-             FROM prdt
-             WHERE 1=1
-             <include refid="search"></include>
-           ) prdt1
-    WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
-    ORDER BY prdt_id DESC
+  	<!-- 상품리스트 조회 -->
+	<select id="selectAllPrdt" resultType="PrdtVO">
+	    SELECT prdt_name, prdt_id, prdt_price, prdt_thum FROM prdt
+	    
 	</select>
 	<!-- 상품수정하기  -->
 	<update id="updatePrdt" parameterType="PrdtVO">
