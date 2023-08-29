@@ -4,45 +4,70 @@
 <mapper namespace="com.hobbyfield.app.member.mapper.MyitemMapper">
 
 	<!-- 나의아이템 전체조회 -->
-	<select id="selectMyItemAllList" resultType="MyitemVO">
-		SELECT * FROM MYITEM
+	<select id="selectMyItemAllList" parameterType="com.hobbyfield.app.member.service.MemberVO" resultType="MyitemVO">
+		SELECT m.myitem_id,
+			   m.point_id,
+			   p.point_name,
+			   FIND_CODE_NM(m.point_item_type) AS point_item_type,
+			   m.myitem_purcdt,
+			   p.point_img_name,
+			   p.point_img_path,
+			   m.myitem_useterm
+			   
+		FROM myitem m
+		
+		JOIN point p
+		  ON m.point_id = p.point_id
+		
+		WHERE m.member_email = #{memberEmail}
 	</select>
 	
+	<!-- 포인트 차감 -->
+	<update id="decreasePoint" parameterType="MyitemVO">
+	update member 
+	set MEMBER_ACTPNT = MEMBER_ACTPNT-#{pointPrice}
+	where MEMBER_EMAIL = #{memberEmail}
+	</update>
 	
 	<!-- 나의 아이템 등록 -->
 	<insert id="insertMyitem" parameterType="MyitemVO">
 		<selectKey keyProperty="myitemId" resultType="int"
 			order="BEFORE">
-			SELECT NVL(MAX(point_id), 0) + 1
+			SELECT NVL(MAX(myitem_id), 0) + 1
 			FROM MYITEM
 		</selectKey>
-		INSERT INTO MYITEM( 
-					POINT_PRICE
-					POINT_OPT_ID
-					POINT_NAME
-					POINT_ITEM_TYPE
-					POINT_IMG_PATH
-					POINT_IMG_NAME
-					POINT_ID
-					MYITEM_USETERM
-					MYITEM_PURCDT
-					MYITEM_ID
+		INSERT INTO MYITEM(
+					MYITEM_ID,
+					POINT_ID, 					
+					<if test="pointItemType.equals('W1')">
+					POINT_OPT_ID,
+					</if>
+					MYITEM_USETERM,
+					POINT_ITEM_TYPE,
+					
+					MYITEM_PURCDT,
 					MEMBER_EMAIL
 		)VALUES(
-		#{pointPrice},
-		#{optId},
-		#{pointName},
-		#{pointItemType},
-		#{pointImgPath},
-		#{pointImgName},
-		#{pointId},
-		#{myitemUseterm},
-		#{myitemPurcdt},
-		#{myitemId},
-		#{memberEmail}
+					#{myitemId},
+					#{pointId}, 
+					<if test="pointItemType.equals('W1')">
+					#{pointOptId},
+					</if>
+					#{myitemUseterm},
+					#{pointItemType},
+					
+					SYSDATE,
+					#{memberEmail}
 		)
 	</insert>
+
+	<!-- 소모임 증원권 적용 -->
 	
-	<!-- 나의 아이템 삭제 -->
+	
+	
+	
+	<!--  -->
+
+
 
 </mapper>

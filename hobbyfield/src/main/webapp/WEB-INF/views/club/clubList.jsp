@@ -4,10 +4,10 @@
 <!DOCTYPE html>
 <html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-
+<script src="" type="text/javascript"></script>
 <head>
     <meta charset="UTF-8">
-    <title>클럽목록</title>
+    <title>소모임 메인 페이지</title>
     <style>
         #clubContainer {
             display: flex;
@@ -51,16 +51,26 @@
         .clubItem:hover .clubInfo {
             display: block; /* 마우스를 올리면 정보 표시 */
         }
+        .ck.ck-editor {
+		width: 30%;
+		max-width: 50px;
+		margin: 0 auto;
+		}
+		.ck-editor__editable {
+			height: 80vh;
+		}
     </style>
 </head>
 
 <body>
 <section>
     <div align="center" style="margin-top: 100px;">
-        <input type="text" id="memberEmail" value="${member.memberEmail}">
+		<!-- 소모임 표시 -->    
         <div id="clubContainer">
             <c:forEach items="${clubList}" var="club">
-                <div class="clubItem" onclick="">
+
+                <div class="clubItem" onclick="location.href='clubBoardList?clubNumber=${club.clubNumber}'">
+
                     <img src="${club.clubImgPath}${club.clubImg}">
                     <div class="clubInfo">
                         <p>모임리더: ${club.profileNickname}</p>
@@ -74,17 +84,82 @@
                 </div>
             </c:forEach>
         </div>
+    
+    <!-- 소모임과 소모임 게시글 구분을 위한 구분선 css 만들기 -->
+    <div>
+    <p>==========<p>
     </div>
+    <div>
+        <div id="clubContainer">
+            <c:forEach items="${board}" var="board">
+                <div id="clubLink">
+                    <div class="">
+                        <p>게시글번호: ${board.boardNumber}</p>
+                        <p>소모임번호: ${board.clubNumber}</p>
+                        <p>게시글작성자: ${board.clubBoardWriter}</p>
+                        <p>게시글내용: </p><div id="editor">${board.clubBoardContent}</div>
+                        <p>작성일: ${board.clubBoardWdate}</p>
+                        <p>조회수: ${board.clubBoardViews}</p>
+                        <p>공지글: ${board.clubBoardType}</p>
+                        <p>일정날짜 : ${board.scheduleDate}</p>
+                        <p>블라인드: ${board.clubBoardBlind}</p>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
+    </div>
+</div>
+
+<!-- ajax를 통해 보낼 Session에 member.memberEmail을 담을 hideen -->
+<input type="hidden" id="checkClub" name="checkClub" value="${member.memberEmail}">
 </section>
 </body>
+
+
+
 <script type="text/javascript">
+	$('#clubLink').on("click",function(e){
+		.stopPropagation();
+		var email = $('#checkClub').
+		// ajax로 해당 소모임에 사용자가 가입되어있는지 확인, 
+		// 가입되어있을시 해당 페이지로 이동, 아닐시 가입페이지로 이동
+		// 
+		// ajax로 통해 보내야할 데이터는 Session의 member.memberEmail
+		$.ajax({
+			url : 'checkClubApply',
+			data : email,
+			type : 'POST',
+			success : function(result) {
+					console.log("ajax 호출, Session의 email : " + email);	
+					if(result == ture){
+						// 해당 소모임 메인페이지 이동 호출 
+					}esle{
+						alert("해당 소모임 가입페이지로 이동합니다.")
+					}
+				}
+			
+			}
+		})
+
+		
+	});
+
 	$('#clubContainer').on('click',function(e){
-		
-		
-		
 		var linkta
 	});
 	
-
+	ClassicEditor
+    .create( document.querySelector( '#editor' ), {
+    	toolbar: []
+    })
+    .then(editor => {
+        
+        editor.isReadOnly = true; // 에디터를 읽기 전용으로 설정
+    })
+    .catch( error => {
+        console.error( error );
+    });
+	
 </script>
+
 </html>

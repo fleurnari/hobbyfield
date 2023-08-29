@@ -72,6 +72,7 @@
 						</div>
 					</div>
 					<br>
+					<input type="text" name="fndStatus" value="0">
 					<input type="text" name="fndPostNumber" value="${ fundingPostInsert20.fndPostNumber}">
 					<button type="submit" class="btn btn-primary"
 						style="float: right;">저장</button>
@@ -124,7 +125,6 @@
 				//alert이라 텍스트형식만 가능하기때문에 객체형식인 boardInfo에서 bno만 가져와야함
 				let message = '저장되었습니다.';
 				alert(message);
-				document.location.reload();
 			}else{
 				alert('저장되지 않았습니다.\n정보를 확인해주세요');
 			}

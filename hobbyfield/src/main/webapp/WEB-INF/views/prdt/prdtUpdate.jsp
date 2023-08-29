@@ -17,6 +17,7 @@
 					<br>
 <div align="center">
 	 <form action="prdtUpdate" method="post">
+	 		<input type="hidden" id="prdtId" name="prdtId" value="${prdtInfo.prdtId }" readonly="readonly">
         <label for="prdtName">상품명</label>
         	<input type="text" id="prdtName" name="prdtName" value="${prdtInfo.prdtName }"><br>
         <label for="prdtCate">상품카테고리</label>
@@ -53,7 +54,7 @@
 	$(".update_btn").on("click", function(){
 			formObj.prop("action", "prdtUpdate");
 			formObj.prop("method", "get");
-			formObj.submit();				
+			formObj.submit();	
 	})
 		
 	</script>

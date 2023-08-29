@@ -9,7 +9,7 @@ public interface FundingSupportMapper {
 	public List<FundingSupportVO> selectFundingSupportList();
 	
 	//펀딩 후원 조회
-	public FundingSupportVO selelctFundingSupport(FundingSupportVO fundingSupportVO);
+	public List<FundingSupportVO> selectFundingSupport(FundingSupportVO fundingSupportVO);
 	
 	//펀딩 후원 등록
 	public int insertFundingSupport(FundingSupportVO fundingSupportVO);

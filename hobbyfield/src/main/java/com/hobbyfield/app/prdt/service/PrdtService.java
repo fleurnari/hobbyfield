@@ -2,7 +2,11 @@ package com.hobbyfield.app.prdt.service;
 
 import java.util.List;
 
+import com.hobbyfield.app.common.SearchCriteria;
+
 public interface PrdtService {
+	//등록된 상품의 갯수
+	public int prdtCount(SearchCriteria scri);
 	//상품등록
 	public int insertPrdt(PrdtVO prdtVO);
 		
@@ -10,7 +14,7 @@ public interface PrdtService {
 	public PrdtVO selectPrdt(int PrdtId);
 		
 	//상품목록조회
-	public List<PrdtVO> selectAllPrdt();
+	public List<PrdtVO> selectAllPrdt(SearchCriteria scri);
 	
 	//상품수정하기
 	public void updatePrdt(PrdtVO prdtVO);

@@ -14,11 +14,11 @@ body {
 	justify-content: space-between;
 	align-items: center;
 	min-height: 100vh;
-	margin-top: 150px;
 }
 </style>
 </head>
 <body>
+<section>
 	<form action="pointUpdate" class="pointUpdate" method="post">
 		<div class="container">
 			<div>
@@ -38,16 +38,17 @@ body {
 					<label for="pointEndterm">상품판매 마감일</label><input type="date"
 						id="pointEndterm" name="pointEndterm" required="required">
 				</div>
-				<div>=================이미지업로드================</div>
+				<input type="file" name="uploadFile" multiple="multiple">
+		<button type="button" id="uploadBtn">upload</button>
 				<div class="buttonGroup">
-					<button type="submit">수정완료</button>
-					<button type="button" onclick="location.href='poinList'">목록</button>
-					<button type="reset" onclick="location.href='pointUpdate'">초기화</button>
-				</div>
+			<button type="submit">등록</button>
+			<button type="button" onclick="location.href='pointList'">목록</button>
+			<button type="reset" onclick="location.href='pointUpdate?pointId=${point.pointId}'">초기화</button>
+		</div>
 			</div>
 		</div>
 	</form>
-
+</section>
 	<script type="text/javascript">
 		
 	</script>
