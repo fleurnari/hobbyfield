@@ -35,6 +35,9 @@ public interface PointMapper {
 	// 포인트 상품 삭제
 	public int deletePoint(int pointId);
 	
+	//포인트 옵션 삭제
+//	public int deletePointOption(int pointId);
+	
 	// 포인트 상품 조회수
 	public int updatePointView(PointVO pointVO);
 

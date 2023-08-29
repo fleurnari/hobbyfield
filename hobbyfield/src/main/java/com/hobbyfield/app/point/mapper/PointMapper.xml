@@ -7,15 +7,6 @@
 	<!-- 포인트 상품 전체조회 -->
 	<select id="selectPointAllList" resultType="PointVO">
 		SELECT *
-		<!-- point_id, -->
-		<!-- point_name, -->
-		<!-- point_item_type, -->
-		<!-- point_state, -->
-		<!-- point_view, -->
-		<!-- point_regdate, -->
-		<!-- point_endterm, -->
-		<!-- point_img_name, -->
-		<!-- point_img_path -->
 		FROM POINT
 		ORDER BY
 		point_endterm asc
@@ -29,11 +20,13 @@
 				point_content,
 				point_item_type,
 				point_state,
+				FIND_CODE_NM(point_state) point_state_nm,
 				point_view,
 				point_regdate,
 				point_endterm,
 				point_img_name,
-				point_img_path
+				point_img_path,
+				group_price
 		FROM 	POINT
 		WHERE point_id = #{pointId}
 
@@ -69,35 +62,34 @@
 			FROM point
 		</selectKey>
 		INSERT INTO point(
-		point_id,
-		point_name,
-		point_content,
-		point_item_type,
-		point_state,
-		point_regdate,
-		point_endterm,
-		point_img_name,
-		point_img_path,
-		point_view,
-		group_price
+					point_id,
+					point_name,
+					point_content,
+					point_item_type,
+					point_state,
+					point_regdate,
+					<if test="pointItemType.equals('W1')">
+					point_endterm,
+					</if>
+					point_img_name,
+					point_img_path,
+					point_view,
+					group_price
 		) VALUES (
-		#{pointId},
-		#{pointName},
-		#{pointContent},
-		#{pointItemType},
-		#{pointState},
-		<if test="pointRegdate != null">
-			#{pointRegdate}
-		</if>
-		<if test="pointRegdate == null">
-			SYSDATE
-		</if>
-		,
-		#{pointEndterm},
-		#{pointImgName},
-		#{pointImgPath},
-		#{pointView},
-		#{groupPrice}
+					#{pointId},
+					#{pointName},
+					#{pointContent},
+					#{pointItemType},
+					'V1',
+						SYSDATE,
+					<if test="pointItemType.equals('W1')">
+					#{pointEndterm},
+					</if>
+					
+					#{pointImgName},
+					#{pointImgPath},
+					#{pointView},
+					#{groupPrice}
 		)
 	</insert>
 	<!-- POINT_OPT_ID -->
@@ -110,7 +102,7 @@
 		<selectKey keyProperty="pointOptId" resultType="int"
 			order="BEFORE">
 			SELECT NVL(MAX(point_opt_id), 0) + 1
-			FROM point_option
+			FROM POINT_OPTION
 		</selectKey>
 		INSERT INTO POINT_OPTION(
 		point_id,
@@ -184,6 +176,19 @@
 		point_id = #{pointId}
 	</delete>
 
+ 	<!-- 포인트 옵션 삭제 -->
+<!-- 	<delete id="deletePointOption" parameterType="int"> -->
+<!-- 		DELETE FROM POINT -->
+<!-- 		WHERE point_id in( -->
+<!-- 							SELECT point_id  -->
+<!-- 							FROM point_option o -->
+<!-- 							 WHERE NOT EXISTS ( -->
+<!-- 												SELECT point_id -->
+<!-- 												FROM point -->
+<!-- 												WHERE o.point_id = #{pointId}) -->
+<!-- 							) -->
+<!-- 	</delete> -->
+
 	<!-- 조회수 업데이트 -->
 	<update id="updatePointView" parameterType="PointVO">
 		UPDATE point
@@ -191,6 +196,9 @@
 		point_view = point_view + 1
 		WHERE point_id = #{pointId}
 	</update>
+
+	
+
 
 
 </mapper>

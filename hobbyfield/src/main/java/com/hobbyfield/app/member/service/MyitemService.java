@@ -5,8 +5,13 @@ import java.util.List;
 
 public interface MyitemService{
 	
-	public List<MyitemVO> selectMyItemAllList();
+	public List<MyitemVO> selectMyItemAllList(String memberEmail);
 	
-//	public int getInsertMyitem(MyitemVO myitemVO);
+	// 포인트 차감 
+	public int decreasePoint(MyitemVO myitemVO);
+	
+	//마이아이템 등록
+	public int insertMyitem(MyitemVO myitemVO);
+	
 	
 }

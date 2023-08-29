@@ -15,18 +15,23 @@ public class MyitemServiceImpl implements MyitemService{
 	@Autowired
 	MyitemMapper myitemMapper;
 
-	@Override
-	public List<MyitemVO> selectMyItemAllList() {
-		return myitemMapper.selectMyItemAllList();
-	}
-	
+
 	// 마이아이템 전체조회
+		@Override
+		public List<MyitemVO> selectMyItemAllList(String memberEmail) {
+			return myitemMapper.selectMyItemAllList(memberEmail);
+		}
 
-//	// 마이아이템 저장
-//	@Override
-//	public int getInsertMyitem(MyitemVO myitemVO) {
-//		return "0;
-//	}
+		//포인트 차감
+		@Override
+		public int decreasePoint(MyitemVO myitemVO) { 
+			return myitemMapper.decreasePoint(myitemVO);
+		}
 
-
+		//구매내역에 등록
+		@Override
+		public int insertMyitem(MyitemVO myitemVO) { 
+			return myitemMapper.insertMyitem(myitemVO);
+		}
+	
 }

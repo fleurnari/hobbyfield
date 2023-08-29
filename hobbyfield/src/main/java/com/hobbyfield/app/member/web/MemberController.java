@@ -26,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.hobbyfield.app.member.service.MemberService;
 import com.hobbyfield.app.member.service.MemberVO;
 import com.hobbyfield.app.member.service.MyitemService;
+import com.hobbyfield.app.member.service.MyitemVO;
 import com.hobbyfield.app.pointrecord.service.PointRecordService;
 import com.hobbyfield.app.pointrecord.service.PointRecordVO;
 import com.hobbyfield.app.security.CustomUser;
@@ -191,11 +192,9 @@ public class MemberController {
 		if (memberVO == null || !pwEncoder.matches(memberVO.getMemberPwd(), memberPwd)) {
 			return 0;
 		}
-		
 		return 1;
 	}
 
-	
 	
 	// 비밀번호 수정 수행
 	@PostMapping("/memberPwdUpdate")
@@ -224,10 +223,31 @@ public class MemberController {
 	}
 	
 	// 마이아이템 전체조회
-	@GetMapping("member/myitemList")
-	public String getMyitemAllList(Model model) {
-		model.addAttribute("myitemList", myitemService.selectMyItemAllList());
-		return "member/myitemList";
+	@GetMapping("myitemList")
+	public String getMyitemAllList(Model model, @RequestParam String memberEmail) {
+	    model.addAttribute("myitemList", myitemService.selectMyItemAllList(memberEmail));
+	    return "member/myitemList";
 	}
 
+	// 마이아이템 등록 - 구매
+	@PostMapping("myitemBuy")
+	public String MyitemBuy(HttpSession session, MyitemVO myitemVO){
+		
+		//현재 로그인한 사용자 memberEmail
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		myitemVO.setMemberEmail(member.getMemberEmail());
+		
+		//포인트 차감
+		myitemService.decreasePoint(myitemVO);
+		
+		//구매내역 등록
+		myitemService.insertMyitem(myitemVO);
+		return "member/myitemList";
+	}
+	
+	
+	
+	
+		
 }
+	
