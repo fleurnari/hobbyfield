@@ -3,6 +3,46 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.hobbyfield.app.club.board.mapper.BoardVoteMapper">
+  
+  	<select id="allBoardVote" resultType="BoardVoteVO" parameterType="BoardVoteVO">
+  		
+  	</select>	
+  	
+  	<select id="selectBoardVote" resultType="BoardVoteVO" parameterType="BoardVoteVO">
+  	
+  	</select>
+  	
+  	<select id="getVoteOption" resultType="BoardVoteOptionVO" parameterType="BoardVoteVO">
+  	
+  	</select>
+  	
+  	<select id="getVoteResult" resultType="BoardVoteResultVO" parameterType="BoardVoteVO">
+  	
+  	</select>
+  	
+  	<insert id="insertVote" parameterType="BoardVoteVO">
+  	
+  	</insert>
+  	
+  	<insert id="insertVoteOption" parameterType="BoardVoteOptionVO">
+  	
+  	</insert>
+  	
+  	<insert id="insertVoteResult" parameterType="BoardVoteOptionVO">
+  	
+  	</insert>
+  	
+  	<update id="endVote" parameterType="BoardVoteVO">
+  	
+  	</update>
+  	
+  	<update id="updateVoteResult" parameterType="BoardVoteResultVO">
+  	
+  	</update>
+  	
+  	<delete id="deleteVoteResult" parameterType="BoardVoteResultVO">
+  		
+  	</delete>
   	
   </mapper>
    
