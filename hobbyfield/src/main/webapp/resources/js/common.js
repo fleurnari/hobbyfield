@@ -47,7 +47,7 @@
 				}
 					
 				$.ajax({
-					url : "uploadAjaxFile",
+					url : "/app/uploadAjaxFile",
 					processData : false,
 					contentType : false,
 					data : formData,
@@ -63,7 +63,7 @@
 							var preview = document.getElementById("preview");
 							var imgTag = document.createElement("img");
 							//imgTag.src = mv.url+ mv.UUID; 
-							imgTag.src = '/app/' + mv.url+ mv.UUID; 
+							imgTag.src = '/app' + mv.url+ mv.UUID; 
 							imgTag.style.width=200+'px';
 							imgTag.style.height=200+'px';							
 							preview.appendChild(imgTag);							

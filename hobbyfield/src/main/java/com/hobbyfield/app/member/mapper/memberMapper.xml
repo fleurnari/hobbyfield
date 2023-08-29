@@ -101,5 +101,58 @@
 		DELETE FROM member
 		WHERE member_email = #{memberEmail}
 	</delete>
+	
+	<!-- 마이 페이지 - 가입한 소모임 조회 -->
+	<select id="selectJoinClub" resultType="com.hobbyfield.app.club.service.CreateclubVO">
+		SELECT c.club_number,
+			   c.club_name,
+			   FIND_CODE_NM(c.club_category) AS club_category,
+			   FIND_CODE_NM(c.club_type) AS club_type,
+			   FIND_CODE_NM(c.club_public) AS club_public,
+			   c.club_img,
+			   c.club_img_path
+			   
+		FROM club c
+		
+		JOIN club_member cm
+		  ON c.club_number = cm.club_number
+		  
+		JOIN profile p
+		  ON cm.profile_nickname = p.profile_nickname
+		  
+		WHERE p.member_email = #{memberEmail}
+	</select>
+	
+	
+	<!-- 마이 페이지 - 기업회원의 판매 중인 상품 조회 -->
+	<select id="selectSellList" resultType="com.hobbyfield.app.prdt.service.PrdtVO">
+		SELECT prdt_id,
+			   FIND_CODE_NM(prdt_cate) AS prdt_cate,
+			   prdt_name,
+			   prdt_price,
+			   prdt_count,
+			   FIND_CODE_NM(prdt_soldout) AS prdt_soldout,
+			   prdt_thum,
+			   prdt_thum_path
+		FROM prdt
+		WHERE member_email = #{memberEmail}
+	</select>
+	
+	<!-- 비밀번호 찾기 유효성 검사 -->
+	<select id="findPwCheck" resultType="int">
+		SELECT COUNT(*)
+		FROM member
+		WHERE member_email = #{memberEmail}
+		AND member_nm = #{memberNm}
+	</select>
+	
+	<!-- 비밀번호 찾기 - 비밀번호 변경 -->
+	<update id="findPw">
+		UPDATE member
+		SET member_pwd = #{memberPwd}
+		WHERE member_email = #{memberEmail}
+		AND member_nm = #{memberNm}	
+	</update>
+	
   </mapper>
   

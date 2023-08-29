@@ -3,11 +3,13 @@ package com.hobbyfield.app.fnd.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.hobbyfield.app.fnd.mapper.FundingSupportMapper;
 import com.hobbyfield.app.fnd.service.FundingSupportService;
 import com.hobbyfield.app.fnd.service.FundingSupportVO;
 
+@Service
 public class FundingSupportServiceImpl implements FundingSupportService {
 
 	@Autowired
@@ -19,8 +21,8 @@ public class FundingSupportServiceImpl implements FundingSupportService {
 	}
 
 	@Override
-	public FundingSupportVO getFundingSupportInfo(FundingSupportVO fundingSupportVO) {
-		return fundingSupportMapper.selelctFundingSupport(fundingSupportVO);
+	public List<FundingSupportVO> getFundingSupportInfo(FundingSupportVO fundingSupportVO) {
+		return fundingSupportMapper.selectFundingSupport(fundingSupportVO);
 	}
 
 	@Override

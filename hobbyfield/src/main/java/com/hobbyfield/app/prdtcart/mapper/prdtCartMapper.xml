@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hobbyfield.app.prdtcart.mapper.PrdtCartMapper">
+
+<!--장바구니에 담기  -->
+<insert id="addCart">
+INSERT INTO prdt_cart (cart_id, member_email, prdt_id, cart_stock)
+
+VALUES (prdt_cart_seq.nextval, #{memberEmail}, #{prdtId}, #{cartStock})
+</insert>
+<!--장바구니 리스트  -->
+<select id="cartList" resultType="CartListVO">
+SELECT 
+row_number() over(order by c.cart_id desc) as num,
+c.cart_id, c.member_email, c.prdt_id, c.cart_stock, c.add_date,
+p.prdt_name, p.prdt_price, p.prdt_thum
+
+FROM prdt_cart c INNER JOIN prdt p on c.prdt_id = p.prdt_id
+
+WHERE c.member_email = #{memberEmail}
+</select>
+
+<!-- 장바구니 삭제 -->
+<delete id="deleteCart">
+ delete prdt_cart
+     where cart_id = #{cartId}
+         and member_email = #{memberEmail}
+</delete>
+
+
+<!-- 카트 비우기 -->
+<delete id="cleanCart">
+ delete prdt_cart
+     where member_email = #{memberEmail}
+</delete>
+
+
+</mapper>
+  

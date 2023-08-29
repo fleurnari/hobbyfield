@@ -94,7 +94,7 @@ label {
 
 
 <body>
-<form action="insertClub" method="post" id="join_form">
+<form action="clubInsert" method="post" id="join_form">
 	<div align="center" class="top">
 		<div class="club_create_sub">
 			<h2>소모임 정보</h2>		
@@ -157,8 +157,8 @@ label {
 			
 			<div>
 				<label>공개여부 : </label>
-				<input type="radio" name="clubPublic" value="P" checked="checked"/>공개
-				<input type="radio" name="clubPublic" value="S" />비공개
+				<input type="radio" name="clubPublic" value="G1" checked="checked"/>공개
+				<input type="radio" name="clubPublic" value="G2" />비공개
 			</div>
 			
 			<div>

@@ -43,17 +43,30 @@
 
 	<!-- 업로드 관련 빈 -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
-	</beans:bean>
+	</beans:bean>     
 	
-	<!-- websocket handler -->
-	<beans:bean id="pushHandler" class="com.hobbyfield.app.common.socket.PushHandler" />
-	<websocket:handlers>
-		<websocket:mapping handler="pushHandler" path="/push" />
-		<websocket:handshake-interceptors>
-	         <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
-	      </websocket:handshake-interceptors>
-		<websocket:sockjs websocket-enabled="true"/>
-	</websocket:handlers>
+	<!-- 네이버 로그인 -->
+	<beans:bean id="naverLoginBO" class="com.hobbyfield.app.member.service.NaverLoginBO" />
+
+	
+	<!-- 회원가입 메일 인증 -->
+	<beans:bean id="mailSender"	class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<beans:property name="host" value="smtp.gmail.com" />
+		<beans:property name="port" value="587" /><!-- 465 or 25 -->
+		<beans:property name="username" value="fleurnari2" />
+		<beans:property name="password" value="iddnlfmlewidcwtb" />
+		<beans:property name="defaultEncoding" value="utf-8" />
+		<beans:property name="javaMailProperties">
+			<beans:props>
+				<beans:prop key="mail.transport.protocol">smtp</beans:prop>
+				<beans:prop key="mail.smtp.auth">true</beans:prop>
+				<beans:prop key="mail.smtp.starttls.enable">true</beans:prop>
+				<beans:prop key="mail.debug">true</beans:prop>
+				<beans:prop key="mail.smtp.ssl.trust">smtp.gmail.com</beans:prop>
+				<beans:prop key="mail.smtp.ssl.protocols">TLSv1.2</beans:prop>
+			</beans:props>
+		</beans:property>
+	</beans:bean>	
 	
 	<context:component-scan base-package="com.hobbyfield.app" />
 
