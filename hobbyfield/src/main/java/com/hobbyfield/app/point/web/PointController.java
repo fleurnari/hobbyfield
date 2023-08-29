@@ -47,7 +47,6 @@ public class PointController {
 		System.out.println(pointVO);
 		
 		//이모티콘 첨부파일
-		
 		pointService.insertPoint(pointVO);
 		return "redirect:pointList";
 	}
@@ -69,11 +68,13 @@ public class PointController {
 		return "redirect:pointList";
 	}
 
-	// 삭제
+	// 포인트 상품 삭제
 	@GetMapping("/pointDelete")
 	public String pointDelete(@RequestParam(name = "pointId") int pointId) {
 		pointService.deletePoint(pointId);
-		return "redirect:/pointList";
+//		pointService.deletePointOption(pointId);
+		return "redirect:pointList";
 	}
 
+	
 }

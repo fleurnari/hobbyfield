@@ -81,7 +81,7 @@
 			<div>
 			<!-- 추후 넣을값 : club_number, club_board_type -> -->
 			<div>
-				<input type="text" id="clubNumber" name="clubNumber" value="1">
+				<input type="text" id="clubNumber" name="clubNumber" value="8">
 				<input type="text" id="clubBoardType" name="clubBoardType" value="N">
 			</div>
 			</div>

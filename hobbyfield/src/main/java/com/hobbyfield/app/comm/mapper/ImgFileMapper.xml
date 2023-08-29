@@ -7,7 +7,7 @@
 	
 	</select>
 	<insert id="insertImgFile" parameterType="ImgFileVO">
-		Insert 
+		Insert INTO 
 	</insert>
 	
 	<update id="updateImgFile">
