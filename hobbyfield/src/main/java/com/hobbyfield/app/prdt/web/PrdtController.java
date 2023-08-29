@@ -6,13 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.hobbyfield.app.common.PageMaker;
-import com.hobbyfield.app.common.SearchCriteria;
 import com.hobbyfield.app.csboard.service1.CSBoardVO;
 import com.hobbyfield.app.prdt.service.PrdtService;
 import com.hobbyfield.app.prdt.service.PrdtVO;
@@ -28,12 +25,8 @@ public class PrdtController {
 	
 	//상품목록조회
 	@GetMapping("prdtList")
-	public String prdtList(Model model, @ModelAttribute("scri") SearchCriteria scri) {
-		model.addAttribute("prdtList", prdtService.selectAllPrdt(scri));
-		PageMaker pageMaker = new PageMaker(); pageMaker.setCri(scri);
-		pageMaker.setTotalCount(prdtService.prdtCount(scri));
-		
-		model.addAttribute("pageMaker", pageMaker);
+	public String prdtList(Model model) {
+		model.addAttribute("prdtList", prdtService.selectAllPrdt());
 		return "prdt/prdtList";
 	}
 	
