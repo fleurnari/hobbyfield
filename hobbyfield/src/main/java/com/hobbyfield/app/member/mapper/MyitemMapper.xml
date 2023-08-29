@@ -16,7 +16,7 @@
 			SELECT NVL(MAX(point_id), 0) + 1
 			FROM MYITEM
 		</selectKey>
-		INSERT INTO MYITEM(
+		INSERT INTO MYITEM( 
 					POINT_PRICE
 					POINT_OPT_ID
 					POINT_NAME
