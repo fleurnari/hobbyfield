@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface MyitemService{
 	
-	public List<MyitemVO> selectMyItemAllList(String memberEmail);
+	public List<MyitemVO> selectMyItemAllList(MemberVO memberVO);
 	
 	// 포인트 차감 
 	public int decreasePoint(MyitemVO myitemVO);

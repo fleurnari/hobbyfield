@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,12 +24,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.hobbyfield.app.club.service.CreateclubService;
 import com.hobbyfield.app.member.service.MemberService;
 import com.hobbyfield.app.member.service.MemberVO;
 import com.hobbyfield.app.member.service.MyitemService;
+<<<<<<< HEAD
 import com.hobbyfield.app.member.service.MyitemVO;
+=======
+import com.hobbyfield.app.member.service.NaverLoginBO;
+>>>>>>> branch 'nari' of https://github.com/fleurnari/hobbyfield.git
 import com.hobbyfield.app.pointrecord.service.PointRecordService;
 import com.hobbyfield.app.pointrecord.service.PointRecordVO;
+import com.hobbyfield.app.prdt.service.PrdtService;
 import com.hobbyfield.app.security.CustomUser;
 
 @RequestMapping("/member/*")
@@ -46,7 +55,17 @@ public class MemberController {
 	
 	@Autowired
 	MyitemService myitemService;
+	
+	// NaverLoginBO
+	private NaverLoginBO naverLoginBO;
 
+	private String apiResult = null;
+	
+	@Autowired
+	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
+	    this.naverLoginBO = naverLoginBO;
+	}
+	
 	// 회원 가입 페이지
 	@GetMapping("/memberJoinSelect")
 	public String memberJoinSelect() {
@@ -103,9 +122,15 @@ public class MemberController {
 	@GetMapping("/login")
 		public String loginForm(@RequestParam(value = "error", required = false) String error,
 								@RequestParam(value = "exception", required = false) String exception,
-								Model model) {
+								Model model,
+								HttpSession session) {
 			model.addAttribute("error", error);
 			model.addAttribute("exception", exception);
+			
+			String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
+			System.out.println("네이버 : " + naverAuthUrl);
+			model.addAttribute("url", naverAuthUrl);
+			
 			return "member/login";
 		}
 	
@@ -129,12 +154,12 @@ public class MemberController {
 			
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 			
-			if ((member.getMemberLtstconn() == null) || !(dateFormat.format(new Date()).equals(dateFormat.format(member.getMemberLtstconn())))) {
-				memberService.updateMemberLtst(member);
-				memberService.updateMemberPnt(member);
+			if ((kakaoMember.getMemberLtstconn() == null) || !(dateFormat.format(new Date()).equals(dateFormat.format(kakaoMember.getMemberLtstconn())))) {
+				memberService.updateMemberLtst(kakaoMember);
+				memberService.updateMemberPnt(kakaoMember);
 				
 				PointRecordVO pointRecord = new PointRecordVO();
-				pointRecord.setMemberEmail(member.getMemberEmail());
+				pointRecord.setMemberEmail(kakaoMember.getMemberEmail());
 				pointRecordService.insertLoginPoint(pointRecord);
 				
 			}
@@ -147,6 +172,51 @@ public class MemberController {
 		}
 		
 	}
+	
+	// 네이버 로그인
+	@GetMapping("/naverLogin")
+	public String naverLogin(HttpServletRequest request, RedirectAttributes rttr, @RequestParam(value = "code", required = false) String code, @RequestParam String state) throws Exception {
+		HttpSession session = request.getSession();
+		OAuth2AccessToken access_Token = naverLoginBO.getAccessToken(session, code, state);
+		
+		apiResult = naverLoginBO.getUserProfile(access_Token);
+		
+	    ObjectMapper objectMapper = new ObjectMapper();
+	    Map<String, Object> apiJson = (Map<String, Object>) objectMapper.readValue(apiResult, Map.class).get("response");
+	    System.out.println("apiJson : " + apiJson);
+	    
+	    String naver_email = (String) apiJson.get("email");
+		
+		MemberVO member = new MemberVO();
+		member.setMemberEmail(naver_email);
+		MemberVO naverMember = memberService.loginMember(member);
+		
+		
+		if (naverMember != null) {
+			CustomUser user = new CustomUser(naverMember);
+			Collection<? extends GrantedAuthority> roles = user.getAuthorities();
+			Authentication auth = new UsernamePasswordAuthenticationToken(user, null, roles);
+			SecurityContextHolder.getContext().setAuthentication(auth);
+			
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+			
+			if ((naverMember.getMemberLtstconn() == null) || !(dateFormat.format(new Date()).equals(dateFormat.format(naverMember.getMemberLtstconn())))) {
+				memberService.updateMemberLtst(naverMember);
+				memberService.updateMemberPnt(naverMember);
+				
+				PointRecordVO pointRecord = new PointRecordVO();
+				pointRecord.setMemberEmail(naverMember.getMemberEmail());
+				pointRecordService.insertLoginPoint(pointRecord);
+				
+			}
+			session.setAttribute("member", naverMember);
+			return "home";
+			} else {
+				rttr.addFlashAttribute("result", 1);
+				return "redirect:/member/login";
+		}
+	}
+	
 	
 	// 마이페이지
 	@GetMapping("/myPage")
@@ -222,12 +292,104 @@ public class MemberController {
 		return "redirect:/member/login";
 	}
 	
-	// 마이아이템 전체조회
-	@GetMapping("myitemList")
-	public String getMyitemAllList(Model model, @RequestParam String memberEmail) {
-	    model.addAttribute("myitemList", myitemService.selectMyItemAllList(memberEmail));
-	    return "member/myitemList";
+	// 마이 페이지 - 나의 아이템 전체조회
+	@GetMapping("/myitemList")
+	public String getMyitemAllList(HttpSession session, Model model) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		model.addAttribute("myitemList", myitemService.selectMyItemAllList(member));
+		
+		return "member/myitemList";
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 마이 페이지 - 가입한 소모임 조회
+	@GetMapping("/selectJoinClub")
+	public String selectJoinClub(HttpSession session, Model model) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		model.addAttribute("clubList", memberService.selectJoinClub(member));
+		
+		return "member/selectJoinClub"; 
+		
+	}
+	
+	// 마이 페이지 - 기업회원의 판매 중인 상품 조회	
+	@GetMapping("/selectSellList")
+	public String selectSellList(HttpSession session, Model model) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		model.addAttribute("sellList", memberService.selectSellList(member));
+		
+		return "member/selectSellList";
+	}
+	
+	// 비밀번호 찾기 페이지 이동
+	@GetMapping("/findPwd")
+	public String findPwView() {
+		return "member/findPwdView";
+	}
+	
+	// 비밀번호 찾기 수행
+	@PostMapping("/findPwd")
+	public String findPw(MemberVO memberVO, Model model) throws Exception {
+		
+		if (memberService.findPwCheck(memberVO) == 0) {
+			model.addAttribute("msg", "이메일과 이름을 확인해 주세요.");
+			
+			return "member/findPwdView";
+		} else {
+			
+			memberService.findPw(memberVO.getMemberEmail(), memberVO.getMemberNm());
+			model.addAttribute("memberEmail", memberVO.getMemberEmail());
+			
+			return "member/findPwd";
+		}
+		
+	}
+	
+	
 
 	// 마이아이템 등록 - 구매
 	@PostMapping("myitemBuy")
