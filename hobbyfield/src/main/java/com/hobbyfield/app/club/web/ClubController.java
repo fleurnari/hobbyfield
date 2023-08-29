@@ -1,8 +1,11 @@
 package com.hobbyfield.app.club.web;
 
+
+
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,7 @@ import com.hobbyfield.app.club.service.CreateclubService;
 import com.hobbyfield.app.club.service.CreateclubVO;
 import com.hobbyfield.app.comm.mapper.CommCodeMapper;
 import com.hobbyfield.app.comm.service.CommCodeVO;
+import com.hobbyfield.app.member.mapper.MemberMapper;
 import com.hobbyfield.app.member.service.MemberVO;
 
 //0828 이선호 (소모임 관리)
@@ -49,16 +53,24 @@ public class ClubController {
 	CommCodeMapper commCodeMapper;
 	
 	@Autowired
+	MemberMapper membermapper;
+  
+  @Autowired
 	ClubJoinService clubJoinService;
+
 	
 	/*========= 소모임 조회관련 =========*/
 	// 소모임 전체조회
 	@GetMapping("clubList")
 	public String clubList(Model model) {
 		model.addAttribute("clubList", createClubService.getCreateClubList());
+		model.addAttribute("board", clubBoardService.getAllClubBoardList());
+		model.addAttribute("clubCategorie", commCodeMapper.clubTypeList("0C"));
+		
 		return "club/clubList";
 	}
 	
+
 	// 소모임 세부조회
 	@GetMapping("/clubInfo")
 	public String getClubInfo(@RequestParam String profileNickname, ClubJoinVO joinVO , Model model) {
@@ -232,6 +244,7 @@ public class ClubController {
 	    return clubprofileService.updateProfile(clubProfileVO);
 	}
 	
+
 	/*========= 게시글 =========*/
 	
 	// 소모임 메인페이지 이동(모든 소모임, 게시글 볼 수 있는 페이지);
@@ -244,13 +257,6 @@ public class ClubController {
 		return "club/clubMainPage";
 	}
 	
-	// 선택 소모임 메인페이지
-	@GetMapping("clubSelectMain")
-	public String selectClubMain(Model model, CreateclubVO clvo) {
-		// clubBoardService.getSelectClubBoardList(clvo);
-		
-		return "club/"; 
-	}
 	
 	// 소모임 게시글 생성
 	@GetMapping("clubBoardInsert")
@@ -266,25 +272,37 @@ public class ClubController {
 	
 	
 	@PostMapping("clubBoardInsert")
-	public String insertClubBoard(Model model,ClubBoardVO vo) {
-		List<ClubBoardVO> clubBoardList = clubBoardService.getAllClubBoardList();
-		model.addAttribute("boardList", clubBoardList);
+	public String insertClubBoard(Model model ,ClubBoardVO vo,CreateclubVO cvo) {
 		clubBoardService.insertClubBoard(vo);
+		List<ClubBoardVO> clubBoardList = clubBoardService.getSelectClubBoardList(cvo);
+		model.addAttribute("boardList", clubBoardList);
 		
 		return "club/clubBoardList";
 	}
 	
+	
+	// 해당소모임 게시물 보는 페이지
 	@GetMapping("clubBoardList")
-	public String clubBoardList(Model model) {
-		List<ClubBoardVO> clubBoardList = clubBoardService.getAllClubBoardList();
+	public String clubBoardList(Model model, CreateclubVO vo, HttpServletRequest request) {
+		List<ClubBoardVO> clubBoardList = clubBoardService.getSelectClubBoardList(vo);
 		model.addAttribute("boardList", clubBoardList);
-		
+		// 세션 객체 생성후 request의 session값 담기
+		HttpSession session = request.getSession();
+		// member객체 생성후 session 값을 member 객체에 담기 
+		MemberVO mvo = (MemberVO)session.getAttribute("member");
+		// 가져온 세션값을 토대로 자신의 프로필을 가져와서 오기
+		ClubProfileVO profile = clubprofileMapper.getSessionProfile(mvo.getMemberEmail(), vo.getClubNumber());
+		// 가져온 값을 세션에 담기
+		session.setAttribute("profile", profile);
+		session.setAttribute("clubNumber", vo.getClubNumber());
 		return "club/clubBoardList";
 	}
+	
 	
 	@GetMapping("clubBoardInfo")
 	public String clubBoardInfo(Model model,ClubBoardVO vo) {
 		model.addAttribute("board", clubBoardService.getClubBoardInfo(vo));	
+		
 		return "club/clubBoardInfo";
 	}
 	

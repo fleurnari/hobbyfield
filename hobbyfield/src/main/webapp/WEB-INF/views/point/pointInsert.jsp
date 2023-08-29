@@ -24,8 +24,9 @@ body {
 	display: none;
 }
 </style>
+
 <script type="text/javascript"
-	src="${pageContext.request.contextPath }/resources/js/common.js"></script>
+	src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 </head>
 <body>
 	<form action="pointInsert" class="pointInsert" method="post">
@@ -181,7 +182,8 @@ body {
 		function imgUploadHandler(list) {
 			$('#emojiFile').empty();
 			for (i = 0; i < list.length; i++) {
-				let tag = `<input type="hidden" name="emojiVO[\${i}].emojiImgName" value="\${list[i].UUID}"><input type="hidden" name="emojiVO[\${i}].emojiImgPath" value="\${list[i].url}">`
+				let tag = `<input type="hidden" name="emojiVO[\${i}].emojiImgName" value="\${list[i].UUID}">
+				<input type="hidden" name="emojiVO[\${i}].emojiImgPath" value="\${list[i].url}">`
 				$('#emojiFile').append(tag);
 			}
 		}

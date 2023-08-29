@@ -26,4 +26,7 @@ public interface ClubProfileService {
 	public Map<String, String> updateProfile(ClubProfileVO clubProfileVO);
 
 	
+	// 소모임에 맞는 프로필 가져오기
+	public ClubProfileVO insertSession();
+	
 }
