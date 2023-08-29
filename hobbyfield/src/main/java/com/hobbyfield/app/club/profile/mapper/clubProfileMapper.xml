@@ -4,31 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hobbyfield.app.club.profile.mapper.ClubProfileMapper"> 
 
-<!-- 프로필 이미지 등록 -->
-	<!-- 해당 유저의 아이디가 존재하는지 확인 -->
-<!-- 	<select id="checkMemberEmailExists" resultType="int"> -->
-<!--     SELECT COUNT(*) FROM member -->
-<!--     WHERE member_email = #{memberEmail} AND profile_nickname = #{profileNickname} -->
-<!-- 	</select> -->
-	
-<!-- 	<insert id="profileImg" parameterType="CreateclubVO"> -->
-<!-- 		INSERT INTO profile( -->
-<!-- 			profile_nickname -->
-<!-- 			,member_email -->
-<!-- 			,profile_img -->
-<!-- 			,profile_img_path -->
-			
-<!-- 		) -->
-<!-- 		VALUES( -->
-<!-- 			#{profileNickname} -->
-<!-- 			,#{memberEmail} -->
-<!-- 			,#{profileImg} -->
-<!-- 			,#{profileImgPath} -->
-<!-- 		) -->
-		
-<!-- 	</insert> -->
 	<!-- 프로필 등록 -->
-<!-- 	<insert id="insertProfile" parameterType="CreateclubVO"> -->
 	<insert id="insertProfile" parameterType="ClubProfileVO">
 		INSERT INTO profile(
 			PROFILE_NICKNAME 
@@ -73,16 +49,11 @@
 	<update id="updateProfile" parameterType="ClubProfileVO">
 		UPDATE profile
 		<set>
-			profile_nickname = #{profileNickname}
-			member_email = #{memberEmail}
 			profile_img = #{profileImg}
-			profile_img_path = #{profileImgPath}
+			,profile_img_path = #{profileImgPath}
 		</set>
 		WHERE profile_nickname = #{profileNickname}	
 	</update>
 	
-	
-	<!-- 해당 소모임 이동시  -->
-
 	
 </mapper>

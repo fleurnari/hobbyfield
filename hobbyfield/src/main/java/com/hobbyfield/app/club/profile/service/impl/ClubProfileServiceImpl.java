@@ -42,21 +42,37 @@ public class ClubProfileServiceImpl implements ClubProfileService {
 		return clubprofileMapper.nickChk(profileNickname);
 		}
 
+//	@Override
+//	public Map<String, String> updateProfile(ClubProfileVO clubProfileVO) {
+//		Map<String, String> map = new HashMap<>();
+//		map.put("닉네임", String.valueOf(clubProfileVO.getProfileNickname()));
+//		
+//		int result = clubprofileMapper.updateProfile(clubProfileVO);
+//		
+//		if(result > 0) {
+//			map.put("결과", "success");
+//		}else {
+//			map.put("결과", "fail");
+//		}
+//		
+//		return map;
+//	}
+	
+	//프로필 수정
 	@Override
 	public Map<String, String> updateProfile(ClubProfileVO clubProfileVO) {
-		Map<String, String> map = new HashMap<>();
-		map.put("닉네임", String.valueOf(clubProfileVO.getProfileNickname()));
-		
-		int result = clubprofileMapper.updateProfile(clubProfileVO);
-		
-		if(result > 0) {
-			map.put("결과", "success");
-		}else {
-			map.put("결과", "fail");
-		}
-		
-		return map;
+	    int updatedRows = clubprofileMapper.updateProfile(clubProfileVO);
+	    Map<String, String> result = new HashMap<>();
+	    if (updatedRows > 0) {
+	        result.put("status", "success");
+	        result.put("message", "Profile updated successfully.");
+	    } else {
+	        result.put("status", "fail");
+	        result.put("message", "No rows updated.");
+	    }
+	    return result;
 	}
+
 
 	@Override
 	public List<ClubProfileVO> getMyProfile(ClubProfileVO clubprofileVO) {

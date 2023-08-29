@@ -60,7 +60,7 @@
         <input type="text" id="memberEmail" value="${member.memberEmail}">
         <div id="clubContainer">
             <c:forEach items="${clubList}" var="club">
-                <div class="clubItem" onclick="">
+                <div class="clubItem" onclick="location.href='clubInfo?clubNumber=${club.clubNumber}&profileNickname=${club.profileNickname}'">
                     <img src="${club.clubImgPath}${club.clubImg}">
                     <div class="clubInfo">
                         <p>모임리더: ${club.profileNickname}</p>
@@ -77,14 +77,6 @@
     </div>
 </section>
 </body>
-<script type="text/javascript">
-	$('#clubContainer').on('click',function(e){
-		
-		
-		
-		var linkta
-	});
-	
 
-</script>
+
 </html>
