@@ -24,9 +24,8 @@ body {
 	display: none;
 }
 </style>
-<script type="text/javascript" src="resources/js/common.js">
-	
-</script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/resources/js/common.js"></script>
 </head>
 <body>
 	<form action="pointInsert" class="pointInsert" method="post">
@@ -56,25 +55,26 @@ body {
 		<div>
 			<h5>내용</h5>
 			<textarea id="pointContent" name="pointContent" required="required"
-				placeholder="내용을 입력하세요."></textarea>
+				cols="40" rows="5" placeholder="내용을 입력하세요."></textarea>
 		</div>
-		<div>
-			<h5>이미지 첨부</h5>
-			<input name="uploadFiles" id="pointImgName" type="file" multiple>
-		</div>
-		<div>
-			<h5>상품판매 마감일</h5>
-			<input type="date" id="pointEndterm" name="pointEndterm"
-				required="required">
-		</div>
+		<!-- 		<div> -->
+		<!-- 			<h5>이미지 첨부</h5> -->
+		<!-- 			<input name="uploadFiles" id="pointImgName" type="file" multiple> -->
+		<!-- 		</div> -->
+
 
 		<!-- 증원권 -->
-		<div class="capacity">
+		<div class="capacity mb-2">
+			<h5>가격</h5>
 			<input type="number" name="groupPrice">
 		</div>
 
 		<!-- 이모티콘 -->
 		<div class="emoji">
+			<div>
+				<h5>상품판매 마감일</h5>
+				<input type="date" id="pointEndterm" name="pointEndterm">
+			</div>
 			<div>
 				7일<input type="hidden" name="pointOptionVO[0].pointPeriod" value="7"><span><input
 					type="text" name="pointOptionVO[0].pointPrice"></span>
@@ -96,17 +96,17 @@ body {
 			</div>
 		</div>
 
-
-		<input type="file" name="uploadFile"
-			multiple="multiple">
-		<button type="button" id="uploadBtn">upload</button>
-
+		<div class="mb-2">
+			<input type="file" name="uploadFile" multiple="multiple">
+			<button type="button" id="uploadBtn">upload</button>
+		</div>
+		
 		<div class="buttonGroup">
 			<button type="submit">등록</button>
 			<button type="button" onclick="location.href='pointList'">목록</button>
 			<button type="reset" onclick="location.href='pointInsert'">초기화</button>
 		</div>
-		<div id="emojiFile"> </div>
+		<div id="emojiFile"></div>
 	</form>
 	<div id="preview"></div>
 
@@ -185,7 +185,6 @@ body {
 				$('#emojiFile').append(tag);
 			}
 		}
-		
 	</script>
 </body>
 </html>

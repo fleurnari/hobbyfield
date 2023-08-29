@@ -11,24 +11,28 @@ import com.hobbyfield.app.member.service.MyitemService;
 import com.hobbyfield.app.member.service.MyitemVO;
 
 @Service
-public class MyitemServiceImpl implements MyitemService{
+public class MyitemServiceImpl implements MyitemService {
 
 	@Autowired
 	MyitemMapper myitemMapper;
 
+	// 마이아이템 전체조회
 	@Override
 	public List<MyitemVO> selectMyItemAllList(MemberVO memberVO) {
-		
+
 		return myitemMapper.selectMyItemAllList(memberVO);
 	}
-	
-	// 마이아이템 전체조회
 
-//	// 마이아이템 저장
-//	@Override
-//	public int getInsertMyitem(MyitemVO myitemVO) {
-//		return "0;
-//	}
+	// 포인트 차감
+	@Override
+	public int decreasePoint(MyitemVO myitemVO) {
+		return myitemMapper.decreasePoint(myitemVO);
+	}
 
+	// 구매내역에 등록
+	@Override
+	public int insertMyitem(MyitemVO myitemVO) {
+		return myitemMapper.insertMyitem(myitemVO);
+	}
 
 }

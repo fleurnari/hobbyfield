@@ -26,14 +26,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.hobbyfield.app.club.service.CreateclubService;
 import com.hobbyfield.app.member.service.MemberService;
 import com.hobbyfield.app.member.service.MemberVO;
 import com.hobbyfield.app.member.service.MyitemService;
+import com.hobbyfield.app.member.service.MyitemVO;
 import com.hobbyfield.app.member.service.NaverLoginBO;
+//github.com/fleurnari/hobbyfield.git
 import com.hobbyfield.app.pointrecord.service.PointRecordService;
 import com.hobbyfield.app.pointrecord.service.PointRecordVO;
-import com.hobbyfield.app.prdt.service.PrdtService;
 import com.hobbyfield.app.security.CustomUser;
 
 @RequestMapping("/member/*")
@@ -258,11 +258,9 @@ public class MemberController {
 		if (memberVO == null || !pwEncoder.matches(memberVO.getMemberPwd(), memberPwd)) {
 			return 0;
 		}
-		
 		return 1;
 	}
 
-	
 	
 	// 비밀번호 수정 수행
 	@PostMapping("/memberPwdUpdate")
@@ -298,51 +296,7 @@ public class MemberController {
 		
 		return "member/myitemList";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	// 마이 페이지 - 가입한 소모임 조회
 	@GetMapping("/selectJoinClub")
@@ -389,4 +343,25 @@ public class MemberController {
 	
 	
 
+	// 마이아이템 등록 - 구매
+	@PostMapping("myitemBuy")
+	public String MyitemBuy(HttpSession session, MyitemVO myitemVO){
+		
+		//현재 로그인한 사용자 memberEmail
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		myitemVO.setMemberEmail(member.getMemberEmail());
+		
+		//포인트 차감
+		myitemService.decreasePoint(myitemVO);
+		
+		//구매내역 등록
+		myitemService.insertMyitem(myitemVO);
+		return "member/myitemList";
+	}
+	
+	
+	
+	
+		
 }
+	
