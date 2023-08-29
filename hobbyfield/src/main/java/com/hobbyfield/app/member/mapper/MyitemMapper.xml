@@ -5,18 +5,21 @@
 
 	<!-- 나의아이템 전체조회 -->
 	<select id="selectMyItemAllList" parameterType="com.hobbyfield.app.member.service.MemberVO" resultType="MyitemVO">
-		SELECT myitem_id,
-			   point_id,
-			   point_opt_id,
-			   point_name,
-			   FIND_CODE_NM(point_item_type) AS point_item_type,
-			   point_price,
-			   myitem_purcdt,
-			   point_img_name,
-			   point_img_path,
-			   myitem_useterm
-		FROM myitem
-		WHERE member_email = #{memberEmail}
+		SELECT m.myitem_id,
+			   m.point_id,
+			   p.point_name,
+			   FIND_CODE_NM(m.point_item_type) AS point_item_type,
+			   m.myitem_purcdt,
+			   p.point_img_name,
+			   p.point_img_path,
+			   m.myitem_useterm
+			   
+		FROM myitem m
+		
+		JOIN point p
+		  ON m.point_id = p.point_id
+		
+		WHERE m.member_email = #{memberEmail}
 	</select>
 	
 	

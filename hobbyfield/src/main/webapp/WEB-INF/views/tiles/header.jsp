@@ -66,10 +66,13 @@
 			dataType : "json",
 	        success : function(data){
 	         	var a='';
-	         	 $.each(data, function(key, value){ 
+	         	 $.each(data, function(key, value){
+	 	         	var pushDatetime = new Date(value.pushDatetime);
+		         	var formattedDate = pushDatetime.getFullYear() + '-' + ('0' + (pushDatetime.getMonth() + 1)).slice(-2) + '-' + ('0' + pushDatetime.getDate()).slice(-2);
 	         		a += '<div>';
-					a += '<div class="small text-gray-500">'+ value.pushDatetime +'</div>';
-					a += '<span class="font-weight-bold"><a href="#"  onclick="deletePush(' + value.pushId + ');">'+ value.pushCntn +  '</a></span>';
+					a += '<div class="small text-gray-500">'+ formattedDate +'</div>';
+					a += '<span class="font-weight-bold"><a href="' + value.pushUrl + '">' + value.pushCntn + '</a></span>';
+					a += '<img src="${pageContext.request.contextPath}/resources/img/close.png" width="30px" onclick="deletePush(' + value.pushId + ', this);">';
 					a += '</div><hr/>';	
 					
 	         		 
@@ -92,13 +95,14 @@
   //목록 끝
 
   //알림 삭제
-  function deletePush(pushId){
+  function deletePush(pushId, element){
   	 $.ajax({
   	        url : '${pageContext.request.contextPath}/push/deletePush',
   	        type : 'post',
   	        data : {'pushId' : pushId},
   	        dataType : "json",
   	        success : function(){
+  	        	 $(element).parent('div').remove();
 
   	        }
   	    });

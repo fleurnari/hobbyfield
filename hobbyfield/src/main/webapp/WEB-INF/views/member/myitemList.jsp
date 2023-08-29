@@ -92,7 +92,6 @@
 							<th align="center" width="150">이미지</th>
 							<th align="center" width="150">아이템 이름</th>
 							<th align="center" width="150">아이템 유형</th>
-							<th align="center" width="150">가격</th>
 							<th align="center" width="150">구매 일자</th>
 							<th align="center" width="150">사용 기간</th>
 						</tr>
@@ -103,7 +102,6 @@
 								<td><img src="${myitem.pointImgPath}${myitem.pointImgName}"></td>
 								<td>${myitem.pointName}</td>
 								<td>${myitem.pointItemType}</td>
-								<td>${myitem.pointPrice} P</td>
 								<td><fmt:formatDate value="${myitem.myitemPurcdt}" pattern="yyyy-MM-dd"/></td>
 								<c:choose>
 								<c:when test="${myitem.myitemUseterm ne 0}">
