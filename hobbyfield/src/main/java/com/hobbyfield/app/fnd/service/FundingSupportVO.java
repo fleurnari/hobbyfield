@@ -42,12 +42,4 @@ public class FundingSupportVO {
 	private String fndPayType;
 	//배송일자
 	private String fndShipdt;
-	//
-	private String fndGoodsName;
-	private Integer fndGoodsPrice;
-	private String fndMainImg;
-	private String fndCategory;
-	private String fndTitle;
-	private Integer fndStatus;
-	private String fndEndDate;
 }

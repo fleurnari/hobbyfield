@@ -23,7 +23,6 @@
 			<button id="uploadBtn">upload</button>
 			<div id="preview">
 			</div>
-			
 		</div>
 	</div>
 	
@@ -31,12 +30,10 @@
 	
 	
 	function imgUploadHandler(list) {
-		$('#preview').empty();
+		$('#emojiFile').empty();
 		for (i = 0; i < list.length; i++) {
-			let tag = `<input type="text" name="emojiVO[\${i}].emojiImgName" value="\${list[i].UUID}">
-			<input type="text" name="emojiVO[\${i}].emojiImgPath" value="\${list[i].url}">
-			<img src="\${list[i].url}\${list[i].UUID}">`
-			$('#preview').append(tag);
+			let tag = `<input type="text" name="emojiVO[\${i}].emojiImgName" value="\${list[i].UUID}"><input type="text" name="emojiVO[\${i}].emojiImgPath" value="\${list[i].url}">`
+			$('#im').append(tag);
 		}
 		
 		if(regex.test(fileName)){
@@ -73,8 +70,8 @@
 							var preview = document.getElementById("preview");
 							var imgTag = document.createElement("img");
 							imgTag.src = mv.url+ mv.UUID; 
-							imgTag.style.width=50+'px';
-							imgTag.style.height=50'px';							
+							imgTag.style.width=200+'px';
+							imgTag.style.height=200+'px';							
 							preview.appendChild(imgTag);							
 						}
 

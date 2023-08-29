@@ -42,7 +42,6 @@ public class FundingPostServiceImpl implements FundingPostService {
 	@Override
 	public int updateFundingPostInfo(FundingPostVO fundingPostVO) {
 		int result = fundingPostMapper.updateFundingPost(fundingPostVO);
-		System.out.println(result);
 		
 		if (result == 1) {
 			return fundingPostVO.getFndPostNumber();
@@ -51,7 +50,7 @@ public class FundingPostServiceImpl implements FundingPostService {
 		}
 	}
 	
-	//조회수 업데이트
+
 	@Override
 	public int updateFundingPostViews(FundingPostVO fundingPostVO) {
 		return fundingPostMapper.FundingPostViewsCount(fundingPostVO);

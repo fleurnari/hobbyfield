@@ -23,18 +23,6 @@ public class CreateclubServiceImpl implements CreateclubService {
 		return createclubMapper.selectClubAllList();
 	}
 	
-	//내가만든 소모임조회
-	@Override
-	public List<CreateclubVO> getMyClubList() {
-		return createclubMapper.selectClubMyList();
-	}
-	
-	//소모임 세부조회
-	@Override
-	public CreateclubVO getClub(CreateclubVO createclubVO) {
-		return createclubMapper.selectClubInfo(createclubVO);
-	}
-	
 	
 	//소모임 등록
 	@Override
@@ -50,25 +38,20 @@ public class CreateclubServiceImpl implements CreateclubService {
 	}
 	
 	//소모임 수정
-//	@Override
-//	public Map<String, String> updateClub(CreateclubVO createclubVO) {
-//		Map<String, String> map = new HashMap<>();
-//		map.put("소모임이름", String.valueOf(createclubVO.getClubName()));
-//		
-//		int result = createclubMapper.updateClub(createclubVO);
-//		
-//		if(result > 0) {
-//			map.put("결과", "Success");
-//		}else {
-//			map.put("결과", "Fail");
-//		}
-//		return map;
-//	}
 	@Override
-	public void updateClub(CreateclubVO createclubVO) {
-		createclubMapper.updateClub(createclubVO);
+	public Map<String, String> updateClub(CreateclubVO createclubVO) {
+		Map<String, String> map = new HashMap<>();
+		map.put("소모임이름", String.valueOf(createclubVO.getClubName()));
+		
+		int result = createclubMapper.updateClub(createclubVO);
+		
+		if(result > 0) {
+			map.put("결과", "Success");
+		}else {
+			map.put("결과", "Fail");
+		}
+		return map;
 	}
-	
 
 	//모임 이름 중복체크 
 	@Override
@@ -83,10 +66,5 @@ public class CreateclubServiceImpl implements CreateclubService {
 		return null;
 	}
 
-	
-
-	
-
-	
 	
 }

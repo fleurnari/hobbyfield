@@ -7,66 +7,22 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
-.container2{
-display:flex;
-justify-content:space-between;
-flex-wrap:wrap;
-}
-.option-box {
-	width: 400px; /* 옵션창을 더 길게 만들기 */
-	margin: 10px; /* 간격을 주기 위한 margin 추가 */
-	padding: 10px;
-	border: 1px solid #ccc;
-	text-align: center;
-	cursor: pointer;
-	transition: background-color 0.3s;
-	border-radius: 10px; /* 모서리 둥글게 설정 */
-}
-
-.option-box:hover {
-	background-color: #f0f0f0;
-}
-
-.option-name {
-	font-weight: bold;
-	margin-top: 10px;
-}
-
-.option-description, .option-details {
-	display: none;
-	margin-top: 10px; /* 조금 더 큰 간격 */
-}
-
-.option-box.active .option-description, .option-box.active .option-details
-	{
-	display: block;
-}
-</style>
 </head>
 <body>
-<Section>
-	<div class="container">
-			<h4>작성중인 프로젝트가 있습니다<a style="color: red">*</a></h4>
+
+	<section>
+	<%-- <div class="container">
 		<div class="container2">
 			<c:forEach items="${fundingPostList }" var="fundingPost">
-				<c:if test="${fundingPost.fndStatus eq '0' }">
-				<div>
-				<div class="option-box">
-					<div class="col-sm-6">
-						<div class="mb-2">
-							<p class="option-name">${fundingPost.fndTitle }</p>
-							<button type="button" class="btn btn-dark" onclick="location.href='fundingPostInsert20?fndPostNumber=${fundingPost.fndPostNumber }'">이어서 작성 -></button>
-						</div>
-					</div>
-				</div>
-				</div>
-				</c:if>
-			</c:forEach>
-		</div>
+			<div onclick="location.href='fundingPostInsert?fndPostNumber=${fundingPost.fndPostNumber }'">
+			<p>
+					<span><h3>프로젝트 이름</h3></span>
+					<span>${fundingPost.fndTitle }</span>
+				</p>
+			</div>
+		</c:forEach>
 	</div>
-</Section>
-	<section>
+	</div> --%>
 		<div class="container">
 			<div class="text-center">
 				<form id="frm" name="insertPostForm" action="fundingPostInsert" method="post">

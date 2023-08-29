@@ -20,7 +20,7 @@ public class BoardVoteVO {
 //	VOTE_COUNT                NUMBER(3) 
 	private Integer voteNumber; 
 	private String profileNickName;
-	private Integer boardNumber; 
+	private Integer clubNumber; 
 	private String voteSubject;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date voteDate;    

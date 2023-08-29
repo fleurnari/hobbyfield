@@ -8,26 +8,18 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
-
-import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.hobbyfield.app.club.service.CreateclubVO;
-import com.hobbyfield.app.common.MailUtils;
-import com.hobbyfield.app.common.TempKey;
+
 import com.hobbyfield.app.member.mapper.MemberMapper;
 import com.hobbyfield.app.member.service.MemberService;
 import com.hobbyfield.app.member.service.MemberVO;
-import com.hobbyfield.app.prdt.service.PrdtVO;
 
 
 @Service
@@ -39,9 +31,6 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Value("${key.KAKAO}")
 	private String kakaoKey;
-	
-	@Inject
-	private JavaMailSender mailSender;
 	
 	@Override
 	public int insertMember(MemberVO memberVO) {
@@ -94,7 +83,7 @@ public class MemberServiceImpl implements MemberService{
 			sb.append("grant_type=authorization_code");
             
 			sb.append("&client_id=" + kakaoKey); //본인이 발급받은 key
-			sb.append("&redirect_uri=http://localhost/app/member/kakaoLogin"); // 본인이 설정한 주소
+			sb.append("&redirect_uri=http://localhost/app/kakaoLogin"); // 본인이 설정한 주소
             
 			sb.append("&code=" + authorize_code);
 			bw.write(sb.toString());
@@ -202,41 +191,6 @@ public class MemberServiceImpl implements MemberService{
 		memberMapper.deleteMember(memberEmail);
 	}
 
-	@Override
-	public List<CreateclubVO> selectJoinClub(MemberVO memberVO) {
-
-		return memberMapper.selectJoinClub(memberVO);
-	}
-
-	@Override
-	public List<PrdtVO> selectSellList(MemberVO memberVO) {
-
-		return memberMapper.selectSellList(memberVO);
-	}
-
-	@Override
-	public int findPwCheck(MemberVO memberVO) throws Exception {
-
-		return memberMapper.findPwCheck(memberVO);
-	}
 
 
-	@Override
-	public void findPw(String memberEmail, String memberNm) throws Exception {
-		String memberKey = new TempKey().getKey(6, false);
-		String memberPwd = BCrypt.hashpw(memberKey, BCrypt.gensalt());
-		memberMapper.findPw(memberEmail, memberNm, memberPwd);
-		MailUtils sendMail = new MailUtils(mailSender);
-		sendMail.setSubject("HobbyField 임시 비밀번호입니다.");
-		sendMail.setText(
-				"<h1>임시 비밀번호 발급</h1>" +
-				"<br />" + memberNm + "님" +
-				"<br />임시 비밀번호 :  <h2>" + memberKey + "</h2>" +
-				"<br /> 로그인 후 비밀번호 변경을 해 주세요." +
-				"<a href='http://localhost/app/member/login" +
-				"> 로그인 페이지 </a>");
-		sendMail.setFrom("fleurnari2@gmail.com", "HobbyField");
-		sendMail.setTo(memberEmail);
-		sendMail.send();
-	}
 }

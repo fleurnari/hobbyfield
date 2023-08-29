@@ -10,18 +10,13 @@ public interface CreateclubService {
 	//소모임 전체조회
 	public List<CreateclubVO> getCreateClubList();
 	
-	//내가만든 소모임 조회
-	public List<CreateclubVO> getMyClubList();
-	
 	//소모임 세부조회
-	public CreateclubVO getClub(CreateclubVO createclubVO);
 	
 	//소모임 등록
 	public int insertClubInfo(CreateclubVO createclubVO);
 	
 	//소모임 수정
-//	public Map<String, String> updateClub(CreateclubVO createclubVO);
-	public void updateClub(CreateclubVO createclubVO);
+	public Map<String, String> updateClub(CreateclubVO createclubVO);
 	
 	//소모임 삭제?
 	

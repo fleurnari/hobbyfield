@@ -13,107 +13,6 @@
 		float: left;
 		padding: 6px;
 	}
-	
-	/* 기본 스타일 */
-	body {
-	  font-family: Arial, sans-serif;
-	  margin: 0;
-	  padding: 0;
-	}
-	
-	.container-lg {
-	  max-width: 1200px;
-	  margin: 0 auto;
-	  padding: 0 15px;
-	}
-	
-	/* 섹션 스타일 */
-	.section {
-	  padding: 30px 0;
-	}
-	
-	.text-center {
-	  text-align: center;
-	}
-	
-	/* 테이블 스타일 */
-	table {
-	  width: 100%;
-	  border-collapse: collapse;
-	  margin-top: 20px;
-	}
-	
-	th, td {
-	  border: 1px solid #ccc;
-	  padding: 10px;
-	  text-align: center;
-	}
-	
-	/* 검색 영역 스타일 */
-	.search {
-	  margin-top: 20px;
-	  display: flex;
-	  align-items: center;
-	}
-	
-	.search select,
-	.search input[type="text"],
-	.search button {
-	  height: 30px;
-	  padding: 0 10px;
-	  font-size: 14px;
-	}
-	
-	.search select,
-	.search input[type="text"] {
-	  border: 1px solid #ccc;
-	  border-radius: 5px;
-	  margin-right: 10px;
-	}
-	
-	.search button {
-	  background-color: #6AAFE6;
-	  color: white;
-	  border: none;
-	  border-radius: 5px;
-	  cursor: pointer;
-	}
-	
-	/* 페이지 링크 스타일 */
-	ul.pagination {
-	  margin-top: 20px;
-	  list-style: none;
-	  display: flex;
-	  justify-content: center;
-	}
-	
-	.pagination li {
-	  margin: 0 5px;
-	}
-	
-	.pagination li a {
-	  padding: 5px 10px;
-	  background-color: #6AAFE6;
-	  color: white;
-	  text-decoration: none;
-	  border-radius: 5px;
-	}
-	
-	.pagination li a:hover {
-	  background-color: #578fc6;
-	}
-	
-	/* 박스 스타일 */
-	#box {
-	  display: flex;
-	  justify-content: center;
-	  align-items: flex-start;
-	}
-	
-	#box > div {
-	  margin-right: 20px;
-	}
-	
 </style>
 </head>
 <body>
@@ -124,10 +23,6 @@
              <h1 class="text-center lh-sm fs-lg-6 fs-xxl-7">기업 회원 승인</h1>
            </div>
          </div>
-        <div id="box">
-         	<div>
-         		<jsp:include page="adminPageMenu.jsp"></jsp:include>
-         	</div>
 		 <div>
 		 		<table>
 					<thead>
@@ -187,7 +82,6 @@
 				  </ul>
 				</div>
 			</div>
-       </div>
        </div>
      </section>
 </body>

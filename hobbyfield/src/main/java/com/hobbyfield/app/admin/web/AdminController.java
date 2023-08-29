@@ -25,6 +25,12 @@ public class AdminController {
 	@Autowired
 	CommCodeMapper codeMapper;
 	
+	// 관리자 페이지
+	@GetMapping("/adminPage")
+	public String adminPage() {
+		return "admin/adminPage";
+	}
+	
 	// 전체 회원 조회
 	@GetMapping("/memberList")
 	public String selectMemberList(Model model, @ModelAttribute("scri") SearchCriteria scri) {

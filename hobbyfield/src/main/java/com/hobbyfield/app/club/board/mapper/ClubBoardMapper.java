@@ -3,7 +3,6 @@ package com.hobbyfield.app.club.board.mapper;
 import java.util.List;
 
 import com.hobbyfield.app.club.board.service.ClubBoardVO;
-import com.hobbyfield.app.club.service.CreateclubVO;
 
 public interface ClubBoardMapper {
 	
@@ -11,7 +10,7 @@ public interface ClubBoardMapper {
 	public List<ClubBoardVO> getAllClubBoardList();
 	
 	// 전체조회(로그인한 프로필의 가입된소모임 게시글만 가져오게 매개변수)
-	public List<ClubBoardVO> getSelectClubBoardList(CreateclubVO vo);
+	public List<ClubBoardVO> getSelectClubBoardList(ClubBoardVO vo);
 	
 	// 단건조회
 	public ClubBoardVO getClubBoardInfo(ClubBoardVO vo);
