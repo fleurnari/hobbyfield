@@ -34,7 +34,7 @@ flex-wrap:wrap;
               <span class="nav-item px-2"><a class="nav-link fw-bold" href="#">인기</a></span>
               <span class="nav-item px-2"><a class="nav-link fw-bold" href="#">마감임박</a></span>
               <span class="nav-item px-2"><a class="nav-link fw-bold" href="#">공지사항</a></span>
-              <span class="nav-item px-2"><a class="nav-link fw-bold" href="#">후원현황</a></span>
+              <span class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/fundingSupportList">후원현황</a></span>
               <span class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/fundingPostInsertForm">프로젝트만들기</a></span>
             </div>
         </div>
@@ -59,7 +59,7 @@ flex-wrap:wrap;
 					<span>${fundingPost.fndStatus}</span>
 				</p>
 				<p>
-					<span>000%</span>
+					<span>000%</span><span>        조회수: ${fundingPost.fndViews }</span>
 				</p>
 				<p>
 					<span>${fundingPost.fndCurrentAmount }</span>
