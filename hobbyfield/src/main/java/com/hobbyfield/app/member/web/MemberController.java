@@ -26,18 +26,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.hobbyfield.app.club.service.CreateclubService;
 import com.hobbyfield.app.member.service.MemberService;
 import com.hobbyfield.app.member.service.MemberVO;
 import com.hobbyfield.app.member.service.MyitemService;
-<<<<<<< HEAD
 import com.hobbyfield.app.member.service.MyitemVO;
-=======
 import com.hobbyfield.app.member.service.NaverLoginBO;
->>>>>>> branch 'nari' of https://github.com/fleurnari/hobbyfield.git
+//github.com/fleurnari/hobbyfield.git
 import com.hobbyfield.app.pointrecord.service.PointRecordService;
 import com.hobbyfield.app.pointrecord.service.PointRecordVO;
-import com.hobbyfield.app.prdt.service.PrdtService;
 import com.hobbyfield.app.security.CustomUser;
 
 @RequestMapping("/member/*")
@@ -300,51 +296,7 @@ public class MemberController {
 		
 		return "member/myitemList";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	// 마이 페이지 - 가입한 소모임 조회
 	@GetMapping("/selectJoinClub")
