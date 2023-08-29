@@ -2,6 +2,8 @@ package com.hobbyfield.app.club.board.service;
 
 import java.util.List;
 
+import com.hobbyfield.app.club.service.CreateclubVO;
+
 public interface ClubBoardService {
 	
 	// 전체조회(전체 소모임 게시글 조회)
@@ -9,7 +11,7 @@ public interface ClubBoardService {
 	
 	
 	// 소모임 상세보기 들어가서 원하는 소모임만 보기(매개변수)
-	public List<ClubBoardVO> getSelectClubBoardList(ClubBoardVO vo);
+	public List<ClubBoardVO> getSelectClubBoardList(CreateclubVO vo);
 	
 	
 	// 단건조회

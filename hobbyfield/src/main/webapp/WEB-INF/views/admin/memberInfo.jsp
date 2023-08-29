@@ -7,6 +7,105 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	/* 기본 스타일 */
+	body {
+	  font-family: Arial, sans-serif;
+	  margin: 0;
+	  padding: 0;
+	  background-color: #f5f5f5;
+	}
+	
+	/* 섹션 스타일 */
+	.bg-100 {
+	  background-color: #fff;
+	  padding: 30px 0;
+	}
+	
+	/* 컨테이너 스타일 */
+	.container-lg {
+	  max-width: 1200px;
+	  margin: 0 auto;
+	  padding: 0 15px;
+	}
+	
+	/* 테이블 스타일 */
+	table {
+	  width: 100%;
+	  border-collapse: collapse;
+	  margin-bottom: 20px;
+	  background-color: white;
+	  border: 1px solid #ccc;
+	}
+	
+	th, td {
+	  padding: 10px;
+	  border: 1px solid #ccc;
+	  text-align: left;
+	}
+	
+	/* 버튼 스타일 */
+	button {
+	  padding: 10px 20px;
+	  font-size: 16px;
+	  background-color: #6AAFE6;
+	  color: white;
+	  border: none;
+	  cursor: pointer;
+	}
+	
+	button:hover {
+	  background-color: #4C8EDB;
+	}
+	
+	/* 정렬 및 내용 중앙 정렬 */
+	.text-center {
+	  text-align: center;
+	}
+	
+	/* 간격 및 마진 스타일 */
+	.py-7 {
+	  padding-top: 50px;
+	  padding-bottom: 50px;
+	}
+	
+	.mt-20 {
+	  margin-top: 20px;
+	}
+	
+	/* 가운데 정렬 스타일 */
+	#adminMenu {
+	  text-align: center;
+	}
+	
+	/* 메뉴 스타일 */
+	.menu {
+	  margin-bottom: 10px;
+	}
+	
+	.menu a {
+	  display: block;
+	  padding: 10px;
+	  color: #333;
+	  text-decoration: none;
+	}
+	
+	.menu a:hover {
+	  background-color: #6AAFE6;
+	  color: white;
+	}
+	
+	/* 박스 스타일 */
+	#box {
+	  display: flex;
+	  justify-content: center;
+	  align-items: flex-start;
+	}
+	
+	#box > div {
+	  margin-right: 20px;
+	}
+</style>
 </head>
 <body>
 	   <section class="bg-100 py-7" id="packages">
@@ -16,6 +115,10 @@
               <h1 class="text-center lh-sm fs-lg-6 fs-xxl-7">회원 상세 조회</h1>
             </div>
          </div>
+         <div id="box">
+         	<div>
+         		<jsp:include page="adminPageMenu.jsp"></jsp:include>
+         	</div>
 			<div align="center">
 				<form method="post">
 					<input type="hidden" id="memberEmail" name="memberEmail" value="${memberInfo.memberEmail}">
@@ -68,7 +171,14 @@
 						</tr>				
 						<tr>
 							<th>최근 접속일</th>
-								<td><fmt:formatDate value="${memberInfo.memberLtstconn}" pattern="yyyy-MM-dd"/> </td>
+								<c:choose>
+									<c:when test="${memberInfo.memberLtstconn ne null}">
+										<td><fmt:formatDate value="${memberInfo.memberLtstconn}" pattern="yyyy-MM-dd"/></td>
+									</c:when>
+									<c:otherwise>
+										<td>미접속</td>
+									</c:otherwise>
+								</c:choose>
 						</tr>
 						<c:if test="${memberInfo.memberGrd eq 'A2' && memberInfo.memberComaccp ne 'AJ2'}">
 							<tr>
@@ -100,6 +210,7 @@
 				</form>
 			</div>
        </div>
+      </div>
     </section>
     <script>
 	  	$('#memUpdate').on('click', function(e){
@@ -125,27 +236,28 @@
 	  		return false;
 	  	});
 	  	
-	  	$('#memDelete').on('click', function(e){
-	  		
-	  		let objData = serializeObject();
-	  		
-	  		$.ajax({
-	  			url : 'forcedDeleteMember',
-	  			method : 'POST',
-	  			data : objData
-	  		})
-	  		.done(data => {
-	  			if (data){
-	  				alert("강제 탈퇴 처리를 완료 했습니다.");
-	  				$('form').submit;
-	  			} else {
-	  				alert("강제 탈퇴 처리에 실패 했습니다.");
-	  				return;
-	  			}
-	  		})
-	  		.fail(reject => console.log(reject));
-	  		
-	  		return false;
+	  	$('#memDelete').on('click', function(e) {
+	  	  let objData = serializeObject();
+
+	  	  if (confirm("해당 회원을 강제 탈퇴 처리 하시겠습니까?")) {
+	  	    $.ajax({
+	  	      url: 'forcedDeleteMember',
+	  	      method: 'POST',
+	  	      data: objData
+	  	    })
+	  	    .done(data => {
+	  	      if (data) {
+	  	        alert("강제 탈퇴 처리를 완료 했습니다.");
+	  	        $('form').submit;
+	  	      } else {
+	  	        alert("강제 탈퇴 처리에 실패 했습니다.");
+	  	        return;
+	  	      }
+	  	    })
+	  	    .fail(reject => console.log(reject));
+	  	  }
+
+	  	  return false;
 	  	});
 	  	
 		function serializeObject(){
