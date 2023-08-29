@@ -16,6 +16,8 @@
 			<h2>소모임 정보</h2>		
 		</div>
 		<div>
+			<input type="hidden" name="clubNumber" class="clubNumber" value="${profile.clubNumber }">
+			<input type="hidden" name="clubProfile" class="clubProfile" value="${profile.clubProfile }">
 <!-- 			<div><label>닉네임 선택</label> -->
 <!-- 			<input list="profileSelect" id="profile" name="profileNickname" autocomplete="off" /> -->
 <!-- 			<datalist id="profileSelect"> -->
@@ -71,11 +73,11 @@
 				</select><br>
 			</div>
 			
-<!-- 			<div> -->
-<!-- 				<label>공개여부 : </label> -->
-<!-- 				<input type="radio" name="clubPublic" value="P" checked="checked"/>공개 -->
-<!-- 				<input type="radio" name="clubPublic" value="S" />비공개 -->
-<!-- 			</div> -->
+			<div>
+				<label>공개여부 : </label>
+				<input type="radio" name="clubPublic" value="${profile.clubPublic }" readonly />공개
+				
+			</div>
 			
 			<div>
 				<label>질문1</label>
@@ -93,7 +95,7 @@
 			
 			<!-- 소모임 정원 default값 50 -->
 			<div class="join_button_wrap">
-				<button type="submit" class="join_button">수정하기하기</button>
+				<button type="submit" class="join_button">수정하기</button>
 			</div>
 		</div>
 </form>
@@ -109,35 +111,35 @@
 	var clubNameCheck = false; //모임이름 
 	var clubnameChk = false; //모임이름 중복체크
 	
-$(document).ready(function(){
-	//모임생성 버튼(모임생성 기능 작동)
-	$(".join_button").on("click", function() {
-		
-		//입력값 변수
-		var club = $('.club_input').val(); //소모임 이름 입력란 
-		
-		/* 모임이름 유효성 검사*/
-		if(clubName == ""){
-			$('.final_club_ck').css('display', 'block');
-			clubnameChk = false;
-		}else{
-			$('.final_club_ck').css('display', 'none');	
-			clubnameChk = true;
-		}
-		
-		/* 최종 유효성 검사를 진행하고 form에 말아서 전달 */
-		if(clubName&&clubnameCheck){
-		
-        $("#join_form").submit();
+	$(document).ready(function(){
+		//모임생성 버튼(모임수정 기능 작동)
+		$(".join_button").on("click", function() {
 			
-		}
-		
-		return false;
-	});
-});	
+			//입력값 변수
+			var club = $('.club_input').val(); //소모임 이름 입력란 
+			
+			/* 모임이름 유효성 검사*/
+			if(clubName == ""){
+				$('.final_club_ck').css('display', 'block');
+				clubnameChk = false;
+			}else{
+				$('.final_club_ck').css('display', 'none');	
+				clubnameChk = true;
+			}
+			
+			/* 최종 유효성 검사를 진행하고 form에 말아서 전달 */
+			if(clubName&&clubnameCheck){
+			
+	        $("#join_form").submit();
+				
+			}
+			
+			return false;
+		});
+	});	
 	
 
-//소모임 이름 중복체크
+	//소모임 이름 중복체크
 
 	$('.club_input').on("propertychange change keyup paste input", function() {
 
@@ -193,11 +195,7 @@ $(document).ready(function(){
 	    });
 	});
 	
-// 	$("#profile").on("input", function() {
-// 	    var value = $(this).val().toLowerCase();
-// 	    $(this).val(value);
-// 	});
-
+	//파일 이미지 업로드(join_form을 통해 전달)
 	function imgUploadHandler(list) {
 			for (i = 0; i < list.length; i++) {
 				let tag = `<input type="hidden" name="clubImg" value="\${list[i].UUID}">

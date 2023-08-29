@@ -9,8 +9,11 @@ import com.hobbyfield.app.club.service.CreateclubVO;
 
 public interface CreateclubMapper {
 	
-	//소모임 전체조회
+	//소모임 전체조회 clubList View
 	public List<CreateclubVO> selectClubAllList();
+	
+	//내가 생성한 소모임 조회 clubMyList View
+	public List<CreateclubVO> selectClubMyList();
 	
 	//소모임 세부조회
 	public CreateclubVO selectClubInfo(CreateclubVO createclubVO);
@@ -19,7 +22,8 @@ public interface CreateclubMapper {
 	public int insertClub(CreateclubVO createclubVO);
 	
 	//소모임 수정
-	public int updateClub(CreateclubVO createclubVO);
+//	public int updateClub(CreateclubVO createclubVO);
+	public void updateClub(CreateclubVO createclubVO);
 	
 	//지역 리스트
 	public List<CreateclubVO> clubLocationVO();

@@ -26,6 +26,32 @@
 		ORDER BY profile_nickname 
 	</select>
 	
+	<!-- 내가만든 소모임 조회 -->
+	<select id="selectClubMyList" resultType="CreateclubVO">
+		SELECT 
+				c.club_number
+			   , p.profile_nickname
+			   , m.member_email
+         	   , c.club_name
+			   , FIND_CODE_NM(c.club_category) AS club_category
+			   , FIND_CODE_NM(c.club_type) AS club_type
+			   , c.club_info
+			   , FIND_CODE_NM(c.major_location) AS major_location
+			   , FIND_CODE_NM(c.sub_location) AS sub_location
+			   , c.club_public
+			   , c.singup_question1
+			   , c.singup_question2
+			   , c.singup_question3
+			   , c.club_img
+			   , c.club_img_path
+			   , c.club_total
+		FROM club c 
+		JOIN profile p ON (c.profile_nickname = p.profile_nickname)
+		JOIN member m ON (p.member_email = m.member_email)
+		WHERE m.member_email = #{memberEmail}
+		ORDER BY c.club_number
+	</select>
+	
 	<!-- 소모임 세부조회 -->
 	<select id="selectClubInfo" resultType="CreateclubVO">
 		SELECT 

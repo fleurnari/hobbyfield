@@ -14,6 +14,7 @@
 </head>
 <body>
 <section>
+<!-- 	jsp파일 이름 명확히 수정해야함 -->
 	<div align="center">
 	<form action="updateProfile" method="post" id="uploadForm" >
 		<div>
@@ -31,17 +32,9 @@
 		</div>		
 		
 		<div>
-			<p3>첨부이미지</p3>
-			<label></label>
-<%-- 			<c:forEach items="${getNomalMypage}" var="selectImg"> --%>
-<%-- 				<p>${selectImg.profileImgPath }<p> --%>
-<%-- 				<p>${selectImg.profileImg }<p> --%>
-<%-- 				<img src="${pageContext.request.contextPath}/${selectImg.profileImgPath}${selectImg.profileImg}"> --%>
-<%-- 			</c:forEach> --%>
+			<p2>첨부이미지</p2>
+			
 
-<%-- 			<img src="${selectProfile.profileImgPath}${selectProfile.profileImg}" alt="Profile Image"> --%>
-
-<!-- 			<img id="preview" src=""> -->
 
 			<!-- 이미지 선택 인풋 -->
 			<input type="file" id="imgInput" name="uploadFile" onchange="readURL(this);"/>

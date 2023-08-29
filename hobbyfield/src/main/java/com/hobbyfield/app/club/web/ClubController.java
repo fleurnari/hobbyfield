@@ -140,12 +140,28 @@ public class ClubController {
 		}
 	}
 
-	// 소모임 수정
-	@PostMapping("clubUpdate")
-	@ResponseBody
-	public Map<String, String> clubUpdate(@RequestBody CreateclubVO createclubVO){
-		return createClubService.updateClub(createclubVO);
+	//소모임 수정 form 페이지
+	@GetMapping("clubUpdate")
+	public String updateView(ClubProfileVO clubprofileVO, Model model, HttpSession session) {
+		model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); // 지역대그룹 코드
+		model.addAttribute("F", commCodeMapper.selectCommsubList("0F")); // 지역소그룹 코드
+		model.addAttribute("C", commCodeMapper.commCategoryList("0C")); // 모임카테고리 그룹코드
+		model.addAttribute("D", commCodeMapper.clubTypeList("0D")); // 모임분류 그룹코드
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		clubprofileVO.setMemberEmail(member.getMemberEmail());
+		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
+		model.addAttribute("update", findVO);
+		return "club/update";
 	}
+	
+	
+	// 소모임 수정 (AJAX 사용하지 말것)
+	@PostMapping("clubUpdate")
+	public String clubUpdate(CreateclubVO createclubVO){
+		createClubService.updateClub(createclubVO);
+		return "redirect:clubList"; 
+	}
+	
 	
 		
 	// 소모임 가입하기 Process
@@ -158,28 +174,20 @@ public class ClubController {
 	
 	
 	// 소모임 삭제?
-
+	
+	/*========= 마이페이지 : 내가 생성한 소모임 조회 =========*/
+	// 내가 생성한 소모임 전체조회
+		@GetMapping("clubMadeList")
+		public String clubMyList(CreateclubVO clubVO ,Model model, HttpSession session) {
+			MemberVO member = (MemberVO) session.getAttribute("member");
+			clubVO.setMemberEmail(member.getMemberEmail());
+			model.addAttribute("clubMadeList", createClubService.getMyClubList());
+			return "club/clubMadeList";
+		}
+	
 
 	/*========= 마이페이지 개인정보 : 프로필 이미지 등록, 개인정보 조회=========*/
 
-	//프로필 등록 Form(페이지)
-	@GetMapping("profileInsert")
-	public String profileInsertForm(Model model) {
-	    return "club/profileInsert";  // 프로필 입력 폼 페이지의 뷰 이름
-	}
-
-	
-	// 프로필 등록 처리
-	@PostMapping("profileInsert")
-	public String profileInsertProcess(ClubProfileVO profileVO) {
-	    // 프로필 정보를 DB에 저장하는 서비스 메서드를 호출합니다.
-		clubprofileService.insertProfile(profileVO);
-	    
-	    // 프로필 정보 저장 후 원하는 페이지로 리다이렉트 
-	    return "redirect:profileInsert";
-	}
-	
-	
 	//프로필 개인정보 조회 : 전체조회(clubProfile)
 	@GetMapping("/clubMypage")
 	public String selctProfileClub(ClubProfileVO clubprofileVO, Model model, HttpSession session) {
@@ -196,8 +204,24 @@ public class ClubController {
 	@GetMapping("/selectProfile")
 	public ClubProfileVO getProfile(ClubProfileVO clubprofileVO) {
 		System.out.println("getProfile method called with nickname: " + clubprofileVO.getProfileNickname());
+		
+		return clubprofileService.getProfile(clubprofileVO);
+	}
+	
+	//프로필 등록 Form(페이지)
+	@GetMapping("profileInsert")
+	public String profileInsertForm(Model model) {
+	    return "club/profileInsert";  // 프로필 입력 폼 페이지의 뷰 이름
+	}
 
-	    return clubprofileService.getProfile(clubprofileVO);
+	// 프로필 등록 처리
+	@PostMapping("profileInsert")
+	public String profileInsertProcess(ClubProfileVO profileVO) {
+	    // 프로필 정보를 DB에 저장하는 서비스 메서드를 호출합니다.
+		clubprofileService.insertProfile(profileVO);
+	    
+	    // 프로필 정보 저장 후 원하는 페이지로 리다이렉트 
+	    return "redirect:profileInsert";
 	}
 	
 	
