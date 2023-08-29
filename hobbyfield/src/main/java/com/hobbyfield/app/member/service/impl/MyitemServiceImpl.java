@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hobbyfield.app.member.mapper.MyitemMapper;
+import com.hobbyfield.app.member.service.MemberVO;
 import com.hobbyfield.app.member.service.MyitemService;
 import com.hobbyfield.app.member.service.MyitemVO;
 
@@ -16,8 +17,9 @@ public class MyitemServiceImpl implements MyitemService{
 	MyitemMapper myitemMapper;
 
 	@Override
-	public List<MyitemVO> selectMyItemAllList() {
-		return myitemMapper.selectMyItemAllList();
+	public List<MyitemVO> selectMyItemAllList(MemberVO memberVO) {
+		
+		return myitemMapper.selectMyItemAllList(memberVO);
 	}
 	
 	// 마이아이템 전체조회

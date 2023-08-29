@@ -4,8 +4,22 @@
 <mapper namespace="com.hobbyfield.app.member.mapper.MyitemMapper">
 
 	<!-- 나의아이템 전체조회 -->
-	<select id="selectMyItemAllList" resultType="MyitemVO">
-		SELECT * FROM MYITEM
+	<select id="selectMyItemAllList" parameterType="com.hobbyfield.app.member.service.MemberVO" resultType="MyitemVO">
+		SELECT m.myitem_id,
+			   m.point_id,
+			   p.point_name,
+			   FIND_CODE_NM(m.point_item_type) AS point_item_type,
+			   m.myitem_purcdt,
+			   p.point_img_name,
+			   p.point_img_path,
+			   m.myitem_useterm
+			   
+		FROM myitem m
+		
+		JOIN point p
+		  ON m.point_id = p.point_id
+		
+		WHERE m.member_email = #{memberEmail}
 	</select>
 	
 	

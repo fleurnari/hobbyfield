@@ -6,6 +6,127 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<style>
+	/* Reset some default styling */
+	* {
+	  margin: 0;
+	  padding: 0;
+	  box-sizing: border-box;
+	}
+	
+	/* Body styles */
+	body {
+	  font-family: Arial, sans-serif;
+	  background-color: #f0f0f0;
+	}
+	
+	/* Container styles */
+	.container-lg {
+	  max-width: 1200px;
+	  margin: 0 auto;
+	  padding: 20px;
+	}
+	
+	/* Heading styles */
+	h1 {
+	  font-size: 2.5rem;
+	  margin-bottom: 20px;
+	  color: #333;
+	  text-align: center;
+	}
+	
+	/* Input and label styles */
+	label {
+	  display: block;
+	  font-weight: bold;
+	  margin-bottom: 5px;
+	}
+	
+	input[type="text"] {
+	  width: 100%;
+	  padding: 10px;
+	  margin-bottom: 10px;
+	  border: 1px solid #ccc;
+	  border-radius: 5px;
+	}
+	
+	/* Button styles */
+	.btn {
+	  display: inline-block;
+	  padding: 10px 20px;
+	  background-color: #007bff;
+	  color: #fff;
+	  text-decoration: none;
+	  border: none;
+	  border-radius: 5px;
+	  margin: 5px;
+	  cursor: pointer;
+	}
+	
+	/* Button hover effect */
+	.btn:hover {
+	  background-color: #0056b3;
+	}
+	
+	/* Address input styles */
+	.address_name {
+	  font-weight: bold;
+	  margin-top: 15px;
+	}
+	
+	.address_input_1_wrap {
+	  display: flex;
+	  align-items: center;
+	  margin-top: 10px;
+	}
+	
+	.address_input_1_box {
+	  flex: 1;
+	  margin-right: 10px;
+	}
+	
+	.address_button {
+	  flex: 0.5;
+	}
+	
+	.address_input_1 {
+	  width: 100%;
+	  padding: 10px;
+	  border: 1px solid #ccc;
+	  border-radius: 5px;
+	}
+	
+	/* Submit and back buttons */
+	button[type="submit"],
+	button[type="button"] {
+	  display: inline-block;
+	  padding: 10px 20px;
+	  background-color: #007bff;
+	  color: #fff;
+	  text-decoration: none;
+	  border: none;
+	  border-radius: 5px;
+	  margin: 10px 5px;
+	  cursor: pointer;
+	}
+	
+	button[type="submit"]:hover,
+	button[type="button"]:hover {
+	  background-color: #0056b3;
+	}
+	  
+	  /* Button container styles */
+	.button-container {
+	  display: flex;
+	  justify-content: center;
+	  margin-top: 20px;
+	}
+	
+	.button-container button {
+	  margin: 0 10px;
+	}
+
+</style>
 </head>
 <body>
   <section class="bg-100 py-7" id="packages">
@@ -34,7 +155,7 @@
 							<input class="address_input_1" type="text" id="sample6_postcode" name="memberZip" placeholder="우편번호" readonly="readonly" value="${info.memberZip}">
 						</div>
 						<div class="address_button">
-							<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
+							<button type="button" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
 						</div>
 					</div>
 					<div class ="address_input_2_wrap">
@@ -54,8 +175,10 @@
 				</div>
 			</div>
         </div>
-        <button type="submit">수정</button>
-        <button type="button" onclick="location.href='${pageContext.request.contextPath}/member/myPage'">뒤로 가기</button>
+		<div class="button-container">
+		  <button type="submit">수정</button>
+		  <button type="button" onclick="location.href='${pageContext.request.contextPath}/member/myPage'">뒤로 가기</button>
+		</div>
         </form>
    </section>
    <script>
