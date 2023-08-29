@@ -77,13 +77,11 @@ button {
 				<label for="noticeCate">카테고리</label> <select id="noticeCate"
 					name="noticeCate" required>
 					<option value="" disabled selected>카테고리 선택</option>
-					<option value="" disabled selected>카테고리</option>
-					<option value="AA1">전체공지</option>
-					<option value="AA2">소모임</option>
-					<option value="AA3">펀딩</option>
-					<option value="AA4">쇼핑몰</option>
-					<option value="AA5">포인트상점</option>
-					<option value="AA6">재능기부</option>
+					<option value="소모임">소모임</option>
+					<option value="쇼핑몰">쇼핑몰</option>
+					<option value="펀딩">펀딩</option>
+					<option value="포인트">포인트상점</option>
+					<option value="재능기부">재능기부</option>
 				</select>
 			</div>
 
@@ -101,13 +99,15 @@ button {
 			<input type="hidden" name="noticeId" value="${noticeInfo.noticeId}">
 
 			<button type="submit">수정완료</button>
-			<button type="button" onclick="location.href='noticeList'">취소</button>
-			<button type="reset">초기화</button>
+			<button type="button"
+				onclick="location.href='noticeInfo?noticeId=${noticeInfo.noticeId}'">취소</button>
+			<button type="button" onclick="location.href='noticeUpdate'">초기화</button>
 
 		</form>
 	</div>
 
-	<script> 
+	<script>
+        // JavaScript 코드는 그대로 유지됩니다.
         $('form').on('submit', function(e) {
             let objData = serializeObject();
             $.ajax({
@@ -117,9 +117,9 @@ button {
             })
             .done(data => {
                 if(data.result){
-                   arlert("공지사항이 수정되었습니다.");
+                    // 수정 완료 메시지 또는 다른 처리 추가
                 } else {
-                	arlert("공지사항이 수정되지 않았습니다.");
+                    // 수정 실패 메시지 또는 다른 처리 추가
                 }
             })
             .fail(reject => console.log(reject));

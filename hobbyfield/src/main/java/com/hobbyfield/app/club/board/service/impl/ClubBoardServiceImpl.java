@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.hobbyfield.app.club.board.mapper.ClubBoardMapper;
 import com.hobbyfield.app.club.board.service.ClubBoardService;
 import com.hobbyfield.app.club.board.service.ClubBoardVO;
-import com.hobbyfield.app.club.service.CreateclubVO;
 
 @Service
 public class ClubBoardServiceImpl implements ClubBoardService {
@@ -24,7 +23,7 @@ public class ClubBoardServiceImpl implements ClubBoardService {
 
 	// 특정 소모임 들어갔을때 해당 소모임 게시글 전부 보기 
 	@Override
-	public List<ClubBoardVO> getSelectClubBoardList(CreateclubVO vo) {
+	public List<ClubBoardVO> getSelectClubBoardList(ClubBoardVO vo) {
 		return clubboardmapper.getSelectClubBoardList(vo);
 	}
 	
@@ -53,10 +52,6 @@ public class ClubBoardServiceImpl implements ClubBoardService {
 	public int updateBlindClubBoard(ClubBoardVO vo) {
 		return clubboardmapper.updateBlindClubBoard(vo);
 	}
-
-	
-
-	
 
 	
 

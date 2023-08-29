@@ -13,7 +13,7 @@
 <body>
 <div align="center" class="profile_top">
 
-   <form action="profileInsert" method="post" id="join_form">
+   <form action="insertProfile" method="post" id="join_form">
       <div class="profile_info">
          <h2>프로필 정보</h2><br>
       </div>

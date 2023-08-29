@@ -15,13 +15,13 @@
 				SCHEDULE_DATE, 
 				CLUB_BOARD_BLIND
 		FROM 	CLUB_BOARD
-		ORDER BY CLUB_BOARD_WDATE
   	</select>
   		
   	<select id="getSelectClubBoardList" parameterType="CreateclubVO" resultType="ClubBoardVO">
   		SELECT  BOARD_NUMBER,
   				CLUB_NUMBER, 
   				CLUB_BOARD_WRITER, 
+  				CLUB_BOARD_TITLE, 
   				CLUB_BOARD_CONTENT, 
 				CLUB_BOARD_WDATE, 
 				CLUB_BOARD_VIEWS, 
@@ -30,7 +30,6 @@
 				CLUB_BOARD_BLIND
 		FROM CLUB_BOARD
 		WHERE CLUB_NUMBER = #{clubNumber}
-		ORDER BY CLUB_BOARD_WDATE DESC
   	</select>
   	
   	<select id="getClubBoardInfo" parameterType="ClubBoardVO" resultType="ClubBoardVO">
@@ -88,6 +87,6 @@
   	<update id="updateViewClubBoard">
   		
   	</update>
-
+  	
   
   </mapper>

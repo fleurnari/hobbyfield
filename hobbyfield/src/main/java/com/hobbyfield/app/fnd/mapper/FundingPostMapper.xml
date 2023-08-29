@@ -37,8 +37,7 @@
   			Fnd_Content,
   			member_Email,
   			Fnd_Participants,
-  			Fnd_Post_Number,
-  			Fnd_Status
+  			Fnd_Post_Number
   		FROM Funding_Post
   		WHERE Fnd_Post_Number = #{fndPostNumber}
   	</select>
@@ -53,19 +52,27 @@
 		INSERT INTO funding_Post
 				(
 				Fnd_Post_Number
+				<if test="fndCategory != null">
 				, Fnd_Category
+				</if>
+				<if test="fndTitle != null">
 				, Fnd_Title
+				</if>
+				<if test="fndMainImg != null">
 				, Fnd_Main_Img
-				, Fnd_Views
-				, Fnd_Status
+				</if>
 				)
 		VALUES( 
 				#{fndPostNumber}
+				<if test="fndCategory != null">
 				, #{fndCategory}
+				</if>
+				<if test="fndTitle != null">
 				, #{fndTitle}
+				</if>
+				<if test="fndMainImg != null">
 				, #{fndMainImg}
-				, 0
-				, 0
+				</if>
 				)
 	</insert>
 	

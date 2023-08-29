@@ -3,16 +3,56 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- PortOne SDK -->
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+</head>
  <!-- jQuery -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
     <!-- iamport.payment.js -->
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
-    
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+    <script>
+        var IMP = window.IMP; 
+        IMP.init("imp10078031"); 
+      
+        var today = new Date();   
+        var hours = today.getHours(); // 시
+        var minutes = today.getMinutes();  // 분
+        var seconds = today.getSeconds();  // 초
+        var milliseconds = today.getMilliseconds();
+        var makeMerchantUid = hours +  minutes + seconds + milliseconds;
+        
+        var buyer_addr = 'FndZip' + 'FndBaseAddr' + 'FndDetaAddr';
 
+        function requestPay() {
+            IMP.request_pay({
+                pg : 'kcp',
+                pay_method : 'card',
+                merchant_uid: 'merchant_' + new Date().getTime(),
+                name : '당근 10kg', //결제창에서 보여질 이름
+                amount : 1004, //실제 결제되는 가격
+                buyer_email : '${member.memberEmail}',
+                buyer_name : '${member.memberNm}',
+                buyer_tel : '${member.memberCntinfo}',
+                buyer_addr : '서울특별시 강남구 삼성동',
+                buyer_postcode : '123-456'
+            }, function (rsp) { // callback
+                if (rsp.success) {
+                	var msg = '결제가 완료되었습니다.';
+    		        msg += '고유ID : ' + rsp.imp_uid;
+    		        msg += '상점 거래ID : ' + rsp.merchant_uid;
+    		        msg += '결제 금액 : ' + rsp.paid_amount;
+    		        msg += '카드 승인번호 : ' + rsp.apply_num;
+                } else {
+                	 var msg = '결제에 실패하였습니다.';
+    		         msg += '에러내용 : ' + rsp.error_msg;
+                }
+            });
+        }
+    </script>
+<body>
+	응애
 	<Section>
 		<div class="container">
 		<form>
@@ -41,7 +81,7 @@
 					<td>${fundingPostInfo.fndTitle }</td>
 					<td>${fundingGoodsInfo.fndGoodsName }</td>
 					<td>${fundingPostInfo.memberEmail }</td>
-					<td>${GoodsAmount }</td>
+					<td>${fndGoodsAmount }</td>
 					<td><span id="calculatedResult"></span><span>원</span></td>
 					</tr>
 				</table>
@@ -89,7 +129,7 @@
 										결제수단<br>
 										Naver pay<br>
 									<br>	
-									<button type='button' onclick="requestPay()">결제하기</button>			
+									<button onclick="requestPay()">결제하기</button>						
 									
 									</p>
 							</div>
@@ -106,76 +146,6 @@
 	</Section>
 	
 	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script>
-	var IMP = window.IMP;
-	IMP.init('imp73114016'); // 예: imp00000000
-	
-	var today = new Date();   
-    var hours = today.getHours(); // 시
-    var minutes = today.getMinutes();  // 분
-    var seconds = today.getSeconds();  // 초
-    var milliseconds = today.getMilliseconds();
-    var makeMerchantUid = hours +  minutes + seconds + milliseconds;
-    
-    var BaseAddr = '${member.memberBaseaddr}';
-    var DetaAddr = '${member.memberDetaaddr}';
-    var buyer_addr = BaseAddr + DetaAddr;
-
-   
-    
-    function requestPay() {
-      // IMP.request_pay(param, callback) 결제창 호출
-      IMP.request_pay({ // param
-          pg: 'html5_inicis',
-          pay_method : 'card',
-		    merchant_uid : "IMP"+makeMerchantUid,
-		    name : '${fundingGoodsInfo.fndGoodsName }'/*상품명*/,
-		    amount : calculatedValue/*상품 가격*/, 
-		    buyer_email : '${member.memberEmail}'/*구매자 이메일*/,
-		    buyer_name : '${member.memberEmail }',
-		    buyer_tel : '${member.memberCntinfo}'/*구매자 연락처*/,
-		    buyer_addr : buyer_addr/*구매자 주소*/,
-		    buyer_postcode : '${member.memberZip}'/*구매자 우편번호*/
-      }, function(rsp) {
-			var result = '';
-		    if ( rsp.success ) {
-		        var msg = '결제가 완료되었습니다.';
-		        msg += '고유ID : ' + rsp.imp_uid;
-		        msg += '상점 거래ID : ' + rsp.merchant_uid;
-		        msg += '결제 금액 : ' + rsp.paid_amount;
-		        msg += '카드 승인번호 : ' + rsp.apply_num;
-		        result ='0';
-		    } else {
-		    	let objData = serializeObject();
-		    	console.log(objData);
-		        $.ajax({
-		        	url : 'supportInsert',
-		        	method : 'post',
-		        	data : objData
-		        });
-			
-		    }
-		    if(result=='0') {
-		    	location.href= $.getContextPath()+"/Cart/Success";
-		    }
-		    alert(msg);
-      });
-    }
-    function serializeObject(){
-		let formData = $('form').serializeArray();
-		
-		let formObject = {};
-		$.each(formData, function(idx, obj){
-			let field = obj.name;
-			let val = obj.value;
-			
-			formObject[field] = val;
-		})
-		
-		return formObject;
-	};
-
-  </script>
 <script>
 //Get the values from the HTML
 var fndGoodsAmount = parseFloat(${GoodsAmount });

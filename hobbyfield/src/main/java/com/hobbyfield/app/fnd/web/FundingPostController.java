@@ -38,7 +38,6 @@ public class FundingPostController {
 	@GetMapping("fundingPostInfo")
 	public String fundingPostInfo(FundingPostVO fundingPostVO, Model model) {
 		FundingPostVO findVO = fundingPostService.getFundingPostInfo(fundingPostVO);
-		fundingPostService.updateFundingPostViews(fundingPostVO);
 		model.addAttribute("fundingPostInfo",findVO);
 		model.addAttribute("fundingGoodsInfo",fundingGoodsService.getFundingGoods(fundingPostVO));
 		return "fundingPost/fundingPostInfo";
@@ -55,20 +54,16 @@ public class FundingPostController {
 		model.addAttribute("fundingPostList", fundingPostService.getFundingPostList());
 		return "fundingPost/fundingPostInsert";
 	}
+
 	//펀딩 프로젝트 등록폼2
-		@GetMapping("fundingPostInsert20")
-		public String fundingPostInsert20(FundingPostVO fundingPostVO, Model model) {
-			fundingPostService.getFundingPostInfo(fundingPostVO);
-			model.addAttribute("fundingPostInsert20",fundingPostVO);
-			
-			return "fundingPost/fundingPostInsert20";
-	}
 		@PostMapping("fundingPostInsert")
 		public String fundingPostInsertProcess(FundingPostVO fundingPostVO, Model model) {
 			fundingPostService.insertFundingPostInfo(fundingPostVO);
 			model.addAttribute("fundingPostInsert20",fundingPostVO);
+			
 			return "fundingPost/fundingPostInsert20";
-		}
+	}
+
 	//펀딩 프로젝트 임시저장(update)
 	//데이터가 돌아와야하므로 post처리
 	@PostMapping("fundingPostUpdate")
@@ -87,6 +82,8 @@ public class FundingPostController {
 		map.put("fundingPostInsert20", fundingPostVO);
 		return map;
 	}
+	
+
 }
 
 

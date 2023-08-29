@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="com.hobbyfield.app.fnd.mapper.FundingSupportMapper">
+  <mapper namespace="com.hobbyfield.app.fnd.mapper.FundingSupportMapper">
   	
   	<!-- 후원 목록 전체조회 -->
   	<select id="selectFundingSupportList" resultType="FundingSupportVO">
@@ -27,46 +27,33 @@
   			Fnd_Pay_type,
   			Fnd_Shipdt
   		FROM Funding_Support
-  		WHERE Member_Email = #{memberEmail}
   		ORDER BY Fnd_Support_Number DESC			
   	</select>
   	
-  	<!-- 후원 목록 조회 -->
+  	<!-- 후원 목록 단건조회 -->
   	<select id="selectFundingSupport" resultType="FundingSupportVO">
-          SELECT
-  			s.Fnd_Support_Number,
-  			s.Fnd_Goods_Number,
-  			s.Fnd_Order_Id,
-  			s.Member_Email,
-  			s.Fnd_Order_State,
-  			s.Fnd_Invoice,
-  			s.Fnd_Order_Date,
-  			s.Fnd_Payment_Date,
-  			s.Fnd_Order_Amount,
-  			s.Fnd_Total_Price,
-  			s.Fnd_Order_Recipient,
-  			s.Fnd_Zip,
-  			s.Fnd_BaseAddr,
-  			s.Fnd_DetaAddr,
-  			s.Fnd_Cntinfo,
-  			s.Fnd_Order_Request,
-  			s.Fnd_Pay_type,
-  			s.Fnd_Shipdt,
-  			g.Fnd_Goods_Name,
-  			g.Fnd_Goods_Price,
-  			p.Fnd_Post_Number,
-  			p.Fnd_Main_Img,
-  			p.Fnd_CateGory,
-  			p.Fnd_Title,
-  			p.Fnd_Status,
-  			p.Fnd_End_Date
-  		FROM Funding_Support s 
-  			JOIN Funding_Goods g
-  				ON (s.Fnd_Goods_Number = g.Fnd_Goods_Number)
-  			JOIN Funding_Post p
-  				ON (s.Fnd_Post_Number = p.Fnd_Post_Number)
-  		WHERE s.Member_Email = #{memberEmail}
-  		ORDER BY Fnd_Order_Date DESC
+  		SELECT
+  			Fnd_Support_Number,
+  			Fnd_Post_Number,
+  			Fnd_Goods_Number,
+  			Fnd_Order_Id,
+  			Member_Email,
+  			Fnd_Order_State,
+  			Fnd_Invoice,
+  			Fnd_Order_Date,
+  			Fnd_Payment_Date,
+  			Fnd_Order_Amount,
+  			Fnd_Total_Price,
+  			Fnd_Order_Recipient,
+  			Fnd_Zip,
+  			Fnd_BaseAddr,
+  			Fnd_DetaAddr,
+  			Fnd_Cntinfo,
+  			Fnd_Order_Request,
+  			Fnd_Pay_type,
+  			Fnd_Shipdt
+  		FROM Funding_Support
+  		WHERE Fnd_Support_Number = #{fndSupportNumber}
   	</select>
   	
   	<!-- 결제 후 등록 -->
@@ -105,7 +92,7 @@
   				,#{memberEmail}
   				,#{fndOrderState}
   				,#{fndInvoice}
-  				,SYSDATE
+  				,#{fndOrderDate}
   				,#{fndPaymentDate}
   				,#{fndOrderAmount}
   				,#{fndTotalPrice}
@@ -115,7 +102,7 @@
   				,#{fndDetaAddr}
   				,#{fndCntinfo}
   				,#{fndOrderRequest}
-  				,#{fndPayType}
+  				,#{fndPaytype}
   				,#{fndShipdt}
   				)
   	</insert>

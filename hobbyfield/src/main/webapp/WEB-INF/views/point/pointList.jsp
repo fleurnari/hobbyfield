@@ -119,7 +119,8 @@ th {
 </style>
 </head>
 <body>
-		<h3 class="point">포인트</h3><span><h3 class="sangjum">상점</h3></span>
+		<h3 class="point">포인트</h3>
+		<span><h3 class="sangjum">상점</h3></span>
 
 	<div class="header-left">
 		<a href="${pageContext.request.contextPath}/notice/noticeList"
@@ -139,8 +140,6 @@ th {
 				<option value="high">높은가격순</option>
 			</select>
 		</form>
-
-		<!-- 응아니야 -->
 		<div class="state-buttons">
 			<button class="state-button" type="button" name="state1" value="V1"
 				onclick="changestate('V1')">판매중</button>
@@ -148,12 +147,13 @@ th {
 				onclick="changestate('V2')">판매종료</button>
 		</div>
 		<div class="point-list">
-			<c:forEach items="${pointList}" var="point"> 
-				<div class="point-item" onclick="location.href='pointInfo?pointId=${point.pointId}'"
+			<c:forEach items="${pointList}" var="point">
+				<div class="point-item"
+					onclick="location.href='pointInfo?pointId=${point.pointId}'"
 					data-state="${point.pointState}">
-					<img src="${pageContext.request.contextPath}${point.pointImgPath}${point.pointImgName}"  alt="상품 이미지"><br>
+					<img src="" alt="상품 이미지"><br>
 					<div class="point-details">
-						<p>${point.pointId}</p><span><p>${point.pointName}</p></span>
+						<p>${point.pointName}</p>
 						<p class="time">
 							<jsp:useBean id="now" class="java.util.Date" />
 							<fmt:parseNumber value="${now.time / (1000*60*60*24)}"

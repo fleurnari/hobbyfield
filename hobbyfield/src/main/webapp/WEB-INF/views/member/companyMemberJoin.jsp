@@ -62,7 +62,7 @@
 												<input class="address_input_1" type="text" id="sample6_postcode" name="memberZip" placeholder="우편번호" readonly="readonly">
 											</div>
 											<div class="address_button">
-												<button type="button" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
+												<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
 											</div>
 												<div class="clearfix"></div>
 										</div>

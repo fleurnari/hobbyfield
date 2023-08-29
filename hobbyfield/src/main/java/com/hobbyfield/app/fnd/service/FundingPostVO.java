@@ -23,7 +23,7 @@ public class FundingPostVO {
 	private String fndEndDate;
 	private String fndMainImg;
 	private String fndMainImgPath;
-	private String fndStatus;
+	private Integer fndStatus;
 	private Integer fndApproval;
 	private Integer fndTotalAmount;
 	private Integer fndParticipants;
