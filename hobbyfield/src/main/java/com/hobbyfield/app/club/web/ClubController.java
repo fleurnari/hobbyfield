@@ -163,11 +163,11 @@ public class ClubController {
 		clubprofileVO.setMemberEmail(member.getMemberEmail());
 		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
 		model.addAttribute("update", findVO);
-		return "club/update";
+		return "club/clubMadeList";
 	}
 	
 	
-	// 소모임 수정 (AJAX 사용하지 말것)
+	// 소모임 수정 (AJAX 사용하지 X) - clubMadeList modal창
 	@PostMapping("clubUpdate")
 	public String clubUpdate(CreateclubVO createclubVO){
 		createClubService.updateClub(createclubVO);
@@ -189,13 +189,26 @@ public class ClubController {
 	
 	/*========= 마이페이지 : 내가 생성한 소모임 조회 =========*/
 	// 내가 생성한 소모임 전체조회
-		@GetMapping("clubMadeList")
-		public String clubMyList(CreateclubVO clubVO ,Model model, HttpSession session) {
-			MemberVO member = (MemberVO) session.getAttribute("member");
-			clubVO.setMemberEmail(member.getMemberEmail());
-			model.addAttribute("clubMadeList", createClubService.getMyClubList());
-			return "club/clubMadeList";
-		}
+	@GetMapping("clubMadeList")
+	public String clubMyList(CreateclubVO createclubVO ,Model model, HttpSession session, ClubProfileVO clubprofileVO) {
+		//공통코드
+		model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); // 지역대그룹 코드
+		model.addAttribute("F", commCodeMapper.selectCommsubList("0F")); // 지역소그룹 코드
+		model.addAttribute("C", commCodeMapper.commCategoryList("0C")); // 모임카테고리 그룹코드
+		model.addAttribute("D", commCodeMapper.clubTypeList("0D")); // 모임분류 그룹코드
+		
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		createclubVO.setMemberEmail(member.getMemberEmail());
+//		System.out.println(createclubVO); //데이터 확인용
+//		System.out.println(clubMadeList);
+		List<CreateclubVO> clubMadeList = createClubService.getMyClubList(createclubVO);
+		
+		clubprofileVO.setMemberEmail(member.getMemberEmail());
+		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
+		model.addAttribute("clubmade", findVO);
+		model.addAttribute("clubMadeList", clubMadeList);
+		return "club/clubMadeList";
+	}
 	
 
 	/*========= 마이페이지 개인정보 : 프로필 이미지 등록, 개인정보 조회=========*/

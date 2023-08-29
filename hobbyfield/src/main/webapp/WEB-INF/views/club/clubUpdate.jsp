@@ -112,7 +112,7 @@
 	var clubnameChk = false; //모임이름 중복체크
 	
 	$(document).ready(function(){
-		//모임생성 버튼(모임수정 기능 작동)
+		//모임수정 버튼(모임수정 기능 작동)
 		$(".join_button").on("click", function() {
 			
 			//입력값 변수
