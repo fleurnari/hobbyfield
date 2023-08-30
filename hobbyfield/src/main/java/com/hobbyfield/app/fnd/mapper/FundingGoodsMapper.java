@@ -16,7 +16,8 @@ public interface FundingGoodsMapper {
 	//펀딩옵션조회
 	public FundingGoodsVO selectFundingGoods(FundingGoodsVO fundingGoodsVO);
 	
-
+	//펀딩옵션삭제
+	public int deleteFundingGoods(FundingGoodsVO fundingGoodsVO);
 }
 
 

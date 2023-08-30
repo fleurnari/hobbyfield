@@ -11,4 +11,8 @@ public interface FundingGoodsService {
 	
 	//펀딩등록
 	public int insertFundingGoodsInfo(FundingGoodsVO fundingGoodsVO);
+	
+	//옵션삭제
+	public int deleteGoods(FundingGoodsVO fundingGoodsVO);
+
 }
