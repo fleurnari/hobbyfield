@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>전체 리스트 조회</title>
+<script type="text/javascript" src="resources/js/common.js"></script>
 <style>
 .container2{
 display:flex;
@@ -45,7 +46,7 @@ flex-wrap:wrap;
 			<c:forEach items="${fundingPostList }" var="fundingPost">
 			<div onclick="location.href='fundingPostInfo?fndPostNumber=${fundingPost.fndPostNumber }'">
 					<figure>
-						<img id="img" src="resources/images/${fundingPost.fndMainImg }" alt="">
+						<img id="img" src="${fundingPost.fndMainImgPath}${fundingPost.fndMainImg }" alt="">
 					</figure>
 				<p>
 					<span>${fundingPost.fndCategory }</span>
@@ -59,7 +60,8 @@ flex-wrap:wrap;
 					<span>${fundingPost.fndStatus}</span>
 				</p>
 				<p>
-					<span>000%</span><span>        조회수: ${fundingPost.fndViews }</span>
+					<span><fmt:formatNumber value="${(fundingPost.fndCurrentAmount / fundingPost.fndTargetAmount) * 100 }" pattern="#.##" />
+        %</span><span>        조회수: ${fundingPost.fndViews }</span>
 				</p>
 				<p>
 					<span>${fundingPost.fndCurrentAmount }</span>

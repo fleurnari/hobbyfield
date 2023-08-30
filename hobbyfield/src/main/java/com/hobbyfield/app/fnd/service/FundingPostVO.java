@@ -27,4 +27,5 @@ public class FundingPostVO {
 	private Integer fndApproval;
 	private Integer fndTotalAmount;
 	private Integer fndParticipants;
+	private Integer fndTotalPrice;
 }

@@ -56,5 +56,10 @@ public class FundingPostServiceImpl implements FundingPostService {
 	public int updateFundingPostViews(FundingPostVO fundingPostVO) {
 		return fundingPostMapper.FundingPostViewsCount(fundingPostVO);
 	}
-
+	
+	//결제 후 모인금액 및 참여인원 업데이트
+	@Override
+	public int updateFundingPostPayment(FundingPostVO fundingPostVO) {
+		return fundingPostMapper.updateFundingPostPayment(fundingPostVO);
+	}
 }

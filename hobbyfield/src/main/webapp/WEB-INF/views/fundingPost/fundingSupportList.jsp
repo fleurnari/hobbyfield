@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="resources/js/common.js"></script>
 </head>
 <body>
 	<Section>
@@ -26,7 +27,7 @@
 								<div onclick="location.href='fundingPostInfo?fndPostNumber=${fundingSupportList.fndPostNumber }'">
 								
 								<figure>
-									<img id="img" src="resources/images/${fundingSupportList.fndMainImg }"
+									<img id="img" src="${fundingSupportList.fndGoodsImgPath }${fundingSupportList.fndGoodsImg }"
 									alt="img" style="float: left" width="250px" height="200px">
 								</figure>
 								

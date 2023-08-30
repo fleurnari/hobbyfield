@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="resources/js/common.js"></script>
 <style>
 .container2{
 display:flex;
@@ -129,9 +130,12 @@ flex-wrap:wrap;
 							</div>
 							<div class="col-sm-6">
 								<div class="mb-3">
-									<label for="formFileMultiple" class="form-label"></label> <input
-										class="form-control" type="file" accept=".gif, .jpg, .png" id="formFileMultiple"
-										name="fndMainImg" multiple>
+									<div class="profileSection">
+         <label>첨부이미지</label>
+         <div id="preview"></div>
+			<input name="uploadFile" type="file" value="profileImg" onchange="readURL(this);" accept=".gif, .jpg, .png">
+			<button type="button" id="uploadBtn">upload</button>
+		</div>
 								</div>
 							</div>
 						</div>
@@ -165,6 +169,15 @@ flex-wrap:wrap;
                     }
 
                 });
+                
+                /* 이미지 업로드 */
+                function imgUploadHandler(list) {
+                			for (i = 0; i < list.length; i++) {
+                				let tag = `<input type="text" name="fndMainImg" value="\${list[i].UUID}">
+                				           <input type="text" name="fndMainImgPath" value="\${list[i].url}">`
+                				$('#frm').append(tag);
+                			}
+                		}
 	</script>
 </body>
 </html>

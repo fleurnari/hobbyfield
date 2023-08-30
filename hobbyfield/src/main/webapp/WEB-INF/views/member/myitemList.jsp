@@ -7,7 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <title>나의 아이템 구매현황</title>
-<title>Insert title here</title>
 <style>
 /* Reset some default margin and padding */
 body, h1 {
@@ -102,18 +101,30 @@ img {
 							<c:forEach items="${myitemList}" var="myitem">
 								<tr>
 									<td><img
-										src="${myitem.pointImgPath}${myitem.pointImgName}"></td>
+										src="${pageContext.request.contextPath}${myitem.pointImgPath}${myitem.pointImgName}"></td>
 									<td>${myitem.pointName}</td>
 									<td>${myitem.pointItemType}</td>
 									<td><fmt:formatDate value="${myitem.myitemPurcdt}"
 											pattern="yyyy-MM-dd" /></td>
 									<c:choose>
-										<c:when test="${myitem.myitemUseterm ne 0}">
-											<td>${myitem.myitemUseterm}일</td>
+										<c:when
+											test="${myitem.pointItemType eq 'W2' and myitem.myitemUseterm ne 0}">
+											<td>${myitem.myitemUseterm}일권</td>
 										</c:when>
-										<c:otherwise>
+										<c:when
+											test="${myitem.pointItemType eq 'W2' and myitem.myitemUseterm eq 0}">
 											<td>영구</td>
-										</c:otherwise>
+										</c:when>
+									</c:choose>
+									<c:choose>
+										<c:when
+											test="${myitem.pointItemType eq 'W1' and myitem.myitemUseterm eq 1}">
+											<td>사용가능</td>
+										</c:when>
+										<c:when
+											test="${myitem.pointItemType eq 'W1' and myitem.myitemUseterm eq 0}">
+											<td>사용완료</td>
+										</c:when>
 									</c:choose>
 								</tr>
 							</c:forEach>

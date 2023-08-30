@@ -84,7 +84,7 @@ input {
 }
 
 .first-img {
-	
+	250px;
 }
 
 .first-img img {
@@ -189,7 +189,7 @@ input {
 					<div>
 						<h5>${point.pointName}</h5>
 						<br>
-						<p>보유포인트 <span id="memberActpnt">${member.memberActpnt }</span></p>
+						<p>ㅇ보유포인트 <span id="memberActpnt">${member.memberActpnt }</span></p>
 						<c:if test="${point.pointItemType eq 'W2'}">
 						<p>결제 포인트 <span id="groupPrice">${point.groupPrice }</span></p>
 						<input type="hidden" value="${point.groupPrice }"	name="pointPrice">
@@ -250,7 +250,7 @@ input {
         }
 
         str = str.replace(/\r\n/ig, '<br>');
-        str = str.replace(/\\n/ig, '<br>');
+        str = str.replace(/\n/ig, '<br>');
         str = str.replace(/\n/ig, '<br>');
         return str;
     }
@@ -262,6 +262,7 @@ $('[name="pointOptId"]').click(function(e){
 	$('[name="pointPrice"]').val( $(e.target).data('price'))
 })
 
+//판매마감된 상품페이지
 window.onload = function () {
     var currentDate = new Date();
     if("${point.pointItemType}" == "W1"){
@@ -305,12 +306,11 @@ function remaindTime() {
 	    $("#d-day-min").html('00');
 	    $("#d-day-sec").html('00'); 	   
 		
-	   
    }
 }
 
 
-
+// 구매모달
  
 // 모달 열기
  function openModal() {
