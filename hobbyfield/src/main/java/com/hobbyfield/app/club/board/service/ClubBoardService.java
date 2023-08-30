@@ -9,10 +9,14 @@ public interface ClubBoardService {
 	// 전체조회(전체 소모임 게시글 조회)
 	public List<ClubBoardVO> getAllClubBoardList();
 	
-	
 	// 소모임 상세보기 들어가서 원하는 소모임만 보기(매개변수)
 	public List<ClubBoardVO> getSelectClubBoardList(CreateclubVO vo);
 	
+	// 게시글 검색 : 사용자 or 내용 
+	public List<ClubBoardVO> searchClubBoard(ClubBoardVO vo);
+	
+	// 전체 게시글 검색 : 사용자 or 내용
+	public List<ClubBoardVO> AllSearchClubBoard(ClubBoardVO vo);
 	
 	// 단건조회
 	public ClubBoardVO getClubBoardInfo(ClubBoardVO vo);

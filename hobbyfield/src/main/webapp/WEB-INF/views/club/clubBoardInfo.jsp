@@ -25,7 +25,7 @@
 				<div>
 				<!-- 이미지 추후 db에서 경로 가져와서 출력 -->
 				<img alt="프로필이미지" src="download/img/common.png" style="width: 50px; height: 50px;">
-				<input type="text" id="" name="clubBoardWriter" value="${board.clubBoardWriter}">
+				<input type="text" id="clubBoardWriter" name="clubBoardWriter" value="${board.clubBoardWriter}" >
 				<input type="text" id="" name="clubBoardWdate" value="${board.clubBoardWdate}">
 				</div>
 				<div id="editor">
@@ -39,8 +39,10 @@
 		<div>
 			<form>	
 				<!-- 댓글 작성시 작성자의 프로필 내용 사용 -->
+				<input type="text" id="" name="">
 				<input>
-				<
+				<img alt="" src="">
+				<button></button>
 			</form>
 			
 			
