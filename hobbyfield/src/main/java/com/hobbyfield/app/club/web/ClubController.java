@@ -190,8 +190,8 @@ public class ClubController {
 	/*========= 마이페이지 : 내가 생성한 소모임 조회 =========*/
 	// 내가 생성한 소모임 전체조회
 	@GetMapping("clubMadeList")
-	public String clubMyList(CreateclubVO createclubVO ,Model model, HttpSession session, ClubProfileVO clubprofileVO) {
-		//공통코드
+	public String clubMyList(CreateclubVO createclubVO ,Model model, HttpSession session) {
+		//공통코드 , ClubProfileVO clubprofileVO
 		model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); // 지역대그룹 코드
 		model.addAttribute("F", commCodeMapper.selectCommsubList("0F")); // 지역소그룹 코드
 		model.addAttribute("C", commCodeMapper.commCategoryList("0C")); // 모임카테고리 그룹코드
@@ -203,9 +203,9 @@ public class ClubController {
 //		System.out.println(clubMadeList);
 		List<CreateclubVO> clubMadeList = createClubService.getMyClubList(createclubVO);
 		
-		clubprofileVO.setMemberEmail(member.getMemberEmail());
-		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
-		model.addAttribute("clubmade", findVO);
+//		clubprofileVO.setMemberEmail(member.getMemberEmail());
+//		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
+//		model.addAttribute("clubmade", findVO);
 		model.addAttribute("clubMadeList", clubMadeList);
 		return "club/clubMadeList";
 	}
