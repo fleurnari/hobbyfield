@@ -80,10 +80,4 @@ public class ClubProfileServiceImpl implements ClubProfileService {
 		return clubprofileMapper.getMyProfile(clubprofileVO);
 	}
 
-	@Override
-	public ClubProfileVO insertSession() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

@@ -138,14 +138,16 @@
 </section>  
   
 <script type="text/javascript">
-$(document).ready(function() {
-    $('#openModal').click(function() {
-        $('#clubModal').show(); // 모달 창 보여주기
-    });
-    $('.close').click(function() {
-        $('#clubModal').hide(); // 모달 창 숨기기
-    });
-});
+
+//modal창 생성 닫기
+	$(document).ready(function() {
+	    $('#openModal').click(function() {
+	        $('#clubModal').show(); // 모달 창 보여주기
+	    });
+	    $('.close').click(function() {
+	        $('#clubModal').hide(); // 모달 창 숨기기
+	    });
+	});
 
 
 </script>
