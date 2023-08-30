@@ -53,7 +53,19 @@ public class ClubBoardServiceImpl implements ClubBoardService {
 	public int updateBlindClubBoard(ClubBoardVO vo) {
 		return clubboardmapper.updateBlindClubBoard(vo);
 	}
-
+	
+	
+	// 소모임 내 게시판 검색기능
+	@Override
+	public List<ClubBoardVO> searchClubBoard(ClubBoardVO vo) {
+		return null;
+	}
+	
+	// 전체 게시글 조회
+	@Override
+	public List<ClubBoardVO> AllSearchClubBoard(ClubBoardVO vo) {
+		return null;
+	}
 	
 
 	

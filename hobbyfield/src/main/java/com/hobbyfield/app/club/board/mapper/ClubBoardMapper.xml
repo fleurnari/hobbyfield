@@ -27,8 +27,10 @@
 				CLUB_BOARD_VIEWS, 
 				CLUB_BOARD_TYPE, 
 				SCHEDULE_DATE, 
-				CLUB_BOARD_BLIND
-		FROM CLUB_BOARD
+				CLUB_BOARD_BLIND,
+				p.PROFILE_IMG_PATH,
+                p.PROFILE_IMG
+		FROM CLUB_BOARD c JOIN PROFILE p ON(c.CLUB_BOARD_WRITER = p.PROFILE_NICKNAME)
 		WHERE CLUB_NUMBER = #{clubNumber}
 		ORDER BY CLUB_BOARD_WDATE DESC
   	</select>
@@ -42,8 +44,10 @@
 				CLUB_BOARD_VIEWS,        
 				CLUB_BOARD_TYPE,   
 				SCHEDULE_DATE,                    
-				CLUB_BOARD_BLIND     
-		FROM club_board
+				CLUB_BOARD_BLIND,
+				p.PROFILE_IMG_PATH,
+                p.PROFILE_IMG
+		FROM CLUB_BOARD c JOIN PROFILE p ON(c.CLUB_BOARD_WRITER = p.PROFILE_NICKNAME)     
 		WHERE board_number = #{boardNumber} 
   	</select>
   	
@@ -71,7 +75,7 @@
 						#{clubNumber},
 						#{clubBoardWriter},
 						#{clubBoardContent},
-						sysdate,
+						TO_DATE(sysdate,'YYYY-MM-DD'),
 						0,
 						#{clubBoardType},
 						<if test="scheduleDate != null">
@@ -85,7 +89,7 @@
   		
   	</update>
   	
-  	<update id="updateViewClubBoard">
+  	<update id="updateViewClubBoard" parameterType="ClubBoardVO">
   		
   	</update>
 

@@ -65,6 +65,7 @@
 <body>
 <section>
     <div align="center" style="margin-top: 100px;">
+    
 		<!-- 소모임 표시 -->    
         <div id="clubContainer">
             <c:forEach items="${clubList}" var="club">
@@ -92,7 +93,7 @@
     <div>
         <div id="clubContainer">
             <c:forEach items="${board}" var="board">
-                <div id="clubLink">
+                <div id="clubBoard">
                     <div class="">
                         <p>게시글번호: ${board.boardNumber}</p>
                         <p>소모임번호: ${board.clubNumber}</p>
@@ -159,6 +160,7 @@
     .catch( error => {
         console.error( error );
     });
+	// bootstrap modal ex
 	
 </script>
 
