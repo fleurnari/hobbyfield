@@ -46,7 +46,8 @@
 	</beans:bean>     
 	
 	<!-- 네이버 로그인 -->
-	<beans:bean id="naverLoginBO" class="com.hobbyfield.app.member.service.NaverLoginBO" />
+	<beans:bean id="naverLoginBO" class="com.hobbyfield.app.member.service.NaverLoginBO">
+	</beans:bean>
 
 	
 	<!-- 회원가입 메일 인증 -->
