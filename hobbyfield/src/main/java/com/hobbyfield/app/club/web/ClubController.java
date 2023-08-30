@@ -80,6 +80,26 @@ public class ClubController {
 	    model.addAttribute("clubInfo", findVO);
 	    return "club/clubInfo";
 	}
+	
+	// 내가만든 소모임 조회
+	@ResponseBody
+	@GetMapping("/selectMadeClub")
+	public CreateclubVO getMadeClub(@RequestParam String profileNickname, Model model) {
+	    CreateclubVO clubVO = new CreateclubVO();
+	    clubVO.setProfileNickname(profileNickname);
+	    CreateclubVO findVO = createClubService.getClub(clubVO);
+	   
+	    return findVO;
+	}
+	
+	//프로필 단건조회(clubProfile에 뿌려줌)
+//	@ResponseBody
+//	@GetMapping("/selectProfile")
+//	public ClubProfileVO getProfile(ClubProfileVO clubprofileVO) {
+//		System.out.println("getProfile method called with nickname: " + clubprofileVO.getProfileNickname());
+//		
+//		return clubprofileService.getProfile(clubprofileVO);
+//	}
 
 
 	/*========= 소모임 등록관련 =========*/
@@ -102,6 +122,11 @@ public class ClubController {
 	public String clubInsertProcess(CreateclubVO clubVO, HttpSession session) {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		clubVO.setMemberEmail(member.getMemberEmail());
+		
+		ClubJoinVO joinvo = new ClubJoinVO();
+		joinvo.setClubNumber(clubVO.getClubNumber());
+		clubJoinService.clubJoinInfo(joinvo);		
+		
 		createClubService.insertClubInfo(clubVO);
 		return "redirect:clubList";
 	}
@@ -174,7 +199,6 @@ public class ClubController {
 		return "redirect:clubList"; 
 	}
 	
-	
 		
 	// 소모임 가입하기 Process
 	@PostMapping("clubJoinProcess")
@@ -233,7 +257,7 @@ public class ClubController {
 		return clubprofileService.getProfile(clubprofileVO);
 	}
 	
-	//프로필 등록 Form(페이지)
+	//프로필 등록 Form
 	@GetMapping("profileInsert")
 	public String profileInsertForm(Model model) {
 	    return "club/profileInsert";  // 프로필 입력 폼 페이지의 뷰 이름

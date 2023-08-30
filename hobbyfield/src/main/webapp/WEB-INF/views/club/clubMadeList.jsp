@@ -320,12 +320,12 @@
 					<div>
 						<button type="submit" class="update-button">수정하기</button>
 					</div>
-					<input type="text" value=${clubNumber }>
 					<div id="preview"></div>
 						<input name="uploadFile" type="file" value="clubImg" onchange="readURL(this);">
 						<button type="button" id="uploadBtn">upload</button>
 					</div>
 					
+					<input type="text"  value="">
 					
 					
 				</div>
@@ -372,9 +372,22 @@
         $("#clubModal input[name='singupQuestion3']").val(singupQuestion3);
 
         // 모달 창 보여주기
-        $("#clubModal").show();
+//         $("#clubModal").show();
+        $("#clubModal").click(function(){
+        	$(this).show();
+      
+        	
+        	$.ajax({
+        		url: "selectMadeClub",
+        		type : "get",
+    			data : data,
+    			
+        	})
+        });
     }
 	
+		
+		
 
     $(document).ready(function() {
     	 // 테이블의 각 행을 클릭했을 때 showModalWithData 함수를 호출
