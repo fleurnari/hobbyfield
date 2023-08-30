@@ -43,4 +43,16 @@ public class FundingGoodsServiceImpl implements FundingGoodsService {
 			return -1;
 		}
 	}
+	
+	//펀딩 옵션 삭제
+	@Override
+	public int deleteGoods(FundingGoodsVO fundingGoodsVO) {
+		int result = fundingGoodsMapper.deleteFundingGoods(fundingGoodsVO);
+		
+		if (result == 1) {
+			return fundingGoodsVO.getFndGoodsNumber();
+		} else {
+			return -1;
+		}
+	}
 }

@@ -26,7 +26,8 @@
   		Fnd_Goods_Content,
   		Fnd_Goods_Amount,
   		Fnd_Goods_Price,
-  		Fnd_Goods_IMG
+  		Fnd_Goods_Img,
+  		Fnd_Goods_ImgPath
   	FROM Funding_Goods
   	WHERE Fnd_Goods_Number = #{fndGoodsNumber}
 </select>
@@ -44,6 +45,7 @@
 				, Fnd_Goods_Amount
 				, Fnd_Goods_Price
 				, Fnd_Goods_Img
+				, Fnd_Goods_ImgPath
 				, Fnd_Post_Number
 				)
 		VALUES
@@ -54,7 +56,12 @@
 				, #{fndGoodsAmount}
 				, #{fndGoodsPrice}
 				, #{fndGoodsImg}
+				, #{fndGoodsImgPath}
 				, #{fndPostNumber}
 				)
 </insert>
+<delete id="deleteFundingGoods" parameterType="FundingGoodsVO">
+	DELETE FROM funding_Goods
+	WHERE funding_Goods_Number = #{fndGoodsNumber}
+</delete>
 </mapper>

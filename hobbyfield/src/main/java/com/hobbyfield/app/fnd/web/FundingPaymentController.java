@@ -36,8 +36,9 @@ public class FundingPaymentController {
 	
 	//펀딩 후원 목록 등록
 	@PostMapping("supportInsert")
-	public String supportInsert(FundingSupportVO fundingSupportVO) {
+	public String supportInsert(FundingSupportVO fundingSupportVO, FundingPostVO fundingPostVO, Model model) {
 		fundingSupportService.isertFundingSupportInfo(fundingSupportVO);
+		fundingPostService.updateFundingPostPayment(fundingPostVO);
 		return "fundingPost/fundingPostList";
 	}
 }

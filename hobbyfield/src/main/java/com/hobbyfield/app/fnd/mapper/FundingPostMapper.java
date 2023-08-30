@@ -19,4 +19,10 @@ public interface FundingPostMapper {
 	
 	//조회수
 	public int FundingPostViewsCount(FundingPostVO fundingPostVO);
+	
+	//펀딩결제시 모인금액 참여인원 업데이트
+	public int updateFundingPostPayment(FundingPostVO fundingPostVO);
+	
+	//삭제
+	public int deleteFundingPost(FundingPostVO fundingPostVO);
 }
