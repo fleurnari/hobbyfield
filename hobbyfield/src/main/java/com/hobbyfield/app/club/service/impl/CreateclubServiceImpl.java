@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,10 +25,11 @@ public class CreateclubServiceImpl implements CreateclubService {
 		return createclubMapper.selectClubAllList();
 	}
 	
-	//내가만든 소모임조회
+	//내가만든 소모임조회 (모임장)
 	@Override
-	public List<CreateclubVO> getMyClubList() {
-		return createclubMapper.selectClubMyList();
+	public List<CreateclubVO> getMyClubList(CreateclubVO createclubVO) {
+		
+		return createclubMapper.selectClubMyList(createclubVO);
 	}
 	
 	//소모임 세부조회
@@ -76,6 +79,7 @@ public class CreateclubServiceImpl implements CreateclubService {
 		return createclubMapper.clubnameChk(clubName);
 	}
 
+	
 
 	// 소모임 검색
 	@Override

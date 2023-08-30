@@ -8,6 +8,7 @@
   	<select id="selectFundingPostList" resultType="FundingPostVO">
   		SELECT
   			Fnd_Main_Img,
+  			Fnd_Main_ImgPath,
   			Fnd_Category,
   			Fnd_Post_Number, 
   			Fnd_Title,
@@ -56,14 +57,22 @@
 				, Fnd_Category
 				, Fnd_Title
 				, Fnd_Main_Img
+				, Fnd_Main_ImgPath
 				, Fnd_Views
 				, Fnd_Status
+				, Fnd_Current_Amount
+				, Fnd_Total_Amount
+				, Fnd_Participants
 				)
 		VALUES( 
 				#{fndPostNumber}
 				, #{fndCategory}
 				, #{fndTitle}
 				, #{fndMainImg}
+				, #{fndMainImgPath}
+				, 0
+				, 0
+				, 0
 				, 0
 				, 0
 				)
@@ -83,24 +92,30 @@
 		
 	</update>
 	
-	<!-- , Fnd_Main_Img
-				, Fnd_Main_ImgPath
-				, Fnd_Target_Amount
-				, Fnd_Start_Date
-				, Fnd_End_Date
-				, Fnd_Wdate
-				#{fndMainImg},
-				#{fndMainImgPath},
-				#{fndTargetAmount},
-				#{fndStartDate},
-				#{fndEndDate},
-				SYSDATE -->
+	<!-- 결제 후 모인금액 및 참여인원 업데이트 -->
+	<update id="updateFundingPostPayment" parameterType="FundingPostVO">
+		
+		UPDATE Funding_Post
+		SET
+			  Fnd_Current_Amount = Fnd_Current_Amount + #{fndTotalPrice}
+		 	, Fnd_Total_Amount = Fnd_Total_Amount + #{fndTotalPrice}
+		 	, Fnd_Participants = Fnd_Participants + 1
+		WHERE Fnd_Post_Number = #{fndPostNumber}
+		
+	</update>
+	
 	<!-- 조회수 업데이트 -->
 	<update id="FundingPostViewsCount" parameterType="FundingPostVO">
 	
 		UPDATE Funding_Post
-	  	SET Fnd_views = Fnd_views +1
+	  	SET Fnd_views = Fnd_views + 1
 	  	WHERE fnd_Post_Number = #{fndPostNumber}
 	  	
 	</update>
+	
+	<!-- 펀딩 프로젝트 삭제 -->
+	<delete id="deleteFundingPost" parameterType="FundingPostVO">
+		DELETE Funding_Post
+		WHERE fnd_Post_Number = #{fndPostNumber}
+	</delete>
 </mapper>

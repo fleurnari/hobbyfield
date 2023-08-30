@@ -10,7 +10,7 @@ public interface ClubBoardMapper {
 	// 전체 소모임 게시글 가져오기(메인페이지용)
 	public List<ClubBoardVO> getAllClubBoardList();
 	
-	// 전체조회(로그인한 프로필의 가입된소모임 게시글만 가져오게 매개변수)
+	// 소모임 내 조회(로그인한 프로필의 가입된소모임 게시글만 가져오게 매개변수)
 	public List<ClubBoardVO> getSelectClubBoardList(CreateclubVO vo);
 	
 	// 단건조회

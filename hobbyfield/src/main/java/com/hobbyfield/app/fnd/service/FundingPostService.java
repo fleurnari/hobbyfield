@@ -18,5 +18,6 @@ public interface FundingPostService {
 	//조회수
 	public int updateFundingPostViews(FundingPostVO fundingPostVO);
 	
-	
+	//결제 후 모인금액 및 참여인원
+	public int updateFundingPostPayment(FundingPostVO fundingPostVO);
 }
