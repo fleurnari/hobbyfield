@@ -61,13 +61,19 @@
 		)
 	</insert>
 
-	<!-- 소모임 증원권 적용 -->
-	
-	
-	
-	
-	<!--  -->
+	<!-- 소모임 증원권 member 적용 member로 가야할수도 -->
+<!-- 	<update id="updateUseterm" parameterType="MyitemVO"> -->
+<!-- 		UPDATE MYITEM -->
+<!-- 		SET MYITEM_USETERM = 0 -->
+<!-- 		WHERE MYITEM_ID = #{myitemId} -->
+<!-- 	</update> -->
 
+ 	<!-- 증원권이 0일때 CLUB_TOTAL=0 COUNT하지 않음 MEMBER로 갈거임--> 
+<!-- 	<update id="updateClubTotal" parameterType="ClubVO"> -->
+<!-- 		UPDATE CLUB -->
+<!-- 		SET CLUB_TOTAL = 0 -->
+<!-- 		WHERE CLUB_NUMBER = #{clubNumber} -->
+<!-- 	</update> -->
 
 
 </mapper>
