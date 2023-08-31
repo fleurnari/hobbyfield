@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -81,7 +82,7 @@ public class ClubController {
 	    return "club/clubInfo";
 	}
 	
-	// 내가만든 소모임 조회
+	// 내가 생성한 소모임 조회(진행중)
 	@ResponseBody
 	@GetMapping("/selectMadeClub")
 	public CreateclubVO getMadeClub(@RequestParam String profileNickname, Model model) {
@@ -100,6 +101,27 @@ public class ClubController {
 //		
 //		return clubprofileService.getProfile(clubprofileVO);
 //	}
+	// 가입신청한 소모임 회원 List
+	
+	
+	
+//	// 가입신청한 소모임 회원 승인페이지 (구현중)
+//	@GetMapping("/clubJoinMember")
+//	public String clubConfirmMember(@RequestParam("applyNumber") int applyNumber, Model model) {
+//		ClubJoinVO clubJoinVO = new ClubJoinVO();
+//		clubJoinVO.setApplyNumber(applyNumber);
+//		List<ClubJoinVO> joinVO = clubJoinService.joinClubMemberInfo(clubJoinVO);
+//		model.addAttribute("beforeMembers",joinVO);
+//		return "clubJoinMember";
+//	}
+	@GetMapping("/clubJoinMember")
+	public String clubConfirmMember(ClubJoinVO clubJoinVO, Model model) {
+		List<ClubJoinVO> joinVO = clubJoinService.joinClubMemberInfo(clubJoinVO);
+		model.addAttribute("beforeMembers",joinVO);
+		return "clubJoinMember";
+	}
+	
+	
 
 
 	/*========= 소모임 등록관련 =========*/

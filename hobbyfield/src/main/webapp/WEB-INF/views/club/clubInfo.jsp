@@ -106,7 +106,7 @@
 				<input type="text" name="applyAnswer2"><br>
 				<label>${clubInfo.singupQuestion3}</label><br>
 				<input type="text" name="applyAnswer3"><br>
-				<input type="hidden" value="N" name="applyStatus">
+				<input type="hidden" value="H1" name="applyStatus">
 				<input type="hidden" name="profileNickname" value="${clubInfo.profileNickname}">
 				<input type="hidden" name="clubNumber" value="${clubInfo.clubNumber}">
 				
