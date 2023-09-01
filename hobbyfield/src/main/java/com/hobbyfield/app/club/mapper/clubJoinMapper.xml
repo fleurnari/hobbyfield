@@ -66,4 +66,18 @@
        WHERE club_number = #{clubNumber} AND apply_status = 'H1'
    </select>
 
+	<!-- 소모임 가입 신청한 회원 승인 -->
+<!-- 	<update id="" parameterType=""> -->
+<!-- 		UPDATE club_apply -->
+<!-- 		<SET> -->
+<!-- 			apply_status = 'H1' -->
+<!-- 		</SET> -->
+<!-- 		WHERE profile_nickname = #{profileNickname} AND club_number= #{clubNumber} -->
+<!-- 	</update> -->
+	
+	<!-- 소모임 가입 신청한 회원 거부 -->
+<!-- 	<insert id="" parameterType=""> -->
+	
+<!-- 	</insert> -->
+
 </mapper>

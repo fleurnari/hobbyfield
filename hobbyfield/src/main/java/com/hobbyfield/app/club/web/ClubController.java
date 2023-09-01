@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,11 +60,22 @@ public class ClubController {
 
 	
 	/*========= 소모임 조회관련 =========*/
-	// 소모임 전체조회
+ // 소모임 전체조회(메인페이지)
+ 	@GetMapping("clubMain")
+ 	public String clubMain(Model model) {
+ 		model.addAttribute("clubList", createClubService.getClubTop());
+ 		model.addAttribute("board", clubBoardService.getAllClubBoardList());
+ 		model.addAttribute("clubCategorie", commCodeMapper.clubTypeList("0C"));
+ 		
+ 		return "club/clubMain";
+ 	}
+    
+    
+    
+    // 소모임 전체조회(조회페이지)
 	@GetMapping("clubList")
 	public String clubList(Model model) {
 		model.addAttribute("clubList", createClubService.getCreateClubList());
-		model.addAttribute("board", clubBoardService.getAllClubBoardList());
 		model.addAttribute("clubCategorie", commCodeMapper.clubTypeList("0C"));
 		
 		return "club/clubList";
@@ -82,7 +92,7 @@ public class ClubController {
 	    return "club/clubInfo";
 	}
 	
-	/// 내가 생성한 소모임 조회(진행중-미구현)
+	/// 내가 생성한 소모임 조회(데이터불러오기 가능/input태그 들어가지 않음)
 //	@ResponseBody
 //	@GetMapping("/selectMadeClub")
 //	public CreateclubVO selectMadeClub(CreateclubVO clubVO) {
@@ -98,13 +108,18 @@ public class ClubController {
 	}
 	
 	
-	// 가입한 소모임 회원 조회(info 또는 clubMain에서 조회) <모임장>
+	// 가입신청한 소모임 회원 조회(info 또는 clubMain에서 조회) <모임장>
 	@GetMapping("/clubManage")
 	public String clubConfirmMember(ClubJoinVO clubJoinVO, Model model) {
 		List<ClubJoinVO> joinVO = clubJoinService.joinClubMemberInfo(clubJoinVO);
 		model.addAttribute("beforeMembers",joinVO);
 		return "club/clubManage";
 	}
+	
+	//가입신청한 회원 승인
+	
+	
+	//가입신청한 회원 거부
 	
 
 	/*========= 소모임 등록관련 =========*/
@@ -127,10 +142,6 @@ public class ClubController {
 	public String clubInsertProcess(CreateclubVO clubVO, HttpSession session) {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		clubVO.setMemberEmail(member.getMemberEmail());
-		
-		ClubJoinVO joinvo = new ClubJoinVO();
-		joinvo.setClubNumber(clubVO.getClubNumber());
-		clubJoinService.clubJoinInfo(joinvo);		
 		
 		createClubService.insertClubInfo(clubVO);
 		return "redirect:clubList";
@@ -259,14 +270,14 @@ public class ClubController {
 	/*========= 마이페이지 개인정보 : 프로필 이미지 등록, 개인정보 조회=========*/
 
 	//프로필 개인정보 조회 : 전체조회(clubProfile)
-	@GetMapping("/clubMypage")
+	@GetMapping("/profileList")
 	public String selctProfileClub(ClubProfileVO clubprofileVO, Model model, HttpSession session) {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		clubprofileVO.setMemberEmail(member.getMemberEmail());
 		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
 		model.addAttribute("getNomalMypage", findVO);
 		
-		return "club/clubMypage";
+		return "club/profileList";
 	}
 	
 	//프로필 단건조회(clubProfile에 뿌려줌)

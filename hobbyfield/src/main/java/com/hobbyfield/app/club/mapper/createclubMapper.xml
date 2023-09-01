@@ -4,6 +4,38 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hobbyfield.app.club.mapper.CreateclubMapper">
 
+<select id="selectClubTop" resultType="CreateclubVO">
+
+	select a.* from (
+	select c.club_number
+	, profile_nickname
+	, club_name
+	, FIND_CODE_NM(club_category) AS club_category
+	, FIND_CODE_NM(club_type) AS club_type
+	, club_info
+	, FIND_CODE_NM(major_location) AS major_location
+	, FIND_CODE_NM(sub_location) AS sub_location
+	, club_public
+	, singup_question1
+	, singup_question2
+	, singup_question3
+	, club_img
+	, club_img_path
+	, club_total
+	, nvl(cnt,0) cnt
+	FROM club c left outer join(select club_number
+	,count(*) cnt
+	from club_apply
+	group by club_number) a
+	ON( c.club_number = a.club_number)
+	ORDER BY nvl(cnt,0) desc
+	) a 
+ <![CDATA[
+where rownum <=4
+]]>
+</select>
+
+
 	<!-- 소모임 전체조회 -->
 	<select id="selectClubAllList" resultType="CreateclubVO">
 		SELECT 
@@ -99,21 +131,7 @@
 	
 	<!-- 소모임 등록 -->
 <!-- 	현재 insert All을 사용해야하고 createclubVO에 해당 club_member가 없어서 문제가 생김 -->
-<!-- 		INSERT  -->
-<!-- 		INTO club_member -->
-<!-- 				( -->
-<!-- 					club_member_number -->
-<!-- 					,profile_nickname -->
-<!-- 					,club_number -->
-<!-- 					,club_join_date -->
-<!-- 				) -->
-<!-- 		VALUES	 -->
-<!-- 				( -->
-<!-- 					(SELECT NVL(MAX(CLUB_MEMBER_NUMBER), 0) + 1 FROM CLUB_member) -->
-<!-- 					,#{profileNickname} -->
-<!-- 					,#{clubNumber} -->
-<!-- 					,#{clubJoinDate} -->
-<!-- 				) -->
+		
 	<insert id="insertClub" parameterType="CreateclubVO">
 		<selectKey keyProperty="clubNumber" resultType="int" order="BEFORE">
 			SELECT NVL(MAX(club_number), 0) + 1
@@ -155,7 +173,22 @@
 					, #{clubImg}
 					, #{clubImgPath}
 					, 50
+				) 
+	INTO club_member
+				(
+					club_member_number
+					,profile_nickname
+					,club_number
+					,club_join_date
 				)
+				VALUES	
+				(
+					(SELECT NVL(MAX(CLUB_MEMBER_NUMBER), 0) + 1 FROM CLUB_member)
+					,#{profileNickname}
+					,#{clubNumber}
+					,SYSDATE
+				)
+	SELECT * FROM DUAL
 	</insert>
 	
  	<!-- 닉네임 중복체크 --> 
@@ -198,5 +231,27 @@
 	
 	<!-- 소모임 삭제? -->
 	
+	
+	<!-- 소모임 카테고리 정렬 -->
+	<select id="orderByCategory" resultType="CreateclubVO">
+		select club_number
+				, profile_nickname
+				, club_name
+				, FIND_CODE_NM(club_category) AS club_category
+				, FIND_CODE_NM(club_type) AS club_type
+				, club_info
+				, FIND_CODE_NM(major_location) AS major_location
+				, FIND_CODE_NM(sub_location) AS sub_location
+				, club_public
+				, singup_question1
+				, singup_question2
+				, singup_question3
+				, club_img
+				, club_img_path
+				, club_total
+		FROM club
+		WHERE FIND_CODE_NM(club_category) = '${club_category}'
+		ORDER BY club_number;
+	</select>
 
 </mapper>

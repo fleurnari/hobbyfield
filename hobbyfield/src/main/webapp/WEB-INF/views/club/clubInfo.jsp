@@ -136,6 +136,10 @@
 	    </div>
     </c:if>
     
+     <div>
+    	<button type="button" onclick="location.href='clubManage?clubNumber=${clubInfo.clubNumber}'">가입 신청한 회원</button>
+    </div>
+    
     <div>
     	<button type="button">삭제</button>
     </div>

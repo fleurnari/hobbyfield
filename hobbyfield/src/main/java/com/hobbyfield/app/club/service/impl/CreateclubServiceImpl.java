@@ -92,6 +92,18 @@ public class CreateclubServiceImpl implements CreateclubService {
 		return null;
 	}
 
+	//소모임 카테고리별 정렬
+	@Override
+	public List<CreateclubVO> orderByCategory(CreateclubVO createclubVO) {
+		return createclubMapper.orderByCategory(createclubVO);
+	}
+
+	//소모임 top
+	@Override
+	public List<CreateclubVO> getClubTop() {
+		return createclubMapper.selectClubTop();
+	}
+
 	
 
 	

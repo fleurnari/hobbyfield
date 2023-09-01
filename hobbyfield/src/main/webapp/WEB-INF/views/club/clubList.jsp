@@ -7,7 +7,7 @@
 <script src="" type="text/javascript"></script>
 <head>
     <meta charset="UTF-8">
-    <title>소모임 메인 페이지</title>
+    <title>소모임 조회 메인 페이지</title>
     <style>
         #clubContainer {
             display: flex;
@@ -65,12 +65,10 @@
 <body>
 <section>
     <div align="center" style="margin-top: 100px;">
-
-        <input type="text" id="memberEmail" value="${member.memberEmail}">
-
+		<a class="btn btn-success" href="${pageContext.request.contextPath}/clubInsert">소모임 생성</a>	
     
 		<!-- 소모임 표시 -->    
-
+	
      <div id="clubContainer">
             <c:forEach items="${clubList}" var="club">
                 <div class="clubItem" onclick="location.href='clubInfo?clubNumber=${club.clubNumber}&profileNickname=${club.profileNickname}'">
@@ -91,7 +89,7 @@
     
    <!-- 소모임과 소모임 게시글 구분을 위한 구분선 css 만들기 -->
    <div>
- <p>==========<p>
+ <p>================================================<p>
  </div>
   <div>
         <div id="clubContainer">
@@ -111,35 +109,13 @@
                 </div>
             </c:forEach>
         </div>
-
     </div>
-
-<!--     소모임과 소모임 게시글 구분을 위한 구분선 css 만들기 -->
-<!--     <div> -->
-<!--     <p>==========<p> -->
-<!--     </div> -->
-<!--     <div> -->
-<!--         <div id="clubContainer"> -->
-<%--             <c:forEach items="${board}" var="board"> --%>
-<!--                 <div id="clubLink"> -->
-<!--                     <div class=""> -->
-<%--                         <p>게시글번호: ${board.boardNumber}</p> --%>
-<%--                         <p>소모임번호: ${board.clubNumber}</p> --%>
-<%--                         <p>게시글작성자: ${board.clubBoardWriter}</p> --%>
-<%--                         <p>게시글내용: </p><div id="editor">${board.clubBoardContent}</div> --%>
-<%--                         <p>작성일: ${board.clubBoardWdate}</p> --%>
-<%--                         <p>조회수: ${board.clubBoardViews}</p> --%>
-<%--                         <p>공지글: ${board.clubBoardType}</p> --%>
-<%--                         <p>일정날짜 : ${board.scheduleDate}</p> --%>
-<%--                         <p>블라인드: ${board.clubBoardBlind}</p> --%>
-<!--                     </div> -->
-<!--                 </div> -->
-<%--             </c:forEach> --%>
-<!--         </div> -->
-<!--     </div> -->
+    
+</div>
 
 
-<!-- <!-- ajax를 통해 보낼 Session에 member.memberEmail을 담을 hideen --> -->
+
+<!-- <!-- ajax를 통해 보낼 Session에 member.memberEmail을 담을 hideen -->
 <%-- <input type="hidden" id="checkClub" name="checkClub" value="${member.memberEmail}"> --%>
 </section>
 </body>
@@ -195,7 +171,7 @@
 //    .catch( error => {
 //       console.error( error );
 //    });
-	// bootstrap modal ex
+// 	bootstrap modal ex
 
 	
 </script>

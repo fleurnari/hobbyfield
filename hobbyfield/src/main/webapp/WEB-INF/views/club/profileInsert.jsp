@@ -13,6 +13,10 @@
 <body>
 <div align="center" class="profile_top">
 
+	<div>
+		<a href="${pageContext.request.contextPath}/profileList">프로필 조회</a>
+	</div><br>
+
    <form action="profileInsert" method="post" id="join_form">
       <div class="profile_info">
          <h2>프로필 정보</h2><br>

@@ -26,7 +26,7 @@ public class ClubJoinServiceImpl implements ClubJoinService {
    }
    
 
- //소모임 가입 신청자 리스트 전체조회
+ //가입신청한 소모임 회원 전체조회
    @Override
    public List<ClubJoinVO> joinClubMemberInfo(ClubJoinVO joinVO) {
       return clubJoinMapper.joinClubMember(joinVO);

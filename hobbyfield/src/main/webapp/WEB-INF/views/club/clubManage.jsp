@@ -10,6 +10,7 @@
 </head>
 <body>
 <section>
+	<h2>신청한 인원 없으면 없다고 alert창 생성해야함</h2>
 		<div align="center">
 			<div>
 				<table>

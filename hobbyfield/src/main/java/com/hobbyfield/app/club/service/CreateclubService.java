@@ -11,6 +11,9 @@ public interface CreateclubService {
 	
 	// 소모임 전체조회
 	public List<CreateclubVO> getCreateClubList();
+	
+	// 소모임 가입인원이 많은 클럽
+	public List<CreateclubVO> getClubTop();
 
 	// 내가만든 소모임 조회(모임장)
 	public List<CreateclubVO> getMyClubList(CreateclubVO createclubVO);
@@ -35,6 +38,9 @@ public interface CreateclubService {
 
 	// 소모임 검색
 	public List<CreateclubVO> searchClub(CreateclubVO createclubVO);
+	
+	// 소모임 카테고리 정렬
+	public List<CreateclubVO> orderByCategory(CreateclubVO createclubVO);
 	
 	
 	
