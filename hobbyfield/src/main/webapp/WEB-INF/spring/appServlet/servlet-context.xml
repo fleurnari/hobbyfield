@@ -19,6 +19,7 @@
 	<resources mapping="/download/img/" location="C:/upload/temp/" ></resources>
 	
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
@@ -67,7 +68,14 @@
 				<beans:prop key="mail.smtp.ssl.protocols">TLSv1.2</beans:prop>
 			</beans:props>
 		</beans:property>
-	</beans:bean>	
+	</beans:bean>
+	
+		<!-- 웹소캣 등록 -->
+		<beans:bean id="echoHandler" class="com.hobbyfield.app.chat.web.ChatHandler"/>
+		<websocket:handlers>
+			<websocket:mapping handler="echoHandler" path="/echo"/>
+			<websocket:sockjs/>
+		</websocket:handlers>
 	
 	<context:component-scan base-package="com.hobbyfield.app" />
 
