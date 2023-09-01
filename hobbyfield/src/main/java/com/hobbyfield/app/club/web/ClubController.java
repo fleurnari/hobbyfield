@@ -62,16 +62,16 @@ public class ClubController {
 	
 	/*========= 소모임 조회관련 =========*/
 	// 소모임 전체조회
-	@GetMapping("clubList")
+	@GetMapping("clubMain")
 	public String clubList(Model model) {
 		model.addAttribute("clubList", createClubService.getCreateClubList());
 		model.addAttribute("board", clubBoardService.getAllClubBoardList());
 		model.addAttribute("clubCategorie", commCodeMapper.clubTypeList("0C"));
 		
-		return "club/clubList";
+		return "club/clubMain";
 	}
 	
-
+	
 	// 소모임 세부조회
 	@GetMapping("/clubInfo")
 	public String getClubInfo(@RequestParam String profileNickname, ClubJoinVO joinVO , Model model) {
@@ -81,13 +81,6 @@ public class ClubController {
 	    model.addAttribute("clubInfo", findVO);
 	    return "club/clubInfo";
 	}
-	
-	/// 내가 생성한 소모임 조회(진행중-미구현)
-//	@ResponseBody
-//	@GetMapping("/selectMadeClub")
-//	public CreateclubVO selectMadeClub(CreateclubVO clubVO) {
-//	    return createClubService.selectMadeClub(clubVO);
-//	}
 	
 	@ResponseBody
 	@GetMapping("/selectMadeClub")
@@ -151,15 +144,10 @@ public class ClubController {
 	@ResponseBody
 	@PostMapping("/nickChk")
 	public String nickChkPOST(String profileNickname) throws Exception {
-
 		int result = clubprofileService.nickChk(profileNickname);
-
 		if (result != 0) {
-
 			return "fail"; // 중복 닉네임 존재
-
 		} else {
-
 			return "success"; // 중복 닉네임 없음
 
 		}
@@ -169,33 +157,13 @@ public class ClubController {
 	@ResponseBody
 	@PostMapping("/clubnameChk")
 	public String clubnameChkPOST(String clubName) throws Exception {
-
 		int result = createClubService.clubnameChk(clubName);
-
 		if (result != 0) {
-
 			return "fail"; // 중복 모임 이름 존재
-
 		} else {
-
 			return "success"; // 중복 모임 이름 없음
 		}
 	}
-
-	//소모임 수정 form 페이지
-
-//	@GetMapping("clubUpdate")
-//	public String updateView(ClubProfileVO clubprofileVO, Model model, HttpSession session) {
-//		model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); // 지역대그룹 코드
-//		model.addAttribute("F", commCodeMapper.selectCommsubList("0F")); // 지역소그룹 코드
-//		model.addAttribute("C", commCodeMapper.commCategoryList("0C")); // 모임카테고리 그룹코드
-//		model.addAttribute("D", commCodeMapper.clubTypeList("0D")); // 모임분류 그룹코드
-//		MemberVO member = (MemberVO) session.getAttribute("member");
-//		clubprofileVO.setMemberEmail(member.getMemberEmail());
-//		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
-//		model.addAttribute("update", findVO);
-//		return "club/clubMadeList";
-//	}
 
 	@GetMapping("clubUpdate")
 	public String updateView(ClubProfileVO clubprofileVO, Model model, HttpSession session) {
@@ -211,8 +179,6 @@ public class ClubController {
 		return "club/clubMadeList";
 	}
 
-	
-	
 	// 소모임 수정 (AJAX 사용하지 X) - clubMadeList modal창
 	@PostMapping("clubUpdate")
 	public String clubUpdate(CreateclubVO createclubVO){
@@ -220,7 +186,6 @@ public class ClubController {
 		return "redirect:clubList"; 
 	}
 	
-		
 	// 소모임 가입하기 Process
 	@PostMapping("clubJoinProcess")
 	public String clubJoinProcess(ClubJoinVO joinVO ,Model model) {
@@ -228,10 +193,6 @@ public class ClubController {
 		return "redirect:clubList"; 
 	}
 		
-	
-	
-	// 소모임 삭제?
-	
 	/*========= 마이페이지 : 내가 생성한 소모임 조회 =========*/
 	// 내가 생성한 소모임 전체조회
 	@GetMapping("clubMadeList")
@@ -244,13 +205,7 @@ public class ClubController {
 		
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		createclubVO.setMemberEmail(member.getMemberEmail());
-//		System.out.println(createclubVO); //데이터 확인용
-//		System.out.println(clubMadeList);
 		List<CreateclubVO> clubMadeList = createClubService.getMyClubList(createclubVO);
-		
-//		clubprofileVO.setMemberEmail(member.getMemberEmail());
-//		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
-//		model.addAttribute("clubmade", findVO);
 		model.addAttribute("clubMadeList", clubMadeList);
 		return "club/clubMadeList";
 	}
@@ -304,7 +259,6 @@ public class ClubController {
 	
 
 	/*========= 게시글 =========*/
-	
 	// 소모임 메인페이지 이동(모든 소모임, 게시글 볼 수 있는 페이지);
 	@GetMapping("clubMainPage")
 	public String clubMainPage(Model model) {
@@ -315,19 +269,12 @@ public class ClubController {
 		return "club/clubMainPage";
 	}
 	
-	
 	// 소모임 게시글 생성
 	@GetMapping("clubBoardInsert")
 	public String clubBoardInsertForm() {
 		return "club/clubBoardInsert";
 	}
 
-
-	@GetMapping("uploadForm")
-	public String uploadForm() {
-		return "club/uploadForm";
-	}
-	
 	
 	@PostMapping("clubBoardInsert")
 	public String insertClubBoard(Model model ,ClubBoardVO vo,CreateclubVO cvo) {
@@ -344,13 +291,9 @@ public class ClubController {
 	public String clubBoardList(Model model, CreateclubVO vo, HttpServletRequest request) {
 		List<ClubBoardVO> clubBoardList = clubBoardService.getSelectClubBoardList(vo);
 		model.addAttribute("boardList", clubBoardList);
-		// 세션 객체 생성후 request의 session값 담기
 		HttpSession session = request.getSession();
-		// member객체 생성후 session 값을 member 객체에 담기 
 		MemberVO mvo = (MemberVO)session.getAttribute("member");
-		// 가져온 세션값을 토대로 자신의 프로필을 가져와서 오기
 		ClubProfileVO profile = clubprofileMapper.getSessionProfile(mvo.getMemberEmail(), vo.getClubNumber());
-		// 가져온 값을 세션에 담기
 		session.setAttribute("profile", profile);
 		session.setAttribute("clubNumber", vo.getClubNumber());
 		return "club/clubBoardList";
@@ -363,6 +306,9 @@ public class ClubController {
 		
 		return "club/clubBoardInfo";
 	}
+	
+	// 내정보 페이지 이동(프로필 관리, 내가 쓴 게시글 댓글 관리,  
+	
 	
 
 }

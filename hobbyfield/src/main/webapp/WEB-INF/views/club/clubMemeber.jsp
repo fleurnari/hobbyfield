@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>소모임</title>
+<title>소모임 멤버</title>
 </head>
 <body>
-	
+
 </body>
 </html>

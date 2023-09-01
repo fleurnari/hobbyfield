@@ -7,6 +7,6 @@
 <title>소모임</title>
 </head>
 <body>
-	
+
 </body>
 </html>
