@@ -89,9 +89,6 @@
         </tr>
         <c:set var="sum" value="0" />
         <c:forEach items="${cartList}" var="cart">
-        	<div class="checkBox">
-        		
-        	</div>
         <tr>
             <td><input type="checkbox" name="chBox" class="chBox" data-cartId="${cart.cartId }"/></td>
             <td>${cart.prdtName}</td>
@@ -157,7 +154,7 @@
     </select>
 	</div>
     <div class="inputArea">
-     <button type="submit" class="order_btn">주문</button>
+     <button type="button" class="order_btn">주문</button>
      <button type="button" class="cancel_btn">취소</button>   
     </div>
     

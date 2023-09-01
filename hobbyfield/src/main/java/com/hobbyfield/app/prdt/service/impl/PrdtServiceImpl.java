@@ -9,6 +9,7 @@ import com.hobbyfield.app.common.SearchCriteria;
 import com.hobbyfield.app.prdt.mapper.PrdtMapper;
 import com.hobbyfield.app.prdt.service.PrdtService;
 import com.hobbyfield.app.prdt.service.PrdtVO;
+import com.hobbyfield.app.prdt.service.ReviewVO;
 @Service
 public class PrdtServiceImpl implements PrdtService {
 	

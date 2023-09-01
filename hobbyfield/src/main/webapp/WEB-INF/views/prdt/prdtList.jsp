@@ -32,7 +32,7 @@
 					<li class="list-group-item"><a href="prdtInsert">상품등록</a></li>
 					<li class="list-group-item"><a href="cartList">장바구니</a></li>
 					<li class="list-group-item"><a href="orderList">주문목록</a></li>
-					<li class="list-group-item"><a href="#">링크4</a></li>
+					<li class="list-group-item"><a href="adminOrderList">배송관리</a></li>
 				</ul>
 			</div>
 			<!-- 상품 목록 영역 -->

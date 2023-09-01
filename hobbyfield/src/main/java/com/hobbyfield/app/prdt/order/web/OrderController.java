@@ -2,17 +2,22 @@ package com.hobbyfield.app.prdt.order.web;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hobbyfield.app.member.service.MemberService;
@@ -35,9 +40,9 @@ public class OrderController {
 	MemberService memberService;
 	
 	//주문하기
-	@PostMapping("orderInfo")
+	@PostMapping("/orderInfo")
 	@ResponseBody
-	public String saveOrder(OrderVO orderVO, HttpSession session) {
+	public String saveOrder(@RequestBody OrderVO orderVO, HttpSession session) {
 		
 		MemberVO member = (MemberVO)session.getAttribute("member");
 		String memberEmail = member.getMemberEmail();
@@ -62,7 +67,8 @@ public class OrderController {
 
 	    return "success";
 	}
-	
+		
+	  //주문목록(사용자)
 	  @GetMapping("/orderList")
 	  public String getOrderList(Model model, HttpSession session) {
 		  	
@@ -73,4 +79,41 @@ public class OrderController {
 	        model.addAttribute("orderList", orderList);
 	        return "prdt/orderList"; 
 	    }
+	  
+	  
+	  //주문목록(사용자)
+	  @GetMapping("/adminOrderList")
+	  public String adminOrderList(Model model, HttpSession session) {
+		  	
+			MemberVO member = (MemberVO)session.getAttribute("member");
+			String memberEmail = member.getMemberEmail();
+		  
+	        List<OrderVO> adminOrderList = orderService.orderList(memberEmail);
+	        model.addAttribute("adminOrderList", adminOrderList);
+	        return "prdt/adminOrderList"; 
+	    }
+	  
+	  
+	  
+	// 주문 상태 변경 처리(관리자)
+	  @PostMapping("/updateDelivery")
+	  @ResponseBody
+	  public Map<String, Object> updateDelivery(@RequestBody Map<String, Object> paramMap) {
+	      Map<String, Object> response = new HashMap<>();
+	      
+	      try {
+	          List<String> orderIds = (List<String>) paramMap.get("orderIds");
+	          String delivery = (String) paramMap.get("delivery");
+	          
+	          // 서비스 메서드를 호출하여 배송 상태 변경 처리
+	          orderService.updateDelivery(orderIds, delivery);
+	          
+	          response.put("success", true);
+	      } catch (Exception e) {
+	          response.put("success", false);
+	      }
+	      
+	      return response;
+	  }
+	  
 }

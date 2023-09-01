@@ -5,9 +5,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style type="text/css">
-  /* 스타일 시트 */
-</style>
 <link href="../resources/css/prdt/bootstrap.min.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <meta charset="UTF-8">
@@ -44,7 +41,7 @@
                     <td>${order.orderId}</td>
                     <td>${order.prdtName}</td>
                     <td><fmt:formatDate value="${order.orderDate}" pattern="yyyy-MM-dd" /></td>
-                    <td>${order.amount}메소</td>
+                    <td>${order.amount}</td>
                     <td><button type="button" class="btn btn-danger deleteBtn" data-orderId="${order.orderId}">취소</button></td>
                 </tr>
             </c:forEach>
