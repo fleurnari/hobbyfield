@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hobbyfield.app.fnd.service.FundingGoodsService;
 import com.hobbyfield.app.fnd.service.FundingGoodsVO;
@@ -48,10 +48,10 @@ public class FundingGoodsController {
 	
 	//펀딩 옵션 삭제
 			@PostMapping("goodsDelete")
-			public String fundingDeleteGoods(FundingGoodsVO fundingGoodsVO) {
+			public String fundingDeleteGoods(FundingGoodsVO fundingGoodsVO,FundingPostVO fundingPostVO, RedirectAttributes redirectAttributes) {
 				fundingGoodsService.deleteGoods(fundingGoodsVO);
-				
-				return "redirect:fundingPostGoods";
+				redirectAttributes.addAttribute("fundingPostVO", fundingPostVO.getFndPostNumber());
+				return "redirect:/fundingPostGoods";
 			}
 			
 	/*
