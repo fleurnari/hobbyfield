@@ -7,23 +7,28 @@
 <head>
 <meta charset="UTF-8">
 <title>소모임 게시글</title>
-<!-- 
+
 <script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/ckeditor5.js"></script>
- -->
-<script
-	src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
-<script
-	src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
 <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/club/ckediotr.css">
+<!-- 
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ckediotr.css">
+ -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club/clubboard.css"> 
 <!-- 임시 style 추후 삭제후 link를 통하여 사용 -->
 <style type="text/css">
-
+	.ck.ck-editor {
+	width: 80%;
+	max-width: 800px;
+	margin: 0 auto;
+	}
+	
+	.ck-editor__editable {
+	height: 80vh;
+	}
 </style>
-
 </head>
 <body>
 	<div align="center" style="margin-top: 100px;" >
