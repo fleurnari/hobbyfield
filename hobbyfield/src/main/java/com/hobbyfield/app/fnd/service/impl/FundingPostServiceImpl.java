@@ -62,4 +62,10 @@ public class FundingPostServiceImpl implements FundingPostService {
 	public int updateFundingPostPayment(FundingPostVO fundingPostVO) {
 		return fundingPostMapper.updateFundingPostPayment(fundingPostVO);
 	}
+	
+	//펀딩 프로젝트 삭제
+	@Override
+	public int deleteFundingPost(FundingPostVO fndPostNumber) {
+		return fundingPostMapper.deleteFundingPost(fndPostNumber);
+	}
 }

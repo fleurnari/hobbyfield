@@ -20,4 +20,7 @@ public interface FundingPostService {
 	
 	//결제 후 모인금액 및 참여인원
 	public int updateFundingPostPayment(FundingPostVO fundingPostVO);
+	
+	//펀딩 프로젝트 삭제
+	public int deleteFundingPost(FundingPostVO fndPostNumber);
 }

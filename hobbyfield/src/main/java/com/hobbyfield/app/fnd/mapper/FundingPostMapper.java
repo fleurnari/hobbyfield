@@ -24,5 +24,5 @@ public interface FundingPostMapper {
 	public int updateFundingPostPayment(FundingPostVO fundingPostVO);
 	
 	//삭제
-	public int deleteFundingPost(FundingPostVO fundingPostVO);
+	public int deleteFundingPost(FundingPostVO fndPostNumber);
 }

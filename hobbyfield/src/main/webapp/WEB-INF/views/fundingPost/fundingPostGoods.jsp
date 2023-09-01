@@ -52,14 +52,18 @@ flex-wrap:wrap;
 		<div class="container">
 			<div class="container2">
 			<c:forEach items="${fundingGoodsInfo }" var="fundingGoods">
+				<form action="goodsDelete" method="post" id="deleteGoods">
 				<div class="product-option">
 					<div class="option-box" onclick="toggleDetails(this)">
 						<p class="option-name">${fundingGoods.fndGoodsName }<br>${fundingGoods.fndGoodsAmount }<br>${fundingGoods.fndGoodsPrice }<br>텍스트
 						</p>
 						<p class="option-description">${fundingGoods.fndGoodsContent }</p>
-						<button type="button" onclick="deleteGoods(this)">삭제</button>
+						<input type="text" id="fndGoodsNumber" name="fndGoodsNumber" value="${fundingGoods.fndGoodsNumber }">
+						<input type="text" id="fndPostNumber" name="fndPostNumber" value="${fundingGoods.fndPostNumber }"> 
+						<button type="submit" id="goodsDelete" name="goodsDelete" class="btn btn-dark">삭제</button>
 					</div>
 				</div>
+				</form>
 			</c:forEach>
 		</div>
 	</div>
@@ -169,7 +173,32 @@ flex-wrap:wrap;
     			}
     		}
 	
-  
+    $('#deleteGoods').on('submit', function(e){
+		e.preventDefault();
+		
+		
+		let fndGoodsNumber = $(this).find('input[name="fndGoodsNumber"]').val();
+		let fndPostNumber = $(this).find('input[name="fndPostNumber"]').val();
+		
+		$.ajax({
+			url : "goodsDelete",
+			method : "POST",
+			//비동기라고 json 방식으로 안보내도됨! 
+			data : {
+				fndGoodsNumber: fndGoodsNumber,
+				fndPostNumber: fndPostNumber
+			}
+		})
+		.done(data => {
+				let message = '삭제되었습니다.';
+				alert(message);
+				
+				document.location.reload();
+		})
+		.fail(reject => console.log(reject));
+		
+	});
+	
 	</script>
 </body>
 </html>

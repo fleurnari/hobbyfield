@@ -52,16 +52,20 @@ flex-wrap:wrap;
 		<div class="container2">
 			<c:forEach items="${fundingPostList }" var="fundingPost">
 				<c:if test="${fundingPost.fndStatus eq '0' }">
+		<form action="fundingPostDelete" method="post" id="deleteFnd">
 				<div>
 				<div class="option-box">
 					<div class="col-sm-6">
 						<div class="mb-2">
 							<p class="option-name">${fundingPost.fndTitle }</p>
+							<input type="text" id="fndPostNumber" name="fndPostNumber" value="${fundingPost.fndPostNumber }">
 							<button type="button" class="btn btn-dark" onclick="location.href='fundingPostInsert20?fndPostNumber=${fundingPost.fndPostNumber }'">이어서 작성 -></button>
+							<button type="submit" id="fndDelete" name="fndDelete" class="btn btn-dark">삭제</button>
 						</div>
 					</div>
 				</div>
 				</div>
+		</form>
 				</c:if>
 			</c:forEach>
 		</div>
@@ -178,6 +182,65 @@ flex-wrap:wrap;
                 				$('#frm').append(tag);
                 			}
                 		}
+  
+                $('#deleteFnd').on('submit', function(e){
+            		e.preventDefault();
+            		
+            		
+            		let fndPostNumber = $(this).find('input[name="fndPostNumber"]').val();
+            		
+            		$.ajax({
+            			url : "fundingPostDelete",
+            			method : "POST",
+            			//비동기라고 json 방식으로 안보내도됨! 
+            			data : {
+            				 fndPostNumber: fndPostNumber
+            			}
+            		})
+            		.done(data => {
+            				let message = '삭제되었습니다.';
+            				alert(message);
+            				
+            				location.href = "fundingPostInsert";
+            		})
+            		.fail(reject => console.log(reject));
+            		
+            	});
+            	
+
+
+/* 				$(document).ready(function(){
+					
+					$('#fndDelete').on("click", function(){
+						
+						$.ajax({
+							url : "fundingPostDelete",
+							type : "POST",
+							dataType : "json"
+						
+						})
+					})
+				}) */
+/*    				//삭제
+   				$('button:contains("삭제")').on('click', ajaxDeletefnd);
+   				function ajaxDeletefnd(e){
+   					let fndPostNumber = e.currentTarget.closest('input').firstElementChild.val;
+   					
+   					$.ajax({
+   						url : 'fundingPostDelete',
+   						type : 'post',
+   						data : {fndPostNumber : fndPostNumber}
+   					})
+   					.done( data => {
+   						remove();
+   					}else{
+   						alert('삭제되지 않았습니다.');
+   					}
+   				})
+   				.fail( reject => console.log(reject));
+   					
+   					return false;
+   			} */
 	</script>
 </body>
 </html>

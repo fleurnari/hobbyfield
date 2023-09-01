@@ -62,8 +62,8 @@
 						for(mv of list) {
 							var preview = document.getElementById("preview");
 							var imgTag = document.createElement("img");
-							//imgTag.src = mv.url+ mv.UUID; 
-							imgTag.src = '/app' + mv.url+ mv.UUID; 
+							imgTag.src = mv.url + mv.UUID; 
+							console.log( mv.url + "test" + mv.UUID);
 							imgTag.style.width=200+'px';
 							imgTag.style.height=200+'px';							
 							preview.appendChild(imgTag);							
