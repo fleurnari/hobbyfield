@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 <script
@@ -79,6 +80,6 @@ div.header {
 	})
 	
 	// 웹소캣 생성
-	var sock = new SockJS("http://localhost:80/echo");
+	var sock = new SockJS("http://localhost:80/app/echo");
 </script>
 </html>
