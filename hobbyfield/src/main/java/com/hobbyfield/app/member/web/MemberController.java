@@ -126,6 +126,7 @@ public class MemberController {
 								@RequestParam(value = "exception", required = false) String exception,
 								Model model,
 								HttpSession session) {
+			System.out.println("세션" + session.getId());
 			model.addAttribute("error", error);
 			model.addAttribute("exception", exception);
 			
@@ -180,7 +181,7 @@ public class MemberController {
 	public String naverLogin(HttpServletRequest request, RedirectAttributes rttr, @RequestParam(value = "code", required = false) String code, @RequestParam String state) throws Exception {
 		HttpSession session = request.getSession();
 		OAuth2AccessToken access_Token = naverLoginBO.getAccessToken(session, code, state);
-		
+		System.out.println("token : " + access_Token);
 		apiResult = naverLoginBO.getUserProfile(access_Token);
 		
 	    ObjectMapper objectMapper = new ObjectMapper();

@@ -144,12 +144,7 @@
 								<td>${comMem.memberEmail}</td>
 								<td>${comMem.memberNm}</td>
 								<td>${comMem.memberGrd}</td>
-								<c:if test="${comMem.memberComaccp eq 'AJ1'}">
-									<td>승인 대기</td>
-								</c:if>
-								<c:if test="${comMem.memberComaccp eq 'AJ3'}">
-									<td>승인 거절</td>
-								</c:if>
+								<td>${comMem.memberComaccp}</td>
 							</tr>
 						</c:forEach>
 					</tbody>

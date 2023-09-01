@@ -106,6 +106,7 @@
 	<select id="selectJoinClub" resultType="com.hobbyfield.app.club.service.CreateclubVO">
 		SELECT c.club_number,
 			   c.club_name,
+			   c.profile_nickname
 			   FIND_CODE_NM(c.club_category) AS club_category,
 			   FIND_CODE_NM(c.club_type) AS club_type,
 			   FIND_CODE_NM(c.club_public) AS club_public,

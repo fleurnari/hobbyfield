@@ -13,7 +13,7 @@
 	</select>
 
 	<!-- 알림 등록 -->
-	<insert id="insertPush" parameterType="PushVO">
+	<insert id="insertPush">
 		<selectKey keyProperty="pushId" resultType="int" order="BEFORE">
 			SELECT NVL(MAX(push_id),0) + 1
 			FROM push

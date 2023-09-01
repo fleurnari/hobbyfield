@@ -45,8 +45,8 @@ public class PushController {
 	// 알림 등록
 	@ResponseBody
 	@PostMapping("/insertPush")
-	public int insertPush(PushVO pushVO) {
-		int result = pushService.insertPush(pushVO);
+	public int insertPush(int pushId, String pushTarget, String pushTyp, String pushCntn, String pushUrl) {
+		int result = pushService.insertPush(pushId, pushTarget, pushTyp, pushCntn, pushUrl);
 		
 		return result;
 	}
