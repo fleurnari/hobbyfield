@@ -4,12 +4,36 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.hobbyfield.app.club.board.mapper.ClubCommentMapper">
  
- 	<select id="getUserComment" resultType="ClubCommentVO" parameterType="ClubCommentVO">
- 		SELECT 
+ 	<select id="getUserComment" resultType="ClubCommentVO">
+ 		SELECT c.COMMENT_NUMBER
+		        , c.BOARD_NUMBER
+		        , c.CLUB_COMMENT_CONTENT
+		        , c.CLUB_COMMENT_DATE
+		        , c.CLUB_COMMENT_SECRET
+		        , c.CLUB_COMMENT_PARTNUMBER
+		        , c.CLUB_COMMENT_LEVEL
+		        , c.PROFILE_NICKNAME
+		        , p.member_
+		        , p.PROFILE_IMG
+		        , p.PROFILE_IMG_PATH
+		FROM CLUB_COMMENT c JOIN PROFILE p ON(c.profile_nickname = p.profile_nickname)
+		JOIN MEMBER m ON(p.member_email = m.member_email)
+		WHERE p.member_email = #{memberEmail};
  	</select>
  	
  	<select id="getBoardComment" resultType="ClubCommentVO" parameterType="ClubCommentVO">
- 	
+ 		SELECT c.COMMENT_NUMBER
+		        , c.BOARD_NUMBER
+		        , CLUB_COMMENT_CONTENT
+		        , CLUB_COMMENT_DATE
+		        , CLUB_COMMENT_SECRET
+		        , CLUB_COMMENT_PARTNUMBER
+		        , CLUB_COMMENT_LEVEL
+		        , c.PROFILE_NICKNAME
+		        , p.PROFILE_IMG
+		        , p.PROFILE_IMG_PATH
+		FROM CLUB_COMMENT c JOIN PROFILE p ON(c.profile_nickname = p.profile_nickname)
+		WHERE c.board_number = #{boardNumber};
  	</select>
  
  	<insert id="insertComment" parameterType="ClubCommentVO">

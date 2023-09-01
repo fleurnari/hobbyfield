@@ -5,7 +5,6 @@ import java.util.List;
 public interface BoardVoteService {
 	
 	// 생성위한 메소드 
-	
 	// 투표 생성 
 	public int insertVote(BoardVoteVO vo);
 	// 투표 종료
@@ -16,8 +15,6 @@ public interface BoardVoteService {
 	public int insertVoteResult(List<BoardVoteResultVO> vo);
 	// 투표 결과 삭제
 	public int deleteVoteResult(BoardVoteResultVO vo);
-	
-	
 	
 	// 출력 위한 메소드
 	// 투표글만 모아보기 => 글, 옵션, 결과 모두 가져와야 함

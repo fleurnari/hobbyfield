@@ -4,9 +4,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>소모임</title>
+<title>소모임 피드</title>
 </head>
 <body>
-	
+	<!-- 추후 삭제 -->
+	<div align="center" style="margin-top: 100px;">
+		<div></div>
+	</div>
 </body>
 </html>

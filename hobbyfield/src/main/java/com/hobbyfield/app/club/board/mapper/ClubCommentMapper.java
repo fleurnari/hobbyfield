@@ -6,7 +6,7 @@ import com.hobbyfield.app.club.board.service.ClubCommentVO;
 public interface ClubCommentMapper {
 	
 	// 댓글 불러오기(사용자가 작성한댓글)
-	public List<ClubCommentVO> getUserComment(ClubCommentVO vo);
+	public List<ClubCommentVO> getUserComment(String email);
 	// 댓글 불러오기(게시물의 댓글) 
 	public List<ClubCommentVO> getBoardComment(ClubCommentVO vo);
 	// 댓글 작성

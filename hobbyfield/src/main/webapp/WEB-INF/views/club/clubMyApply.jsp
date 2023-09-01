@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>소모임</title>
+<title>Insert title here</title>
 </head>
 <body>
-	
+
 </body>
 </html>
