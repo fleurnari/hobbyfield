@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,6 +50,45 @@
 			
 		</div>
 	</div>
+	
+	
+	<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+			data-bs-target="#emojiModal">😊</button>
+	<div class="modal fade" id="emojiModal" tabindex="-1"
+			aria-labelledby="emojiModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable">
+				<div class="modal-content">
+					<!-- 이모티콘 탭 헤더 -->
+					<div class="modal-header">
+						<h5 class="modal-title" id="emojiModalLabel">이모티콘</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+
+					 <div class="container">
+				        <!-- 이모티콘 탭 -->
+				        
+				        <!-- 이모티콘 헤더 -->
+				        <ul class="nav nav-tabs" id="emojiTabs" role="tablist">
+				            <c:forEach items="${emoji}" var="emoji" varStatus="status">
+				                <li class="nav-item" role="presentation">
+				                    <a class="nav-link ${status.index == 0 ? 'active' : ''}" id="emoji-tab-${status.index}" data-bs-toggle="tab" href="#emoji-content-${status.index}" role="tab" aria-controls="emoji-content-${status.index}" aria-selected="${status.index == 0 ? 'true' : 'false'}">${emoji.emojiId}</a>
+				                </li>
+				            </c:forEach>
+				        </ul>
+				        
+				        <!-- 이모티콘 그룹 -->
+				        <div class="tab-content" id="emojiTabGroup">
+				            <c:forEach items="${emoji}" var="emoji" varStatus="status">
+				                <div class="tab-pane fade ${status.index == 0 ? 'show active' : ''}" id="emoji-content-${status.index}" role="tabpanel" aria-labelledby="emoji-tab-${status.index}">
+				                    <img src="${emoji.emojiImgPath}" alt="${emoji.emojiImgName}">
+				                </div>
+				            </c:forEach>
+				        </div>
+				    </div>
+					</div>
+				</div>
+		</div>
 <script>
 ClassicEditor
 .create( document.querySelector( '#editor' ), {
@@ -66,6 +107,9 @@ ClassicEditor
 .catch( error => {
     console.log( error );
 });
+   
+   
+   
    
 </script>
 	
