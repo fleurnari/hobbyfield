@@ -52,7 +52,7 @@ input {
 	background-color: #fff;
 	margin: 10% auto;
 	padding: 20px;
-	width: 60%;
+	width: 40%;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 	text-align: center;
 	position: relative;
@@ -84,7 +84,7 @@ input {
 }
 
 .first-img {
-	
+	250px;
 }
 
 .first-img img {
@@ -250,7 +250,7 @@ input {
         }
 
         str = str.replace(/\r\n/ig, '<br>');
-        str = str.replace(/\\n/ig, '<br>');
+        str = str.replace(/\n/ig, '<br>');
         str = str.replace(/\n/ig, '<br>');
         return str;
     }
@@ -262,6 +262,7 @@ $('[name="pointOptId"]').click(function(e){
 	$('[name="pointPrice"]').val( $(e.target).data('price'))
 })
 
+//판매마감된 상품페이지
 window.onload = function () {
     var currentDate = new Date();
     if("${point.pointItemType}" == "W1"){
@@ -305,12 +306,11 @@ function remaindTime() {
 	    $("#d-day-min").html('00');
 	    $("#d-day-sec").html('00'); 	   
 		
-	   
    }
 }
 
 
-
+// 구매모달
  
 // 모달 열기
  function openModal() {

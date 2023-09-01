@@ -34,7 +34,7 @@
 					<tr>
 					<td>
 					<figure>
-					<img id="img" src="resources/images/${fundingPostInfo.fndMainImg }"
+					<img id="img" src="${fundingGoodsInfo.fndGoodsImgPath }${fundingGoodsInfo.fndGoodsImg }"
 						alt="img" style="float: left" width="450px" height="350px">
 					</figure>
 					</td>

@@ -91,7 +91,7 @@
 	<div id="clubModal" class="clubModal">
 		<div class="modal_body">
 			<div>
-
+	<button onclick="hreclubManage=clubNumber?${clubInfo.clubNumber}">관리</button>
 			<!-- 모임 신청 질문 가져오기 -->
 				<label>모임소개 : ${clubInfo.clubInfo}</label><br>
 				<label>카테고리 : ${clubInfo.clubCategory}</label><br>

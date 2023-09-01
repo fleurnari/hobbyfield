@@ -8,7 +8,8 @@
 		SELECT m.myitem_id,
 			   m.point_id,
 			   p.point_name,
-			   FIND_CODE_NM(m.point_item_type) AS point_item_type,
+			   m.point_item_type,
+			   FIND_CODE_NM(m.point_item_type) AS point_item_type_nm,
 			   m.myitem_purcdt,
 			   p.point_img_name,
 			   p.point_img_path,
@@ -21,7 +22,8 @@
 		
 		WHERE m.member_email = #{memberEmail}
 	</select>
-	
+
+
 	<!-- 포인트 차감 -->
 	<update id="decreasePoint" parameterType="MyitemVO">
 	update member 
@@ -61,13 +63,18 @@
 		)
 	</insert>
 
-	<!-- 소모임 증원권 적용 -->
-	
-	
-	
-	
-	<!--  -->
+	<!-- 소모임 증원권 사용 --> 
+	<update id="updateUseterm" parameterType="MyitemVO">
+		UPDATE MYITEM
+		SET MYITEM_USETERM = 0
+		WHERE MYITEM_ID = #{myitemId}
+	</update>	
 
-
+   	<!-- 소모임 증원권 적용 증원권이 0일때 CLUB_TOTAL=0 COUNT하지 않음 -->
+	<update id="updateClubTotal" parameterType="CreateclubVO">
+		UPDATE CLUB
+		SET CLUB_TOTAL = 0
+		WHERE CLUB_NUMBER = #{clubNumber}
+	</update>
 
 </mapper>

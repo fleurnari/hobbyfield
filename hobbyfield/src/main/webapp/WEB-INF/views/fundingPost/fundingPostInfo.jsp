@@ -254,7 +254,7 @@ body.modal-open {
 				<div class="fudning-Img">
 					<figure>
 						<img id="img"
-							src="resources/images/${fundingPostInfo.fndMainImg }" alt="img"
+							src="${fundingPostInfo.fndMainImgPath }${fundingPostInfo.fndMainImg }" alt="img"
 							style="float: left" width="450px" height="350px">
 					</figure>
 				</div>
@@ -316,6 +316,14 @@ body.modal-open {
 							pattern="yyyy-MM-dd" var="endPlanDate" /> <fmt:formatDate
 							value="${endPlanDate}" pattern="yyyy.MM.dd" />
 					</font> <br>
+					<div>
+    <font class="time" style="font-weight: bold;" size=3> 달성률 </font>
+    <font>
+        <fmt:formatNumber value="${(fundingPostInfo.fndCurrentAmount / fundingPostInfo.fndTargetAmount) * 100 }" pattern="#.##" />
+        %
+    </font>
+</div>
+<br>
 					<button type="button" class="btn btn-dark"
 								onclick="location.href=''">관심목록</button>
 							<!-- 공유하기 모달창 -->

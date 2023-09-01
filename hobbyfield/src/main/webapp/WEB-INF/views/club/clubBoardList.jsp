@@ -1,155 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>소모임 게시글</title>
-<!-- 
+
 <script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/ckeditor5.js"></script>
- -->
-<script
-	src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
-<script
-	src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
 <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/club/ckediotr.css">
+<!-- 
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ckediotr.css">
+ -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club/clubboard.css"> 
 <!-- 임시 style 추후 삭제후 link를 통하여 사용 -->
 <style type="text/css">
-.ck.ck-editor {
+	.ck.ck-editor {
 	width: 80%;
 	max-width: 800px;
 	margin: 0 auto;
-}
-
-.ck-editor__editable {
+	}
+	
+	.ck-editor__editable {
 	height: 80vh;
-}
-/* Modal styles */
-.modal {
-	display: none;
-	position: fixed;
-	z-index: 1000;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-content {
-	background-color: white;
-	margin: 10% auto;
-	padding: 20px;
-	border: 1px solid #888;
-	width: 80%;
-	max-width: 800px;
-}
-
-.close {
-	position: absolute;
-	top: 10px;
-	right: 20px;
-	font-size: 30px;
-	font-weight: bold;
-	cursor: pointer;
-}
-#clubBoardList {
-  margin-top: 20px;
-}
-
-#boardMain {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin: 10px 0;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-#boardMain:hover {
-  background-color: #f5f5f5;
-}
-
-#boardMain p {
-  margin: 5px 0;
-}
-
-#boardMain img {
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
-}
-
-#commentMain {
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin-top: 10px;
-  background-color: #f9f9f9;
-}
-
-#commentMain p {
-  margin: 5px 0;
-}
-
-#commentMain img {
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
-}
-
-#commentInput {
-  margin-top: 20px;
-}
-
-#commentInput img {
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
-}
-
-#commentInput input[type="text"] {
-  width: 80%;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-#openModalBtn {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-#openModalBtn:hover {
-  background-color: #0056b3;
-}
-
-.close {
-  color: #aaa;
-  font-size: 30px;
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  cursor: pointer;
-}
-
-.close:hover {
-  color: #555;
-}
-/* Other styles */
-/* ... (existing styles) ... */
+	}
 </style>
 </head>
 <body>
-	<div align="center" style="margin-top: 100px;">
+	<div align="center" style="margin-top: 100px;" >
+		<!-- 검색창 -->
+		<div class="search-div">
+		  <input class="search-text" type="text" id="search-text" name="" placeholder="검색어 입력">
+		  <img class="search-img" id="search-img" name="search-img" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+		</div>
+		
 		<h1>게시글 목록</h1>
 		<!-- Session 확인용 : 추후 삭제 -->
 		<div>
@@ -162,10 +50,17 @@
 		</div>
 		<!-- modal 공통사항 : modal 호출마다 해당 값 초기화 잊지말것. -->
 		<!-- 게시글 상세보기 modal-->
-		<div>
-			
+		<div id="boardInfoModal">
+			<div>
+				<!-- 이미지 추후 db에서 경로 가져와서 출력 -->
+				<img alt="프로필이미지" src="${board.PROFILE_IMG_PATH}${board.PROFILE.PROFILE_IMG}" style="width: 50px; height: 50px;">
+				<input type="text" id="clubBoardWriter" name="clubBoardWriter" value="${board.clubBoardWriter}">
+				<input type="text" id="clubBoardWdate" name="clubBoardWdate" value="${board.clubBoardWdate}">
+				</div>
+				<div id="editor">
+					${board.clubBoardContent}
+				</div>
 		</div>
-		<!-- Add a button to open the modal -->
 		
 			
 		<!-- 게시글 등록 modal-->
@@ -183,8 +78,8 @@
 					</div>
 
 					<div>
-						<label>일정설정</label> <input type="date" id="scheduleDate"
-							name="scheduleDate">
+						<label>일정설정</label> <input type="date" id="insertScheduleDate"
+							name="scheduleDate" value="">
 					</div>
 					<!-- 작성자 값 추후 seesion을 통해 넣을 수 있도록 설정   -->
 
@@ -196,7 +91,7 @@
 						<!-- 공지사항 여부 추후 모임장만 가능하도록 처리 -->
 						공지사항등록 <input type="checkbox" id="typeCheckbox"
 							name="typeCheckbox" value="공지사항 등록"> <input type="hidden"
-							name="clubBoardType" id="clubBoardType" value="">
+							name="clubBoardType" id="clubBoardType">
 					</div>
 					<div>
 						<!-- 추후 넣을값 : club_number, club_board_type -> -->
@@ -241,14 +136,16 @@
 			<c:forEach items="${boardList}" var="board">
 				<h3>게시글</h3>
 				<div id="boardMain"
-					onclick="location.href='clubBoardInfo?boardNumber=${board.boardNumber}'">
+					onclick="boardInfo(this);">
 					<p>글 번호 : ${board.boardNumber}</p>
-					<p>클럽 번호 : ${board.clubBoardWriter}</p>
-					<p>작성자 : ${board.clubBoardWdate}</p>
+					<p>작성자 : ${board.clubBoardWriter}</p> 
+					<p id="writeDay">작성일 :
+					<fmt:formatDate value="${board.clubBoardWdate}" pattern="yyyy-MM-dd"/></p>
 					<p>${board.clubBoardViews}</p>
 					<p>${board.clubBoardType}</p>
 					<c:if test="${board.scheduleDate} ne null">
-						<p>${board.scheduleDate}</p>
+						<p><fmt:parseDate value="${board.scheduleDate}" var="dateFmt" pattern="yyyyMMdd"/>
+						<fmt:formatDate value="${dateFmt}" pattern="yyyy-MM-dd"/></p>
 					</c:if>
 					<!-- 블라인드는 추후 숨기고 가릴 경우 나오지않도록 구현 -->
 					<p>블라인드 : ${board.clubBoardBlind}</p>
@@ -299,6 +196,10 @@
 	const openModalBtn = document.getElementById("openModalBtn");
 	const closeModalBtn = document.getElementById("closeModalBtn");
 	const boardInsertModal = document.getElementById("boardInsertModal");
+	// 글쓰기 작성시 날짜 기본값 오늘날짜로 
+	document.getElementById('insertScheduleDate').value = new Date().toISOString().substring(0, 10);
+	
+	
 	
 	openModalBtn.addEventListener("click", () => {
 	  boardInsertModal.style.display = "block";
@@ -315,6 +216,12 @@
 	});
 
 	
+	
+	
+	
+	
+	
+	// 에디터용
 	ClassicEditor
 	.create( document.querySelector( '#editorInsert' ), {
 		language:"ko",

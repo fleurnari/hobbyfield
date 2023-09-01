@@ -8,6 +8,12 @@ public interface BoardVoteMapper {
 	
 	// 투표 종료
 	
+	// 투표 옵션 추가
 	
+	// 투표 결과 추가 
+	
+	// 투표 결과 수정 
+	
+	// 투표 결과 삭제
 	
 }

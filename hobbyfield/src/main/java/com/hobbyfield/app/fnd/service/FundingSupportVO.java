@@ -45,7 +45,8 @@ public class FundingSupportVO {
 	//
 	private String fndGoodsName;
 	private Integer fndGoodsPrice;
-	private String fndMainImg;
+	private String fndGoodsImgPath;
+	private String fndGoodsImg;
 	private String fndCategory;
 	private String fndTitle;
 	private Integer fndStatus;

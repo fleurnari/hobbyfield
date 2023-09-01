@@ -183,6 +183,7 @@ public class ClubController {
 	}
 
 	//소모임 수정 form 페이지
+
 //	@GetMapping("clubUpdate")
 //	public String updateView(ClubProfileVO clubprofileVO, Model model, HttpSession session) {
 //		model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); // 지역대그룹 코드
@@ -195,6 +196,21 @@ public class ClubController {
 //		model.addAttribute("update", findVO);
 //		return "club/clubMadeList";
 //	}
+
+	@GetMapping("clubUpdate")
+	public String updateView(ClubProfileVO clubprofileVO, Model model, HttpSession session) {
+		model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); // 지역대그룹 코드
+		model.addAttribute("F", commCodeMapper.selectCommsubList("0F")); // 지역소그룹 코드
+		model.addAttribute("C", commCodeMapper.commCategoryList("0C")); // 모임카테고리 그룹코드
+		model.addAttribute("D", commCodeMapper.clubTypeList("0D")); // 모임분류 그룹코드
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		clubprofileVO.setMemberEmail(member.getMemberEmail());
+		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
+		model.addAttribute("update", findVO);
+		
+		return "club/clubMadeList";
+	}
+
 	
 	
 	// 소모임 수정 (AJAX 사용하지 X) - clubMadeList modal창

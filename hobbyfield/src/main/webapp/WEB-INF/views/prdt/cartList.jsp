@@ -113,36 +113,49 @@
 		</div>
         <a href="<c:url value="prdtList" />" class="btn btn-secondary"> &laquo; 쇼핑 계속하기</a>
     </div>
-    <div class="orderInfo">
-   <form method="post" autocomplete="off">
+    
+    
+    
+   <div class="orderInfo">
+    
+   	<form method="post" action="orderInfo">
       
     <input type="hidden" name="amount" value="${sum}" />
-      
+    <input type="hidden" id="selectedPrdtName" name="prdtName" value="" />
+    
     <div class="inputArea">
-     <label for="">수령인</label>
-     <input type="text" name="orderRec" id="orderRec" required="required" />
+     <label for="memberEmail">수령인</label>
+     <input type="text" name="memberEmail" id="memberEmail" required="required"  value="${member.memberEmail}"/>
     </div>
     
     <div class="inputArea">
      <label for="orderPhone">수령인 연락처</label>
-     <input type="text" name="orderPhone" id="orderPhone" required="required" />
+     <input type="text" name="orderPhone" id="orderPhone" required="required" placeholder="-빼고 입력해주세요"/>
     </div>
     
     <div class="inputArea">
-     <label for="userAddr1">우편번호</label>
-     <input type="text" name="memberZip" id="memberZip" required="required" />
+     <label for="memberZip">우편번호</label>
+     <input type="text" name="memberZip" id="memberZip" required="required" value="${member.memberZip}"/>
     </div>
     
     <div class="inputArea">
-     <label for="userAddr2">기본 주소</label>
-     <input type="text" name="memberBaseaddr" id="memberBaseaddr" required="required" />
+     <label for="memberBaseaddr">기본 주소</label>
+     <input type="text" name="memberBaseaddr" id="memberBaseaddr" required="required" value="${member.memberBaseaddr}" />
     </div>
     
     <div class="inputArea">
-     <label for="userAddr3">2차 주소</label>
-     <input type="text" name="memberDetaaddr" id="memberDetaaddr" required="required" />
+     <label for="memberDetaaddr">상세 주소</label>
+     <input type="text" name="memberDetaaddr" id="memberDetaaddr" required="required" value="${member.memberDetaaddr}"/>
     </div>
     
+    <div class="inputArea">
+    <label for="deliveryRequest">배송 시 요청사항</label>
+    <select name="orderMemo" id="orderMemo">
+        <option value="없음">요청사항 없음</option>
+        <option value="경비실">부재 시 경비실에 맡겨주세요</option>
+        <option value="문앞에">문 앞에 놔주세요</option>
+    </select>
+	</div>
     <div class="inputArea">
      <button type="submit" class="order_btn">주문</button>
      <button type="button" class="cancel_btn">취소</button>   
@@ -151,7 +164,10 @@
    </form>   
 </div>
 </div>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+
 <script>
+
 //모두선택
 $("#allCheck").click(function(){
 	 var chk = $("#allCheck").prop("checked");
@@ -210,8 +226,45 @@ $(".cancel_btn").click(function(){
 	 
 
 
+$(document).ready(function() {
+    $(".order_btn").click(function() {
+        var selectedPrdtName = []; // 선택한 상품 담을 배열
 
+        $(".chBox:checked").each(function() {
+            var prdtName = $(this).closest("tr").find("td:eq(1)").text();
+            selectedPrdtName.push(prdtName); // 배열에 상품명 추가
+        });
 
+        var orderData = {
+            memberEmail: $("#memberEmail").val(),
+            orderPhone: $("#orderPhone").val(),
+            memberZip: $("#memberZip").val(),
+            memberBaseaddr: $("#memberBaseaddr").val(),
+            memberDetaaddr: $("#memberDetaaddr").val(),
+            orderMemo: $("#orderMemo").val(),
+            prdtName: selectedPrdtName.join(','),
+            amount: ${sum}
+        };
+
+        
+        
+        $.ajax({
+            url: "orderInfo",
+            type: "post",
+            contentType: "application/json",
+            data: JSON.stringify(orderData),
+            success: function(result) {
+                if (result === "success") {
+                    console.log("주문 정보 전송 성공");
+                    location.href = "orderList";
+                    alert(JSON.stringify(orderData));
+                } else {
+                    console.log("주문 정보 전송 실패");
+                }
+            }
+        });
+    });
+});
 </script>
 </body>
 </html>

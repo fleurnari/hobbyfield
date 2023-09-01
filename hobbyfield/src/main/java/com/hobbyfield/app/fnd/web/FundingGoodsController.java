@@ -26,14 +26,15 @@ public class FundingGoodsController {
 			public String fundingPostGoods(FundingPostVO fundingPostVO, Model model) {
 				FundingPostVO findVO = fundingPostService.getFundingPostInfo(fundingPostVO);
 				model.addAttribute("fundingPostGoods",findVO);
+				model.addAttribute("fundingGoodsInfo",fundingGoodsService.getFundingGoods(fundingPostVO));
 				return "fundingPost/fundingPostGoods";
 			}
 			
 			@PostMapping("fundingPostInsertGoods")
-			public String fundingPostInsertGoods(FundingGoodsVO fundingGoodsVO, Model model) {
+			public String fundingPostInsertGoods(FundingPostVO fundingPostVO, FundingGoodsVO fundingGoodsVO, Model model) {
 				fundingGoodsService.insertFundingGoodsInfo(fundingGoodsVO);
 				model.addAttribute("fundingPostGoods",fundingGoodsVO);
-				
+				model.addAttribute("fundingGoodsInfo",fundingGoodsService.getFundingGoods(fundingPostVO));
 				return "fundingPost/fundingPostGoods";
 		}
 	
@@ -44,6 +45,15 @@ public class FundingGoodsController {
 				model.addAttribute("fundingGoosInfo", findVO);
 				return "fundingGoods/fundingGoodsInfo";
 			}
+	
+	//펀딩 옵션 삭제
+			@PostMapping("goodsDelete")
+			public String fundingDeleteGoods(FundingGoodsVO fundingGoodsVO) {
+				fundingGoodsService.deleteGoods(fundingGoodsVO);
+				
+				return "redirect:fundingPostGoods";
+			}
+			
 	/*
 	 * //펀딩옵션리스트 가져오기
 	 * 

@@ -14,7 +14,7 @@
             flex-wrap: wrap;
             justify-content: space-around;
         }
-
+		
         .clubItem {
             width: 23%; /* 4개씩 나열될 수 있도록 너비 설정 */
             margin: 10px;
@@ -65,8 +65,13 @@
 <body>
 <section>
     <div align="center" style="margin-top: 100px;">
+
         <input type="text" id="memberEmail" value="${member.memberEmail}">
-        <div id="clubContainer">
+
+    
+		<!-- 소모임 표시 -->    
+
+     <div id="clubContainer">
             <c:forEach items="${clubList}" var="club">
                 <div class="clubItem" onclick="location.href='clubInfo?clubNumber=${club.clubNumber}&profileNickname=${club.profileNickname}'">
                     <img src="${club.clubImgPath}${club.clubImg}">
@@ -82,6 +87,31 @@
                 </div>
             </c:forEach>
         </div>
+
+    
+   <!-- 소모임과 소모임 게시글 구분을 위한 구분선 css 만들기 -->
+   <div>
+ <p>==========<p>
+ </div>
+  <div>
+        <div id="clubContainer">
+            <c:forEach items="${board}" var="board">
+                <div id="clubBoard">
+                    <div class="">
+                        <p>게시글번호: ${board.boardNumber}</p>
+                        <p>소모임번호: ${board.clubNumber}</p>
+                        <p>게시글작성자: ${board.clubBoardWriter}</p>
+                        <p>게시글내용: </p><div id="editor">${board.clubBoardContent}</div>
+                        <p>작성일: ${board.clubBoardWdate}</p>
+                        <p>조회수: ${board.clubBoardViews}</p>
+                        <p>공지글: ${board.clubBoardType}</p>
+                        <p>일정날짜 : ${board.scheduleDate}</p>
+                        <p>블라인드: ${board.clubBoardBlind}</p>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
+
     </div>
 
 <!--     소모임과 소모임 게시글 구분을 위한 구분선 css 만들기 -->
@@ -153,11 +183,20 @@
 //     })
 //     .then(editor => {
         
+
 //         editor.isReadOnly = true; // 에디터를 읽기 전용으로 설정
 //     })
 //     .catch( error => {
 //         console.error( error );
 //     });
+
+//       editor.isReadOnly = true; // 에디터를 읽기 전용으로 설정
+//    })
+//    .catch( error => {
+//       console.error( error );
+//    });
+	// bootstrap modal ex
+
 	
 </script>
 
