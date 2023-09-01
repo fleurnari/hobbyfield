@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.hobbyfield.app.prdt.mapper.ReviewMapper">
+  	
+	<!-- 리뷰 작성 -->
+	<insert id="writeReview">
+	    INSERT INTO review (review_id, prdt_id, category, member_email, review_content, review_title)
+	    VALUES (review_seq.nextval, #{prdtId}, #{category}, #{memberEmail}, #{reviewContent}, #{reviewTitle})
+	</insert>
+	
+	<!--카테고리별 리뷰  -->
+ 	<select id="getReviewsByCategory" parameterType="String" resultType="ReviewVO"> 
+     	SELECT * FROM review WHERE category = #{category} 
+ 	</select> 
+	
+	
+	
+  </mapper>
