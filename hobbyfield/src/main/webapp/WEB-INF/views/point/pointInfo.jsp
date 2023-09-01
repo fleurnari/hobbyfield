@@ -52,7 +52,7 @@ input {
 	background-color: #fff;
 	margin: 10% auto;
 	padding: 20px;
-	width: 60%;
+	width: 40%;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 	text-align: center;
 	position: relative;
@@ -189,7 +189,7 @@ input {
 					<div>
 						<h5>${point.pointName}</h5>
 						<br>
-						<p>ㅇ보유포인트 <span id="memberActpnt">${member.memberActpnt }</span></p>
+						<p>보유포인트 <span id="memberActpnt">${member.memberActpnt }</span></p>
 						<c:if test="${point.pointItemType eq 'W2'}">
 						<p>결제 포인트 <span id="groupPrice">${point.groupPrice }</span></p>
 						<input type="hidden" value="${point.groupPrice }"	name="pointPrice">

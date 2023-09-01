@@ -79,6 +79,6 @@ public class NoticeController {
 	@GetMapping("/deleteNotice")
 	public String noticeDeleteProcess(@RequestParam(name = "noticeId") int noticeId) {
 		noticeService.deleteNotice(noticeId);
-		return "redirect:/noticeList";
+		return "redirect:noticeList";
 	}
 }

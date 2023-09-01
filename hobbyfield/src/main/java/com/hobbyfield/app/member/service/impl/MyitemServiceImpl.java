@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hobbyfield.app.club.service.CreateclubVO;
 import com.hobbyfield.app.member.mapper.MyitemMapper;
 import com.hobbyfield.app.member.service.MemberVO;
 import com.hobbyfield.app.member.service.MyitemService;
@@ -34,5 +35,18 @@ public class MyitemServiceImpl implements MyitemService {
 	public int insertMyitem(MyitemVO myitemVO) {
 		return myitemMapper.insertMyitem(myitemVO);
 	}
+	
+	//소모임 증원권 사용
+	@Override
+	public int updateUseterm(MyitemVO myitemVO) {
+		return myitemMapper.updateUseterm(myitemVO);
+	}
+
+	//소모임 증원권 적용
+	@Override
+	public int updateClubTotal(CreateclubVO createclubVO) {
+		return myitemMapper.updateClubTotal(createclubVO);
+	}
+
 
 }

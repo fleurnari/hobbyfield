@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +27,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.hobbyfield.app.club.service.CreateclubService;
+import com.hobbyfield.app.club.service.CreateclubVO;
 import com.hobbyfield.app.member.service.MemberService;
 import com.hobbyfield.app.member.service.MemberVO;
 import com.hobbyfield.app.member.service.MyitemService;
@@ -51,6 +54,9 @@ public class MemberController {
 	
 	@Autowired
 	MyitemService myitemService;
+	
+	@Autowired
+	CreateclubService createclubService;
 	
 	// NaverLoginBO
 	private NaverLoginBO naverLoginBO;
@@ -290,13 +296,29 @@ public class MemberController {
 	
 	// 마이 페이지 - 나의 아이템 전체조회
 	@GetMapping("/myitemList")
-	public String getMyitemAllList(HttpSession session, Model model) {
-		MemberVO member = (MemberVO) session.getAttribute("member");
-		model.addAttribute("myitemList", myitemService.selectMyItemAllList(member));
-		
-		return "member/myitemList";
-	}
+	public String getMyitemAllList(HttpSession session, Model model, MyitemVO myitemVO, CreateclubVO createclubVO) {
+	    // 현재 세션에서 사용자 정보를 가져옵니다.
+	    MemberVO member = (MemberVO) session.getAttribute("member");
 
+	    // 사용자의 아이템 목록을 조회하고, 그 결과를 "myitemList"라는 이름으로 Model에 추가합니다.
+	    model.addAttribute("myitemList", myitemService.selectMyItemAllList(member));
+
+	    // createclubVO 객체에 사용자의 이메일 주소를 설정합니다. 이 정보는 아이템 목록 조회에 사용됩니다.
+	    createclubVO.setMemberEmail(member.getMemberEmail());
+
+	    // 사용자가 속한 클럽 목록을 조회하고, 그 결과를 "myClubList"라는 이름으로 Model에 추가합니다.
+	    List<CreateclubVO> myClubList = createclubService.getMyClubList(createclubVO);
+	    model.addAttribute("myClubList", myClubList);
+	    return "member/myitemList";
+	    
+	    // 소모임 증원권 사용
+//	    MyitemVO findVO = myitemService.updateUseterm(myitemVO);
+	    
+	    // 소모임 증원권 적용
+	    
+	    
+	}
+	
 	
 	// 마이 페이지 - 가입한 소모임 조회
 	@GetMapping("/selectJoinClub")
@@ -307,6 +329,8 @@ public class MemberController {
 		return "member/selectJoinClub"; 
 		
 	}
+	
+
 	
 	// 마이 페이지 - 기업회원의 판매 중인 상품 조회	
 	@GetMapping("/selectSellList")
@@ -338,9 +362,7 @@ public class MemberController {
 			
 			return "member/findPwd";
 		}
-		
 	}
-	
 	
 
 	// 마이아이템 등록 - 구매
@@ -357,11 +379,10 @@ public class MemberController {
 		//구매내역 등록
 		myitemService.insertMyitem(myitemVO);
 		return "member/myitemList";
-	}
-	
-	
-	
-	
 		
+
+	}
+
+
 }
 	

@@ -68,16 +68,19 @@ body {
 			<label for="noticeCate">카테고리</label> <select id="noticeCate"
 				name="noticeCate" required>
 				<option value="" disabled selected>카테고리</option>
-				<option value="AA1">전체공지</option>
+				<option value="AA1">사이트전체공지</option>
 				<option value="AA2">소모임</option>
 				<option value="AA3">펀딩</option>
 				<option value="AA4">쇼핑몰</option>
-				<option value="AA5">포인트상점</option>
-				<option value="AA6">재능기부</option>
+				<option value="포인트">포인트</option>
+				<option value="AA5">재능기부</option>
 			</select>
-
-		</div>
-
+		</div>		
+<!-- 		AA1	사이트전체공지 -->
+<!-- 		AA2	소모임공지 -->
+<!-- 		AA3	펀딩공지 -->
+<!-- 		AA4	쇼핑몰공지 -->
+<!-- 		AA5	재능기부공지 -->
 		<div class="form-input">
 			<div>
 				<label for="noticeWriter">작성자</label><input type="text"
