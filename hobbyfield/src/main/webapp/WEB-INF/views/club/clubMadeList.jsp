@@ -255,13 +255,13 @@
 					</div>
 					
 					<div>
-						<input type="hidden" name="clubNumber" class="clubNumber" id="">
-						<input type="hidden" name="profileNickname" class="ProfileNickname" id="">
+						<input type="hidden" name="clubNumber" class="clubNumber" value="${clubInfo.clubNumber }">
+						<input type="hidden" name="profileNickname" class="ProfileNickname" value="${clubInfo.profileNickname }">
 					</div>
 					
 					<div>
 						<label>모임이름</label>
-						<input type="text" class="club_input" name="clubName"><br>
+						<input type="text" class="club_input" name="clubName" value="${clubInfo.clubName}"><br>
 						<span class="club_input_re1">사용 가능한 모임 이름입니다.</span>
 						<span class="club_input_re2">모임 이름이 이미 존재합니다. </span>
 						<span class="final_club_ck">모임 이름을 정해주세요</span>
@@ -298,29 +298,30 @@
 						</select>
 						
 						<select class="sublocation" name="subLocation" id="subLocation">
-							 <option value="">선택</option>
+							 <option value="${major.literal }">선택</option>
 						</select><br>
 					</div>
 					
 					<div>
 						<label>공개여부 : </label>
-						<input type="radio" name="clubPublic" checked="checked" readonly />공개
+						<input type="radio" name="clubPublic" checked="checked" value="${clubInfo.clubPublic }" readonly />공개
 					</div>
 					
 					<div>
 						<label>질문1</label>
-						<input type="text" name="singupQuestion1" ><br>
+						<input type="text" name="singupQuestion1" value="${clubInfo.singupQuestion1 }"><br>
 						<label>질문2</label>
-						<input type="text" name="singupQuestion2" ><br>
+						<input type="text" name="singupQuestion2" value="${clubInfo.singupQuestion2 }"><br>
 						<label>질문3</label>
-						<input type="text" name="singupQuestion3" ><br>
+						<input type="text" name="singupQuestion3" value="${clubInfo.singupQuestion3 }"><br>
 					</div>
 					
 					<span class="close">&times;</span>
 					<div>
 						<button type="submit" class="update-button">수정하기</button>
 					</div>
-					<input type="text" value=${clubNumber }>
+					
+					
 					<div id="preview"></div>
 						<input name="uploadFile" type="file" value="clubImg" onchange="readURL(this);">
 						<button type="button" id="uploadBtn">upload</button>
@@ -337,58 +338,67 @@
 
 <script>
 
-	//클릭한 모임 단건조회
-	function showModalWithData(row){
-        // 클릭한 행의 데이터 가져오기
-        var clubNumber = $(row).data('clubNumber');
-        var clubName = $(row).data('clubName');
-       	var clubImg = $(row).data('clubImg');
-       	var clubImgPath = $(row).data('clubImgPath');
-       	var profileNickname = $(row).data('profileNickname');
-       	var clubCategory = $(row).data('clubCategory');
-       	var clubType = $(row).data('clubType');
-       	var clubInfo = $(row).data('clubInfo');
-       	var majorLocation = $(row).data('majorLocation');
-       	var subLocation = $(row).data('subLocation'); 
-       	var clubPublic = $(row).data('clubPublic');
-       	var singupQuestion1 = $(row).data('singupQuestion1');
-       	var singupQuestion2 = $(row).data('singupQuestion2');
-       	var singupQuestion3 = $(row).data('singupQuestion3');
 
-        // 모달 창의 입력 필드에 데이터 설정
-        $("#clubModal input[name='clubNumber']").val(clubNumber);
-        $("#clubModal input[name='clubName']").val(clubName);
-        $("#clubModal input[name='clubImg']").val(clubImg);
-        $("#clubModal input[name='clubImgPath']").val(clubImgPath);
-        $("#clubModal input[name='profileNickname']").val(profileNickname);
-        $("#clubModal input[name='clubCategory']").val(clubCategory);
-        $("#clubModal input[name='clubType']").val(clubType);
-        $("#clubModal input[name='clubInfo']").val(clubInfo);
-        $("#clubModal input[name='majorLocation']").val(majorLocation);
-        $("#clubModal input[name='subLocation']").val(subLocation);
-        $("#clubModal input[name='clubPublic']").val(clubPublic);
-        $("#clubModal input[name='singupQuestion1']").val(singupQuestion1);
-        $("#clubModal input[name='singupQuestion2']").val(singupQuestion2);
-        $("#clubModal input[name='singupQuestion3']").val(singupQuestion3);
-
-        // 모달 창 보여주기
-        $("#clubModal").show();
-    }
+	function fetchClubData(profileNickname) {
+	$.ajax({
+	    url: "${pageContext.request.contextPath}/selectMadeClub",
+	    type: "GET",
+	    data: { 'profileNickname': profileNickname },
+	    success: function(data) {
+	        if (data) {
+	        	console.log(data);
+	            // 모달 창의 입력 필드에 데이터 설정
+	            $("#clubModal input[name='clubNumber']").val(data.clubNumber);
+	            $("#join_form input[name='clubNumber']").val(data.clubNumber);
+	            $("#clubModal input[name='clubName']").val(data.clubName);
+	            $("#clubModal input[name='clubImg']").val(data.clubImg);
+	            $("#clubModal input[name='clubImgPath']").val(data.clubImgPath);
+	            $("#clubModal input[name='profileNickname']").val(data.profileNickname);
+	            $("#join_form input[name='profileNickname']").val(data.profileNickname);
+	            $("#clubModal select[name='clubCategory']").val(data.clubCategory);
+	            $("#clubModal input[name='clubType'][value='" + data.clubType + "']").prop('checked', true);
+	            $("#clubModal input[name='clubInfo']").val(data.clubInfo);
+	            $("#clubModal select[name='majorLocation']").val(data.majorLocation);
+	            $("#clubModal select[name='subLocation']").val(data.subLocation);
+	            if(data.clubPublic === "공개") {
+	                $("#clubModal input[name='clubPublic']").prop('checked', true);
+	            }
+	            $("#clubModal input[name='singupQuestion1']").val(data.singupQuestion1);
+	            $("#clubModal input[name='singupQuestion2']").val(data.singupQuestion2);
+	            $("#clubModal input[name='singupQuestion3']").val(data.singupQuestion3);
+	            
+	            // 모달 창 보여주기
+	            $('.club-modal').show();
+	            
+	        }
+	    },
+	    error: function(error) {
+	        console.log("클럽 데이터 오류:", error);
+	    }
+	});
+	}
 	
-
-    $(document).ready(function() {
-    	 // 테이블의 각 행을 클릭했을 때 showModalWithData 함수를 호출
-        $("tbody tr").click(function() {
-            showModalWithData(this);
-        });
-    });
-
-
-	//modal창 닫기
-	$(document).ready(function() {
+	function showModalWithData(row) {
+	    var profileNickname = $(row).data('profilenickname');
+	    
+	    console.log(profileNickname);
+	    fetchClubData(profileNickname);
+	}
+	
+	
+	$(document).ready(function(e) {
+	    // 테이블의 행을 클릭했을 때 showModalWithData 함수를 호출하여 모달열기
+	    $("tbody tr").click(function() {
+	        showModalWithData(this);
+	        console.log(e);
+	    });
+	    
+	    // .open-modal 클래스를 가진 엘리먼트를 클릭했을 때 모달열기
 	    $('.open-modal').click(function() {
 	        $('.club-modal').show(); // 모달 창 보여주기
 	    });
+	    
+	    // .close 클래스를 가진 엘리먼트를 클릭했을 때 모달닫기
 	    $('.close').click(function() {
 	        $('.club-modal').hide(); // 모달 창 숨기기
 	    });
@@ -397,8 +407,6 @@
 	
 
 	// 유효성 검사 통과 유무 변수 
-	/* var clubName = false; //모임이름 
-	var clubnameCheck = false; //모임이름 중복체크 */
 	var clubNameCheck = false; //모임이름 
 	var clubnameChk = false; //모임이름 중복체크
 	

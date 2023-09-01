@@ -7,6 +7,7 @@
 <!-- 펀딩옵션 가져오기 -->
 <select id="selectFundingGoodsList" resultType="FundingGoodsVO" >
   		SELECT 
+  			Fnd_Post_Number,
   			Fnd_Goods_Number,
   			Fnd_Goods_name,
   			Fnd_Goods_Content,
@@ -22,6 +23,7 @@
 <select id="selectFundingGoods" resultType="FundingGoodsVO">
 	SELECT
 		Fnd_Goods_Number,
+		Fnd_Post_Number,
 		Fnd_Goods_name,
   		Fnd_Goods_Content,
   		Fnd_Goods_Amount,
@@ -62,6 +64,12 @@
 </insert>
 <delete id="deleteFundingGoods" parameterType="FundingGoodsVO">
 	DELETE FROM funding_Goods
-	WHERE funding_Goods_Number = #{fndGoodsNumber}
+	WHERE fnd_Goods_Number = #{fndGoodsNumber}
+</delete>
+
+<!-- 펀딩 프로젝트 삭제 후 옵션삭제 -->
+<delete id="deleteFundingPostGoods" parameterType="FundingPostVO">
+	DELETE Funding_Goods
+	WHERE fnd_Post_Number = #{fndPostNumber}
 </delete>
 </mapper>

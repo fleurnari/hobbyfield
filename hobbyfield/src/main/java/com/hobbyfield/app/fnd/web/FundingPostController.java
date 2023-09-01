@@ -87,6 +87,29 @@ public class FundingPostController {
 		map.put("fundingPostInsert20", fundingPostVO);
 		return map;
 	}
+	
+	/*
+	 * @PostMapping("fundingPostDelete") public Map<String, Object>
+	 * fundingPostDelete(FundingPostVO fndPostNumber) { boolean result = false;
+	 * 
+	 * int fundingNO = fundingPostService.deleteFundingPost(fndPostNumber);
+	 * 
+	 * if(fundingNO > 0) { result = true; } System.out.println(result); Map<String,
+	 * Object> map = new HashMap<>(); System.out.println(map); map.put("result",
+	 * result); return map; }
+	 */
+	
+	  //펀딩 프로젝트 삭제
+	  
+	@PostMapping("fundingPostDelete")
+	public String fundingPostDelete(FundingPostVO fndPostNumber, Model model) {
+		model.addAttribute(fundingPostService.deleteFundingPost(fndPostNumber));
+		model.addAttribute(fundingGoodsService.deletePostGoods(fndPostNumber));
+	    
+	    return "redirect:/fundingPostInsert"; // 삭제 후 다시 데이터를 리로드하는 GetMapping 페이지로 리다이렉트
+	}
+	 
+	  
 }
 
 

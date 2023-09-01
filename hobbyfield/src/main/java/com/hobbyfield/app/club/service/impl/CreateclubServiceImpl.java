@@ -32,6 +32,12 @@ public class CreateclubServiceImpl implements CreateclubService {
 		return createclubMapper.selectClubMyList(createclubVO);
 	}
 	
+	//내가만든 소모임 세부조회 (모임장)
+	@Override
+	public CreateclubVO selectMadeClub(CreateclubVO createclubVO) {
+		return createclubMapper.selectMadeClub(createclubVO);
+	}
+	
 	//소모임 세부조회
 	@Override
 	public CreateclubVO getClub(CreateclubVO createclubVO) {
@@ -79,7 +85,6 @@ public class CreateclubServiceImpl implements CreateclubService {
 		return createclubMapper.clubnameChk(clubName);
 	}
 
-	
 
 	// 소모임 검색
 	@Override

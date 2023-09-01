@@ -9,6 +9,14 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 </head>
 <body>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <form name="insertForm" action="CSboardInsert" method="post">
 	<div align="center">
 		<div>

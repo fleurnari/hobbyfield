@@ -14,5 +14,8 @@ public interface FundingGoodsService {
 	
 	//옵션삭제
 	public int deleteGoods(FundingGoodsVO fundingGoodsVO);
+	
+	//게시물 삭제시 옵션삭제
+	public int deletePostGoods(FundingPostVO fndPostNumber);
 
 }

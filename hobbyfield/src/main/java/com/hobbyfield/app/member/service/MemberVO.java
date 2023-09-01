@@ -19,4 +19,5 @@ public class MemberVO {
 	private Integer memberRprtcnt;
 	private Date memberLtstconn;
 	private String memberComaccp;
+	private Date memberDeldate;
 }

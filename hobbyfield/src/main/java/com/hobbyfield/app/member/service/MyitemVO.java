@@ -12,12 +12,14 @@ public class MyitemVO {
 	private Integer pointOptId;
 	private String pointName;
 	private String pointItemType;
+	private String pointItemTypeNm;
 	private Integer pointPrice;
 	private Date myitemPurcdt; //구매일자
 	private String memberEmail;
 	private String pointImgName;
 	private String pointImgPath;
 	private Integer myitemUseterm;
+	
 
 
 }

@@ -17,4 +17,24 @@
   		WHERE member_email = #{memberEmail}
   </select>
   
+  
+  <!--주문목록조회(관리자 -->
+  <select id="adminOrderList" resultType="OrderVO">
+  		SELECT order_id, member_email, member_zip, member_baseaddr, member_detaaddr, delivery, order_memo, prdt_name, amount, order_date
+  		FROM prdt_order
+  		WHERE member_email = #{memberEmail}
+  </select>
+  
+  
+  
+  <!--배송상태변경 -->
+  	 <update id="updateDelivery" parameterType="map">
+        UPDATE prdt_order
+        SET delivery = #{delivery}
+        WHERE order_id IN
+        <foreach item="orderId" collection="orderIds" open="(" separator="," close=")">
+            #{orderId}
+        </foreach>
+    </update>
+  
   </mapper>

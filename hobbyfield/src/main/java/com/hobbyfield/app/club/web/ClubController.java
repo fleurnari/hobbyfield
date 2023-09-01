@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,7 +56,7 @@ public class ClubController {
 	@Autowired
 	MemberMapper membermapper;
   
-  @Autowired
+    @Autowired
 	ClubJoinService clubJoinService;
 
 	
@@ -80,7 +81,31 @@ public class ClubController {
 	    model.addAttribute("clubInfo", findVO);
 	    return "club/clubInfo";
 	}
-
+	
+	/// 내가 생성한 소모임 조회(진행중-미구현)
+//	@ResponseBody
+//	@GetMapping("/selectMadeClub")
+//	public CreateclubVO selectMadeClub(CreateclubVO clubVO) {
+//	    return createClubService.selectMadeClub(clubVO);
+//	}
+	
+	@ResponseBody
+	@GetMapping("/selectMadeClub")
+	public CreateclubVO selectMadeClub(CreateclubVO clubVO, Model model) {
+		CreateclubVO findVO = createClubService.selectMadeClub(clubVO);
+		model.addAttribute("clubInfo",findVO);
+	    return findVO;
+	}
+	
+	
+	// 가입한 소모임 회원 조회(info 또는 clubMain에서 조회) <모임장>
+	@GetMapping("/clubManage")
+	public String clubConfirmMember(ClubJoinVO clubJoinVO, Model model) {
+		List<ClubJoinVO> joinVO = clubJoinService.joinClubMemberInfo(clubJoinVO);
+		model.addAttribute("beforeMembers",joinVO);
+		return "club/clubManage";
+	}
+	
 
 	/*========= 소모임 등록관련 =========*/
 	// 소모임 등록 페이지
@@ -102,6 +127,11 @@ public class ClubController {
 	public String clubInsertProcess(CreateclubVO clubVO, HttpSession session) {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		clubVO.setMemberEmail(member.getMemberEmail());
+		
+		ClubJoinVO joinvo = new ClubJoinVO();
+		joinvo.setClubNumber(clubVO.getClubNumber());
+		clubJoinService.clubJoinInfo(joinvo);		
+		
 		createClubService.insertClubInfo(clubVO);
 		return "redirect:clubList";
 	}
@@ -153,6 +183,20 @@ public class ClubController {
 	}
 
 	//소모임 수정 form 페이지
+
+//	@GetMapping("clubUpdate")
+//	public String updateView(ClubProfileVO clubprofileVO, Model model, HttpSession session) {
+//		model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); // 지역대그룹 코드
+//		model.addAttribute("F", commCodeMapper.selectCommsubList("0F")); // 지역소그룹 코드
+//		model.addAttribute("C", commCodeMapper.commCategoryList("0C")); // 모임카테고리 그룹코드
+//		model.addAttribute("D", commCodeMapper.clubTypeList("0D")); // 모임분류 그룹코드
+//		MemberVO member = (MemberVO) session.getAttribute("member");
+//		clubprofileVO.setMemberEmail(member.getMemberEmail());
+//		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
+//		model.addAttribute("update", findVO);
+//		return "club/clubMadeList";
+//	}
+
 	@GetMapping("clubUpdate")
 	public String updateView(ClubProfileVO clubprofileVO, Model model, HttpSession session) {
 		model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); // 지역대그룹 코드
@@ -163,8 +207,10 @@ public class ClubController {
 		clubprofileVO.setMemberEmail(member.getMemberEmail());
 		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
 		model.addAttribute("update", findVO);
+		
 		return "club/clubMadeList";
 	}
+
 	
 	
 	// 소모임 수정 (AJAX 사용하지 X) - clubMadeList modal창
@@ -173,7 +219,6 @@ public class ClubController {
 		createClubService.updateClub(createclubVO);
 		return "redirect:clubList"; 
 	}
-	
 	
 		
 	// 소모임 가입하기 Process
@@ -233,7 +278,7 @@ public class ClubController {
 		return clubprofileService.getProfile(clubprofileVO);
 	}
 	
-	//프로필 등록 Form(페이지)
+	//프로필 등록 Form
 	@GetMapping("profileInsert")
 	public String profileInsertForm(Model model) {
 	    return "club/profileInsert";  // 프로필 입력 폼 페이지의 뷰 이름

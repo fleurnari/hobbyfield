@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hobbyfield.app.common.SearchCriteria;
 import com.hobbyfield.app.prdt.service.PrdtVO;
+import com.hobbyfield.app.prdt.service.ReviewVO;
 
 public interface PrdtMapper {
 	//등록된 상품의 갯수
@@ -23,4 +24,6 @@ public interface PrdtMapper {
 	
 	//등록상품 삭제
 	public void deletePrdt(int prdtId);
+	
+	
 }

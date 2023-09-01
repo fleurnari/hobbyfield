@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hobbyfield.app.fnd.mapper.FundingGoodsMapper;
+import com.hobbyfield.app.fnd.mapper.FundingPostMapper;
 import com.hobbyfield.app.fnd.service.FundingGoodsService;
 import com.hobbyfield.app.fnd.service.FundingGoodsVO;
 import com.hobbyfield.app.fnd.service.FundingPostVO;
@@ -16,7 +17,9 @@ public class FundingGoodsServiceImpl implements FundingGoodsService {
 	@Autowired
 	FundingGoodsMapper fundingGoodsMapper;
 	
-
+	@Autowired
+	FundingPostMapper fundingPostMapper;
+	
 	//펀딩 옵션 리스트
 	@Override
 	public List<FundingGoodsVO> getFundingGoods(FundingPostVO fundingPostVO) {
@@ -26,8 +29,6 @@ public class FundingGoodsServiceImpl implements FundingGoodsService {
 	//펀딩 옵션 정보
 	@Override
 	public FundingGoodsVO getFundingGoodsInfo(FundingGoodsVO fundingGoodsVO) {
-		System.out.println(fundingGoodsVO.getFndGoodsNumber());
-		System.out.println(fundingGoodsVO.getFndGoodsAmount());
 		return fundingGoodsMapper.selectFundingGoods(fundingGoodsVO);
 	}
 	
@@ -47,12 +48,14 @@ public class FundingGoodsServiceImpl implements FundingGoodsService {
 	//펀딩 옵션 삭제
 	@Override
 	public int deleteGoods(FundingGoodsVO fundingGoodsVO) {
-		int result = fundingGoodsMapper.deleteFundingGoods(fundingGoodsVO);
 		
-		if (result == 1) {
-			return fundingGoodsVO.getFndGoodsNumber();
-		} else {
-			return -1;
-		}
+		return fundingGoodsMapper.deleteFundingGoods(fundingGoodsVO);
+	}
+	
+	//펀딩 포스트 삭제시 옵션 삭제
+	@Override
+	public int deletePostGoods(FundingPostVO fndPostNumber) {
+		System.out.println(fndPostNumber);
+		return fundingGoodsMapper.deleteFundingPostGoods(fndPostNumber);
 	}
 }

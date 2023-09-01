@@ -2,20 +2,26 @@ package com.hobbyfield.app.prdt.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hobbyfield.app.common.PageMaker;
 import com.hobbyfield.app.common.SearchCriteria;
-import com.hobbyfield.app.csboard.service1.CSBoardVO;
+import com.hobbyfield.app.member.service.MemberVO;
 import com.hobbyfield.app.prdt.service.PrdtService;
 import com.hobbyfield.app.prdt.service.PrdtVO;
+import com.hobbyfield.app.prdt.service.ReviewService;
+import com.hobbyfield.app.prdt.service.ReviewVO;
 
 
 @Controller
@@ -25,6 +31,10 @@ public class PrdtController {
 	
 	@Autowired
 	PrdtService prdtService;
+	
+	@Autowired
+	ReviewService reviewService;
+	
 	
 	//상품목록조회
 	@GetMapping("prdtList")
@@ -44,6 +54,8 @@ public class PrdtController {
 		model.addAttribute("prdtInfo", prdtService.selectPrdt(prdtVO.getPrdtId()));
 		return "prdt/prdtInfo";
 	}
+	
+	
 	
 	//상품등록폼
 	@GetMapping("prdtInsert")
@@ -77,4 +89,22 @@ public class PrdtController {
 		prdtService.deletePrdt(prdtVO.getPrdtId());
 		return "redirect:prdtList";
 	}
+	
+	//상품후기 작성
+	@PostMapping("writeReview")
+    @ResponseBody
+    public void writeComment(@RequestBody ReviewVO reviewVO, HttpSession session) {
+		
+		MemberVO member = (MemberVO)session.getAttribute("member");
+		reviewVO.setMemberEmail(member.getMemberEmail());
+		reviewService.writeReview(reviewVO);
+        
+    }
+	//상품후기 목록 (카테고리별)
+	@PostMapping("getReviewsByCategory")
+    @ResponseBody
+    public List<ReviewVO> getReviewsByCategory(@RequestParam("category") String category) {
+        return reviewService.getReviewsByCategory(category);
+    }
+	
 }
