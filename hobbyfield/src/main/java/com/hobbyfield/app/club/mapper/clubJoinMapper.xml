@@ -63,7 +63,7 @@
            apply_answer3,
            apply_status
        FROM	club_apply
-       WHERE	club_number = #{clubNumber} AND apply_status = 'H1'
+       WHERE club_number = #{clubNumber} AND apply_status = 'H1'
    </select>
 
 </mapper>

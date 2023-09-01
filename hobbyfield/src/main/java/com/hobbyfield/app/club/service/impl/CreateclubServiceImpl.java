@@ -25,11 +25,17 @@ public class CreateclubServiceImpl implements CreateclubService {
 		return createclubMapper.selectClubAllList();
 	}
 	
-	//내가만든 소모임 전체조회 (모임장)
+	//내가만든 소모임조회 (모임장)
 	@Override
 	public List<CreateclubVO> getMyClubList(CreateclubVO createclubVO) {
 		
 		return createclubMapper.selectClubMyList(createclubVO);
+	}
+	
+	//내가만든 소모임 세부조회 (모임장)
+	@Override
+	public CreateclubVO selectMadeClub(CreateclubVO createclubVO) {
+		return createclubMapper.selectMadeClub(createclubVO);
 	}
 	
 	//소모임 세부조회
@@ -38,11 +44,6 @@ public class CreateclubServiceImpl implements CreateclubService {
 		return createclubMapper.selectClubInfo(createclubVO);
 	}
 	
-	//내가만든 소모임 세부조회 (모임장)
-	@Override
-	public CreateclubVO selectMadeClub(CreateclubVO createclubVO) {
-		return createclubMapper.selectClubInfo(createclubVO);
-	}
 	
 	//소모임 등록
 	@Override
@@ -84,7 +85,6 @@ public class CreateclubServiceImpl implements CreateclubService {
 		return createclubMapper.clubnameChk(clubName);
 	}
 
-	
 
 	// 소모임 검색
 	@Override
@@ -92,7 +92,6 @@ public class CreateclubServiceImpl implements CreateclubService {
 		return null;
 	}
 
-	
 	
 
 	

@@ -130,6 +130,15 @@
             <li><img src="${clubInfo.clubImgPath}${clubInfo.clubImg}" alt="모임 이미지"></li>
         </ul>
     </div>
+    <c:if test="${profile.profileNickName} eq ${clubInfo.profileNickname}">    
+	    <div>
+	    	<button type="button" onclick="location.href='clubManage?clubNumber=${clubInfo.clubNumber }'">소모임 가입 신청자 조회</button>
+	    </div>
+    </c:if>
+    
+    <div>
+    	<button type="button">삭제</button>
+    </div>
     
     <div>
     	<h2>초대하기</h2>
@@ -149,6 +158,17 @@
 	    });
 	});
 
+
+	//club 삭제버튼 (모임장만 보이게 해야하며/정말 삭제하시겠습니까 경고창 필요)
+	let msg = `${result}`;
+	if(msg != null && msg !='') alert(msg);
+	
+	$('button[type="button"]').on('click', ajaxDeletClub);
+
+	function ajaxDeletClub(e){
+		let clubNumber = e.currentTarget.closet
+	}
+	
 
 </script>
 
