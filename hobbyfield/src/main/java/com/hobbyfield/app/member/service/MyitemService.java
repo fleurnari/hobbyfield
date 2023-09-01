@@ -7,7 +7,9 @@ import com.hobbyfield.app.club.service.CreateclubVO;
 
 public interface MyitemService{
 	
+
 	// 마이아이템 전체조회
+
 	public List<MyitemVO> selectMyItemAllList(MemberVO memberVO);
 	
 	// 포인트 차감 

@@ -26,7 +26,7 @@
 		ORDER BY profile_nickname 
 	</select>
 	
-	<!-- 내가만든 소모임 조회 -->
+	<!-- (모임장)내가만든 소모임 전체 조회 -->
 	<select id="selectClubMyList" resultType="CreateclubVO">
 		SELECT 
 				c.club_number
@@ -51,6 +51,29 @@
 		WHERE m.member_email = #{memberEmail}
 		ORDER BY c.club_number
 	</select>
+	
+	<!-- (모임장)내가만든 소모임 단건 조회 -->
+	<select id="selectMadeClub" resultType="CreateclubVO">
+		SELECT 
+				club_number
+			   , profile_nickname
+         	   , club_name
+			   , FIND_CODE_NM(club_category) AS club_category
+			   , FIND_CODE_NM(club_type) AS club_type
+			   , club_info
+			   , FIND_CODE_NM(major_location) AS major_location
+			   , FIND_CODE_NM(sub_location) AS sub_location
+			   , club_public
+			   , singup_question1
+			   , singup_question2
+			   , singup_question3
+			   , club_img
+			   , club_img_path
+			   , club_total
+		FROM club
+		WHERE profile_nickname = #{profileNickname}
+	</select>
+	
 	
 	<!-- 소모임 세부조회 -->
 	<select id="selectClubInfo" resultType="CreateclubVO">
@@ -168,12 +191,12 @@
 			, singup_question3 = #{singupQuestion3}
 			, club_img = #{clubImg}
 			, club_img_path =#{clubImgPath}
-		WHERE club_name = #{clubName}
 		</set>
+		WHERE club_name = #{clubName}
 	</update>
 	
 	
 	<!-- 소모임 삭제? -->
 	
-	
+
 </mapper>

@@ -28,14 +28,14 @@
 		</div>
 		
 		<div>
-			
-		</div>		
+			<a href=""></a>	
+		</div>
+		
+				
 		
 		<div>
 			<p2>첨부이미지</p2>
 			
-
-
 			<!-- 이미지 선택 인풋 -->
 			<input type="file" id="imgInput" name="uploadFile" onchange="readURL(this);"/>
 			
@@ -144,61 +144,6 @@ function serializeObject() {
 	return formObj;
 }
 	
-
-// 	$(document).ready(function() {
-// 	    $('select').on('change', function() {
-// 	        var selectedNickname = $(this).val();
-// 	        if (selectedNickname) {
-// 	            $.ajax({
-// 	                url: 'fetchProfileInfo',
-// 	                type: 'GET',
-// 	                data: {
-// 	                    profileNickname: selectedNickname
-// 	                },
-// 	                success: function(data) {
-// 	                    // 프로필 이미지 업데이트
-// 	                    if (data && data.profileImgPath) {
-// 	                        $('#preview').html('<img src="' + data.profileImgPath + '" alt="Profile Image">');
-// 	                    } else {
-// 	                        $('#preview').html('No Image Available');
-// 	                    }
-// 	                }
-// 	            });
-// 	        } else {
-// 	            $('#preview').html('');  // 이미지 제거
-// 	        }
-// 	    });
-// 	});
-
-// function fetchProfileInfo(nickname) {
-//     $.ajax({
-//         url: '/app/fetchProfileInfo',  // 경로는 서버 설정에 따라 조절해야 합니다.
-//         type: 'GET',
-//         data: {
-//             profileNickname: nickname
-//         },
-//         success: function(data) {
-//             if (data && data.profileImgPath) {
-//                 var preview = document.getElementById("preview");
-//                 while (preview.firstChild) { // 기존 이미지 제거
-//                     preview.removeChild(preview.firstChild);
-//                 }
-//                 var imgTag = document.createElement("img");
-//                 imgTag.src = '/app/' + data.profileImgPath;  // 경로는 서버 설정에 따라 조절해야 합니다.
-//                 imgTag.style.width = 200 + 'px';
-//                 imgTag.style.height = 200 + 'px';
-//                 preview.appendChild(imgTag);
-//             } else {
-//                 $('#preview').text('No Image Available');
-//             }
-//         },
-//         error: function() {
-//             console.error("프로필 이미지를 불러오는 데 실패했습니다.");
-//         }
-//     });
-// }	
-
-
 
 	
 </script>

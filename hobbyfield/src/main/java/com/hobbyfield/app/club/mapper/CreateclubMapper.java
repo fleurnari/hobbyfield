@@ -13,6 +13,9 @@ public interface CreateclubMapper {
 	//내가 생성한 소모임 조회 clubMyList View (모임장)
 	public List<CreateclubVO> selectClubMyList(CreateclubVO createclubVO);
 	
+	//내가 생성한 소모임 세부조회 clubMadeList (모임장)
+	public CreateclubVO selectMadeClub(CreateclubVO createclubVO);
+	
 	//소모임 세부조회
 	public CreateclubVO selectClubInfo(CreateclubVO createclubVO);
 	
