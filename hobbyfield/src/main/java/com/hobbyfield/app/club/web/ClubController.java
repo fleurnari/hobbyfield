@@ -163,6 +163,7 @@ public class ClubController {
 		clubprofileVO.setMemberEmail(member.getMemberEmail());
 		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
 		model.addAttribute("update", findVO);
+		
 		return "club/clubMadeList";
 	}
 	

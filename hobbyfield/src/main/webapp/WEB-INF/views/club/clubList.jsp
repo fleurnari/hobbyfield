@@ -14,7 +14,7 @@
             flex-wrap: wrap;
             justify-content: space-around;
         }
-
+		
         .clubItem {
             width: 23%; /* 4개씩 나열될 수 있도록 너비 설정 */
             margin: 10px;
