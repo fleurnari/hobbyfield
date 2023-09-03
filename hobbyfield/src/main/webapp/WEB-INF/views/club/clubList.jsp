@@ -51,21 +51,50 @@
         .clubItem:hover .clubInfo {
             display: block; /* 마우스를 올리면 정보 표시 */
         }
+        
         .ck.ck-editor {
 		width: 30%;
 		max-width: 50px;
 		margin: 0 auto;
 		}
+		
 		.ck-editor__editable {
 			height: 80vh;
 		}
+		
+		 /* 지역 버튼 및 모임분류 버튼 스타일 */
+	    .region-btn {
+	        margin: 5px; /* 버튼 간격 */
+	        background-color: #FF6F61; /* 네이버 주황색 */
+	        color: white; /* 흰색 글씨 */
+	        border: none; /* 경계선 제거 */
+	        padding: 10px 20px; /* 상하 10px, 좌우 20px 패딩 */
+	        border-radius: 5px; /* 둥근 모서리 */
+	        cursor: pointer; /* 마우스 올렸을 때 손가락 모양 */
+	    }
+	
+	    .region-btn:hover {
+	        background-color: #FF8B7D; /* 마우스를 올렸을 때의 색상 (조금 밝아짐) */
+	    }
     </style>
 </head>
 
 <body>
 <section>
     <div align="center" style="margin-top: 100px;">
-		<a class="btn btn-success" href="${pageContext.request.contextPath}/clubInsert">소모임 생성</a>	
+		<a class="btn btn-success" href="${pageContext.request.contextPath}/clubInsert">소모임 생성</a>
+		
+		<!-- 지역 정렬 -->
+		<c:forEach items="${E}" var="region" >
+    		<button class="region-btn" data-region-code="${region.literal}">${region.literal}</button>
+		</c:forEach>
+		
+		<!-- 모임 종류 정렬 -->
+		<c:forEach items="${C}" var="type" >
+    		<button class="category-btn" data-type-code="${type.literal}">${type.literal}</button>
+		</c:forEach>
+		
+			
     
 		<!-- 소모임 표시 -->    
 	
@@ -85,44 +114,170 @@
                 </div>
             </c:forEach>
         </div>
-
-    
-   <!-- 소모임과 소모임 게시글 구분을 위한 구분선 css 만들기 -->
-   <div>
- <p>================================================<p>
- </div>
-  <div>
-        <div id="clubContainer">
-            <c:forEach items="${board}" var="board">
-                <div id="clubBoard">
-                    <div class="">
-                        <p>게시글번호: ${board.boardNumber}</p>
-                        <p>소모임번호: ${board.clubNumber}</p>
-                        <p>게시글작성자: ${board.clubBoardWriter}</p>
-                        <p>게시글내용: </p><div id="editor">${board.clubBoardContent}</div>
-                        <p>작성일: ${board.clubBoardWdate}</p>
-                        <p>조회수: ${board.clubBoardViews}</p>
-                        <p>공지글: ${board.clubBoardType}</p>
-                        <p>일정날짜 : ${board.scheduleDate}</p>
-                        <p>블라인드: ${board.clubBoardBlind}</p>
-                    </div>
-                </div>
-            </c:forEach>
-        </div>
-    </div>
-    
-</div>
-
-
-
-<!-- <!-- ajax를 통해 보낼 Session에 member.memberEmail을 담을 hideen -->
-<%-- <input type="hidden" id="checkClub" name="checkClub" value="${member.memberEmail}"> --%>
+	</div>
 </section>
 </body>
 
 
 
 <script type="text/javascript">
+
+	var startPage = 1; // 현재 페이지 번호
+	var endPage = 12;
+	var currentPage = 1;  // 현재 페이지 번호 초기화
+	var pageSize = 12;    // 페이지 크기 초기화
+	var isLoading = false; // 중복 요청을 확인
+
+	
+	//지역 버튼 클릭 이벤트 핸들러
+	$(document).on('click', '.category-btn', function() {
+	    const clubCategory = $(this).data('type-code');
+	    console.log("카테고리", clubCategory);
+	
+	    // 서버에 지역 코드 전송
+	    $.ajax({
+	    	url: "${pageContext.request.contextPath}/getClubsByCate",
+	        type: 'GET',
+	        data: { "clubCategory" : clubCategory },
+	        dataType: 'json',
+	        success: function(Cate) {
+	        	 console.log("Received Cate:", Cate);
+	            // #clubContainer 내용삭제
+	            $('#clubContainer').empty();
+	            
+	            // 서버로부터 받은 소모임 리스트를 화면에 추가
+	            $.each(Cate, function(index, club) {
+	                //각 소모임의 정보를 표시하는 코드 
+	                $('#clubContainer').append(`
+	                    <div class="clubItem" onclick="location.href='clubInfo?clubNumber=${club.clubNumber}&profileNickname=${club.profileNickname}'">
+	                        <img src="${club.clubImgPath}${club.clubImg}">
+	                        <div class="clubInfo">
+	                            <p>모임리더: ${club.profileNickname}</p>
+	                            <p>모임이름: ${club.clubName}</p>
+	                            <p>카테고리: ${club.clubCategory}</p>
+	                            <p>분류: ${club.clubType}</p>
+	                            <p>소개글: ${club.clubInfo}</p>
+	                            <p>광역시: ${club.majorLocation}</p>
+	                            <p>구: ${club.subLocation}</p>
+	                        </div>
+	                    </div>
+	                `);
+	            });
+	        },
+	        error: function(error) {
+	            console.error("카테고리 정렬 에러", error);
+	            alert("데이터 로딩 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	        }
+	    });
+	});
+
+
+	//소모임 종류 정렬
+	//지역 버튼 클릭 이벤트 핸들러
+	$(document).on('click', '.region-btn', function() {
+	    const majorLocation = $(this).data('region-code');
+	
+	    // 서버에 지역 코드 전송
+	    $.ajax({
+	    	url: "${pageContext.request.contextPath}/getClubsByRegion",
+	        type: 'GET',
+	        data: { "majorLocation" : majorLocation },
+	        dataType: 'json',
+	        success: function(clubs) {
+	        	 console.log("Received clubs:", clubs);
+	            // #clubContainer 내용삭제
+	            $('#clubContainer').empty();
+	            
+	            // 서버로부터 받은 소모임 리스트를 화면에 추가
+	            $.each(clubs, function(index, club) {
+	                //각 소모임의 정보를 표시하는 코드 
+	                $('#clubContainer').append(`
+	                    <div class="clubItem" onclick="location.href='clubInfo?clubNumber=${club.clubNumber}&profileNickname=${club.profileNickname}'">
+	                        <img src="${club.clubImgPath}${club.clubImg}">
+	                        <div class="clubInfo">
+	                            <p>모임리더: ${club.profileNickname}</p>
+	                            <p>모임이름: ${club.clubName}</p>
+	                            <p>카테고리: ${club.clubCategory}</p>
+	                            <p>분류: ${club.clubType}</p>
+	                            <p>소개글: ${club.clubInfo}</p>
+	                            <p>광역시: ${club.majorLocation}</p>
+	                            <p>구: ${club.subLocation}</p>
+	                        </div>
+	                    </div>
+	                `);
+	            });
+	            currentPage++;  // 다음 페이지로 이동
+	        },
+	        error: function(error) {
+	            console.error("지역 정렬 에러", error);
+	            alert("데이터 로딩 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	        }
+	    });
+	});
+
+
+
+
+	//페이징(임시)
+	$(window).off('scroll').on('scroll', function() {
+	    if (!isLoading && $(window).scrollTop() + $(window).height() == $(document).height()) {
+	        isLoading = true; // 요청 시작 전 플래그 설정
+
+	        $.ajax({
+	            url: "${pageContext.request.contextPath}/clubInfiniteScroll",
+	            data: {
+	            	 startPage: (currentPage - 1) * pageSize + 1,  // 예: 1, 11, 21...
+	                 endPage: currentPage * pageSize               // 예: 10, 20, 30...
+	            },
+	            type: 'GET',
+	            dataType: 'json',
+	            success: function(clubs) {
+	            	console.log("현재페이지:", currentPage);  // 현재 페이지 번호 출력
+	                console.log("반환페이지:", clubs);     // 반환된 소모임 데이터 출력
+	                // 서버에서 반환된 데이터가 있을 경우만 화면에 추가
+	                if (clubs.length > 0) {
+	                    $.each(clubs, function(index, club) {
+	                        $('#clubContainer').append(`
+	                            <div class="clubItem" onclick="location.href='clubInfo?clubNumber=${club.clubNumber}&profileNickname=${club.profileNickname}'">
+	                                <img src="${club.clubImgPath}${club.clubImg}">
+	                                <div class="clubInfo">
+	                                    <p>모임리더: ${club.profileNickname}</p>
+	                                    <p>모임이름: ${club.clubName}</p>
+	                                    <p>카테고리: ${club.clubCategory}</p>
+	                                    <p>분류: ${club.clubType}</p>
+	                                    <p>소개글: ${club.clubInfo}</p>
+	                                    <p>광역시: ${club.majorLocation}</p>
+	                                    <p>구: ${club.subLocation}</p>
+	                                </div>
+	                            </div>
+	                        `);
+	                    });
+	                    currentPage++;  // 페이지 증가
+	                }
+	                isLoading = false; // 요청 완료 후 플래그 해제
+	            },
+	            error: function(error) {
+	            	console.error("무한 스크롤 에러", error);
+	                showError("데이터 로딩 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	                isLoading = false; // 요청 완료 후 플래그 해제
+	            }
+	        });
+	    }
+	});
+	
+	function showError(message) {
+	    let errorDiv = $("#errorDiv");
+	    if (!errorDiv.length) {
+	        $("body").prepend('<div id="errorDiv" style="background-color: red; color: white; text-align: center; padding: 10px; position: fixed; top: 0; left: 0; right: 0;">' + message + '</div>');
+	        setTimeout(function() {
+	            $("#errorDiv").fadeOut().remove();
+	        }, 3000); // 3초 후 에러 메시지 제거
+	    }
+	}
+	
+
+
+
 // 	$('#clubLink').on("click",function(e){
 // 		.stopPropagation();
 // 		var email = $('#checkClub').

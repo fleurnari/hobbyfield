@@ -71,8 +71,11 @@
 		
 		 <h3>
 		 	club 상위 리스트
-	          <div >
+	          <div>
 	          <a href="${pageContext.request.contextPath}/clubList">소모임 조회페이지</a>
+	          </div><br>
+	          <div>
+	          <a class="btn btn-success" href="${pageContext.request.contextPath}/profileInsert">프로필 생성</a>
 	          </div>
 		 </h3> 
 		 <!-- 소모임 표시 -->    

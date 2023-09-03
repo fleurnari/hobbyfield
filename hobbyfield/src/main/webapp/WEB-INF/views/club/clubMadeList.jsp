@@ -14,36 +14,59 @@
 	/*모달창 */
     /* ... 기존 스타일 ... */
    .club-modal {
-        display: none; /* 초기에 모달을 숨깁니다. */
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0,0,0,0.5); /* 반투명한 검은색 배경 */
-        z-index: 1; /* 다른 요소 위에 위치 */
-    }
+	    visibility: hidden;
+	    position: fixed;
+	    top: 0;
+	    left: 0;
+	    width: 100%;
+	    height: 100%;
+	    background-color: rgba(0,0,0,0.5);
+	    z-index: 1000;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    overflow-y: auto;  /* 스크롤 추가 */
+	}
 
     .modal-body {
-        width: 25%; /* 화면 크기 */
-        height: 80%; /* 화면 크기 */
-        position: absolute;
-        top: 50%; 
-        left: 50%;
-        transform: translate(-50%, -50%); /* 중앙에 위치하도록 설정 */
-        background-color: white;
-        padding: 20px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-    }
+	    width: 70%;  /* 너비 조정 */
+	    background-color: white;
+	    padding: 40px 40px 60px 40px;  /* 패딩을 조정하여 내용이 적절히 들어갈 수 있도록 합니다. */
+	    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	    border-radius: 10px;
+	    z-index: 1001;
+	    overflow-y: auto;  /* 내용이 많을 때 스크롤 추가 */
+	    position: relative;
+	}
 
     /* 모달 닫기 버튼 (선택) */
     .close {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        cursor: pointer;
-    }
+	    position: absolute;  /* 버튼의 위치를 모달 내부에 절대적으로 설정 */
+	    top: 15px;  /* 상단으로부터의 거리 */
+	    right: 15px;  /* 오른쪽으로부터의 거리 */
+	    cursor: pointer;
+	    font-size: 24px;
+	    z-index: 1002;
+	    color: black;
+	    background-color: white;  /* 버튼의 배경색을 흰색으로 설정 (필요에 따라 조정) */
+	    border-radius: 50%;  /* 버튼을 원형으로 만들기 위해 설정 */
+	    padding: 5px 10px;  /* 버튼 내부의 패딩 조정 */
+	    line-height: 1;  /* 아이콘의 세로 정렬을 위해 설정 */
+	    border: 1px solid #ddd;  /* 버튼의 테두리 설정 (필요에 따라 조정) */
+	}
+	
+	.update-button {
+	    position: absolute;  
+	    bottom: 20px;
+	    right: 20px;
+	    z-index: 1002;  
+	    background-color: blue;  /* 버튼의 배경색을 파란색으로 설정 */
+	    color: white;  /* 버튼의 텍스트 색상을 흰색으로 설정 */
+	    padding: 10px 20px;  /* 버튼의 패딩 조정 */
+	    border-radius: 5px;  /* 버튼의 모서리 둥글게 설정 */
+	    border: none;  /* 버튼의 테두리 제거 */
+	    cursor: pointer;  /* 버튼에 마우스 오버 시 포인터 아이콘으로 변경 */
+	}
 
 
 /* @import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100); */
@@ -255,13 +278,13 @@
 					</div>
 					
 					<div>
-						<input type="hidden" name="clubNumber" class="clubNumber" value="${clubInfo.clubNumber }">
-						<input type="hidden" name="profileNickname" class="ProfileNickname" value="${clubInfo.profileNickname }">
+						<input type="hidden" name="clubNumber" class="clubNumber" value="${clubNumber }">
+						<input type="hidden" name="profileNickname" class="ProfileNickname" value="${profileNickname }">
 					</div>
 					
 					<div>
 						<label>모임이름</label>
-						<input type="text" class="club_input" name="clubName" value="${clubInfo.clubName}"><br>
+						<input type="text" class="club_input" name="clubName" value="${clubName}"><br>
 						<span class="club_input_re1">사용 가능한 모임 이름입니다.</span>
 						<span class="club_input_re2">모임 이름이 이미 존재합니다. </span>
 						<span class="final_club_ck">모임 이름을 정해주세요</span>
@@ -304,29 +327,27 @@
 					
 					<div>
 						<label>공개여부 : </label>
-						<input type="radio" name="clubPublic" checked="checked" value="${clubInfo.clubPublic }" readonly />공개
+						<input type="radio" name="clubPublic" checked="checked" value="G1" ${clubPublic == 'G1' ? 'checked' : ''} readonly />공개
 					</div>
 					
 					<div>
 						<label>질문1</label>
-						<input type="text" name="singupQuestion1" value="${clubInfo.singupQuestion1 }"><br>
+						<input type="text" name="singupQuestion1" value="${singupQuestion1 }"><br>
 						<label>질문2</label>
-						<input type="text" name="singupQuestion2" value="${clubInfo.singupQuestion2 }"><br>
+						<input type="text" name="singupQuestion2" value="${singupQuestion2 }"><br>
 						<label>질문3</label>
-						<input type="text" name="singupQuestion3" value="${clubInfo.singupQuestion3 }"><br>
+						<input type="text" name="singupQuestion3" value="${singupQuestion3 }"><br>
 					</div>
-					
-					<span class="close">&times;</span>
-					<div>
-						<button type="submit" class="update-button">수정하기</button>
-					</div>
-					
 					
 					<div id="preview"></div>
 						<input name="uploadFile" type="file" value="clubImg" onchange="readURL(this);">
 						<button type="button" id="uploadBtn">upload</button>
 					</div>
-					
+		
+					<span class="close">&times;</span>
+					<div>
+						<button type="submit" class="update-button">수정하기</button>
+					</div>
 					
 					
 				</div>
@@ -348,24 +369,24 @@
 	        if (data) {
 	        	console.log(data);
 	            // 모달 창의 입력 필드에 데이터 설정
-	            $("#clubModal input[name='clubNumber']").val(data.clubNumber);
+	            $("#club-modal input[name='clubNumber']").val(data.clubNumber);
 	            $("#join_form input[name='clubNumber']").val(data.clubNumber);
-	            $("#clubModal input[name='clubName']").val(data.clubName);
-	            $("#clubModal input[name='clubImg']").val(data.clubImg);
-	            $("#clubModal input[name='clubImgPath']").val(data.clubImgPath);
-	            $("#clubModal input[name='profileNickname']").val(data.profileNickname);
+	            $("#club-modal input[name='clubName']").val(data.clubName);
+	            $("#club-modal input[name='clubImg']").val(data.clubImg);
+	            $("#club-modal input[name='clubImgPath']").val(data.clubImgPath);
+	            $("#club-modal input[name='profileNickname']").val(data.profileNickname);
 	            $("#join_form input[name='profileNickname']").val(data.profileNickname);
-	            $("#clubModal select[name='clubCategory']").val(data.clubCategory);
-	            $("#clubModal input[name='clubType'][value='" + data.clubType + "']").prop('checked', true);
-	            $("#clubModal input[name='clubInfo']").val(data.clubInfo);
-	            $("#clubModal select[name='majorLocation']").val(data.majorLocation);
-	            $("#clubModal select[name='subLocation']").val(data.subLocation);
+	            $("#club-modal select[name='clubCategory']").val(data.clubCategory);
+	            $("#club-modal input[name='clubType'][value='" + data.clubType + "']").prop('checked', true);
+	            $("#club-modal input[name='clubInfo']").val(data.clubInfo);
+	            $("#club-modal select[name='majorLocation']").val(data.majorLocation);
+	            $("#club-modal select[name='subLocation']").val(data.subLocation);
 	            if(data.clubPublic === "공개") {
-	                $("#clubModal input[name='clubPublic']").prop('checked', true);
+	                $("#club-modal input[name='clubPublic']").prop('checked', true);
 	            }
-	            $("#clubModal input[name='singupQuestion1']").val(data.singupQuestion1);
-	            $("#clubModal input[name='singupQuestion2']").val(data.singupQuestion2);
-	            $("#clubModal input[name='singupQuestion3']").val(data.singupQuestion3);
+	            $("#club-modal input[name='singupQuestion1']").val(data.singupQuestion1);
+	            $("#club-modal input[name='singupQuestion2']").val(data.singupQuestion2);
+	            $("#club-modal input[name='singupQuestion3']").val(data.singupQuestion3);
 	            
 	            // 모달 창 보여주기
 	            $('.club-modal').show();
@@ -384,6 +405,9 @@
 	    console.log(profileNickname);
 	    fetchClubData(profileNickname);
 	}
+
+
+
 	
 	
 	$(document).ready(function(e) {
@@ -393,14 +417,14 @@
 	        console.log(e);
 	    });
 	    
-	    // .open-modal 클래스를 가진 엘리먼트를 클릭했을 때 모달열기
+	 // .open-modal 클래스를 가진 엘리먼트를 클릭했을 때 모달열기
 	    $('.open-modal').click(function() {
-	        $('.club-modal').show(); // 모달 창 보여주기
+	        $('.club-modal').css("visibility", "visible"); // 모달 창 보여주기
 	    });
-	    
+	        
 	    // .close 클래스를 가진 엘리먼트를 클릭했을 때 모달닫기
 	    $('.close').click(function() {
-	        $('.club-modal').hide(); // 모달 창 숨기기
+	        $('.club-modal').css("visibility", "hidden"); // 모달 창 숨기기
 	    });
 	});
 	
@@ -412,7 +436,9 @@
 	
 	$(document).ready(function(){
 		//모임수정 버튼(모임수정 기능 작동)
-		$(".join_button").on("click", function() {
+		$(".update_button").on("click", function() {
+			
+			 event.preventDefault(); // 폼 제출 방지
 			
 			//입력값 변수
 			var club = $('.club_input').val(); //소모임 이름 입력란 
@@ -502,6 +528,99 @@
 				$('#join_form').append(tag);
 			}
 		}
+	
+	//데이터전달 확인용
+	$(".update-button").on("click", function() {
+		console.log($("#join_form").serialize()); // 폼 데이터 출력
+		
+		// 모든 로직이 성공적으로 수행된 후에만 폼 제출
+	    // $("#join_form").submit();
+		
+	});
+	
+	function validateForm() {
+	    let clubName = document.getElementsByName('clubName')[0];
+	    let clubCategory = document.getElementsByName('clubCategory')[0];
+	    let clubType = document.querySelector('input[name="clubType"]:checked');
+	    let clubInfo = document.getElementsByName('clubInfo')[0];
+	    let majorLocation = document.getElementsByName('majorLocation')[0];
+	    let subLocation = document.getElementsByName('subLocation')[0];
+	    let clubPublic = document.querySelector('input[name="clubPublic"]:checked');
+	    let singupQuestion1 = document.getElementsByName('singupQuestion1')[0];
+	    let singupQuestion2 = document.getElementsByName('singupQuestion2')[0];
+	    let singupQuestion3 = document.getElementsByName('singupQuestion3')[0];
+
+	    if (clubName.value.trim() === '') {
+	        alert('모임 이름을 입력해주세요.');
+	        clubName.focus();
+	        return false;
+	    }
+
+	    if (clubCategory.value.trim() === '') {
+	        alert('모임 카테고리를 선택해주세요.');
+	        clubCategory.focus();
+	        return false;
+	    }
+
+	    if (!clubType) {
+	        alert('소모임 분류를 선택해주세요.');
+	        return false;
+	    }
+
+	    if (clubInfo.value.trim() === '') {
+	        alert('소모임 소개를 입력해주세요.');
+	        clubInfo.focus();
+	        return false;
+	    }
+
+	    if (majorLocation.value.trim() === '') {
+	        alert('광역지역을 선택해주세요.');
+	        majorLocation.focus();
+	        return false;
+	    }
+
+	    if (subLocation.value.trim() === '') {
+	        alert('지역구를 선택해주세요.');
+	        subLocation.focus();
+	        return false;
+	    }
+
+	    if (!clubPublic) {
+	        alert('공개 여부를 선택해주세요.');
+	        return false;
+	    }
+
+	    if (singupQuestion1.value.trim() === '') {
+	        alert('질문1을 입력해주세요.');
+	        singupQuestion1.focus();
+	        return false;
+	    }
+
+	    if (singupQuestion2.value.trim() === '') {
+	        alert('질문2를 입력해주세요.');
+	        singupQuestion2.focus();
+	        return false;
+	    }
+
+	    if (singupQuestion3.value.trim() === '') {
+	        alert('질문3을 입력해주세요.');
+	        singupQuestion3.focus();
+	        return false;
+	    }
+
+	    if (confirm("수정하시겠습니까?")) {
+	        return true;
+	    } else {
+	        return false;
+	    }
+	}
+
+	// "수정하기" 버튼 클릭 시 유효성 검사 실행
+	document.querySelector(".update-button").addEventListener("click", function(e) {
+	    if (!validateForm()) {
+	        e.preventDefault();
+	    }
+	});
 	
 </script>
 </html>

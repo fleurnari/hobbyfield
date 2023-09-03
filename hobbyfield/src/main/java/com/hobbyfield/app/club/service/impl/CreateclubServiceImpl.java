@@ -1,10 +1,7 @@
 package com.hobbyfield.app.club.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +38,7 @@ public class CreateclubServiceImpl implements CreateclubService {
 	//소모임 세부조회
 	@Override
 	public CreateclubVO getClub(CreateclubVO createclubVO) {
-		return createclubMapper.selectClubInfo(createclubVO);
+		return createclubMapper.getClubInfo(createclubVO);
 	}
 	
 	
@@ -91,18 +88,32 @@ public class CreateclubServiceImpl implements CreateclubService {
 	public List<CreateclubVO> searchClub(CreateclubVO createclubVO) {
 		return null;
 	}
-
-	//소모임 카테고리별 정렬
+	
+	//소모임 지역 정렬
 	@Override
-	public List<CreateclubVO> orderByCategory(CreateclubVO createclubVO) {
-		return createclubMapper.orderByCategory(createclubVO);
+	public List<CreateclubVO> getOrderLocation(String majorLocation) {
+		return createclubMapper.getOrderLocation(majorLocation);
 	}
-
+	
+	//소모임 종류 정렬
+	@Override
+	public List<CreateclubVO> getOrderCategory(String clubCategory){
+		return createclubMapper.getOrderCategory(clubCategory);
+	}
+	
 	//소모임 top
 	@Override
 	public List<CreateclubVO> getClubTop() {
 		return createclubMapper.selectClubTop();
 	}
+	
+	//페이징
+	@Override
+	public List<CreateclubVO> getClubsForInfiniteScroll(Map<String, Integer> map) {
+	    return createclubMapper.selectClubsForInfiniteScroll(map);
+	}
+
+	
 
 	
 

@@ -62,4 +62,11 @@
 		WHERE P.MEMBER_EMAIL = #{memberEmail} AND C.CLUB_NUMBER = #{clubNumber}
 	</select>
 	
+	<!--프로필 생성 3개제한 -->
+	<select id="getProfileCountByEmail" resultType="int">
+    	SELECT COUNT(*)
+    	 FROM profile
+    	 WHERE member_email = #{memberEmail}
+	</select>
+	
 </mapper>
