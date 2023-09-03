@@ -2,8 +2,10 @@ package com.hobbyfield.app.club.board.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hobbyfield.app.club.board.mapper.BoardVoteMapper;
 import com.hobbyfield.app.club.board.service.BoardVoteOptionVO;
 import com.hobbyfield.app.club.board.service.BoardVoteResultVO;
 import com.hobbyfield.app.club.board.service.BoardVoteService;
@@ -11,6 +13,9 @@ import com.hobbyfield.app.club.board.service.BoardVoteVO;
 
 @Service
 public class BoardVoteServiceImpl implements BoardVoteService {
+	
+	@Autowired
+	BoardVoteMapper boardmapper;
 	
 	@Override
 	public int insertVote(BoardVoteVO vo) {
