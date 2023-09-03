@@ -126,7 +126,6 @@ public class MemberController {
 								@RequestParam(value = "exception", required = false) String exception,
 								Model model,
 								HttpSession session) {
-			System.out.println("세션" + session.getId());
 			model.addAttribute("error", error);
 			model.addAttribute("exception", exception);
 			
@@ -142,6 +141,7 @@ public class MemberController {
 	public String kakaoLogin(HttpServletRequest request, RedirectAttributes rttr, @RequestParam(value = "code", required = false) String code) throws Exception {
 		HttpSession session = request.getSession();
 		String access_Token = memberService.getAccessToken(code);
+		
 		HashMap<String, Object> userInfo = memberService.getUserInfo(access_Token);
 		
 		MemberVO member = new MemberVO();
@@ -163,7 +163,8 @@ public class MemberController {
 				
 				PointRecordVO pointRecord = new PointRecordVO();
 				pointRecord.setMemberEmail(kakaoMember.getMemberEmail());
-				pointRecordService.insertLoginPoint(pointRecord);
+				pointRecord.setPointType("AB1");
+				pointRecordService.insertPointLog(pointRecord);
 				
 			}
 		
@@ -209,7 +210,8 @@ public class MemberController {
 				
 				PointRecordVO pointRecord = new PointRecordVO();
 				pointRecord.setMemberEmail(naverMember.getMemberEmail());
-				pointRecordService.insertLoginPoint(pointRecord);
+				pointRecord.setPointType("AB1");
+				pointRecordService.insertPointLog(pointRecord);
 				
 			}
 			session.setAttribute("member", naverMember);

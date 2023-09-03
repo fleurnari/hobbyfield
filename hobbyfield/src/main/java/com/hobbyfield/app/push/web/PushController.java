@@ -51,6 +51,17 @@ public class PushController {
 		return result;
 	}
 	
+	// 알림 읽음 여부 변경
+	@ResponseBody
+	@PostMapping("/updatePush")
+	public String updatePush(int pushId) {
+		
+		pushService.updatePush(pushId);
+		
+		return null;
+	}
+	
+	
 	// 알림 삭제
 	@ResponseBody
 	@PostMapping("/deletePush")

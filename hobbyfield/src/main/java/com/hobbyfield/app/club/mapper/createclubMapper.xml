@@ -76,7 +76,7 @@
 	
 	
 	<!-- 소모임 세부조회 -->
-	<select id="selectClubInfo" resultType="CreateclubVO">
+	<select id="selectClubInfo" parameterType="CreateclubVO" resultType="CreateclubVO">
 		SELECT 
 				club_number
 			   , profile_nickname
@@ -94,7 +94,7 @@
 			   , club_img_path
 			   , club_total
 		FROM club
-		WHERE profile_nickname = #{profileNickname}
+		WHERE club_number = #{clubNumber}
 	</select>
 	
 	<!-- 소모임 등록 -->

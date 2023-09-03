@@ -32,12 +32,20 @@ public class PushServiceImpl implements PushService {
 
 		return pushMapper.insertPush(pushId, pushTarget, pushTyp, pushCntn, pushUrl);
 	}
+	
+	@Override
+	public int updatePush(int pushId) {
+
+		return pushMapper.updatePush(pushId);
+	}
 
 	@Override
 	public int deletePush(int pushId) {
 
 		return pushMapper.deletePush(pushId);
 	}
+
+
 	
 
 

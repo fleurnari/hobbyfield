@@ -92,6 +92,11 @@
   	<update id="updateViewClubBoard" parameterType="ClubBoardVO">
   		
   	</update>
+  	
+	<!-- 게시글 작성 활동 포인트 적립 -->
+	<update id="updateMemberPnt" parameterType="com.hobbyfield.app.member.service.MemberVO">
+		UPDATE member SET member_actpnt = member_actpnt + 100 WHERE member_email = #{memberEmail}
+	</update>
 
   
   </mapper>

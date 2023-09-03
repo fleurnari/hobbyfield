@@ -34,7 +34,7 @@
           		<c:if test = "${member != null}">
           			 <div class="ms-lg-5">
           			    <img src="${pageContext.request.contextPath}/resources/img/push.png" width="30px" onclick="pushList()" style="position: relative;">
-          			    <div id="nemo" style="position: absolute; top: 0px;">1</div>
+          			    <div id="nemo" style="position: absolute; top: 0px;"></div>
 						<span>${member.memberNm} 님 환영합니다.</span>
 						<a href="#" id="chat" title="채팅">채팅</a>
 						<a href="${pageContext.request.contextPath}/member/myPage">마이페이지</a>

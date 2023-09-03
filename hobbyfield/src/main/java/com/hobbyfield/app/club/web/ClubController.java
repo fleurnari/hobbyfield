@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hobbyfield.app.club.board.service.ClubBoardService;
 import com.hobbyfield.app.club.board.service.ClubBoardVO;
+import com.hobbyfield.app.club.board.service.ClubCommentService;
+import com.hobbyfield.app.club.board.service.ClubCommentVO;
 import com.hobbyfield.app.club.profile.mapper.ClubProfileMapper;
 import com.hobbyfield.app.club.profile.service.ClubProfileService;
 import com.hobbyfield.app.club.profile.service.ClubProfileVO;
@@ -33,6 +35,8 @@ import com.hobbyfield.app.comm.mapper.CommCodeMapper;
 import com.hobbyfield.app.comm.service.CommCodeVO;
 import com.hobbyfield.app.member.mapper.MemberMapper;
 import com.hobbyfield.app.member.service.MemberVO;
+import com.hobbyfield.app.pointrecord.service.PointRecordService;
+import com.hobbyfield.app.pointrecord.service.PointRecordVO;
 
 //0828 이선호 (소모임 관리)
 @Controller
@@ -58,6 +62,12 @@ public class ClubController {
   
     @Autowired
 	ClubJoinService clubJoinService;
+    
+    @Autowired
+    ClubCommentService clubCommentService;
+    
+    @Autowired
+    PointRecordService prService;
 
 	
 	/*========= 소모임 조회관련 =========*/
@@ -330,8 +340,22 @@ public class ClubController {
 	
 	
 	@PostMapping("clubBoardInsert")
-	public String insertClubBoard(Model model ,ClubBoardVO vo,CreateclubVO cvo) {
-		clubBoardService.insertClubBoard(vo);
+	public String insertClubBoard(Model model ,ClubBoardVO vo,CreateclubVO cvo, HttpServletRequest request) {
+		int result = clubBoardService.insertClubBoard(vo);
+		
+		
+		if (result == 1) {
+			HttpSession session = request.getSession();
+			MemberVO mvo = (MemberVO)session.getAttribute("member");
+			clubBoardService.updateMemberPnt(mvo);
+			
+			PointRecordVO pointRecord = new PointRecordVO();
+			pointRecord.setMemberEmail(mvo.getMemberEmail());
+			pointRecord.setPointType("AB2");
+			prService.insertPointLog(pointRecord);
+		}
+
+		
 		List<ClubBoardVO> clubBoardList = clubBoardService.getSelectClubBoardList(cvo);
 		model.addAttribute("boardList", clubBoardList);
 		
@@ -351,18 +375,105 @@ public class ClubController {
 		// 가져온 세션값을 토대로 자신의 프로필을 가져와서 오기
 		ClubProfileVO profile = clubprofileMapper.getSessionProfile(mvo.getMemberEmail(), vo.getClubNumber());
 		// 가져온 값을 세션에 담기
+		CreateclubVO cvo = createClubService.getClub(vo);
+		session.setAttribute("club", cvo);
 		session.setAttribute("profile", profile);
-		session.setAttribute("clubNumber", vo.getClubNumber());
+		
 		return "club/clubBoardList";
 	}
 	
-	
+	// 소모임 게시물 상세 보기
 	@GetMapping("clubBoardInfo")
-	public String clubBoardInfo(Model model,ClubBoardVO vo) {
-		model.addAttribute("board", clubBoardService.getClubBoardInfo(vo));	
+	public String clubBoardInfo(Model model, ClubBoardVO vo, HttpServletRequest request) {
+		ClubBoardVO cvo = clubBoardService.getClubBoardInfo(vo);
+		model.addAttribute("board", cvo);
+		model.addAttribute("commentList", clubCommentService.getBoardComment(vo.getBoardNumber()));
+		
+		// 세션 객체 생성후 request의 session값 담기
+		HttpSession session = request.getSession();
+		// member객체 생성후 session 값을 member 객체에 담기 
+		MemberVO mvo = (MemberVO)session.getAttribute("member");
+		
+		// 가져온 세션값을 토대로 자신의 프로필을 가져와서 오기
+		ClubProfileVO profile = clubprofileMapper.getSessionProfile(mvo.getMemberEmail(), cvo.getClubNumber());
+
+		// 가져온 값을 세션에 담기
+		session.setAttribute("profile", profile);
 		
 		return "club/clubBoardInfo";
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 댓글 등록
+	@ResponseBody
+	@PostMapping("clubCommentInsert")
+	public int insertClubComment(ClubCommentVO clubCommentVO, HttpServletRequest request) {
+		if (request.getParameter("clubCommentSecret").equals("on")) {
+			clubCommentVO.setClubCommentSecret("L1");
+		} else {
+			clubCommentVO.setClubCommentSecret("L2");
+		}
+		
+		clubCommentVO.setClubCommentPartnumber(0);
+		clubCommentVO.setClubCommentLevel("M1");
+		
+		int result = clubCommentService.insertComment(clubCommentVO);
+		
+		if (result == 1) {
+			HttpSession session = request.getSession();
+			MemberVO mvo = (MemberVO)session.getAttribute("member");
+			clubCommentService.updateMemberPnt(mvo);
+			
+			PointRecordVO pointRecord = new PointRecordVO();
+			pointRecord.setMemberEmail(mvo.getMemberEmail());
+			pointRecord.setPointType("AB3");
+			prService.insertPointLog(pointRecord);
+		}
 
+		return result;
+	}
+	
+	
+	// 댓글 수정
+	@GetMapping("clubCommentUpdate")
+	public String updateClubComment(ClubCommentVO clubCommentVO) {
+		ClubCommentVO findVO = clubCommentService.getComment(clubCommentVO);
+		return null;
+	}
+	
+	// 댓글 삭제
+	@PostMapping("clubCommentDelete")
+	public String deleteClubComment(ClubCommentVO clubCommentVO) {
+		return null;
+	}
+
+	
+	
+	
 }
