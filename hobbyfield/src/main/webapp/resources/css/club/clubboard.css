@@ -147,7 +147,7 @@
   border-radius: 5px;
 }
 
-#openModalBtn {
+#openModalBtn, #closeVoteModal {
   margin-top: 20px;
   padding: 10px 20px;
   background-color: #007bff;
@@ -157,7 +157,7 @@
   cursor: pointer;
 }
 
-#openModalBtn:hover {
+#openModalBtn:hover, #openVoteModal {
   background-color: #0056b3;
 }
 

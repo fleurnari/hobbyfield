@@ -22,34 +22,39 @@
 <body>
 	<div align="center" style="margin-top: 100px;">
 		<div>
-			<form method="post">
+			<form>
 				<!-- 이름, 작성일 이미지  -->
 				<div>
 				<!-- 이미지 추후 db에서 경로 가져와서 출력 -->
-				<img alt="프로필이미지" src="download/img/common.png" style="width: 50px; height: 50px;">
-				<input type="text" id="clubBoardWriter" name="clubBoardWriter" value="${board.clubBoardWriter}" >
-				<input type="text" id="" name="clubBoardWdate" value="${board.clubBoardWdate}">
+				<c:choose>
+					<c:when test="${boardInfo.profileImg ne null}">
+						<img alt="프로필이미지" src="${pageContext.request.contextPath}/${boardInfo.profileImgPath}${boardInfo.profileImg}" 
+						style="width: 50px; height: 50px;">
+					</c:when>
+					<c:otherwise>
+						<img alt="기본이미지" src="${pageContext.request.contextPath}/resources/img/profile.png" />
+					</c:otherwise>
+				</c:choose>
+				
+				<input type="text" id="clubBoardWriter" name="clubBoardWriter" readonly="readonly" value="${board.clubBoardWriter}" >
+				
 				</div>
 				<div id="editor">
 					${board.clubBoardContent}
 				</div>
 			
 			</form>
+			<button>수정하기</button>
+			<button>삭제하기</button>
+			<button>삭제하기</button>
+			<button>삭제하기</button>
+			<button type="button" id="boardList" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${club.clubNumber}'">글 목록</button>
+			
 		</div>
 		
 		<!-- 댓글 작성용 1.댓글작성, 2. 사진포함 댓글작성 -->
-		<div>
-			<form>	
-				<!-- 댓글 작성시 작성자의 프로필 내용 사용 -->
-				<input type="text" id="" name="">
-				<input>
-				<img alt="" src="">
-				<button></button>
-			</form>
-			
-			
+		
 		</div>
-	</div>
 	
 	
 	<button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -90,22 +95,24 @@
 				</div>
 		</div>
 <script>
-ClassicEditor
-.create( document.querySelector( '#editor' ), {
-	 toolbar: []
-} )
-.then( editor => {
-    const toolbarElement = editor.ui.view.toolbar.element;
-    editor.on( 'change:isReadOnly', ( evt, propertyName, isReadOnly ) => {
-        if ( isReadOnly ) {
-            toolbarElement.style.display = 'none';
-        } else {
-            toolbarElement.style.display = 'flex';
-        }
-    });
-})
-.catch( error => {
-    console.log( error );
+$(document).ready(function() {
+	// 글 목록 
+	$('#boardList').on('click',function(e){
+		e.preventDefault();
+		
+	}))
+	
+	
+	ClassicEditor
+	.create( document.querySelector( '#editor' ), {
+		 toolbar: []
+	})
+	.then( editor => {
+		editor.isReadOnly = true;
+	})
+	.catch( error => {
+	    console.log( error );
+	});
 });
    
    

@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.io.FilenameUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -25,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.google.common.net.HttpHeaders;
-import com.hobbyfield.app.comm.service.ImgFileService;
 
 @Controller
 public class ImgFileController {
@@ -57,11 +55,12 @@ public class ImgFileController {
 				String newInfImgFileName = "img_" + UUID.randomUUID() + "." + ext;
 				System.out.println("저장파일명 : " + newInfImgFileName);
 				imgPath = loadUrl + newInfImgFileName;
-
+				System.out.println(imgPath);
 				File file = new File(saveUrl + newInfImgFileName);
-
+				
+				imgPath = "/app" + imgPath;
 				mf.transferTo(file);
-
+				System.out.println(imgPath);
 				if(!"local".equals(mode)) {
 					Runtime.getRuntime().exec("chmod 666 " + file);
 				}

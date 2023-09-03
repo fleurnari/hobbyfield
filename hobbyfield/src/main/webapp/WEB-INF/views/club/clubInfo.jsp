@@ -8,46 +8,46 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <style>
 /* 모달X 일반창  */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
-        }
+       body {
+           font-family: Arial, sans-serif;
+           background-color: #f5f5f5;
+           margin: 0;
+           padding: 0;
+       }
 
-        .info-section {
-            width: 80%;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
+       .info-section {
+           width: 80%;
+           margin: 50px auto;
+           padding: 20px;
+           background-color: white;
+           border-radius: 10px;
+           box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+       }
 
-        h2 {
-            border-bottom: 2px solid #e0e0e0;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
+       h2 {
+           border-bottom: 2px solid #e0e0e0;
+           padding-bottom: 10px;
+           margin-bottom: 20px;
+       }
 
-        ul {
-            list-style: none;
-            padding: 0;
-        }
+       ul {
+           list-style: none;
+           padding: 0;
+       }
 
-        ul li {
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
+       ul li {
+           margin-bottom: 10px;
+           font-size: 16px;
+       }
 
-        ul li img {
-            max-width: 100%;
-            border-radius: 10px;
-        }
+       ul li img {
+           max-width: 100%;
+           border-radius: 10px;
+       }
 
-        ul li strong {
-            font-weight: bold;
-        }
+       ul li strong {
+           font-weight: bold;
+       }
 
 	/*모달창 */
     /* ... 기존 스타일 ... */

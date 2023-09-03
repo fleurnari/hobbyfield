@@ -73,8 +73,8 @@
 
      <div id="clubContainer">
             <c:forEach items="${clubList}" var="club">
-                <div class="clubItem" onclick="location.href='clubInfo?clubNumber=${club.clubNumber}&profileNickname=${club.profileNickname}'">
-                    <img src="${club.clubImgPath}${club.clubImg}">
+                <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${club.clubNumber}'">
+                    <img src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}">
                     <div class="clubInfo">
                         <p>모임리더: ${club.profileNickname}</p>
                         <p>모임이름: ${club.clubName}</p>
@@ -101,7 +101,7 @@
                         <p>게시글번호: ${board.boardNumber}</p>
                         <p>소모임번호: ${board.clubNumber}</p>
                         <p>게시글작성자: ${board.clubBoardWriter}</p>
-                        <p>게시글내용: </p><div id="editor">${board.clubBoardContent}</div>
+                        <p>게시글내용: </p><div>${board.clubBoardContent}</div>
                         <p>작성일: ${board.clubBoardWdate}</p>
                         <p>조회수: ${board.clubBoardViews}</p>
                         <p>공지글: ${board.clubBoardType}</p>
@@ -139,8 +139,8 @@
 <!--     </div> -->
 
 
-<!-- <!-- ajax를 통해 보낼 Session에 member.memberEmail을 담을 hideen --> -->
-<%-- <input type="hidden" id="checkClub" name="checkClub" value="${member.memberEmail}"> --%>
+</div>
+
 </section>
 </body>
 

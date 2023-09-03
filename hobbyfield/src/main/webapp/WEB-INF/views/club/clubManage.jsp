@@ -10,7 +10,13 @@
 </head>
 <body>
 <section>
-		<div align="center">
+		<div align="center" style="margin-top: 100px;">
+			<div>
+				<!-- 버튼 그룹 defualt : club info -->
+				<button type="button">소모임</button>
+				<button type="button">내 정</button>
+				<button type="button"></button>
+			</div>
 			<div>
 				<table>
 					<thead align="center">

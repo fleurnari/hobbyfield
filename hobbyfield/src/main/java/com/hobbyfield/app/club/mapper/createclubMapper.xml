@@ -94,7 +94,7 @@
 			   , club_img_path
 			   , club_total
 		FROM club
-		WHERE profile_nickname = #{profileNickname}
+		WHERE club_number = #{clubNumber}
 	</select>
 	
 	<!-- 소모임 등록 -->

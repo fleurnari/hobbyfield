@@ -32,7 +32,7 @@
                 p.PROFILE_IMG
 		FROM CLUB_BOARD c JOIN PROFILE p ON(c.CLUB_BOARD_WRITER = p.PROFILE_NICKNAME)
 		WHERE CLUB_NUMBER = #{clubNumber}
-		ORDER BY CLUB_BOARD_WDATE DESC
+		ORDER BY board_number DESC
   	</select>
   	
   	<select id="getClubBoardInfo" parameterType="ClubBoardVO" resultType="ClubBoardVO">
@@ -49,6 +49,23 @@
                 p.PROFILE_IMG
 		FROM CLUB_BOARD c JOIN PROFILE p ON(c.CLUB_BOARD_WRITER = p.PROFILE_NICKNAME)     
 		WHERE board_number = #{boardNumber} 
+  	</select>
+  	
+  	<select id="searchClubBoard" parameterType="ClubBoardVO" resultType="ClubBoardVO">
+  		SELECT b.board_number, 
+		   	b.club_number,
+			b.club_board_writer, 
+			b.club_board_content, 
+			b.club_board_wdate,
+			p.profile_img,
+			p.profile_img_path,
+			b.club_board_views, 
+			b.schedule_date,
+			b.club_board_blind
+		FROM CLUB_BOARD b JOIN PROFILE p ON(b.CLUB_BOARD_WRITER = p.PROFILE_NICKNAME)
+		WHERE CLUB_NUMBER = #{clubNumber} AND 
+			(CLUB_BOARD_CONTENT LIKE '%||#{searchText}||%' OR CLUB_BOARD_WRITER LIKE '%||#{searchText}||%')
+  		
   	</select>
   	
   	<insert id="insertClubBoard" parameterType="ClubBoardVO">
@@ -90,7 +107,8 @@
   	</update>
   	
   	<update id="updateViewClubBoard" parameterType="ClubBoardVO">
-  		
+  		UPDATE CLUB_BOARD SET club_board_views = club_board_views + 1 
+  		WHERE board_number =  #{boardNumber}
   	</update>
 
   
