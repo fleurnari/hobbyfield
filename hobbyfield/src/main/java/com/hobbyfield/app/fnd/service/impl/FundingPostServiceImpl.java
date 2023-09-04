@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hobbyfield.app.common.SearchCriteria;
 import com.hobbyfield.app.fnd.mapper.FundingPostMapper;
 import com.hobbyfield.app.fnd.service.FundingPostService;
 import com.hobbyfield.app.fnd.service.FundingPostVO;
@@ -17,8 +18,8 @@ public class FundingPostServiceImpl implements FundingPostService {
 	
 	
 	@Override
-	public List<FundingPostVO> getFundingPostList() {
-		return fundingPostMapper.selectFundingPostList();
+	public List<FundingPostVO> getFundingPostList(SearchCriteria scri) {
+		return fundingPostMapper.selectFundingPostList(scri);
 	}
 	
 	@Override
@@ -68,4 +69,18 @@ public class FundingPostServiceImpl implements FundingPostService {
 	public int deleteFundingPost(FundingPostVO fndPostNumber) {
 		return fundingPostMapper.deleteFundingPost(fndPostNumber);
 	}
+	
+	//내 프로젝트
+	@Override
+	public List<FundingPostVO> selectMyProjectList(FundingPostVO fundingPostVO){
+		return fundingPostMapper.selectMyProjectList(fundingPostVO);
+	}
+
+	//게시물 개수
+	
+	@Override
+	public int postCount(SearchCriteria scri) {
+		return fundingPostMapper.getTotalCount(scri);
+	}
+
 }

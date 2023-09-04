@@ -22,5 +22,3 @@ public interface FundingGoodsMapper {
 	//펀딩옵션삭제(Post기준)
 	public int deleteFundingPostGoods(FundingPostVO fndPostNumber);
 }
-
-

@@ -4,13 +4,13 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hobbyfield.app.club.mapper.ClubJoinMapper">
 
-   <!-- 소모임 가입 : 등록 (소모임의 club/apply/member 테이블 데이터를 같이 사용하고 들어가야함)  -->
+   <!-- 소모임 가입 : 등록 (소모임의 apply/member 테이블 데이터를 같이 사용하고 들어가야함)  -->
    <insert id="joinClub" parameterType="ClubJoinVO">
-<!--       <selectKey keyProperty="applyNumber" resultType="int" order="BEFORE"> -->
-<!--          SLELECT NVL(MAX(apply_number), 1) + 1 -->
-<!--          FROM club_apply -->
-<!--       </selectKey> -->
-      INSERT ALL
+      <selectKey keyProperty="applyNumber" resultType="int" order="BEFORE">
+         SELECT NVL(MAX(apply_number), 0) + 1
+         FROM club_apply
+      </selectKey>
+      INSERT
       INTO  club_apply
          (
             apply_number
@@ -24,7 +24,7 @@
          )
       VALUES
          (
-            (SELECT NVL(MAX (APPLY_NUMBER), 1) + 1 FROM CLUB_APPLY)
+         	#{applyNumber}
             ,#{profileNickname}
             ,#{clubNumber}
             ,SYSDATE
@@ -33,22 +33,7 @@
             ,#{applyAnswer3}
             ,#{applyStatus}
          )
-      INTO club_member
-         (
-            club_member_number
-            ,profile_nickname
-            ,club_number
-            ,club_join_date
-         )
-      VALUES 
-         (
-            (SELECT NVL(MAX(CLUB_MEMBER_NUMBER), 1) + 1 FROM CLUB_member)
-            ,#{profileNickname}
-            ,#{clubNumber}
-            ,SYSDATE      
-         )
-      SELECT *
-      FROM DUAL
+     
    </insert>
    
    <!-- 소모임 가입 신청한 회원 리스트 -->
@@ -65,5 +50,40 @@
        FROM	club_apply
        WHERE club_number = #{clubNumber} AND apply_status = 'H1'
    </select>
+
+	<!-- 소모임 가입 신청한 회원 승인 -->
+	<!-- 회원 insert club_member -->
+	<insert id="insertClubMember" parameterType="ClubJoinVO">
+		<selectKey keyProperty="clubMemberNumber" resultType="int" order="BEFORE">
+		SELECT NVL(MAX(club_member_number), 1) + 1
+		FROM club_member
+		</selectKey>
+        INSERT 
+        INTO CLUB_MEMBER (
+        		CLUB_MEMBER_NUMBER
+       			,PROFILE_NICKNAME
+       			, CLUB_NUMBER
+       			, CLUB_JOIN_DATE
+        				)
+        VALUES (
+        	#{clubMemberNumber}
+        	,#{profileNickname}
+        	, #{clubNumber}
+        	, SYSDATE
+        		)
+    </insert>
+	
+	<!-- 회원 수락 update club_apply  -->
+	<update id="updateClubApplyStatus" parameterType="ClubJoinVO">
+		UPDATE club_apply
+		SET	apply_status = 'H2'
+		WHERE profile_nickname = #{profileNickname} AND club_number= #{clubNumber}
+	</update>
+	
+	<!-- 소모임 가입 신청한 회원 거부 -->
+	 <delete id="deleteClubApply" parameterType="ClubJoinVO">
+        DELETE FROM CLUB_APPLY
+        WHERE PROFILE_NICKNAME = #{profileNickname} AND CLUB_NUMBER = #{clubNumber}
+    </delete>
 
 </mapper>

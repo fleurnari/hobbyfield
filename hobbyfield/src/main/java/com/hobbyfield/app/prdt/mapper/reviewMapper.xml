@@ -14,7 +14,19 @@
  	<select id="getReviewsByCategory" parameterType="String" resultType="ReviewVO"> 
      	SELECT * FROM review WHERE category = #{category} 
  	</select> 
-	
-	
+ 	
+ 	<!--후기(문의)삭제  -->
+ 	<delete id="deleteReview" parameterType="int">
+        DELETE FROM review
+        WHERE review_id = #{reviewId}
+    </delete>
+    <!--후기(문의) 수정  -->
+    <update id="updateReview" parameterType="ReviewVO">
+    UPDATE review
+    SET review_title = #{reviewTitle},
+        review_content = #{reviewContent},
+        review_date = sysdate
+    WHERE review_id = #{reviewId}
+	</update>
 	
   </mapper>

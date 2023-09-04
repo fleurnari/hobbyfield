@@ -21,6 +21,9 @@ public interface ClubProfileMapper {
 	// 프로필 수정
 	public int updateProfile(ClubProfileVO clubProfileVO);
 
+	// 프로필 생성 3개제한
+	public int getProfileCountByEmail(String email);
+	
 	
 	// 닉네임 중복체크
 	public int nickChk(String profileNickname);

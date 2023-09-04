@@ -11,6 +11,10 @@ public interface CreateclubService {
 	
 	// 소모임 전체조회
 	public List<CreateclubVO> getCreateClubList();
+	
+	
+	// 소모임 가입인원이 많은 클럽
+	public List<CreateclubVO> getClubTop();
 
 	// 내가만든 소모임 조회(모임장)
 	public List<CreateclubVO> getMyClubList(CreateclubVO createclubVO);
@@ -25,7 +29,6 @@ public interface CreateclubService {
 	public int insertClubInfo(CreateclubVO createclubVO);
 
 	// 소모임 수정
-//		public Map<String, String> updateClub(CreateclubVO createclubVO);
 	public void updateClub(CreateclubVO createclubVO);
 
 	// 소모임 삭제?
@@ -36,7 +39,13 @@ public interface CreateclubService {
 	// 소모임 검색
 	public List<CreateclubVO> searchClub(CreateclubVO createclubVO);
 	
+	// 소모임 종류 정렬
+	public List<CreateclubVO> getOrderCategory(String clubCategory);
 	
+	// 소모임 지역 정렬
+	public List<CreateclubVO> getOrderLocation(String majorLocation);
 	
+	//페이징
+	public List<CreateclubVO> getClubsForInfiniteScroll(Map<String, Integer> map);
 
 }

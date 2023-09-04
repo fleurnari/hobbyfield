@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>전체 리스트 조회</title>
 <script type="text/javascript" src="resources/js/common.js"></script>
-<style>
+<style type="text/css">
 .container2{
 display:flex;
 justify-content:space-between;
@@ -24,25 +24,36 @@ flex-wrap:wrap;
 	height: 333px;
 }
 
+li {
+	list-style: none;
+	float: left;
+	padding: 6px;
+}
 </style>
 
 </head>
 <body>
 	<Section>
-	<div class="container"><a class="navbar-brand d-inline-flex" href="${pageContext.request.contextPath}/fundingPostList"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></a>
-			<div class="navbar-nav ms-auto mb-2 mb-lg-0">
-              <span class="nav-item px-2"><a class="nav-link fw-bold" href="#">카테고리</a></span>
-              <span class="nav-item px-2"><a class="nav-link fw-bold" href="#">인기</a></span>
-              <span class="nav-item px-2"><a class="nav-link fw-bold" href="#">마감임박</a></span>
-              <span class="nav-item px-2"><a class="nav-link fw-bold" href="#">공지사항</a></span>
-              <span class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/fundingSupportList">후원현황</a></span>
-              <span class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/fundingPostInsertForm">프로젝트만들기</a></span>
+	<br><br><br><br>
+	<div class="container">
+			<div class="text-center">
+			<h4>
+			  <span onclick="location.href='${pageContext.request.contextPath}/fundingPostList'"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></span>&nbsp;&nbsp;
+              <span onclick="location.href='#'">카테고리</span>&nbsp;&nbsp;
+              <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
+              <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
+              <span onclick="location.href='#'">공지사항</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPostInsertForm'">프로젝트만들기</span>
+            </h4>
             </div>
         </div>
 	</Section>
 	<Section>
 	<div class="container">
 		<div class="container2">
+		<table>
+							<tbody>
 			<c:forEach items="${fundingPostList }" var="fundingPost">
 			<div onclick="location.href='fundingPostInfo?fndPostNumber=${fundingPost.fndPostNumber }'">
 					<figure>
@@ -94,10 +105,58 @@ flex-wrap:wrap;
 					</span>
 				</p>
 			</div>
+					</tbody>
+						</table>
 			</c:forEach>
+			<div class="container">
+				<div class="search">
+							<select name="searchType">
+								<option value="t"
+									<c:out value="${scri.searchType eq 't' ? 'selected' : ''}"/>>제목</option>
+								<option value="c"
+									<c:out value="${scri.searchType eq 'c' ? 'selected' : ''}"/>>내용</option>
+								<option value="w"
+									<c:out value="${scri.searchType eq 'w' ? 'selected' : ''}"/>>작성자</option>
+								<option value="tc"
+									<c:out value="${scri.searchType eq 'tc' ? 'selected' : ''}"/>>제목+내용</option>
+							</select> <input type="text" name="keyword" id="keywordInput"
+								value="${scri.keyword}" />
+
+							<button id="searchBtn" type="button">검색</button>
+						</div>
+						<div>
+							<ul >
+								<c:if test="${pageMaker.prev}">
+				    			<li><a href="fundingPostList${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a></li>
+				   				 </c:if> 
+				
+				    			<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+				    			<li><a href="fundingPostList${pageMaker.makeSearch(idx)}">${idx}</a></li>
+				    				</c:forEach>
+				
+				    			<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+				    			<li><a href="fundingPostList${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a></li>
+				    			</c:if> 
+									</ul>
+						</div>
+		
 		</div>
 	</div>
 	</Section>
-
+<script>
+		$(function() {
+			$('#searchBtn')
+					.click(
+							function() {
+								self.location = "${pageContext.request.contextPath }/fundingPostList"
+										+ '${pageMaker.makeQuery(1)}'
+										+ "&searchType="
+										+ $("select option:selected").val()
+										+ "&keyword="
+										+ encodeURIComponent($('#keywordInput')
+												.val());
+							});
+		});
+	</script>
 </body>
 </html>
