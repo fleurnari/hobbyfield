@@ -13,8 +13,8 @@ public class ClubJoinVO {
 	private String applyAnswer3;
 	private String applyStatus;
 	
-	//소모임 회원 테이블
-	private int clubMemeberNumber;
+	//소모임 회원 테이블(clubMember)
+	private int clubMemberNumber;
 	private String clubJoinDate;
 	
 }

@@ -10,6 +10,9 @@ public interface CreateclubMapper {
 	//소모임 전체조회 clubList View
 	public List<CreateclubVO> selectClubAllList();
 	
+	//소모임 메인 전체조회
+	public List<CreateclubVO> selectClubTop();
+	
 	//내가 생성한 소모임 조회 clubMyList View (모임장)
 	public List<CreateclubVO> selectClubMyList(CreateclubVO createclubVO);
 	
@@ -17,7 +20,7 @@ public interface CreateclubMapper {
 	public CreateclubVO selectMadeClub(CreateclubVO createclubVO);
 	
 	//소모임 세부조회
-	public CreateclubVO selectClubInfo(CreateclubVO createclubVO);
+	public CreateclubVO getClubInfo(CreateclubVO createclubVO);
 	
 	//소모임 등록
 	public int insertClub(CreateclubVO createclubVO);
@@ -36,7 +39,12 @@ public interface CreateclubMapper {
 	//소모임 이름 중복체크
 	public int clubnameChk(String clubName);
 	
+	//소모임 종류 정렬
+	public List<CreateclubVO> getOrderCategory(String clubCategory);
 	
+	//소모임 지역 정렬
+	public List<CreateclubVO> getOrderLocation(String majorLocation);
 	
-	
+	//페이징
+	public List<CreateclubVO> selectClubsForInfiniteScroll(Map<String, Integer> map);
 }

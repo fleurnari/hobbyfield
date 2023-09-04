@@ -24,6 +24,9 @@ public interface ClubProfileService {
 	
 	//프로필 수정
 	public Map<String, String> updateProfile(ClubProfileVO clubProfileVO);
+	
+	//프로필생성 3개확인
+	public int getProfileCountByEmail(String email);
 
 	
 }
