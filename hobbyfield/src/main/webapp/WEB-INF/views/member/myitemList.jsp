@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
@@ -121,23 +120,26 @@ img {
 				</div>
 			</div>
 			<!-- 모달창 -->
-			<div id="myModal" class="modal">
-				<div class="modal-content"><span class="close" id="closeModalBtn">&times;</span>
-					<div>
-					<h5>가입한 소모임</h5><br>
-					<select name="clubNumber">
-						<c:forEach items="${myClubList}" var="myClub">
-						<c:if test="${myClub.clubTotal eq 50}">
-							 <option value="${myClub.clubNumber}">${myClub.clubName}</option></c:if>
-						</c:forEach>
-					</select>
-						<div>
-							<input type="hidden" name="myitemId" id="myitemId">
-							<button type="button" name="applyBtn" id="applyBtn">적용</button>
-						</div>
-					</div>
-				</div>
-			</div>	
+<div id="myModal" class="modal">
+    <div class="modal-content"><span class="close" id="closeModalBtn">&times;</span>
+        <div>
+            <h5>가입한 소모임</h5><br>
+            <select name="clubNumber">
+                <option value="" disabled selected>소모임 선택</option>
+                <c:forEach items="${myClubList}" var="myClub">
+								<c:if test="${myClub.clubTotal eq 50}">
+									<option value="${myClub.clubNumber}">${myClub.clubName}</option>
+								</c:if>
+							</c:forEach>
+            </select>
+            <div>
+                <input type="hidden" name="myitemId" id="myitemId">
+                <button type="button" name="applyBtn" id="applyBtn">적용</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 		</div>
 	</section>
 	<script type="text/javascript">
@@ -167,11 +169,24 @@ img {
 	    
 	    // 모달 적용버튼 클릭시 소모임 인원제한 풀림
 	    var applyBtn = document.getElementById("applyBtn");
-	    
-	    applyBtn.addEventListener("click", function(){
-	    	
-	    var selectClubNumber = document.querySelector([name='clubNumber']).value;
-	    })
+	    applyBtn.addEventListener("click", function(e){
+	    	var selectClubNumber = document.querySelector('[name="clubNumber"]');
+		     var selectItemId = document.querySelector('#myitemId')
+		    $.ajax({
+		    	url : 'myitemList',
+		    	method : 'POST',
+		    	 data : {clubNumber: selectClubNumber.value, myitemId: selectItemId.value}
+		    })
+		    .done(data => {
+		    	if(data){
+		    		alert("적용 완료되었습니다.");
+		    	} else {
+		    		alert("적용 실패했습니다.") 
+		    	}
+		    })
+		    .fail(reject => console.log(reject));
+		    return false;
+		    });
 	    
 	    
 	    

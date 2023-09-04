@@ -21,6 +21,7 @@
       <security:intercept-url pattern="/member/naverLogin" access="permitAll()" />
       <security:intercept-url pattern="/member/findPwdView" access="permitAll()" />
       <security:intercept-url pattern="/member/findPwd" access="permitAll()" />
+      <security:intercept-url pattern="/push/selectPushCount" access="permitAll()" />
       <security:intercept-url pattern="/admin/**" access="hasAuthority('A3')" />
       <security:intercept-url pattern="/**" access="isAuthenticated()" />
       <security:form-login login-page="/member/login"

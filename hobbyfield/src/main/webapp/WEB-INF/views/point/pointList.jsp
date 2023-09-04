@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
@@ -119,8 +118,7 @@ th {
 </style>
 </head>
 <body>
-		<h3 class="point">포인트</h3><span><h3 class="sangjum">상점</h3></span>
-
+		<h3 class="point">포인트</h3><span><h3 class="sangjum">상점</h3></span> 
 	<div class="header-left">
 		<a href="${pageContext.request.contextPath}/notice/noticeList"
 			class="notice-link">공지사항</a>
@@ -154,6 +152,7 @@ th {
 					<img src="${pageContext.request.contextPath}${point.pointImgPath}${point.pointImgName}"  alt="상품 이미지"><br>
 					<div class="point-details">
 						<p>${point.pointId}</p><span><p>${point.pointName}</p></span>
+						<c:if test="${point.pointItemType eq 'W1' }">
 						<p class="time">
 							<jsp:useBean id="now" class="java.util.Date" />
 							<fmt:parseNumber value="${now.time / (1000*60*60*24)}"
@@ -183,6 +182,7 @@ th {
 							<fmt:parseDate value="${point.pointEndterm}" pattern="yyyy-MM-dd"
 								var="pointEndterm" />
 						</p>
+						</c:if>
 					</div>
 				</div>
 			</c:forEach>

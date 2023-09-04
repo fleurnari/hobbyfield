@@ -13,7 +13,10 @@ public interface PushMapper {
 	public int selectPushCount(String memberEmail);
 	
 	// 알림 등록
-	public int insertPush(PushVO pushVO);
+	public int insertPush(int pushId, String pushTarget, String pushTyp, String pushCntn, String pushUrl);
+	
+	// 알림 확인 여부 변경
+	public int updatePush(int pushId);
 	
 	// 알림 삭제
 	public int deletePush(int pushId);

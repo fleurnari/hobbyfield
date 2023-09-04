@@ -10,6 +10,7 @@
 </head>
 <body>
 <section>
+	<h2>신청한 인원 없으면 없다고 alert창 생성해야함</h2>
 		<div align="center">
 			<div>
 				<table>
@@ -47,13 +48,13 @@
 		</div>	
 	</section>
 <script type="text/javascript">
-/수락 거절 버튼
+//수락 거절 버튼
 $(document).ready(function() {
     $('.accept').click(function() {
         var nickname = $(this).data('nickname');
         var clubnumber = $(this).data('clubnumber');
 
-        $.post("/acceptClubMember", { profileNickname: nickname, clubNumber: clubnumber }, function(data) {
+        $.post("${pageContext.request.contextPath}/acceptClubMember", { profileNickname: nickname, clubNumber: clubnumber }, function(data) {
             if(data.success) {
                 alert("수락되었습니다.");
                 location.reload();

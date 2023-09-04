@@ -80,7 +80,9 @@ input {
 }
 
 .product-img img {
-	width: 50px;
+	width: 100px;
+	display: block;
+	
 }
 
 .first-img {
@@ -91,6 +93,12 @@ input {
 	width: 400px;
 }
 </style>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+
+
 </head>
 <body>
 	<div class="container">
@@ -99,8 +107,7 @@ input {
 			<div class="row">
 				<div class="col">
 					<div class="first-img">
-						<img
-							src="${pageContext.request.contextPath}${point.pointImgPath}${point.pointImgName}"
+						<img src="${pageContext.request.contextPath}${point.pointImgPath}${point.pointImgName}"
 							alt="상품 이미지">
 					</div>
 				</div>
@@ -149,9 +156,9 @@ input {
 									</c:when>
 									<c:otherwise>
 										<div>
-											<span id="d-day-hour">00</span> <span class="col">:</span> <span
-												id="d-day-min">00</span> <span class="col">:</span> <span
-												id="d-day-sec">00</span>
+											<span id="d-day-hour">00</span> <span class="col">:</span> 
+											<span id="d-day-min">00</span> <span class="col">:</span> 
+											<span id="d-day-sec">00</span>
 										</div>
 									</c:otherwise>
 								</c:choose>
@@ -171,7 +178,10 @@ input {
 			<div class="jb-division-line"></div>
 
 			<div>
-				<p class="pointContent">${point.pointContent}</p>
+				<div id="editor">
+					${point.pointContent}
+<%-- 					<p class="pointContent">${point.pointContent}</p> --%>
+				</div>
 				<div class="product-img">
 					<c:forEach items="${point.emojiVO }" var="emoji">
 						<img
@@ -226,22 +236,36 @@ input {
 
 		<!-- 버튼 -->
 		<div class="buttonGroup">
-			<%-- 		<c:if test="${member.memberGrd eq A3}"> --%>
-			<button type="submit"
-				onclick="location.href='pointUpdate?pointId=${point.pointId}'">수정</button>
-			<button type="submit"
-				onclick="location.href='pointDelete?pointId=${point.pointId}'">삭제</button>
-			<%-- 			</c:if> --%>
+<%-- 			<c:if test="${member.memberGrd eq A3}"> --%>
+				<button type="submit"
+					onclick="location.href='pointUpdate?pointId=${point.pointId}'">수정</button>
+				<button type="submit"
+					onclick="location.href='pointDelete?pointId=${point.pointId}'">삭제</button>
+<%-- 			</c:if> --%>
 			<button type="button" onclick="location.href='pointList'">목록</button>
-		</div>
-
-
-
+		</div> 
 	</div>
 
 
-
 	<script type="text/javascript">
+	
+	//editor
+	ClassicEditor
+	.create( document.querySelector( '#editor' ), {
+		 toolbar: []
+	} )
+	.then( editor => {
+	    const toolbarElement = editor.ui.view.toolbar.element;
+	    editor.on( 'change:isReadOnly', ( evt, propertyName, isReadOnly ) => {
+	        if ( isReadOnly ) {
+	            toolbarElement.style.display = 'none';
+	        } else {
+	            toolbarElement.style.display = 'flex';
+	        }
+	    });
+	})
+	
+	 //줄바꿈
 	function replaceBrTag(str) 
     {
         if (str == undefined || str == null)

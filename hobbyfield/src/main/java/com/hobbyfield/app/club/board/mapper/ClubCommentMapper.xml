@@ -4,23 +4,88 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.hobbyfield.app.club.board.mapper.ClubCommentMapper">
  
- 	<select id="getUserComment" resultType="ClubCommentVO" parameterType="ClubCommentVO">
- 		SELECT 
+ 	<select id="getUserComment" resultType="ClubCommentVO">
+ 		SELECT *
+ 		FROM club_comment cm
+ 		JOIN profile p
+ 		ON cm.profile_nickname = p.profile_nickname
+ 		JOIN member m
+ 		ON p.member_email = m.member_email
+ 		WHERE p.member_email = #{memberEmail}
  	</select>
  	
- 	<select id="getBoardComment" resultType="ClubCommentVO" parameterType="ClubCommentVO">
- 	
+ 	<select id="getBoardComment" resultType="ClubCommentVO">
+ 		SELECT comment_number
+ 			   ,board_number
+ 			   ,club_comment_content
+ 			   ,club_comment_secret
+ 			   ,club_comment_partnumber
+ 			   ,(CASE WHEN club_comment_partnumber=0 THEN profile_nickname
+ 			   	 ELSE (SELECT profile_nickname FROM club_comment
+ 			   		  WHERE comment_number = cm.club_comment_partnumber)
+ 			   	END ) parent_writer
+ 			   ,club_comment_level
+ 			   ,profile_nickname
+ 			   FROM club_comment cm
+ 		WHERE board_number = #{boardNumber}
+ 		START WITH club_comment_partnumber = 0
+ 		CONNECT BY PRIOR comment_number = club_comment_partnumber
+ 		ORDER SIBLINGS BY club_comment_partnumber ASC, comment_number ASC
  	</select>
+ 	
+ 	<select id="getComment" resultType="ClubCommentVO">
+ 		SELECT * FROM club_comment WHERE comment_number = #{commentNumber}
+ 	</select>
+ 	
  
  	<insert id="insertComment" parameterType="ClubCommentVO">
- 	
+ 		<selectKey keyProperty="commentNumber" resultType="int" order="BEFORE">
+ 			SELECT NVL(MAX(comment_number),0) + 1
+ 			FROM club_comment
+ 		</selectKey>
+ 		INSERT INTO club_comment (
+									comment_number
+									,board_number
+									,club_comment_content
+									,club_comment_secret
+									,club_comment_partnumber
+									,club_comment_level
+									,profile_nickname	
+ 								  )
+ 			   VALUES (
+ 						#{commentNumber}
+ 					   ,#{boardNumber}
+ 					   ,#{clubCommentContent}
+ 					   ,#{clubCommentSecret}
+ 					   ,#{clubCommentPartnumber}
+ 					   ,#{clubCommentLevel}
+ 					   ,#{profileNickname}
+ 						)
  	</insert>
  	
  	<update id="updateComment" parameterType="ClubCommentVO">
- 	
+ 		UPDATE club_comment
+ 		<set>
+ 			<if test="clubCommentContent != null and !clubCommentContent.equals('')">
+ 				club_comment_content = #{clubCommentContent}
+ 			</if>
+ 			<if test="clubCommentSecret != null and !clubCommentSecret.equals('')">
+ 				club_comment_secret = #{clubCommentSecret}
+ 			</if> 
+ 		</set>
+ 		WHERE comment_number = #{commentNumber}
  	</update>
  	
  	<delete id="deleteComment" parameterType="ClubCommentVO">
- 		
+ 		DELETE FROM club_comment
+ 		WHERE comment_number IN
+ 		(SELECT comment_number FROM club_comment
+ 		START WITH comment_number = #{commentNumber}
+ 		CONNECT BY PRIOR comment_number = club_comment_partnumber)
  	</delete>
+ 	
+ 	<!-- 댓글 작성 활동 포인트 적립 -->
+	<update id="updateMemberPnt" parameterType="com.hobbyfield.app.member.service.MemberVO">
+		UPDATE member SET member_actpnt = member_actpnt + 50 WHERE member_email = #{memberEmail}
+	</update>
  </mapper>

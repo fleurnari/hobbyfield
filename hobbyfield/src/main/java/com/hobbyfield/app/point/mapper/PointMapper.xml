@@ -92,10 +92,6 @@
 					#{groupPrice}
 		)
 	</insert>
-	<!-- POINT_OPT_ID -->
-	<!-- POINT_ID -->
-	<!-- POINT_PERIOD -->
-
 
 	<!-- 포인트 상품 옵션 -->
 	<insert id="insertPointOption" parameterType="PointOptionVO">
@@ -176,19 +172,6 @@
 		point_id = #{pointId}
 	</delete>
 
- 	<!-- 포인트 옵션 삭제 -->
-<!-- 	<delete id="deletePointOption" parameterType="int"> -->
-<!-- 		DELETE FROM POINT -->
-<!-- 		WHERE point_id in( -->
-<!-- 							SELECT point_id  -->
-<!-- 							FROM point_option o -->
-<!-- 							 WHERE NOT EXISTS ( -->
-<!-- 												SELECT point_id -->
-<!-- 												FROM point -->
-<!-- 												WHERE o.point_id = #{pointId}) -->
-<!-- 							) -->
-<!-- 	</delete> -->
-
 	<!-- 조회수 업데이트 -->
 	<update id="updatePointView" parameterType="PointVO">
 		UPDATE point
@@ -197,7 +180,32 @@
 		WHERE point_id = #{pointId}
 	</update>
 
-	
+
+
+	<!-- 이모티콘 -->
+
+	<!-- 이모티콘 대표이미지 -->
+	<select id="firstEmojiImg" resultType="EmojiVO">
+		SELECT a.point_id, a.point_name, b.point_item_type
+		FROM   point a
+	    JOIN MYITEM b ON(a.point_id = b.point_id)
+	    WHERE member_email = #{memberEmail}
+	</select>	
+
+	<!-- 이모티콘 이미지 그룹 -->
+<!-- 	<select id="emojiGroup" resultType="EmojiVO"> -->
+<!-- 		 SELECT point_id, emoji_img_name, emoji_img_path -->
+<!-- 	     FROM emoji -->
+<!-- 	     WHERE point_id = #{pointId} -->
+<!-- 	</select> -->
+
+	<select id="emojiGroup" resultType="PointVO">
+		SELECT a.point_id, b.emoji_img_name, b.emoji_img_path
+		FROM point a
+		JOIN EMOJI b ON(a.point_id = b.point_id)
+		WHERE point_id = #{pointId}
+
+	</select>
 
 
 

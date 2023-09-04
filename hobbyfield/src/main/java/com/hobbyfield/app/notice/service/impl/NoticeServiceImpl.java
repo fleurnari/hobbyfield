@@ -17,8 +17,14 @@ public class NoticeServiceImpl implements NoticeService {
 	// 공지사항 전체조회
 	@Override
 	public List<NoticeVO> getNoticeAllList() {
-		return noticeMapper.selectnoticeAllList();
+		return noticeMapper.selectNoticeAllList();
 	}
+	
+//	// 페이징 공지사항 갯수
+//	@Override
+//	public int getNoticeCount(SearchCriteria scri) {
+//        return noticeMapper.getNoticeCount(scri);
+//    }
 
 	// 공지사항 단건조회
 	@Override
@@ -66,4 +72,10 @@ public class NoticeServiceImpl implements NoticeService {
 		
 		return result;
 	}
+
+
+
+
+
+
 }

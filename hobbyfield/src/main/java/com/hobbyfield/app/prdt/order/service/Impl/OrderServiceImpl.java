@@ -39,6 +39,11 @@ public class OrderServiceImpl implements OrderService {
 		 orderMapper.updateDelivery(orderIds, delivery);
 	}
 
+	@Override
+	public void cancelOrder(int orderId) {
+		orderMapper.cancelOrder(orderId);
+	}
+
 }
 
 	

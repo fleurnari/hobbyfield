@@ -29,7 +29,7 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
 			errorMessage = "아이디 또는 비밀번호가 틀립니다.";
 			
 		} else if(exception instanceof LockedException) {
-			errorMessage = "가입 승인이 거부된 기업 회원입니다. 관리자에게 문의해 주세요.";
+			errorMessage = "가입 승인이 거부된 기업 회원입니다. 관리자에게 문의해 주세요. admin@hobbyfield.com";
 			
 		} else if(exception instanceof DisabledException) {
 			errorMessage = "가입 승인 대기 중인 기업 회원입니다.";

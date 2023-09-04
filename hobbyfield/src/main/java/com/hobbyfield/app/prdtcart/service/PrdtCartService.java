@@ -13,14 +13,10 @@ public interface PrdtCartService {
 	//장바구니 목록 삭제
 	public void deleteCart(CartVO cartVO);
 	
-	//주문 정보
-
-	//주문 상세정보
+	//주문 취소
 	
 	//카트 비우기
 	public void cleanCart(String memberEmail);
 	
-	//주문 목록
 	
-	//주문 상세보기
 }

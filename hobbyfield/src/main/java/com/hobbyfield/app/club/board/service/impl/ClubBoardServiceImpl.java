@@ -9,6 +9,7 @@ import com.hobbyfield.app.club.board.mapper.ClubBoardMapper;
 import com.hobbyfield.app.club.board.service.ClubBoardService;
 import com.hobbyfield.app.club.board.service.ClubBoardVO;
 import com.hobbyfield.app.club.service.CreateclubVO;
+import com.hobbyfield.app.member.service.MemberVO;
 
 @Service
 public class ClubBoardServiceImpl implements ClubBoardService {
@@ -65,6 +66,12 @@ public class ClubBoardServiceImpl implements ClubBoardService {
 	@Override
 	public List<ClubBoardVO> AllSearchClubBoard(ClubBoardVO vo) {
 		return null;
+	}
+
+	@Override
+	public int updateMemberPnt(MemberVO memberVO) {
+		
+		return clubboardmapper.updateMemberPnt(memberVO);
 	}
 	
 

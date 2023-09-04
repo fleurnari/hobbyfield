@@ -141,6 +141,7 @@ public class MemberController {
 	public String kakaoLogin(HttpServletRequest request, RedirectAttributes rttr, @RequestParam(value = "code", required = false) String code) throws Exception {
 		HttpSession session = request.getSession();
 		String access_Token = memberService.getAccessToken(code);
+		
 		HashMap<String, Object> userInfo = memberService.getUserInfo(access_Token);
 		
 		MemberVO member = new MemberVO();
@@ -162,7 +163,8 @@ public class MemberController {
 				
 				PointRecordVO pointRecord = new PointRecordVO();
 				pointRecord.setMemberEmail(kakaoMember.getMemberEmail());
-				pointRecordService.insertLoginPoint(pointRecord);
+				pointRecord.setPointType("AB1");
+				pointRecordService.insertPointLog(pointRecord);
 				
 			}
 		
@@ -180,7 +182,7 @@ public class MemberController {
 	public String naverLogin(HttpServletRequest request, RedirectAttributes rttr, @RequestParam(value = "code", required = false) String code, @RequestParam String state) throws Exception {
 		HttpSession session = request.getSession();
 		OAuth2AccessToken access_Token = naverLoginBO.getAccessToken(session, code, state);
-		
+		System.out.println("token : " + access_Token);
 		apiResult = naverLoginBO.getUserProfile(access_Token);
 		
 	    ObjectMapper objectMapper = new ObjectMapper();
@@ -208,7 +210,8 @@ public class MemberController {
 				
 				PointRecordVO pointRecord = new PointRecordVO();
 				pointRecord.setMemberEmail(naverMember.getMemberEmail());
-				pointRecordService.insertLoginPoint(pointRecord);
+				pointRecord.setPointType("AB1");
+				pointRecordService.insertPointLog(pointRecord);
 				
 			}
 			session.setAttribute("member", naverMember);
@@ -310,13 +313,17 @@ public class MemberController {
 	    List<CreateclubVO> myClubList = createclubService.getMyClubList(createclubVO);
 	    model.addAttribute("myClubList", myClubList);
 	    return "member/myitemList";
-	    
-	    // 소모임 증원권 사용
-//	    MyitemVO findVO = myitemService.updateUseterm(myitemVO);
-	    
-	    // 소모임 증원권 적용
-	    
-	    
+
+	}
+	
+	// 마이 페이지 - 나의 아이템(소모임증원권)
+	@PostMapping("/myitemList")
+	@ResponseBody
+	public String updateClubCap(Model model, MyitemVO myitemVO, CreateclubVO createclubVO) {
+		myitemService.updateUseterm(myitemVO);
+		myitemService.updateClubTotal(createclubVO);
+		
+		return "member/myitemList";
 	}
 	
 	
@@ -329,7 +336,6 @@ public class MemberController {
 		return "member/selectJoinClub"; 
 		
 	}
-	
 
 	
 	// 마이 페이지 - 기업회원의 판매 중인 상품 조회	

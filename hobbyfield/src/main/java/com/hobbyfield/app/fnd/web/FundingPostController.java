@@ -1,19 +1,26 @@
 package com.hobbyfield.app.fnd.web;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hobbyfield.app.comm.mapper.CommCodeMapper;
+import com.hobbyfield.app.common.PageMaker;
+import com.hobbyfield.app.common.SearchCriteria;
 import com.hobbyfield.app.fnd.service.FundingGoodsService;
 import com.hobbyfield.app.fnd.service.FundingPostService;
 import com.hobbyfield.app.fnd.service.FundingPostVO;
+import com.hobbyfield.app.member.service.MemberVO;
 
 //2023-08-18 신영환 펀딩관련 컨트롤러
 @Controller
@@ -21,14 +28,24 @@ public class FundingPostController {
 
 	@Autowired
 	FundingPostService fundingPostService;
+	
 	@Autowired
 	FundingGoodsService fundingGoodsService;
-
+	
+	@Autowired
+	CommCodeMapper codeMapper;
+	
 	//전체조회
 	@GetMapping("fundingPostList")
-	public String FundingPostList(Model model) {
-		model.addAttribute("fundingPostList", fundingPostService.getFundingPostList());
-			
+	public String FundingPostList(Model model, @ModelAttribute("scri") SearchCriteria scri) {
+		model.addAttribute("fundingPostList", fundingPostService.getFundingPostList(scri));
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(scri);
+		pageMaker.setTotalCount(fundingPostService.postCount(scri));
+	
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("scri", scri);
 			
 		return "fundingPost/fundingPostList";
 	}
@@ -51,20 +68,23 @@ public class FundingPostController {
 	}
 	//펀딩 프로젝트 등록	
 	@GetMapping("fundingPostInsert")
-	public String fundingPostInsert(Model model) {
-		model.addAttribute("fundingPostList", fundingPostService.getFundingPostList());
+	public String fundingPostInsert(Model model, @ModelAttribute("scri") SearchCriteria scri) {
+		model.addAttribute("fundingPostList", fundingPostService.getFundingPostList(scri));
 		return "fundingPost/fundingPostInsert";
 	}
 	//펀딩 프로젝트 등록폼2
 		@GetMapping("fundingPostInsert20")
-		public String fundingPostInsert20(FundingPostVO fundingPostVO, Model model) {
-			fundingPostService.getFundingPostInfo(fundingPostVO);
-			model.addAttribute("fundingPostInsert20",fundingPostVO);
+		public String fundingPostInsert20(String fndPostNumber, FundingPostVO fundingPostVO, Model model) {
+			FundingPostVO findVO = fundingPostService.getFundingPostInfo(fundingPostVO);
+			model.addAttribute("fndPostNumber",fndPostNumber);
+			model.addAttribute("fundingPostInsert20",findVO);
 			
 			return "fundingPost/fundingPostInsert20";
 	}
 		@PostMapping("fundingPostInsert")
-		public String fundingPostInsertProcess(FundingPostVO fundingPostVO, Model model) {
+		public String fundingPostInsertProcess(HttpSession session, FundingPostVO fundingPostVO, Model model) {
+			MemberVO member = (MemberVO) session.getAttribute("member");
+			fundingPostVO.setMemberEmail(member.getMemberEmail());
 			fundingPostService.insertFundingPostInfo(fundingPostVO);
 			model.addAttribute("fundingPostInsert20",fundingPostVO);
 			return "fundingPost/fundingPostInsert20";
@@ -88,6 +108,16 @@ public class FundingPostController {
 		return map;
 	}
 	
+	//펀딩 내 프로젝트
+	@GetMapping("fundingMyProject")
+	public String FundingMyProjectList(HttpSession session, FundingPostVO fundingPostVO, Model model) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		fundingPostVO.setMemberEmail(member.getMemberEmail());
+		
+		List<FundingPostVO> fundingPostList = fundingPostService.selectMyProjectList(fundingPostVO);
+		model.addAttribute("fundingMyProject", fundingPostList);
+		return "fundingPost/fundingMyProject";
+	}
 	/*
 	 * @PostMapping("fundingPostDelete") public Map<String, Object>
 	 * fundingPostDelete(FundingPostVO fndPostNumber) { boolean result = false;
@@ -111,5 +141,3 @@ public class FundingPostController {
 	 
 	  
 }
-
-

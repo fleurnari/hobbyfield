@@ -7,7 +7,7 @@ import lombok.Data;
 public class ReviewVO {
 
 		private int reviewId;		//후기번호
-		private int prdtId;			//상품번호
+		private Integer prdtId;			//상품번호
 		private String category;	//분류(후기,문의)
 		private String memberEmail;	//아이디
 		private String reviewContent;	//리뷰내용

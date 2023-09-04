@@ -68,7 +68,7 @@
 		UPDATE MYITEM
 		SET MYITEM_USETERM = 0
 		WHERE MYITEM_ID = #{myitemId}
-	</update>	
+	</update>
 
    	<!-- 소모임 증원권 적용 증원권이 0일때 CLUB_TOTAL=0 COUNT하지 않음 -->
 	<update id="updateClubTotal" parameterType="CreateclubVO">

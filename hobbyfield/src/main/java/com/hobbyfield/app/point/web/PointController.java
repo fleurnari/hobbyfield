@@ -72,9 +72,10 @@ public class PointController {
 	@GetMapping("/pointDelete")
 	public String pointDelete(@RequestParam(name = "pointId") int pointId) {
 		pointService.deletePoint(pointId);
-//		pointService.deletePointOption(pointId);
 		return "redirect:pointList";
 	}
 
+
+	
 	
 }

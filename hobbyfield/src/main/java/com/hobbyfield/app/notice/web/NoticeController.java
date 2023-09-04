@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hobbyfield.app.common.Criteria;
+import com.hobbyfield.app.common.PageMaker;
 import com.hobbyfield.app.notice.service.NoticeService;
 import com.hobbyfield.app.notice.service.NoticeVO;
 
@@ -20,10 +22,21 @@ import com.hobbyfield.app.notice.service.NoticeVO;
 public class NoticeController {
 	@Autowired
 	NoticeService noticeService;
+	
+//	@Autowired
+//	Criteria cri;
 
 	// 공지사항 전체조회
 	@GetMapping("/noticeList")
 	public String getNoticeAllList(Model model) {
+//		//페이징, 검색 정보 서비스로 전달
+//		model.addAttribute("noticeList", noticeService.getNoticeAllList());
+//		//noticeList로 페이징 정보전달
+//		PageMaker pageMaker = new PageMaker();
+//        pageMaker.setCri(cri);
+//        pageMaker.setTotalCount(noticeService.getNoticeCount(cri));
+//        model.addAttribute("pageMaker", pageMaker);
+        
 		model.addAttribute("noticeList", noticeService.getNoticeAllList());
 		return "notice/noticeList";
 	}
