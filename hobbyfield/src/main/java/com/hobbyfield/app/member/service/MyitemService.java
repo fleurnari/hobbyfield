@@ -18,9 +18,9 @@ public interface MyitemService{
 	//마이아이템 등록
 	public int insertMyitem(MyitemVO myitemVO);
 	
-	//소모임 증원권 적용
+	//소모임 증원권 사용
 	public int updateUseterm(MyitemVO myitemVO);
 	
-	//소모임 증원권 증원
+	//소모임 증원권 적용
 	public int updateClubTotal(CreateclubVO createclubVO);
 }

@@ -5,6 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <title>공지사항 작성</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>	
+
 <style>
 body {
 	display: flex;
@@ -83,13 +88,19 @@ body {
 <!-- 		AA5	재능기부공지 -->
 		<div class="form-input">
 			<div>
+			<div>
 				<label for="noticeWriter">작성자</label><input type="text"
 					id="noticeWriter" name="noticeWriter" value="admin" readonly>
+			</div>
+			<div>	
 				<label for="noticeTitle">제목</label> <input type="text"
-					id="noticeTitle" name="noticeTitle" required> <label
-					for="noticeSubject">내용</label>
-				<textarea id="noticeSubject" name="noticeSubject" rows="5" required></textarea>
-
+					id="noticeTitle" name="noticeTitle" required> 
+			</div>		
+			<div>
+				<label for="noticeSubject">내용</label>
+				<textarea id="editor" name="noticeSubject"
+				cols="40" rows="5" placeholder="내용을 입력하세요."></textarea>
+			</div>
 
 			</div>
 			<div class="submit-buttons">
@@ -99,6 +110,23 @@ body {
 			</div>
 		</div>
 	</form>
+<script>
+//editor
+	ClassicEditor
+    .create( document.querySelector( '#editor' ), {
+    	language:"ko",
+    	ckfinder: {
+    		uploadUrl : 'ckeditor/upload'
+    	}
+    })
+    .then(editor => {
+        // 에디터 인스턴스가 생성되면 호출되는 콜백 함수
+        editor.isReadOnly = true; // 에디터를 읽기 전용으로 설정
+    })
+    .catch( error => {
+        console.error( error );
+    });
+</script>
 </body>
 </html>
 

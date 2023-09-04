@@ -38,8 +38,13 @@ import com.hobbyfield.app.comm.mapper.CommCodeMapper;
 import com.hobbyfield.app.comm.service.CommCodeVO;
 import com.hobbyfield.app.member.mapper.MemberMapper;
 import com.hobbyfield.app.member.service.MemberVO;
+
+import com.hobbyfield.app.point.service.EmojiVO;
+import com.hobbyfield.app.point.service.PointService;
+
 import com.hobbyfield.app.pointrecord.service.PointRecordService;
 import com.hobbyfield.app.pointrecord.service.PointRecordVO;
+
 
 @Controller
 public class ClubController {
@@ -65,11 +70,16 @@ public class ClubController {
     @Autowired
 	ClubJoinService clubJoinService;
     
+
+    @Autowired 
+    PointService pointService;
+
     @Autowired
     ClubCommentService clubCommentService;
     
     @Autowired
     PointRecordService prService;
+
 
 	
 	/*========= 소모임 조회관련 =========*/
@@ -421,9 +431,10 @@ public class ClubController {
 		return "club/clubBoardList";
 	}
 	
+
 	// 소모임 게시물 상세 보기
 	@GetMapping("clubBoardInfo")
-	public String clubBoardInfo(Model model, ClubBoardVO vo, HttpServletRequest request) {
+	public String clubBoardInfo(Model model, ClubBoardVO vo, HttpServletRequest request, EmojiVO emojiVO) {
 		ClubBoardVO cvo = clubBoardService.getClubBoardInfo(vo);
 		model.addAttribute("board", cvo);
 		model.addAttribute("commentList", clubCommentService.getBoardComment(vo.getBoardNumber()));
@@ -438,31 +449,27 @@ public class ClubController {
 
 		// 가져온 값을 세션에 담기
 		session.setAttribute("profile", profile);
+    
+		//이모티콘 대표이미지
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		model.addAttribute("emoji", pointService.firstEmojiImg(member.getMemberEmail()));
+		
+		//이모티콘 이미지 
+		//model.addAttribute("emojiTab", pointService.emojiGroup(emojiVO.getPointId()));
 		
 		return "club/clubBoardInfo";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+	// 이모티콘 이미지
+	@GetMapping("clubBoardInfo-sub")
+	@ResponseBody
+	public List<EmojiVO> clubBoardEmoji(HttpSession session, Model model, EmojiVO emojiVO) {
+		//이모티콘 이미지 
+		
+		return pointService.emojiGroup(emojiVO.getPointId());
+	}
+
 	
 	
 	

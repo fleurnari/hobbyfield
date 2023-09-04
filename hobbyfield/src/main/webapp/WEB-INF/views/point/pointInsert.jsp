@@ -6,6 +6,10 @@
 <meta charset="UTF-8">
 <title>포인트 상품등록</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>	
+
 <style>
 body {
 	display: flex;
@@ -55,7 +59,7 @@ body {
 
 		<div>
 			<h5>내용</h5>
-			<textarea id="pointContent" name="pointContent" required="required"
+			<textarea id="editor" name="pointContent"
 				cols="40" rows="5" placeholder="내용을 입력하세요."></textarea>
 		</div>
 		<!-- 		<div> -->
@@ -113,6 +117,24 @@ body {
 
 
 	<script>
+	//editor
+	ClassicEditor
+    .create( document.querySelector( '#editor' ), {
+    	language:"ko",
+    	ckfinder: {
+    		uploadUrl : 'ckeditor/upload'
+    	}
+    })
+    .then(editor => {
+        // 에디터 인스턴스가 생성되면 호출되는 콜백 함수
+        //editor.isReadOnly = true; // 에디터를 읽기 전용으로 설정
+    })
+    .catch( error => {
+        console.error( error );
+    });
+	
+	
+	
 		//등록 버튼 핸들러
 		document.querySelector('form.pointInsert').addEventListener(
 				'submit',
@@ -129,9 +151,7 @@ body {
 							.querySelector('input[name="pointRegdate"]');
 					let pointEndterm = document
 							.querySelector('input[name="pointEndterm"]');
-					// 					let pointImgName = document
-					// 							.querySelector('input[name="pointImgName"]');
-
+				
 					let list = [];
 					let today = new Date();
 					let year = today.getFullYear();
