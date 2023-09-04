@@ -109,9 +109,9 @@
 				<input type="hidden" value="H1" name="applyStatus">
 				<input type="hidden" name="clubNumber" value="${clubInfo.clubNumber}">
 				<input type="hidden" name="profileNickname" value="${profile.profileNickname}">
-<%-- 				<c:forEach items="${profile}" var="pro"> --%>
-<%-- 					<option value="${pro.profilNickname}">${pro.profileNickname}</option> --%>
-<%-- 				</c:forEach> --%>
+				<c:forEach items="${profile}" var="pro">
+					<option value="${pro.profileNickname}">${pro.profileNickname}</option>
+				</c:forEach>
 			</div><br>
 			<button type="submit">신청</button>
 			<span class="close">&times;</span>

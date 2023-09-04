@@ -37,4 +37,5 @@ public interface ClubProfileMapper {
 	public ClubProfileVO getSessionProfile
 	(@Param("memberEmail") String memberEmail, @Param("clubNumber") int clubNumber);
 	
+	public ClubProfileVO setClubProfileVO(String memberEmail);
 }

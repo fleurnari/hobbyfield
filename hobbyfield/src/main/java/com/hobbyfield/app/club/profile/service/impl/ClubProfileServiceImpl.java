@@ -64,10 +64,17 @@ public class ClubProfileServiceImpl implements ClubProfileService {
 	}
 
 
+
 	@Override
 	public List<ClubProfileVO> getMyProfile(ClubProfileVO clubprofileVO) {
 		
 		return clubprofileMapper.getMyProfile(clubprofileVO);
+	}
+
+	@Override
+	public ClubProfileVO setClubProfileVO(String memberEmail) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

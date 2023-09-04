@@ -28,5 +28,6 @@ public interface ClubProfileService {
 	//프로필생성 3개확인
 	public int getProfileCountByEmail(String email);
 
+	public ClubProfileVO setClubProfileVO(String memberEmail);
 	
 }
