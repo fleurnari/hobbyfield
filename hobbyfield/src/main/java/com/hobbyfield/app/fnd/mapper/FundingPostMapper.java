@@ -2,11 +2,12 @@ package com.hobbyfield.app.fnd.mapper;
 
 import java.util.List;
 
+import com.hobbyfield.app.common.SearchCriteria;
 import com.hobbyfield.app.fnd.service.FundingPostVO;
 
 public interface FundingPostMapper {
 	//전체조회
-	public List<FundingPostVO> selectFundingPostList();
+	public List<FundingPostVO> selectFundingPostList(SearchCriteria scri);
 	
 	//상세조회
 	public FundingPostVO selectFundingPost(FundingPostVO fundingPostVO);
@@ -25,4 +26,10 @@ public interface FundingPostMapper {
 	
 	//삭제
 	public int deleteFundingPost(FundingPostVO fndPostNumber);
+	
+	//내 프로젝트
+	public List<FundingPostVO> selectMyProjectList(FundingPostVO fundingPostVO);
+
+	//펀딩 게시글 수
+	public int getTotalCount(SearchCriteria scri);
 }

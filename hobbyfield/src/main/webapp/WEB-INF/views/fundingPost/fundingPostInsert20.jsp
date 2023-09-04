@@ -6,25 +6,38 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<style>
+
+</style>
 </head>
 <body>
 	<Section>
-	
-			<div class="navbar-nav ms-auto mb-2 mb-lg-0">
-              <span class="nav-item px-2"><a class="nav-link fw-bold" id="fundingGoodsLink" onclick="location.href='${pageContext.request.contextPath}/fundingPostGoods?fndPostNumber=${fundingPostInsert20.fndPostNumber}'">옵션 구성</a></span>
+	<br><br><br><br>
+	<div class="container">
+			<div class="text-center">
+			<h4>
+			  <span onclick="location.href='${pageContext.request.contextPath}/fundingPostList'"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></span>&nbsp;&nbsp;
+              <span onclick="location.href='#'">카테고리</span>&nbsp;&nbsp;
+              <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
+              <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
+              <span onclick="location.href='#'">공지사항</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingSupportList'" >후원현황</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPostInsertForm'" style="color:#5aa5db;">프로젝트만들기</span>
+            </h4>
             </div>
-       
-	</Section>
-	<section>
-		<div class="container">
+        </div>
+		<br><br><br>
+			<div class="text-center">
+				<h4><span style="color:red;">프로젝트 설정</span><span> | </span><span  onclick="location.href='${pageContext.request.contextPath}/fundingPostGoods?fndPostNumber=${fundingPostInsert20.fndPostNumber}'">옵션 구성</span></h4>
+						<p>프로젝트를 설정해주세요</p>
+					</div>
+					<br>
 			<div class="text-center">
 				<form id="frm" name="fundingPostUpdate" action="fundingPostUpdate"
 					method="post">
-					<div>
-						<h3>프로젝트 설정</h3>
-						<p>프로젝트를 설정해주세요</p>
-					</div>
-					<br> <br> <br> <br> <br>
+				
 					<div class="container">	
 						<div class="row">
 							<div class="col-sm-6">
@@ -70,6 +83,20 @@
 								</div>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<h4>
+									펀딩 내용<a style="color: red">*</a>
+								</h4>
+								<p>
+									설정한 일시가 되면 펀딩이 자동 시작됩니다.<br> 펀딩 시작 전까지 날짜를 변경할 수 있고<br>
+									즉시 펀딩을 시작할 수 있습니다.<br>
+								</p>
+							</div>
+							<div class="col-sm-6">
+								<textarea class="form-control" name="fndContent" id="fndContent"></textarea>
+							</div>
+						</div>
 					</div>
 					<br>
 					<input type="text" name="fndStatus" value="0">
@@ -79,36 +106,16 @@
 				</form>
 			
 			</div>
-		</div>
+
 	</section>
 </body>
 
 <script type="text/javascript">
-    
-//목표금액에 000,000 콤마
-/*     function comma(str) {
-        str = String(str);
-        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-    }
-
-    function uncomma(str) {
-        str = String(str);
-        return str.replace(/[^\d]+/g, '');
-    } 
-    
-    function inputNumberFormat(obj) {
-        obj.value = comma(uncomma(obj.value));
-    }
-    
-    function inputOnlyNumberFormat(obj) {
-        obj.value = onlynumber(uncomma(obj.value));
-    }
-    
-    function onlynumber(str) {
-	    str = String(str);
-	    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g,'$1');
-	} */
-    
+ClassicEditor
+.create(document.querySelector('#fndContent'))
+.catch(error=>{
+	console.error(error);
+});
     $('form').on('submit', function(e){
 		e.preventDefault();
 		
@@ -150,5 +157,22 @@
 		
 		return formObject;
 	};
+	// 시작 날짜 문자열에서 날짜 부분만 추출
+	var startDateStr = "${fundingPostInsert20.fndStartDate}";
+	var startDate = startDateStr.split(" ")[0]; // "yyyy-MM-dd"
+
+	// 종료 날짜 문자열에서 날짜 부분만 추출
+	var endDateStr = "${fundingPostInsert20.fndEndDate}";
+	var endDate = endDateStr.split(" ")[0]; // "yyyy-MM-dd"
+
+	// 시작 날짜 input 요소에 설정
+	document.getElementById("fndStartDate").value = startDate;
+
+	// 종료 날짜 input 요소에 설정
+	document.getElementById("fndEndDate").value = endDate;
+	
+
+	
+
 </script>
 </html>

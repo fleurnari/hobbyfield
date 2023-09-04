@@ -48,13 +48,35 @@ flex-wrap:wrap;
 </style>
 </head>
 <body>
-	<section>
+	<Section>
+	<br><br><br><br>
+	<div class="container">
+			<div class="text-center">
+			<h4>
+			  <span onclick="location.href='${pageContext.request.contextPath}/fundingPostList'"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></span>&nbsp;&nbsp;
+              <span onclick="location.href='#'">카테고리</span>&nbsp;&nbsp;
+              <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
+              <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
+              <span onclick="location.href='#'">공지사항</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingSupportList'" >후원현황</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPostInsertForm'" style="color:#5aa5db;">프로젝트만들기</span>
+            </h4>
+            </div>
+        </div>
+		<br><br><br>
+
+			<div class="text-center">
+				<h4><span   onclick="location.href='${pageContext.request.contextPath}/fundingPostInsert20?fndPostNumber=${fundingPostGoods.fndPostNumber }'" >프로젝트 설정</span><span> | </span><span style="color:red;">옵션 구성</span></h4>
+						<p>프로젝트를 설정해주세요</p>
+					</div>
+					<br>
+					
 		<div class="container">
 			<div class="container2">
 			<c:forEach items="${fundingGoodsInfo }" var="fundingGoods">
 				<form action="goodsDelete" method="post" id="deleteGoods">
 				<div class="product-option">
-					<div class="option-box" onclick="toggleDetails(this)">
+					<div class="option-box">
 						<p class="option-name">${fundingGoods.fndGoodsName }<br>${fundingGoods.fndGoodsAmount }<br>${fundingGoods.fndGoodsPrice }<br>텍스트
 						</p>
 						<p class="option-description">${fundingGoods.fndGoodsContent }</p>
@@ -67,17 +89,10 @@ flex-wrap:wrap;
 			</c:forEach>
 		</div>
 	</div>
-	</section>
-	<section>
-		<div class="container">
+	<br><br>
 			<div class="text-center">
 				<form id="frm" name="fundingPostGoods" action="fundingPostInsertGoods"
 					method="post">
-					<div>
-						<h3>프로젝트 옵션</h3>
-						<p>프로젝트의 옵션을 설정해주세요</p>
-					</div>
-					<br> <br> <br> <br> <br>
 					<div class="container">	
 						<div class="row">
 							<div class="col-sm-6">
@@ -161,7 +176,7 @@ flex-wrap:wrap;
 				</div>							
 				</form>
 			</div>
-		</div>
+
 	</section>
 	<script>
 	 /* 이미지 업로드 */
@@ -196,7 +211,7 @@ flex-wrap:wrap;
 				document.location.reload();
 		})
 		.fail(reject => console.log(reject));
-		
+		document.location.reload();
 	});
 	
 	</script>
