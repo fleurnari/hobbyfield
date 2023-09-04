@@ -8,12 +8,10 @@ public interface BoardVoteService {
 	
 	// 투표 생성 
 	public int insertVote(BoardVoteVO vo);
-	// 투표 종료
-	public int endVote(BoardVoteVO vo);
 	// 투표 옵션 생성
 	public int insertVoteOption(BoardVoteOptionVO vo);
-	// 투표 결과 생성 
-	public int insertVoteResult(List<BoardVoteResultVO> vo);
+	// 투표 결과 생성(반복문을 통해 여러번 하자)
+	public int insertVoteResult(BoardVoteResultVO vo);
 	// 투표 결과 삭제
 	public int deleteVoteResult(BoardVoteResultVO vo);
 	

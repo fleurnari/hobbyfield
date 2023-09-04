@@ -35,19 +35,21 @@
 <body>
 	<div align="center" style="margin-top: 150px;">
 		<!-- 검색창 구현 : 사용자이름, 글내용으로 검색 : ajax 처리를 통해 검색된 내용만 다시 불러오도록.-->
-		<div>
+		
 			<!-- 검색창 -->
 			<div class="search-div">
 				<form id="searchForm" action="${pageContext.request.contextPath}/club/searchBoard"
 					method="get">
 					<input type="hidden" name="searchNum" id="searchNum" value="${club.clubNumber}" />
-					<input class="search-text" type="text" id="searchText"
-						name="searchText" placeholder="검색어 입력"> <img
-						class="search-img" id="search-img" name="search-img"
-						src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+					<div>
+						<input class="search-text" type="text" id="searchText"
+							name="searchText" placeholder="검색어 입력"> 
+						<img class="search-img" id="search-img" name="search-img"
+							src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+					</div>
 				</form>
 			</div>
-		</div>
+
 
 		<h1>게시글 목록</h1>
 		<!-- Session 확인용 : 추후 삭제 -->
@@ -197,25 +199,24 @@
 	</div>
 	
 	<!-- 투표 modal -->
-	<div id="myModal" class="modal">
+	<div id="voteModal" class="modal">
 		<div class="modal-content">
 			<span class="close" id="closeVoteModal">&times;</span>
 			<h2>투표</h2>
 			<input type="text" id="voteSubject" name="voteSubject"
-				placeholder="투표제목">
+				required="required" placeholder="투표제목">
 			<div id="input-container">
 				<!-- 초기에 2개의 input 태그 생성 -->
-				<input type="text" name="option1" placeholder="투표 옵션 1"> 
-				<input type="text" name="option2" placeholder="투표 옵션 2">
+				<input type="text" name="voteOption1" required="required" placeholder="투표 옵션 1"> 
+				<input type="text" name="voteOption2" required="required" placeholder="투표 옵션 2">
 			</div>
 			<button type="button" id="addInput">옵션 추가</button>
-			<div id="tpye-button">
-				<button>복수 투표</button>
-				<button>무기명 투표</button>
-				<button></button>
+			<div id="tpye-checkbox">
+				<input type="checkbox" id="voteMulti" value="">복수 투표
+				<input type="checkbox" id="voteSecret" value="">무기명 투표
 			</div>
 			<div>
-				<button id="inserBoardtBtn" type="submit">첨부하기</button>
+				<button id="inserVoteBtn" type="button">첨부하기</button>
 			</div>
 		</div>
 	</div>
@@ -270,7 +271,8 @@
                inputCount++;
                var newInput = $('<input>').attr({
                    type: "text",
-                   name: "option" + inputCount,
+                   name: "voteOption" + inputCount,
+                   required: "required",
                    placeholder: "투표 옵션 " + inputCount
                });
                $("#input-container").append(newInput);
@@ -282,15 +284,26 @@
       
        $("#openVoteModal").on("click", function(e) {
     	   e.preventDefault();
-           $("#myModal").css("display", "block");
+           $("#voteModal").css("display", "block");
        });
 
        $("#closeVoteModal").on("click", function(e) {
     	   e.preventDefault();
-           $("#myModal").css("display", "none");
+           $("#voteModal").css("display", "none");
        });  
-        
        
+       $(window).on("click", function (event) {
+           if (event.target === document.getElementById("voteModal")) {
+               $("#voteModal").css("display", "none");
+           }
+       });
+       
+       // 추가 투표 생성용 
+       $("#insertVoteBtn").on("click", function (e) {
+       		// 각 input값이 없으면 alert
+        	$("#voteModal").css("display", "none");
+    });
+
        
     // 에디터용
 	

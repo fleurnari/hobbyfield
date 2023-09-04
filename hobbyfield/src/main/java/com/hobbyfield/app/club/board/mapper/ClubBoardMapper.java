@@ -1,6 +1,7 @@
 package com.hobbyfield.app.club.board.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -36,5 +37,8 @@ public interface ClubBoardMapper {
 	
 	// 게시글 작성 활동 포인트 적립
 	public int updateMemberPnt(MemberVO memberVO);
+	
+	// 무한스크롤을 위한.
+	public List<ClubBoardVO> getClubBoardScroll(Map<String,Integer> map);
 
 }

@@ -18,12 +18,7 @@ public class BoardVoteServiceImpl implements BoardVoteService {
 		return 0;
 	}
 
-	@Override
-	public int endVote(BoardVoteVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	
 	@Override
 	public int insertVoteOption(BoardVoteOptionVO vo) {
 		// TODO Auto-generated method stub
@@ -31,7 +26,7 @@ public class BoardVoteServiceImpl implements BoardVoteService {
 	}
 
 	@Override
-	public int insertVoteResult(List<BoardVoteResultVO> vo) {
+	public int insertVoteResult(BoardVoteResultVO vo) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -65,5 +60,7 @@ public class BoardVoteServiceImpl implements BoardVoteService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }

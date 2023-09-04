@@ -14,7 +14,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.hobbyfield.app.club.profile.mapper.ClubProfileMapper;
-import com.hobbyfield.app.club.profile.service.ClubProfileService;
 import com.hobbyfield.app.club.profile.service.ClubProfileVO;
 import com.hobbyfield.app.member.mapper.MemberMapper;
 import com.hobbyfield.app.member.service.MemberVO;
@@ -30,7 +29,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 	PointRecordMapper pointRecordMapper;
 	
 	@Autowired
-	ClubProfileService clubprofileService;
+	ClubProfileMapper clubprofileMapper;
 	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -59,7 +58,8 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 		
 		ClubProfileVO profile =  new ClubProfileVO();
 		profile.setMemberEmail(member.getMemberEmail());
-		List<ClubProfileVO> findVO = clubprofileService.getMyProfile(profile);
+		List<ClubProfileVO> findVO = clubprofileMapper.getNomalMypage(profile);
+				
 		
 		request.getSession().setAttribute("profileList", findVO);
 		request.getSession().setAttribute("member", member);

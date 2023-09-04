@@ -71,6 +71,13 @@
 		WHERE CLUB_NUMBER = #{clubNumber} AND (CLUB_BOARD_CONTENT LIKE '%'||#{text}||'%' OR CLUB_BOARD_WRITER LIKE '%'||#{text}||'%')
   	</select>
   	
+  	<!-- 스크롤 쿼리문 -->
+  	<select id="getClubBoardScroll" resultType="ClubBoardVO">
+  	
+  	
+  	
+  	
+  	</select>
   	
   	<insert id="insertClubBoard" parameterType="ClubBoardVO">
   		<selectKey keyProperty="boardNumber" resultType="int" order="BEFORE">

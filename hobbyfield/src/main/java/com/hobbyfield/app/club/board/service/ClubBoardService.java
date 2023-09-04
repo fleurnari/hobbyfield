@@ -1,6 +1,7 @@
 package com.hobbyfield.app.club.board.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.hobbyfield.app.club.service.CreateclubVO;
 import com.hobbyfield.app.member.service.MemberVO;
@@ -36,4 +37,7 @@ public interface ClubBoardService {
 	
 	// 게시글 작성 활동 포인트 적립
 	public int updateMemberPnt(MemberVO memberVO);
+	
+	// 페이징을 위한 
+	public List<ClubBoardVO> getClubBaordScroll(Map<String,Integer> map);
 }
