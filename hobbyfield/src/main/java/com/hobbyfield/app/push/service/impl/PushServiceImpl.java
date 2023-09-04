@@ -28,9 +28,15 @@ public class PushServiceImpl implements PushService {
 	}
 
 	@Override
-	public int insertPush(PushVO pushVO) {
+	public int insertPush(int pushId, String pushTarget, String pushTyp, String pushCntn, String pushUrl) {
 
-		return pushMapper.insertPush(pushVO);
+		return pushMapper.insertPush(pushId, pushTarget, pushTyp, pushCntn, pushUrl);
+	}
+	
+	@Override
+	public int updatePush(int pushId) {
+
+		return pushMapper.updatePush(pushId);
 	}
 
 	@Override
@@ -38,6 +44,8 @@ public class PushServiceImpl implements PushService {
 
 		return pushMapper.deletePush(pushId);
 	}
+
+
 	
 
 

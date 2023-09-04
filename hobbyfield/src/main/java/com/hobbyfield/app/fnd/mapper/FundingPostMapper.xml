@@ -4,8 +4,47 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hobbyfield.app.fnd.mapper.FundingPostMapper">
 	
-	<!-- 전체조회 -->
-  	<select id="selectFundingPostList" resultType="FundingPostVO">
+<!-- 전체조회 -->
+<select id="selectFundingPostList" resultType="FundingPostVO" parameterType="com.hobbyfield.app.common.SearchCriteria">
+    SELECT
+        Fnd_Main_Img,
+        Fnd_Main_ImgPath,
+        Fnd_Category,
+        Fnd_Post_Number, 
+        Fnd_Title,
+        Fnd_Start_Date,
+        Fnd_End_Date,
+        Fnd_Status,
+        Fnd_Target_Amount,
+        Fnd_Current_Amount,
+        Fnd_Views,
+        Member_Email,
+        Fnd_Content
+    FROM (
+        SELECT 
+            Fnd_Main_Img,
+            Fnd_Main_ImgPath,
+            Fnd_Category,
+            Fnd_Post_Number, 
+            Fnd_Title,
+            Fnd_Start_Date,
+            Fnd_End_Date,
+            Fnd_Status,
+            Fnd_Target_Amount,
+            Fnd_Current_Amount,
+            Fnd_Views,
+            Member_Email,
+            Fnd_Content,
+            ROW_NUMBER() OVER(ORDER BY Fnd_Post_Number DESC) AS RNUM
+        FROM Funding_Post
+        WHERE 1=1
+            <include refid="search"></include>
+    ) funding
+    WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+    ORDER BY Fnd_Post_Number DESC
+</select>
+  	<!-- 전체조회 -->
+  	<select id="selectMyProjectList" resultType="FundingPostVO">
   		SELECT
   			Fnd_Main_Img,
   			Fnd_Main_ImgPath,
@@ -20,9 +59,8 @@
   			Fnd_Views,
   			Member_Email
   		FROM Funding_Post
-  		ORDER BY Fnd_Post_Number DESC
-  	</select>
-  	
+  		WHERE Member_Email = #{memberEmail}
+  	</select>	
 
   	
   	<!-- 단건조회 -->
@@ -63,6 +101,7 @@
 				, Fnd_Current_Amount
 				, Fnd_Total_Amount
 				, Fnd_Participants
+				, Member_Email
 				)
 		VALUES( 
 				#{fndPostNumber}
@@ -75,6 +114,7 @@
 				, 0
 				, 0
 				, 0
+				, #{memberEmail}
 				)
 	</insert>
 	
@@ -88,6 +128,7 @@
 		  , Fnd_End_Date = #{fndEndDate}
 		  , Fnd_Wdate = SYSDATE
 		  , Fnd_Status = #{fndStatus}
+		  , Fnd_Content = #{fndContent}
 		WHERE fnd_Post_Number = #{fndPostNumber}
 		
 	</update>
@@ -118,4 +159,23 @@
 		DELETE Funding_Post
 		WHERE fnd_Post_Number = #{fndPostNumber}
 	</delete>
+	
+	<!-- 펀딩 게시글 갯수 -->
+	<select id = "getTotalCount" resultType="int">
+		SELECT COUNT(Fnd_Post_Number)
+		FROM Funding_Post
+		WHERE 1=1
+		<include refid="search"></include>
+		 AND Fnd_Post_Number > 0
+	</select>
+	
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 'email'.toString()">AND member_email LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 't'.toString()">AND FND_TITLE LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'c'.toString()">AND FND_CONTENT LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'w'.toString()">AND MEMBER_EMAIL LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'tc'.toString()">AND( (FND_TITLE LIKE '%' || #{keyword} || '%') or (FND_CONTENT LIKE '%' || #{keyword} || '%') )</if>
+		</if>
+	</sql>
 </mapper>

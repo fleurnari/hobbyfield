@@ -19,9 +19,11 @@ public class ClubCommentVO {
 	private int boardNumber;
 	private String clubCommentContent;
 	private Date clubCommentDate;
-	private String clubSecret;
-	private int clubCommentPartNumber;
+	private String clubCommentSecret;
+	private int clubCommentPartnumber;
 	private String clubCommentLevel;
-	private String profileNickName;
+	private String profileNickname;
+	
+	private String parentWriter;
 	
 }

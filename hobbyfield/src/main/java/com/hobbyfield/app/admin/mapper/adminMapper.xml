@@ -9,7 +9,20 @@
 		FROM (
 		    SELECT mem.*, ROWNUM AS rnum
 		    FROM (
-		        SELECT *
+		        SELECT member_email,
+		        	   member_pwd,
+		        	   member_nm,
+		        	   member_zip,
+		        	   member_baseaddr,
+		        	   member_detaaddr,
+		        	   member_bizno,
+		        	   member_cntinfo,
+		        	   FIND_CODE_NM(member_grd) as member_grd,
+		        	   member_actpnt,
+		        	   member_rprtcnt,
+		        	   member_ltstconn,
+		        	   FIND_CODE_NM(member_comaccp) as member_comaccp,
+		        	   member_deldate
 		        FROM member
 		        WHERE 1=1
 		        	<include refid="search"></include>
@@ -26,7 +39,20 @@
 		FROM (
 		    SELECT mem.*, ROWNUM AS rnum
 		    FROM (
-		        SELECT *
+		        	   SELECT member_email,
+		        	   member_pwd,
+		        	   member_nm,
+		        	   member_zip,
+		        	   member_baseaddr,
+		        	   member_detaaddr,
+		        	   member_bizno,
+		        	   member_cntinfo,
+		        	   FIND_CODE_NM(member_grd) as member_grd,
+		        	   member_actpnt,
+		        	   member_rprtcnt,
+		        	   member_ltstconn,
+		        	   FIND_CODE_NM(member_comaccp) as member_comaccp,
+		        	   member_deldate
 		        FROM member
 		        WHERE 1=1
 		        	<include refid="search"></include>
@@ -54,7 +80,20 @@
 	</select>
 
 	<select id="selectMember" resultType="com.hobbyfield.app.member.service.MemberVO">
-		SELECT *
+		SELECT member_email,
+			   member_pwd,
+			   member_nm,
+			   member_zip,
+			   member_baseaddr,
+			   member_detaaddr,
+			   member_bizno,
+			   member_cntinfo,
+			   FIND_CODE_NM(member_grd) as member_grd,
+			   member_actpnt,
+			   member_rprtcnt,
+			   member_ltstconn,
+			   FIND_CODE_NM(member_comaccp) as member_comaccp,
+			   member_deldate
 		FROM member
 		WHERE member_email = #{memberEmail}
 	</select>

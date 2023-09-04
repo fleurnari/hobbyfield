@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="com.hobbyfield.app.fnd.mapper.FundingSupportMapper">
+<mapper namespace="com.hobbyfield.app.fnd.mapper.FundingSupportMapper">
   	
   	<!-- 후원 목록 전체조회 -->
   	<select id="selectFundingSupportList" resultType="FundingSupportVO">
@@ -104,7 +104,7 @@
   				,#{fndGoodsNumber}
   				,#{fndOrderId}
   				,#{memberEmail}
-  				,#{fndOrderState}
+  				,'1'
   				,#{fndInvoice}
   				,SYSDATE
   				,#{fndPaymentDate}
@@ -121,4 +121,31 @@
   				)
   	</insert>
   	
+  	<!-- 후원자 관리 -->
+  	<select id="supportManagement" resultType="FundingSupportVO">
+  		SELECT 
+		    Fnd_Support_Number,
+		    Fnd_Total_price,
+		    member_email,
+		    Fnd_order_recipient,
+		    Fnd_Order_date,
+		    Fnd_Order_Amount,
+		    Fnd_Zip,
+		    Fnd_BaseAddr,
+		    Fnd_DetaAddr,
+		    Fnd_Cntinfo,
+		    Fnd_Order_Request,
+		    Fnd_Invoice,
+		    Fnd_Order_state
+		FROM Funding_Support
+		WHERE Fnd_Post_Number = #{fndPostNumber}
+  	</select>
+  	
+  	<!-- 송장번호 입력 -->
+  	<update id="insertfundingInvoce" parameterType="FundingSupportVO">
+  		UPDATE Funding_Support
+  		SET Fnd_Invoice = #{fndInvoice},
+  			Fnd_Order_state = '2'
+  		WHERE Fnd_Support_Number = #{fndSupportNumber}
+  	</update>
   </mapper>

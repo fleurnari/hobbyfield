@@ -91,7 +91,7 @@
 	<div id="clubModal" class="clubModal">
 		<div class="modal_body">
 			<div>
-	<button onclick="hreclubManage=clubNumber?${clubInfo.clubNumber}">관리</button>
+		<button onclick="hreclubManage=clubNumber?${clubInfo.clubNumber}">관리</button>
 			<!-- 모임 신청 질문 가져오기 -->
 				<label>모임소개 : ${clubInfo.clubInfo}</label><br>
 				<label>카테고리 : ${clubInfo.clubCategory}</label><br>
@@ -107,9 +107,11 @@
 				<label>${clubInfo.singupQuestion3}</label><br>
 				<input type="text" name="applyAnswer3"><br>
 				<input type="hidden" value="H1" name="applyStatus">
-				<input type="hidden" name="profileNickname" value="${clubInfo.profileNickname}">
 				<input type="hidden" name="clubNumber" value="${clubInfo.clubNumber}">
-				
+				<input type="hidden" name="profileNickname" value="${profile.profileNickname}">
+<%-- 				<c:forEach items="${profile}" var="pro"> --%>
+<%-- 					<option value="${pro.profilNickname}">${pro.profileNickname}</option> --%>
+<%-- 				</c:forEach> --%>
 			</div><br>
 			<button type="submit">신청</button>
 			<span class="close">&times;</span>
@@ -129,19 +131,22 @@
             <li><strong>하위 지역:</strong> ${clubInfo.subLocation}</li>
             <li><img src="${clubInfo.clubImgPath}${clubInfo.clubImg}" alt="모임 이미지"></li>
         </ul>
+	    <c:if test="${profile.profileNickName} eq ${clubInfo.profileNickname}">    
+		    <div>
+		    	<button type="button" onclick="location.href='clubManage?clubNumber=${clubInfo.clubNumber }'">소모임 가입 신청자 조회</button>
+		    </div>
+	    </c:if>
     </div>
-    <c:if test="${profile.profileNickName} eq ${clubInfo.profileNickname}">    
-	    <div>
-	    	<button type="button" onclick="location.href='clubManage?clubNumber=${clubInfo.clubNumber }'">소모임 가입 신청자 조회</button>
-	    </div>
-    </c:if>
+    
+     <div>
+    	<button type="button" onclick="location.href='clubManage?clubNumber=${clubInfo.clubNumber}'">가입 신청한 회원</button>
+    </div>
     
     <div>
     	<button type="button">삭제</button>
     </div>
     
     <div>
-    	<h2>초대하기</h2>
     	<button type="button" class="club-join" id="openModal">소모임 가입</button>
     </div>
 </section>  

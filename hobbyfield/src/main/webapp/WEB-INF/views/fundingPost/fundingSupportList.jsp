@@ -11,11 +11,25 @@
 </head>
 <body>
 	<Section>
-		<div class="container">
+	<br><br><br><br>
+	<div class="container">
+			<div class="text-center">
+			<h4>
+			  <span onclick="location.href='${pageContext.request.contextPath}/fundingPostList'"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></span>&nbsp;&nbsp;
+              <span onclick="location.href='#'">카테고리</span>&nbsp;&nbsp;
+              <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
+              <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
+              <span onclick="location.href='#'">공지사항</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingSupportList'" style="color:#5aa5db;">후원현황</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPostInsertForm'">프로젝트만들기</span>
+            </h4>
+            </div>
+        </div>
+		<br><br><br>
 			<div class="text-center">
 
 					<div>
-						<h3>후원현황</h3>
+						<h4><span style="color:#5aa5db;">후원현황</span><span> | </span><span onclick="location.href='fundingMyProject'">내 프로젝트</span></h4>
 						<p>프로젝트를 설정해주세요</p>
 					</div>
 					<br> <br> <br> <br> <br>

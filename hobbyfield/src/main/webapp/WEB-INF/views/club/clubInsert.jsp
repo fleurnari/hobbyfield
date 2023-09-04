@@ -101,12 +101,12 @@ label {
 		</div>
 		<div>
 			<div><label>닉네임 선택</label>
-			<input list="profileSelect" id="profile" name="profileNickname" autocomplete="off" />
-			<datalist id="profileSelect">
-				<c:forEach items="${getNomalMypage}" var="profile" > <!-- 프로필 선택란 -->
-					<option value="${profile.profileNickname }" >${profile.profileNickname}</option>
-				</c:forEach>
-			</datalist>
+			    <select id="profile" name="profileNickname">
+			        <c:forEach items="${getNomalMypage}" var="profile">
+			            <option value="${profile.profileNickname}">${profile.profileNickname}</option>
+			        </c:forEach>
+			    </select>
+			</div>
 			
 			</div>
 
@@ -127,14 +127,14 @@ label {
 							<option value="${category.subcode }">${category.literal}</option>
 						</c:forEach>
 					</select>
-				</div>
+				</div><br>
 
 				<div>
 				<label>소모임 분류</label>
 				<c:forEach items="${D}" var="type">
 					<input type="radio" name="clubType" value="${type.subcode}" checked="checked" >${type.literal}
 				</c:forEach>
-			</div>
+				</div>
 			
 			<div>
 				<label>소모임 소개</label>

@@ -42,21 +42,11 @@ public class ClubProfileServiceImpl implements ClubProfileService {
 		return clubprofileMapper.nickChk(profileNickname);
 		}
 
-//	@Override
-//	public Map<String, String> updateProfile(ClubProfileVO clubProfileVO) {
-//		Map<String, String> map = new HashMap<>();
-//		map.put("닉네임", String.valueOf(clubProfileVO.getProfileNickname()));
-//		
-//		int result = clubprofileMapper.updateProfile(clubProfileVO);
-//		
-//		if(result > 0) {
-//			map.put("결과", "success");
-//		}else {
-//			map.put("결과", "fail");
-//		}
-//		
-//		return map;
-//	}
+	//프로필 생성 3개제한
+	@Override
+    public int getProfileCountByEmail(String email) {
+        return clubprofileMapper.getProfileCountByEmail(email);
+    }
 	
 	//프로필 수정
 	@Override

@@ -5,17 +5,22 @@
   <mapper namespace="com.hobbyfield.app.club.board.mapper.ClubBoardMapper">
 
   	<select id="getAllClubBoardList" resultType="ClubBoardVO">
-		SELECT  BOARD_NUMBER, 
-				CLUB_NUMBER, 
-				CLUB_BOARD_WRITER, 
-				CLUB_BOARD_CONTENT, 
-				CLUB_BOARD_WDATE, 
-				CLUB_BOARD_VIEWS, 
-				CLUB_BOARD_TYPE, 
-				SCHEDULE_DATE, 
-				CLUB_BOARD_BLIND
-		FROM 	CLUB_BOARD
-		ORDER BY CLUB_BOARD_WDATE
+		 <![CDATA[
+		select a.* from (
+		SELECT BOARD_NUMBER,
+		CLUB_NUMBER,
+		CLUB_BOARD_WRITER,
+		CLUB_BOARD_CONTENT,
+		CLUB_BOARD_WDATE,
+		CLUB_BOARD_VIEWS,
+		CLUB_BOARD_TYPE,
+		SCHEDULE_DATE,
+		CLUB_BOARD_BLIND
+		FROM CLUB_BOARD
+		WHERE club_board_blind <> 'AH2'  
+		ORDER BY board_number desc
+		) a where rownum <=3
+		]]>
   	</select>
   		
   	<select id="getSelectClubBoardList" parameterType="CreateclubVO" resultType="ClubBoardVO">
@@ -92,6 +97,11 @@
   	<update id="updateViewClubBoard" parameterType="ClubBoardVO">
   		
   	</update>
+  	
+	<!-- 게시글 작성 활동 포인트 적립 -->
+	<update id="updateMemberPnt" parameterType="com.hobbyfield.app.member.service.MemberVO">
+		UPDATE member SET member_actpnt = member_actpnt + 100 WHERE member_email = #{memberEmail}
+	</update>
 
   
   </mapper>

@@ -35,5 +35,21 @@ public class FundingSupportServiceImpl implements FundingSupportService {
 			return -1;
 		}
 	}
-
+	
+	@Override
+	public List<FundingSupportVO> supportManagement(FundingSupportVO fundingSupportVO){
+		return fundingSupportMapper.supportManagement(fundingSupportVO);
+	}
+	
+	@Override
+	public int insertfundingInvoce(FundingSupportVO fundingSupportVO) {
+		int result = fundingSupportMapper.insertfundingInvoce(fundingSupportVO);
+		
+		if (result > 1 ) {
+			return fundingSupportVO.getFndSupportNumber();
+		} else {
+			return -1;
+		}
+		
+	}
 }

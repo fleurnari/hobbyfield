@@ -21,4 +21,6 @@ public class CreateclubVO {
 	private Integer clubTotal;
 	private String memberEmail;
 
+	private String clubManager;
+	
 }

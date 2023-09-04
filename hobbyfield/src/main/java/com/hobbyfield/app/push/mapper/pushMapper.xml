@@ -13,7 +13,7 @@
 	</select>
 
 	<!-- 알림 등록 -->
-	<insert id="insertPush" parameterType="PushVO">
+	<insert id="insertPush">
 		<selectKey keyProperty="pushId" resultType="int" order="BEFORE">
 			SELECT NVL(MAX(push_id),0) + 1
 			FROM push
@@ -46,7 +46,15 @@
 		SELECT COUNT(*)
 		FROM push
 		WHERE push_target = #{memberEmail}
+		AND push_chk = 'AG2'
 	</select>
+	
+	<!-- 알림 확인 여부 변경 -->
+	<update id="updatePush">
+		UPDATE PUSH
+		SET push_chk = 'AG1'
+		WHERE push_id = #{pushId}
+	</update>
 	
 	<!-- 알림 삭제 처리 -->
 	<delete id="deletePush">

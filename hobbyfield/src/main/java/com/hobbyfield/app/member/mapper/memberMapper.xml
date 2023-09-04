@@ -104,13 +104,15 @@
 	
 	<!-- 마이 페이지 - 가입한 소모임 조회 -->
 	<select id="selectJoinClub" resultType="com.hobbyfield.app.club.service.CreateclubVO">
-		SELECT c.club_number,
-			   c.club_name,
-			   FIND_CODE_NM(c.club_category) AS club_category,
-			   FIND_CODE_NM(c.club_type) AS club_type,
-			   FIND_CODE_NM(c.club_public) AS club_public,
-			   c.club_img,
-			   c.club_img_path
+		SELECT DISTINCT c.club_number,
+			   			c.club_name,
+			   			c.profile_nickname AS club_Manager,
+			   			cm.profile_nickname AS profile_nickname,
+			   			FIND_CODE_NM(c.club_category) AS club_category,
+			   			FIND_CODE_NM(c.club_type) AS club_type,
+			   			FIND_CODE_NM(c.club_public) AS club_public,
+			   			c.club_img,
+			   			c.club_img_path
 			   
 		FROM club c
 		
