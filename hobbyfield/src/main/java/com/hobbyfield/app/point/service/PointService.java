@@ -30,4 +30,10 @@ public interface PointService {
 
 	// 포인트 상품 조회수
 	public int updatePointView(PointVO pointVO);
+	
+	//이모티콘 대표이미지
+	public List<EmojiVO> firstEmojiImg(String memberEmail);
+	
+	//이모티콘 이미지 그룹
+	public List<EmojiVO> emojiGroup(int pointId);
 }

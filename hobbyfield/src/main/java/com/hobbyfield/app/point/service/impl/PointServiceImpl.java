@@ -100,24 +100,24 @@ public class PointServiceImpl implements PointService {
 		}
 	}
 	
-	// 포인트 옵션 삭제
-//	@Override
-//	public int deletePointOption(int delete) {
-//		int result = pointMapper.deletePoint(delete);
-//		if (result > 0) {
-//			return delete;
-//		} else {
-//			return -1;
-//		}
-//	}
-
-	
-	
 	@Override
 	// 포인트 상품 조회수 업데이트
 		public int updatePointView(PointVO pointVO) {
 			return pointMapper.updatePointView(pointVO);
 		}
+
+	//이모티콘 대표이미지
+	@Override
+	public List<EmojiVO> firstEmojiImg(String memberEmail) {
+		
+		return pointMapper.firstEmojiImg(memberEmail);
+	}
+
+	//이모티콘 이미지 그룹
+	@Override
+	public List<EmojiVO> emojiGroup(int pointId) {
+		return pointMapper.emojiGroup(pointId);
+	}
 
 
 

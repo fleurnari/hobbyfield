@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +32,8 @@ import com.hobbyfield.app.comm.mapper.CommCodeMapper;
 import com.hobbyfield.app.comm.service.CommCodeVO;
 import com.hobbyfield.app.member.mapper.MemberMapper;
 import com.hobbyfield.app.member.service.MemberVO;
+import com.hobbyfield.app.point.service.EmojiVO;
+import com.hobbyfield.app.point.service.PointService;
 
 //0828 이선호 (소모임 관리)
 @Controller
@@ -58,6 +59,9 @@ public class ClubController {
   
     @Autowired
 	ClubJoinService clubJoinService;
+    
+    @Autowired 
+    PointService pointService;
 
 	
 	/*========= 소모임 조회관련 =========*/
@@ -356,13 +360,30 @@ public class ClubController {
 		return "club/clubBoardList";
 	}
 	
+
 	
+	//clubBoardInfo
 	@GetMapping("clubBoardInfo")
-	public String clubBoardInfo(Model model,ClubBoardVO vo) {
+	public String clubBoardInfo(HttpSession session, Model model,ClubBoardVO vo,EmojiVO emojiVO) {
 		model.addAttribute("board", clubBoardService.getClubBoardInfo(vo));	
+		
+		//이모티콘 대표이미지
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		model.addAttribute("emoji", pointService.firstEmojiImg(member.getMemberEmail()));
+		
+		//이모티콘 이미지 
+		//model.addAttribute("emojiTab", pointService.emojiGroup(emojiVO.getPointId()));
 		
 		return "club/clubBoardInfo";
 	}
-	
+
+	// 이모티콘 이미지
+	@GetMapping("clubBoardInfo-sub")
+	@ResponseBody
+	public List<EmojiVO> clubBoardEmoji(HttpSession session, Model model, EmojiVO emojiVO) {
+		//이모티콘 이미지 
+		
+		return pointService.emojiGroup(emojiVO.getPointId());
+	}
 
 }

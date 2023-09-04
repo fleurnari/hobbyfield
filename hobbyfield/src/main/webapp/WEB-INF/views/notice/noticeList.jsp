@@ -71,11 +71,34 @@ body {
 <body>
 	<div class="header">
 		<h1 class="title">공지사항</h1>
-		<button type="button" onclick="location.href='insertNotice'" class="write-button">등록</button>
-		<div class="search-bar">
-			<input type="text" placeholder="검색어를 입력하세요" class="search-input">
-			<button class="search-button">검색</button>
-		</div>
+		<button type="button" onclick="location.href='insertNotice'"
+			class="write-button">등록</button>
+<!-- 		<!-- JSP 파일에서 페이징 및 검색 결과를 화면에 표시 --> -->
+<!-- 		<!-- 페이지 링크 --> -->
+<!-- 		<div class="pagination"> -->
+<%-- 			<c:if test="${pageMaker.prev}"> --%>
+<%-- 				<a href="${pageMaker.makeQuery(pageMaker.startPage - 1)}">이전</a> --%>
+<%-- 			</c:if> --%>
+<%-- 			<c:forEach var="i" begin="${pageMaker.startPage}" --%>
+<%-- 				end="${pageMaker.endPage}"> --%>
+<%-- 				<a href="${pageMaker.makeQuery(i)}">${i}</a> --%>
+<%-- 			</c:forEach> --%>
+<%-- 			<c:if test="${pageMaker.next}"> --%>
+<%-- 				<a href="${pageMaker.makeQuery(pageMaker.endPage + 1)}">다음</a> --%>
+<%-- 			</c:if> --%>
+<!-- 		</div> -->
+
+<!-- 		<!-- 검색 폼 --> -->
+<!-- 		<div class="search-form"> -->
+<%-- 			<form action="${pageMaker.makeSearch(1)}" method="get"> --%>
+<!-- 				<select name="searchType"> -->
+<!-- 					<option value="notice_cate">카테고리</option> -->
+<!-- 					<option value="notice_title">제목</option> -->
+<%-- 				</select> <input type="text" name="keyword" value="${cri.keyword}" /> --%>
+<!-- 				<button type="submit">검색</button> -->
+<!-- 			</form> -->
+<!-- 		</div> -->
+
 	</div>
 	<table class="notice-list">
 		<thead>
