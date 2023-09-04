@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.hobbyfield.app.club.like.mapper.ClubBoardLikeMapper">
+  	<insert id="insertBoardLike" parameterType="clubBoardLikeVO">
+  		<selectKey keyProperty="likeNumber" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(like_number),1) + 1
+			FROM club_board_like	
+		</selectKey>
+  		INSERT INTO club_board_like
+  				(
+  				like_number,
+  				profile_nickname,
+  				board_number
+  				)
+  				VALUES
+  				(
+  				#{likeNumber},
+  				#{profileNickname},
+  				#{boardNumber}
+  				)
+  	</insert>
+  	
+  	<delete id="deleteBoardLike">
+  		DELETE club_board_like WHERE #{boardNumber}
+  	</delete>
+  	
+  	<select id="countBoardLike">
+  		SELECT count(*)
+  		FROM club_board_like
+  		WHERE board_number = #{boardNumber}
+  	</select>
+  
+  
+  </mapper>

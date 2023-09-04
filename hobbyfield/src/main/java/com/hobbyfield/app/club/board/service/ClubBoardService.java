@@ -14,7 +14,7 @@ public interface ClubBoardService {
 	public List<ClubBoardVO> getSelectClubBoardList(CreateclubVO vo);
 	
 	// 게시글 검색 : 사용자 or 내용 
-	public List<ClubBoardVO> searchClubBoard(ClubBoardVO vo);
+	public List<ClubBoardVO> searchClubBoard(int clubNumber, String text);
 	
 	// 전체 게시글 검색 : 사용자 or 내용
 	public List<ClubBoardVO> AllSearchClubBoard(ClubBoardVO vo);

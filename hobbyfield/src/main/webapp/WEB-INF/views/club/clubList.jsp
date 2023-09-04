@@ -82,7 +82,7 @@
 <body>
 <section>
     <div align="center" style="margin-top: 100px;">
-		<a class="btn btn-success" href="${pageContext.request.contextPath}/clubInsert">소모임 생성</a>
+		<a class="btn btn-success" href="${pageContext.request.contextPath}/club/clubInsert">소모임 생성</a>
 		
 		<!-- 지역 정렬 -->
 		<c:forEach items="${E}" var="region" >
@@ -94,13 +94,13 @@
     		<button class="category-btn" data-type-code="${type.literal}">${type.literal}</button>
 		</c:forEach>
 		
-		<label>${profile.profileNickname }테스트</label>	
+		<label>${profile.profileNickname}테스트</label>	
     
 		<!-- 소모임 표시 -->    
 	
      <div id="clubContainer">
             <c:forEach items="${clubList}" var="club">
-                <div class="clubItem" onclick="location.href='clubBoardList?clubNumber=${club.clubNumber}'">
+                <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${club.clubNumber}'">
                     <img src="${club.clubImgPath}${club.clubImg}">
                     <div class="clubInfo">
                         <p>모임리더: ${club.profileNickname}</p>
@@ -136,7 +136,7 @@
 	
 	    // 서버에 지역 코드 전송
 	    $.ajax({
-	    	url: "${pageContext.request.contextPath}/getClubsByCate",
+	    	url: "${pageContext.request.contextPath}/club/getClubsByCate",
 	        type: 'GET',
 	        data: { "clubCategory" : clubCategory },
 	        dataType: 'json',
@@ -149,7 +149,7 @@
 	            $.each(Cate, function(index, club) {
 	                //각 소모임의 정보를 표시하는 코드 
 	                $('#clubContainer').append(`
-	                    <div class="clubItem" onclick="location.href='clubInfo?clubNumber=${club.clubNumber}&profileNickname=${club.profileNickname}'">
+	                    <div class="clubItem" onclick="location.href='clubBoardList?clubNumber=${club.clubNumber}'">
 	                        <img src="${club.clubImgPath}${club.clubImg}">
 	                        <div class="clubInfo">
 	                            <p>모임리더: ${club.profileNickname}</p>
@@ -179,7 +179,7 @@
 	
 	    // 서버에 지역 코드 전송
 	    $.ajax({
-	    	url: "${pageContext.request.contextPath}/getClubsByRegion",
+	    	url: "${pageContext.request.contextPath}/club/getClubsByRegion",
 	        type: 'GET',
 	        data: { "majorLocation" : majorLocation },
 	        dataType: 'json',
@@ -192,8 +192,8 @@
 	            $.each(clubs, function(index, club) {
 	                //각 소모임의 정보를 표시하는 코드 
 	                $('#clubContainer').append(`
-	                    <div class="clubItem" onclick="location.href='clubInfo?clubNumber=${club.clubNumber}&profileNickname=${club.profileNickname}'">
-	                        <img src="${club.clubImgPath}${club.clubImg}">
+	                    <div class="clubItem" onclick="location.href='clubBoad?clubNumber=${club.clubNumber}&profileNickname=${club.profileNickname}'">
+	                        <img src="${pageContext.request.contextPath}${club.clubImgPath}${club.clubImg}">
 	                        <div class="clubInfo">
 	                            <p>모임리더: ${club.profileNickname}</p>
 	                            <p>모임이름: ${club.clubName}</p>
@@ -224,7 +224,7 @@
 	        isLoading = true; // 요청 시작 전 플래그 설정
 
 	        $.ajax({
-	            url: "${pageContext.request.contextPath}/clubInfiniteScroll",
+	            url: "${pageContext.request.contextPath}/club/clubInfiniteScroll",
 	            data: {
 	            	 startPage: (currentPage - 1) * pageSize + 1,  // 예: 1, 11, 21...
 	                 endPage: currentPage * pageSize               // 예: 10, 20, 30...
@@ -238,7 +238,7 @@
 	                if (clubs.length > 0) {
 	                    $.each(clubs, function(index, club) {
 	                        $('#clubContainer').append(`
-	                            <div class="clubItem" onclick="location.href='clubInfo?clubNumber=${club.clubNumber}&profileNickname=${club.profileNickname}'">
+	                            <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/clubBoardList?clubNumber=${club.clubNumber}&profileNickname=${club.profileNickname}'">
 	                                <img src="${club.clubImgPath}${club.clubImg}">
 	                                <div class="clubInfo">
 	                                    <p>모임리더: ${club.profileNickname}</p>

@@ -180,7 +180,7 @@ label {
 				<button type="submit" class="join_button">등록하기</button>
 			</div>
 		</div>
-	</div>
+	
 </form>
 
 

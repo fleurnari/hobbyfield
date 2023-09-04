@@ -59,7 +59,7 @@ public class ImgFileController {
 				imgPath = loadUrl + newInfImgFileName;
 
 				File file = new File(saveUrl + newInfImgFileName);
-
+				imgPath = "/app" + imgPath;
 				mf.transferTo(file);
 
 				if(!"local".equals(mode)) {
