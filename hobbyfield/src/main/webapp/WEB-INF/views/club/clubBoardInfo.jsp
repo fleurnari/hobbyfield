@@ -41,8 +41,8 @@
 				<div>
 					<!-- 이미지 추후 db에서 경로 가져와서 출력 -->
 					<img alt="프로필이미지" src="download/img/common.png" style="width: 50px; height: 50px;">
-					<input type="text" id="clubboardwriter" name="clubboardwriter" value="${board.clubboardwriter}" >
-					<input type="text" id="" name="clubboardwdate" value="${board.clubboardwdate}">
+					<input type="text" id="clubBoardWriter" name="clubBoardWriter" value="${board.clubBoardWriter}" >
+					<input type="text" id="" name="clubBoardWdate" value="${board.clubBoardWdate}">
 				</div>
 				<div id="editor">
 					${board.clubBoardContent}
