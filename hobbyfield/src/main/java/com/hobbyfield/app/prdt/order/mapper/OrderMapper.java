@@ -17,10 +17,12 @@ public interface OrderMapper {
 	//주문현황 조회(관리자)
 	public List<OrderVO> adminOrderList(String memberEmail);
 	
+	//주문취소
+	public void cancelOrder(int orderId);
+
 	
 	//배송상태 변경(관리자)
-	
-	void updateDelivery(@Param("orderIds") List<String> orderIds, @Param("delivery") String delivery);
+	public void updateDelivery(@Param("orderIds") List<String> orderIds, @Param("delivery") String delivery);
 
 	 
 	

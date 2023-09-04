@@ -32,14 +32,13 @@ import com.siot.IamportRestClient.IamportClient;
 public class OrderController {
 	
 	
-	
 	@Autowired
 	OrderService orderService;
 	
 	@Autowired
 	MemberService memberService;
 	
-	//주문하기
+	//주문하기(장바구니 전체)
 	@PostMapping("/orderInfo")
 	@ResponseBody
 	public String saveOrder(@RequestBody OrderVO orderVO, HttpSession session) {
@@ -95,7 +94,7 @@ public class OrderController {
 	  
 	  
 	  
-	// 주문 상태 변경 처리(관리자)
+	  // 주문 상태 변경 처리(관리자)
 	  @PostMapping("/updateDelivery")
 	  @ResponseBody
 	  public Map<String, Object> updateDelivery(@RequestBody Map<String, Object> paramMap) {
@@ -115,5 +114,19 @@ public class OrderController {
 	      
 	      return response;
 	  }
+	  
+	  //주문취소
+	  @PostMapping("/cancelOrder")
+	  @ResponseBody
+	  public String cancelOrder(@RequestParam("orderId") int orderId) {
+	        try {
+	            orderService.cancelOrder(orderId);
+	            return "success";
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return "error";
+	        }
+	    }
+	  
 	  
 }
