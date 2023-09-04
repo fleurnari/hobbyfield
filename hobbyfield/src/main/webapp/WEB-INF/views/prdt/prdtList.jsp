@@ -33,6 +33,7 @@
 					<li class="list-group-item"><a href="cartList">장바구니</a></li>
 					<li class="list-group-item"><a href="orderList">주문목록</a></li>
 					<li class="list-group-item"><a href="adminOrderList">배송관리</a></li>
+					<li class="list-group-item"><a href="${pageContext.request.contextPath}/CSboard/CSboardList">공지사항</a></li>
 				</ul>
 			</div>
 			<!-- 상품 목록 영역 -->

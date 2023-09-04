@@ -32,6 +32,9 @@
 </head>
 <body>
 	<div align="center" style="margin-top: 100px;" >
+		
+		<div>
+		</div>
 		<!-- 검색창 -->
 		<div class="search-div">
 		  <input class="search-text" type="text" id="search-text" name="" placeholder="검색어 입력">
@@ -43,6 +46,8 @@
 		<div>
 			<div>email : ${member.memberEmail}</div>
 			<div>닉네임 : ${profile.profileNickname}</div>
+			<div>club : ${club.clubName} </div>
+			<div>모임장 : ${club.profileNickname} </div>
 			<div>
 				<img src="${profile.profileImgPath}${profile.profileImg}"
 					style="width: 50px; height: 50px;">

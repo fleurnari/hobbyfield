@@ -141,6 +141,7 @@ public class MemberController {
 	public String kakaoLogin(HttpServletRequest request, RedirectAttributes rttr, @RequestParam(value = "code", required = false) String code) throws Exception {
 		HttpSession session = request.getSession();
 		String access_Token = memberService.getAccessToken(code);
+		
 		HashMap<String, Object> userInfo = memberService.getUserInfo(access_Token);
 		
 		MemberVO member = new MemberVO();
@@ -162,7 +163,8 @@ public class MemberController {
 				
 				PointRecordVO pointRecord = new PointRecordVO();
 				pointRecord.setMemberEmail(kakaoMember.getMemberEmail());
-				pointRecordService.insertLoginPoint(pointRecord);
+				pointRecord.setPointType("AB1");
+				pointRecordService.insertPointLog(pointRecord);
 				
 			}
 		
@@ -180,7 +182,7 @@ public class MemberController {
 	public String naverLogin(HttpServletRequest request, RedirectAttributes rttr, @RequestParam(value = "code", required = false) String code, @RequestParam String state) throws Exception {
 		HttpSession session = request.getSession();
 		OAuth2AccessToken access_Token = naverLoginBO.getAccessToken(session, code, state);
-		
+		System.out.println("token : " + access_Token);
 		apiResult = naverLoginBO.getUserProfile(access_Token);
 		
 	    ObjectMapper objectMapper = new ObjectMapper();
@@ -208,7 +210,8 @@ public class MemberController {
 				
 				PointRecordVO pointRecord = new PointRecordVO();
 				pointRecord.setMemberEmail(naverMember.getMemberEmail());
-				pointRecordService.insertLoginPoint(pointRecord);
+				pointRecord.setPointType("AB1");
+				pointRecordService.insertPointLog(pointRecord);
 				
 			}
 			session.setAttribute("member", naverMember);

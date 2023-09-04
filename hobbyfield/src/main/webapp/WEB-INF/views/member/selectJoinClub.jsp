@@ -93,16 +93,25 @@
 							<th align="center" width="150">카테고리</th>
 							<th align="center" width="150">모임 분류</th>
 							<th align="center" width="150">공개 여부</th>
+							<th align="center" width="150">회원 구분</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach items="${clubList}" var="club">
-							<tr onclick="location.href='${pageContext.request.contextPath}/clubInfo?clubNumber=${club.clubNumber}'">
+							<tr onclick="location.href='${pageContext.request.contextPath}/clubInfo?clubNumber=${club.clubNumber}&profileNickname=${club.profileNickname}'">
 								<td><img src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}"></td>
 								<td>${club.clubName}</td>
 								<td>${club.clubCategory}</td>
 								<td>${club.clubType}</td>
 								<td>${club.clubPublic}</td>
+								<c:choose>
+									<c:when test="${club.clubManager eq club.profileNickname}">
+										<td>모임장</td>
+									</c:when>
+									<c:otherwise>
+										<td>모임회원</td>
+									</c:otherwise>
+								</c:choose>
 							</tr>
 						</c:forEach>
 					</tbody>

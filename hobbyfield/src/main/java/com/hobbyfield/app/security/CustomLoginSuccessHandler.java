@@ -45,7 +45,8 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 			
 			PointRecordVO pointRecord = new PointRecordVO();
 			pointRecord.setMemberEmail(member.getMemberEmail());
-			pointRecordMapper.insertLoginPoint(pointRecord);
+			pointRecord.setPointType("AB1");
+			pointRecordMapper.insertPointLog(pointRecord);
 			
 		}
 		

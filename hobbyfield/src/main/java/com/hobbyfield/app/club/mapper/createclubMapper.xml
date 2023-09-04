@@ -171,7 +171,7 @@
 	
 	
 	<!-- 소모임 세부조회 -->
-	<select id="getClubInfo" resultType="CreateclubVO">
+	<select id="selectClubInfo" parameterType="CreateclubVO" resultType="CreateclubVO">
 		SELECT 
 				club_number
 			   , profile_nickname
