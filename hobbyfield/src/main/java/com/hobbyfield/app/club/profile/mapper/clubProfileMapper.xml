@@ -70,13 +70,14 @@
 	</select>
 	
 	<!-- 로그인 유저 프로필 뿌리기 -->
-	<select id="setClubProfileVO" >
-	SELECT m.member_email, p.member_email AS member_email,
-			p.profile_nickname, p.profile_img, p. profile_img_path
-	FROM member m
-	LEFT OUTER JOIN profile p ON m.member_email = p.member_email
-	WHERE p.member_email = '#{memberEmail}'
-	GROUP BY m.member_email, p.member_email, p.profile_nickname, p.profile_img,	p. profile_img_path;
+	<select id="getClubProfileVO" resultType="ClubProfileVO">
+		 SELECT  
+           p.profile_nickname, 
+           p.profile_img, 
+           p.profile_img_path
+    FROM member m
+    LEFT OUTER JOIN profile p ON m.member_email = p.member_email
+    WHERE m.member_email = #{memberEmail}
 	</select>
 	
 </mapper>

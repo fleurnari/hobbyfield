@@ -146,10 +146,20 @@ public class ClubController {
 		CreateclubVO clubVO = new CreateclubVO();
 		clubVO.setClubNumber(clubNumber);
 		CreateclubVO findVO = createClubService.getClub(clubVO);
+		
+		// 로그인한 유저의 프로필 정보 가져오기
 		MemberVO member = (MemberVO) session.getAttribute("member");
+		
+		// 로그인한 유저의 이메일을 clubProfileVO에 설정
+	    ClubProfileVO clubProfileVO = new ClubProfileVO();
+	    clubProfileVO.setMemberEmail(member.getMemberEmail());
+	    
+	    // 로그인한 유저의 프로필 정보 가져오기
+	    List<ClubProfileVO> profileInfo = clubprofileService.getClubProfileVO(clubProfileVO);
 		// 모델에 추가
+	    model.addAttribute("profile", profileInfo);
 		model.addAttribute("clubInfo", findVO);
-		System.out.println(member);
+		System.out.println(profileInfo);
 		return "club/clubInfo";
 	}
 
@@ -170,7 +180,7 @@ public class ClubController {
 
 	// 가입신청한 회원 승인
 	@PostMapping("/acceptClubMember")
-	public String acceptClubMember(@RequestParam String profileNickname, @RequestParam Integer clubNumber,
+	public String acceptClubMember(@RequestParam String profileNickname, @RequestParam int clubNumber,
 			RedirectAttributes redirectAttrs) {
 		ClubJoinVO joinVO = new ClubJoinVO();
 		joinVO.setProfileNickname(profileNickname);

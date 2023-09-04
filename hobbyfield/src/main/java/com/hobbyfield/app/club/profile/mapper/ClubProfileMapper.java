@@ -37,5 +37,6 @@ public interface ClubProfileMapper {
 	public ClubProfileVO getSessionProfile
 	(@Param("memberEmail") String memberEmail, @Param("clubNumber") int clubNumber);
 	
-	public ClubProfileVO setClubProfileVO(String memberEmail);
+	// 로그인한 유저 데이터 가져오기
+	public List<ClubProfileVO> getClubProfileVO(ClubProfileVO clubProfileVO);
 }
