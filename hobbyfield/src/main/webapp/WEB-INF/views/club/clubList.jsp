@@ -94,13 +94,13 @@
     		<button class="category-btn" data-type-code="${type.literal}">${type.literal}</button>
 		</c:forEach>
 		
-			
+		<label>${profile.profileNickname }테스트</label>	
     
 		<!-- 소모임 표시 -->    
 	
      <div id="clubContainer">
             <c:forEach items="${clubList}" var="club">
-                <div class="clubItem" onclick="location.href='clubInfo?clubNumber=${club.clubNumber}&profileNickname=${club.profileNickname}'">
+                <div class="clubItem" onclick="location.href='clubInfo?clubNumber=${club.clubNumber}'">
                     <img src="${club.clubImgPath}${club.clubImg}">
                     <div class="clubInfo">
                         <p>모임리더: ${club.profileNickname}</p>

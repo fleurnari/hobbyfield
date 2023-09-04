@@ -72,7 +72,7 @@ public class ClubController {
  		return "club/clubMain";
  	}
  	
- 	// 리스트 무한 스크롤(페이징)
+ 	// 리스트 무한 스크롤(페이징)// 데이터 로딩중 빈값 들고옴
  	@RequestMapping(value="clubInfiniteScroll", produces="application/json; charset=UTF-8")
  	public ResponseEntity<List<CreateclubVO>> clubInfiniteScroll(@RequestParam("startPage") int startPage, 
  	                                                             @RequestParam("endPage") int endPage) {
@@ -113,19 +113,15 @@ public class ClubController {
 	    return Cate;
 	}
 
-	// 소모임 세부조회 profile 동작 안함...
+	// 소모임 세부조회 
 	@GetMapping("/clubInfo")
-	public String getClubInfo(@RequestParam Integer clubNumber, HttpServletRequest request, Model model) {
-		// 세션에서 profile 정보 가져오기
-	    HttpSession session = request.getSession();
-	    ClubProfileVO profile = (ClubProfileVO) session.getAttribute("profile");
-	    // 기존의 소모임 정보 조회
+	public String getClubInfo(@RequestParam Integer clubNumber, Model model) {
+	    //소모임 정보 조회
 	    CreateclubVO clubVO = new CreateclubVO();
 	    clubVO.setClubNumber(clubNumber);
 	    CreateclubVO findVO = createClubService.getClub(clubVO);
 	    // 모델에 추가
 	    model.addAttribute("clubInfo", findVO);
-	    model.addAttribute("profile", profile);
 	    System.out.println(clubNumber);
 	    return "club/clubInfo";
 	}

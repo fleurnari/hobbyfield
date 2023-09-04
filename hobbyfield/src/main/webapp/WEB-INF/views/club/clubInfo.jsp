@@ -108,9 +108,10 @@
 				<input type="text" name="applyAnswer3"><br>
 				<input type="hidden" value="H1" name="applyStatus">
 				<input type="hidden" name="clubNumber" value="${clubInfo.clubNumber}">
-				<c:forEach items="${profile}" var="pro">
-					<option value="${pro.profilNickname}">${pro.profileNickname}</option>
-				</c:forEach>
+				<input type="hidden" name="profileNickname" value="${profile.profileNickname}">
+<%-- 				<c:forEach items="${profile}" var="pro"> --%>
+<%-- 					<option value="${pro.profilNickname}">${pro.profileNickname}</option> --%>
+<%-- 				</c:forEach> --%>
 			</div><br>
 			<button type="submit">신청</button>
 			<span class="close">&times;</span>
@@ -130,12 +131,12 @@
             <li><strong>하위 지역:</strong> ${clubInfo.subLocation}</li>
             <li><img src="${clubInfo.clubImgPath}${clubInfo.clubImg}" alt="모임 이미지"></li>
         </ul>
+	    <c:if test="${profile.profileNickName} eq ${clubInfo.profileNickname}">    
+		    <div>
+		    	<button type="button" onclick="location.href='clubManage?clubNumber=${clubInfo.clubNumber }'">소모임 가입 신청자 조회</button>
+		    </div>
+	    </c:if>
     </div>
-    <c:if test="${profile.profileNickName} eq ${clubInfo.profileNickname}">    
-	    <div>
-	    	<button type="button" onclick="location.href='clubManage?clubNumber=${clubInfo.clubNumber }'">소모임 가입 신청자 조회</button>
-	    </div>
-    </c:if>
     
      <div>
     	<button type="button" onclick="location.href='clubManage?clubNumber=${clubInfo.clubNumber}'">가입 신청한 회원</button>

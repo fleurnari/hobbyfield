@@ -67,8 +67,6 @@
 	<div align="center">
 		
 		
-			
-		
 		 <h3>
 		 	club 상위 리스트
 	          <div>
@@ -81,7 +79,7 @@
 		 <!-- 소모임 표시 -->    
 	     <div id="clubContainer"> 
 	            <c:forEach items="${clubList}" var="club">
-	                <div class="clubItem" onclick="location.href='clubInfo?clubNumber=${club.clubNumber}&profileNickname=${club.profileNickname}'">
+	                <div class="clubItem" onclick="location.href='clubInfo?clubNumber=${club.clubNumber}'">
 	                    <img src="${club.clubImgPath}${club.clubImg}">
 	                    <div class="clubInfo">
 	                        <p>모임리더: ${club.profileNickname}</p>
