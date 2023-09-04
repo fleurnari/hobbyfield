@@ -335,7 +335,22 @@ body.modal-open {
 			<form>
 				<br>
 				<hr style="border: 0; height: 1px; background: #000;">
-				<font> | 프로젝트 소개 </font>
+				<ul class="nav nav-tabs" id="myTab" role="tablist">
+  					<li class="nav-item" role="presentation">
+    				<button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">프로젝트 소개</button>
+  					</li>
+  					<li class="nav-item" role="presentation">
+    				<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">구매후기</button>
+  					</li>
+  				</ul>
+  			<div class="tab-content" id="myTabContent">
+  				<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+  					<a>${fundingPostInfo.fndContent }</a>
+  				</div>
+  				<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+  					테스트중2
+  				</div>
+			</div>
 			</form>
 			<!-- 공유하기 모달창 -->
 			<div class="container">
