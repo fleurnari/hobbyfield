@@ -439,6 +439,10 @@ public class ClubController {
 		model.addAttribute("board", cvo);
 		model.addAttribute("commentList", clubCommentService.getBoardComment(vo.getBoardNumber()));
 		
+		CreateclubVO clubVO = new CreateclubVO();
+		clubVO.setClubNumber(cvo.getClubNumber());
+		model.addAttribute("club", createClubService.getClub(clubVO));
+		
 		// 세션 객체 생성후 request의 session값 담기
 		HttpSession session = request.getSession();
 		// member객체 생성후 session 값을 member 객체에 담기 
@@ -506,19 +510,92 @@ public class ClubController {
 	}
 	
 	
-	// 댓글 수정
+	// 댓글 수정 폼
 	@GetMapping("clubCommentUpdate")
-	public String updateClubComment(ClubCommentVO clubCommentVO) {
+	public String updateClubCommentForm(Model model, ClubCommentVO clubCommentVO) {
 		ClubCommentVO findVO = clubCommentService.getComment(clubCommentVO);
-		return null;
+		model.addAttribute("comment", findVO);
+		return "clubComment/clubCommentUpdate";
+	}
+	
+	// 댓글 수정 수행
+	@PostMapping("clubCommentUpdate")
+	public boolean updateClubComment(ClubCommentVO clubCommentVO, HttpServletRequest request) {
+		
+		if (request.getParameter("clubCommentSecret").equals("on")) {
+			clubCommentVO.setClubCommentSecret("L1");
+		} else {
+			clubCommentVO.setClubCommentSecret("L2");
+		}
+		
+		int result = clubCommentService.updateComment(clubCommentVO);
+		
+		if (result == 0) {
+			return false;
+		}
+		
+		
+		return true;
 	}
 	
 	// 댓글 삭제
 	@PostMapping("clubCommentDelete")
-	public String deleteClubComment(ClubCommentVO clubCommentVO) {
-		return null;
+	public boolean deleteClubComment(ClubCommentVO clubCommentVO) {
+		
+		int result = clubCommentService.deleteComment(clubCommentVO);
+		
+		if (result == 0) {
+			return false;
+		}
+		
+		return true;
 	}
 
+	// 대댓글 작성 폼
+	@GetMapping("clubRecommentInsert")
+	public String recommentInsertForm(HttpServletRequest request, Model model) {
+		ClubCommentVO clubCommentVO = new ClubCommentVO();
+		clubCommentVO.setBoardNumber(Integer.valueOf(request.getParameter("boardNumber")));
+		clubCommentVO.setCommentNumber(Integer.valueOf(request.getParameter("commentNumber")));
+		
+		clubCommentService.getComment(clubCommentVO);
+		
+		model.addAttribute("comment", clubCommentVO);
+		
+		return "clubComment/clubRecommentInsert";
+
+	}
+	
+	// 대댓글 작성 수행
+	@PostMapping("clubRecommentInsert")
+	public int recommentInsert(ClubCommentVO clubCommentVO, HttpServletRequest request) {
+		
+		if (request.getParameter("clubCommentSecret").equals("on")) {
+			clubCommentVO.setClubCommentSecret("L1");
+		} else {
+			clubCommentVO.setClubCommentSecret("L2");
+		}
+		
+		clubCommentVO.setClubCommentPartnumber(Integer.valueOf(request.getParameter("commentNumber")));
+		clubCommentVO.setClubCommentLevel("M2");
+		
+		int result = clubCommentService.insertComment(clubCommentVO);
+		
+		if (result == 1) {
+			HttpSession session = request.getSession();
+			MemberVO mvo = (MemberVO)session.getAttribute("member");
+			clubCommentService.updateMemberPnt(mvo);
+			
+			PointRecordVO pointRecord = new PointRecordVO();
+			pointRecord.setMemberEmail(mvo.getMemberEmail());
+			pointRecord.setPointType("AB3");
+			prService.insertPointLog(pointRecord);
+		}
+
+		return result;
+		
+	
+	}
 	
 	
 	

@@ -11,9 +11,6 @@
 <meta charset="UTF-8">
 <title>소모임 게시글 상세보기</title>
 <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <style>
 	.ck.ck-editor {
@@ -52,6 +49,8 @@
 		
 		<form>
 			<input type="hidden" id="boardNumber" name="boardNumber" value="${board.boardNumber}">
+			<input type="hidden" id="commentNumber" name="commentNumber">
+			
 			<c:forEach items="${commentList}" var="comment">
 				<c:choose>
 					<c:when test="${(comment.clubCommentSecret eq 'L2') || (comment.clubCommentSecret eq 'L1' && profile.profileNickname eq board.clubBoardWriter || member.memberGrd eq 'A3'
@@ -64,13 +63,13 @@
 							<p>${comment.clubCommentContent}</p>
 							<p><fmt:formatDate value="${comment.clubCommentDate}" pattern="yyyy-MM-dd"/></p>
 							<c:if test="${comment.clubCommentLevel eq 'M1'}">
-								<button type="button">대댓</button>
+								<button type="button" onclick="recommentInsert('${comment.boardNumber}', '${comment.commentNumber}')">대댓</button>
 							</c:if>
 							<c:if test="${profile.profileNickname eq comment.profileNickname}">
-								<button type="button">수정</button>
+								<button type="button" onclick="commentUpdate(${comment.commentNumber})">수정</button>
 							</c:if>
 							<c:if test="${profile.profileNickname eq comment.profileNickname || member.memberGrd eq 'A3' || profile.profileNickname eq club.profileNickname}">
-								<button type="button">삭제</button>
+								<button type="button" onclick="commentDelete(${comment.commentNumber})">삭제</button>
 							</c:if>
 						</div>
 					</c:when>
@@ -249,6 +248,38 @@ $(document).ready(function() {
 	
 	
 });
+
+function commentUpdate(commentNumber) {
+	window.name = "parentForm";
+	window.open("clubCommentUpdate?commentNumber=" + commentNumber,
+			"clubCommentUpdate", "width=570, height=350, resizable = no, scrollbars = no");
+}
+
+
+
+function commentDelete(commentNumber) {
+	
+		$.ajax({
+  			url : 'clubCommentDelete',
+  			method : 'POST',
+  			data : {
+  					'commentNumber' : commentNumber
+  			},
+			success : function(result) {
+				if (result) {
+					alert("댓글 삭제에 성공 했습니다.");
+				}
+			}
+		});
+		
+  	}
+	
+function recommentInsert(boardNumber, commentNumber) {
+	window.name = "parentForm";
+	window.open("clubRecommentInsert?boardNumber=" + boardNumber + "&commentNumber=" + commentNumber,
+			"clubReommentInsert", "width=570, height=350, resizable = no, scrollbars = no");
+}
+
 
    
    
