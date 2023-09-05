@@ -18,7 +18,7 @@ public interface FundingSupportService {
 	public int isertFundingSupportInfo(FundingSupportVO fundingSupportVO);
 	
 	//펀딩 후원자 관리
-	public List<FundingSupportVO> supportManagement(@Param("fundingSupportVO")FundingSupportVO fundingSupportVO, @Param("scri")SearchCriteria scri);
+	public List<FundingSupportVO> supportManagement(FundingSupportVO fundingSupportVO, SearchCriteria scri);
 	
 	//펀딩 송장번호 입력
 	public int insertfundingInvoce(FundingSupportVO fundingSupportVO);

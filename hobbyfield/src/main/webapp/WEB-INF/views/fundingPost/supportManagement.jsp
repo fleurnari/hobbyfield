@@ -169,7 +169,6 @@ $('#insertfundingInvoce').on('submit', function(e){
     })
     .fail(reject => console.log(reject));
     
-    .fail(reject => console.log(reject));
 });
 
 $(document).ready(function() {

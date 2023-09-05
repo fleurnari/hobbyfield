@@ -122,7 +122,7 @@
   	</insert>
   	
   	<!-- 후원자 관리 -->
-<select id="supportManagement" resultType="FundingSupportVO" parameterType="com.hobbyfield.app.common.SearchCriteria">
+<select id="supportManagement" resultType="FundingSupportVO" >
     SELECT 
         Fnd_Support_Number,
         Fnd_Total_price,
