@@ -2,12 +2,49 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
+<%
+ String strReferer = request.getHeader("referer"); //이전 URL 가져오기
+ 
+ if(strReferer == null){
+%>
+ <script language="javascript">
+  alert("URL을 직접 입력해서 접근하셨습니다.\n정상적인 경로를 통해 다시 접근해 주세요.");
+  document.location.href="${pageContext.request.contextPath}";
+ </script>
+<%
+  return;
+ }
+%>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="resources/js/common.js"></script>
+<style type="text/css">
+.container2{
+display:flex;
+justify-content:space-between;
+flex-wrap:wrap;
+}
+
+.item {
+  width: 30%; 
+  margin-bottom: 10px; 
+}
+#img{
+	width: 333px;
+	height: 333px;
+}
+
+li {
+	list-style: none;
+	float: left;
+	padding: 6px;
+}
+</style>
+
 </head>
 <body>
 <Section>
@@ -27,9 +64,13 @@
     </div>
     <br><br><br>
     <div class="text-center">
+    <!-- 전체 리스트 다운로드 버튼 -->
+   <a href="${pageContext.request.contextPath}/downloadExcel?fndPostNumber=${fundingSupport.fndPostNumber}" class="btn btn-success"> 전체 리스트 Excel 다운로드</a>
+	</div>
+    <div class="text-center">
         <table class="table table-condensed">
             <thead>
-                <tr class=="active">
+                <tr class="active">
                     <th>후원번호</th>
                     <th>총 결제 금액</th>
                     <th>구매자 ID</th>
@@ -60,20 +101,42 @@
                         <td><input type="text" name="fndInvoice" value="${supportManagement.fndInvoice }"></td>
                         <td name="fndOrderState">${supportManagement.fndOrderState }</td>
                         <td>
-          
                                 <input type="hidden" name="fndSupportNumber" value="${supportManagement.fndSupportNumber }">
                                 <button type="submit" class="btn btn-primary">저장</button>
                             </form>
                         </td>
                     </tr>
                 </c:forEach>
+                			
             </tbody>
+            
         </table>
     </div>
+    			<div>
+							<ul >
+								<c:if test="${pageMaker.prev}">
+				    			<li><a href="supportManagement${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a></li>
+				   				 </c:if> 
+				
+				    			<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+				    			<li><a href="supportManagement${pageMaker.makeSearch(idx)}">${idx}</a></li>
+				    				</c:forEach>
+				
+				    			<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+				    			<li><a href="supportManagement${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a></li>
+				    			</c:if> 
+									</ul>
+						</div>
 </Section>
+				<input type="text" name="fndPostNumber" value="${fundingSupport.fndPostNumber}">
+				<input type="text" name="fndPostNumber" value="${fndPostNumber}">
 </body>
 <script type="text/javascript">
-$('#frm').on('submit', function(e){
+function goToNextPage() {
+    var fndPostNumber = document.getElementsByName("fndPostNumber")[0].value;
+    window.location.href = "supportManagement?fndPostNumber=" + fndPostNumber;
+}
+$('#insertfundingInvoce').on('submit', function(e){
     e.preventDefault();
     
     // 모든 input 요소 중에서 name 속성이 'fndInvoice'인 요소를 선택
@@ -98,29 +161,16 @@ $('#frm').on('submit', function(e){
         if (data.result) {
             let message = '저장되었습니다.';
             alert(message);
+            var fndPostNumber = document.getElementsByName("fndPostNumber")[0].value;
+            window.location.href = "supportManagement?fndPostNumber=" + fndPostNumber;
         } else {
             alert('저장되지 않았습니다.\n정보를 확인해주세요');
         }
     })
     .fail(reject => console.log(reject));
     
-    return false;
 });
-function serializeObject(){
-    let formData = $('form').serializeArray();
-    // serialize는 폼태그에서만 사용가능하고 
-    // 이런방식으로 [ { name : 'tilte, value='Hello'}, {name : 'writer', value : '여행자'}, ...]
 
-    let formObject = {};
-    $.each(formData, function(idx, obj){
-        let field = obj.name;
-        let val = obj.value;
-
-        formObject[field] = val;
-    })
-
-    return formObject;
-};
 $(document).ready(function() {
     // 페이지 로드 후 실행됩니다.
    $("td[name='fndOrderState']").each(function() {
