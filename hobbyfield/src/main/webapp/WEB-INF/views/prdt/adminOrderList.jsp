@@ -6,7 +6,6 @@
 <html>
 <head>
 <style type="text/css">
-  /* 스타일 시트 */
 </style>
 <link href="../resources/css/prdt/bootstrap.min.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>

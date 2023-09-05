@@ -38,14 +38,13 @@ import com.hobbyfield.app.comm.mapper.CommCodeMapper;
 import com.hobbyfield.app.comm.service.CommCodeVO;
 import com.hobbyfield.app.member.mapper.MemberMapper;
 import com.hobbyfield.app.member.service.MemberVO;
-
 import com.hobbyfield.app.point.service.EmojiVO;
 import com.hobbyfield.app.point.service.PointService;
-
+import com.hobbyfield.app.point.service.PointVO;
 import com.hobbyfield.app.pointrecord.service.PointRecordService;
 import com.hobbyfield.app.pointrecord.service.PointRecordVO;
 
-
+//@RequestMapping("/club/*")
 @Controller
 @RequestMapping("/club/*")
 public class ClubController {
@@ -83,7 +82,7 @@ public class ClubController {
 
 
 	
-	/*========= 소모임 조회관련 =========*/
+    /*========= 소모임 조회관련 =========*/
     // 소모임 전체조회(메인페이지)
  	@GetMapping("/clubMain")
  	public String clubMain(Model model) {
@@ -94,15 +93,14 @@ public class ClubController {
  	}
  	
  	// 리스트 무한 스크롤(페이징)// 데이터 로딩중 빈값 들고옴
+ 	@ResponseBody
  	@RequestMapping(value="clubInfiniteScroll", produces="application/json; charset=UTF-8")
  	public ResponseEntity<List<CreateclubVO>> clubInfiniteScroll(@RequestParam("startPage") int startPage, 
  	                                                             @RequestParam("endPage") int endPage) {
  	    HashMap<String, Integer> map = new HashMap<>();
  	    map.put("start", startPage);
  	    map.put("end", endPage);
- 	    
  	    List<CreateclubVO> scrollList = createClubService.getClubsForInfiniteScroll(map);
- 	    
  	    return new ResponseEntity<>(scrollList, HttpStatus.OK);
  	}
     
@@ -110,9 +108,15 @@ public class ClubController {
     // 소모임 전체조회(조회페이지)
 	@GetMapping("/clubList")
 	public String clubList(Model model) {
-		model.addAttribute("clubList", createClubService.getCreateClubList());
+	    HashMap<String, Integer> map = new HashMap<>();
+ 	    map.put("start", 1);
+ 	    map.put("end", 12);
+ 	    List<CreateclubVO> scrollList = createClubService.getClubsForInfiniteScroll(map);
+ 	    
 		model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); // 지역대그룹 코드
 		model.addAttribute("C", commCodeMapper.commCategoryList("0C")); // 모임카테고리 그룹코드
+		model.addAttribute("clubList", scrollList);
+		System.out.println(scrollList);
 		return "club/clubList";
 	}
 	
@@ -134,62 +138,76 @@ public class ClubController {
 	    return Cate;
 	}
 
-	// 소모임 세부조회 
-	@GetMapping("/clubInfo")
-	public String getClubInfo(@RequestParam Integer clubNumber, Model model) {
-	    //소모임 정보 조회
-	    CreateclubVO clubVO = new CreateclubVO();
-	    clubVO.setClubNumber(clubNumber);
-	    CreateclubVO findVO = createClubService.getClub(clubVO);
-	    // 모델에 추가
-	    model.addAttribute("clubInfo", findVO);
-	    System.out.println(clubNumber);
-	    return "club/clubInfo";
-	}
 	
+	// 소모임 세부조회
+	@GetMapping("/clubInfo")
+	public String getClubInfo(HttpSession session, @RequestParam Integer clubNumber, Model model) {
+		// 소모임 정보 조회
+		CreateclubVO clubVO = new CreateclubVO();
+		clubVO.setClubNumber(clubNumber);
+		CreateclubVO findVO = createClubService.getClub(clubVO);
+		
+		// 로그인한 유저의 프로필 정보 가져오기
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		
+		// 로그인한 유저의 이메일을 clubProfileVO에 설정
+	    ClubProfileVO clubProfileVO = new ClubProfileVO();
+	    clubProfileVO.setMemberEmail(member.getMemberEmail());
+	    
+	    // 로그인한 유저의 프로필 정보 가져오기
+	    List<ClubProfileVO> profileInfo = clubprofileService.getClubProfileVO(clubProfileVO);
+		// 모델에 추가
+	    model.addAttribute("profile", profileInfo);
+		model.addAttribute("clubInfo", findVO);
+		System.out.println(profileInfo);
+		return "club/clubInfo";
+	}
+
 	// 내가 생성한 소모임 조회(데이터불러오기 가능/input태그 들어가지 않음)
 	@ResponseBody
 	@GetMapping("/selectMadeClub")
 	public CreateclubVO selectMadeClub(CreateclubVO clubVO) {
-	    return createClubService.selectMadeClub(clubVO);
+		return createClubService.selectMadeClub(clubVO);
 	}
-	
+
 	// 가입신청한 소모임 회원 조회(info 또는 clubMain에서 조회) <모임장>
 	@GetMapping("/clubManage")
 	public String clubConfirmMember(ClubJoinVO clubJoinVO, Model model) {
 		List<ClubJoinVO> joinVO = clubJoinService.joinClubMemberInfo(clubJoinVO);
-		model.addAttribute("beforeMembers",joinVO);
+		model.addAttribute("beforeMembers", joinVO);
 		return "club/clubManage";
 	}
-	
-	//가입신청한 회원 승인
+
+	// 가입신청한 회원 승인
 	@PostMapping("/acceptClubMember")
-	public String acceptClubMember(@RequestParam String profileNickname, @RequestParam Integer clubNumber, RedirectAttributes redirectAttrs) {
+	public String acceptClubMember(@RequestParam String profileNickname, @RequestParam int clubNumber,
+			RedirectAttributes redirectAttrs) {
 		ClubJoinVO joinVO = new ClubJoinVO();
-	    joinVO.setProfileNickname(profileNickname);
-	    joinVO.setClubNumber(clubNumber);
-        boolean result = clubJoinService.acceptMember(joinVO);
-        if (result) {
-            redirectAttrs.addFlashAttribute("message", "수락되었습니다.");
-            return "redirect:/clubManage";
-        } else {
-            redirectAttrs.addFlashAttribute("error", "오류 발생");
-            return "redirect:/clubManage";
-        }
-    }
-	
-	//가입신청한 회원 거부
+		joinVO.setProfileNickname(profileNickname);
+		joinVO.setClubNumber(clubNumber);
+		boolean result = clubJoinService.acceptMember(joinVO);
+		if (result) {
+			redirectAttrs.addFlashAttribute("message", "수락되었습니다.");
+			return "redirect:/clubManage";
+		} else {
+			redirectAttrs.addFlashAttribute("error", "오류 발생");
+			return "redirect:/clubManage";
+		}
+	}
+
+	// 가입신청한 회원 거부
 	@PostMapping("/rejectClubMember")
-	public String rejectClubMember(@RequestParam String profileNickname, @RequestParam int clubNumber, RedirectAttributes redirectAttrs) {
-        boolean result = clubJoinService.rejectMember(profileNickname, clubNumber);
-        if (result) {
-            redirectAttrs.addFlashAttribute("message", "거절되었습니다.");
-            return "redirect:/clubManage";
-        } else {
-            redirectAttrs.addFlashAttribute("error", "오류 발생");
-            return "redirect:/clubManage";
-        }
-    }
+	public String rejectClubMember(@RequestParam String profileNickname, @RequestParam int clubNumber,
+			RedirectAttributes redirectAttrs) {
+		boolean result = clubJoinService.rejectMember(profileNickname, clubNumber);
+		if (result) {
+			redirectAttrs.addFlashAttribute("message", "거절되었습니다.");
+			return "redirect:/clubManage";
+		} else {
+			redirectAttrs.addFlashAttribute("error", "오류 발생");
+			return "redirect:/clubManage";
+		}
+	}
 	
 	/*========= 소모임 등록관련 =========*/
 	// 소모임 등록 페이지
@@ -212,11 +230,10 @@ public class ClubController {
 	public String clubInsertProcess(CreateclubVO clubVO, HttpSession session) {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		clubVO.setMemberEmail(member.getMemberEmail());
-		
+
 		createClubService.insertClubInfo(clubVO);
 		return "redirect:clubList";
 	}
-	
 
 	// 소모임 등록 - 하위지역 반응 처리(공통코드받아서)
 	@ResponseBody
@@ -263,31 +280,26 @@ public class ClubController {
 		}
 	}
 
-
-	
-	
 	// 소모임 수정 clubMadeList modal창
 	@PostMapping("/clubUpdate")
 	public String clubUpdate(CreateclubVO createclubVO){
 		createClubService.updateClub(createclubVO);
 		System.out.println(createclubVO);
-		return "redirect:clubList"; 
+		return "redirect:clubList";
 	}
-	
-		
+
 	// 소모임 가입하기 Process
 	@PostMapping("/clubJoinProcess")
 	public String clubJoinProcess(ClubJoinVO joinVO ,Model model) {
 		clubJoinService.clubJoinInfo(joinVO);
-		return "redirect:clubList"; 
+		return "redirect:clubList";
 	}
-		
-	
-	
+
 	// 소모임 삭제?
 	
 	/*========= 마이페이지 : 내가 생성한 소모임 조회 =========*/
 	// 내가 생성한 소모임 전체조회
+
 	@GetMapping("/clubMadeList")
 	public String clubMyList(CreateclubVO createclubVO ,Model model, HttpSession session) {
 		//공통코드 , ClubProfileVO clubprofileVO
@@ -295,74 +307,72 @@ public class ClubController {
 		model.addAttribute("F", commCodeMapper.selectCommsubList("0F")); // 지역소그룹 코드
 		model.addAttribute("C", commCodeMapper.commCategoryList("0C")); // 모임카테고리 그룹코드
 		model.addAttribute("D", commCodeMapper.clubTypeList("0D")); // 모임분류 그룹코드
-		
+
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		createclubVO.setMemberEmail(member.getMemberEmail());
-//		System.out.println(createclubVO); //데이터 확인용
-//		System.out.println(clubMadeList);
+//			System.out.println(createclubVO); //데이터 확인용
+//			System.out.println(clubMadeList);
 		List<CreateclubVO> clubMadeList = createClubService.getMyClubList(createclubVO);
-		
-//		clubprofileVO.setMemberEmail(member.getMemberEmail());
-//		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
-//		model.addAttribute("clubmade", findVO);
+
+//			clubprofileVO.setMemberEmail(member.getMemberEmail());
+//			List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
+//			model.addAttribute("clubmade", findVO);
 		model.addAttribute("clubMadeList", clubMadeList);
 		return "club/clubMadeList";
 	}
-	
+		
 
-	/*========= 마이페이지 개인정보 : 프로필 이미지 등록, 개인정보 조회=========*/
+	/* ========= 마이페이지 개인정보 : 프로필 이미지 등록, 개인정보 조회========= */
 
-	//프로필 개인정보 조회 : 전체조회(clubProfile)
+	// 프로필 개인정보 조회 : 전체조회(profileList)
 	@GetMapping("/profileList")
 	public String selctProfileClub(ClubProfileVO clubprofileVO, Model model, HttpSession session) {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		clubprofileVO.setMemberEmail(member.getMemberEmail());
 		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
 		model.addAttribute("getNomalMypage", findVO);
-		
+
 		return "club/profileList";
 	}
-	
-	//프로필 단건조회(clubProfile에 뿌려줌)
+
+	// 프로필 단건조회(clubProfile에 뿌려줌)
 	@ResponseBody
 	@GetMapping("/selectProfile")
 	public ClubProfileVO getProfile(ClubProfileVO clubprofileVO) {
 		System.out.println("getProfile method called with nickname: " + clubprofileVO.getProfileNickname());
-		
+
 		return clubprofileService.getProfile(clubprofileVO);
 	}
-	
+
 	//프로필 등록 Form
 	@GetMapping("/profileInsert")
 	public String profileInsertForm(Model model) {
-	    return "club/profileInsert";  // 프로필 입력 폼 페이지의 뷰 이름
+		return "club/profileInsert"; // 프로필 입력 폼 페이지의 뷰 이름
 	}
 
 	// 프로필 등록 처리
 	@PostMapping("/profileInsert")
 	public String profileInsertProcess(ClubProfileVO profileVO) {
-	    // 프로필 정보를 DB에 저장하는 서비스 메서드를 호출합니다.
+		// 프로필 정보를 DB에 저장하는 서비스 메서드를 호출합니다.
 		clubprofileService.insertProfile(profileVO);
-	    
-	    // 프로필 정보 저장 후 원하는 페이지로 리다이렉트 
-	    return "redirect:profileInsert";
+
+		// 프로필 정보 저장 후 원하는 페이지로 리다이렉트
+		return "redirect:profileInsert";
 	}
-	
-	
-	//프로필 수정 (이미지 포함)
+
+	// 프로필 수정 (이미지 포함)
 	@ResponseBody
 	@RequestMapping(value = "/updateProfile", method = RequestMethod.POST) // @PostMapping("/updateProfile")와 동일함
 	public Map<String, String> updateProfile(@RequestBody ClubProfileVO clubProfileVO) {
-	    return clubprofileService.updateProfile(clubProfileVO);
+		return clubprofileService.updateProfile(clubProfileVO);
 	}
-	
-	//프로필등록 3개제한
+
+	// 프로필등록 3개제한
 	@RequestMapping(value = "/profileCount", method = RequestMethod.POST)
 	@ResponseBody
 	public int getProfileCount(@RequestParam String email) {
-	    return clubprofileMapper.getProfileCountByEmail(email);
+		return clubprofileMapper.getProfileCountByEmail(email);
 	}
-	
 
 	/*========= 게시글 =========*/
 	
@@ -436,6 +446,10 @@ public class ClubController {
 		model.addAttribute("board", cvo);
 		model.addAttribute("commentList", clubCommentService.getBoardComment(vo.getBoardNumber()));
 		
+		CreateclubVO clubVO = new CreateclubVO();
+		clubVO.setClubNumber(cvo.getClubNumber());
+		model.addAttribute("club", createClubService.getClub(clubVO));
+		
 		// 세션 객체 생성후 request의 session값 담기
 		HttpSession session = request.getSession();
 		// member객체 생성후 session 값을 member 객체에 담기 
@@ -447,27 +461,24 @@ public class ClubController {
 		// 가져온 값을 세션에 담기
 		session.setAttribute("profile", profile);
     
-		//이모티콘 대표이미지
-		MemberVO member = (MemberVO) session.getAttribute("member");
-		model.addAttribute("emoji", pointService.firstEmojiImg(member.getMemberEmail()));
-		
-		//이모티콘 이미지 
-		//model.addAttribute("emojiTab", pointService.emojiGroup(emojiVO.getPointId()));
-		
+		//이모지 이름 가져오기
+		List<PointVO> point =  pointService.emojiGroup(mvo.getMemberEmail());
+		model.addAttribute("point", point);
+		//등록된 사진 첫번째 가져오기
+		if(point != null && point.size()>0) {
+			model.addAttribute("emojis", pointService.emojis(point.get(0).getPointId()));
+		}
 		return "club/clubBoardInfo";
 	}
-
 
 	// 이모티콘 이미지
 	@GetMapping("clubBoardInfo-sub")
 	@ResponseBody
 	public List<EmojiVO> clubBoardEmoji(HttpSession session, Model model, EmojiVO emojiVO) {
 		//이모티콘 이미지 
-		
-		return pointService.emojiGroup(emojiVO.getPointId());
+		return pointService.emojis(emojiVO.getPointId());
 	}
 
-	
 	// 댓글 등록
 	@ResponseBody
 	@PostMapping("clubCommentInsert")
@@ -498,19 +509,92 @@ public class ClubController {
 	}
 	
 	
-	// 댓글 수정
+	// 댓글 수정 폼
 	@GetMapping("clubCommentUpdate")
-	public String updateClubComment(ClubCommentVO clubCommentVO) {
+	public String updateClubCommentForm(Model model, ClubCommentVO clubCommentVO) {
 		ClubCommentVO findVO = clubCommentService.getComment(clubCommentVO);
-		return null;
+		model.addAttribute("comment", findVO);
+		return "clubComment/clubCommentUpdate";
+	}
+	
+	// 댓글 수정 수행
+	@ResponseBody
+	@PostMapping("clubCommentUpdate")
+	public boolean updateClubComment(ClubCommentVO clubCommentVO, HttpServletRequest request) {
+		
+		if (request.getParameter("clubCommentSecret").equals("on")) {
+			clubCommentVO.setClubCommentSecret("L1");
+		} else {
+			clubCommentVO.setClubCommentSecret("L2");
+		}
+		
+		int result = clubCommentService.updateComment(clubCommentVO);
+		
+		if (result == 0) {
+			return false;
+		}
+		
+		
+		return true;
 	}
 	
 	// 댓글 삭제
+	@ResponseBody
 	@PostMapping("clubCommentDelete")
-	public String deleteClubComment(ClubCommentVO clubCommentVO) {
-		return null;
+	public boolean deleteClubComment(ClubCommentVO clubCommentVO) {
+		
+		int result = clubCommentService.deleteComment(clubCommentVO);
+		
+		if (result == 0) {
+			return false;
+		}
+		
+		return true;
 	}
 
+	// 대댓글 작성 폼
+	@GetMapping("clubRecommentInsert")
+	public String recommentInsertForm(HttpServletRequest request, Model model, ClubCommentVO clubCommentVO) {
+		
+		ClubCommentVO commentVO = clubCommentService.getComment(clubCommentVO);
+		
+		model.addAttribute("comment", commentVO);
+		
+		return "clubComment/clubRecommentInsert";
+
+	}
+	
+	// 대댓글 작성 수행
+	@ResponseBody
+	@PostMapping("clubRecommentInsert")
+	public int recommentInsert(ClubCommentVO clubCommentVO, HttpServletRequest request) {
+		
+		if (request.getParameter("clubCommentSecret").equals("on")) {
+			clubCommentVO.setClubCommentSecret("L1");
+		} else {
+			clubCommentVO.setClubCommentSecret("L2");
+		}
+		
+		clubCommentVO.setClubCommentPartnumber(clubCommentVO.getCommentNumber());
+		clubCommentVO.setClubCommentLevel("M2");
+		
+		int result = clubCommentService.insertComment(clubCommentVO);
+		
+		if (result == 1) {
+			HttpSession session = request.getSession();
+			MemberVO mvo = (MemberVO)session.getAttribute("member");
+			clubCommentService.updateMemberPnt(mvo);
+			
+			PointRecordVO pointRecord = new PointRecordVO();
+			pointRecord.setMemberEmail(mvo.getMemberEmail());
+			pointRecord.setPointType("AB3");
+			prService.insertPointLog(pointRecord);
+		}
+
+		return result;
+		
+	
+	}
 	
 	
 	

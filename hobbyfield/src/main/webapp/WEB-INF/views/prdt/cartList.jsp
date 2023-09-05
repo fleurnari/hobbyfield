@@ -112,7 +112,6 @@
         <a href="<c:url value="prdtList" />" class="btn btn-secondary"> &laquo; 쇼핑 계속하기</a>
     </div>
     
-    <button onclick="requestPay()">결제하기</button> <!-- 결제하기 버튼 생성 -->
     
    <div class="orderInfo">
     
@@ -162,38 +161,6 @@
    </form>   
 </div>
 </div>
-<!-- <script>
-        var IMP = window.IMP; 
-        IMP.init("imp10078031"); 
-      
-        var today = new Date();   
-        var hours = today.getHours(); // 시
-        var minutes = today.getMinutes();  // 분
-        var seconds = today.getSeconds();  // 초
-        var milliseconds = today.getMilliseconds();
-        var makeMerchantUid = hours +  minutes + seconds + milliseconds;
-        
-
-        function requestPay() {
-            IMP.request_pay({
-                pg : 'kakaopay',
-                merchant_uid: "IMP"+makeMerchantUid, 
-                name : '당근 10kg',
-                amount : 1004,
-                buyer_email : $("#memberEmail").val(),
-                buyer_name : '테스트임 ㅋ',
-                buyer_tel : '010-1234-5678',
-                buyer_addr : '서울특별시 강남구 삼성동',
-                buyer_postcode : '123-456'
-            }, function (rsp) { // callback
-                if (rsp.success) {
-                    console.log(rsp);
-                } else {
-                    console.log(rsp);
-                }
-            });
-        }
-</script> -->
 
 <script>
 
@@ -263,8 +230,39 @@ $(document).ready(function() {
             var prdtName = $(this).closest("tr").find("td:eq(1)").text();
             selectedPrdtName.push(prdtName); // 배열에 상품명 추가
         });
-        
-        // 현재 시간을 기반으로 고유한 merchant_uid 생성
+
+        // 주문 정보를 아임포트 결제 요청에 포함
+        var orderData = {
+            memberEmail: $("#memberEmail").val(),
+            orderPhone: $("#orderPhone").val(),
+            memberZip: $("#memberZip").val(),
+            memberBaseaddr: $("#memberBaseaddr").val(),
+            memberDetaaddr: $("#memberDetaaddr").val(),
+            orderMemo: $("#orderMemo").val(),
+            prdtName: selectedPrdtName.join(','),
+            amount: ${sum},
+            iamUid: generateUniqueMerchantUid() // iam_uid 추가
+        };
+
+
+        // 아임포트 API 초기화
+        var IMP = window.IMP;
+        IMP.init("imp10078031");
+
+        // 결제 정보 생성
+        var paymentData = {
+            pg: 'kakaopay',
+            merchant_uid: orderData.iamUid, // iam_uid를 사용하여 결제 고유 ID 설정
+            name: orderData.prdtName,
+            amount: orderData.amount, // 결제 금액
+            buyer_email: orderData.memberEmail,
+            buyer_name: orderData.memberEmail,
+            buyer_tel: orderData.orderPhone,
+            buyer_addr: orderData.memberBaseaddr + ' ' + orderData.memberDetaaddr,
+            buyer_postcode: orderData.memberZip,
+            custom_data: JSON.stringify(orderData) // 주문 정보를 결제 요청에 추가
+        };
+
         function generateUniqueMerchantUid() {
             var now = new Date();
             var year = now.getFullYear();
@@ -285,38 +283,6 @@ $(document).ready(function() {
 
             return merchantUid;
         }
-
-        // 주문 정보를 아임포트 결제 요청에 포함
-        
-        var orderData = {
-            memberEmail: $("#memberEmail").val(),
-            orderPhone: $("#orderPhone").val(),
-            memberZip: $("#memberZip").val(),
-            memberBaseaddr: $("#memberBaseaddr").val(),
-            memberDetaaddr: $("#memberDetaaddr").val(),
-            orderMemo: $("#orderMemo").val(),
-            prdtName: selectedPrdtName.join(','),
-            amount: ${sum}
-        };
-
-        // 아임포트 API 초기화
-        var IMP = window.IMP;
-        IMP.init("imp10078031");
-
-        // 결제 정보 생성
-        var merchantUid = generateUniqueMerchantUid();
-        var paymentData = {
-            pg: 'kakaopay', 
-            merchant_uid: 'merchantUid', // 고유한 주문 ID( 중복 결제 방지)
-            name: 'orderData.prdtName',
-            amount: orderData.amount, // 결제 금액
-            buyer_email: orderData.memberEmail,
-            buyer_name: orderData.memberEmail,
-            buyer_tel: orderData.orderPhone,
-            buyer_addr: orderData.memberBaseaddr + ' ' + orderData.memberDetaaddr,
-            buyer_postcode: orderData.memberZip,
-            custom_data: JSON.stringify(orderData) // 주문 정보를 결제 요청에 추가
-        };
 
         // 결제 요청
         IMP.request_pay(paymentData, function(response) {
@@ -342,8 +308,6 @@ $(document).ready(function() {
             } else {
                 console.log("결제 실패");
                 console.log(response);
-
-                // 결제 실패 시 사용자에게 알림을 표시하거나 실패 처리를 수행
             }
         });
     });

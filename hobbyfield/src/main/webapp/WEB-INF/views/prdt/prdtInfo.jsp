@@ -5,6 +5,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+    .rating-stars {
+        color: #FFD700; /* 부드러운 노란색을 사용 */
+    }
+</style>
 <link href="<c:url value="/resources/css/bootstrap.min.css"/>"
     rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
@@ -67,6 +72,9 @@
                 <input type="radio" name="category" value="상품문의" id="category2">
                 <label for="category2">상품문의</label>
             </div>
+            <div class="input_area">
+			    <input type="number" name="rating" id="rating" min="1" max="5" step="1">
+			</div>
             <div class="input_area">
             	<input type="text" name="reviewTitle" id="reviewTitle" placeholder="리뷰 제목">
         	</div>
@@ -134,25 +142,31 @@
         </ul>
 		</div>
 		
-				<!-- 모달 창(후기 수정) -->
-<div id="updateReviewModal" class="modal">
-    <div class="modal-content">
-        <span class="close" id="closeUpdateReviewModal">&times;</span>
-        <h4 class="modal-title">후기 수정</h4>
-        <form id="updateReviewForm">
-            <input type="hidden" name="reviewId" id="updateReviewId">
-            <div class="input_area">
-                <input type="text" name="reviewTitle" id="updateReviewTitle" placeholder="후기 제목">
-            </div>
-            <div class="input_area">
-                <textarea name="reviewContent" id="updateReviewContent"></textarea>
-            </div>
-            <div class="input_area">
-                <button type="button" id="updateReview_btn">수정하기</button>
-            </div>
-        </form>
-    </div>
-</div>
+		
+			<div id="commentList">
+			  <!-- 여기에 댓글이 동적으로 추가. -->
+			</div>
+		
+				
+	<!-- 모달 창(후기 수정) -->
+	<div id="updateReviewModal" class="modal">
+	    <div class="modal-content">
+	        <span class="close" id="closeUpdateReviewModal">&times;</span>
+	        <h4 class="modal-title">후기 수정</h4>
+	        <form id="updateReviewForm">
+	            <input type="hidden" name="reviewId" id="updateReviewId">
+	            <div class="input_area">
+	                <input type="text" name="reviewTitle" id="updateReviewTitle" placeholder="후기 제목">
+	            </div>
+	            <div class="input_area">
+	                <textarea name="reviewContent" id="updateReviewContent"></textarea>
+	            </div>
+	            <div class="input_area">
+	                <button type="button" id="updateReview_btn">수정하기</button>
+	            </div>
+	        </form>
+	    </div>
+	</div>
 
 </body>
 <script>
@@ -250,12 +264,14 @@
          var reviewContent = $("#reviewContent").val();
          var category = $("input[name='category']:checked").val();
          var reviewTitle = $("#reviewTitle").val();
+         var rating = $("#rating").val();
          
          var data = {
         		    prdtId: prdtId,
         		    reviewTitle: reviewTitle,
         		    reviewContent: reviewContent,
         		    category: category,
+        		    rating: rating,
         		    reviewDate: new Date().toISOString() // 날짜변환
         		};
          
@@ -270,6 +286,7 @@
                  $("#reviewContent").val("");	//후기 내용 초기화
                  $("#reviewModal").css("display", "none"); // 모달 닫기
                  getReviewsByCategory(category);
+
              },
              error: function() {
                  alert("리뷰 작성에 실패하였습니다.");
@@ -294,70 +311,168 @@ function appendButtonsToReviewItem(reviewItem) {
     reviewItem.appendChild(updateButton);
 }
 
-$(document).ready(function() {
-    // 페이지 로딩 시에 '후기' 출력
-    getReviewsByCategory('후기');
-    $(".categoryBtn").click(function() {
-        var category = $(this).data("category");
-        var prdtId = $("#prdtId").val();
-        getReviewsByCategory(category, prdtId);
-    });
 
-    function getReviewsByCategory(category, prdtId) {
-        $.ajax({
-            url: 'getReviewsByCategory',
-            method: 'POST',
-            data: { category: category, prdtId: prdtId },
-            dataType: 'json',
-            success: function(data) {
-                var reviewList = data;
-                var reviewListContainer = $('#categoryReviewList').find('ul.list-group');
-                reviewListContainer.empty(); // 기존 데이터 초기화
-                for (var i = 0; i < reviewList.length; i++) {
-                    var review = reviewList[i];
-                    var reviewDate = new Date(review.reviewDate);
-                    var options = { year: 'numeric', month: 'long', day: 'numeric' };
-                    var formattedDate = reviewDate.toLocaleDateString('ko-KR', options);
-                    var reviewListItem = document.createElement("li");
-                    reviewListItem.className = "list-group-item";
-                    reviewListItem.dataset.reviewId = review.reviewId; // 리뷰 ID 설정 (필요한 경우)
-                    reviewListItem.innerHTML = '<h5 class="mb-1">' + review.reviewTitle + '</h5>' +
-                        '<small class="text-muted">' + review.memberEmail + ' | ' + formattedDate + '</small>' +
-                        '<p class="mb-1">' + review.reviewContent + '</p>';
-                    
-                    // 후기 목록 아이템에 버튼 추가
-                    appendButtonsToReviewItem(reviewListItem);
-
-                    reviewListContainer.append(reviewListItem);
-                }
-            }
-        });
-    }
-
-    $(document).on("click", ".deleteRv_btn", function () {
-        let deleteChk = confirm("이 글을 삭제하시겠습니까?");
-        if (deleteChk) {
-            var reviewItem = $(this).closest("li");
-            var reviewId = reviewItem.data("review-id");
-            $.ajax({
-                url: "deleteReview",
-                type: "post",
-                data: { reviewId: reviewId },
-                success: function (result) {
-                    if (result === "success") {
-                        alert("리뷰가 삭제되었습니다.");
-                        reviewItem.remove(); 
-                    } else {
-                        alert("리뷰 삭제에 실패했습니다.");
-                    }
-                },
-                error: function () {
-                    alert("서버 오류로 인해 리뷰 삭제에 실패했습니다.");
-                },
-            });
-        }
-    });
-    });
+	//후기
+	$(document).ready(function() {
+	    // 페이지 로딩 시에 '후기'에 해당하는 후기 먼저 출력
+	    getReviewsByCategory('후기');
+	    $(".categoryBtn").click(function() {
+	        var category = $(this).data("category");
+	        var prdtId = $("#prdtId").val();
+	        
+	        console.log("카테",category);
+	        console.log("상품번호",prdtId);
+	        getReviewsByCategory(category, prdtId);
+	    });
+	
+	    
+	    
+	    function getReviewsByCategory(category) {
+	    	  $.ajax({
+	    	    url: 'getReviewsByCategory',
+	    	    method: 'POST',
+	    	    data: { category: category },
+	    	    dataType: 'json',
+	    	    success: function (data) {
+	    	      var reviewList = data;
+	    	      var reviewListContainer = $('#categoryReviewList').find('ul.list-group');
+	    	      reviewListContainer.empty(); // 기존 데이터 초기화
+	
+	    	      for (var i = 0; i < reviewList.length; i++) {
+	    	        var review = reviewList[i];
+	    	        var reviewDate = new Date(review.reviewDate);
+	    	        var options = { year: 'numeric', month: 'long', day: 'numeric' };
+	    	        var formattedDate = reviewDate.toLocaleDateString('ko-KR', options);
+	    	        var reviewListItem = document.createElement("li");
+	    	        reviewListItem.className = "list-group-item";
+	
+	    	        // 별점 계산 및 HTML 생성
+	    	        var ratingHtml = calculateRatingHtml(review.rating);
+	
+	    	        var commentInputHtml = '<div class="input_area">' +
+	    	          '<textarea name="commentContent" id="commentContent_' + review.reviewId + '" placeholder="내용을 입력하세요"></textarea>' +
+	    	          '</div>' +
+	    	          '<button type="button" class="writeComment_btn" data-review-id="' + review.reviewId + '">댓글 작성</button>';
+	
+	    	        reviewListItem.innerHTML = '<h5 class="mb-1">' + review.reviewTitle + '</h5>' +
+	    	          '<small class="text-muted">' + review.memberEmail + ' | ' + formattedDate + '</small>' +
+	    	          '<p class="mb-1">' + review.reviewContent + '</p>' +
+	    	          '<div class="rating-stars">' + ratingHtml + '</div>'
+	    	          + commentInputHtml;
+	
+	    	        // 후기 목록 아이템에 버튼 추가
+	    	        appendButtonsToReviewItem(reviewListItem);
+	
+	    	        reviewListContainer.append(reviewListItem);
+	
+	    	        // 리뷰 아이템에 대한 댓글을 가져오고 표시
+	    	        getCommentsByReviewId(review.reviewId);
+	    	      }
+	    	    }
+	    	  });
+	    	}
+		
+	    
+	    function getCommentsByReviewId(reviewId) {
+	    	  $.ajax({
+	    	    url: 'readComment',
+	    	    type: 'POST',
+	    	    data: { reviewId: reviewId },
+	    	    dataType: 'json',
+	    	    success: function (comments) {
+	
+	    	      var commentList = $('#commentList'); 
+	
+	    	      comments.forEach(function (comment) {
+	    	      var commentHtml = '<li>' +
+	    	      '<p>' + comment.commentContent + '</p>' +
+	              '<p class="comment-author">작성자: ' + comment.memberEmail + '</p>' +
+	              '<p class="comment-date">작성일: ' + comment.formattedDate + '</p>' +
+	              '</li>';
+	    	        commentList.append(commentHtml);
+	    	      });
+	    	    },
+	    	    error: function () {
+	    	      alert('댓글을 가져오는 데 실패했습니다.');
+	    	    }
+	    	  });
+	    	}
+	    
+	    
+	    
+	    // 별점 계산
+	    function calculateRatingHtml(rating) {
+	        var ratingHtml = '';
+	        for (var i = 0; i < 5; i++) {
+	            if (i < rating) {
+	                ratingHtml += '<span class="rating-stars">\u2605</span>'; // 채워진 별 아이콘
+	            } else {
+	                ratingHtml += '<span class="rating-stars">\u2606</span>'; // 비어있는 별 아이콘
+	            }
+	        }
+	        return ratingHtml;
+	    }
+	    
+	    
+	 	// 댓글 작성 버튼에 대한 이벤트 핸들러를 추가합니다.
+	    $(document).on("click", ".writeComment_btn", function () {
+	        // 해당 리뷰의 ID를 가져옵니다.
+	        var reviewId = $(this).data("review-id");
+	
+	        // 해당 리뷰의 댓글 내용을 가져옵니다.
+	        var commentContent = $("#commentContent_" + reviewId).val();
+	
+	        // 필요한 데이터를 준비합니다.
+	        var data = {
+	            reviewId: reviewId,
+	            commentContent: commentContent
+	        };
+	
+	        // AJAX 요청을 보냅니다.
+	        $.ajax({
+	            url: "writeComment", // 댓글 작성을 처리할 서버 엔드포인트
+	            type: "post",
+	            contentType: "application/json",
+	            data: JSON.stringify(data),
+	            success: function (result) {
+	                if (result === "success") {
+	                    alert("댓글이 작성되었습니다.");
+	                } else {
+	                    alert("댓글 작성에 실패했습니다.");
+	                }
+	            },
+	            error: function () {
+	                alert("서버 오류로 인해 댓글 작성에 실패했습니다.");
+	            }
+	        });
+	    });
+		
+	    
+	    // 삭제
+	    $(document).on("click", ".deleteRv_btn", function () {
+	        let deleteChk = confirm("이 글을 삭제하시겠습니까?");
+	        if (deleteChk) {
+	            var reviewItem = $(this).closest("li");
+	            var reviewId = reviewItem.data("review-id");
+	            $.ajax({
+	                url: "deleteReview",
+	                type: "post",
+	                data: { reviewId: reviewId },
+	                success: function (result) {
+	                    if (result === "success") {
+	                        alert("리뷰가 삭제되었습니다.");
+	                        reviewItem.remove(); 
+	                    } else {
+	                        alert("리뷰 삭제에 실패했습니다.");
+	                    }
+	                },
+	                error: function () {
+	                    alert("서버 오류로 인해 리뷰 삭제에 실패했습니다.");
+	                },
+	            });
+	        }
+	    });
+	 });
 </script>
 
 <script>

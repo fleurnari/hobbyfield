@@ -184,29 +184,22 @@
 
 	<!-- 이모티콘 -->
 
-	<!-- 이모티콘 대표이미지 -->
-	<select id="firstEmojiImg" resultType="EmojiVO">
+	<!-- 이모티콘 -->
+	<select id="emojiGroup" resultType="PointVO">
 		SELECT a.point_id, a.point_name, b.point_item_type
 		FROM   point a
 	    JOIN MYITEM b ON(a.point_id = b.point_id)
 	    WHERE member_email = #{memberEmail}
+	    AND a.point_item_type = 'W1'
+	    AND (myitem_purcdt +  ( CASE myitem_useterm WHEN 0 THEN 365*30 ELSE myitem_useterm END)) > SYSDATE
 	</select>	
 
-	<!-- 이모티콘 이미지 그룹 -->
-<!-- 	<select id="emojiGroup" resultType="EmojiVO"> -->
-<!-- 		 SELECT point_id, emoji_img_name, emoji_img_path -->
-<!-- 	     FROM emoji -->
-<!-- 	     WHERE point_id = #{pointId} -->
-<!-- 	</select> -->
 
-	<select id="emojiGroup" resultType="PointVO">
+	<select id="emojis" resultType="EmojiVO">
 		SELECT a.point_id, b.emoji_img_name, b.emoji_img_path
 		FROM point a
 		JOIN EMOJI b ON(a.point_id = b.point_id)
-		WHERE point_id = #{pointId}
-
+		WHERE a.point_id = #{pointId}
 	</select>
-
-
 
 </mapper>

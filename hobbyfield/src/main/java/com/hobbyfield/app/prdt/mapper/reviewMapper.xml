@@ -6,8 +6,8 @@
   	
 	<!-- 리뷰 작성 -->
 	<insert id="writeReview">
-	    INSERT INTO review (review_id, prdt_id, category, member_email, review_content, review_title)
-	    VALUES (review_seq.nextval, #{prdtId}, #{category}, #{memberEmail}, #{reviewContent}, #{reviewTitle})
+	    INSERT INTO review (review_id, prdt_id, category, member_email, review_content, review_title, rating)
+	    VALUES (review_seq.nextval, #{prdtId}, #{category}, #{memberEmail}, #{reviewContent}, #{reviewTitle}, #{rating})
 	</insert>
 	
 	<!--카테고리별 리뷰  -->
@@ -29,4 +29,25 @@
     WHERE review_id = #{reviewId}
 	</update>
 	
+	
+	<!--댓글 작성  -->
+    <insert id="wrtieComment" parameterType="CommentVO">
+      INSERT INTO review_comment (comment_id, review_id, member_email, comment_content, parent_comment_id)
+      VALUES (comment_seq.nextval, #{reviewId}, #{memberEmail}, #{commentContent}, #{parentCommentId})
+    </insert>
+    
+    <!--댓글 목록조회  -->
+     <select id="readComment" resultType="CommentVO">
+        SELECT *
+        FROM review_comment
+        WHERE review_id = #{reviewId}
+        ORDER BY review_id DESC
+    </select>
+    
+    <!--댓 상세보기  -->
+    <select id="getCommnet" resultType="CommentVO">
+        SELECT comment_id, review_id, comment_content, member_email, comment_date
+        FROM review_commnet
+        WHERE review_id = #{reviewId}
+    </select>
   </mapper>

@@ -73,8 +73,8 @@ body {
 		<h1 class="title">공지사항</h1>
 		<button type="button" onclick="location.href='insertNotice'"
 			class="write-button">등록</button>
-<!-- 		<!-- JSP 파일에서 페이징 및 검색 결과를 화면에 표시 --> -->
-<!-- 		<!-- 페이지 링크 --> -->
+ 		<!-- JSP 파일에서 페이징 및 검색 결과를 화면에 표시 --> 
+ 		<!-- 페이지 링크 --> 
 <!-- 		<div class="pagination"> -->
 <%-- 			<c:if test="${pageMaker.prev}"> --%>
 <%-- 				<a href="${pageMaker.makeQuery(pageMaker.startPage - 1)}">이전</a> --%>
@@ -88,7 +88,7 @@ body {
 <%-- 			</c:if> --%>
 <!-- 		</div> -->
 
-<!-- 		<!-- 검색 폼 --> -->
+ 		<!-- 검색 폼 --> 
 <!-- 		<div class="search-form"> -->
 <%-- 			<form action="${pageMaker.makeSearch(1)}" method="get"> --%>
 <!-- 				<select name="searchType"> -->

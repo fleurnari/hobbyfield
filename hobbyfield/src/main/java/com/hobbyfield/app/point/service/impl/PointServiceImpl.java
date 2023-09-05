@@ -108,15 +108,16 @@ public class PointServiceImpl implements PointService {
 
 	//이모티콘 대표이미지
 	@Override
-	public List<EmojiVO> firstEmojiImg(String memberEmail) {
+	public List<PointVO> emojiGroup(String memberEmail) {
+		List<PointVO> points = pointMapper.emojiGroup(memberEmail);
 		
-		return pointMapper.firstEmojiImg(memberEmail);
+		return points;
 	}
 
 	//이모티콘 이미지 그룹
 	@Override
-	public List<EmojiVO> emojiGroup(int pointId) {
-		return pointMapper.emojiGroup(pointId);
+	public List<EmojiVO> emojis(int pointId) {
+		return pointMapper.emojis(pointId);
 	}
 
 

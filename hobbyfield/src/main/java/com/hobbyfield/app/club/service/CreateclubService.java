@@ -49,3 +49,4 @@ public interface CreateclubService {
 	public List<CreateclubVO> getClubsForInfiniteScroll(Map<String, Integer> map);
 
 }
+

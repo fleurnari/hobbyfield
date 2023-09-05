@@ -51,8 +51,10 @@
 				SCHEDULE_DATE,                    
 				CLUB_BOARD_BLIND,
 				p.PROFILE_IMG_PATH,
-                p.PROFILE_IMG
-		FROM CLUB_BOARD c JOIN PROFILE p ON(c.CLUB_BOARD_WRITER = p.PROFILE_NICKNAME)     
+                p.PROFILE_IMG,
+                m.MEMBER_EMAIL
+		FROM CLUB_BOARD c JOIN PROFILE p ON(c.CLUB_BOARD_WRITER = p.PROFILE_NICKNAME) 
+						  JOIN MEMBER m ON (p.MEMBER_EMAIL = m.MEMBER_EMAIL)    
 		WHERE board_number = #{boardNumber} 
   	</select>
   	

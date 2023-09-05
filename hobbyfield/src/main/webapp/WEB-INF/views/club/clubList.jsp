@@ -93,11 +93,8 @@
 		<c:forEach items="${C}" var="type" >
     		<button class="category-btn" data-type-code="${type.literal}">${type.literal}</button>
 		</c:forEach>
-		
-		<label>${profile.profileNickname}테스트</label>	
-    
+ 
 		<!-- 소모임 표시 -->    
-	
      <div id="clubContainer">
             <c:forEach items="${clubList}" var="club">
                 <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${club.clubNumber}'">
@@ -122,9 +119,7 @@
 
 <script type="text/javascript">
 
-	var startPage = 1; // 현재 페이지 번호
-	var endPage = 12;
-	var currentPage = 1;  // 현재 페이지 번호 초기화
+	var currentPage = 2;  // 현재 페이지 번호 초기화
 	var pageSize = 12;    // 페이지 크기 초기화
 	var isLoading = false; // 중복 요청을 확인
 
@@ -149,16 +144,17 @@
 	            $.each(Cate, function(index, club) {
 	                //각 소모임의 정보를 표시하는 코드 
 	                $('#clubContainer').append(`
-	                    <div class="clubItem" onclick="location.href='clubBoardList?clubNumber=${club.clubNumber}'">
-	                        <img src="${club.clubImgPath}${club.clubImg}">
+
+	                    <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${club.clubNumber}'">
+	                        <img src="${pageContext.request.contextPath}/${club.clubImgPath}/${club.clubImg}">
 	                        <div class="clubInfo">
-	                            <p>모임리더: ${club.profileNickname}</p>
-	                            <p>모임이름: ${club.clubName}</p>
-	                            <p>카테고리: ${club.clubCategory}</p>
-	                            <p>분류: ${club.clubType}</p>
-	                            <p>소개글: ${club.clubInfo}</p>
-	                            <p>광역시: ${club.majorLocation}</p>
-	                            <p>구: ${club.subLocation}</p>
+	                            <p>모임리더: \${club.profileNickname}</p>
+	                            <p>모임이름: \${club.clubName}</p>
+	                            <p>카테고리: \${club.clubCategory}</p>
+	                            <p>분류: \${club.clubType}</p>
+	                            <p>소개글: \${club.clubInfo}</p>
+	                            <p>광역시: \${club.majorLocation}</p>
+	                            <p>구: \${club.subLocation}</p>
 	                        </div>
 	                    </div>
 	                `);
@@ -192,16 +188,16 @@
 	            $.each(clubs, function(index, club) {
 	                //각 소모임의 정보를 표시하는 코드 
 	                $('#clubContainer').append(`
-	                    <div class="clubItem" onclick="location.href='clubBoad?clubNumber=${club.clubNumber}&profileNickname=${club.profileNickname}'">
-	                        <img src="${pageContext.request.contextPath}${club.clubImgPath}${club.clubImg}">
+	                    <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/clubclubBoardList?clubNumber=${club.clubNumber}">
+	                        <img src="${pageContext.request.contextPath}/${club.clubImgPath}/${club.clubImg}">
 	                        <div class="clubInfo">
-	                            <p>모임리더: ${club.profileNickname}</p>
-	                            <p>모임이름: ${club.clubName}</p>
-	                            <p>카테고리: ${club.clubCategory}</p>
-	                            <p>분류: ${club.clubType}</p>
-	                            <p>소개글: ${club.clubInfo}</p>
-	                            <p>광역시: ${club.majorLocation}</p>
-	                            <p>구: ${club.subLocation}</p>
+	                            <p>모임리더: \${club.profileNickname}</p>
+	                            <p>모임이름: \${club.clubName}</p>
+	                            <p>카테고리: \${club.clubCategory}</p>
+	                            <p>분류: \${club.clubType}</p>
+	                            <p>소개글: \${club.clubInfo}</p>
+	                            <p>광역시: \${club.majorLocation}</p>
+	                            <p>구: \${club.subLocation}</p>
 	                        </div>
 	                    </div>
 	                `);
@@ -218,7 +214,7 @@
 
 
 
-	//페이징(임시)
+	//페이징
 	$(window).off('scroll').on('scroll', function() {
 	    if (!isLoading && $(window).scrollTop() + $(window).height() == $(document).height()) {
 	        isLoading = true; // 요청 시작 전 플래그 설정
@@ -238,16 +234,17 @@
 	                if (clubs.length > 0) {
 	                    $.each(clubs, function(index, club) {
 	                        $('#clubContainer').append(`
-	                            <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/clubBoardList?clubNumber=${club.clubNumber}&profileNickname=${club.profileNickname}'">
-	                                <img src="${club.clubImgPath}${club.clubImg}">
+
+	                            <div class="clubItem" onclick="location.href='clubInfo?clubNumber=\${club.clubNumber}'">
+	                                <img src="${pageContext.request.contextPath}/${club.clubImgPath}/${club.clubImg}">
 	                                <div class="clubInfo">
-	                                    <p>모임리더: ${club.profileNickname}</p>
-	                                    <p>모임이름: ${club.clubName}</p>
-	                                    <p>카테고리: ${club.clubCategory}</p>
-	                                    <p>분류: ${club.clubType}</p>
-	                                    <p>소개글: ${club.clubInfo}</p>
-	                                    <p>광역시: ${club.majorLocation}</p>
-	                                    <p>구: ${club.subLocation}</p>
+	                                    <p>모임리더: \${club.profileNickname}</p>
+	                                    <p>모임이름: \${club.clubName}</p>
+	                                    <p>카테고리: \${club.clubCategory}</p>
+	                                    <p>분류: \${club.clubType}</p>
+	                                    <p>소개글: \${club.clubInfo}</p>
+	                                    <p>광역시: \${club.majorLocation}</p>
+	                                    <p>구: \${club.subLocation}</p>
 	                                </div>
 	                            </div>
 	                        `);

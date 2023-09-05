@@ -67,11 +67,9 @@
  		UPDATE club_comment
  		<set>
  			<if test="clubCommentContent != null and !clubCommentContent.equals('')">
- 				club_comment_content = #{clubCommentContent}
+ 				club_comment_content = #{clubCommentContent},
  			</if>
- 			<if test="clubCommentSecret != null and !clubCommentSecret.equals('')">
  				club_comment_secret = #{clubCommentSecret}
- 			</if> 
  		</set>
  		WHERE comment_number = #{commentNumber}
  	</update>

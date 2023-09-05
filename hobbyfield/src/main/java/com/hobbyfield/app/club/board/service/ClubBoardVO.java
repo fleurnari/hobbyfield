@@ -30,4 +30,7 @@ public class ClubBoardVO {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date scheduleDate;
 	private String clubBoardBlind;
+	
+	private String memberEmail;
+	
 }
