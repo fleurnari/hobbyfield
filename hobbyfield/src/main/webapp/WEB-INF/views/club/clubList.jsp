@@ -93,11 +93,12 @@
 		<c:forEach items="${C}" var="type" >
     		<button class="category-btn" data-type-code="${type.literal}">${type.literal}</button>
 		</c:forEach>
- 
+    
+    
 		<!-- 소모임 표시 -->    
      <div id="clubContainer">
             <c:forEach items="${clubList}" var="club">
-                <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${club.clubNumber}'">
+                <div class="clubItem" onclick="location.href='/club/clubBoardList?clubNumber=${club.clubNumber}'">
                     <img src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}">
                     <div class="clubInfo">
                         <p>모임리더: ${club.profileNickname}</p>
@@ -144,9 +145,8 @@
 	            $.each(Cate, function(index, club) {
 	                //각 소모임의 정보를 표시하는 코드 
 	                $('#clubContainer').append(`
-
-	                    <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${club.clubNumber}'">
-	                        <img src="${pageContext.request.contextPath}/${club.clubImgPath}/${club.clubImg}">
+	                    <div class="clubItem" onclick="location.href='club/clubBoardList?clubNumber=\${club.clubNumber}'">
+	                        <img src="${club.clubImgPath}\${club.clubImg}">
 	                        <div class="clubInfo">
 	                            <p>모임리더: \${club.profileNickname}</p>
 	                            <p>모임이름: \${club.clubName}</p>
@@ -167,12 +167,14 @@
 	    });
 	});
 
+	
+
+	   
 
 	//소모임 종류 정렬
 	//지역 버튼 클릭 이벤트 핸들러
 	$(document).on('click', '.region-btn', function() {
 	    const majorLocation = $(this).data('region-code');
-	
 	    // 서버에 지역 코드 전송
 	    $.ajax({
 	    	url: "${pageContext.request.contextPath}/club/getClubsByRegion",
@@ -188,8 +190,8 @@
 	            $.each(clubs, function(index, club) {
 	                //각 소모임의 정보를 표시하는 코드 
 	                $('#clubContainer').append(`
-	                    <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubclubBoardList?clubNumber=${club.clubNumber}">
-	                        <img src="${pageContext.request.contextPath}/${club.clubImgPath}/${club.clubImg}">
+	                    <div class="clubItem" onclick="location.href='/club/clubBoardList?clubNumber=\${club.clubNumber}'">
+	                        <img src="\${club.clubImgPath}\${club.clubImg}">
 	                        <div class="clubInfo">
 	                            <p>모임리더: \${club.profileNickname}</p>
 	                            <p>모임이름: \${club.clubName}</p>
@@ -220,7 +222,7 @@
 	        isLoading = true; // 요청 시작 전 플래그 설정
 
 	        $.ajax({
-	            url: "${pageContext.request.contextPath}/club/clubInfiniteScroll",
+	            url: "${pageContext.request.contextPath}club/clubInfiniteScroll",
 	            data: {
 	            	 startPage: (currentPage - 1) * pageSize + 1,  // 예: 1, 11, 21...
 	                 endPage: currentPage * pageSize               // 예: 10, 20, 30...
@@ -234,9 +236,8 @@
 	                if (clubs.length > 0) {
 	                    $.each(clubs, function(index, club) {
 	                        $('#clubContainer').append(`
-
-	                            <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubInfo?clubNumber=\${club.clubNumber}'">
-	                                <img src="${pageContext.request.contextPath}/${club.clubImgPath}/${club.clubImg}">
+	                            <div class="clubItem" onclick="location.href='/club/clubInfo?clubNumber=\${club.clubNumber}'">
+	                                <img src="\${club.clubImgPath}\${club.clubImg}">
 	                                <div class="clubInfo">
 	                                    <p>모임리더: \${club.profileNickname}</p>
 	                                    <p>모임이름: \${club.clubName}</p>

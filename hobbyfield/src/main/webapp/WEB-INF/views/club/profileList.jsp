@@ -9,10 +9,68 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club/insertclub.css">
 <title>프로필 유저정보</title>
 <style type="text/css">
-.images{
-	width: 200px;
-	height: 150px;
-}
+	.images{
+		width: 200px;
+		height: 150px;
+	}
+
+	/*모달창 */
+    /* ... 기존 스타일 ... */
+   .club-modal {
+	    visibility: hidden;
+	    position: fixed;
+	    top: 0;
+	    left: 0;
+	    width: 100%;
+	    height: 100%;
+	    background-color: rgba(0,0,0,0.5);
+	    z-index: 1000;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    overflow-y: auto;  /* 스크롤 추가 */
+	}
+
+    .modal-body {
+	    width: 70%;  /* 너비 조정 */
+	    background-color: white;
+	    padding: 40px 40px 60px 40px;  /* 패딩을 조정하여 내용이 적절히 들어갈 수 있도록 합니다. */
+	    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	    border-radius: 10px;
+	    z-index: 1001;
+	    overflow-y: auto;  /* 내용이 많을 때 스크롤 추가 */
+	    position: relative;
+	}
+
+    /* 모달 닫기 버튼 (선택) */
+    .close {
+	    position: absolute;  /* 버튼의 위치를 모달 내부에 절대적으로 설정 */
+	    top: 15px;  /* 상단으로부터의 거리 */
+	    right: 15px;  /* 오른쪽으로부터의 거리 */
+	    cursor: pointer;
+	    font-size: 24px;
+	    z-index: 1002;
+	    color: black;
+	    background-color: white;  /* 버튼의 배경색을 흰색으로 설정 (필요에 따라 조정) */
+	    border-radius: 50%;  /* 버튼을 원형으로 만들기 위해 설정 */
+	    padding: 5px 10px;  /* 버튼 내부의 패딩 조정 */
+	    line-height: 1;  /* 아이콘의 세로 정렬을 위해 설정 */
+	    border: 1px solid #ddd;  /* 버튼의 테두리 설정 (필요에 따라 조정) */
+	}
+	
+	.update-button {
+	    position: absolute;  
+	    bottom: 20px;
+	    right: 20px;
+	    z-index: 1002;  
+	    background-color: blue;  /* 버튼의 배경색을 파란색으로 설정 */
+	    color: white;  /* 버튼의 텍스트 색상을 흰색으로 설정 */
+	    padding: 10px 20px;  /* 버튼의 패딩 조정 */
+	    border-radius: 5px;  /* 버튼의 모서리 둥글게 설정 */
+	    border: none;  /* 버튼의 테두리 제거 */
+	    cursor: pointer;  /* 버튼에 마우스 오버 시 포인터 아이콘으로 변경 */
+	}
+
 
 </style>
 <script type="text/javascript" src="resources/js/common.js"></script>
@@ -30,14 +88,15 @@
 						</tr>
 					</thead>
 					<c:forEach items="${getNomalMypage}" var="profile">
-					<tbody>
-						<tr onclick="fetchProfileDetails(this.value)">
-							<td>
-							${profile.profileNickname}
-							</td>
-							<td>
-							${profile.clubName}
-							</td>
+					<tbody class="table-hover">
+<!-- 						<tr onclick="selectProfile(this.value)"> -->
+						<tr data-profile-nickname="${profile.profileNickname }"
+							data-club-img="${profile.profileImg }"
+							data-club-imgPath="${profile.profileImgPath }"	
+							data-member-email="${profile.memberEmail }"	
+							class="open-modal">
+							<td>${profile.profileNickname}</td>
+							<td>${profile.clubName}</td>
 							<td>
 							<img class="images" src="${pageContext.request.contextPath}/download/img/${profile.profileImg}${profil.profileImgPath}"/>
 							</td>	
@@ -47,32 +106,30 @@
 			</table>
 		</div>
 		
-		<!-- modal 창 -->
-		<div align="center" id="club-modal" class="club-modal">
-			<form action="updateProfile" method="POST" id="uploadForm">
-				<input class="nick_input" name="profileNickname" type="text" value="${profile.profileNickname }"> 
-				<br>
-				<span class="nick_input_re1">사용 가능한 닉네임 입니다.</span>
-		        <span class="nick_input_re2">닉네임이 이미 존재합니다.</span>
-		        <span class="final_name_ck">사용할 닉네임을 입력하세요.</span>
-				<c:if test="${not empty errorMessage}"> 
-			    <div class="error">${errorMessage}</div>
-				</c:if>
-				<!-- 이미지 선택 인풋 -->
-				<input type="file" id="imgInput" name="uploadFile" onchange="readURL(this);"/>
+		<!-- modal 창 시작 -->
+		<form action="updateProfile" method="POST" id="uploadForm">
+			<div align="center" id="club-modal" class="club-modal">
+				<div class="modal-body">
 				
-				<!-- 이미지 업로드 버튼 -->
-				<button type="button" id="uploadBtn" >Upload</button>
+				<input type="text" value="${profileNickname}" name="profileNickname" readonly>
 				
-				<!-- 이미지 미리보기 기본 이미지 -->
-				<img class=images id="preview" src="${pageContext.request.contextPath}/download/img/${profile.profileImg}${profil.profileImgPath}" alt="Profile Image"/>
-				
+					<!-- 이미지 선택 인풋 -->
+					<input type="file" id="imgInput" name="uploadFile" onchange="readURL(this);"/>
+					
+					<!-- 이미지 업로드 버튼 -->
+					<button type="button" id="uploadBtn" >Upload</button>
+					
+					<!-- 이미지 미리보기 기본 이미지 -->
+					<img class=images id="preview" src="${pageContext.request.contextPath}/download/img/${profile.profileImg}${profil.profileImgPath}" alt="Profile Image"/>
 			
-			<div>
-				<button class="join_button" id="changeImageBtn" type="submit">수정</button>
+				<div>
+					<button class="join_button" id="changeImageBtn" type="submit">수정</button>
+				</div>
+					<span class="close">&times;</span>
 			</div>
-			</form>
-		</div>
+			
+			</div>
+		</form>
 		<!-- modal 창 끝 -->
 		
 
@@ -82,62 +139,6 @@
 </section>
 	
 <script>
-	//유효성 검사 통과 유무 변수 
-	var nickCheck = false; //닉네임 
-	var nickchCheck = false; //닉네임 중복체크
-	
-	$(document).ready(function(){
-	   //프로필 등록 버튼
-	   $(".join_button").on("click", function() {
-	      
-	      //입력값 변수
-	      var nick = $('.nick_input').val(); //닉네임 입력란
-	      
-	      /* 닉네임 유효성검사 */
-	      if(nick == ""){
-	         $('.final_name_ck').css('display', 'block');
-	         nickCheck = false;
-	      }else{
-	         $('.final_name_ck').css('display', 'none');
-	         nickCheck = true;
-	      }
-	      
-	//	      /* 최종 유효성 검사를 진행하고 form에 말아서 전달 */
-	//	      if(nickCheck&&nickchCheck){
-	//	        $("#join_form").submit();
-	//	      }
-	      
-	      return false;
-	   });
-	});
-	
-	
-	//닉네임 중복체크
-	$('.nick_input').on("propertychange change keyup paste input", function(){
-	      /* console.log("keyup 테스트"); */
-	   var inputTag = $(this); //닉네임 개별체크 이벤트   
-	   var profileNickname = inputTag.val();  //.nick_input 입력될값
-	   var data = {profileNickname : profileNickname} //컨트롤에 넘길 데이터 이름 : 데이터(.nick_input에 입력되는 값)
-	   
-	   $.ajax({
-	      type : "post",
-	      url : "${pageContext.request.contextPath}/club/nickChk",
-	      data : data,
-	      success : function(result) {
-	         /* console.log("성공" + result); */
-	         if(result != 'fail'){
-	        	inputTag.next('.nick_input_re1').css("display", "inline-block");
-	            inputTag.next('.nick_input_re2').css("display", "none");
-	            nickchCheck = true;
-	         }else{
-	        	inputTag.next('.nick_input_re2').css("display", "inline-block");
-	            inputTag.next('.nick_input_re1').css("display", "none");
-	            nickchCheck = false;
-	         }
-	      }// success 종료
-	   }); // ajax 종료
-	}); // function 종료
-
 
 	/* 이미지 업로드 */
 	function imgUploadHandler(list) {
@@ -147,6 +148,51 @@
 			$('#uploadForm').append(tag);
 		}
 	}
+	
+	//프로필 단건조회
+	function selectProfile(profileNickname) {
+	    $.ajax({
+	        url: '${pageContext.request.contextPath}/selectProfile',
+	        type: 'GET',
+	        data: { 'profileNickname': profileNickname },
+	        success: function(data) {
+	        	if(data){
+	        	   console.log(data)
+	        	   $("#club-modal input[name='clubImg']").val(data.clubImg);
+		           $("#club-modal input[name='clubImgPath']").val(data.clubImgPath);
+		           $("#club-modal input[name='profileNickname']").val(data.profileNickname);
+		           $("#uploadForm input[name='profileNickname']").val(data.profileNickname);
+	        	}
+	        	   
+	        	   $('#club-modal').show();
+	        },
+	        error: function(error) {
+	            console.log("프로필 조회 오류:", error);
+	        }
+	    });
+	}
+	
+	function showModal(row){
+		var profileNickname = $(row).data('profile-nickname');
+		console.log("모달창 등장" + profileNickname)
+		selectProfile(profileNickname);
+		
+	}
+	
+	$(document).ready(function(e){
+		$('tbody tr').click(function(){
+			showModal(this);
+			console.log(e);
+		});
+		
+		 $('.open-modal').click(function() {
+	        $('.club-modal').css("visibility", "visible"); // 모달 창 보여주기
+	    });
+		// 모달 창 닫기
+		 $('.close').click(function() {
+	        $('.club-modal').css("visibility", "hidden"); // 모달 창 숨기기
+	    });
+	});
 	
 	
 	
@@ -171,42 +217,8 @@
 // 	        $('#preview').attr('src', '');
 // 	    }
 // 	}
-
-	$(document).ready(function(){
-		$('tbody tr').click(function(){
-		// 단건조회 ajax 호출
-		let profileNickname = $(this).data('profileNickname')
-		fetchProfileDetails($(this).find('input.nick_input').val());
-		// 모달 창 열기
-			$('#club-modal').show();
-		});
-			$('.close').click(function(){
-				// 모달 창 닫기
-				$('#club-modal').hide();
-		});
-	});
 	
-	//프로필 단건조회
-	function fetchProfileDetails(nickname) {
-	    if (!nickname) return;  
 	
-	    $.ajax({
-	        url: '${pageContext.request.contextPath}/app/selectProfile',
-	        type: 'GET',
-	        data: { profileNickname: nickname },
-	        success: function(data) {
-	            let  = (data.profileImgPath || "") + (data.profileImg || "");
-	            if(imagePath) {
-	                $('#preview').attr('src', imagePath);
-	            } else {
-	                $('#preview').attr('src', '');
-	            }
-	        },
-	        error: function(error) {
-	            console.error("Failed to fetch profile details:", error);
-	        }
-	    });
-	}
 
 	
 	//수정버튼
@@ -218,7 +230,7 @@
 		let obj = serializeObject();
 		
 		$.ajax({
-			url : '${pageContext.request.contextPath}/club/updateProfile',  //contenttype이 제이슨이 아니면 작동안한다. text로 보낼거면 텍스트로 
+			url : '${pageContext.request.contextPath}/updateProfile',  //contenttype이 제이슨이 아니면 작동안한다. text로 보낼거면 텍스트로 
 			type : 'post',
 			contentType : 'application/json', //content ~ data (obj) json타입은 항상 세트다.
 			data : JSON.stringify(obj)
