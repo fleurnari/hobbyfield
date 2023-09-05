@@ -169,7 +169,7 @@
     .create( document.querySelector( '#editor' ), {
     	language:"ko",
     	ckfinder: {
-    		uploadUrl : 'ckeditor/upload'
+    		uploadUrl : '${pageContext.request.contextPath}/ckeditor/upload'
     	}
     })
     .then(editor => {

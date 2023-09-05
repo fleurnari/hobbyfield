@@ -141,7 +141,7 @@ $(document).ready(function() {
 		var commentSecret = clubCommentSecretCheckbox.checked ? "on" : "";
 		
 		$.ajax({
-			url : 'clubCommentInsert',
+			url : '${pageContext.request.contextPath}/club/clubCommentInsert',
 			data : {
 				"boardNumber" : boardNumber,
 				"profileNickname" : profileNickname,

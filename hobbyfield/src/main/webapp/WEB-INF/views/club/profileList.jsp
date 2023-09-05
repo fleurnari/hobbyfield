@@ -121,7 +121,7 @@
 	   
 	   $.ajax({
 	      type : "post",
-	      url : "nickChk",
+	      url : "${pageContext.request.contextPath}/club/nickChk",
 	      data : data,
 	      success : function(result) {
 	         /* console.log("성공" + result); */
@@ -191,7 +191,7 @@
 	    if (!nickname) return;  
 	
 	    $.ajax({
-	        url: '/app/selectProfile',
+	        url: '${pageContext.request.contextPath}/app/selectProfile',
 	        type: 'GET',
 	        data: { profileNickname: nickname },
 	        success: function(data) {
@@ -218,7 +218,7 @@
 		let obj = serializeObject();
 		
 		$.ajax({
-			url : '${pageContext.request.contextPath}/updateProfile',  //contenttype이 제이슨이 아니면 작동안한다. text로 보낼거면 텍스트로 
+			url : '${pageContext.request.contextPath}/club/updateProfile',  //contenttype이 제이슨이 아니면 작동안한다. text로 보낼거면 텍스트로 
 			type : 'post',
 			contentType : 'application/json', //content ~ data (obj) json타입은 항상 세트다.
 			data : JSON.stringify(obj)

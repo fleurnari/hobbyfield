@@ -140,7 +140,7 @@
 <%-- 	    <c:forEach items="${profile}" var="pro"> --%>
 <%-- 		    <c:if test="${pro.profileNickname} eq ${clubInfo.profileNickname}"> --%>
 		        <div>
-		            <button type="button" onclick="location.href='clubManage?clubNumber=${clubInfo.clubNumber }'">소모임 가입 신청자 조회</button>
+		            <button type="button" onclick="location.href='${pageContext.request.contextPath}/club/clubManage?clubNumber=${clubInfo.clubNumber }'">소모임 가입 신청자 조회</button>
 		        </div>
 <%-- 		    </c:if> --%>
 <%-- 		</c:forEach> --%>

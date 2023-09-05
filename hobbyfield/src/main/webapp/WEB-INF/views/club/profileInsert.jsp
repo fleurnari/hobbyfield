@@ -8,13 +8,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club/insertclub.css">
 <title>프로필 등록</title>
-<script type="text/javascript" src="resources/js/common.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 </head>
 <body>
 <div align="center" class="profile_top">
 
 	<div>
-		<a href="${pageContext.request.contextPath}/profileList">프로필 조회</a>
+		<a href="${pageContext.request.contextPath}/club/profileList">프로필 조회</a>
 	</div><br>
 
    <form action="profileInsert" method="post" id="join_form">
@@ -85,7 +85,7 @@
 	      
 	      $.ajax({
 	            type: "POST",
-	            url: "${pageContext.request.contextPath}/profileCount",
+	            url: "${pageContext.request.contextPath}/club/profileCount",
 	            data: { email: "${member.memberEmail}" },
 	            success: function(count) {
 	                if(count >= 3) {
@@ -114,7 +114,7 @@
 	   
 	   $.ajax({
 	      type : "post",
-	      url : "nickChk",
+	      url : "${pageContext.request.contextPath}/club/nickChk",
 	      data : data,
 	      success : function(result) {
 	         /* console.log("성공" + result); */

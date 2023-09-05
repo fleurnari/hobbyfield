@@ -82,7 +82,7 @@
 
 	                <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${club.clubNumber}'">
 
-	                    <img src="${club.clubImgPath}${club.clubImg}">
+	                    <img src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}">
 	                    <div class="clubInfo">
 	                        <p>모임리더: ${club.profileNickname}</p>
 	                        <p>모임이름: ${club.clubName}</p>

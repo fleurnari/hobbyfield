@@ -102,7 +102,7 @@
 					작성자 : </label> <input type="text" id="profileNickname"
 					name="profileNickname" value="${profile.profileNickname}" readonly>
 				<label for="clubCommentContent">댓글 내용 : </label>
-				<div  id="editor2" name="clubCommentContent" required="required"></div>
+					<textarea rows="1" cols="100" id="clubCommentContent" name="clubCommentContent"></textarea>
 				<label for="clubCommentSecret">비밀 댓글 : </label> <input type="hidden"
 					id="commentSecret" name="commentSecret"> <input
 					type="checkbox" id="clubCommentSecret" name="clubCommentSecret">
@@ -274,7 +274,7 @@ $(document).ready(function() {
 		var clubName = '${club.clubName}';
 		
 		$.ajax({
-			url : 'clubCommentInsert',
+			url : '${pageContext.request.contextPath}/club/clubCommentInsert',
 			data : {
 				"boardNumber" : boardNumber,
 				"profileNickname" : profileNickname,
@@ -320,7 +320,7 @@ $(document).ready(function() {
 
 function commentUpdate(commentNumber) {
 	window.name = "parentForm";
-	window.open("clubCommentUpdate?commentNumber=" + commentNumber,
+	window.open("${pageContext.request.contextPath}/club/clubCommentUpdate?commentNumber=" + commentNumber,
 			"clubCommentUpdate", "width=570, height=350, resizable = no, scrollbars = no");
 }
 
@@ -329,7 +329,7 @@ function commentUpdate(commentNumber) {
 function commentDelete(commentNumber) {
 	
 		$.ajax({
-  			url : 'clubCommentDelete',
+  			url : '${pageContext.request.contextPath}/club/clubCommentDelete',
   			data : {
 					'commentNumber' : commentNumber
 			},
@@ -348,7 +348,7 @@ function commentDelete(commentNumber) {
 	
 function recommentInsert(boardNumber, commentNumber) {
 	window.name = "parentForm";
-	window.open("clubRecommentInsert?boardNumber=" + boardNumber + "&commentNumber=" + commentNumber,
+	window.open("${pageContext.request.contextPath}/club/clubRecommentInsert?boardNumber=" + boardNumber + "&commentNumber=" + commentNumber,
 			"clubReommentInsert", "width=570, height=350, resizable = no, scrollbars = no");
 }
 

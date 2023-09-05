@@ -54,7 +54,7 @@
 	        var nickname = $(this).data('nickname');
 	        var clubnumber = $(this).data('clubnumber');
 	
-	        $.post("${pageContext.request.contextPath}/acceptClubMember", { profileNickname: nickname, clubNumber: clubnumber }, function(data) {
+	        $.post("${pageContext.request.contextPath}/club/acceptClubMember", { profileNickname: nickname, clubNumber: clubnumber }, function(data) {
 	            if(data.success) {
 	                alert("수락되었습니다.");
 	                location.reload();
@@ -68,7 +68,7 @@
 	        var nickname = $(this).data('nickname');
 	        var clubnumber = $(this).data('clubnumber');
 	
-	        $.post("/rejectClubMember", { profileNickname: nickname, clubNumber: clubnumber }, function(data) {
+	        $.post("${pageContext.request.contextPath}/club/rejectClubMember", { profileNickname: nickname, clubNumber: clubnumber }, function(data) {
 	            if(data.success) {
 	                alert("거절되었습니다.");
 	                location.reload();

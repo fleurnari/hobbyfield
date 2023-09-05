@@ -362,7 +362,7 @@
 
 	function fetchClubData(profileNickname) {
 	$.ajax({
-	    url: "${pageContext.request.contextPath}/selectMadeClub",
+	    url: "${pageContext.request.contextPath}/club/selectMadeClub",
 	    type: "GET",
 	    data: { 'profileNickname': profileNickname },
 	    success: function(data) {

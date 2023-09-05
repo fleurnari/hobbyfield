@@ -98,7 +98,7 @@
      <div id="clubContainer">
             <c:forEach items="${clubList}" var="club">
                 <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${club.clubNumber}'">
-                    <img src="${club.clubImgPath}${club.clubImg}">
+                    <img src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}">
                     <div class="clubInfo">
                         <p>모임리더: ${club.profileNickname}</p>
                         <p>모임이름: ${club.clubName}</p>
@@ -188,7 +188,7 @@
 	            $.each(clubs, function(index, club) {
 	                //각 소모임의 정보를 표시하는 코드 
 	                $('#clubContainer').append(`
-	                    <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/clubclubBoardList?clubNumber=${club.clubNumber}">
+	                    <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubclubBoardList?clubNumber=${club.clubNumber}">
 	                        <img src="${pageContext.request.contextPath}/${club.clubImgPath}/${club.clubImg}">
 	                        <div class="clubInfo">
 	                            <p>모임리더: \${club.profileNickname}</p>
@@ -235,7 +235,7 @@
 	                    $.each(clubs, function(index, club) {
 	                        $('#clubContainer').append(`
 
-	                            <div class="clubItem" onclick="location.href='clubInfo?clubNumber=\${club.clubNumber}'">
+	                            <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubInfo?clubNumber=\${club.clubNumber}'">
 	                                <img src="${pageContext.request.contextPath}/${club.clubImgPath}/${club.clubImg}">
 	                                <div class="clubInfo">
 	                                    <p>모임리더: \${club.profileNickname}</p>
