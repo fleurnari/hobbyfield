@@ -45,7 +45,7 @@ import com.hobbyfield.app.point.service.PointService;
 import com.hobbyfield.app.pointrecord.service.PointRecordService;
 import com.hobbyfield.app.pointrecord.service.PointRecordVO;
 
-
+//@RequestMapping("/club/*")
 @Controller
 public class ClubController {
 
@@ -322,7 +322,7 @@ public class ClubController {
 
 	/* ========= 마이페이지 개인정보 : 프로필 이미지 등록, 개인정보 조회========= */
 
-	// 프로필 개인정보 조회 : 전체조회(clubProfile)
+	// 프로필 개인정보 조회 : 전체조회(profileList)
 	@GetMapping("/profileList")
 	public String selctProfileClub(ClubProfileVO clubprofileVO, Model model, HttpSession session) {
 		MemberVO member = (MemberVO) session.getAttribute("member");

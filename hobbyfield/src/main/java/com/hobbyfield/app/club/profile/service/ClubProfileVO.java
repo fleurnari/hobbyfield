@@ -8,4 +8,6 @@ public class ClubProfileVO {
 	private String memberEmail;
 	private String profileImg;
 	private String profileImgPath;
+	
+	private String clubName;
 }
