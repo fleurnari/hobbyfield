@@ -138,6 +138,20 @@ public class FundingPostController {
 	    
 	    return "redirect:/fundingPostInsert"; // 삭제 후 다시 데이터를 리로드하는 GetMapping 페이지로 리다이렉트
 	}
-	 
+	
+	//관리자 페이지
+	@GetMapping("adminAccept")
+	public String adminAcceptForm(Model model,  @ModelAttribute("scri") SearchCriteria scri) {
+		model.addAttribute("fundingPostList", fundingPostService.getFundingPostList(scri));
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(scri);
+		pageMaker.setTotalCount(fundingPostService.postCount(scri));
+	
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("scri", scri);
+		
+		return "fundingPost/adminAccept";
+	}
 	  
 }
