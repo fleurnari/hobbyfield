@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club/insertclub.css">
+<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 <style type="text/css">
 /* 메인화면에 맞게 css 수정필요 */
 /* 닉네임 체크를 해서 등록가능하게 할것인지. 아니면 프로필이 없으면 접근못하게 할것인지 결정해야함 */
@@ -180,7 +181,7 @@ label {
 				<button type="submit" class="join_button">등록하기</button>
 			</div>
 		</div>
-	</div>
+	
 </form>
 
 
@@ -233,7 +234,7 @@ $(document).ready(function(){
 
 		$.ajax({
 			type : "post",
-			url : "clubnameChk",
+			url : "${pageContext.request.contextPath}/club/clubnameChk",
 			data : data,
 			success : function(result) {
 
@@ -261,7 +262,7 @@ $(document).ready(function(){
 	        // 서버에 AJAX 요청
 	        $.ajax({
 	        //	type: "POST",
-	            url: "selectCommsubList",
+	            url: "${pageContext.request.contextPath}/club/selectCommsubList",
 	            data: { "code": selectedMajor },
 	           // contentType: "application/json; charset=utf-8",
 	            dataType: "json",

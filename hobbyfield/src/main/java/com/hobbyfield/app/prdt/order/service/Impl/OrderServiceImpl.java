@@ -40,8 +40,13 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void cancelOrder(int orderId) {
+	public void cancelOrder(String orderId) {
 		orderMapper.cancelOrder(orderId);
+	}
+
+	@Override
+	public String getDelivery(String orderId) {
+		return orderMapper.getDelivery(orderId);
 	}
 
 }

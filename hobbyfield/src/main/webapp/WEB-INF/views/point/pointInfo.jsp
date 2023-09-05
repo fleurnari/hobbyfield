@@ -166,7 +166,7 @@ input {
 						</p>
 					</c:if>
 					<div class="purchase-button">
-						<button type="button" onclick="location.href='wishList'">위시</button>
+<!-- 						<button type="button" onclick="location.href='wishList'">위시</button> -->
 						<button type="button" id="purchase" onclick="openModal()">구입</button>
 					</div>
 				</div>
@@ -180,7 +180,6 @@ input {
 			<div>
 				<div id="editor">
 					${point.pointContent}
-<%-- 					<p class="pointContent">${point.pointContent}</p> --%>
 				</div>
 				<div class="product-img">
 					<c:forEach items="${point.emojiVO }" var="emoji">
@@ -253,6 +252,7 @@ input {
 	ClassicEditor
 	.create( document.querySelector( '#editor' ), {
 		 toolbar: []
+		 readOnly : true;
 	} )
 	.then( editor => {
 	    const toolbarElement = editor.ui.view.toolbar.element;

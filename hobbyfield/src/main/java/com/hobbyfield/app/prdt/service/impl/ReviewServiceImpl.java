@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hobbyfield.app.prdt.mapper.ReviewMapper;
+import com.hobbyfield.app.prdt.service.CommentVO;
 import com.hobbyfield.app.prdt.service.ReviewService;
 import com.hobbyfield.app.prdt.service.ReviewVO;
 
@@ -34,6 +35,23 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public void updateReview(ReviewVO reviewVO) {
 		reviewMapper.updateReview(reviewVO);
+	}
+
+	@Override
+	public void wrtieComment(CommentVO commentVO) {
+		
+		reviewMapper.wrtieComment(commentVO);
+		
+	}
+
+	@Override
+	public List<CommentVO> readComment(int reviewId) {
+		return reviewMapper.readComment(reviewId);
+	}
+
+	@Override
+	public CommentVO getComment(int reviewId) {
+		return reviewMapper.getComment(reviewId);
 	}
 
 

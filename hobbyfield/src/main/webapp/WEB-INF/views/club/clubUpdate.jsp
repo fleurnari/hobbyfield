@@ -150,7 +150,7 @@
 
 		$.ajax({
 			type : "post",
-			url : "clubnameChk",
+			url : "${pageContext.request.contextPath}/club/clubnameChk",
 			data : data,
 			success : function(result) {
 
@@ -178,7 +178,7 @@
 	        // 서버에 AJAX 요청
 	        $.ajax({
 	        //	type: "POST",
-	            url: "selectCommsubList",
+	            url: "${pageContext.request.contextPath}/club/selectCommsubList",
 	            data: { "code": selectedMajor },
 	           // contentType: "application/json; charset=utf-8",
 	            dataType: "json",

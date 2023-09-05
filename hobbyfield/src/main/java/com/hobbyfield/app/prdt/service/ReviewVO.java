@@ -13,5 +13,5 @@ public class ReviewVO {
 		private String reviewContent;	//리뷰내용
 		private Date reviewDate;		//작성일
 		private String reviewTitle;; //후기 제목
-		
+		private int rating;
 }

@@ -32,8 +32,8 @@ public interface PointService {
 	public int updatePointView(PointVO pointVO);
 	
 	//이모티콘 대표이미지
-	public List<EmojiVO> firstEmojiImg(String memberEmail);
+	public List<PointVO> emojiGroup(String memberEmail);
 	
 	//이모티콘 이미지 그룹
-	public List<EmojiVO> emojiGroup(int pointId);
+	public List<EmojiVO> emojis(int pointId);
 }

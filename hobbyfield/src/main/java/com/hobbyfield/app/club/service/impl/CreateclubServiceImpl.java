@@ -56,20 +56,6 @@ public class CreateclubServiceImpl implements CreateclubService {
 	}
 	
 	//소모임 수정
-//	@Override
-//	public Map<String, String> updateClub(CreateclubVO createclubVO) {
-//		Map<String, String> map = new HashMap<>();
-//		map.put("소모임이름", String.valueOf(createclubVO.getClubName()));
-//		
-//		int result = createclubMapper.updateClub(createclubVO);
-//		
-//		if(result > 0) {
-//			map.put("결과", "Success");
-//		}else {
-//			map.put("결과", "Fail");
-//		}
-//		return map;
-//	}
 	@Override
 	public void updateClub(CreateclubVO createclubVO) {
 		createclubMapper.updateClub(createclubVO);

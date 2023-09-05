@@ -64,10 +64,18 @@ public class ClubProfileServiceImpl implements ClubProfileService {
 	}
 
 
+	//프로필 생성 3개 제한
 	@Override
 	public List<ClubProfileVO> getMyProfile(ClubProfileVO clubprofileVO) {
 		
 		return clubprofileMapper.getMyProfile(clubprofileVO);
+	}
+
+	//프로필 조회
+	@Override
+	public List<ClubProfileVO> getClubProfileVO(ClubProfileVO clubProfileVO) {
+		System.out.println(clubProfileVO);
+		return clubprofileMapper.getClubProfileVO(clubProfileVO);
 	}
 
 }

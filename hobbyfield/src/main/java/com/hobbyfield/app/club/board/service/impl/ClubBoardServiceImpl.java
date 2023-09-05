@@ -1,6 +1,7 @@
 package com.hobbyfield.app.club.board.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,8 +59,8 @@ public class ClubBoardServiceImpl implements ClubBoardService {
 	
 	// 소모임 내 게시판 검색기능
 	@Override
-	public List<ClubBoardVO> searchClubBoard(ClubBoardVO vo) {
-		return null;
+	public List<ClubBoardVO> searchClubBoard(int clubNumber, String text) {
+		return clubboardmapper.searchClubBoardList(clubNumber, text);
 	}
 	
 	// 전체 게시글 조회
@@ -72,6 +73,11 @@ public class ClubBoardServiceImpl implements ClubBoardService {
 	public int updateMemberPnt(MemberVO memberVO) {
 		
 		return clubboardmapper.updateMemberPnt(memberVO);
+	}
+
+	@Override
+	public List<ClubBoardVO> getClubBaordScroll(Map<String, Integer> map) {
+		return clubboardmapper.getClubBoardScroll(map);
 	}
 	
 

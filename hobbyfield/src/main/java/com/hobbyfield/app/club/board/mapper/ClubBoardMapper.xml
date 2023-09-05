@@ -51,9 +51,34 @@
 				SCHEDULE_DATE,                    
 				CLUB_BOARD_BLIND,
 				p.PROFILE_IMG_PATH,
-                p.PROFILE_IMG
-		FROM CLUB_BOARD c JOIN PROFILE p ON(c.CLUB_BOARD_WRITER = p.PROFILE_NICKNAME)     
+                p.PROFILE_IMG,
+                m.MEMBER_EMAIL
+		FROM CLUB_BOARD c JOIN PROFILE p ON(c.CLUB_BOARD_WRITER = p.PROFILE_NICKNAME) 
+						  JOIN MEMBER m ON (p.MEMBER_EMAIL = m.MEMBER_EMAIL)    
 		WHERE board_number = #{boardNumber} 
+  	</select>
+  	
+  	<select id="searchClubBoardList" resultType="ClubBoardVO">
+  		SELECT b.board_number, 
+		   	b.club_number,
+			b.club_board_writer, 
+			b.club_board_content, 
+			b.club_board_wdate,
+			p.profile_img,
+			p.profile_img_path,
+			b.club_board_views, 
+			b.schedule_date,
+			b.club_board_blind
+		FROM CLUB_BOARD b JOIN PROFILE p ON(b.CLUB_BOARD_WRITER = p.PROFILE_NICKNAME)
+		WHERE CLUB_NUMBER = #{clubNumber} AND (CLUB_BOARD_CONTENT LIKE '%'||#{text}||'%' OR CLUB_BOARD_WRITER LIKE '%'||#{text}||'%')
+  	</select>
+  	
+  	<!-- 스크롤 쿼리문 -->
+  	<select id="getClubBoardScroll" resultType="ClubBoardVO">
+  	
+  	
+  	
+  	
   	</select>
   	
   	<insert id="insertClubBoard" parameterType="ClubBoardVO">

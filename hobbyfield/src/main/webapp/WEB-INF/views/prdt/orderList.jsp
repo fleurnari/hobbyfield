@@ -6,6 +6,7 @@
 <html>
 <head>
 <link href="../resources/css/prdt/bootstrap.min.css" rel="stylesheet">
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <meta charset="UTF-8">
 <title>주문 목록</title>
@@ -47,29 +48,91 @@
     </table>
 </div>
 
+
+
+
+
+<button onclick="cancelPayment()">카카오페이 결제취소 테스트</button>
+
+
 <script>
+var IMP = window.IMP;
+IMP.init("imp10078031");
+	
+// 결제 취소 함수
+function cancelPayment() {
+  $.ajax({
+    url: "https://kapi.kakao.com/v1/payment/cancel",
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify({
+      merchant_uid: "20230904174131865",
+      reason: "사용자 요청", // 사유
+      refund_holder: "예금주"
+    }),
+    dataType: "json",
+    success: function(response) {
+      if (response.success) {
+        alert("결제가 취소되었습니다.");
+      } else {
+        alert("결제 취소 실패: " + response.error_msg);
+      }
+    },
+    error: function() {
+      alert("결제 취소 요청 실패");
+    }
+  });
+}
+</script>
+
+
+
+
+<script>
+
 $(document).ready(function() {
+	
     // 주문 취소 버튼 클릭 이벤트 처리
     $(".cancelBtn").click(function() {
-    	var orderId = $(this).attr("data-orderId");  // 주문 번호 가져오기
-        console.log(orderId);
+        var orderId = $(this).attr("data-orderId");  // 주문 번호 가져오기
         var $row = $(this).closest("tr"); // 현재 행 (tr) 찾기
-
-        // 주문 취소 Ajax 요청
+        
         $.ajax({
-            url: "cancelOrder",
+            url: "getDelivery", 
             type: "post",
+            dataType: "json", 
             data: { orderId: orderId },
-            success: function(result) {
-                if (result === "success") {
-                    $row.remove();
-                    console.log("주문 취소 성공");
+            success: function(data) {
+                var deliveryStatus = data.delivery; // JSON 데이터의 'delivery' 속성 값을 가져옴
+            
+                if (deliveryStatus === "배송준비중") {
+                    
+                    $.ajax({
+                        url: "cancelOrder", 
+                        type: "post",
+                        data: { orderId: orderId },
+                        success: function(result) {
+                            if (result === "success") {
+                                $row.remove();
+                                // 성공 알림 메시지 띄우기
+                                alert("주문이 취소되었습니다.");
+                                console.log("주문 취소 성공");
+                            } else {
+                                console.log("주문 취소 실패");
+                            }
+                        },
+                        error: function() {
+                            console.log("주문 취소 요청 실패");
+                        }
+                    });
                 } else {
-                    console.log("주문 취소 실패");
+                    // 주문 상태가 배송 준비 중이 아닌 경우 알림 메시지 표시
+                    alert("주문 상태가 배송 준비 중이 아닙니다.");
+                    console.log(deliveryStatus);
                 }
             },
             error: function() {
-                console.log("주문 취소 요청 실패");
+                console.log("주문 상태 조회 실패");
             }
         });
     });

@@ -48,36 +48,36 @@
 		</div>	
 	</section>
 <script type="text/javascript">
-//수락 거절 버튼
-$(document).ready(function() {
-    $('.accept').click(function() {
-        var nickname = $(this).data('nickname');
-        var clubnumber = $(this).data('clubnumber');
-
-        $.post("${pageContext.request.contextPath}/acceptClubMember", { profileNickname: nickname, clubNumber: clubnumber }, function(data) {
-            if(data.success) {
-                alert("수락되었습니다.");
-                location.reload();
-            } else {
-                alert("오류 발생");
-            }
-        });
-    });
-
-    $('.reject').click(function() {
-        var nickname = $(this).data('nickname');
-        var clubnumber = $(this).data('clubnumber');
-
-        $.post("/rejectClubMember", { profileNickname: nickname, clubNumber: clubnumber }, function(data) {
-            if(data.success) {
-                alert("거절되었습니다.");
-                location.reload();
-            } else {
-                alert("오류 발생");
-            }
-        });
-    });
-});	
+	//수락 거절 버튼
+	$(document).ready(function() {
+	    $('.accept').click(function() {
+	        var nickname = $(this).data('nickname');
+	        var clubnumber = $(this).data('clubnumber');
+	
+	        $.post("${pageContext.request.contextPath}/club/acceptClubMember", { profileNickname: nickname, clubNumber: clubnumber }, function(data) {
+	            if(data.success) {
+	                alert("수락되었습니다.");
+	                location.reload();
+	            } else {
+	                alert("오류 발생");
+	            }
+	        });
+	    });
+	
+	    $('.reject').click(function() {
+	        var nickname = $(this).data('nickname');
+	        var clubnumber = $(this).data('clubnumber');
+	
+	        $.post("${pageContext.request.contextPath}/club/rejectClubMember", { profileNickname: nickname, clubNumber: clubnumber }, function(data) {
+	            if(data.success) {
+	                alert("거절되었습니다.");
+	                location.reload();
+	            } else {
+	                alert("오류 발생");
+	            }
+	        });
+	    });
+	});	
 </script>	
 	
 </body>
