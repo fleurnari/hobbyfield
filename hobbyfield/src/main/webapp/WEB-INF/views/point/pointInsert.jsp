@@ -43,7 +43,7 @@ body {
 			</h5>
 			<select class="form-control" id="pointItemType" name="pointItemType">
 				<option selected disabled>상품유형</option>
-				<option value="W2">소모임 증원권</option>
+				<option value="W2">소모임증원권</option>
 				<option value="W1">이모티콘</option>
 			</select>
 		</div>
@@ -127,7 +127,6 @@ body {
     })
     .then(editor => {
         // 에디터 인스턴스가 생성되면 호출되는 콜백 함수
-        //editor.isReadOnly = true; // 에디터를 읽기 전용으로 설정
     })
     .catch( error => {
         console.error( error );

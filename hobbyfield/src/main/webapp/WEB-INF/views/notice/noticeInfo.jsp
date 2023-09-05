@@ -96,6 +96,7 @@ body {
 	ClassicEditor
 	.create( document.querySelector( '#editor' ), {
 		 toolbar: []
+		 readOnly : true;
 	} )
 	.then( editor => {
 	    const toolbarElement = editor.ui.view.toolbar.element;
