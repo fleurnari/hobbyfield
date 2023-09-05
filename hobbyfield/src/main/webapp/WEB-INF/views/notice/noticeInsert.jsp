@@ -70,22 +70,18 @@ body {
 	</div>
 	<form action="insertNotice" method="post">
 		<div class="form-input">
-			<label for="noticeCate">카테고리</label> <select id="noticeCate"
-				name="noticeCate" required>
-				<option value="" disabled selected>카테고리</option>
-				<option value="AA1">사이트전체공지</option>
-				<option value="AA2">소모임</option>
-				<option value="AA3">펀딩</option>
-				<option value="AA4">쇼핑몰</option>
-				<option value="포인트">포인트</option>
-				<option value="AA5">재능기부</option>
+			<label for="noticeCate">카테고리</label> 
+			<select id="noticeCate" name="noticeCate" required>
+				<option id="" disabled selected>카테고리</option>
+				<option id="AA1" value="사이트전체공지">사이트전체공지</option>
+				<option id="AA2" value="소모임">소모임</option>
+				<option id="AA3" value="펀딩">펀딩</option>
+				<option id="AA4" value="쇼핑몰">쇼핑몰</option>
+				<option id="AA5" value="재능기부">재능기부</option>
+				<option id="AA6" value="포인트">포인트</option>
 			</select>
+
 		</div>		
-<!-- 		AA1	사이트전체공지 -->
-<!-- 		AA2	소모임공지 -->
-<!-- 		AA3	펀딩공지 -->
-<!-- 		AA4	쇼핑몰공지 -->
-<!-- 		AA5	재능기부공지 -->
 		<div class="form-input">
 			<div>
 			<div>

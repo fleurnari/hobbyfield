@@ -38,10 +38,9 @@ import com.hobbyfield.app.comm.mapper.CommCodeMapper;
 import com.hobbyfield.app.comm.service.CommCodeVO;
 import com.hobbyfield.app.member.mapper.MemberMapper;
 import com.hobbyfield.app.member.service.MemberVO;
-
 import com.hobbyfield.app.point.service.EmojiVO;
 import com.hobbyfield.app.point.service.PointService;
-
+import com.hobbyfield.app.point.service.PointVO;
 import com.hobbyfield.app.pointrecord.service.PointRecordService;
 import com.hobbyfield.app.pointrecord.service.PointRecordVO;
 
@@ -450,27 +449,23 @@ public class ClubController {
 		// 가져온 값을 세션에 담기
 		session.setAttribute("profile", profile);
     
-		//이모티콘 대표이미지
-		MemberVO member = (MemberVO) session.getAttribute("member");
-		model.addAttribute("emoji", pointService.firstEmojiImg(member.getMemberEmail()));
-		
-		//이모티콘 이미지 
-		//model.addAttribute("emojiTab", pointService.emojiGroup(emojiVO.getPointId()));
-		
+		//이모지 이름 가져오기
+		List<PointVO> point =  pointService.emojiGroup(mvo.getMemberEmail());
+		model.addAttribute("point", point);
+		//등록된 사진 첫번째 가져오기
+		if(point != null && point.size()>0) {
+			model.addAttribute("emojis", pointService.emojis(point.get(0).getPointId()));
+		}
 		return "club/clubBoardInfo";
 	}
-
 
 	// 이모티콘 이미지
 	@GetMapping("clubBoardInfo-sub")
 	@ResponseBody
 	public List<EmojiVO> clubBoardEmoji(HttpSession session, Model model, EmojiVO emojiVO) {
 		//이모티콘 이미지 
-		
-		return pointService.emojiGroup(emojiVO.getPointId());
+		return pointService.emojis(emojiVO.getPointId());
 	}
-
-	
 	
 	
 	

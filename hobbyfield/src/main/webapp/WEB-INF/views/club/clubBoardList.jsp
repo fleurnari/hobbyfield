@@ -141,7 +141,7 @@
 			<c:forEach items="${boardList}" var="board">
 				<h3>게시글</h3>
 				<div id="boardMain"
-					onclick="boardInfo(this);">
+					onclick="location.href='clubBoardInfo?boardNumber=${board.boardNumber}';">
 					<p>글 번호 : ${board.boardNumber}</p>
 					<p>작성자 : ${board.clubBoardWriter}</p> 
 					<p id="writeDay">작성일 :
