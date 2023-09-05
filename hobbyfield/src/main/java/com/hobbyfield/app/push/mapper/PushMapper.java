@@ -2,6 +2,8 @@ package com.hobbyfield.app.push.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.hobbyfield.app.push.service.PushVO;
 
 public interface PushMapper {
@@ -13,7 +15,7 @@ public interface PushMapper {
 	public int selectPushCount(String memberEmail);
 	
 	// 알림 등록
-	public int insertPush(int pushId, String pushTarget, String pushTyp, String pushCntn, String pushUrl);
+	public int insertPush(@Param("pushTarget") String pushTarget, @Param("pushTyp") String pushTyp,  @Param("pushCntn") String pushCntn, @Param("pushUrl") String pushUrl);
 	
 	// 알림 확인 여부 변경
 	public int updatePush(int pushId);

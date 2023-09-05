@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.hobbyfield.app.csboard.service1.CSReplyVO;
+import com.hobbyfield.app.prdt.service.CommentVO;
 import com.hobbyfield.app.prdt.service.ReviewVO;
 
 public interface ReviewMapper {
@@ -21,4 +22,12 @@ public interface ReviewMapper {
 	 //후기(문의) 수정
 	 public void updateReview(ReviewVO reviewVO);
 	 
+	 //댓글작성
+	 public void wrtieComment(CommentVO commentVO);
+	 
+	 //댓글목록조회
+	 public List<CommentVO> readComment(int reviewId);
+	 
+	 //댓글상세보기
+	 public CommentVO getComment(int reviewId);
 }

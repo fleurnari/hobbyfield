@@ -28,6 +28,41 @@
 	.ck-editor__editable {
 	height: 80vh;
 	}
+	
+	/* 모임신청 모달창 */
+    /* ... 기존 스타일 ... */
+   .clubModal {
+        display: none; /* 초기에 모달을 숨깁니다. */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5); /* 반투명한 검은색 배경 */
+        z-index: 1; /* 다른 요소 위에 위치 */
+    }
+
+    .modal_body {
+        width: 25%; /* 화면의 1/3 */
+        height: 80%; /* 화면의 1/3 */
+        position: absolute;
+        top: 50%; 
+        left: 50%;
+        transform: translate(-50%, -50%); /* 중앙에 위치하도록 설정 */
+        background-color: white;
+        padding: 20px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+
+    /* 모달 닫기 버튼 (선택) */
+    .close {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        cursor: pointer;
+    }
+	
 </style>
 </head>
 <body>
@@ -42,6 +77,7 @@
 		</div>
 		
 		<h1>게시글 목록</h1>
+		<button type="button" onclick="location.href='clubInfo?clubNumber=${club.clubNumber}'">모임상세정보</button>
 		<!-- Session 확인용 : 추후 삭제 -->
 		<div>
 			<div>email : ${member.memberEmail}</div>
@@ -186,7 +222,38 @@
 	
 		</div>
 		
-		
+		<!-- 소모임 가입 modal (시작)-->
+	<form action="clubJoinProcess" method="POST">
+	<div id="clubModal" class="clubModal">
+		<div class="modal_body">
+			<div>
+		<button onclick="hreclubManage=clubNumber?${clubInfo.clubNumber}">관리</button>
+			<!-- 모임 신청 질문 가져오기 -->
+				<label>모임소개 : ${clubInfo.clubInfo}</label><br>
+				<label>카테고리 : ${clubInfo.clubCategory}</label><br>
+				<label>모임장 : ${clubInfo.profileNickname}</label><br>
+				<label>모임유형 : ${clubInfo.clubType}</label><br>
+				<label>모임지역 : ${clubInfo.majorLocation}</label><br>
+				<label>모임인원 : count되게 작성해야함 50/50</label>
+				<h3>가입 질문 답변</h3><br>
+				<label>${clubInfo.singupQuestion1}</label><br>
+				<input type="text" name="applyAnswer1"><br>
+				<label>${clubInfo.singupQuestion2}</label><br>
+				<input type="text" name="applyAnswer2"><br>
+				<label>${clubInfo.singupQuestion3}</label><br>
+				<input type="text" name="applyAnswer3"><br>
+				<input type="hidden" value="H1" name="applyStatus">
+				<input type="hidden" name="clubNumber" value="${clubInfo.clubNumber}">
+				<input type="hidden" name="profileNickname" value="${profile.profileNickname}">
+				<c:forEach items="${profile}" var="pro">
+					<option value="${pro.profilNickname}">${pro.profileNickname}</option>
+				</c:forEach>
+			</div><br>
+			<button type="submit">신청</button>
+			<span class="close">&times;</span>
+		</div>
+	</div>
+	</form>
 		
 		
 		

@@ -43,11 +43,11 @@
 	           club_number
 	         , profile_nickname
 	         , club_name
-	         , FIND_CODE_NM(club_category) AS club_category
-	         , FIND_CODE_NM(club_type) AS club_type
+	         , club_category
+	         , club_type
 	         , club_info
-	         , FIND_CODE_NM(major_location) AS major_location
-	         , FIND_CODE_NM(sub_location) AS sub_location
+	         , major_location
+	         , sub_location
 	         , club_public
 	         , singup_question1
 	         , singup_question2
@@ -72,10 +72,10 @@
 	             , club_img
 	             , club_img_path
 	             , club_total
-	             , ROWNUM as rnum
+	             , ROW_NUMBER() OVER(ORDER BY club_name DESC) AS RNUM
 	        FROM club
-	        ORDER BY profile_nickname
-	    	) <![CDATA[ WHERE rnum <= 12]]>
+	        ORDER BY club_name
+	    	) <![CDATA[ WHERE RNUM BETWEEN #{start} AND #{end}]]>
 	</select>
 		
 
@@ -103,11 +103,11 @@
 	               club_number
 	             , profile_nickname
 	             , club_name
-	             , FIND_CODE_NM(club_category) AS club_category
-	             , FIND_CODE_NM(club_type) AS club_type
+	             , club_category
+	             , club_type
 	             , club_info
-	             , FIND_CODE_NM(major_location) AS major_location
-	             , FIND_CODE_NM(sub_location) AS sub_location
+	             , major_location
+	             , sub_location
 	             , club_public
 	             , singup_question1
 	             , singup_question2
@@ -171,7 +171,7 @@
 	
 	
 	<!-- 소모임 세부조회 -->
-	<select id="getClubInfo" parameterType="CreateclubVO" resultType="CreateclubVO">
+	<select id="getClubInfo" resultType="CreateclubVO">
 		SELECT 
 				club_number
 			   , profile_nickname

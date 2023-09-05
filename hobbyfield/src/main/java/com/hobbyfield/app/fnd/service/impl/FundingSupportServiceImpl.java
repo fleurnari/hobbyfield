@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hobbyfield.app.common.SearchCriteria;
 import com.hobbyfield.app.fnd.mapper.FundingSupportMapper;
 import com.hobbyfield.app.fnd.service.FundingSupportService;
 import com.hobbyfield.app.fnd.service.FundingSupportVO;
@@ -37,8 +38,8 @@ public class FundingSupportServiceImpl implements FundingSupportService {
 	}
 	
 	@Override
-	public List<FundingSupportVO> supportManagement(FundingSupportVO fundingSupportVO){
-		return fundingSupportMapper.supportManagement(fundingSupportVO);
+	public List<FundingSupportVO> supportManagement(FundingSupportVO fundingSupportVO, SearchCriteria scri){
+		return fundingSupportMapper.supportManagement(fundingSupportVO, scri);
 	}
 	
 	@Override
@@ -51,5 +52,11 @@ public class FundingSupportServiceImpl implements FundingSupportService {
 			return -1;
 		}
 		
+	}
+	
+	//후원자 카운트
+	@Override
+	public int supportCount(SearchCriteria scri) {
+		return fundingSupportMapper.getSupportCount(scri);
 	}
 }
