@@ -9,11 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -21,6 +19,7 @@ import com.hobbyfield.app.common.PageMaker;
 import com.hobbyfield.app.common.SearchCriteria;
 import com.hobbyfield.app.csboard.service1.CSReplyVO;
 import com.hobbyfield.app.member.service.MemberVO;
+import com.hobbyfield.app.prdt.service.CommentVO;
 import com.hobbyfield.app.prdt.service.PrdtService;
 import com.hobbyfield.app.prdt.service.PrdtVO;
 import com.hobbyfield.app.prdt.service.ReviewService;
@@ -110,7 +109,8 @@ public class PrdtController {
 	public List<ReviewVO> getReviewsByCategory(@RequestParam("category") String category) {
 	       return reviewService.getReviewsByCategory(category);
 	    }
-	
+		
+		
 	//상품후기(문의) 삭제
 	@PostMapping("/deleteReview")
     @ResponseBody
@@ -125,10 +125,32 @@ public class PrdtController {
     }
 	
 	//상품후기(문의) 수정 
-    @PostMapping("updateReview")
+    @PostMapping("/updateReview")
     @ResponseBody
     public String updateReview(@RequestBody ReviewVO reviewVO) {
         reviewService.updateReview(reviewVO);
         return "success";
     }
+    
+    //댓글 작성
+  	@PostMapping("/writeComment")
+      @ResponseBody
+      public String writeComment(@RequestBody CommentVO commentVO, HttpSession session) {
+  		  MemberVO member = (MemberVO)session.getAttribute("member");
+  		  commentVO.setMemberEmail(member.getMemberEmail());
+          reviewService.wrtieComment(commentVO);
+          return "success";
+      }
+  	
+  	
+  	//댓글 목록
+  	@PostMapping("readComment")
+  	@ResponseBody
+  	public List<CommentVO> readComment(@RequestParam("reviewId") int reviewId) {
+  	    List<CommentVO> comment = reviewService.readComment(reviewId);
+  	    return comment;
+  	}
+  	
+  	
+ 	
 }

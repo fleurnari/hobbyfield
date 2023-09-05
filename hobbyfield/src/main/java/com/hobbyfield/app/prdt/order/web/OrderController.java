@@ -57,7 +57,7 @@ public class OrderController {
 	        subNum += (int) (Math.random() * 10);
 	    }
 
-	    String orderId = ymd + "_" + subNum;
+	    String orderId = ymd + subNum;
 
 	    orderVO.setOrderId(orderId);
 	    orderVO.setMemberEmail(memberEmail);
@@ -118,8 +118,8 @@ public class OrderController {
 	  //주문취소
 	  @PostMapping("/cancelOrder")
 	  @ResponseBody
-	  public String cancelOrder(@RequestParam("orderId") int orderId) {
-	        try {
+	  public String cancelOrder(@RequestParam("orderId") String orderId) {
+		  try {
 	            orderService.cancelOrder(orderId);
 	            return "success";
 	        } catch (Exception e) {
@@ -128,5 +128,18 @@ public class OrderController {
 	        }
 	    }
 	  
-	  
+	 //배송상태확인
+	  @PostMapping("/getDelivery")
+	  @ResponseBody
+	  public Map<String, String> getDeliveryStatus(@RequestParam("orderId") String orderId) {
+	      Map<String, String> response = new HashMap<>();
+	      try {
+	          String deliveryStatus = orderService.getDelivery(orderId);
+	          response.put("delivery", deliveryStatus);
+	      } catch (Exception e) {
+	          e.printStackTrace();
+	          response.put("delivery", "error");
+	      }
+	      return response;
+	  }
 }
