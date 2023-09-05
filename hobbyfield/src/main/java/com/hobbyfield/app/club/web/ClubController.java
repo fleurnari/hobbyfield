@@ -401,20 +401,31 @@ public class ClubController {
 			pointRecord.setPointType("AB2");
 			prService.insertPointLog(pointRecord);
 		}
-
-		
-		List<ClubBoardVO> clubBoardList = clubBoardService.getSelectClubBoardList(cvo);
+		HashMap<String, Integer> map = new HashMap<>();
+		map.put("start", 1);
+	 	map.put("end", 10);
+	 	map.put("clubNumber", vo.getClubNumber());
+		List<ClubBoardVO> clubBoardList = clubBoardService.getSelectClubBoardList(map);
 		model.addAttribute("boardList", clubBoardList);
 		
 		return "club/clubBoardList";
 	}
 	
 	
+	
+	
 	// 해당소모임 게시물 보는 페이지
 	@GetMapping("/clubBoardList")
 	public String clubBoardList(Model model, CreateclubVO vo, HttpServletRequest request) {
-		List<ClubBoardVO> clubBoardList = clubBoardService.getSelectClubBoardList(vo);
-		model.addAttribute("boardList", clubBoardList);
+//		List<ClubBoardVO> clubBoardList = clubBoardService.getSelectClubBoardList(vo);
+//		model.addAttribute("boardList", clubBoardList);
+		HashMap<String, Integer> map = new HashMap<>();
+	 	map.put("start", 1);
+	 	map.put("end", 10);
+	 	map.put("clubNumber", vo.getClubNumber());
+	 	List<ClubBoardVO> scrollList = clubBoardService.getSelectClubBoardList(map);
+	 	model.addAttribute("boardList", scrollList);
+	 	System.out.println(scrollList);
 		HttpSession session = request.getSession();
 		MemberVO mvo = (MemberVO)session.getAttribute("member");
 		CreateclubVO cvo = createClubService.getClub(vo);
@@ -427,6 +438,25 @@ public class ClubController {
 		}
 		return "club/clubBoardList";
 	}
+	
+	// 페이징 포함 (테스트중)
+	@ResponseBody
+ 	@RequestMapping(value="/clubBoardScroll", produces="application/json; charset=UTF-8")
+	public ResponseEntity<List<ClubBoardVO>> clubBoardScroll(@RequestParam("startPage") int startPage, 
+             @RequestParam("endPage") int endPage, HttpSession request){
+		 HashMap<String, Integer> map = new HashMap<>();
+		 CreateclubVO cvo =  (CreateclubVO)request.getAttribute("club");
+		 int num = cvo.getClubNumber();
+	 	 map.put("start", startPage);
+	 	 map.put("end", endPage); 
+	 	 map.put("clubNumber", num);
+	 	List<ClubBoardVO> scrollList = clubBoardService.getSelectClubBoardList(map);
+	 	System.out.println(scrollList);
+	 	
+		return new ResponseEntity<>(scrollList, HttpStatus.OK);
+	}
+	
+	
 	
 	@GetMapping("/searchBoard")
 	public String searchBoard(Model model, @RequestParam(value = "searchNum") int num 

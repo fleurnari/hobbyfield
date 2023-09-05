@@ -12,7 +12,7 @@ public interface ClubBoardService {
 	public List<ClubBoardVO> getAllClubBoardList();
 	
 	// 소모임 상세보기 들어가서 원하는 소모임만 보기(매개변수)
-	public List<ClubBoardVO> getSelectClubBoardList(CreateclubVO vo);
+	public List<ClubBoardVO> getSelectClubBoardList(Map<String,Integer> map);
 	
 	// 게시글 검색 : 사용자 or 내용 
 	public List<ClubBoardVO> searchClubBoard(int clubNumber, String text);
@@ -38,6 +38,4 @@ public interface ClubBoardService {
 	// 게시글 작성 활동 포인트 적립
 	public int updateMemberPnt(MemberVO memberVO);
 	
-	// 페이징을 위한 
-	public List<ClubBoardVO> getClubBaordScroll(Map<String,Integer> map);
 }
