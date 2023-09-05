@@ -348,7 +348,11 @@ body.modal-open {
   					<a>${fundingPostInfo.fndContent }</a>
   				</div>
   				<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-  					테스트중2
+  					<c:forEach items="${commentList}" var="comment">
+  						<p>${comment.fndCommentContent}</p>
+  						<p>작성자 : ${comment.memberEmail}</p>
+  						<fmt:formatDate value="${comment.fndCommentDate}" pattern="yyyy-MM-dd" />
+  					</c:forEach>
   				</div>
 			</div>
 			</form>

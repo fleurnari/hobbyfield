@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.hobbyfield.app.comm.mapper.CommCodeMapper;
 import com.hobbyfield.app.common.PageMaker;
 import com.hobbyfield.app.common.SearchCriteria;
+import com.hobbyfield.app.fnd.service.FundingCommentService;
 import com.hobbyfield.app.fnd.service.FundingGoodsService;
 import com.hobbyfield.app.fnd.service.FundingPostService;
 import com.hobbyfield.app.fnd.service.FundingPostVO;
@@ -34,6 +35,9 @@ public class FundingPostController {
 	
 	@Autowired
 	CommCodeMapper codeMapper;
+	
+	@Autowired
+	FundingCommentService fundingCommentService;
 	
 	//전체조회
 	@GetMapping("fundingPostList")
@@ -58,6 +62,7 @@ public class FundingPostController {
 		fundingPostService.updateFundingPostViews(fundingPostVO);
 		model.addAttribute("fundingPostInfo",findVO);
 		model.addAttribute("fundingGoodsInfo",fundingGoodsService.getFundingGoods(fundingPostVO));
+		model.addAttribute("commentList", fundingCommentService.getCommentList(findVO.getFndPostNumber()));
 		return "fundingPost/fundingPostInfo";
 	}
 	

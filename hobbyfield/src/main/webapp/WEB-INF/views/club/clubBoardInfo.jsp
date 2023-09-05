@@ -71,8 +71,7 @@
 							<p>${comment.profileNickname}</p>
 							<p>${comment.clubCommentContent}</p>
 							<p>
-								<fmt:formatDate value="${comment.clubCommentDate}"
-									pattern="yyyy-MM-dd" />
+								<fmt:formatDate value="${comment.clubCommentDate}" pattern="yyyy-MM-dd" />
 							</p>
 							<c:if test="${comment.clubCommentLevel eq 'M1'}">
 								<button type="button" onclick="recommentInsert('${comment.boardNumber}', '${comment.commentNumber}')">대댓</button>
@@ -301,7 +300,7 @@ $(document).ready(function() {
 						'pushTarget' : writerEmail,
 						'pushTyp' : 'B2',
 						'pushCntn' : clubName + " 소모임의 " + boardNumber + '번 게시물에 새 댓글이 등록 되었습니다. ' + '"' + clubCommentContent + '"',
-						'pushUrl' : '${pageContext.request.contextPath}/clubBoardInfo?boardNumber=' + boardNumber,
+						'pushUrl' : '${pageContext.request.contextPath}/club/clubBoardInfo?boardNumber=' + boardNumber,
 					},
 				dataType : "json",
 				success : function(result) {
