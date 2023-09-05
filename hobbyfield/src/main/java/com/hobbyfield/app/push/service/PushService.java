@@ -11,7 +11,7 @@ public interface PushService {
 	public int selectPushCount(String memberEmail);
 	
 	// 알림 등록
-	public int insertPush(int pushId, String pushTarget, String pushTyp, String pushCntn, String pushUrl);
+	public int insertPush(String pushTarget, String pushTyp, String pushCntn, String pushUrl);
 	
 	// 알림 확인 여부 변경
 	public int updatePush(int pushId);

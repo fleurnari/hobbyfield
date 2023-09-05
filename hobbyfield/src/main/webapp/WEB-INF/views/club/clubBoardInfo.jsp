@@ -11,9 +11,6 @@
 <meta charset="UTF-8">
 <title>소모임 게시글 상세보기</title>
 <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <style>
 	.ck.ck-editor {
@@ -52,6 +49,8 @@
 		
 		<form>
 			<input type="hidden" id="boardNumber" name="boardNumber" value="${board.boardNumber}">
+			<input type="hidden" id="commentNumber" name="commentNumber">
+			
 			<c:forEach items="${commentList}" var="comment">
 				<c:choose>
 					<c:when test="${(comment.clubCommentSecret eq 'L2') || (comment.clubCommentSecret eq 'L1' && profile.profileNickname eq board.clubBoardWriter || member.memberGrd eq 'A3'
@@ -64,13 +63,13 @@
 							<p>${comment.clubCommentContent}</p>
 							<p><fmt:formatDate value="${comment.clubCommentDate}" pattern="yyyy-MM-dd"/></p>
 							<c:if test="${comment.clubCommentLevel eq 'M1'}">
-								<button type="button">대댓</button>
+								<button type="button" onclick="recommentInsert('${comment.boardNumber}', '${comment.commentNumber}')">대댓</button>
 							</c:if>
 							<c:if test="${profile.profileNickname eq comment.profileNickname}">
-								<button type="button">수정</button>
+								<button type="button" onclick="commentUpdate(${comment.commentNumber})">수정</button>
 							</c:if>
 							<c:if test="${profile.profileNickname eq comment.profileNickname || member.memberGrd eq 'A3' || profile.profileNickname eq club.profileNickname}">
-								<button type="button">삭제</button>
+								<button type="button" onclick="commentDelete(${comment.commentNumber})">삭제</button>
 							</c:if>
 						</div>
 					</c:when>
@@ -214,9 +213,6 @@ $(document).ready(function() {
    
 }
 
-
-$(document).ready(function() {
-
 	$("#commentInsert").on("click", function() {
 	
 		var form = document.getElementById("commentInsertForm");
@@ -225,6 +221,10 @@ $(document).ready(function() {
 		var clubCommentContent = form.clubCommentContent.value;
 		var clubCommentSecretCheckbox = form.clubCommentSecret;
 		var commentSecret = clubCommentSecretCheckbox.checked ? "on" : "";
+		
+		var clubBoardWriter = '${board.clubBoardWriter}';
+		var writerEmail = '${board.memberEmail}';
+		var clubName = '${club.clubName}';
 		
 		$.ajax({
 			url : 'clubCommentInsert',
@@ -239,16 +239,70 @@ $(document).ready(function() {
 				if (result == 1) {
 					alert("댓글 등록에 성공 했습니다.");
 				}
+				$('#clubCommentContent').val('');
+			},
+			error : function() {
+				alert("댓글 등록에 실패 했습니다.");
 			}
-		})
+		});
+		
+		if (profileNickname != clubBoardWriter) {
+			$.ajax({
+				url : '${pageContext.request.contextPath}/push/insertPush',
+				type : 'post',
+				data : {
+						'pushTarget' : writerEmail,
+						'pushTyp' : 'B2',
+						'pushCntn' : clubName + " 소모임의 " + boardNumber + '번 게시물에 새 댓글이 등록 되었습니다. ' + '"' + clubCommentContent + '"',
+						'pushUrl' : '${pageContext.request.contextPath}/clubBoardInfo?boardNumber=' + boardNumber,
+					},
+				dataType : "json",
+				success : function(result) {
+					if (result == 1) {
+						alert("작성자에게 댓글 알림이 전송 되었습니다.");
+					} else {
+						alert("작성자에게 댓글 알림 전송에 실패 했습니다.");
+					}
+				}
+			});
+		}
 		
 	});
 	
+function commentUpdate(commentNumber) {
+	window.name = "parentForm";
+	window.open("clubCommentUpdate?commentNumber=" + commentNumber,
+			"clubCommentUpdate", "width=570, height=350, resizable = no, scrollbars = no");
+}
+
+
+
+function commentDelete(commentNumber) {
 	
+		$.ajax({
+  			url : 'clubCommentDelete',
+  			data : {
+					'commentNumber' : commentNumber
+			},
+  			type : 'POST',
+			success : function(result) {
+				if (result) {
+					alert("댓글 삭제에 성공 했습니다.");
+				}
+			},
+			error : function() {
+				alert("댓글 삭제에 실패 했습니다.");
+			}
+		});
+		
+  	}
 	
-	
-	
-});
+function recommentInsert(boardNumber, commentNumber) {
+	window.name = "parentForm";
+	window.open("clubRecommentInsert?boardNumber=" + boardNumber + "&commentNumber=" + commentNumber,
+			"clubReommentInsert", "width=570, height=350, resizable = no, scrollbars = no");
+}
+
 
    
    
