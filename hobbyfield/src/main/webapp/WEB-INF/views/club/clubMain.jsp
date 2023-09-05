@@ -64,22 +64,24 @@
 </head>
 <body>
 	<section>
-	<div align="center">
+	<div align="center" style="margin-top: 100px;">
 		
 		
-		 <h3>
-		 	club 상위 리스트
+		
+		  <h3>club 상위 리스트</h3> 
 	          <div>
-	          <a href="${pageContext.request.contextPath}/clubList">소모임 조회페이지</a>
-	          </div><br>
-	          <div>
-	          <a class="btn btn-success" href="${pageContext.request.contextPath}/profileInsert">프로필 생성</a>
+	          <a href="${pageContext.request.contextPath}/club/clubList">소모임 조회페이지</a>
 	          </div>
-		 </h3> 
+	         
+	          <a class="btn btn-success" href="${pageContext.request.contextPath}/club/profileInsert">프로필 생성</a>
+	          </div>
+		
 		 <!-- 소모임 표시 -->    
 	     <div id="clubContainer"> 
 	            <c:forEach items="${clubList}" var="club">
-	                <div class="clubItem" onclick="location.href='clubBoardList?clubNumber=${club.clubNumber}'">
+
+	                <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${club.clubNumber}'">
+
 	                    <img src="${club.clubImgPath}${club.clubImg}">
 	                    <div class="clubInfo">
 	                        <p>모임리더: ${club.profileNickname}</p>
@@ -112,7 +114,6 @@
 	            </c:forEach>
 	        </div>
 	    </div>
-    </div>
 	</section>
     		
 <script type="text/javascript">
@@ -124,7 +125,7 @@
 		
 		// ajax로 통해 보내야할 데이터는 Session의 member.memberEmail
 		$.ajax({
-			url : 'checkClubApply',
+			url : 'club/checkClubApply',
 			data : email,
 			type : 'POST',
 			success : function(result) {

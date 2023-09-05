@@ -1,6 +1,9 @@
 package com.hobbyfield.app.club.board.mapper;
 
 import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
 
 import com.hobbyfield.app.club.board.service.ClubBoardVO;
 import com.hobbyfield.app.club.service.CreateclubVO;
@@ -16,7 +19,10 @@ public interface ClubBoardMapper {
 	
 	// 단건조회
 	public ClubBoardVO getClubBoardInfo(ClubBoardVO vo);
-		
+	
+	// 소모임내 게시글 검색
+	public List<ClubBoardVO> searchClubBoardList(@Param("clubNumber") int clubNumber , @Param("text") String text);
+	
 	// 등록
 	public int insertClubBoard(ClubBoardVO vo);
 		
@@ -31,5 +37,8 @@ public interface ClubBoardMapper {
 	
 	// 게시글 작성 활동 포인트 적립
 	public int updateMemberPnt(MemberVO memberVO);
+	
+	// 무한스크롤을 위한.
+	public List<ClubBoardVO> getClubBoardScroll(Map<String,Integer> map);
 
 }

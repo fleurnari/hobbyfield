@@ -9,7 +9,7 @@ public class BoardVoteResultVO {
 //	VOTE_NUMBER        NOT NULL NUMBER(4)    
 //	VOTE_OP_NUMBER     NOT NULL NUMBER(2)    
 	private Integer voteResultNumber;
-	private String profileNickName;
+	private String profileNickname;
 	private Integer voteNumber;
 	private Integer voteOpNumber;
 }

@@ -3,6 +3,78 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.hobbyfield.app.club.board.mapper.BoardVoteMapper">
+  
+  		<insert id="insertVote" parameterType="BoardVoteVO">
+  				<selectKey keyProperty="vote_number" resultType="int" order="BEFORE">
+		 			SELECT NVL(MAX(vote_number),0) + 1
+		 			FROM board_vote
+ 				</selectKey>
+ 				INSERT INTO board_vote
+ 					(
+ 						vote_number,
+ 						profile_nickname,
+ 						board_subject,
+ 						vote_date,
+ 						vote_secret,
+ 						vote_multi,
+ 						vote_stdate,
+ 						vote_eddate,
+ 						vote_count
+ 					) VALUES
+ 					(
+ 						#{voteNumber},
+ 						#{profileNickname}
+ 						#{board_subject},
+ 						#{vote_date},
+ 						#{vote_secret},
+ 						#{vote_mulit},
+ 						#{voteStrit},
+ 						#{voteCount}
+ 					)
+  		</insert>
+  		
+  		<insert id="insertVoteOption" parameterType="BoardVoteOptionVO">
+  				<selectKey keyProperty="vote_op_number" resultType="int" order="BEFORE">
+	 			SELECT NVL(MAX(vote_op_number),0) + 1
+	 			FROM board_vote_option
+ 				</selectKey>
+ 				INSERT INTO board_vote_option 
+ 					(
+ 						vote_op_number,
+ 						vote_number,
+ 						vote_op_item
+ 					)
+ 					VALUES
+ 					(
+ 						#{voteOpNumber},
+ 						#{voteNumber},
+ 						#{voteOpItem}
+ 					)
+  		</insert>
+  		
+  		<insert id="insertVoteResult" parameterType="BoardVoteResultVO">
+  			<selectKey keyProperty="voteResultNumber" resultType="int" order="BEFORE">
+	 			SELECT NVL(MAX(vote_result_number),0) + 1
+	 			FROM BOARD_VOTE_RESULT
+ 			</selectKey>
+  			INSERT INTO BOARD_VOTE_RESULT
+  					(
+  						VOTE_RESULT_NUMBER,
+  						PROFILE_NICKNAME,
+  						VOTE_NUMBER,
+  						VOTE_OP_NUMBER
+  					) VALUES
+  					(
+  						#{voteResultNumber},
+  						#{profileNicknam},
+  						#{voteNumber},
+  						#{voteOpNumber}
+  					)
+  		</insert>
+  		
+  		<delete id="deleteVoteResult" parameterType="BoardVoteResultVO">
+  			DELETE BOARD_VOTE_RESULT WHERE VOTE_OP_NUMBER = #{voteOpNumber} 
+  		</delete>
   		
   </mapper>
    
