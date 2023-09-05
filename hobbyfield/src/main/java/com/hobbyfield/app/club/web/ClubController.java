@@ -519,6 +519,7 @@ public class ClubController {
 	}
 	
 	// 댓글 수정 수행
+	@ResponseBody
 	@PostMapping("clubCommentUpdate")
 	public boolean updateClubComment(ClubCommentVO clubCommentVO, HttpServletRequest request) {
 		
@@ -539,6 +540,7 @@ public class ClubController {
 	}
 	
 	// 댓글 삭제
+	@ResponseBody
 	@PostMapping("clubCommentDelete")
 	public boolean deleteClubComment(ClubCommentVO clubCommentVO) {
 		
@@ -553,20 +555,18 @@ public class ClubController {
 
 	// 대댓글 작성 폼
 	@GetMapping("clubRecommentInsert")
-	public String recommentInsertForm(HttpServletRequest request, Model model) {
-		ClubCommentVO clubCommentVO = new ClubCommentVO();
-		clubCommentVO.setBoardNumber(Integer.valueOf(request.getParameter("boardNumber")));
-		clubCommentVO.setCommentNumber(Integer.valueOf(request.getParameter("commentNumber")));
+	public String recommentInsertForm(HttpServletRequest request, Model model, ClubCommentVO clubCommentVO) {
 		
-		clubCommentService.getComment(clubCommentVO);
+		ClubCommentVO commentVO = clubCommentService.getComment(clubCommentVO);
 		
-		model.addAttribute("comment", clubCommentVO);
+		model.addAttribute("comment", commentVO);
 		
 		return "clubComment/clubRecommentInsert";
 
 	}
 	
 	// 대댓글 작성 수행
+	@ResponseBody
 	@PostMapping("clubRecommentInsert")
 	public int recommentInsert(ClubCommentVO clubCommentVO, HttpServletRequest request) {
 		
@@ -576,7 +576,7 @@ public class ClubController {
 			clubCommentVO.setClubCommentSecret("L2");
 		}
 		
-		clubCommentVO.setClubCommentPartnumber(Integer.valueOf(request.getParameter("commentNumber")));
+		clubCommentVO.setClubCommentPartnumber(clubCommentVO.getCommentNumber());
 		clubCommentVO.setClubCommentLevel("M2");
 		
 		int result = clubCommentService.insertComment(clubCommentVO);

@@ -21,14 +21,14 @@
 			<input type="checkbox" id="clubCommentSecret" name="clubCommentSecret">
 		</div>
 		<div>
-			<button type="button" class="btn btn-primary btn-outline btn-lg">작성</button>&nbsp;&nbsp;
+			<button type="button" id="recommentInsertBtn" class="btn btn-primary btn-outline btn-lg">작성</button>&nbsp;&nbsp;
 			<button type="button" onclick="window.close()" class="btn btn-primary btn-outline btn-lg">취소</button>&nbsp;&nbsp;
 		</div>
 	 </form>
 	 <script>
 	 $(document).ready(function() {
 
-			$("#clubRecommentInsert").on("click", function() {
+			$("#recommentInsertBtn").on("click", function() {
 			
 				var form = document.getElementById("clubRecommentInsert");
 				var commentNumber = form.commentNumber.value;
@@ -50,11 +50,8 @@
 					type : "post",
 					success : function(result) {
 						if (result == 1) {
-							alert("댓글 등록에 성공 했습니다.");
-							
+							alert("대댓글 등록에 성공 했습니다.");
 							window.close();
-							
-							location.reload();
 						}
 					}
 				})

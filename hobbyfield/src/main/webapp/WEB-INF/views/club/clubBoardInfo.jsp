@@ -213,9 +213,6 @@ $(document).ready(function() {
    
 }
 
-
-$(document).ready(function() {
-
 	$("#commentInsert").on("click", function() {
 	
 		var form = document.getElementById("commentInsertForm");
@@ -224,6 +221,10 @@ $(document).ready(function() {
 		var clubCommentContent = form.clubCommentContent.value;
 		var clubCommentSecretCheckbox = form.clubCommentSecret;
 		var commentSecret = clubCommentSecretCheckbox.checked ? "on" : "";
+		
+		var clubBoardWriter = '${board.clubBoardWriter}';
+		var writerEmail = '${board.memberEmail}';
+		var clubName = '${club.clubName}';
 		
 		$.ajax({
 			url : 'clubCommentInsert',
@@ -238,17 +239,36 @@ $(document).ready(function() {
 				if (result == 1) {
 					alert("댓글 등록에 성공 했습니다.");
 				}
+				$('#clubCommentContent').val('');
+			},
+			error : function() {
+				alert("댓글 등록에 실패 했습니다.");
 			}
-		})
+		});
+		
+		if (profileNickname != clubBoardWriter) {
+			$.ajax({
+				url : '${pageContext.request.contextPath}/push/insertPush',
+				type : 'post',
+				data : {
+						'pushTarget' : writerEmail,
+						'pushTyp' : 'B2',
+						'pushCntn' : clubName + " 소모임의 " + boardNumber + '번 게시물에 새 댓글이 등록 되었습니다. ' + '"' + clubCommentContent + '"',
+						'pushUrl' : '${pageContext.request.contextPath}/clubBoardInfo?boardNumber=' + boardNumber,
+					},
+				dataType : "json",
+				success : function(result) {
+					if (result == 1) {
+						alert("작성자에게 댓글 알림이 전송 되었습니다.");
+					} else {
+						alert("작성자에게 댓글 알림 전송에 실패 했습니다.");
+					}
+				}
+			});
+		}
 		
 	});
 	
-	
-	
-	
-	
-});
-
 function commentUpdate(commentNumber) {
 	window.name = "parentForm";
 	window.open("clubCommentUpdate?commentNumber=" + commentNumber,
@@ -261,14 +281,17 @@ function commentDelete(commentNumber) {
 	
 		$.ajax({
   			url : 'clubCommentDelete',
-  			method : 'POST',
   			data : {
-  					'commentNumber' : commentNumber
-  			},
+					'commentNumber' : commentNumber
+			},
+  			type : 'POST',
 			success : function(result) {
 				if (result) {
 					alert("댓글 삭제에 성공 했습니다.");
 				}
+			},
+			error : function() {
+				alert("댓글 삭제에 실패 했습니다.");
 			}
 		});
 		
