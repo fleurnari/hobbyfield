@@ -29,68 +29,67 @@
 
 .ck-editor__editable {
 	height: 80vh;
-
 }
 
-	
-	
-	/* 모임신청 모달창 */
-    /* ... 기존 스타일 ... */
-   .clubModal {
-        display: none; /* 초기에 모달을 숨깁니다. */
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0,0,0,0.5); /* 반투명한 검은색 배경 */
-        z-index: 1; /* 다른 요소 위에 위치 */
-    }
+/* 모임신청 모달창 */
+/* ... 기존 스타일 ... */
+.clubModal {
+	display: none; /* 초기에 모달을 숨깁니다. */
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5); /* 반투명한 검은색 배경 */
+	z-index: 1; /* 다른 요소 위에 위치 */
+}
 
-    .modal_body {
-        width: 25%; /* 화면의 1/3 */
-        height: 80%; /* 화면의 1/3 */
-        position: absolute;
-        top: 50%; 
-        left: 50%;
-        transform: translate(-50%, -50%); /* 중앙에 위치하도록 설정 */
-        background-color: white;
-        padding: 20px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-    }
+.modal_body {
+	width: 25%; /* 화면의 1/3 */
+	height: 80%; /* 화면의 1/3 */
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%); /* 중앙에 위치하도록 설정 */
+	background-color: white;
+	padding: 20px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+}
 
-    /* 모달 닫기 버튼 (선택) */
-    .close {
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        cursor: pointer;
-    }
-	
+/* 모달 닫기 버튼 (선택) */
+.close {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	cursor: pointer;
+}
 </style>
 </head>
 <body>
 	<div align="center" style="margin-top: 150px;">
 		<!-- 검색창 구현 : 사용자이름, 글내용으로 검색 : ajax 처리를 통해 검색된 내용만 다시 불러오도록.-->
-		
-			<!-- 검색창 -->
-			<div class="search-div">
-				<form id="searchForm" action="${pageContext.request.contextPath}/club/searchBoard"
-					method="get">
-					<input type="hidden" name="searchNum" id="searchNum" value="${club.clubNumber}" />
-					<div>
-						<input class="search-text" type="text" id="searchText"
-							name="searchText" placeholder="검색어 입력"> 
-						<img class="search-img" id="search-img" name="search-img"
-							src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
-					</div>
-				</form>
-			</div>
+
+		<!-- 검색창 -->
+		<div class="search-div">
+			<form id="searchForm"
+				action="${pageContext.request.contextPath}/club/searchBoard"
+				method="get">
+				<input type="hidden" name="searchNum" id="searchNum"
+					value="${club.clubNumber}" />
+				<div>
+					<input class="search-text" type="text" id="searchText"
+						name="searchText" placeholder="검색어 입력"> <img
+						class="search-img" id="search-img" name="search-img"
+						src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+				</div>
+			</form>
+		</div>
 
 
 		<h1>게시글 목록</h1>
-		<button type="button" onclick="location.href='clubInfo?clubNumber=${club.clubNumber}'">모임상세정보</button>
+		<button type="button"
+			onclick="location.href='clubInfo?clubNumber=${club.clubNumber}'">모임상세정보</button>
 		<!-- Session 확인용 : 추후 삭제 -->
 		<div>
 			<div>email : ${member.memberEmail}</div>
@@ -119,13 +118,12 @@
 				<div class="drop-button">
 					<button></button>
 				</div>
-				<div id="boardMain"
-
+				<div class="boardMain"
 					onclick="location.href='${pageContext.request.contextPath}/club/clubBoardInfo?boardNumber=${board.boardNumber}'">
 					<p>글 번호 : ${board.boardNumber}</p>
 					<p>작성자 : ${board.clubBoardWriter}</p>
 					<div>${board.clubBoardContent}</div>
-					<p id="writeDay">
+					<p class="writeDay">
 						작성일 :
 						<fmt:formatDate value="${board.clubBoardWdate}"
 							pattern="yyyy-MM-dd" />
@@ -161,7 +159,7 @@
 				<p>지역 : ${club.majorLocation} ${club.subLocation}</p>
 			</div>
 			<!-- 글쓰기버튼 구현 : modal로 글쓰기 창이 나오도록 -->
-			
+
 			<div class="button-group">
 				<c:choose>
 					<c:when test="${profile ne null}">
@@ -177,11 +175,9 @@
 					</c:when>
 				</c:choose>
 			</div>
-			</div>
-		<!-- 사이드바2(오) 최근 사진, 글쓰기 버튼 -->
-		<div>
-		
 		</div>
+		<!-- 사이드바2(오) 최근 사진, 글쓰기 버튼 -->
+		<div></div>
 	</div>
 
 	<!-- modal 모음 -->
@@ -205,7 +201,7 @@
 					<label>일정설정</label> <input type="date" id="insertScheduleDate"
 						name="scheduleDate" value="">
 				</div>
-				
+
 				<div>
 					<input type="text" name="clubBoardWriter"
 						value="${profile.profileNickname}">
@@ -232,12 +228,10 @@
 
 	<!-- 가입신청 modal -->
 	<div id=applyModal class="modal">
-		
-		<form id="clubApply" action="clubApply" >
-			
-		</form>
+
+		<form id="clubApply" action="clubApply"></form>
 	</div>
-	
+
 	<!-- 투표 modal -->
 	<div id="voteModal" class="modal">
 		<div class="modal-content">
@@ -247,13 +241,14 @@
 				required="required" placeholder="투표제목">
 			<div id="input-container">
 				<!-- 초기에 2개의 input 태그 생성 -->
-				<input type="text" name="voteOption1" required="required" placeholder="투표 옵션 1"> 
-				<input type="text" name="voteOption2" required="required" placeholder="투표 옵션 2">
+				<input type="text" name="voteOption1" required="required"
+					placeholder="투표 옵션 1"> <input type="text"
+					name="voteOption2" required="required" placeholder="투표 옵션 2">
 			</div>
 			<button type="button" id="addInput">옵션 추가</button>
 			<div id="tpye-checkbox">
-				<input type="checkbox" id="voteMulti" value="">복수 투표
-				<input type="checkbox" id="voteSecret" value="">무기명 투표
+				<input type="checkbox" id="voteMulti" value="">복수 투표 <input
+					type="checkbox" id="voteSecret" value="">무기명 투표
 			</div>
 			<div>
 				<button id="inserVoteBtn" type="button">첨부하기</button>
@@ -261,48 +256,53 @@
 		</div>
 	</div>
 
-		<!-- 소모임 가입 modal (시작)-->
+	<!-- 소모임 가입 modal (시작)-->
 	<form action="clubJoinProcess" method="POST">
-	<div id="clubModal" class="clubModal">
-		<div class="modal_body">
-			<div>
-		<button onclick="hreclubManage=clubNumber?${clubInfo.clubNumber}">관리</button>
-			<!-- 모임 신청 질문 가져오기 -->
-				<label>모임소개 : ${clubInfo.clubInfo}</label><br>
-				<label>카테고리 : ${clubInfo.clubCategory}</label><br>
-				<label>모임장 : ${clubInfo.profileNickname}</label><br>
-				<label>모임유형 : ${clubInfo.clubType}</label><br>
-				<label>모임지역 : ${clubInfo.majorLocation}</label><br>
-				<label>모임인원 : count되게 작성해야함 50/50</label>
-				<h3>가입 질문 답변</h3><br>
-				<label>${clubInfo.singupQuestion1}</label><br>
-				<input type="text" name="applyAnswer1"><br>
-				<label>${clubInfo.singupQuestion2}</label><br>
-				<input type="text" name="applyAnswer2"><br>
-				<label>${clubInfo.singupQuestion3}</label><br>
-				<input type="text" name="applyAnswer3"><br>
-				<input type="hidden" value="H1" name="applyStatus">
-				<input type="hidden" name="clubNumber" value="${clubInfo.clubNumber}">
-				<input type="hidden" name="profileNickname" value="${profile.profileNickname}">
-<%-- 				<c:forEach items="${profile}" var="pro"> --%>
-<%-- 					<option value="${pro.profilNickname}">${pro.profileNickname}</option> --%>
-<%-- 				</c:forEach> --%>
-			</div><br>
-			<button type="submit">신청</button>
-			<span class="close">&times;</span>
+		<div id="clubModal" class="clubModal">
+			<div class="modal_body">
+				<div>
+					<button onclick="hreclubManage=clubNumber?${clubInfo.clubNumber}">관리</button>
+					<!-- 모임 신청 질문 가져오기 -->
+					<label>모임소개 : ${clubInfo.clubInfo}</label><br> <label>카테고리
+						: ${clubInfo.clubCategory}</label><br> <label>모임장 :
+						${clubInfo.profileNickname}</label><br> <label>모임유형 :
+						${clubInfo.clubType}</label><br> <label>모임지역 :
+						${clubInfo.majorLocation}</label><br> <label>모임인원 : count되게
+						작성해야함 50/50</label>
+					<h3>가입 질문 답변</h3>
+					<br> <label>${clubInfo.singupQuestion1}</label><br> <input
+						type="text" name="applyAnswer1"><br> <label>${clubInfo.singupQuestion2}</label><br>
+					<input type="text" name="applyAnswer2"><br> <label>${clubInfo.singupQuestion3}</label><br>
+					<input type="text" name="applyAnswer3"><br> <input
+						type="hidden" value="H1" name="applyStatus"> <input
+						type="hidden" name="clubNumber" value="${clubInfo.clubNumber}">
+					<input type="hidden" name="profileNickname"
+						value="${profile.profileNickname}">
+					<%-- 				<c:forEach items="${profile}" var="pro"> --%>
+					<%-- 					<option value="${pro.profilNickname}">${pro.profileNickname}</option> --%>
+					<%-- 				</c:forEach> --%>
+				</div>
+				<br>
+				<button type="submit">신청</button>
+				<span class="close">&times;</span>
+			</div>
 		</div>
-	</div>
 	</form>
-		
-		
-		
-		
-		
-</div>
 
 
-<script type="text/javascript">
-  $(document).ready(function(){
+
+
+
+
+
+
+	<script type="text/javascript">
+
+	var currentPage = 2;  // 현재 페이지 번호 초기화
+	var pageSize = 10;    // 페이지 크기 초기화
+	var isLoading = false; // 중복 요청을 확인
+
+  	$(document).ready(function(){
        // 글쓰기 작성시 날짜 기본값 오늘날짜로 
        $("#insertScheduleDate").val(new Date().toISOString().substring(0, 10));
        $("#openModalBtn").on("click", function(e) {
@@ -379,14 +379,76 @@
        $("#insertVoteBtn").on("click", function (e) {
        		// 각 input값이 없으면 alert
         	$("#voteModal").css("display", "none");
-    });
+    	});
 
-       
-    // 에디터용
 	
+  
+  // 페이징
+  $(window).off('scroll').on('scroll', function() {
+	    if (!isLoading && $(window).scrollTop() + $(window).height() == $(document).height()) {
+	        isLoading = true; // 요청 시작 전 플래그 설정
 
-});	
+	        $.ajax({
+	            url: "${pageContext.request.contextPath}/club/clubBoardScroll",
+	            data: {
+	            	 startPage: (currentPage - 1) * pageSize + 1, 
+	                 endPage: currentPage * pageSize            
+	            },
+	            type: 'GET',
+	            dataType: 'json',
+	            success: function(boards) {
+	            	console.log("현재페이지:", currentPage);  // 현재 페이지 번호 출력
+	                console.log("반횐된 데이터:", boards);     // 반환된 소모임 데이터 출력
+	            
+	                if (boards.length > 0) {
+	                    $.each(boards, function(index, board) {
+	                        $('#clubBoardList').append(`
+	                        		
+	                				<h3>게시글</h3>
+	                				<div class="drop-button">
+	                					<button></button>
+	                				</div>
+	                				<div class="boardMain"
+	                					onclick="location.href='app/club/clubBoardInfo?boardNumber=${board.boardNumber}'">
+	                					<p>글 번호 : \${board.boardNumber}</p>
+	                					<p>작성자 : \${board.clubBoardWriter}</p>
+	                					<div>\${board.clubBoardContent}</div>
+	                					<p class="writeDay">
+	                						작성일 :
+	                						<fmt:formatDate value="${board.clubBoardWdate}"
+	                							pattern="yyyy-MM-dd" />
+	                					</p>
+	                					<p>\${board.clubBoardViews}</p>
+	                					<p>\${board.clubBoardType}</p>
+	                					<c:if test="${board.scheduleDate} ne null">
+	                						<p>
+	                							<fmt:parseDate value="${board.scheduleDate}" var="dateFmt"
+	                								pattern="yyyyMMdd" />
+	                							<fmt:formatDate value="${dateFmt}" pattern="yyyy-MM-dd" />
+	                						</p>
+	                					</c:if>
+	                				</div>
+	                        `);
+	                    });
+	                    
+	                    currentPage++; 
+	                }
+	                isLoading = false; 
+	            },
+	            error: function(error) {
+	            	console.error("무한 스크롤 에러", error);
+	                showError("데이터 로딩 중 오류가 발생했습니다. 다시 시도해 주세요.");
+	                isLoading = false; 
+	            }
+	        });
+	    }
+	});
+  });	
 	
+	
+	
+	
+	//에디터용
    	ClassicEditor
    	.create( document.querySelector( '#editorInsert' ), {
    		language:"ko",
