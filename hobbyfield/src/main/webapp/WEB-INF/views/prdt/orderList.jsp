@@ -29,6 +29,7 @@
             <tr>
                 <th>주문 번호</th>
                 <th>상품명</th>
+                <th>사이즈</th>
                 <th>주문날짜</th>
                 <th>결제금액</th>
                 <th>주문취소</th>
@@ -39,6 +40,7 @@
                 <tr>
                     <td>${order.orderId}</td>
                     <td>${order.prdtName}</td>
+                    <td>${order.prdtOption}</td>
                     <td><fmt:formatDate value="${order.orderDate}" pattern="yyyy-MM-dd" /></td>
                     <td>${order.amount}</td>
                     <td><button type="button" class="btn btn-danger cancelBtn" data-orderId="${order.orderId}">취소</button></td>

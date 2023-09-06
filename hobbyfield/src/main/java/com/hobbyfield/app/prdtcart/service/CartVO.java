@@ -12,6 +12,6 @@ public class CartVO {
 	private int prdtId;				//상품번호
 	private int cartStock;			//장바구니에 담은 수량
 	private Date addDate;			//장바구니에 담은 날짜
-	
+	private String prdtOption;
 	
 }

@@ -4,12 +4,15 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.hobbyfield.app.common.SearchCriteria;
 import com.hobbyfield.app.csboard.service1.CSReplyVO;
 import com.hobbyfield.app.prdt.service.CommentVO;
 import com.hobbyfield.app.prdt.service.ReviewVO;
 
 public interface ReviewMapper {
 	
+	 //등록된 후기(배송문의)의 수
+	 public int reviewCount(SearchCriteria scri);
 	 //리뷰 작성
 	 public void writeReview(ReviewVO reviewVO);
 	 
@@ -30,4 +33,11 @@ public interface ReviewMapper {
 	 
 	 //댓글상세보기
 	 public CommentVO getComment(int reviewId);
+	 
+	 //댓글삭제
+	 public void deleteComment(int commentId);
+	 
+	 //댓글수정
+	 public void updateComment(CommentVO commentVO);
+	 
 }

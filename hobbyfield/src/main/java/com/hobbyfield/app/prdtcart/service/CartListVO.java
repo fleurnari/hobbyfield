@@ -17,5 +17,5 @@ public class CartListVO {
 	private String prdtName;
 	private int prdtPrice;
 	private String prdtThum;
-	
+	private String prdtOption;
 }

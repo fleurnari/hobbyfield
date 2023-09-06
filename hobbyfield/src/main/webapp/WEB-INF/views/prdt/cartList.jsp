@@ -85,19 +85,22 @@
             <th>선택</th>
             <th>상품명</th>
             <th>가격</th>
+            <th>사이즈</th>
             <th>수량</th>
-            <th>금액</th>
+            <th>합계</th>
         </tr>
         <c:set var="sum" value="0" />
         <c:forEach items="${cartList}" var="cart">
         <tr>
             <td><input type="checkbox" name="chBox" class="chBox" data-cartId="${cart.cartId }"/></td>
             <td>${cart.prdtName}</td>
-            <td>${cart.prdtPrice}</td>
+            <td><fmt:formatNumber type="number" value="${cart.prdtPrice}" pattern="###,###,###원"/></td>
+            <td>${cart.prdtOption}</td>
             <td>${cart.cartStock}</td>
-            <td>${cart.prdtPrice * cart.cartStock} </td>
+                  <td><fmt:formatNumber type="number" value="${cart.prdtPrice * cart.cartStock}" pattern="###,###,###원"/></td>
         </tr>
-        
+    
+      
         <c:set var="sum" value="${sum + (cart.prdtPrice * cart.cartStock)}" />
         </c:forEach>
         </table>
@@ -106,7 +109,7 @@
 			  <h2>총 결제금액 : <fmt:formatNumber pattern="###,###,###" value="${sum}" />원</h2>
 			 </div>
 			 <div class="orderOpne">
-			  <button type="button" class="btn btn-success" id="orderOpne_bnt">주문 정보 입력</button>
+			  <button type="button" class="btn btn-success" id="orderOpne_bnt">장바구니 결제하기</button>
 			 </div>
 		</div>
         <a href="<c:url value="prdtList" />" class="btn btn-secondary"> &laquo; 쇼핑 계속하기</a>
@@ -225,10 +228,14 @@ $(".cancel_btn").click(function(){
 $(document).ready(function() {
     $(".order_btn").click(function() {
         var selectedPrdtName = []; // 선택한 상품 담을 배열
-
+        var selectedPrdtOption = [];
+        
         $(".chBox:checked").each(function() {
             var prdtName = $(this).closest("tr").find("td:eq(1)").text();
+            var prdtOption = $(this).closest("tr").find("td:eq(3)").text();
+            
             selectedPrdtName.push(prdtName); // 배열에 상품명 추가
+            selectedPrdtOption.push(prdtOption);
         });
 
         // 주문 정보를 아임포트 결제 요청에 포함
@@ -240,6 +247,7 @@ $(document).ready(function() {
             memberDetaaddr: $("#memberDetaaddr").val(),
             orderMemo: $("#orderMemo").val(),
             prdtName: selectedPrdtName.join(','),
+            prdtOption: selectedPrdtOption.join(','), 
             amount: ${sum},
             iamUid: generateUniqueMerchantUid() // iam_uid 추가
         };
