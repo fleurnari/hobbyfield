@@ -50,6 +50,9 @@
        FROM	club_apply
        WHERE club_number = #{clubNumber} AND apply_status = 'H1'
    </select>
+	
+	<!-- 로그인시 현재 프로필리스트 가져오기 -->
+	
 
 	<!-- 소모임 가입 신청한 회원 승인 -->
 	<!-- 회원 insert club_member -->
@@ -85,5 +88,11 @@
         DELETE FROM CLUB_APPLY
         WHERE PROFILE_NICKNAME = #{profileNickname} AND CLUB_NUMBER = #{clubNumber}
     </delete>
-
+	
+	<!-- 모임탈퇴 -->
+	<delete id="quitClubMember" parameterType="ClubJoinVO">
+		DELETE FROM CLUB_MEMBER
+		WHERE PROFILE_NICKNAME = #{profileNickname} AND CLUB_NUMBER = #{clubNumber}
+	</delete>
+	
 </mapper>

@@ -38,11 +38,7 @@
 			
 				// file 데이터를 formData로 추가 
 				for (var i = 0; i < files.length; i++) {
-					
-// 					if(!checkExtension(file[i].name, file[i].size) ){
-// 						return false;
-// 					}
-					
+							
 					formData.append("uploadFile", files[i]);
 				}
 					
@@ -62,7 +58,7 @@
 						for(mv of list) {
 							var preview = document.getElementById("preview");
 							var imgTag = document.createElement("img");
-							imgTag.src = "app/" + mv.url + mv.UUID; 
+							imgTag.src = "/app" + mv.url + mv.UUID; 
 							console.log( mv.url + "test" + mv.UUID);
 							imgTag.style.width=200+'px';
 							imgTag.style.height=200+'px';							

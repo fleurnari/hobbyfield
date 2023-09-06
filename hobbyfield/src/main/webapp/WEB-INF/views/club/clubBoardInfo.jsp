@@ -113,7 +113,17 @@
 			</form>
 		</div>
 	</div>
-
+	
+	<!-- 글 목록, 수정, 삭제, 이전, 다음글 -->
+	<div id="btnList">
+		<div id="boardNext">다음글</div>
+		<div id="boardList">글목록</div>
+		<div id="boardBefore">이전글</div>
+		
+		<div id="boardEdit">수정</div>
+		<div id="boardDel">삭제</div>
+	</div>
+	
 	<!-- 이모티콘 모달 -->
 	<button type="button" class="btn btn-primary" data-bs-toggle="modal"
 		data-bs-target="#emojiModal">😊</button>
@@ -180,7 +190,7 @@ ClassicEditor
 ClassicEditor
 .create( document.querySelector( '#editor2' ), {
 	 toolbar: [], 
-} )
+})
 .then( editor => {
 	replyEditor = editor
 // 	replyEditor.execute( 'insertImage', { source: '/app/download/img/' } );
@@ -256,7 +266,14 @@ $(document).ready(function() {
 	   return false;
    };
    
-
+   
+   // 글 목록, 수정, 삭제 
+   // 이전, 다음글
+	$("#boardNext").on("click", function(){
+		
+		
+	})
+	
    
 
 

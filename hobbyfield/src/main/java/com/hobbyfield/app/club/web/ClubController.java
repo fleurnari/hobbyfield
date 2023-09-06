@@ -48,7 +48,7 @@ import com.hobbyfield.app.pointrecord.service.PointRecordVO;
 @Controller
 @RequestMapping("/club/*")
 public class ClubController {
-
+	
 	@Autowired
 	CreateclubService createClubService;
 	
@@ -137,7 +137,7 @@ public class ClubController {
 	    List<CreateclubVO> Cate = createClubService.getOrderCategory(clubCategory);
 	    return Cate;
 	}
-
+	
 	
 	// 소모임 세부조회
 	@GetMapping("/clubInfo")
@@ -155,7 +155,7 @@ public class ClubController {
 	    clubProfileVO.setMemberEmail(member.getMemberEmail());
 	    
 	    // 로그인한 유저의 프로필 정보 가져오기
-	    List<ClubProfileVO> profileInfo = clubprofileService.getClubProfileVO(clubProfileVO);
+	    List<ClubProfileVO> profileInfo = clubprofileService.getClubProfileVO(member.getMemberEmail());
 		// 모델에 추가
 	    model.addAttribute("profile", profileInfo);
 		model.addAttribute("clubInfo", findVO);
@@ -177,7 +177,7 @@ public class ClubController {
 		model.addAttribute("beforeMembers", joinVO);
 		return "club/clubManage";
 	}
-
+	
 	// 가입신청한 회원 승인
 	@PostMapping("/acceptClubMember")
 	public String acceptClubMember(@RequestParam String profileNickname, @RequestParam int clubNumber,
@@ -219,9 +219,10 @@ public class ClubController {
 		model.addAttribute("D", commCodeMapper.clubTypeList("0D")); // 모임분류 그룹코드
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		//profile목록은 로그인할때 profileList로 담음
-		//clubprofileVO.setMemberEmail(member.getMemberEmail());
-		//List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
-		//model.addAttribute("getNomalMypage", findVO);
+		clubprofileVO.setMemberEmail(member.getMemberEmail());
+		List<ClubProfileVO> findVO = clubprofileService.getClubProfileVO(member.getMemberEmail());
+		System.out.println(findVO);
+		model.addAttribute("getNomalMypage", findVO);
 		return "club/clubInsert";
 	}
 
@@ -320,7 +321,13 @@ public class ClubController {
 		model.addAttribute("clubMadeList", clubMadeList);
 		return "club/clubMadeList";
 	}
+	
+	@PostMapping("/clubQuit")
+	public String clubQuit() {
 		
+		return "";
+	}
+	
 
 	/* ========= 마이페이지 개인정보 : 프로필 이미지 등록, 개인정보 조회========= */
 
@@ -401,20 +408,31 @@ public class ClubController {
 			pointRecord.setPointType("AB2");
 			prService.insertPointLog(pointRecord);
 		}
-
-		
-		List<ClubBoardVO> clubBoardList = clubBoardService.getSelectClubBoardList(cvo);
+		HashMap<String, Integer> map = new HashMap<>();
+		map.put("start", 1);
+	 	map.put("end", 10);
+	 	map.put("clubNumber", vo.getClubNumber());
+		List<ClubBoardVO> clubBoardList = clubBoardService.getSelectClubBoardList(map);
 		model.addAttribute("boardList", clubBoardList);
 		
 		return "club/clubBoardList";
 	}
 	
 	
+	
+	
 	// 해당소모임 게시물 보는 페이지
 	@GetMapping("/clubBoardList")
 	public String clubBoardList(Model model, CreateclubVO vo, HttpServletRequest request) {
-		List<ClubBoardVO> clubBoardList = clubBoardService.getSelectClubBoardList(vo);
-		model.addAttribute("boardList", clubBoardList);
+//		List<ClubBoardVO> clubBoardList = clubBoardService.getSelectClubBoardList(vo);
+//		model.addAttribute("boardList", clubBoardList);
+		HashMap<String, Integer> map = new HashMap<>();
+	 	map.put("start", 1);
+	 	map.put("end", 10);
+	 	map.put("clubNumber", vo.getClubNumber());
+	 	List<ClubBoardVO> scrollList = clubBoardService.getSelectClubBoardList(map);
+	 	model.addAttribute("boardList", scrollList);
+	 	System.out.println(scrollList);
 		HttpSession session = request.getSession();
 		MemberVO mvo = (MemberVO)session.getAttribute("member");
 		CreateclubVO cvo = createClubService.getClub(vo);
@@ -427,6 +445,25 @@ public class ClubController {
 		}
 		return "club/clubBoardList";
 	}
+	
+	// 페이징 포함 (테스트중)
+	@ResponseBody
+ 	@RequestMapping(value="/clubBoardScroll", produces="application/json; charset=UTF-8")
+	public ResponseEntity<List<ClubBoardVO>> clubBoardScroll(@RequestParam("startPage") int startPage, 
+             @RequestParam("endPage") int endPage, HttpSession request){
+		 HashMap<String, Integer> map = new HashMap<>();
+		 CreateclubVO cvo =  (CreateclubVO)request.getAttribute("club");
+		 int num = cvo.getClubNumber();
+	 	 map.put("start", startPage);
+	 	 map.put("end", endPage); 
+	 	 map.put("clubNumber", num);
+	 	List<ClubBoardVO> scrollList = clubBoardService.getSelectClubBoardList(map);
+	 	System.out.println(scrollList);
+	 	
+		return new ResponseEntity<>(scrollList, HttpStatus.OK);
+	}
+	
+	
 	
 	@GetMapping("/searchBoard")
 	public String searchBoard(Model model, @RequestParam(value = "searchNum") int num 

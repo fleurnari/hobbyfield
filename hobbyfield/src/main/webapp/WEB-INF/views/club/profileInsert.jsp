@@ -63,46 +63,7 @@
 	var nickchCheck = false; //닉네임 중복체크
 	
 	$(document).ready(function(){
-	   //프로필 등록 버튼
-	   $(".join_button").on("click", function() {
-	      
-	      //입력값 변수
-	      var nick = $('.nick_input').val(); //닉네임 입력란
-	      
-	      /* 닉네임 유효성검사 */
-	      if(nick == ""){
-	         $('.final_name_ck').css('display', 'block');
-	         nickCheck = false;
-	      }else{
-	         $('.final_name_ck').css('display', 'none');
-	         nickCheck = true;
-	      }
-	      
-// 	      /* 최종 유효성 검사를 진행하고 form에 말아서 전달 */
-// 	      if(nickCheck&&nickchCheck){
-// 	        $("#join_form").submit();
-// 	      }
-	      
-	      $.ajax({
-	            type: "POST",
-	            url: "${pageContext.request.contextPath}/club/profileCount",
-	            data: { email: "${member.memberEmail}" },
-	            success: function(count) {
-	                if(count >= 3) {
-	                    alert("프로필은 최대 3개까지만 생성할 수 있습니다.");
-	                    return false;
-	                } else {
-	                    // 모든 검사를 통과한 경우 form 제출
-	                    if(nickCheck && nickchCheck) {
-	                        $("#join_form").submit();
-	                    }
-	                }
-	            }
-	        });
-	      
-	      return false;
-	   });
-	});
+	   
 
 
 	//닉네임 중복체크
