@@ -28,7 +28,7 @@ body {
 }
 
 .category-box {
-	width: calc(20% - 20px); <!-- 5 개씩 보이도록 --> margin-bottom : 20px;
+	width: calc(20% - 20px); /* 5 개씩 보이도록 */ margin-bottom : 20px;
 	background-color: #fff;
 	border: 1px solid #ccc;
 	padding: 20px;
@@ -48,7 +48,7 @@ body {
 	</div>
 	<div class="review-section">
 		<a href="${pageContext.request.contextPath}/tReview">
-			<div style="border: 2px solid #333; padding: 20px; cursor: pointer;">
+			<div style="border: 2px solid #333; padding: 20px; cursor: pointer;"> <!-- 스타일 css에 하기 -->
 				<h2>재능기부 후기</h2>
 			</div>
 		</a>
