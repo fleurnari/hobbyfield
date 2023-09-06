@@ -22,5 +22,8 @@ public interface ClubJoinMapper {
    
    //가입신청한 회원 거절 
    public void deleteClubApply(@Param("profileNickname") String profileNickname, @Param("clubNumber") Integer clubNumber);
+   
+   //소모임 탈퇴 
+   public int quitClubMember(ClubJoinVO vo);
 }
 

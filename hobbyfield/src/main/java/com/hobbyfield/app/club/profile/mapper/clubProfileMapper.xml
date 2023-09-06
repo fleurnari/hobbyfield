@@ -13,10 +13,24 @@
 			,PROFILE_IMG_PATH
 		) 
 		VALUES(
-			#{profileNickname}
-			,#{memberEmail}
-			,#{profileImg}
-			,#{profileImgPath}
+			#{profileNickname},
+			#{memberEmail},
+			<choose>
+				<when test="profileImg != null and !profileImg.equals('')">
+				#{profileImg},
+				</when>
+				<otherwise>
+				'common.png',
+				</otherwise>
+			</choose>
+			<choose>
+				<when test="profileImgPath != null and !profileImgPath.equals('')">
+				#{profileImgPath}
+				</when>
+				<otherwise>
+				'resources/images/'
+				</otherwise>
+			</choose>
 		)
 	</insert>
 	
@@ -81,7 +95,7 @@
            p.profile_img, 
            p.profile_img_path
     FROM member m
-    LEFT OUTER JOIN profile p ON m.member_email = p.member_email
+    JOIN profile p ON m.member_email = p.member_email
     WHERE m.member_email = #{memberEmail}
 	</select>
 	

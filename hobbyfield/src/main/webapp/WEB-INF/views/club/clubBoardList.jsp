@@ -96,8 +96,9 @@
 			<div>닉네임 : ${profile.profileNickname}</div>
 			<div>
 				<img
-					src="${pageContext.request.contextPath}/${profile.profileImgPath}${profile.profileImg}"
+					src="${pageContext.request.contextPath}${profile.profileImgPath}${profile.profileImg}"
 					style="width: 50px; height: 50px;">
+
 			</div>
 		</div>
 
@@ -123,11 +124,14 @@
 					<p>글 번호 : ${board.boardNumber}</p>
 					<p>작성자 : ${board.clubBoardWriter}</p>
 					<div>${board.clubBoardContent}</div>
-					<p class="writeDay">
-						작성일 :
-						<fmt:formatDate value="${board.clubBoardWdate}"
-							pattern="yyyy-MM-dd" />
-					</p>
+					<c:if test="${board.scheduleDate} ne null">
+						<p class="writeDay">
+							작성일 :
+							<fmt:parseDate value="${board.clubBoardWdate}" var="dateFmt"
+								pattern="yyyyMMdd" />
+							<fmt:formatDate value="${dateFmt}" pattern="yyyy-MM-dd" />
+						</p>
+					</c:if>
 					<p>${board.clubBoardViews}</p>
 					<p>${board.clubBoardType}</p>
 					<c:if test="${board.scheduleDate} ne null">
@@ -257,40 +261,88 @@
 	</div>
 
 	<!-- 소모임 가입 modal (시작)-->
-	<form action="clubJoinProcess" method="POST">
-		<div id="clubModal" class="clubModal">
-			<div class="modal_body">
+	<div id="clubModal" class="clubModal">
+		<div class="modal_body">
+			<form action="clubJoinProcess" method="POST">
 				<div>
-					<button onclick="hreclubManage=clubNumber?${clubInfo.clubNumber}">관리</button>
 					<!-- 모임 신청 질문 가져오기 -->
-					<label>모임소개 : ${clubInfo.clubInfo}</label><br> <label>카테고리
-						: ${clubInfo.clubCategory}</label><br> <label>모임장 :
-						${clubInfo.profileNickname}</label><br> <label>모임유형 :
-						${clubInfo.clubType}</label><br> <label>모임지역 :
-						${clubInfo.majorLocation}</label><br> <label>모임인원 : count되게
-						작성해야함 50/50</label>
-					<h3>가입 질문 답변</h3>
-					<br> <label>${clubInfo.singupQuestion1}</label><br> <input
-						type="text" name="applyAnswer1"><br> <label>${clubInfo.singupQuestion2}</label><br>
-					<input type="text" name="applyAnswer2"><br> <label>${clubInfo.singupQuestion3}</label><br>
-					<input type="text" name="applyAnswer3"><br> <input
-						type="hidden" value="H1" name="applyStatus"> <input
-						type="hidden" name="clubNumber" value="${clubInfo.clubNumber}">
+					<label>모임소개 : ${club.clubInfo}</label><br> 
+					<label>카테고리: ${club.clubCategory}</label><br> 
+					<label>모임장 : ${club.profileNickname}</label><br> 
+					<label>모임유형 : ${club.clubType}</label><br> 
+					<label>모임지역 : ${club.majorLocation}</label><br> 
+					<label>모임인원 : count되게 작성해야함 50/50</label>
+					<h3>가입 질문 답변</h3><br> 
+					<label>${club.singupQuestion1}</label><br> 
+					<input type="text" name="applyAnswer1"><br> 
+					<label>${club.singupQuestion2}</label><br>
+					<input type="text" name="applyAnswer2"><br> 
+					<label>${club.singupQuestion3}</label><br>
+					<input type="text" name="applyAnswer3"><br> 
+					<input type="hidden" value="H1" name="applyStatus"> 
+					<input type="hidden" name="clubNumber" value="${club.clubNumber}">
+					
 					<input type="hidden" name="profileNickname"
-						value="${profile.profileNickname}">
-					<%-- 				<c:forEach items="${profile}" var="pro"> --%>
-					<%-- 					<option value="${pro.profilNickname}">${pro.profileNickname}</option> --%>
-					<%-- 				</c:forEach> --%>
+						value="">
+					<c:if test="${profiles ne null}">
+						<select>
+							<c:forEach items="${profiles}" var="pro">
+								<option value="${pro.profilNickname}">${pro.profileNickname}</option>
+							</c:forEach>
+						</select>
+					</c:if>
+					<c:if test="${profiles eq null}">
+						<button id="profileBtn" >프로필 생성</button>
+					</c:if>
 				</div>
 				<br>
 				<button type="submit">신청</button>
 				<span class="close">&times;</span>
-			</div>
+			</form>
 		</div>
-	</form>
+	</div>
 
 
 
+	<!-- 프로필 생성 modal -->
+	<div id="profileInsertModal">
+		<div id="modal-content">
+			<form action="profileInsert" method="post" id="join_form">
+				<div class="profile_info">
+					<h2>프로필 정보</h2>
+					<br>
+				</div>
+
+				<div>
+					<div>
+						<label class="nick_name">닉네임</label> <input type="text"
+							class="nick_input" name="profileNickname"><br>
+					</div>
+					<span class="nick_input_re1">사용 가능한 닉네임 입니다.</span> <span
+						class="nick_input_re2">닉네임이 이미 존재합니다.</span> <span
+						class="final_name_ck">사용할 닉네임을 입력하세요.</span>
+					<c:if test="${not empty errorMessage}">
+						<div class="error">${errorMessage}</div>
+					</c:if>
+
+				</div>
+				
+
+				<div class="profileSection">
+					<label>첨부이미지</label>
+					<div id="preview"></div>
+					<input name="uploadFile" type="file" value="profileImg"
+						onchange="readURL(this);">
+					<button type="button" id="uploadBtn">upload</button>
+				</div>
+
+				<div class="join_button_wrap">
+					<button type="submit" class="join_button">등록하기</button>
+				</div>
+
+			</form>
+		</div>
+	</div>
 
 
 
@@ -306,10 +358,9 @@
        // 글쓰기 작성시 날짜 기본값 오늘날짜로 
        $("#insertScheduleDate").val(new Date().toISOString().substring(0, 10));
        $("#openModalBtn").on("click", function(e) {
-    	   
            $("#boardInsertModal").css("display", "block");
        });
-
+	
        $("#closeModalBtn, #closeModal").on("click", function(e) {
            $("#boardInsertModal").css("display", "none");
        });
@@ -380,71 +431,110 @@
        		// 각 input값이 없으면 alert
         	$("#voteModal").css("display", "none");
     	});
-
 	
-  
-  // 페이징
-  $(window).off('scroll').on('scroll', function() {
-	    if (!isLoading && $(window).scrollTop() + $(window).height() == $(document).height()) {
-	        isLoading = true; // 요청 시작 전 플래그 설정
-
-	        $.ajax({
-	            url: "${pageContext.request.contextPath}/club/clubBoardScroll",
-	            data: {
-	            	 startPage: (currentPage - 1) * pageSize + 1, 
-	                 endPage: currentPage * pageSize            
-	            },
-	            type: 'GET',
-	            dataType: 'json',
-	            success: function(boards) {
-	            	console.log("현재페이지:", currentPage);  // 현재 페이지 번호 출력
-	                console.log("반횐된 데이터:", boards);     // 반환된 소모임 데이터 출력
-	            
-	                if (boards.length > 0) {
-	                    $.each(boards, function(index, board) {
-	                        $('#clubBoardList').append(`
-	                        		
-	                				<h3>게시글</h3>
-	                				<div class="drop-button">
-	                					<button></button>
-	                				</div>
-	                				<div class="boardMain"
-	                					onclick="location.href='app/club/clubBoardInfo?boardNumber=${board.boardNumber}'">
-	                					<p>글 번호 : \${board.boardNumber}</p>
-	                					<p>작성자 : \${board.clubBoardWriter}</p>
-	                					<div>\${board.clubBoardContent}</div>
-	                					<p class="writeDay">
-	                						작성일 :
-	                						<fmt:formatDate value="${board.clubBoardWdate}"
-	                							pattern="yyyy-MM-dd" />
-	                					</p>
-	                					<p>\${board.clubBoardViews}</p>
-	                					<p>\${board.clubBoardType}</p>
-	                					<c:if test="${board.scheduleDate} ne null">
-	                						<p>
-	                							<fmt:parseDate value="${board.scheduleDate}" var="dateFmt"
-	                								pattern="yyyyMMdd" />
-	                							<fmt:formatDate value="${dateFmt}" pattern="yyyy-MM-dd" />
-	                						</p>
-	                					</c:if>
-	                				</div>
-	                        `);
-	                    });
-	                    
-	                    currentPage++; 
+     //가입신청 modal
+     $("#")
+		
+       
+     //프로필 등록 버튼
+	   $(".join_button").on("click", function() {
+	      
+	      //입력값 변수
+	      var nick = $('.nick_input').val(); //닉네임 입력란
+	      
+	      /* 닉네임 유효성검사 */
+	      if(nick == ""){
+	         $('.final_name_ck').css('display', 'block');
+	         nickCheck = false;
+	      }else{
+	         $('.final_name_ck').css('display', 'none');
+	         nickCheck = true;
+	      }
+	      
+      
+	      $.ajax({
+	            type: "POST",
+	            url: "${pageContext.request.contextPath}/club/profileCount",
+	            data: { email: "${member.memberEmail}" },
+	            success: function(count) {
+	                if(count >= 3) {
+	                    alert("프로필은 최대 3개까지만 생성할 수 있습니다.");
+	                    return false;
+	                } else {
+	                    // 모든 검사를 통과한 경우 form 제출
+	                    if(nickCheck && nickchCheck) {
+	                        $("#join_form").submit();
+	                    }
 	                }
-	                isLoading = false; 
-	            },
-	            error: function(error) {
-	            	console.error("무한 스크롤 에러", error);
-	                showError("데이터 로딩 중 오류가 발생했습니다. 다시 시도해 주세요.");
-	                isLoading = false; 
 	            }
 	        });
-	    }
+	      
+	      return false;
+	   });
 	});
+  
+
   });	
-	
+    // 페이징
+    $(window).off('scroll').on('scroll', function() {
+  	    if (!isLoading && $(window).scrollTop() + $(window).height() == $(document).height()) {
+  	        isLoading = true; // 요청 시작 전 플래그 설정
+
+  	        $.ajax({
+  	            url: "${pageContext.request.contextPath}/club/clubBoardScroll",
+  	            data: {
+  	            	 startPage: (currentPage - 1) * pageSize + 1, 
+  	                 endPage: currentPage * pageSize            
+  	            },
+  	            type: 'GET',
+  	            dataType: 'json',
+  	            success: function(boards) {
+  	            	console.log("현재페이지:", currentPage);  // 현재 페이지 번호 출력
+  	                console.log("반횐된 데이터:", boards);     // 반환된 소모임 데이터 출력
+  	            
+  	                if (boards.length > 0) {
+  	                    $.each(boards, function(index, board) {
+  	                        $('#clubBoardList').append(`
+  	                        		
+  	                				<h3>게시글</h3>
+  	                				<div class="drop-button">
+  	                					<button></button>
+  	                				</div>
+  	                				<div class="boardMain"
+  	                					onclick="location.href='${pageContext.request.contextPath}/club/clubBoardInfo?boardNumber=\${board.boardNumber}'">
+  	                					<p>글 번호 : \${board.boardNumber}</p>
+  	                					<p>작성자 : \${board.clubBoardWriter}</p>
+  	                					<div>\${board.clubBoardContent}</div>
+  	                					<p class="writeDay">
+  	                						작성일 :
+  	                						<fmt:formatDate value="${board.clubBoardWdate}"
+  	                							pattern="yyyy-MM-dd" />
+  	                					</p>
+  	                					<p>\${board.clubBoardViews}</p>
+  	                					<p>\${board.clubBoardType}</p>
+  	                					<c:if test="\${board.scheduleDate ne null}">
+  	                						<p>
+  	                							<fmt:parseDate value="\${board.scheduleDate}" var="dateFmt"
+  	                								pattern="yyyyMMdd" />
+  	                							<fmt:formatDate value="\${dateFmt}" pattern="yyyy-MM-dd" />
+  	                						</p>
+  	                					</c:if>
+  	                				</div>
+  	                        `);
+  	                    });
+  	                    
+  	                    currentPage++; 
+  	                }
+  	                isLoading = false; 
+  	            },
+  	            error: function(error) {
+  	            	console.error("무한 스크롤 에러", error);
+  	                showError("데이터 로딩 중 오류가 발생했습니다. 다시 시도해 주세요.");
+  	                isLoading = false; 
+  	            }
+  	        });
+  	    }
+  	});	
 	
 	
 	
@@ -462,6 +552,10 @@
    	    console.error( error );
    	});
    	
+	function openModal(e){
+		
+	}
+	
 
 	  
 </script>
