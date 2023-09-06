@@ -118,7 +118,7 @@
     		
 <script type="text/javascript">
 	$('#clubLink').on("click",function(e){
-		.stopPropagation();
+		e.stopPropagation();
 		var email = $('#checkClub').
 		// ajax로 해당 소모임에 사용자가 가입되어있는지 확인, 
 		// 가입되어있을시 해당 페이지로 이동, 아닐시 가입페이지로 이동
@@ -132,16 +132,14 @@
 					console.log("ajax 호출, Session의 email : " + email);	
 					if(result == ture){
 						// 해당 소모임 메인페이지 이동 호출 
-					}esle{
+					}else{
 						alert("해당 소모임 가입페이지로 이동합니다.")
 					}
 				}
 			
-			}
-		})
+			})
+		});
 
-		
-	});
 
 	$('#clubContainer').on('click',function(e){
 		var linkta
@@ -161,10 +159,8 @@
     });
 
       editor.isReadOnly = true; // 에디터를 읽기 전용으로 설정
-   })
-   .catch( error => {
-      console.error( error );
-   });
+
+
 	bootstrap modal ex
 
 	

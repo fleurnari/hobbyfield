@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hobbyfield.app.common.SearchCriteria;
 import com.hobbyfield.app.prdt.mapper.ReviewMapper;
 import com.hobbyfield.app.prdt.service.CommentVO;
 import com.hobbyfield.app.prdt.service.ReviewService;
@@ -25,7 +26,7 @@ public class ReviewServiceImpl implements ReviewService {
 	public List<ReviewVO> getReviewsByCategory(String category) {
 		return reviewMapper.getReviewsByCategory(category);
 	}
-
+	
 	@Override
 	public void deleteReview(int reviewId) {
 		reviewMapper.deleteReview(reviewId);
@@ -54,6 +55,21 @@ public class ReviewServiceImpl implements ReviewService {
 		return reviewMapper.getComment(reviewId);
 	}
 
+	@Override
+	public void deleteComment(int commentId) {
+		
+		reviewMapper.deleteComment(commentId);
+	}
+
+	@Override
+	public void updateComment(CommentVO commentVO) {
+		reviewMapper.updateComment(commentVO);
+	}
+
+	@Override
+	public int reviewCount(SearchCriteria scri) {
+		return reviewMapper.reviewCount(scri);
+	}
 
 
 

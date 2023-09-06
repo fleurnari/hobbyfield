@@ -1,14 +1,20 @@
 package com.hobbyfield.app.prdt.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,7 +72,9 @@ public class PrdtController {
 	}
 	//상품등록
 	@PostMapping("prdtInsert")
-	public String InsertPrdtProcess(PrdtVO prdtVO) {
+	public String InsertPrdtProcess(PrdtVO prdtVO,  HttpSession session) {
+		MemberVO member = (MemberVO)session.getAttribute("member");
+		prdtVO.setMemberEmail(member.getMemberEmail());
 		prdtService.insertPrdt(prdtVO);
 		return "redirect:prdtList";
 	}
@@ -152,5 +160,26 @@ public class PrdtController {
   	}
   	
   	
+  	//댓글삭제
+  	@PostMapping("/deleteComment/{commentId}")
+  	public ResponseEntity<Map<String, String>> deleteComment(@PathVariable int commentId) {
+  	    Map<String, String> response = new HashMap<>();
+  	    try {
+  	        reviewService.deleteComment(commentId);
+  	        response.put("message", "댓글이 삭제되었습니다.");
+  	        return ResponseEntity.ok(response);
+  	    } catch (Exception e) {
+  	        response.put("error", "댓글 삭제에 실패했습니다.");
+  	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+  	    }
+  	}
+  	//댓글수정
+  	@PostMapping("updateComment")
+    @ResponseBody
+    public String updateComment(@RequestBody CommentVO commentVO) {
+        reviewService.updateComment(commentVO);
+        return "success";
+    }
+	
  	
 }

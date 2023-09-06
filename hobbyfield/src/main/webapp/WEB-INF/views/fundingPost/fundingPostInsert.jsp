@@ -68,6 +68,8 @@ flex-wrap:wrap;
 		<div class="container2">
 			<c:forEach items="${fundingPostList }" var="fundingPost">
 				<c:if test="${fundingPost.fndStatus eq '0' }">
+				<c:if test="${fundingPost.memberEmail eq member.memberEmail }">
+				
 		<form action="fundingPostDelete" method="post" id="deleteFnd">
 				<div>
 				<div class="option-box">
@@ -81,7 +83,8 @@ flex-wrap:wrap;
 					</div>
 				</div>
 				</div>
-		</form>
+		</form>	
+				</c:if>
 				</c:if>
 			</c:forEach>
 		</div>
@@ -90,7 +93,7 @@ flex-wrap:wrap;
 	<section>
 		<div class="container">
 			<div class="text-center">
-				<form id="frm" name="insertPostForm" action="fundingPostInsert" method="post">
+				<form id="insertCateGory" name="insertPostForm" action="fundingPostInsert" method="post">
 					<div>
 						<h3>어떤 프로젝트를 계획중이신가요?</h3>
 						<p>프로젝트의 카테고리를 선택해주세요</p>
@@ -161,6 +164,7 @@ flex-wrap:wrap;
 						</div>
 					</div>
 					<br>
+						<input type="text" name="fndStatus" value=0>
                         <button id="submitButton" type="submit" class="btn btn-primary" style="float:right;" disabled>확인</button>
                 </form>
               </div>
@@ -177,9 +181,32 @@ flex-wrap:wrap;
                         return input.value.trim() !== '' || input.type === 'hidden';
                     });
                 }
+				
+                var fileInput = document.querySelector('input[type="file"]');
+                var uploadButton = document.getElementById('uploadBtn');
+                var submitButton = document.getElementById('submitButton');
+                var insertCateGory = document.getElementById('insertCateGory');
+                var fndTitleInput = document.querySelector('input[name="fndTitle"]');
 
-                form.addEventListener('input', function() {
-                    submitButton.disabled = !validateForm() || !fndCateGory.value;
+                function validateForm() {
+                    return fileInput.files.length > 0 && uploadButton.clicked && insertCateGory.value !== "카테고리를 선택해주세요." && fndTitleInput.value.trim() !== '';
+                }
+
+                fileInput.addEventListener('change', function() {
+                    submitButton.disabled = !validateForm();
+                });
+
+                insertCateGory.addEventListener('change', function() {
+                    submitButton.disabled = !validateForm();
+                });
+
+                fndTitleInput.addEventListener('input', function() {
+                    submitButton.disabled = !validateForm();
+                });
+
+                uploadButton.addEventListener('click', function() {
+                    uploadButton.clicked = true;
+                    submitButton.disabled = !validateForm();
                 });
 
                 submitButton.addEventListener('click', function() {

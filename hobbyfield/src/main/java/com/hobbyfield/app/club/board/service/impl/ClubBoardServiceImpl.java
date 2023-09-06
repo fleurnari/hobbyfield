@@ -26,8 +26,8 @@ public class ClubBoardServiceImpl implements ClubBoardService {
 
 	// 특정 소모임 들어갔을때 해당 소모임 게시글 전부 보기 
 	@Override
-	public List<ClubBoardVO> getSelectClubBoardList(CreateclubVO vo) {
-		return clubboardmapper.getSelectClubBoardList(vo);
+	public List<ClubBoardVO> getSelectClubBoardList(Map<String, Integer> map) {
+		return clubboardmapper.getSelectClubBoardList(map);
 	}
 	
 	
@@ -66,7 +66,7 @@ public class ClubBoardServiceImpl implements ClubBoardService {
 	// 전체 게시글 조회
 	@Override
 	public List<ClubBoardVO> AllSearchClubBoard(ClubBoardVO vo) {
-		return null;
+		return clubboardmapper.getAllClubBoardList();
 	}
 
 	@Override
@@ -75,10 +75,7 @@ public class ClubBoardServiceImpl implements ClubBoardService {
 		return clubboardmapper.updateMemberPnt(memberVO);
 	}
 
-	@Override
-	public List<ClubBoardVO> getClubBaordScroll(Map<String, Integer> map) {
-		return clubboardmapper.getClubBoardScroll(map);
-	}
+
 	
 
 	

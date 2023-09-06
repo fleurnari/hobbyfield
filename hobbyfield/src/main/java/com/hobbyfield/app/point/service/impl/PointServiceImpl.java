@@ -32,7 +32,7 @@ public class PointServiceImpl implements PointService {
 		return pointVO;
 	}
 	
-	//포인트 상품 단건조회 - 옵션
+	//포인트 상품옵션 단건조회
 	@Override
 	public List<PointOptionVO> getPointOptInfo(int pointId) {
 		return pointMapper.selectPointOptInfo(pointId);

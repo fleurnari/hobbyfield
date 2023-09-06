@@ -173,7 +173,7 @@ label {
 			
 			
 			<div id="preview"></div>
-			<input name="uploadFile" type="file" value="clubImg" onchange="readURL(this);">
+			<input name="uploadFile" type="file" value="" onchange="readURL(this);">
 			<button type="button" id="uploadBtn">upload</button>
 			
 			<!-- 소모임 정원 default값 50 -->
@@ -287,6 +287,10 @@ $(document).ready(function(){
 				$('#join_form').append(tag);
 			}
 		}
+	
+	function insertCountCheck(data){
+		
+	}
 	
 </script>
 </html>

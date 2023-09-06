@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.hobbyfield.app.comm.mapper.CommCodeMapper;
 import com.hobbyfield.app.common.PageMaker;
 import com.hobbyfield.app.common.SearchCriteria;
+import com.hobbyfield.app.fnd.service.FundingCommentService;
+import com.hobbyfield.app.fnd.service.FundingCommentVO;
 import com.hobbyfield.app.fnd.service.FundingGoodsService;
 import com.hobbyfield.app.fnd.service.FundingPostService;
 import com.hobbyfield.app.fnd.service.FundingPostVO;
@@ -34,6 +37,9 @@ public class FundingPostController {
 	
 	@Autowired
 	CommCodeMapper codeMapper;
+	
+	@Autowired
+	FundingCommentService fundingCommentService;
 	
 	//전체조회
 	@GetMapping("fundingPostList")
@@ -58,6 +64,7 @@ public class FundingPostController {
 		fundingPostService.updateFundingPostViews(fundingPostVO);
 		model.addAttribute("fundingPostInfo",findVO);
 		model.addAttribute("fundingGoodsInfo",fundingGoodsService.getFundingGoods(fundingPostVO));
+		model.addAttribute("commentList", fundingCommentService.getCommentList(findVO.getFndPostNumber()));
 		return "fundingPost/fundingPostInfo";
 	}
 	
@@ -108,6 +115,13 @@ public class FundingPostController {
 		return map;
 	}
 	
+	//관리자 페이지 승인
+	@PostMapping("fundingAdminUpdate")
+	public String FundingAdminUpdate(FundingPostVO fundingPostVO, Model model) {
+		model.addAttribute(fundingPostService.updateFundingPostInfo(fundingPostVO));
+		
+		return "fundingPost/adminAccept";
+	}
 	//펀딩 내 프로젝트
 	@GetMapping("fundingMyProject")
 	public String FundingMyProjectList(HttpSession session, FundingPostVO fundingPostVO, Model model) {
@@ -150,8 +164,62 @@ public class FundingPostController {
 	
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("scri", scri);
-		
+			
 		return "fundingPost/adminAccept";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 댓글 작성
+	@ResponseBody
+	@PostMapping("fndCommentInsert")
+	public int insertFndComment(FundingCommentVO fundingCommentVO, HttpServletRequest request) {
+		if (request.getParameter("fndSecret").equals("on")) {
+			fundingCommentVO.setFndSecret("L1");
+		} else {
+			fundingCommentVO.setFndSecret("L2");
+		}
+		
+		int result = fundingCommentService.insertComment(fundingCommentVO);
+		
+		return result; 
+	}
+	
+	// 댓글 수정 폼
+	@GetMapping("fndCommentUpdate")
+	public String updateFndCommentForm(Model model, FundingCommentVO fundingCommentVO) {
+		FundingCommentVO findVO = fundingCommentService.getComment(fundingCommentVO);
+		model.addAttribute("comment", findVO);
+		return "comment/fndCommentUpdate";
+	}
+	
+	// 댓글 수정 수행
+	
+	// 댓글 삭제
+	@ResponseBody
+	@PostMapping("fndCommentDelete")
+	public boolean deleteFndComment(FundingCommentVO fundingCommentVO) {
+		
+		int result = fundingCommentService.deleteComment(fundingCommentVO);
+		
+		if (result == 0) {
+			return false;
+		}
+		
+		return true;
+		
 	}
 	  
 }

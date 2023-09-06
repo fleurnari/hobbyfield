@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hobbyfield.app.common.PageMaker;
@@ -39,8 +40,11 @@ public class FundingSupportController {
 	}
 	
 	@GetMapping("supportManagement")
-	public String supportManagement(FundingSupportVO fundingSupportVO, @ModelAttribute("scri") SearchCriteria scri, Model model, HttpServletRequest request) {
-	    List<FundingSupportVO> fundingSupportList = fundingSupportService.supportManagement(fundingSupportVO, scri);
+	public String supportManagement(@RequestParam(value = "fndPostNumber") Integer fndPostNumber, FundingSupportVO fundingSupportVO, @ModelAttribute("scri") SearchCriteria scri, Model model, HttpServletRequest request) {
+	    FundingSupportVO sn = new FundingSupportVO();
+	    sn.setFndPostNumber(fndPostNumber);
+	    fundingSupportVO.setFndPostNumber(sn.getFndPostNumber());
+		List<FundingSupportVO> fundingSupportList = fundingSupportService.supportManagement(fundingSupportVO, scri);
 
 	    // HttpSession을 이용하여 세션에 값 저장
 	    HttpSession session = request.getSession();
@@ -64,6 +68,6 @@ public class FundingSupportController {
 		List<FundingSupportVO> fundingSupportList = fundingSupportService.getFundingSupportInfo(fundingSupportVO);
 		model.addAttribute("fundingSupportList", fundingSupportList);
 		model.addAttribute("fundingSupport", fundingSupportVO);
-		return "redirect:/supportManagement";
+		return "redirect:/supportManagement?fndPostNumber=" + fundingSupportVO.getFndPostNumber();
 	}
 }
