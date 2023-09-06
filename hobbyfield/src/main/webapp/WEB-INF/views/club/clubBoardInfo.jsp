@@ -369,6 +369,7 @@ function commentDelete(commentNumber) {
 			success : function(result) {
 				if (result) {
 					alert("댓글 삭제에 성공 했습니다.");
+					location.reload();
 				}
 			},
 			error : function() {

@@ -5,7 +5,7 @@
   <mapper namespace="com.hobbyfield.app.club.like.mapper.ClubBoardLikeMapper">
   	<insert id="insertBoardLike" parameterType="clubBoardLikeVO">
   		<selectKey keyProperty="likeNumber" resultType="int" order="BEFORE">
-			SELECT NVL(MAX(like_number),1) + 1
+			SELECT NVL(MAX(like_number),0) + 1
 			FROM club_board_like	
 		</selectKey>
   		INSERT INTO club_board_like
@@ -23,13 +23,21 @@
   	</insert>
   	
   	<delete id="deleteBoardLike">
-  		DELETE club_board_like WHERE #{boardNumber}
+  		DELETE FROM club_board_like
+  		where profile_nickname = #{profileNickname}
+  		AND board_number = #{boardNumber}
   	</delete>
   	
   	<select id="countBoardLike">
   		SELECT count(*)
   		FROM club_board_like
   		WHERE board_number = #{boardNumber}
+  	</select>
+  	
+  	<select id="getMyLikeBoard">
+  		SELECT count(*)
+  		FROM club_board_like
+  		WHERE profile_nickname = #{profileNickname}
   	</select>
   
   

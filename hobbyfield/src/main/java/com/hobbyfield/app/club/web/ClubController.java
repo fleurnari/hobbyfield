@@ -527,7 +527,7 @@ public class ClubController {
 	public String updateClubCommentForm(Model model, ClubCommentVO clubCommentVO) {
 		ClubCommentVO findVO = clubCommentService.getComment(clubCommentVO);
 		model.addAttribute("comment", findVO);
-		return "clubComment/clubCommentUpdate";
+		return "comment/clubCommentUpdate";
 	}
 	
 	// 댓글 수정 수행
@@ -573,7 +573,7 @@ public class ClubController {
 		
 		model.addAttribute("comment", commentVO);
 		
-		return "clubComment/clubRecommentInsert";
+		return "comment/clubRecommentInsert";
 
 	}
 	
