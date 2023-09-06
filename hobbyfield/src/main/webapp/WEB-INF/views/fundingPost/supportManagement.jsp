@@ -4,19 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
-<%
- String strReferer = request.getHeader("referer"); //이전 URL 가져오기
- 
- if(strReferer == null){
-%>
- <script language="javascript">
-  alert("URL을 직접 입력해서 접근하셨습니다.\n정상적인 경로를 통해 다시 접근해 주세요.");
-  document.location.href="${pageContext.request.contextPath}";
- </script>
-<%
-  return;
- }
-%>
+
 <html>
 <head>
 <meta charset="UTF-8">
@@ -100,7 +88,8 @@ li {
                         <td>${supportManagement.fndOrderRequest }</td>
                         <td><input type="text" name="fndInvoice" value="${supportManagement.fndInvoice }"></td>
                         <td name="fndOrderState">${supportManagement.fndOrderState }</td>
-                        <td>
+                        <td><input type="hidden" name="fndPostNumber" value="${fndPostNumber}"></td>
+						<td>                        
                                 <input type="hidden" name="fndSupportNumber" value="${supportManagement.fndSupportNumber }">
                                 <button type="submit" class="btn btn-primary">저장</button>
                             </form>
@@ -112,36 +101,44 @@ li {
             
         </table>
     </div>
-    			<div>
+    <div class="container">
+    			<div class="text-center">
 							<ul >
 								<c:if test="${pageMaker.prev}">
-				    			<li><a href="supportManagement${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a></li>
+				    			<li><a href="supportManagement${pageMaker.makeSearch(pageMaker.startPage - 1)}&fndPostNumber=${fndPostNumber }">이전</a></li>
 				   				 </c:if> 
 				
 				    			<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-				    			<li><a href="supportManagement${pageMaker.makeSearch(idx)}">${idx}</a></li>
+				    			<li><a href="supportManagement${pageMaker.makeSearch(idx)}&fndPostNumber=${fndPostNumber }">${idx}</a></li>
 				    				</c:forEach>
 				
 				    			<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-				    			<li><a href="supportManagement${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a></li>
+				    			<li><a href="supportManagement${pageMaker.makeSearch(pageMaker.endPage + 1)}&fndPostNumber=${fndPostNumber }">다음</a></li>
 				    			</c:if> 
 									</ul>
+				<input type="hidden" name="fndPostNumber" value="${fndPostNumber}">
 						</div>
+	</div>
 </Section>
-				<input type="text" name="fndPostNumber" value="${fundingSupport.fndPostNumber}">
-				<input type="text" name="fndPostNumber" value="${fndPostNumber}">
 </body>
 <script type="text/javascript">
 function goToNextPage() {
     var fndPostNumber = document.getElementsByName("fndPostNumber")[0].value;
+    console.log(fndPostNumber);
     window.location.href = "supportManagement?fndPostNumber=" + fndPostNumber;
 }
-$('#insertfundingInvoce').on('submit', function(e){
+$('form[name="insertfundingInvoce"]').on('submit', function(e){
     e.preventDefault();
     
-    // 모든 input 요소 중에서 name 속성이 'fndInvoice'인 요소를 선택
+ 	// 입력 필드의 값을 확인하고 빈 문자열인 경우 "1"로 설정
     var invoiceInputs = $('input[name="fndInvoice"]');
-    
+    invoiceInputs.each(function() {
+        if ($(this).val().trim() === "") {
+            // fndInvoice 입력 필드가 빈 문자열인 경우, fndOrderState를 "1"로 설정
+            $(this).siblings('input[name="fndOrderState"]').val('1');
+        }
+    });
+
     // 각각의 입력 필드를 순환하면서 값을 가져와서 배열에 저장
     var invoices = [];
     invoiceInputs.each(function() {
@@ -161,14 +158,13 @@ $('#insertfundingInvoce').on('submit', function(e){
         if (data.result) {
             let message = '저장되었습니다.';
             alert(message);
-            var fndPostNumber = document.getElementsByName("fndPostNumber")[0].value;
-            window.location.href = "supportManagement?fndPostNumber=" + fndPostNumber;
         } else {
             alert('저장되지 않았습니다.\n정보를 확인해주세요');
         }
     })
     .fail(reject => console.log(reject));
-    
+    // 폼을 서버로 제출
+    $(this).unbind('submit').submit();
 });
 
 $(document).ready(function() {
@@ -190,5 +186,6 @@ $(document).ready(function() {
         $(this).text(text);
     });
 });
+
 </script>
 </html>

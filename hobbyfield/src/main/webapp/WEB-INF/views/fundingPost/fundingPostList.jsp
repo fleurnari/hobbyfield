@@ -46,7 +46,7 @@ li {
               <span onclick="location.href='${pageContext.request.contextPath}/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/fundingPostInsertForm'">프로젝트만들기</span>
            	  <c:if test="${member.memberGrd eq 'A3'}">
-                	<span onclick="location.href='${pageContext.request.contextPath}/fundingPost/adminAccept'">프로젝트 승인</span>
+                	<span onclick="location.href='${pageContext.request.contextPath}/adminAccept'">프로젝트 승인</span>
                 </c:if>
             </h4>
             </div>
