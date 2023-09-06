@@ -13,7 +13,7 @@ public interface PointService {
 	// 포인트 상품 단건조회
 	public PointVO getPointInfo(PointVO pointVO);
 	
-	
+	// 포인트 상품 옵션조회
 	public List<PointOptionVO> getPointOptInfo(int pointId);
 
 	// 포인트 상품 등록
