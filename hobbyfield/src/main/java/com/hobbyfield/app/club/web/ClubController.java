@@ -83,7 +83,7 @@ public class ClubController {
 	
     /*========= 소모임 조회관련 =========*/
     // 소모임 전체조회(메인페이지)
- 	@GetMapping("clubMain")
+ 	@GetMapping("/clubMain")
  	public String clubMain(Model model) {
  		model.addAttribute("clubList", createClubService.getClubTop());
  		model.addAttribute("board", clubBoardService.getAllClubBoardList());
@@ -428,11 +428,21 @@ public class ClubController {
 		 	List<ClubBoardVO> scrollList = clubBoardService.getSelectClubBoardList(map);
 		 	model.addAttribute("boardList", scrollList);
 		 	System.out.println(scrollList);
+		 	
 			HttpSession session = request.getSession();
 			MemberVO mvo = (MemberVO)session.getAttribute("member");
+			
 			CreateclubVO cvo = createClubService.getClub(vo);
 			session.setAttribute("club", cvo);
 			ClubProfileVO profile = clubprofileMapper.getSessionProfile(mvo.getMemberEmail(), vo.getClubNumber());
+			
+			//소모임 수정 부분
+		 	//공통코드 , ClubProfileVO clubprofileVO
+			model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); // 지역대그룹 코드
+			model.addAttribute("F", commCodeMapper.selectCommsubList("0F")); // 지역소그룹 코드
+			model.addAttribute("C", commCodeMapper.commCategoryList("0C")); // 모임카테고리 그룹코드
+			model.addAttribute("D", commCodeMapper.clubTypeList("0D")); // 모임분류 그룹코드
+			
 			if( profile != null) {
 				session.setAttribute("profile", profile);
 			}else {

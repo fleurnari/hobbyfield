@@ -80,8 +80,7 @@
 		
 
 	<!-- 소모임 목록 무한 스크롤용 쿼리 -->
-	<select id="selectClubsForInfiniteScroll"
-		resultType="CreateclubVO">
+	<select id="selectClubsForInfiniteScroll" resultType="CreateclubVO">
 		SELECT
 	           club_number
 	         , profile_nickname

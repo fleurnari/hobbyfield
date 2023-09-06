@@ -8,6 +8,9 @@
 <meta charset="UTF-8">
 <title>소모임 게시글</title>
 
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club/insertclub.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
 <script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 <script
 	src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
@@ -30,6 +33,46 @@
 .ck-editor__editable {
 	height: 80vh;
 }
+
+/* 소모임 수정 모달  */
+/* 모달 창 전체 스타일 */
+.update-modal {
+    display: block; 
+    position: fixed; /* 고정 위치 */
+    z-index: 1; /* z-index로 다른 내용 위에 위치 */
+    left: 0;
+    top: 0;
+    width: 100%; /* 전체 너비 */
+    height: 100%; /* 전체 높이 */
+    overflow: auto; /* 스크롤 가능 */
+    background-color: rgba(0,0,0,0.4); /* 반투명한 검은색 배경 */
+}
+
+/* 모달 창 내용 스타일 */
+.update-body {
+    background-color: #fefefe;
+    margin: 15% auto; /* 중앙 정렬 */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* 모달 창 너비 */
+}
+
+/* 닫기 버튼 스타일 */
+.update-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+
 
 /* 모임신청 모달창 */
 /* ... 기존 스타일 ... */
@@ -65,39 +108,6 @@
         cursor: pointer;
     }
     
-/*     /* 모임 탈퇴 모달 */ */
-/*     .main-de-modal{ */
-/*     	display: none; /* 초기에 모달을 숨깁니다. */ */
-/*         position: fixed; */
-/*         top: 0; */
-/*         left: 0; */
-/*         width: 100%; */
-/*         height: 100%; */
-/*         background-color: rgba(0,0,0,0.5); /* 반투명한 검은색 배경 */ */
-/*         z-index: 1; /* 다른 요소 위에 위치 */ */
-/*     } */
-    
-/*     /* 탈퇴 메세지 body */  */
-/*     .de-body{ */
-/*     	width: 25%; /* 화면의 1/3 */ */
-/*         height: 80%; /* 화면의 1/3 */ */
-/*         position: absolute; */
-/*         top: 50%;  */
-/*         left: 50%; */
-/*         transform: translate(-50%, -50%); /* 중앙에 위치하도록 설정 */ */
-/*         background-color: white; */
-/*         padding: 20px; */
-/*         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); */
-/*         border-radius: 10px; */
-/*     } */
-    
-/*      /* 탈퇴 메세지 창 닫기 */  */
-/*     .de-close{ */
-/*     	position: absolute; */
-/*         right: 15px; */
-/*         top: 15px; */
-/*         cursor: pointer; */
-/*     } */
 	
 </style>
 </head>
@@ -435,7 +445,107 @@
 			</form>
 		</div>
 	</div>
+	
+	<!-- 소모임 수정 -->
+	<button type="button" id="clubUpdateButton">소모임수정</button>
+	<form action="clubUpdate" method="post" id="updateForm">
+		<div id="updateModal" class="update-modal">
+			<div class="update-body">
+			<div align="center" class="update-top">
+				<h2>소모임 수정</h2>					
+			</div>
+			
+			<div>
+				<input type="hidden" name="clubNumber" class="clubNumber" value="${club.clubNumber }">
+				<input type="hidden" name="profileNickname" class="ProfileNickname" value="${club.profileNickname }">
+			</div>
+			
+			<div>
+				<label>모임이름</label>
+				<input type="text" class="club_input" name="clubName" value="${club.clubName}"><br>
+				<span class="club_input_re1">사용 가능한 모임 이름입니다.</span>
+				<span class="club_input_re2">모임 이름이 이미 존재합니다. </span>
+				<span class="final_club_ck">모임 이름을 정해주세요</span>
+			</div>
+			
+			<div>
+				<label>모임카테고리</label>
+				<select class="club_category" name="clubCategory">
+					<c:forEach items="${C}" var="category">
+						<option value="${category.subcode }">${category.literal}</option>
+					</c:forEach>
+				</select>
+			</div>
 
+			<div>
+				<label>소모임 분류</label>
+				<c:forEach items="${D}" var="type">
+					<input type="radio" name="clubType" value="${type.subcode}" checked="checked">${type.literal}
+				</c:forEach>
+			</div>
+			
+			<div>
+				<label>소모임 소개</label>
+				<input type="text" name="clubInfo" value="${club.clubInfo}"><br>
+			</div>
+			
+			<div>
+				<div>
+				<label>광역지역 : </label>
+				<select class="majorlocation" name="majorLocation" id="majorLocation">
+				    <option value="">선택</option>
+					<c:forEach items="${E}" var="major" >					
+						<option value="${major.subcode }">${major.literal }</option>
+					</c:forEach>
+				</select>
+				</div>
+				
+				<div>
+				<label></label>
+				<select class="sublocation" name="subLocation" id="subLocation">
+					 <option value="${major.literal }">선택</option>
+				</select><br>
+				</div>
+				
+			</div>
+			
+			<div>
+				<label>공개여부 : </label>
+				<input type="radio" name="clubPublic" checked="checked" value="G1" ${club.clubPublic == 'G1' ? 'checked' : ''} readonly />공개
+			</div>
+			
+			<div>
+				<div>
+				<label>질문1</label>
+				<input type="text" name="singupQuestion1" value="${club.singupQuestion1 }"><br>
+				</div>
+				<div>
+				<label>질문2</label>
+				<input type="text" name="singupQuestion2" value="${club.singupQuestion2 }"><br>
+				</div>
+				<div>
+				<label>질문3</label>
+				<input type="text" name="singupQuestion3" value="${club.singupQuestion3 }"><br>
+				</div>
+			</div>
+			
+			<div id="preview"></div>
+				<input id="imgInput" name="uploadFile" type="file" value="clubImg" onchange="readURL(this);">
+				<img class=images id="preview" src="${pageContext.request.contextPath}/download/img/${profile.profileImg}${profil.profileImgPath}" alt="Profile Image"/>
+				<button type="button" id="uploadBtn">upload</button>
+			</div>
+
+			<div>
+				<button type="submit" class="update-button">수정하기</button>
+			</div>
+			
+			<span class="update-close">&times;</span>
+			
+		</div>
+	</form>
+	
+
+</body>
 
 	<script type="text/javascript">
 
@@ -640,8 +750,218 @@
 	function openModal(e){
 		
 	}
+	
+	
+	//==========소모임 수정 영역============
+	// 모달 창과 버튼 요소 선택
+	let modal = document.getElementById('updateModal');
+	let btn = document.querySelector('#clubUpdateButton');
+	let span = document.querySelector('.update-close');
+	
+	// 버튼 클릭 시 모달 창 표시
+	btn.onclick = function() {
+	    console.log("Button 막힘!");
+	    modal.style.display = "block";
+	}
+	
+	// 닫기 버튼(X) 클릭 시 모달 창 숨김
+	span.onclick = function() {
+	    modal.style.display = "none";
+	}
+	
+	// 모달 창 외부 클릭 시 모달 창 숨김
+	window.onclick = function(event) {
+	    if (event.target == modal) {
+	        modal.style.display = "none";
+	    }
+	}	
+		
+	// 유효성 검사 통과 유무 변수 
+	var clubNameCheck = false; //모임이름 
+	var clubnameChk = false; //모임이름 중복체크
+	
+	$(document).ready(function(){
+		//모임수정 버튼(모임수정 기능 작동)
+		$(".update_button").on("click", function() {
+			
+			 event.preventDefault(); // 폼 제출 방지
+			
+			//입력값 변수
+			var club = $('.club_input').val(); //소모임 이름 입력란 
+			
+			/* 모임이름 유효성 검사*/
+			if(clubName == ""){
+				$('.final_club_ck').css('display', 'block');
+				clubnameChk = false;
+			}else{
+				$('.final_club_ck').css('display', 'none');	
+				clubnameChk = true;
+			}
+			
+			/* 최종 유효성 검사를 진행하고 form에 말아서 전달 */
+			if(clubName&&clubnameCheck){
+			
+	        $("#updateForm").submit();
+				
+			}
+			
+			return false;
+		});
+	});	
+
+
+	//소모임 이름 중복체크
+	
+	$('.club_input').on("propertychange change keyup paste input", function() {
+	
+		var clubName = $('.club_input').val(); //.club_input 입력될 값
+		var data = {
+			clubName : clubName
+		} //.컨트롤에 넘길 데이터 이름 데이터(.club_input에 입력되는 값)
+	
+		$.ajax({
+			type : "post",
+			url : "${pageContext.request.contextPath}/club/clubnameChk",
+			data : data,
+			success : function(result) {
+	
+				if (result != 'fail') {
+					$('.club_input_re1').css("display", "inline-block");
+					$('.club_input_re2').css("display", "none");
+					clubnameChk = true;
+				} else {
+					$('.club_input_re2').css("display", "inline-block");
+					$('.club_input_re1').css("display", "none");
+					clubnameChk = false;
+				}
+			}
+	
+		});
+	});
+
+
+
+	$(document).ready(function() {
+	    // 상위 카테고리가 변경될 때
+	    $("#majorLocation").change(function() {
+	        var selectedMajor = $(this).val();
+	        
+	        // 서버에 AJAX 요청
+	        $.ajax({
+	        //	type: "POST",
+	            url: "${pageContext.request.contextPath}/club/selectCommsubList",
+	            data: { "code": selectedMajor },
+	           // contentType: "application/json; charset=utf-8",
+	            dataType: "json",
+	            success: function(response) {
+	                // 하위 카테고리 내용을 초기화
+	                $("#subLocation").empty();
+	                
+	                // 응답으로 받아온 하위 카테고리를 추가
+	                $.each(response, function(index, item) {
+	                    $("#subLocation").append('<option value="' + item.subcode + '">' + item.literal + '</option>');
+	                });
+	            }
+	        });
+	    });
+	});
+
+	//파일 이미지 업로드(join_form을 통해 전달)
+	function imgUploadHandler(list) {
+			for (i = 0; i < list.length; i++) {
+				let tag = `<input type="hidden" name="clubImg" value="\${list[i].UUID}">
+				           <input type="hidden" name="clubImgPath" value="\${list[i].url}">`
+				$('#join_form').append(tag);
+			}
+		}
+	
+	function validateForm() {
+	    let clubName = document.getElementsByName('clubName')[0];
+	    let clubCategory = document.getElementsByName('clubCategory')[0];
+	    let clubType = document.querySelector('input[name="clubType"]:checked');
+	    let clubInfo = document.getElementsByName('clubInfo')[0];
+	    let majorLocation = document.getElementsByName('majorLocation')[0];
+	    let subLocation = document.getElementsByName('subLocation')[0];
+	    let clubPublic = document.querySelector('input[name="clubPublic"]:checked');
+	    let singupQuestion1 = document.getElementsByName('singupQuestion1')[0];
+	    let singupQuestion2 = document.getElementsByName('singupQuestion2')[0];
+	    let singupQuestion3 = document.getElementsByName('singupQuestion3')[0];
+
+		    if (clubName.value.trim() === '') {
+		        alert('모임 이름을 입력해주세요.');
+		        clubName.focus();
+		        return false;
+		    }
+
+		    if (clubCategory.value.trim() === '') {
+		        alert('모임 카테고리를 선택해주세요.');
+		        clubCategory.focus();
+		        return false;
+		    }
+
+		    if (!clubType) {
+		        alert('소모임 분류를 선택해주세요.');
+		        return false;
+		    }
+
+		    if (clubInfo.value.trim() === '') {
+		        alert('소모임 소개를 입력해주세요.');
+		        clubInfo.focus();
+		        return false;
+		    }
+
+		    if (majorLocation.value.trim() === '') {
+		        alert('광역지역을 선택해주세요.');
+		        majorLocation.focus();
+		        return false;
+		    }
+
+		    if (subLocation.value.trim() === '') {
+		        alert('지역구를 선택해주세요.');
+		        subLocation.focus();
+		        return false;
+		    }
+
+		    if (!clubPublic) {
+		        alert('공개 여부를 선택해주세요.');
+		        return false;
+		    }
+
+		    if (singupQuestion1.value.trim() === '') {
+		        alert('질문1을 입력해주세요.');
+		        singupQuestion1.focus();
+		        return false;
+		    }
+
+		    if (singupQuestion2.value.trim() === '') {
+		        alert('질문2를 입력해주세요.');
+		        singupQuestion2.focus();
+		        return false;
+		    }
+
+		    if (singupQuestion3.value.trim() === '') {
+		        alert('질문3을 입력해주세요.');
+		        singupQuestion3.focus();
+		        return false;
+		    }
+
+		    if (confirm("수정하시겠습니까?")) {
+		        return true;
+		    } else {
+		        return false;
+		    }
+		}
+
+		// "수정하기" 버튼 클릭 시 유효성 검사 실행
+		document.querySelector(".update-button").addEventListener("click", function(e) {
+		    if (!validateForm()) {
+		        e.preventDefault();
+		    }
+		});
+	
+	
 
 </script>
 
-</body>
+
 </html>
