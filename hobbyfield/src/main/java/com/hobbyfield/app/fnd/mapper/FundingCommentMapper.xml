@@ -17,7 +17,7 @@
  	</select>
  	
  	<insert id="insertComment" parameterType="FundingCommentVO">
- 		<selectKey>
+ 		<selectKey keyProperty="fndCommentNumber" resultType="int" order="BEFORE">
  			SELECT NVL(MAX(fnd_comment_number),0) + 1
  			FROM funding_comment
  		</selectKey>

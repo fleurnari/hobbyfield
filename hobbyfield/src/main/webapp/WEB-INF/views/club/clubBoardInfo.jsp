@@ -63,7 +63,7 @@
 				<c:choose>
 					<c:when
 						test="${(comment.clubCommentSecret eq 'L2') || (comment.clubCommentSecret eq 'L1' && profile.profileNickname eq board.clubBoardWriter || member.memberGrd eq 'A3'
-									|| profile.profileNickname eq club.profileNickname || profile.profileNickname eq comment.parentWriter)}">
+									|| profile.profileNickname eq club.profileNickname || profile.profileNickname eq comment.profileNickname || profile.profileNickname eq comment.parentWriter)}">
 						<div>
 							<c:if test="${comment.clubCommentLevel eq 'M2'}">
 								&nbsp;&nbsp;&nbsp;&nbsp;<p>Re:</p>

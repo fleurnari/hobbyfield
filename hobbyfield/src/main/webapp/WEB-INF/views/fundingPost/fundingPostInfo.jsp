@@ -332,7 +332,7 @@ body.modal-open {
 							<button type="button" class="btn btn-danger" id="btnOpenPopup">이 프로젝트 후원하기</button>
 				</div>
 			</form>
-			<form>
+			<form id="commentForm">
 				<br>
 				<hr style="border: 0; height: 1px; background: #000;">
 				<ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -348,11 +348,37 @@ body.modal-open {
   					<a>${fundingPostInfo.fndContent }</a>
   				</div>
   				<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+  					<input type="hidden" id="fndPostNumber" name="fndPostNumber" value="${fundingPostInfo.fndPostNumber}">
+  					<input type="hidden" id="fndCommentNumber" name="fndCommentNumber">
+  					
   					<c:forEach items="${commentList}" var="comment">
-  						<p>${comment.fndCommentContent}</p>
-  						<p>작성자 : ${comment.memberEmail}</p>
-  						<fmt:formatDate value="${comment.fndCommentDate}" pattern="yyyy-MM-dd" />
+  						<c:choose>
+  							<c:when test="${(comment.fndSecret eq 'L2') || (comment.fndSecret eq 'L1' && member.memberEmail eq fundingPostInfo.memberEmail ||
+  											member.memberEmail eq comment.memberEmail || member.memberGrd eq 'A3')}">
+  								  <p>${comment.fndCommentContent}</p>
+  								  <p>작성자 : ${comment.memberEmail}</p>
+  								  <p><fmt:formatDate value="${comment.fndCommentDate}" pattern="yyyy-MM-dd" /></p>
+  								  <c:if test="${member.memberEmail eq comment.memberEmail}">
+  								  	<button type="button" onclick="commentUpdate(${comment.fndCommentNumber})">수정</button>
+  								  </c:if>
+  								  <c:if test="${member.memberEmail eq comment.memberEmail || member.memberGrd eq 'A3'}">
+  								  	<button type="button" onclick="commentDelete(${comment.fndCommentNumber})">삭제</button>
+  								  </c:if>
+  							</c:when>
+  							<c:otherwise>
+  								<p>비밀 댓글은 게시글, 댓글 작성자와 관리자만 볼 수 있습니다.</p>
+  							</c:otherwise>
+  						</c:choose>
   					</c:forEach>
+  					<div>
+  						<label for="memberEmail">작성자 : </label>
+  						<input type="text" id="memberEmail" name="memberEmail" value="${member.memberEmail}">
+  						<label for="fndCommentContent"> 댓글 내용 : </label>
+  							<textarea rows="1" cols="100" id="fndCommentContent" name="fndCommentContent"></textarea>
+  						<label for="fndSecret">비밀 댓글 : </label>
+  						<input type="checkbox" id="fndSecret" name="fndSecret" value="">
+  						<button id="commentInsert">댓글 작성</button>
+  					</div>
   				</div>
 			</div>
 			</form>
@@ -587,7 +613,72 @@ function remaindTime() {
 		
     	 location.href='${pageContext.request.contextPath}/fundingPayment?fndPostNumber=${fundingPostInfo.fndPostNumber}&fndGoodsNumber='+fndGoodsNumber+'&GoodsAmount='+quantityValue
      
-    });     
+    });
+    
+    
+    
+    // 댓글 작성
+    	$("#commentInsert").on("click", function() {
+	
+		var form = document.getElementById("commentForm");
+		var fndPostNumber = form.fndPostNumber.value;
+		var memberEmail = form.memberEmail.value;
+		var fndCommentContent = form.fndCommentContent.value;
+		var fndSecret = form.fndSecret.checked ? "on" : "";
+		
+		$.ajax({
+			url : 'fndCommentInsert',
+			data : {
+				"fndPostNumber" : fndPostNumber,
+				"memberEmail" : memberEmail,
+				"fndCommentContent" : fndCommentContent,
+				"fndSecret" : fndSecret
+			},
+			type : "post",
+			success : function(result) {
+				if (result == 1) {
+					alert("댓글 등록에 성공 했습니다.");
+				}
+				$('#fndCommentContent').val('');
+			},
+			error : function() {
+				alert("댓글 등록에 실패 했습니다.");
+			}
+		});
+		
+	});
+    
+    
+    // 댓글 수정
+    function commentUpdate(commentNumber) {
+	window.name = "parentForm";
+	window.open("${pageContext.request.contextPath}/fndCommentUpdate?fndCommentNumber=" + commentNumber,
+			"fndCommentUpdate", "width=570, height=350, resizable = no, scrollbars = no");
+	}
+    
+    
+    // 댓글 삭제
+    function commentDelete(commentNumber) {
+    		
+    	$.ajax({
+      		url : 'fndCommentDelete',
+      		data : {
+    				'fndCommentNumber' : commentNumber
+    		},
+      		type : 'POST',
+    		success : function(result) {
+    			if (result) {
+    				alert("댓글 삭제에 성공 했습니다.");
+    			}
+    		},
+    		error : function() {
+    			alert("댓글 삭제에 실패 했습니다.");
+    		}
+    	});
+    		
+      }
+    
+    
 </script>
 </body>
 
