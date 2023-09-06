@@ -92,7 +92,7 @@
 	<div class="col-sm-6">
 		<div class="mb-3">
 			<input type="text" value="${fundingMyProject.fndPostNumber }">
-			<button type="button" id="supportListBtn" class="btn btn-primary" onclick="location.href='supportManagement?fndPostNumber=${fundingMyProject.fndPostNumber }'">>후원자관리</button>
+			<button type="button" id="supportListBtn" class="btn btn-primary" onclick="location.href='supportManagement?fndPostNumber=${fundingMyProject.fndPostNumber }'">후원자관리</button>
 		</div>
 		</div>
 			</c:forEach>

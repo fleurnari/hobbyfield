@@ -110,7 +110,7 @@
 				, #{fndMainImg}
 				, #{fndMainImgPath}
 				, 0
-				, 0
+				, #{fndStatus}
 				, 0
 				, 0
 				, 0
@@ -176,6 +176,7 @@
 			<if test="searchType == 'c'.toString()">AND FND_CONTENT LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'w'.toString()">AND MEMBER_EMAIL LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'tc'.toString()">AND( (FND_TITLE LIKE '%' || #{keyword} || '%') or (FND_CONTENT LIKE '%' || #{keyword} || '%') )</if>
+			<if test="searchType == 'status'.toString()">And fnd_Status LIKE '%' || #{keyword} || '%'</if>
 		</if>
 	</sql>
 </mapper>

@@ -155,7 +155,7 @@
             ROW_NUMBER() OVER(ORDER BY Fnd_Support_Number DESC) AS RNUM
         FROM Funding_Support
         WHERE 1=1
-        AND Fnd_Post_Number = #{fundingSupportVO.fndPostNumber} <!-- 추가 조건 -->
+        AND Fnd_Post_Number = #{fundingSupportVO.fndPostNumber}
     ) fundingSupport
     WHERE RNUM BETWEEN #{scri.rowStart} AND #{scri.rowEnd}
     ORDER BY Fnd_Support_Number DESC

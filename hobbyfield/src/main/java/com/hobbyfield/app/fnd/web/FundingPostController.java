@@ -108,6 +108,13 @@ public class FundingPostController {
 		return map;
 	}
 	
+	//관리자 페이지 승인
+	@PostMapping("fundingAdminUpdate")
+	public String FundingAdminUpdate(FundingPostVO fundingPostVO, Model model) {
+		model.addAttribute(fundingPostService.updateFundingPostInfo(fundingPostVO));
+		
+		return "fundingPost/adminAccept";
+	}
 	//펀딩 내 프로젝트
 	@GetMapping("fundingMyProject")
 	public String FundingMyProjectList(HttpSession session, FundingPostVO fundingPostVO, Model model) {
@@ -150,7 +157,7 @@ public class FundingPostController {
 	
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("scri", scri);
-		
+			
 		return "fundingPost/adminAccept";
 	}
 	  
