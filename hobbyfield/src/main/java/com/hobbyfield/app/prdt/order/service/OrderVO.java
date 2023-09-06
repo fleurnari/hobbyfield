@@ -19,6 +19,7 @@ public class OrderVO {
 	    private Date orderDate;		//주문날짜
 	    private int amount;			//총액
 	    private String iamUid;
+	    private String prdtOption;
 	    
 		/*
 		 * create table prdt_order(

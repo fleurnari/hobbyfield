@@ -25,8 +25,8 @@
   	
   	<!-- 상품등록  -->
   	<insert id="insertPrdt" parameterType="PrdtVO">
-	    INSERT INTO prdt(prdt_id, prdt_name, prdt_cate, prdt_contents, reg_date, prdt_price, prdt_count, prdt_soldout, prdt_thum)
-	    VALUES(prdt_id_seq.NEXTVAL, #{prdtName}, #{prdtCate}, #{prdtContents}, sysdate, #{prdtPrice}, #{prdtCount}, #{prdtSoldout}, #{prdtThum})
+	    INSERT INTO prdt(prdt_id, prdt_name, prdt_cate, prdt_contents, reg_date, prdt_price, prdt_count, prdt_soldout, prdt_thum, member_email, prdt_option)
+	    VALUES(prdt_id_seq.NEXTVAL, #{prdtName}, #{prdtCate}, #{prdtContents}, sysdate, #{prdtPrice}, #{prdtCount}, #{prdtSoldout}, #{prdtThum}, #{memberEmail}, #{prdtOption})
 	</insert>
   	
   	<!-- 상품상세보기 -->

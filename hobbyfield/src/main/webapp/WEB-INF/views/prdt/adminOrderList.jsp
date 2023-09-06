@@ -52,7 +52,7 @@
                     <td>${order.orderId}</td>
                     <td>${order.prdtName}</td>
                     <td><fmt:formatDate value="${order.orderDate}" pattern="yyyy-MM-dd" /></td>
-                    <td>${order.amount}메소</td>
+                    <td><fmt:formatNumber type="number" value="${order.amount}" pattern="###,###,###원"/></td>
                     <td>${order.delivery}</td>
                     <td>${order.orderMemo}</td>
                 </tr>

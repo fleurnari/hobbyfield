@@ -4,6 +4,25 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.hobbyfield.app.prdt.mapper.ReviewMapper">
   	
+  	<!-- 등록된 상품 갯수 -->
+  	<select id="reviewCount" resultType="int">
+  		SELECT COUNT(review_id)
+  		FROM review
+  		WHERE 1=1
+  		<include refid="search"></include>
+		 AND prdt_id > 0
+  	</select>
+	
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">AND prdt_name LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'c'.toString()">AND prdt_CONTENTS LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'w'.toString()">AND prdt_cate LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'tc'.toString()">AND( (prdt_name LIKE '%' || #{keyword} || '%') or (prdt_CONTENTS LIKE '%' || #{keyword} || '%') )</if>
+		</if>
+	</sql>
+	
+	 	
 	<!-- 리뷰 작성 -->
 	<insert id="writeReview">
 	    INSERT INTO review (review_id, prdt_id, category, member_email, review_content, review_title, rating)
@@ -15,6 +34,7 @@
      	SELECT * FROM review WHERE category = #{category} 
  	</select> 
  	
+	
  	<!--후기(문의)삭제  -->
  	<delete id="deleteReview" parameterType="int">
         DELETE FROM review
@@ -25,6 +45,7 @@
     UPDATE review
     SET review_title = #{reviewTitle},
         review_content = #{reviewContent},
+        rating = #{rating},
         review_date = sysdate
     WHERE review_id = #{reviewId}
 	</update>
@@ -32,8 +53,8 @@
 	
 	<!--댓글 작성  -->
     <insert id="wrtieComment" parameterType="CommentVO">
-      INSERT INTO review_comment (comment_id, review_id, member_email, comment_content, parent_comment_id)
-      VALUES (comment_seq.nextval, #{reviewId}, #{memberEmail}, #{commentContent}, #{parentCommentId})
+      INSERT INTO review_comment (comment_id, review_id, member_email, comment_content)
+      VALUES (comment_seq.nextval, #{reviewId}, #{memberEmail}, #{commentContent})
     </insert>
     
     <!--댓글 목록조회  -->
@@ -43,11 +64,16 @@
         WHERE review_id = #{reviewId}
         ORDER BY review_id DESC
     </select>
-    
-    <!--댓 상세보기  -->
-    <select id="getCommnet" resultType="CommentVO">
-        SELECT comment_id, review_id, comment_content, member_email, comment_date
-        FROM review_commnet
-        WHERE review_id = #{reviewId}
-    </select>
+	<!--댓글 삭제 -->
+	<delete id="deleteComment" parameterType="int">
+		DELETE FROM review_comment
+		WHERE comment_id = #{commentId}
+	</delete>
+	<!--댓글 수정  -->
+	<update id="updateComment" parameterType="CommentVO">
+	    UPDATE review_comment
+	    SET comment_content = #{commentContent}
+	    WHERE comment_id = #{commentId}
+	</update>
+	    
   </mapper>

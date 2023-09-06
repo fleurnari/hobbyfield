@@ -6,13 +6,13 @@
   
   <!--주문정보입력  -->
   <insert id="insertOrderInfo" parameterType="OrderVO">
-        INSERT INTO prdt_order (order_id,order_phone, member_email,member_zip, member_baseaddr, member_detaaddr, delivery, order_memo, prdt_name, amount, order_date, iam_uid)
-        VALUES (#{orderId}, #{orderPhone}, #{memberEmail},#{memberZip}, #{memberBaseaddr}, #{memberDetaaddr}, '배송준비중', #{orderMemo}, #{prdtName}, #{amount},sysdate, #{iamUid} )
+        INSERT INTO prdt_order (order_id,order_phone, member_email,member_zip, member_baseaddr, member_detaaddr, delivery, order_memo, prdt_name, amount, order_date, iam_uid, prdt_option)
+        VALUES (#{orderId}, #{orderPhone}, #{memberEmail},#{memberZip}, #{memberBaseaddr}, #{memberDetaaddr}, '배송준비중', #{orderMemo}, #{prdtName}, #{amount},sysdate, #{iamUid}, #{prdtOption} )
   </insert>
   
   <!--주문목록조회 -->
   <select id="orderList" resultType="OrderVO">
-  		SELECT order_id, member_email, member_zip, member_baseaddr, member_detaaddr, delivery, order_memo, prdt_name, amount, order_date
+  		SELECT order_id, member_email, member_zip, member_baseaddr, member_detaaddr, delivery, order_memo, prdt_name, amount, order_date, prdt_option
   		FROM prdt_order
   		WHERE member_email = #{memberEmail}
   </select>
