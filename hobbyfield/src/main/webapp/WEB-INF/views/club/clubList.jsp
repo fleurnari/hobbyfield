@@ -6,77 +6,149 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script src="" type="text/javascript"></script>
 <head>
-    <meta charset="UTF-8">
-    <title>소모임 조회 메인 페이지</title>
-    <style>
-        #clubContainer {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-        }
-		
-        .clubItem {
-            width: 23%; /* 4개씩 나열될 수 있도록 너비 설정 */
-            margin: 10px;
-            border: 1px solid #ccc;
-            border-radius: 10px; /* 굴곡진 모서리 */
-            overflow: hidden; /* 이미지가 박스를 벗어나지 않도록 함 */
-            transition: transform 0.2s; /* 부드러운 hover 효과 */
-            position: relative; /* 하위 요소의 위치 지정을 위해 */
-        }
+<meta charset="UTF-8">
+<title>소모임 조회 메인 페이지</title>
+<style>
+#clubContainer {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
 
-        .clubItem:hover {
-            transform: scale(1.05); /* 이미지를 클릭할 때 크기를 약간 확대 */
-        }
+.clubItem {
+	width: 23%; /* 4개씩 나열될 수 있도록 너비 설정 */
+	margin: 10px;
+	border: 1px solid #ccc;
+	border-radius: 10px; /* 굴곡진 모서리 */
+	overflow: hidden; /* 이미지가 박스를 벗어나지 않도록 함 */
+	transition: transform 0.2s; /* 부드러운 hover 효과 */
+	position: relative; /* 하위 요소의 위치 지정을 위해 */
+}
 
-        .clubItem img {
-            width: 100%;
-            height: 350px;
-            object-fit: cover; /* 이미지가 박스 내에 꽉 차도록 */
-        }
+.clubItem:hover {
+	transform: scale(1.05); /* 이미지를 클릭할 때 크기를 약간 확대 */
+}
 
-        .clubInfo {
-            display: none; /* 기본적으로 정보는 숨김 */
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7); /* 반투명 배경 */
-            color: white;
-            padding: 10px;
-            box-sizing: border-box;
-        }
+.clubItem img {
+	width: 100%;
+	height: 350px;
+	object-fit: cover; /* 이미지가 박스 내에 꽉 차도록 */
+}
 
-        .clubItem:hover .clubInfo {
-            display: block; /* 마우스를 올리면 정보 표시 */
-        }
-        
-        .ck.ck-editor {
-		width: 30%;
-		max-width: 50px;
-		margin: 0 auto;
-		}
-		
-		.ck-editor__editable {
-			height: 80vh;
-		}
-		
-		 /* 지역 버튼 및 모임분류 버튼 스타일 */
-	    .region-btn {
-	        margin: 5px; /* 버튼 간격 */
-	        background-color: #FF6F61; /* 네이버 주황색 */
-	        color: white; /* 흰색 글씨 */
-	        border: none; /* 경계선 제거 */
-	        padding: 10px 20px; /* 상하 10px, 좌우 20px 패딩 */
-	        border-radius: 5px; /* 둥근 모서리 */
-	        cursor: pointer; /* 마우스 올렸을 때 손가락 모양 */
-	    }
-	
-	    .region-btn:hover {
-	        background-color: #FF8B7D; /* 마우스를 올렸을 때의 색상 (조금 밝아짐) */
-	    }
-    </style>
+.clubInfo {
+	display: none; /* 기본적으로 정보는 숨김 */
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.7); /* 반투명 배경 */
+	color: white;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+.clubItem:hover .clubInfo {
+	display: block; /* 마우스를 올리면 정보 표시 */
+}
+
+.ck.ck-editor {
+	width: 30%;
+	max-width: 50px;
+	margin: 0 auto;
+}
+
+.ck-editor__editable {
+	height: 80vh;
+}
+
+/* 지역 버튼 및 모임분류 버튼 스타일 */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+.region-list {
+	padding: 1rem 0;
+	display: flex;
+	white-space: nowrap;
+	overflow-x: auto;
+	scrollbar-width: none; /* 스크롤바 숨기기 */
+}
+
+/* Chrome, Safari 및 Opera의 스크롤바 숨기기 */
+.region-list::-webkit-scrollbar {
+	display: none; /* 스크롤바 자체를 숨김 */
+}
+
+.region-item {
+	display: inline-block;
+	padding-right: 1rem;
+}
+
+/* 지역 버튼 스타일 */
+.region-btn {
+	list-style: none;
+	user-select: none;
+	margin: 5px;
+	background-color: #FF6F61;
+	color: white;
+	border: none;
+	padding: 1rem;
+	border-radius: 5px;
+	cursor: pointer;
+	text-align: center;
+	width: 150px;
+}
+
+.region-btn:hover {
+	background-color: #FF8B7D;
+}
+
+/* 지역 버튼과 동일한 스타일을 모임 종류 버튼에도 적용 */
+.category-list {
+	padding: 1rem 0;
+	display: flex;
+	white-space: nowrap;
+	overflow-x: auto;
+	scrollbar-width: none; /* 스크롤바 숨기기 */
+}
+
+.category-list::-webkit-scrollbar {
+	display: none; /* Chrome, Safari 및 Opera의 스크롤바 숨기기 */
+}
+
+.category-item {
+	display: inline-block;
+	padding-right: 1rem;
+}
+
+/* 전체 컨테이너를 화면의 중앙에 위치시키기 위한 스타일 */
+.category-btn {
+    list-style: none;
+    user-select: none;
+    margin: 3px;  /* 마진 사이즈 조정 */
+    background-color: #FF6F61;
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    width: 100px;
+    font-size: 0.8rem;
+}
+
+/* 카테고리 리스트 스타일 조정 */
+.category-list {
+    display: flex;
+    justify-content: center;  /* 가운데 정렬 */
+    flex-wrap: wrap;  /* 필요한 경우 줄바꿈 */
+    width: 70%;  /* 전체 너비 설정. 필요에 따라 조절 가능 */
+    margin: 0 auto;  /* 중앙 정렬 */
+}
+</style>
 </head>
 
 <body>
@@ -84,16 +156,27 @@
     <div align="center" style="margin-top: 100px;">
 		<a class="btn btn-success" href="${pageContext.request.contextPath}/club/clubInsert">소모임 생성</a>
 		<!-- 지역 정렬 -->
-		<c:forEach items="${E}" var="region" >
-    		<button class="region-btn" data-region-code="${region.literal}">${region.literal}</button>
-		</c:forEach>
-		
+		<ul class="region-list">
+			<c:forEach items="${E}" var="region">
+				<li class="region-item">
+					<button class="region-btn" data-region-code="${region.literal}">${region.literal}</button>
+				</li>
+			</c:forEach>
+		</ul>
+
 		<!-- 모임 종류 정렬 -->
-		<c:forEach items="${C}" var="type" >
-    		<button class="category-btn" data-type-code="${type.literal}">${type.literal}</button>
-		</c:forEach>
- 
-		<!-- 소모임 표시 -->    
+		<div class="center-container">
+			<ul class="category-list">
+				<c:forEach items="${C}" var="type">
+					<li class="category-item">
+						<button class="category-btn" data-type-code="${type.literal}">${type.literal}</button>
+					</li>
+				</c:forEach>
+			</ul>
+		</div>
+
+
+			<!-- 소모임 표시 -->    
      <div id="clubContainer">
             <c:forEach items="${clubList}" var="club">
                 <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${club.clubNumber}'">
@@ -123,8 +206,8 @@
 	var isLoading = false; // 중복 요청을 확인
 
 	
-	//지역 버튼 클릭 이벤트 핸들러
-	$(document).on('click', '.category-btn', function() {
+	//카테고리 버튼 클릭 이벤트 핸들러
+	$(document).on('click', '.category-btn', function(e) {
 	    const clubCategory = $(this).data('type-code');
 	    console.log("카테고리", clubCategory);
 	
@@ -143,9 +226,8 @@
 	            $.each(Cate, function(index, club) {
 	                //각 소모임의 정보를 표시하는 코드 
 	                $('#clubContainer').append(`
-
-	                    <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${club.clubNumber}'">
-	                        <img src="${pageContext.request.contextPath}/${club.clubImgPath}/${club.clubImg}">
+	                		<div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=\${club.clubNumber}'">
+	                        <img src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}">
 	                        <div class="clubInfo">
 	                            <p>모임리더: \${club.profileNickname}</p>
 	                            <p>모임이름: \${club.clubName}</p>
@@ -166,12 +248,16 @@
 	    });
 	});
 
-
-	//소모임 종류 정렬
-	//지역 버튼 클릭 이벤트 핸들러
-	$(document).on('click', '.region-btn', function() {
-	    const majorLocation = $(this).data('region-code');
 	
+
+	   
+
+	//카테고리 종류 정렬
+	//카테고리 버튼 클릭 이벤트 핸들러
+	$(document).on('click', '.region-btn', function() {
+		//버블링 방지
+		
+	    const majorLocation = $(this).data('region-code');
 	    // 서버에 지역 코드 전송
 	    $.ajax({
 	    	url: "${pageContext.request.contextPath}/club/getClubsByRegion",
@@ -187,8 +273,8 @@
 	            $.each(clubs, function(index, club) {
 	                //각 소모임의 정보를 표시하는 코드 
 	                $('#clubContainer').append(`
-	                    <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubclubBoardList?clubNumber=${club.clubNumber}">
-	                        <img src="${pageContext.request.contextPath}/${club.clubImgPath}/${club.clubImg}">
+	                		<div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=\${club.clubNumber}'">
+	                        	<img src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}">
 	                        <div class="clubInfo">
 	                            <p>모임리더: \${club.profileNickname}</p>
 	                            <p>모임이름: \${club.clubName}</p>
@@ -219,7 +305,7 @@
 	        isLoading = true; // 요청 시작 전 플래그 설정
 
 	        $.ajax({
-	            url: "${pageContext.request.contextPath}/club/clubInfiniteScroll",
+	        	url: "${pageContext.request.contextPath}/club/clubInfiniteScroll",
 	            data: {
 	            	 startPage: (currentPage - 1) * pageSize + 1,  // 예: 1, 11, 21...
 	                 endPage: currentPage * pageSize               // 예: 10, 20, 30...
@@ -233,9 +319,8 @@
 	                if (clubs.length > 0) {
 	                    $.each(clubs, function(index, club) {
 	                        $('#clubContainer').append(`
-
-	                            <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubInfo?clubNumber=\${club.clubNumber}'">
-	                                <img src="${pageContext.request.contextPath}/${club.clubImgPath}/${club.clubImg}">
+	                        		<div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubInfo?clubNumber=\${club.clubNumber}'">
+	                                <img src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}">
 	                                <div class="clubInfo">
 	                                    <p>모임리더: \${club.profileNickname}</p>
 	                                    <p>모임이름: \${club.clubName}</p>
@@ -271,7 +356,179 @@
 	    }
 	}
 	
+	//지역 스크롤
+	$(document).ready(function() {
+	    const list = document.querySelector('.region-list');
+	    let isDragging = false;
+	    let startX;
+	    let scrollLeft;
 
+	    list.addEventListener('mousedown', (e) => {
+	        isDragging = true;
+	        startX = e.pageX - list.offsetLeft;
+	        scrollLeft = list.scrollLeft;
+	        list.style.cursor = 'grabbing';
+	    });
+
+	    list.addEventListener('mouseleave', () => {
+	        isDragging = false;
+	        list.style.cursor = 'grab';
+	    });
+
+	    list.addEventListener('mouseup', () => {
+	        isDragging = false;
+	        list.style.cursor = 'grab';
+	    });
+
+	    list.addEventListener('mousemove', (e) => {
+	        if (!isDragging) return;
+	        const x = e.pageX - list.offsetLeft;
+	        const walk = (x - startX);
+	        list.scrollLeft = scrollLeft - walk;
+	    });
+	});
+	
+	//마우스 이동에 따른 해당 list 동적이동
+	$(document).ready(function() {
+	    const scrollList = ['.region-list', '.category-list'];
+
+	    scrollList.forEach(selector => {
+	        const list = document.querySelector(selector);
+	        let isDragging = false;
+	        let startX;
+	        let scrollLeft;
+
+	        list.addEventListener('mousedown', (e) => {
+	            isDragging = true;
+	            startX = e.pageX - list.offsetLeft;
+	            scrollLeft = list.scrollLeft;
+	            list.style.cursor = 'grabbing';
+	        });
+
+	        list.addEventListener('mouseleave', () => {
+	            isDragging = false;
+	            list.style.cursor = 'grab';
+	        });
+
+	        list.addEventListener('mouseup', () => {
+	            isDragging = false;
+	            list.style.cursor = 'grab';
+	        });
+
+	        list.addEventListener('mousemove', (e) => {
+	            if (!isDragging) return;
+	            const x = e.pageX - list.offsetLeft;
+	            const walk = (x - startX);
+	            list.scrollLeft = scrollLeft - walk;
+	        });
+	    });
+	});
+	
+	
+	
+// $(document).ready(function() {
+// 	//지역종류 가로스크롤
+// 	// 요소 & 사이즈
+//     const list = document.querySelector('.region-list');
+//     const listScrollWidth = list.scrollWidth;
+//     const listClientWidth = list.clientWidth;
+
+//     // 이벤트마다 갱신될 값
+//     let startX = 0;
+//     let nowX = 0;
+//     let endX = 0;
+//     let listX = 0;
+
+//     function getClientX(e) {
+//         const isTouches = e.touches ? true : false;
+//         return isTouches ? e.touches[0].clientX : e.clientX;
+//     }
+
+//     function getTranslateX() {
+//         return parseInt(getComputedStyle(list).transform.split(/[^\-0-9]+/g)[5]);
+//     }
+
+//     function setTranslateX(x) {
+//         list.style.transform = `translateX(${x}px)`;
+//     }
+
+//     function onScrollStart(e) {
+//         startX = getClientX(e);
+//         window.addEventListener('mousemove', onScrollMove);
+//         window.addEventListener('touchmove', onScrollMove);
+//         window.addEventListener('mouseup', onScrollEnd);
+//         window.addEventListener('touchend', onScrollEnd);
+//     }
+
+//     function onScrollMove(e) {
+//         nowX = getClientX(e);
+//         setTranslateX(listX + nowX - startX);
+//     }
+
+//     function onScrollEnd(e) {
+//         endX = getClientX(e);
+//         listX = getTranslateX();
+
+//         if (listX > 0) {
+//             setTranslateX(0);
+//             list.style.transition = `all 0.3s ease`;
+//             listX = 0;
+//         } else if (listX < listClientWidth - listScrollWidth) {
+//             setTranslateX(listClientWidth - listScrollWidth);
+//             list.style.transition = `all 0.3s ease`;
+//             listX = listClientWidth - listScrollWidth;
+//         }
+
+//         window.removeEventListener('mousedown', onScrollStart);
+//         window.removeEventListener('touchstart', onScrollStart);
+//         window.removeEventListener('mousemove', onScrollMove);
+//         window.removeEventListener('touchmove', onScrollMove);
+//         window.removeEventListener('mouseup', onScrollEnd);
+//         window.removeEventListener('touchend', onScrollEnd);
+//         window.removeEventListener('click', onClick);
+
+//         setTimeout(() => {
+//             bindEvents();
+//             list.style.transition = '';
+//         }, 300);
+//     }
+
+//     function onClick(e) {
+//         if (startX - endX === 0) {
+//             const clickedX = getClientX(e);
+//             const halfWidth = listClientWidth / 2;
+
+//             if (clickedX < halfWidth) {
+//                 listX -= halfWidth;
+//             } else {
+//                 listX += halfWidth;
+//             }
+
+//             if (listX > 0) {
+//                 listX = 0;
+//             } else if (listX < listClientWidth - listScrollWidth) {
+//                 listX = listClientWidth - listScrollWidth;
+//             }
+
+//             list.style.transition = `all 0.3s ease`;
+//             setTranslateX(listX);
+
+//             setTimeout(() => {
+//                 list.style.transition = '';
+//             }, 300);
+//         } else {
+//             e.preventDefault();
+//         }
+//     }
+
+//     function bindEvents() {
+//         list.addEventListener('mousedown', onScrollStart);
+//         list.addEventListener('touchstart', onScrollStart);
+//         list.addEventListener('click', onClick);
+//     }
+
+//     bindEvents();
+// });
 
 
 // 	$('#clubLink').on("click",function(e){

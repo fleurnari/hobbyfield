@@ -44,11 +44,10 @@ import com.hobbyfield.app.point.service.PointVO;
 import com.hobbyfield.app.pointrecord.service.PointRecordService;
 import com.hobbyfield.app.pointrecord.service.PointRecordVO;
 
-//@RequestMapping("/club/*")
 @Controller
 @RequestMapping("/club/*")
 public class ClubController {
-	
+
 	@Autowired
 	CreateclubService createClubService;
 	
@@ -84,7 +83,7 @@ public class ClubController {
 	
     /*========= 소모임 조회관련 =========*/
     // 소모임 전체조회(메인페이지)
- 	@GetMapping("/clubMain")
+ 	@GetMapping("clubMain")
  	public String clubMain(Model model) {
  		model.addAttribute("clubList", createClubService.getClubTop());
  		model.addAttribute("board", clubBoardService.getAllClubBoardList());
@@ -92,7 +91,7 @@ public class ClubController {
  		return "club/clubMain";
  	}
  	
- 	// 리스트 무한 스크롤(페이징)// 데이터 로딩중 빈값 들고옴
+ 	// 리스트 무한 스크롤(페이징)
  	@ResponseBody
  	@RequestMapping(value="clubInfiniteScroll", produces="application/json; charset=UTF-8")
  	public ResponseEntity<List<CreateclubVO>> clubInfiniteScroll(@RequestParam("startPage") int startPage, 
@@ -106,7 +105,7 @@ public class ClubController {
     
     
     // 소모임 전체조회(조회페이지)
-	@GetMapping("/clubList")
+	@GetMapping("clubList")
 	public String clubList(Model model) {
 	    HashMap<String, Integer> map = new HashMap<>();
  	    map.put("start", 1);
@@ -122,7 +121,7 @@ public class ClubController {
 	
 	//소모임 정렬(조회페이지/지역정렬)
 	@ResponseBody
-	@GetMapping("/getClubsByRegion")
+	@GetMapping("getClubsByRegion")
 	public List<CreateclubVO> getClubsByRegion(@RequestParam String majorLocation, Model model) {
 		model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); // 지역대그룹 코드
 	    List<CreateclubVO> clubs = createClubService.getOrderLocation(majorLocation);
@@ -131,16 +130,16 @@ public class ClubController {
 	
 	//소모임 종류 정렬(조회페이지/종류정렬)
 	@ResponseBody
-	@GetMapping("/getClubsByCate")
+	@GetMapping("getClubsByCate")
 	public List<CreateclubVO> getClubsByCategory(@RequestParam String clubCategory, Model model) {
 		model.addAttribute("C", commCodeMapper.commCategoryList("0C")); // 모임카테고리 그룹코드
 	    List<CreateclubVO> Cate = createClubService.getOrderCategory(clubCategory);
 	    return Cate;
 	}
-	
+
 	
 	// 소모임 세부조회
-	@GetMapping("/clubInfo")
+	@GetMapping("clubInfo")
 	public String getClubInfo(HttpSession session, @RequestParam Integer clubNumber, Model model) {
 		// 소모임 정보 조회
 		CreateclubVO clubVO = new CreateclubVO();
@@ -165,21 +164,21 @@ public class ClubController {
 
 	// 내가 생성한 소모임 조회(데이터불러오기 가능/input태그 들어가지 않음)
 	@ResponseBody
-	@GetMapping("/selectMadeClub")
+	@GetMapping("selectMadeClub")
 	public CreateclubVO selectMadeClub(CreateclubVO clubVO) {
 		return createClubService.selectMadeClub(clubVO);
 	}
 
 	// 가입신청한 소모임 회원 조회(info 또는 clubMain에서 조회) <모임장>
-	@GetMapping("/clubManage")
+	@GetMapping("clubManage")
 	public String clubConfirmMember(ClubJoinVO clubJoinVO, Model model) {
 		List<ClubJoinVO> joinVO = clubJoinService.joinClubMemberInfo(clubJoinVO);
 		model.addAttribute("beforeMembers", joinVO);
 		return "club/clubManage";
 	}
-	
+
 	// 가입신청한 회원 승인
-	@PostMapping("/acceptClubMember")
+	@PostMapping("acceptClubMember")
 	public String acceptClubMember(@RequestParam String profileNickname, @RequestParam int clubNumber,
 			RedirectAttributes redirectAttrs) {
 		ClubJoinVO joinVO = new ClubJoinVO();
@@ -196,7 +195,7 @@ public class ClubController {
 	}
 
 	// 가입신청한 회원 거부
-	@PostMapping("/rejectClubMember")
+	@PostMapping("rejectClubMember")
 	public String rejectClubMember(@RequestParam String profileNickname, @RequestParam int clubNumber,
 			RedirectAttributes redirectAttrs) {
 		boolean result = clubJoinService.rejectMember(profileNickname, clubNumber);
@@ -211,7 +210,7 @@ public class ClubController {
 	
 	/*========= 소모임 등록관련 =========*/
 	// 소모임 등록 페이지
-	@GetMapping("/clubInsert")
+	@GetMapping("clubInsert")
 	public String clubInsertForm(ClubProfileVO clubprofileVO ,Model model, HttpSession session) {
 		model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); // 지역대그룹 코드
 		model.addAttribute("F", commCodeMapper.selectCommsubList("0F")); // 지역소그룹 코드
@@ -220,14 +219,13 @@ public class ClubController {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		//profile목록은 로그인할때 profileList로 담음
 		clubprofileVO.setMemberEmail(member.getMemberEmail());
-		List<ClubProfileVO> findVO = clubprofileService.getClubProfileVO(member.getMemberEmail());
-		System.out.println(findVO);
+		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
 		model.addAttribute("getNomalMypage", findVO);
 		return "club/clubInsert";
 	}
 
 	// 소모임 등록 처리 Process
-	@PostMapping("/clubInsert")
+	@PostMapping("clubInsert")
 	public String clubInsertProcess(CreateclubVO clubVO, HttpSession session) {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		clubVO.setMemberEmail(member.getMemberEmail());
@@ -238,7 +236,7 @@ public class ClubController {
 
 	// 소모임 등록 - 하위지역 반응 처리(공통코드받아서)
 	@ResponseBody
-	@GetMapping("/selectCommsubList")
+	@GetMapping("selectCommsubList")
 	public List<CommCodeVO> getSubLocations(String code) {
 		// 상위 카테고리 값에 따라 하위 카테고리 목록을 데이터베이스에서 조회
 		List<CommCodeVO> subLocations = commCodeMapper.selectCommsubList(code);
@@ -248,7 +246,7 @@ public class ClubController {
 	// 닉네임 중복체크
 	/* @RequestMapping(value = "nickChk", method = RequestMethod.POST) */
 	@ResponseBody
-	@PostMapping("/nickChk")
+	@PostMapping("nickChk")
 	public String nickChkPOST(String profileNickname) throws Exception {
 
 		int result = clubprofileService.nickChk(profileNickname);
@@ -266,7 +264,7 @@ public class ClubController {
 
 	// 소모임 이름 중복체크
 	@ResponseBody
-	@PostMapping("/clubnameChk")
+	@PostMapping("clubnameChk")
 	public String clubnameChkPOST(String clubName) throws Exception {
 
 		int result = createClubService.clubnameChk(clubName);
@@ -281,16 +279,9 @@ public class ClubController {
 		}
 	}
 
-	// 소모임 수정 clubMadeList modal창
-	@PostMapping("/clubUpdate")
-	public String clubUpdate(CreateclubVO createclubVO){
-		createClubService.updateClub(createclubVO);
-		System.out.println(createclubVO);
-		return "redirect:clubList";
-	}
 
 	// 소모임 가입하기 Process
-	@PostMapping("/clubJoinProcess")
+	@PostMapping("clubJoinProcess")
 	public String clubJoinProcess(ClubJoinVO joinVO ,Model model) {
 		clubJoinService.clubJoinInfo(joinVO);
 		return "redirect:clubList";
@@ -300,8 +291,7 @@ public class ClubController {
 	
 	/*========= 마이페이지 : 내가 생성한 소모임 조회 =========*/
 	// 내가 생성한 소모임 전체조회
-
-	@GetMapping("/clubMadeList")
+	@GetMapping("clubMadeList")
 	public String clubMyList(CreateclubVO createclubVO ,Model model, HttpSession session) {
 		//공통코드 , ClubProfileVO clubprofileVO
 		model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); // 지역대그룹 코드
@@ -321,30 +311,37 @@ public class ClubController {
 		model.addAttribute("clubMadeList", clubMadeList);
 		return "club/clubMadeList";
 	}
+		
+	// 소모임 수정 clubMadeList modal창
+	@PostMapping("clubUpdate")
+	public String clubUpdate(CreateclubVO createclubVO){
+		createClubService.updateClub(createclubVO);
+		System.out.println(createclubVO);
+		return "redirect:clubList";
+	}
 	
 	@PostMapping("/clubQuit")
 	public String clubQuit() {
 		
 		return "";
 	}
-	
 
 	/* ========= 마이페이지 개인정보 : 프로필 이미지 등록, 개인정보 조회========= */
 
 	// 프로필 개인정보 조회 : 전체조회(profileList)
-	@GetMapping("/profileList")
+	@GetMapping("profileList")
 	public String selctProfileClub(ClubProfileVO clubprofileVO, Model model, HttpSession session) {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		clubprofileVO.setMemberEmail(member.getMemberEmail());
 		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
 		model.addAttribute("getNomalMypage", findVO);
 
-		return "club/profileList";
+		return "member/profileList";
 	}
 
 	// 프로필 단건조회(clubProfile에 뿌려줌)
 	@ResponseBody
-	@GetMapping("/selectProfile")
+	@GetMapping("selectProfile")
 	public ClubProfileVO getProfile(ClubProfileVO clubprofileVO) {
 		System.out.println("getProfile method called with nickname: " + clubprofileVO.getProfileNickname());
 
@@ -352,13 +349,13 @@ public class ClubController {
 	}
 
 	//프로필 등록 Form
-	@GetMapping("/profileInsert")
+	@GetMapping("profileInsert")
 	public String profileInsertForm(Model model) {
 		return "club/profileInsert"; // 프로필 입력 폼 페이지의 뷰 이름
 	}
 
 	// 프로필 등록 처리
-	@PostMapping("/profileInsert")
+	@PostMapping("profileInsert")
 	public String profileInsertProcess(ClubProfileVO profileVO) {
 		// 프로필 정보를 DB에 저장하는 서비스 메서드를 호출합니다.
 		clubprofileService.insertProfile(profileVO);
@@ -419,51 +416,30 @@ public class ClubController {
 	}
 	
 	
-	
-	
 	// 해당소모임 게시물 보는 페이지
-	@GetMapping("/clubBoardList")
-	public String clubBoardList(Model model, CreateclubVO vo, HttpServletRequest request) {
-//		List<ClubBoardVO> clubBoardList = clubBoardService.getSelectClubBoardList(vo);
-//		model.addAttribute("boardList", clubBoardList);
-		HashMap<String, Integer> map = new HashMap<>();
-	 	map.put("start", 1);
-	 	map.put("end", 10);
-	 	map.put("clubNumber", vo.getClubNumber());
-	 	List<ClubBoardVO> scrollList = clubBoardService.getSelectClubBoardList(map);
-	 	model.addAttribute("boardList", scrollList);
-	 	System.out.println(scrollList);
-		HttpSession session = request.getSession();
-		MemberVO mvo = (MemberVO)session.getAttribute("member");
-		CreateclubVO cvo = createClubService.getClub(vo);
-		session.setAttribute("club", cvo);
-		ClubProfileVO profile = clubprofileMapper.getSessionProfile(mvo.getMemberEmail(), vo.getClubNumber());
-		if( profile != null) {
-			session.setAttribute("profile", profile);
-		}else {
-			session.removeAttribute("profile");
+		@GetMapping("/clubBoardList")
+		public String clubBoardList(Model model, CreateclubVO vo, HttpServletRequest request) {
+//			List<ClubBoardVO> clubBoardList = clubBoardService.getSelectClubBoardList(vo);
+//			model.addAttribute("boardList", clubBoardList);
+			HashMap<String, Integer> map = new HashMap<>();
+		 	map.put("start", 1);
+		 	map.put("end", 10);
+		 	map.put("clubNumber", vo.getClubNumber());
+		 	List<ClubBoardVO> scrollList = clubBoardService.getSelectClubBoardList(map);
+		 	model.addAttribute("boardList", scrollList);
+		 	System.out.println(scrollList);
+			HttpSession session = request.getSession();
+			MemberVO mvo = (MemberVO)session.getAttribute("member");
+			CreateclubVO cvo = createClubService.getClub(vo);
+			session.setAttribute("club", cvo);
+			ClubProfileVO profile = clubprofileMapper.getSessionProfile(mvo.getMemberEmail(), vo.getClubNumber());
+			if( profile != null) {
+				session.setAttribute("profile", profile);
+			}else {
+				session.removeAttribute("profile");
+			}
+			return "club/clubBoardList";
 		}
-		return "club/clubBoardList";
-	}
-	
-	// 페이징 포함 (테스트중)
-	@ResponseBody
- 	@RequestMapping(value="/clubBoardScroll", produces="application/json; charset=UTF-8")
-	public ResponseEntity<List<ClubBoardVO>> clubBoardScroll(@RequestParam("startPage") int startPage, 
-             @RequestParam("endPage") int endPage, HttpSession request){
-		 HashMap<String, Integer> map = new HashMap<>();
-		 CreateclubVO cvo =  (CreateclubVO)request.getAttribute("club");
-		 int num = cvo.getClubNumber();
-	 	 map.put("start", startPage);
-	 	 map.put("end", endPage); 
-	 	 map.put("clubNumber", num);
-	 	List<ClubBoardVO> scrollList = clubBoardService.getSelectClubBoardList(map);
-	 	System.out.println(scrollList);
-	 	
-		return new ResponseEntity<>(scrollList, HttpStatus.OK);
-	}
-	
-	
 	
 	@GetMapping("/searchBoard")
 	public String searchBoard(Model model, @RequestParam(value = "searchNum") int num 
@@ -551,7 +527,7 @@ public class ClubController {
 	public String updateClubCommentForm(Model model, ClubCommentVO clubCommentVO) {
 		ClubCommentVO findVO = clubCommentService.getComment(clubCommentVO);
 		model.addAttribute("comment", findVO);
-		return "comment/clubCommentUpdate";
+		return "clubComment/clubCommentUpdate";
 	}
 	
 	// 댓글 수정 수행
@@ -597,7 +573,7 @@ public class ClubController {
 		
 		model.addAttribute("comment", commentVO);
 		
-		return "comment/clubRecommentInsert";
+		return "clubComment/clubRecommentInsert";
 
 	}
 	

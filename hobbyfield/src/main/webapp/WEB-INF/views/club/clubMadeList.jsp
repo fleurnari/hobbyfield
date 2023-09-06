@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-<script type="text/javascript" src="resources/js/common.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club/insertclub.css">
 <title>내가 만든 모임 리스트</title>
 <style>
@@ -29,7 +29,7 @@
 	}
 
     .modal-body {
-	    width: 70%;  /* 너비 조정 */
+	    width: 50%;  /* 너비 조정 */
 	    background-color: white;
 	    padding: 40px 40px 60px 40px;  /* 패딩을 조정하여 내용이 적절히 들어갈 수 있도록 합니다. */
 	    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -257,7 +257,7 @@
 								data-singupQuestion2="${List.singupQuestion2 }"
 								data-singupQuestion3="${List.singupQuestion3 }"
 								class="open-modal">
-								<td class="text-left"><img src="${List.clubImgPath}${List.clubImg}"></td>
+								<td class="text-left"><img src="${pageContext.request.contextPath}/${List.clubImgPath}${List.clubImg}"></td>
 								<td class="text-left">${List.clubName }</td>
 								<td class="text-left">${List.profileNickname }</td>
 								<td class="text-left">${List.clubCategory }</td>
@@ -312,6 +312,7 @@
 					</div>
 					
 					<div>
+						<div>
 						<label>광역지역 : </label>
 						<select class="majorlocation" name="majorLocation" id="majorLocation">
 						    <option value="">선택</option>
@@ -319,10 +320,14 @@
 								<option value="${major.subcode }">${major.literal }</option>
 							</c:forEach>
 						</select>
+						</div>
 						
+						<div>
 						<select class="sublocation" name="subLocation" id="subLocation">
 							 <option value="${major.literal }">선택</option>
 						</select><br>
+						</div>
+						
 					</div>
 					
 					<div>
@@ -331,24 +336,31 @@
 					</div>
 					
 					<div>
+						<div>
 						<label>질문1</label>
 						<input type="text" name="singupQuestion1" value="${singupQuestion1 }"><br>
+						</div>
+						<div>
 						<label>질문2</label>
 						<input type="text" name="singupQuestion2" value="${singupQuestion2 }"><br>
+						</div>
+						<div>
 						<label>질문3</label>
 						<input type="text" name="singupQuestion3" value="${singupQuestion3 }"><br>
+						</div>
 					</div>
 					
 					<div id="preview"></div>
-						<input name="uploadFile" type="file" value="clubImg" onchange="readURL(this);">
+						<input id="imgInput" name="uploadFile" type="file" value="clubImg" onchange="readURL(this);">
+						<img class=images id="preview" src="${pageContext.request.contextPath}/download/img/${profile.profileImg}${profil.profileImgPath}" alt="Profile Image"/>
 						<button type="button" id="uploadBtn">upload</button>
 					</div>
 		
-					<span class="close">&times;</span>
 					<div>
 						<button type="submit" class="update-button">수정하기</button>
 					</div>
 					
+					<span class="close">&times;</span>
 					
 				</div>
 			</form>
@@ -475,7 +487,7 @@
 	
 		$.ajax({
 			type : "post",
-			url : "clubnameChk",
+			url : "${pageContext.request.contextPath}/club/clubnameChk",
 			data : data,
 			success : function(result) {
 	
@@ -503,7 +515,7 @@
 	        // 서버에 AJAX 요청
 	        $.ajax({
 	        //	type: "POST",
-	            url: "selectCommsubList",
+	            url: "${pageContext.request.contextPath}/club/selectCommsubList",
 	            data: { "code": selectedMajor },
 	           // contentType: "application/json; charset=utf-8",
 	            dataType: "json",
