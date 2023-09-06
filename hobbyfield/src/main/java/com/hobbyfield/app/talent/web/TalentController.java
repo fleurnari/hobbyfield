@@ -24,7 +24,7 @@ public class TalentController {
 	public String getTalentAllList(Model model, TalentVO talentVO) {
 		//model.addAttribute("talentList", talentService.getTalentAllList());
 		//재능기부 등록
-		talentService.insertTalent(talentVO);
+		// talentService.insertTalent(talentVO);
 		//재능기부 조회수 업데이트
 		//talentService.updateTlntView(talentVO);
 		//model.addAttribute("talent", talentVO);

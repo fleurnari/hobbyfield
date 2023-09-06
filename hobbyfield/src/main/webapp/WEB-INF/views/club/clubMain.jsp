@@ -132,16 +132,14 @@
 					console.log("ajax 호출, Session의 email : " + email);	
 					if(result == ture){
 						// 해당 소모임 메인페이지 이동 호출 
-					}esle{
+					}else{
 						alert("해당 소모임 가입페이지로 이동합니다.")
 					}
 				}
 			
-			}
-		})
+			})
+		});
 
-		
-	});
 
 	$('#clubContainer').on('click',function(e){
 		var linkta
@@ -161,10 +159,8 @@
     });
 
       editor.isReadOnly = true; // 에디터를 읽기 전용으로 설정
-   })
-   .catch( error => {
-      console.error( error );
-   });
+
+
 	bootstrap modal ex
 
 	

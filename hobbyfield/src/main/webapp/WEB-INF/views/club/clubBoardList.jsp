@@ -298,12 +298,11 @@
 				<div>
 					<label>닉네임 선택</label>
 				</div>
-				
-				<select name="profileNickname">
-					<c:forEach items="${profile}" var="pro">
-						<option value="${pro.profileNickname}">${pro.profileNickname}</option>
-					</c:forEach>
-				</select>
+<!-- 				<select name="profileNickname"> -->
+<%-- 					<c:forEach items="${profile}" var="pro"> --%>
+<%-- 						<option value="${pro.profileNickname}">${pro.profileNickname}</option> --%>
+<%-- 					</c:forEach> --%>
+<!-- 				</select> -->
 			</div><br>
 			<button type="button">신청</button>
 			<span class="close">&times;</span>
@@ -377,16 +376,16 @@
 					
 					<input type="hidden" name="profileNickname"
 						value="">
-					<c:if test="${profiles ne null}">
-						<select>
-							<c:forEach items="${profiles}" var="pro">
-								<option value="${pro.profilNickname}">${pro.profileNickname}</option>
-							</c:forEach>
-						</select>
-					</c:if>
-					<c:if test="${profiles eq null}">
-						<button id="profileBtn" >프로필 생성</button>
-					</c:if>
+<%-- 					<c:if test="${profiles ne null}"> --%>
+<!-- 						<select> -->
+<%-- 							<c:forEach items="${profiles}" var="pro"> --%>
+<%-- 								<option value="${pro.profilNickname}">${pro.profileNickname}</option> --%>
+<%-- 							</c:forEach> --%>
+<!-- 						</select> -->
+<%-- 					</c:if> --%>
+<%-- 					<c:if test="${profiles eq null}"> --%>
+<!-- 						<button id="profileBtn" >프로필 생성</button> -->
+<%-- 					</c:if> --%>
 				</div>
 				<br>
 				<button type="submit">신청</button>
@@ -436,10 +435,6 @@
 			</form>
 		</div>
 	</div>
-
-
-
-
 
 
 	<script type="text/javascript">
@@ -527,8 +522,7 @@
     	});
 	
      //가입신청 modal
-     $("#")
-		
+
        
      //프로필 등록 버튼
 	   $(".join_button").on("click", function() {
@@ -565,10 +559,7 @@
 	      
 	      return false;
 	   });
-	});
   
-
-  });	
     // 페이징
     $(window).off('scroll').on('scroll', function() {
   	    if (!isLoading && $(window).scrollTop() + $(window).height() == $(document).height()) {
@@ -649,9 +640,8 @@
 	function openModal(e){
 		
 	}
-	
 
-	  
 </script>
+
 </body>
 </html>
