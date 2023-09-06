@@ -63,7 +63,7 @@
 				<c:choose>
 					<c:when
 						test="${(comment.clubCommentSecret eq 'L2') || (comment.clubCommentSecret eq 'L1' && profile.profileNickname eq board.clubBoardWriter || member.memberGrd eq 'A3'
-									|| profile.profileNickname eq club.profileNickname || profile.profileNickname eq comment.parentWriter)}">
+									|| profile.profileNickname eq club.profileNickname || profile.profileNickname eq comment.profileNickname || profile.profileNickname eq comment.parentWriter)}">
 						<div>
 							<c:if test="${comment.clubCommentLevel eq 'M2'}">
 								&nbsp;&nbsp;&nbsp;&nbsp;<p>Re:</p>
@@ -71,8 +71,7 @@
 							<p>${comment.profileNickname}</p>
 							<p>${comment.clubCommentContent}</p>
 							<p>
-								<fmt:formatDate value="${comment.clubCommentDate}"
-									pattern="yyyy-MM-dd" />
+								<fmt:formatDate value="${comment.clubCommentDate}" pattern="yyyy-MM-dd" />
 							</p>
 							<c:if test="${comment.clubCommentLevel eq 'M1'}">
 								<button type="button" onclick="recommentInsert('${comment.boardNumber}', '${comment.commentNumber}')">대댓</button>
@@ -318,7 +317,7 @@ $(document).ready(function() {
 						'pushTarget' : writerEmail,
 						'pushTyp' : 'B2',
 						'pushCntn' : clubName + " 소모임의 " + boardNumber + '번 게시물에 새 댓글이 등록 되었습니다. ' + '"' + clubCommentContent + '"',
-						'pushUrl' : '${pageContext.request.contextPath}/clubBoardInfo?boardNumber=' + boardNumber,
+						'pushUrl' : '${pageContext.request.contextPath}/club/clubBoardInfo?boardNumber=' + boardNumber,
 					},
 				dataType : "json",
 				success : function(result) {

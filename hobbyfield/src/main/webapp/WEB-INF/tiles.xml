@@ -17,8 +17,8 @@
 		<put-attribute name="content" value="/WEB-INF/views/chat/{1}.jsp"></put-attribute>
 	</definition>
 	
-	<definition name="clubComment/*" extends="emptyTemplate">
-		<put-attribute name="content" value="/WEB-INF/views/clubComment/{1}.jsp"></put-attribute>
+	<definition name="comment/*" extends="emptyTemplate">
+		<put-attribute name="content" value="/WEB-INF/views/comment/{1}.jsp"></put-attribute>
 	</definition>
 			
 	<definition name="*/*" extends="mainTemplate">
