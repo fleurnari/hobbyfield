@@ -73,9 +73,8 @@ public class ClubProfileServiceImpl implements ClubProfileService {
 
 	//프로필 조회
 	@Override
-	public List<ClubProfileVO> getClubProfileVO(ClubProfileVO clubProfileVO) {
-		System.out.println(clubProfileVO);
-		return clubprofileMapper.getClubProfileVO(clubProfileVO);
+	public List<ClubProfileVO> getClubProfileVO(String memberEmail) {
+		return clubprofileMapper.getClubProfileVO(memberEmail);
 	}
 
 }

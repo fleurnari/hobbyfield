@@ -7,6 +7,10 @@
 <head>
 <meta charset="UTF-8">
 <title>포인트 상품 단건조회</title>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
 <style>
 body {
 	display: flex;
@@ -93,10 +97,7 @@ input {
 	width: 400px;
 }
 </style>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+
 
 
 </head>
@@ -193,8 +194,7 @@ input {
 			<!-- 모달 창 -->
 			<div id="myModal" class="modal">
 				<div class="modal-content">
-					<span class="close" id="closeModalBtn">&times;</span>
-					<!-- close안됨 -->
+					<span class="close" id="closeModalBtn">&times;</span> 
 					<div>
 						<h5>${point.pointName}</h5>
 						<br>
@@ -251,8 +251,8 @@ input {
 	//editor
 	ClassicEditor
 	.create( document.querySelector( '#editor' ), {
-		 toolbar: []
-		 readOnly : true;
+		 toolbar: [],
+		 readOnly : true
 	} )
 	.then( editor => {
 	    const toolbarElement = editor.ui.view.toolbar.element;
@@ -337,31 +337,31 @@ function remaindTime() {
 // 구매모달
  
 // 모달 열기
- function openModal() {
-   var modal = document.getElementById("myModal");
-   modal.style.display = "block";
- }
+//  function openModal() {
+//    var modal = document.getElementById("myModal");
+//    modal.style.display = "block";
+//  }
 
- // 모달 닫기
- function closeModal() {
-   var modal = document.getElementById("myModal");
-   modal.style.display = "none";
- }
+//  // 모달 닫기
+//  function closeModal() {
+//    var modal = document.getElementById("myModal");
+//    modal.style.display = "none";
+//  }
 
- // 구입 버튼 클릭 시 모달 열기
- document.getElementById("purchase").addEventListener("click", openModal);
+//  // 구입 버튼 클릭 시 모달 열기
+//  document.getElementById("purchase").addEventListener("click", openModal);
 
 
- // 모달 닫기 버튼 및 모달 외부를 클릭하여 모달 닫기
- var modal = document.getElementById("myModal");
- window.onclick = function (event) {
-   if (event.target == modal) {
-     modal.style.display = "none";
-   }
- };
+//  // 모달 닫기 버튼 및 모달 외부를 클릭하여 모달 닫기
+//  var modal = document.getElementById("myModal");
+//  window.onclick = function (event) {
+//    if (event.target == modal) {
+//      modal.style.display = "none";
+//    }
+//  };
 
- // 모달 내 닫기 버튼 클릭 시 모달 닫기
- document.querySelector(".close").addEventListener("click", closeModal);
+//  // 모달 내 닫기 버튼 클릭 시 모달 닫기
+//  document.querySelector(".close").addEventListener("click", closeModal);
 
 
  

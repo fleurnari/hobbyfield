@@ -56,12 +56,13 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 			
 		}
 		
-		ClubProfileVO profile =  new ClubProfileVO();
-		profile.setMemberEmail(member.getMemberEmail());
-		List<ClubProfileVO> findVO = clubprofileMapper.getNomalMypage(profile);
-				
+//		ClubProfileVO profile =  new ClubProfileVO();
+//		profile.setMemberEmail(member.getMemberEmail());
+//		List<ClubProfileVO> findVO = clubprofileMapper.getMyProfile(profile);
+//		if(findVO != null) {
+//			request.getSession().setAttribute("profileList", findVO);			
+//		}
 		
-		request.getSession().setAttribute("profileList", findVO);
 		request.getSession().setAttribute("member", member);
 		response.sendRedirect(request.getContextPath() + "/");
 

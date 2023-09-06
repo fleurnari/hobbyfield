@@ -14,7 +14,7 @@
             margin: 0;
             padding: 0;
         }
-
+	
         .info-section {
             width: 80%;
             margin: 50px auto;
@@ -179,7 +179,7 @@
 		let clubNumber = e.currentTarget.closet
 	}
 	
-
+	
 </script>
 
 </body>

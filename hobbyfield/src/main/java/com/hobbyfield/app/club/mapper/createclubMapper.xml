@@ -173,9 +173,9 @@
 	<!-- 소모임 세부조회 -->
 	<select id="getClubInfo" resultType="CreateclubVO">
 		SELECT 
-				club_number
-			   , profile_nickname
-         	   , club_name
+				c.club_number
+			   , c.profile_nickname
+         	   , c.club_name
 			   , FIND_CODE_NM(club_category) AS club_category
 			   , FIND_CODE_NM(club_type) AS club_type
 			   , club_info
@@ -188,7 +188,9 @@
 			   , club_img
 			   , club_img_path
 			   , club_total
-		FROM club
+               , p.profile_img
+               , p.profile_img_path
+		FROM club c JOIN profile p ON(c.profile_nickname = p.profile_nickname)
 		WHERE club_number = #{clubNumber}
 	</select>
 	

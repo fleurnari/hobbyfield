@@ -118,7 +118,7 @@
     		
 <script type="text/javascript">
 	$('#clubLink').on("click",function(e){
-		.stopPropagation();
+		e.stopPropagation();
 		var email = $('#checkClub').
 		// ajax로 해당 소모임에 사용자가 가입되어있는지 확인, 
 		// 가입되어있을시 해당 페이지로 이동, 아닐시 가입페이지로 이동

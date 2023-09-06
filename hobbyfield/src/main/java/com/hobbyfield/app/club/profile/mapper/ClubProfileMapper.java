@@ -18,6 +18,8 @@ public interface ClubProfileMapper {
 	// 프로필 화면 : 개인정보 조회
 	public List<ClubProfileVO> getNomalMypage(ClubProfileVO clubProfileVO);
 	
+	
+	
 	// 프로필 수정
 	public int updateProfile(ClubProfileVO clubProfileVO);
 
@@ -38,5 +40,5 @@ public interface ClubProfileMapper {
 	(@Param("memberEmail") String memberEmail, @Param("clubNumber") int clubNumber);
 	
 	// 로그인한 유저 데이터 가져오기
-	public List<ClubProfileVO> getClubProfileVO(ClubProfileVO clubProfileVO);
+	public List<ClubProfileVO> getClubProfileVO(String memberEmail);
 }

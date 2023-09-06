@@ -154,7 +154,7 @@ public class ClubController {
 	    clubProfileVO.setMemberEmail(member.getMemberEmail());
 	    
 	    // 로그인한 유저의 프로필 정보 가져오기
-	    List<ClubProfileVO> profileInfo = clubprofileService.getClubProfileVO(clubProfileVO);
+	    List<ClubProfileVO> profileInfo = clubprofileService.getClubProfileVO(member.getMemberEmail());
 		// 모델에 추가
 	    model.addAttribute("profile", profileInfo);
 		model.addAttribute("clubInfo", findVO);
@@ -218,9 +218,9 @@ public class ClubController {
 		model.addAttribute("D", commCodeMapper.clubTypeList("0D")); // 모임분류 그룹코드
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		//profile목록은 로그인할때 profileList로 담음
-		//clubprofileVO.setMemberEmail(member.getMemberEmail());
-		//List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
-		//model.addAttribute("getNomalMypage", findVO);
+		clubprofileVO.setMemberEmail(member.getMemberEmail());
+		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
+		model.addAttribute("getNomalMypage", findVO);
 		return "club/clubInsert";
 	}
 
@@ -320,10 +320,11 @@ public class ClubController {
 		return "redirect:clubList";
 	}
 	
-	// 소모임 탈퇴 clubOut ajax구현
-//	@ResponseBody
-//	@PostMapping("")
-	
+	@PostMapping("/clubQuit")
+	public String clubQuit() {
+		
+		return "";
+	}
 
 	/* ========= 마이페이지 개인정보 : 프로필 이미지 등록, 개인정보 조회========= */
 
@@ -348,9 +349,9 @@ public class ClubController {
 	}
 
 	//프로필 등록 Form
-	@GetMapping("/profileInsert")
+	@GetMapping("profileInsert")
 	public String profileInsertForm(Model model) {
-		return "member/profileInsert"; // 프로필 입력 폼 페이지의 뷰 이름
+		return "club/profileInsert"; // 프로필 입력 폼 페이지의 뷰 이름
 	}
 
 	// 프로필 등록 처리
@@ -404,9 +405,11 @@ public class ClubController {
 			pointRecord.setPointType("AB2");
 			prService.insertPointLog(pointRecord);
 		}
-
-		
-		List<ClubBoardVO> clubBoardList = clubBoardService.getSelectClubBoardList(cvo);
+		HashMap<String, Integer> map = new HashMap<>();
+		map.put("start", 1);
+	 	map.put("end", 10);
+	 	map.put("clubNumber", vo.getClubNumber());
+		List<ClubBoardVO> clubBoardList = clubBoardService.getSelectClubBoardList(map);
 		model.addAttribute("boardList", clubBoardList);
 		
 		return "club/clubBoardList";
@@ -414,22 +417,29 @@ public class ClubController {
 	
 	
 	// 해당소모임 게시물 보는 페이지
-	@GetMapping("/clubBoardList")
-	public String clubBoardList(Model model, CreateclubVO vo, HttpServletRequest request) {
-		List<ClubBoardVO> clubBoardList = clubBoardService.getSelectClubBoardList(vo);
-		model.addAttribute("boardList", clubBoardList);
-		HttpSession session = request.getSession();
-		MemberVO mvo = (MemberVO)session.getAttribute("member");
-		CreateclubVO cvo = createClubService.getClub(vo);
-		session.setAttribute("club", cvo);
-		ClubProfileVO profile = clubprofileMapper.getSessionProfile(mvo.getMemberEmail(), vo.getClubNumber());
-		if( profile != null) {
-			session.setAttribute("profile", profile);
-		}else {
-			session.removeAttribute("profile");
+		@GetMapping("/clubBoardList")
+		public String clubBoardList(Model model, CreateclubVO vo, HttpServletRequest request) {
+//			List<ClubBoardVO> clubBoardList = clubBoardService.getSelectClubBoardList(vo);
+//			model.addAttribute("boardList", clubBoardList);
+			HashMap<String, Integer> map = new HashMap<>();
+		 	map.put("start", 1);
+		 	map.put("end", 10);
+		 	map.put("clubNumber", vo.getClubNumber());
+		 	List<ClubBoardVO> scrollList = clubBoardService.getSelectClubBoardList(map);
+		 	model.addAttribute("boardList", scrollList);
+		 	System.out.println(scrollList);
+			HttpSession session = request.getSession();
+			MemberVO mvo = (MemberVO)session.getAttribute("member");
+			CreateclubVO cvo = createClubService.getClub(vo);
+			session.setAttribute("club", cvo);
+			ClubProfileVO profile = clubprofileMapper.getSessionProfile(mvo.getMemberEmail(), vo.getClubNumber());
+			if( profile != null) {
+				session.setAttribute("profile", profile);
+			}else {
+				session.removeAttribute("profile");
+			}
+			return "club/clubBoardList";
 		}
-		return "club/clubBoardList";
-	}
 	
 	@GetMapping("/searchBoard")
 	public String searchBoard(Model model, @RequestParam(value = "searchNum") int num 
