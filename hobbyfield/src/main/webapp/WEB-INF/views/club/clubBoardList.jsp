@@ -65,46 +65,12 @@
         cursor: pointer;
     }
     
-/*     /* 모임 탈퇴 모달 */ */
-/*     .main-de-modal{ */
-/*     	display: none; /* 초기에 모달을 숨깁니다. */ */
-/*         position: fixed; */
-/*         top: 0; */
-/*         left: 0; */
-/*         width: 100%; */
-/*         height: 100%; */
-/*         background-color: rgba(0,0,0,0.5); /* 반투명한 검은색 배경 */ */
-/*         z-index: 1; /* 다른 요소 위에 위치 */ */
-/*     } */
-    
-/*     /* 탈퇴 메세지 body */  */
-/*     .de-body{ */
-/*     	width: 25%; /* 화면의 1/3 */ */
-/*         height: 80%; /* 화면의 1/3 */ */
-/*         position: absolute; */
-/*         top: 50%;  */
-/*         left: 50%; */
-/*         transform: translate(-50%, -50%); /* 중앙에 위치하도록 설정 */ */
-/*         background-color: white; */
-/*         padding: 20px; */
-/*         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); */
-/*         border-radius: 10px; */
-/*     } */
-    
-/*      /* 탈퇴 메세지 창 닫기 */  */
-/*     .de-close{ */
-/*     	position: absolute; */
-/*         right: 15px; */
-/*         top: 15px; */
-/*         cursor: pointer; */
-/*     } */
-	
 </style>
 </head>
 <body>
 	<div align="center" style="margin-top: 150px;">
 		<!-- 검색창 구현 : 사용자이름, 글내용으로 검색 : ajax 처리를 통해 검색된 내용만 다시 불러오도록.-->
-
+		<p>확인용</p>
 		<!-- 검색창 -->
 		<div class="search-div">
 			<form id="searchForm"
@@ -162,6 +128,9 @@
 				<div class="boardMain"
 					onclick="location.href='${pageContext.request.contextPath}/club/clubBoardInfo?boardNumber=${board.boardNumber}'">
 					<p>글 번호 : ${board.boardNumber}</p>
+					<div>
+					<img src="${pageContext.request.contextPath}/${board.profileImgPath}/${board.profileImg}">
+					</div>
 					<p>작성자 : ${board.clubBoardWriter}</p>
 					<div>${board.clubBoardContent}</div>
 					<c:if test="${board.scheduleDate} ne null">
@@ -193,7 +162,7 @@
 		<div id="club-info">
 			<div id="club-img">
 				<img
-					src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}"
+					src="${pageContext.request.contextPath}${club.clubImgPath}/${club.clubImg}"
 					style="max-height: 300px; max-width: 300px;">
 			</div>
 			<div id="info">
@@ -444,7 +413,7 @@
 	var isLoading = false; // 중복 요청을 확인
 
   	$(document).ready(function(){
-       // 글쓰기 작성시 날짜 기본값 오늘날짜로 
+       // 글쓰기 작성시 날짜 기본값 오늘날짜로(선택시 보이게) 
        $("#insertScheduleDate").val(new Date().toISOString().substring(0, 10));
        $("#openModalBtn").on("click", function(e) {
            $("#boardInsertModal").css("display", "block");

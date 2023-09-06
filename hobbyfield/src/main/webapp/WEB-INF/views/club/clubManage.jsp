@@ -17,7 +17,9 @@
 		<div><p>모임소개 : ${club.clubInfo}</p></div>
 		<div><p>카테고리 : ${club.clubCategory}</p></div>
 		<div><p>모임장 : ${club.profileNickname}</p></div>
-		<div>모임장 프로필 <img src="${pageContext.request.contextPath}/${club.profileImg}/${club.profileImgPath}"></div>
+		<div>모임장 프로필 
+		<img src="${pageContext.request.contextPath}/${club.profileImgPath}${club.profileImg}">
+		</div>
 		<div><p>모임유형 : ${club.clubType}</p></div>
 		<div><p>모임지역 : ${club.majorLocation}</p></div>
 		<div></div>
@@ -35,7 +37,6 @@
 	</div>
 	
 	<!-- 가입신청리스트(모임장만) modal창으로 확인 -->
-
 		<div id="applyModal">
 				<div class="apply-content">
 					<table>
@@ -90,12 +91,14 @@
 	    $('.accept').click(function() {
 	        var nickname = $(this).data('nickname');
 	        var clubnumber = $(this).data('clubnumber');
-	
-	        $.post("${pageContext.request.contextPath}/club/acceptClubMember", { profileNickname: nickname, clubNumber: clubnumber }, function(data) {
+			
+	        $.post("${pageContext.request.contextPath}/club/acceptClubMember", 
+	        		{ profileNickname: nickname, clubNumber: clubnumber }, 
+	        		function(data) {
 	            if(data.success) {
 	                alert("수락되었습니다.");
-	                // reload말고 list다시 출력으로 
-	                location.reload();
+	                
+	                
 	            } else {
 	                alert("오류 발생");
 	            }

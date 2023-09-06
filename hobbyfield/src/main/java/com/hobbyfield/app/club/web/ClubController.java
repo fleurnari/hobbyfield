@@ -419,8 +419,6 @@ public class ClubController {
 	// 해당소모임 게시물 보는 페이지
 		@GetMapping("/clubBoardList")
 		public String clubBoardList(Model model, CreateclubVO vo, HttpServletRequest request) {
-//			List<ClubBoardVO> clubBoardList = clubBoardService.getSelectClubBoardList(vo);
-//			model.addAttribute("boardList", clubBoardList);
 			HashMap<String, Integer> map = new HashMap<>();
 		 	map.put("start", 1);
 		 	map.put("end", 10);
