@@ -288,5 +288,9 @@ $(document).ready(function(){
 			}
 		}
 	
+	function insertCountCheck(data){
+		
+	}
+	
 </script>
 </html>

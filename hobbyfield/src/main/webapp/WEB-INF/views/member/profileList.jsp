@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club/insertclub.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/insertclub.css">
 <title>프로필 유저정보</title>
 <style type="text/css">
 	.images{
@@ -80,11 +80,19 @@
 
 	<div align="center">
 		<div>
+		<div id="box">
+			<div>
+         		<jsp:include page="myPageMenu.jsp"></jsp:include>
+         	</div>
+         	
+         	<div>
+         		<a class="btn btn-success" href="${pageContext.request.contextPath}/club/profileInsert">프로필 생성</a>
+         	</div>
 			<table border="1">
 					<thead>
 						<tr>
-							<td>프로필 닉네임</td>
-							<td>프로필 이미지</td>
+							<th>프로필 닉네임</th>
+							<th>프로필 이미지</th>
 						</tr>
 					</thead>
 					<c:forEach items="${getNomalMypage}" var="profile">
@@ -105,7 +113,7 @@
 				</c:forEach>
 			</table>
 		</div>
-		
+	</div>
 		<!-- modal 창 시작 -->
 		<form action="updateProfile" method="POST" id="uploadForm">
 			<div align="center" id="club-modal" class="club-modal">
@@ -120,7 +128,7 @@
 					<button type="button" id="uploadBtn" >Upload</button>
 					
 					<!-- 이미지 미리보기 기본 이미지 -->
-					<img class=images id="preview" src="${pageContext.request.contextPath}/download/img/${profile.profileImg}${profil.profileImgPath}" alt="Profile Image"/>
+					<img class=images id="preview" src="${pageContext.request.contextPath}/download/img/${profile.profileImg}${profil.profileImgPath}" alt="Profile-Image"/>
 			
 				<div>
 					<button class="join_button" id="changeImageBtn" type="submit">수정</button>
@@ -152,7 +160,7 @@
 	//프로필 단건조회
 	function selectProfile(profileNickname) {
 	    $.ajax({
-	        url: '${pageContext.request.contextPath}/selectProfile',
+	        url: '${pageContext.request.contextPath}/club/selectProfile',
 	        type: 'GET',
 	        data: { 'profileNickname': profileNickname },
 	        success: function(data) {
@@ -230,7 +238,7 @@
 		let obj = serializeObject();
 		
 		$.ajax({
-			url : '${pageContext.request.contextPath}/updateProfile',  //contenttype이 제이슨이 아니면 작동안한다. text로 보낼거면 텍스트로 
+			url : '${pageContext.request.contextPath}/club/updateProfile',  //contenttype이 제이슨이 아니면 작동안한다. text로 보낼거면 텍스트로 
 			type : 'post',
 			contentType : 'application/json', //content ~ data (obj) json타입은 항상 세트다.
 			data : JSON.stringify(obj)

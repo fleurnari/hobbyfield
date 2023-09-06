@@ -279,13 +279,6 @@ public class ClubController {
 		}
 	}
 
-	// 소모임 수정 clubMadeList modal창
-	@PostMapping("clubUpdate")
-	public String clubUpdate(CreateclubVO createclubVO){
-		createClubService.updateClub(createclubVO);
-		System.out.println(createclubVO);
-		return "redirect:clubList";
-	}
 
 	// 소모임 가입하기 Process
 	@PostMapping("clubJoinProcess")
@@ -298,7 +291,6 @@ public class ClubController {
 	
 	/*========= 마이페이지 : 내가 생성한 소모임 조회 =========*/
 	// 내가 생성한 소모임 전체조회
-
 	@GetMapping("clubMadeList")
 	public String clubMyList(CreateclubVO createclubVO ,Model model, HttpSession session) {
 		//공통코드 , ClubProfileVO clubprofileVO
@@ -320,6 +312,18 @@ public class ClubController {
 		return "club/clubMadeList";
 	}
 		
+	// 소모임 수정 clubMadeList modal창
+	@PostMapping("clubUpdate")
+	public String clubUpdate(CreateclubVO createclubVO){
+		createClubService.updateClub(createclubVO);
+		System.out.println(createclubVO);
+		return "redirect:clubList";
+	}
+	
+	// 소모임 탈퇴 clubOut ajax구현
+//	@ResponseBody
+//	@PostMapping("")
+	
 
 	/* ========= 마이페이지 개인정보 : 프로필 이미지 등록, 개인정보 조회========= */
 
@@ -331,7 +335,7 @@ public class ClubController {
 		List<ClubProfileVO> findVO = clubprofileService.getNomalMypage(clubprofileVO);
 		model.addAttribute("getNomalMypage", findVO);
 
-		return "club/profileList";
+		return "member/profileList";
 	}
 
 	// 프로필 단건조회(clubProfile에 뿌려줌)
@@ -344,9 +348,9 @@ public class ClubController {
 	}
 
 	//프로필 등록 Form
-	@GetMapping("profileInsert")
+	@GetMapping("/profileInsert")
 	public String profileInsertForm(Model model) {
-		return "club/profileInsert"; // 프로필 입력 폼 페이지의 뷰 이름
+		return "member/profileInsert"; // 프로필 입력 폼 페이지의 뷰 이름
 	}
 
 	// 프로필 등록 처리

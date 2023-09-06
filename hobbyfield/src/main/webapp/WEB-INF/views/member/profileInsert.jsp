@@ -17,7 +17,11 @@
 		<a href="${pageContext.request.contextPath}/club/profileList">프로필 조회</a>
 	</div><br>
 
-   <form action="profileInsert" method="post" id="join_form">
+		<div>
+			<jsp:include page="myPageMenu.jsp"></jsp:include>
+		</div>
+
+		<form action="profileInsert" method="post" id="join_form">
       <div class="profile_info">
          <h2>프로필 정보</h2><br>
       </div>
