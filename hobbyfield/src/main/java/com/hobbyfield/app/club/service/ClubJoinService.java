@@ -15,4 +15,8 @@ public interface ClubJoinService {
    
    //가입신청한 회원 거절 
    public boolean rejectMember(String profileNickname, Integer clubNumber);
+   
+   // 소모임 탈퇴
+   public int quitClubMember(ClubJoinVO vo);
+   
 }

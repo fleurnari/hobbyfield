@@ -15,7 +15,7 @@
 }
 
 </style>
-<script type="text/javascript" src="resources/js/common.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 </head>
 <body>
 <section>

@@ -63,46 +63,46 @@
 			</form>
 		</div>
 
+
 	<div class="comment">
-			<form>
-	
-				<input type="hidden" id="boardNumber" name="boardNumber" value="${board.boardNumber}">
-				<input type="hidden" id="commentNumber" name="commentNumber">
-	
-				<c:forEach items="${commentList}" var="comment">
-					<c:choose>
-						<c:when
-							test="${(comment.clubCommentSecret eq 'L2') || (comment.clubCommentSecret eq 'L1' && profile.profileNickname eq board.clubBoardWriter || member.memberGrd eq 'A3'
-										|| profile.profileNickname eq club.profileNickname || profile.profileNickname eq comment.parentWriter)}">
-							<div>
-								<c:if test="${comment.clubCommentLevel eq 'M2'}">
-									&nbsp;&nbsp;&nbsp;&nbsp;<p>Re:</p>
-								</c:if>
-								<p>${comment.profileNickname}</p>
-								<p>${comment.clubCommentContent}</p>
-								<p>
-									<fmt:formatDate value="${comment.clubCommentDate}"
-										pattern="yyyy-MM-dd" />
-								</p>
-								<c:if test="${comment.clubCommentLevel eq 'M1'}">
-									<button type="button" onclick="recommentInsert('${comment.boardNumber}', '${comment.commentNumber}')">대댓</button>
-								</c:if>
-	
-								<c:if test="${profile.profileNickname eq comment.profileNickname}">
-									<button type="button" onclick="commentUpdate(${comment.commentNumber})">수정</button>
-								</c:if>
-								<c:if test="${profile.profileNickname eq comment.profileNickname || member.memberGrd eq 'A3' || profile.profileNickname eq club.profileNickname}">
-									<button type="button" onclick="commentDelete(${comment.commentNumber})">삭제</button>
-								</c:if>
-							</div>
-						</c:when>
-						<c:otherwise>
-							<p>비밀 댓글은 게시글, 댓글 작성자와 관리자만 볼 수 있습니다.</p>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-			</form>
-	</div>
+		<form>
+
+			<input type="hidden" id="boardNumber" name="boardNumber" value="${board.boardNumber}">
+			<input type="hidden" id="commentNumber" name="commentNumber">
+
+			<c:forEach items="${commentList}" var="comment">
+				<c:choose>
+					<c:when
+						test="${(comment.clubCommentSecret eq 'L2') || (comment.clubCommentSecret eq 'L1' && profile.profileNickname eq board.clubBoardWriter || member.memberGrd eq 'A3'
+									|| profile.profileNickname eq club.profileNickname || profile.profileNickname eq comment.profileNickname || profile.profileNickname eq comment.parentWriter)}">
+						<div>
+							<c:if test="${comment.clubCommentLevel eq 'M2'}">
+								&nbsp;&nbsp;&nbsp;&nbsp;<p>Re:</p>
+							</c:if>
+							<p>${comment.profileNickname}</p>
+							<p>${comment.clubCommentContent}</p>
+							<p>
+								<fmt:formatDate value="${comment.clubCommentDate}" pattern="yyyy-MM-dd" />
+							</p>
+							<c:if test="${comment.clubCommentLevel eq 'M1'}">
+								<button type="button" onclick="recommentInsert('${comment.boardNumber}', '${comment.commentNumber}')">대댓</button>
+							</c:if>
+
+							<c:if test="${profile.profileNickname eq comment.profileNickname}">
+								<button type="button" onclick="commentUpdate(${comment.commentNumber})">수정</button>
+							</c:if>
+							<c:if test="${profile.profileNickname eq comment.profileNickname || member.memberGrd eq 'A3' || profile.profileNickname eq club.profileNickname}">
+								<button type="button" onclick="commentDelete(${comment.commentNumber})">삭제</button>
+							</c:if>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<p>비밀 댓글은 게시글, 댓글 작성자와 관리자만 볼 수 있습니다.</p>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+		</form>
+
 
 		<!-- 댓글 작성용 1.댓글작성, 2. 사진포함 댓글작성 -->
 
@@ -120,7 +120,18 @@
 				<button type="button" id="commentInsert">댓글 작성</button>
 			</form>
 		</div>
-
+	</div>
+	
+	<!-- 글 목록, 수정, 삭제, 이전, 다음글 -->
+	<div id="btnList">
+		<div id="boardNext">다음글</div>
+		<div id="boardList">글목록</div>
+		<div id="boardBefore">이전글</div>
+		
+		<div id="boardEdit">수정</div>
+		<div id="boardDel">삭제</div>
+	</div>
+	
 
 	<!-- 이모티콘 모달 -->
 	<button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -188,7 +199,7 @@ ClassicEditor
 ClassicEditor
 .create( document.querySelector( '#editor2' ), {
 	 toolbar: [], 
-} )
+})
 .then( editor => {
 	replyEditor = editor;
 	
@@ -270,7 +281,14 @@ $(document).ready(function() {
 	   return false;
    };
    
-
+   
+   // 글 목록, 수정, 삭제 
+   // 이전, 다음글
+	$("#boardNext").on("click", function(){
+		
+		
+	})
+	
    
 
 
@@ -315,7 +333,7 @@ $(document).ready(function() {
 						'pushTarget' : writerEmail,
 						'pushTyp' : 'B2',
 						'pushCntn' : clubName + " 소모임의 " + boardNumber + '번 게시물에 새 댓글이 등록 되었습니다.',
-						'pushUrl' : '${pageContext.request.contextPath}/clubBoardInfo?boardNumber=' + boardNumber,
+						'pushUrl' : '${pageContext.request.contextPath}/club/clubBoardInfo?boardNumber=' + boardNumber,
 					},
 				dataType : "json",
 				success : function(result) {

@@ -83,7 +83,6 @@
 <section>
     <div align="center" style="margin-top: 100px;">
 		<a class="btn btn-success" href="${pageContext.request.contextPath}/club/clubInsert">소모임 생성</a>
-		
 		<!-- 지역 정렬 -->
 		<c:forEach items="${E}" var="region" >
     		<button class="region-btn" data-region-code="${region.literal}">${region.literal}</button>
@@ -98,7 +97,7 @@
      <div id="clubContainer">
             <c:forEach items="${clubList}" var="club">
                 <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${club.clubNumber}'">
-                    <img src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}">
+                    <img src="${pageContext.request.contextPath}${club.clubImgPath}${club.clubImg}">
                     <div class="clubInfo">
                         <p>모임리더: ${club.profileNickname}</p>
                         <p>모임이름: ${club.clubName}</p>
