@@ -22,4 +22,6 @@ public interface PrdtService {
 	//등록된상품 삭제
 	public void deletePrdt(int prdtId);
 	
+	public void prdtLikeCount(int prdtId);
+	
 }

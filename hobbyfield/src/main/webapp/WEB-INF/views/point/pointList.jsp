@@ -53,9 +53,9 @@ font-weight: bold;
 }
 
 .state-buttons {
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 20px;
+	 display: flex;
+     justify-content: flex;
+     margin-bottom: 30px;
 }
 
 .state-button {
@@ -65,6 +65,7 @@ font-weight: bold;
 	padding: 10px 15px;
 	cursor: pointer;
 	transition: background-color 0.3s;
+	margin-left: 10px;
 }
 
 .state-button:hover {
@@ -78,7 +79,7 @@ font-weight: bold;
 }
 
 .point-item {
-	width: calc(33.33% - 20px);
+	width: calc(25% - 20px);
 	background-color: #fff;
 	padding: 10px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -91,8 +92,10 @@ font-weight: bold;
 }
 
 .point-item img {
+	width:200px;
 	max-width: 100%;
 	height: auto;
+	margin-left: 20%;
 }
 
 .point-details {
@@ -118,7 +121,7 @@ th {
 </style>
 </head>
 <body>
-		<h3 class="point">포인트</h3><span><h3 class="sangjum">상점</h3></span> 
+		<h2 class="point">포인트</h2><span><h2 class="sangjum">상점</h2></span> 
 	<div class="header-left">
 		<a href="${pageContext.request.contextPath}/notice/noticeList"
 			class="notice-link">공지사항</a>
@@ -138,8 +141,8 @@ th {
 			</select>
 		</form>
 
-		<!-- 응아니야 -->
-		<div class="state-buttons">
+		<!-- 수정해야함 -->
+		<div class="state-buttons" role="group">
 			<button class="state-button" type="button" name="state1" value="V1"
 				onclick="changestate('V1')">판매중</button>
 			<button class="state-button" type="button" name="state2" value="V2"
@@ -179,8 +182,7 @@ th {
 							</c:choose>
 						</p>
 						<p>
-							<fmt:parseDate value="${point.pointEndterm}" pattern="yyyy-MM-dd"
-								var="pointEndterm" />
+							<fmt:parseDate value="${point.pointEndterm}" pattern="yyyy-MM-dd" var="pointEndterm" />
 						</p>
 						</c:if>
 					</div>

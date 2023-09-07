@@ -71,7 +71,31 @@
 		WHERE prdt_id = #{prdtId}
 	</delete>
 	
+	<!--좋아요 추가 -->
+	<insert id="likePrdt">
+		INSERT INTO prdt_like 
+		VALUES (like_seq.nextval, #{prdtId}, #{memberEmail}, sysdate) 
+	
+	</insert>
+	
+	<!--좋아요 취소 -->
+	<delete id="deleteLike">
+		DELETE FROM prdt_like
+		WHERE prdt_id = #{prdtId] AND member_email = #{memberEmail}
+	</delete>
 	
 	
+	<!--상품의 좋아요 개수 -->
+	<select id="likeCount" resultType="int">
+		SELECT COUNT(*)
+		FROM prdt_like
+		WHERE prdt_id = #{prdtId}
+	</select>
 	
+	<!--좋아요 카운트 -->
+	<update id="prdtLikeCount" parameterType="int">
+	    UPDATE prdt
+	    SET like_count = like_count + 1
+	    WHERE prdt_id = #{prdtId}
+	</update>
   </mapper>

@@ -5,13 +5,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hobbyfield.app.fnd.service.FundingGoodsService;
 import com.hobbyfield.app.fnd.service.FundingGoodsVO;
 import com.hobbyfield.app.fnd.service.FundingPostService;
 import com.hobbyfield.app.fnd.service.FundingPostVO;
-
+@RequestMapping("/fundingPost/*")
 @Controller
 public class FundingGoodsController {
 
@@ -22,7 +23,7 @@ public class FundingGoodsController {
 	FundingPostService fundingPostService;
 	
 	//펀딩 옵션 등록
-			@GetMapping("fundingPostGoods")
+			@GetMapping("/fundingPostGoods")
 			public String fundingPostGoods(FundingPostVO fundingPostVO, Model model) {
 				FundingPostVO findVO = fundingPostService.getFundingPostInfo(fundingPostVO);
 				model.addAttribute("fundingPostGoods",findVO);
@@ -30,7 +31,7 @@ public class FundingGoodsController {
 				return "fundingPost/fundingPostGoods";
 			}
 			
-			@PostMapping("fundingPostInsertGoods")
+			@PostMapping("/fundingPostInsertGoods")
 			public String fundingPostInsertGoods(FundingPostVO fundingPostVO, FundingGoodsVO fundingGoodsVO, Model model) {
 				fundingGoodsService.insertFundingGoodsInfo(fundingGoodsVO);
 				model.addAttribute("fundingPostGoods",fundingGoodsVO);
@@ -39,7 +40,7 @@ public class FundingGoodsController {
 		}
 	
 	//펀딩 옵션 정보 가져오기
-			@GetMapping("fundingGoodsInfo")
+			@GetMapping("/fundingGoodsInfo")
 			public String fundingGoodsInfo(FundingGoodsVO fundingGoodsVO, Model model) {
 				FundingGoodsVO findVO = fundingGoodsService.getFundingGoodsInfo(fundingGoodsVO);
 				model.addAttribute("fundingGoosInfo", findVO);
@@ -47,7 +48,7 @@ public class FundingGoodsController {
 			}
 	
 	//펀딩 옵션 삭제
-			@PostMapping("goodsDelete")
+			@PostMapping("/goodsDelete")
 			public String fundingDeleteGoods(FundingGoodsVO fundingGoodsVO,FundingPostVO fundingPostVO, RedirectAttributes redirectAttributes) {
 				fundingGoodsService.deleteGoods(fundingGoodsVO);
 				redirectAttributes.addAttribute("fundingPostVO", fundingPostVO.getFndPostNumber());

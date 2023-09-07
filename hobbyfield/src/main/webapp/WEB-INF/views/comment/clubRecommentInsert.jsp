@@ -52,6 +52,7 @@
 						if (result == 1) {
 							alert("대댓글 등록에 성공 했습니다.");
 							window.close();
+							opener.parent.location.reload();
 						}
 					}
 				})

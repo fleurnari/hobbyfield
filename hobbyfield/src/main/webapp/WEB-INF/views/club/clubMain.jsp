@@ -72,9 +72,8 @@
 	          <div>
 	          <a href="${pageContext.request.contextPath}/club/clubList">소모임 조회페이지</a>
 	          </div>
-	         
-	          <a class="btn btn-success" href="${pageContext.request.contextPath}/club/profileInsert">프로필 생성</a>
-	          </div>
+	          
+    </div>
 		
 		 <!-- 소모임 표시 -->    
 	     <div id="clubContainer"> 

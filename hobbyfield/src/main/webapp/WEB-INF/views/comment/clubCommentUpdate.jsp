@@ -51,6 +51,7 @@
 					success : function(result) {
 						if (result) {
 							alert("댓글 수정에 성공 했습니다.");
+							opener.parent.location.reload();
 							window.close();
 						}
 					}

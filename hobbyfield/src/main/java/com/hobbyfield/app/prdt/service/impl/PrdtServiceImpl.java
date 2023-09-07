@@ -56,6 +56,11 @@ public class PrdtServiceImpl implements PrdtService {
 	public void updatePrdt(PrdtVO prdtVO) {
 		prdtMapper.updatePrdt(prdtVO);
 	}
+	@Override
+	public void prdtLikeCount(int prdtId) {
+		
+		prdtMapper.prdtLikeCount(prdtId);
+	}
 	
 	
 

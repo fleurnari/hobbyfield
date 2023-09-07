@@ -17,7 +17,7 @@ public interface ReviewMapper {
 	 public void writeReview(ReviewVO reviewVO);
 	 
 	 //카테고리별 후기조회
-	 List<ReviewVO> getReviewsByCategory(String category);
+	 List<ReviewVO> getReviewsByCategory(@Param("category") String category, @Param("prdtId") int id);
 	 
 	 //후기(문의) 삭제
 	 void deleteReview(@Param("reviewId") int reviewId);

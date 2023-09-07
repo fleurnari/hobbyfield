@@ -28,4 +28,5 @@ public class FundingPostVO {
 	private Integer fndTotalAmount;
 	private Integer fndParticipants;
 	private Integer fndTotalPrice;
+	private Integer y;
 }

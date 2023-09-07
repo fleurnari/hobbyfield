@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
 
 </style>
@@ -18,19 +19,19 @@
 	<div class="container">
 			<div class="text-center">
 			<h4>
-			  <span onclick="location.href='${pageContext.request.contextPath}/fundingPostList'"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></span>&nbsp;&nbsp;
+			  <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostList'"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></span>&nbsp;&nbsp;
               <span onclick="location.href='#'">카테고리</span>&nbsp;&nbsp;
               <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
               <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
               <span onclick="location.href='#'">공지사항</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingSupportList'" >후원현황</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPostInsertForm'" style="color:#5aa5db;">프로젝트만들기</span>
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'" >후원현황</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'" style="color:#5aa5db;">프로젝트만들기</span>
             </h4>
             </div>
         </div>
 		<br><br><br>
 			<div class="text-center">
-				<h4><span style="color:red;">프로젝트 설정</span><span> | </span><span  onclick="location.href='${pageContext.request.contextPath}/fundingPostGoods?fndPostNumber=${fundingPostInsert20.fndPostNumber}'">옵션 구성</span></h4>
+				<h4><span style="color:red;">프로젝트 설정</span><span> | </span><span  onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostGoods?fndPostNumber=${fundingPostInsert20.fndPostNumber}'">옵션 구성</span></h4>
 						<p>프로젝트를 설정해주세요</p>
 					</div>
 					<br>
@@ -129,9 +130,16 @@ ClassicEditor
 		})
 		.done(data => {
 			if(data.result){
-				//alert이라 텍스트형식만 가능하기때문에 객체형식인 boardInfo에서 bno만 가져와야함
-				let message = '저장되었습니다.';
-				alert(message);
+				Swal.fire({
+            		title: '저장되었습니다', // 제목 추가
+                    text: 'success' // 텍스트 추가
+                    }).then(function () {
+                    // 모달 창 닫기
+                    $("#" + modalId).fadeOut();
+
+                    // 페이지 새로고침
+                    location.reload();
+                });
 			}else{
 				alert('저장되지 않았습니다.\n정보를 확인해주세요');
 			}

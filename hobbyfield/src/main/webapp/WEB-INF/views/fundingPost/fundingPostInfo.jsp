@@ -9,6 +9,7 @@
 <title>상세조회</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style type="text/css">
 table, th, td {
 	border: 1px solid black;
@@ -399,13 +400,13 @@ body.modal-open {
 								<div>
 									<!-- 아래 스크립트단 처리 -->
 									<a href="javascript:sendLink()">
-									<img src="resources/images/icon-kakao.png " style="padding: 20px" /></a>
+									<img src="${pageContext.request.contextPath}/resources/images/icon-kakao.png " style="padding: 20px" /></a>
 									<a href="javascript:shareFacebook()">
-									<img src="resources/images/icon-facebook.png " style="padding: 20px" /></a> 
+									<img src="${pageContext.request.contextPath}/resources/images/icon-facebook.png " style="padding: 20px" /></a> 
 									<a href="javascript:shareTwitter()">
-									<img src="resources/images/icon-twitter.png " style="padding: 20px" /></a>
+									<img src="${pageContext.request.contextPath}/resources/images/icon-twitter.png " style="padding: 20px" /></a>
 									<a href="#" onclick="clip(); return false;">
-									<img src="resources/images/icon-pngwing.png " style="padding: 20px" /></a>
+									<img src="${pageContext.request.contextPath}/resources/images/icon-pngwing.png " style="padding: 20px" /></a>
 								</div>
 							</div>
 						</div>
@@ -565,7 +566,12 @@ function remaindTime() {
 		textarea.select();
 		document.execCommand("copy");
 		document.body.removeChild(textarea);
-		alert("URL이 복사되었습니다.")
+		Swal.fire({
+			  icon: 'success',
+			  title: '링크가 저장되었습니다',
+			  showConfirmButton: false,
+			  timer: 1500
+			})
 	}
 	
 	// 수량 조절 및 총 가격 업데이트 함수
@@ -610,75 +616,84 @@ function remaindTime() {
     	var fndGoodsNumber = $(event.target).data('goodsnumber');
     	var fndPostNumber = ${fundingPostInfo.fndPostNumber };
     	var quantityValue = $(event.target).closest('.option-details').find('.quantity-value').text();
-		
-    	 location.href='${pageContext.request.contextPath}/fundingPayment?fndPostNumber=${fundingPostInfo.fndPostNumber}&fndGoodsNumber='+fndGoodsNumber+'&GoodsAmount='+quantityValue
-     
+    	Swal.fire({
+            title: '구매하시겠습니까?',
+            text: "",
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '구매',
+           	cancelButtonText: '취소'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // 리다이렉션을 여기에 추가
+                location.href='${pageContext.request.contextPath}/fundingPost/fundingPayment?fndPostNumber=${fundingPostInfo.fndPostNumber}&fndGoodsNumber='+fndGoodsNumber+'&GoodsAmount='+quantityValue;
+            }
+        });
     });
     
-    
-    
     // 댓글 작성
-    	$("#commentInsert").on("click", function() {
+	$("#commentInsert").on("click", function() {
+
+	var form = document.getElementById("commentForm");
+	var fndPostNumber = form.fndPostNumber.value;
+	var memberEmail = form.memberEmail.value;
+	var fndCommentContent = form.fndCommentContent.value;
+	var fndSecret = form.fndSecret.checked ? "on" : "";
 	
-		var form = document.getElementById("commentForm");
-		var fndPostNumber = form.fndPostNumber.value;
-		var memberEmail = form.memberEmail.value;
-		var fndCommentContent = form.fndCommentContent.value;
-		var fndSecret = form.fndSecret.checked ? "on" : "";
-		
-		$.ajax({
-			url : 'fndCommentInsert',
-			data : {
-				"fndPostNumber" : fndPostNumber,
-				"memberEmail" : memberEmail,
-				"fndCommentContent" : fndCommentContent,
-				"fndSecret" : fndSecret
-			},
-			type : "post",
-			success : function(result) {
-				if (result == 1) {
-					alert("댓글 등록에 성공 했습니다.");
-				}
-				$('#fndCommentContent').val('');
-			},
-			error : function() {
-				alert("댓글 등록에 실패 했습니다.");
+	$.ajax({
+		url : '${pageContext.request.contextPath}/fundingPost/fndCommentInsert',
+		data : {
+			"fndPostNumber" : fndPostNumber,
+			"memberEmail" : memberEmail,
+			"fndCommentContent" : fndCommentContent,
+			"fndSecret" : fndSecret
+		},
+		type : "post",
+		success : function(result) {
+			if (result == 1) {
+				alert("댓글 등록에 성공 했습니다.");
 			}
-		});
-		
+			$('#fndCommentContent').val('');
+		},
+		error : function() {
+			alert("댓글 등록에 실패 했습니다.");
+		}
 	});
-    
-    
-    // 댓글 수정
-    function commentUpdate(commentNumber) {
+	
+});
+
+
+	// 댓글 수정
+	function commentUpdate(commentNumber) {
 	window.name = "parentForm";
-	window.open("${pageContext.request.contextPath}/fndCommentUpdate?fndCommentNumber=" + commentNumber,
+	window.open("${pageContext.request.contextPath}/fundingPost/fndCommentUpdate?fndCommentNumber=" + commentNumber,
 			"fndCommentUpdate", "width=570, height=350, resizable = no, scrollbars = no");
 	}
-    
-    
-    // 댓글 삭제
-    function commentDelete(commentNumber) {
-    		
-    	$.ajax({
-      		url : 'fndCommentDelete',
-      		data : {
-    				'fndCommentNumber' : commentNumber
-    		},
-      		type : 'POST',
-    		success : function(result) {
-    			if (result) {
-    				alert("댓글 삭제에 성공 했습니다.");
-    			}
-    		},
-    		error : function() {
-    			alert("댓글 삭제에 실패 했습니다.");
-    		}
-    	});
-    		
-      }
-    
-    
+	
+	
+	// 댓글 삭제
+	function commentDelete(commentNumber) {
+			
+		$.ajax({
+	  		url : '${pageContext.request.contextPath}/fundingPost/fndCommentDelete',
+	  		data : {
+					'fndCommentNumber' : commentNumber
+			},
+	  		type : 'POST',
+			success : function(result) {
+				if (result) {
+					alert("댓글 삭제에 성공 했습니다.");
+					location.reload();
+				}
+			},
+			error : function() {
+				alert("댓글 삭제에 실패 했습니다.");
+			}
+		});
+			
+	  }
 </script>
 </body>
 

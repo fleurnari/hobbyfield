@@ -20,7 +20,7 @@
 		FROM CLUB_BOARD
 		WHERE club_board_blind <> 'AH2'  
 		ORDER BY board_number desc
-		) a where rownum <=3
+		) a where rownum <=6
 		]]>
 	</select>
 
@@ -36,26 +36,26 @@
 		p.PROFILE_IMG,
 		p.PROFILE_IMG_PATH
 		FROM (
-		SELECT BOARD_NUMBER,
-		CLUB_NUMBER,
-		CLUB_BOARD_WRITER,
-		CLUB_BOARD_CONTENT,
-		CLUB_BOARD_WDATE,
-		CLUB_BOARD_VIEWS,
-		CLUB_BOARD_BLIND,
-		ROWNUM AS RN
-		FROM (
-		SELECT BOARD_NUMBER,
-		CLUB_NUMBER,
-		CLUB_BOARD_WRITER,
-		CLUB_BOARD_CONTENT,
-		CLUB_BOARD_WDATE,
-		CLUB_BOARD_VIEWS,
-		CLUB_BOARD_BLIND
-		FROM CLUB_BOARD
-		WHERE CLUB_NUMBER = #{clubNumber}
-		ORDER BY CLUB_BOARD_WDATE DESC
-		)
+			SELECT BOARD_NUMBER,
+			CLUB_NUMBER,
+			CLUB_BOARD_WRITER,
+			CLUB_BOARD_CONTENT,
+			CLUB_BOARD_WDATE,
+			CLUB_BOARD_VIEWS,
+			CLUB_BOARD_BLIND,
+			ROWNUM AS RN
+			FROM (
+					SELECT BOARD_NUMBER,
+					CLUB_NUMBER,
+					CLUB_BOARD_WRITER,
+					CLUB_BOARD_CONTENT,
+					CLUB_BOARD_WDATE,
+					CLUB_BOARD_VIEWS,
+					CLUB_BOARD_BLIND
+					FROM CLUB_BOARD
+					WHERE CLUB_NUMBER = #{clubNumber}
+					ORDER BY CLUB_BOARD_WDATE DESC
+				)
 		) c
 		JOIN PROFILE p ON (c.CLUB_BOARD_WRITER = p.PROFILE_NICKNAME)
 		WHERE RN BETWEEN #{start} AND #{end}
@@ -99,14 +99,6 @@
 		'%'||#{text}||'%')
 	</select>
 
-	<!-- 스크롤 쿼리문 -->
-	<select id="getClubBoardScroll" resultType="ClubBoardVO">
-
-
-
-
-	</select>
-
 	<insert id="insertClubBoard" parameterType="ClubBoardVO">
 		<selectKey keyProperty="boardNumber" resultType="int"
 			order="BEFORE">
@@ -143,11 +135,11 @@
 	</insert>
 
 	<update id="updateClubBoard" parameterType="ClubBoardVO">
-
+		
 	</update>
 
 	<update id="updateViewClubBoard" parameterType="ClubBoardVO">
-
+		UPDATE CLUB_BOARD SET CLUB_BOARD_VIEWS = CLUB_BOARD_VIEWS + 1 WHERE BOARD_NUMBER = #{boardNumber}
 	</update>
 
 	<!-- 게시글 작성 활동 포인트 적립 -->
