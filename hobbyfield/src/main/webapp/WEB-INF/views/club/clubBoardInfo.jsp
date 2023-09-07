@@ -334,6 +334,7 @@ $(document).ready(function() {
 					alert("댓글 등록에 성공 했습니다.");
 				}
 				$('#clubCommentContent').val('');
+				location.reload();
 			},
 			error : function() {
 				alert("댓글 등록에 실패 했습니다.");

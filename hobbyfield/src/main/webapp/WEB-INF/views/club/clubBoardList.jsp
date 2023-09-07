@@ -34,9 +34,7 @@
 	height: 80vh;
 }
 
-<<<<<<< HEAD
-    
-=======
+   
 /* 소모임 수정 모달  */
 /* 모달 창 전체 스타일 */
 .update-modal {
@@ -91,6 +89,7 @@
 }
 
 .modal_body {
+	display: none;
 	width: 25%; /* 화면의 1/3 */
 	height: 80%; /* 화면의 1/3 */
 	position: absolute;
@@ -112,7 +111,6 @@
     }
     
 	
->>>>>>> 98ddd6c007def6a9f6bd632a125c9024c8e0cb77
 </style>
 </head>
 <body>
@@ -293,16 +291,16 @@
 		<form action="clubJoinProcess" method="POST" id="clubJoinForms">
 			<span class="close">&times;</span>
 			<div>
-<<<<<<< HEAD
+
 				<select name="profileNickname">
 					<c:forEach items="${profiles}" var="pro">
 						<option value="${pro.profileNickname}">${pro.profileNickname}</option>
 					</c:forEach>
 				</select>
 			</div>
-=======
+
 			<button onclick="hreclubManage=clubNumber?"${club.clubNumber}">관리</button>
->>>>>>> 98ddd6c007def6a9f6bd632a125c9024c8e0cb77
+
 			<!-- 모임 신청 질문 가져오기 -->
 				<label>모임소개 : ${club.clubInfo}</label><br>
 				<label>카테고리 : ${club.clubCategory}</label><br>
@@ -359,7 +357,7 @@
 		
 
 	<!-- 소모임 가입 modal (시작)-->
-<<<<<<< HEAD
+
 	<div id="clubModal" class="club-Modal">
 		<div class="modal_body">
 			<form action="clubJoinProcess" method="POST">
@@ -401,7 +399,6 @@
 			</form>
 		</div>
 	</div>
-=======
 <!-- 	<div id="clubModal" class="clubModal"> -->
 <!-- 		<div class="modal_body"> -->
 <!-- 			<form action="clubJoinProcess" method="POST"> -->
@@ -442,7 +439,6 @@
 <!-- 			</form> -->
 <!-- 		</div> -->
 <!-- 	</div> -->
->>>>>>> 98ddd6c007def6a9f6bd632a125c9024c8e0cb77
 
 
 
@@ -575,8 +571,7 @@
 <!-- 				<button type="button" id="uploadBtn">upload</button> -->
 <!-- 			</div> -->
 
-<<<<<<< HEAD
-=======
+
 <!-- 			<div> -->
 <!-- 				<button type="submit" class="update-button">수정하기</button> -->
 <!-- 			</div> -->
@@ -589,7 +584,6 @@
 
 </body>
 
->>>>>>> 98ddd6c007def6a9f6bd632a125c9024c8e0cb77
 <script type="text/javascript">
 
 	var currentPage = 2;  // 현재 페이지 번호 초기화
@@ -672,7 +666,6 @@
        		// 각 input값이 없으면 alert
         	$("#voteModal").css("display", "none");
     	});
-	});
      //가입신청 modal
 
        
@@ -793,23 +786,9 @@
    	.catch( error => {
    	    console.error( error );
    	});
-<<<<<<< HEAD
+	
 	
 </script>
 </body>
-=======
-   	
-	function openModal(e){
-		
-	}
-	
-	
-	
-	
-	
 
-</script>
-
-
->>>>>>> 98ddd6c007def6a9f6bd632a125c9024c8e0cb77
 </html>
