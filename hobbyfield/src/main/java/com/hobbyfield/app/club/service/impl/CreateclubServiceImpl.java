@@ -99,6 +99,11 @@ public class CreateclubServiceImpl implements CreateclubService {
 	    return createclubMapper.selectClubsForInfiniteScroll(map);
 	}
 
+	@Override
+	public int countMember(int clubNumber) {
+		return createclubMapper.countMember(clubNumber);
+	}
+
 	
 
 	

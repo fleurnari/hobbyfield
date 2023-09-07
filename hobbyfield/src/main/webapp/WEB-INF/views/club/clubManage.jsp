@@ -77,6 +77,10 @@
 			<div>
 				<p>모임지역 : ${club.majorLocation}</p>
 			</div>
+			<div>
+				<p>현재인원 : ${club.clubNumber }  / 전체인원 : ${club.clubTotal } </p>
+			</div>
+			
 			<div></div>
 			<!-- 톱니바퀴 모양 -->
 			<c:if test="${club.profileNickname eq profile.profileNickname}">
@@ -203,50 +207,49 @@
 
 		<!-- 가입신청리스트(모임장만) modal창으로 확인 -->
 
-	<div>
-		<table>
-			<thead align="center">
-				<tr>
-					<th>닉네임</th>
-					<th>가입신청일자</th>
-					<th>질문답변 1</th>
-					<th>질문답변 2</th>
-					<th>질문답변 3</th>
-					<th>승인처리</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${beforeMembers}" var="members">
-					<tr>
-						<td>${members.profileNickname }</td>
-						<td>${members.applyDate }</td>
-						<td>${members.applyAnswer1 }</td>
-						<td>${members.applyAnswer2 }</td>
-						<td>${members.applyAnswer3 }</td>
-						<td>
-							<button type="button" class="accept"
-								data-nickname="${members.profileNickname}"
-								data-clubnumber="${members.clubNumber}">수락</button>
-							<button type="button" class="reject"
-								data-nickname="${members.profileNickname}"
-								data-clubnumber="${members.clubNumber}">거절</button>
-						</td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-	</div>
-
-
-
+		<div class="resume-modal">
+			<div class="mo-body">
+				<table border="1">
+					<thead align="center">
+						<tr>
+							<th>닉네임</th>
+							<th>가입신청일자</th>
+							<th>질문답변 1</th>
+							<th>질문답변 2</th>
+							<th>질문답변 3</th>
+							<th>승인처리</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${beforeMembers}" var="members">
+							<tr>
+								<td>${members.profileNickname }</td>
+								<td>${members.applyDate }</td>
+								<td>${members.applyAnswer1 }</td>
+								<td>${members.applyAnswer2 }</td>
+								<td>${members.applyAnswer3 }</td>
+								<td>
+									<button type="button" class="accept"
+										data-nickname="${members.profileNickname}"
+										data-clubnumber="${members.clubNumber}">수락</button>
+									<button type="button" class="reject"
+										data-nickname="${members.profileNickname}"
+										data-clubnumber="${members.clubNumber}">거절</button>
+								</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+							<span class="accept-close">&times;</span>
+			</div>
+		</div>
 </div>
 
 
 
 
-
 		<script type="text/javascript">
-	//수락 거절 버튼
+	
 	$(document).ready(function() {
 	    $('.accept').click(function() {
 	        var nickname = $(this).data('nickname');
@@ -266,7 +269,7 @@
 	        });
 	    });
 	
-	    
+	  //수락 거절 버튼
 	    $('.reject').click(function() {
 	        var nickname = $(this).data('nickname');
 	        var clubnumber = $(this).data('clubnumber');
@@ -494,7 +497,35 @@
 		    }
 		});
 	
-	
+		
+		<div class="resume-modal">
+		<div class="mo-body">
+		
+		$(document).ready(function(){
+			let modal = document.getElementById('resume-modal');
+			let btn = document.querySelector('#clubUpdateButton');
+			let span = document.querySelector('.accept-close');
+			
+			// 버튼 클릭 시 모달 창 표시
+			btn.onclick = function() {
+			    console.log("Button 막힘!");
+			    modal.style.display = "block";
+			}
+			
+			// 닫기 버튼(X) 클릭 시 모달 창 숨김
+			span.onclick = function() {
+			    modal.style.display = "none";
+			}
+			
+			// 모달 창 외부 클릭 시 모달 창 숨김
+			window.onclick = function(event) {
+			    if (event.target == modal) {
+			        modal.style.display = "none";
+			    }
+			}
+			});
+		
+		
 </script>
 </body>
 </html>
