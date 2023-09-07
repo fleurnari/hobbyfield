@@ -27,6 +27,8 @@ import com.hobbyfield.app.club.board.service.ClubBoardService;
 import com.hobbyfield.app.club.board.service.ClubBoardVO;
 import com.hobbyfield.app.club.board.service.ClubCommentService;
 import com.hobbyfield.app.club.board.service.ClubCommentVO;
+import com.hobbyfield.app.club.like.service.ClubBoardLikeService;
+import com.hobbyfield.app.club.like.service.ClubBoardLikeVO;
 import com.hobbyfield.app.club.profile.mapper.ClubProfileMapper;
 import com.hobbyfield.app.club.profile.service.ClubProfileService;
 import com.hobbyfield.app.club.profile.service.ClubProfileVO;
@@ -78,6 +80,9 @@ public class ClubController {
     
     @Autowired
     PointRecordService prService;
+    
+    @Autowired
+    ClubBoardLikeService clubBoardLikeService; 
 
 
 	
@@ -506,6 +511,11 @@ public class ClubController {
 		if(point != null && point.size()>0) {
 			model.addAttribute("emojis", pointService.emojis(point.get(0).getPointId()));
 		}
+		
+		
+		model.addAttribute("userLike", clubBoardLikeService.selectBoardLike(cvo.getBoardNumber(), profile.getProfileNickname()));
+		model.addAttribute("boardLike", clubBoardLikeService.countBoardLike(cvo.getBoardNumber()));
+		
 		return "club/clubBoardInfo";
 	}
 
@@ -552,7 +562,7 @@ public class ClubController {
 	public String updateClubCommentForm(Model model, ClubCommentVO clubCommentVO) {
 		ClubCommentVO findVO = clubCommentService.getComment(clubCommentVO);
 		model.addAttribute("comment", findVO);
-		return "clubComment/clubCommentUpdate";
+		return "comment/clubCommentUpdate";
 	}
 	
 	// 댓글 수정 수행
@@ -598,7 +608,7 @@ public class ClubController {
 		
 		model.addAttribute("comment", commentVO);
 		
-		return "clubComment/clubRecommentInsert";
+		return "comment/clubRecommentInsert";
 
 	}
 	
@@ -632,6 +642,26 @@ public class ClubController {
 		return result;
 		
 	
+	}
+	
+	// 좋아요
+	@ResponseBody
+	@PostMapping("boardLike")
+	public int boardLike(ClubBoardLikeVO clubBoardLikeVO, Model model) {
+		
+		int result;
+		int like = clubBoardLikeService.selectBoardLike(clubBoardLikeVO.getBoardNumber(), clubBoardLikeVO.getProfileNickname());
+		
+		if (like == 0) {
+			result = 0;
+			clubBoardLikeService.insertBoardLike(clubBoardLikeVO);
+		} else {
+			result = 1;
+			clubBoardLikeService.deleteBoardLike(clubBoardLikeVO);
+		}
+		
+		return result;
+		
 	}
 	
 	

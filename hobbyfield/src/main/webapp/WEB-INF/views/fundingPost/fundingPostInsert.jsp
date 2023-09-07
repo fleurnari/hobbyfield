@@ -115,11 +115,10 @@ flex-wrap:wrap;
 								</p>
 							</div>
 							<div class="col-sm-6">
-								<select class="form-select" name="insertCateGory" name="fndCategory" aria-label="Default select example">
-									<option selected>카테고리를 선택해주세요.</option>
-									<option value="1">One</option>
-									<option value="2">Two</option>
-									<option value="3">Three</option>
+								<select class="form-select" name="fndCategory" aria-label="Default select example">
+									<c:forEach items="${category}" var="cate">
+										<option value="${cate.subcode}">${cate.literal}</option>
+									</c:forEach>
 								</select>
 							</div>
 						</div>
