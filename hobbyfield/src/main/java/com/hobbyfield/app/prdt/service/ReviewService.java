@@ -14,7 +14,7 @@ public interface ReviewService {
 	public void writeReview(ReviewVO reviewVO);
 	
 	//카테고리별 후기조회
-	List<ReviewVO> getReviewsByCategory(String category);
+	List<ReviewVO> getReviewsByCategory(String category, int prdtId);
 	
 	//후기(문의) 삭제
 	void deleteReview(@Param("reviewId") int reviewId);

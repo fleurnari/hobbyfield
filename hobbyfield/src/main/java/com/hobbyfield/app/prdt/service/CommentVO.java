@@ -12,4 +12,5 @@ public class CommentVO {
 	    private String commentContent;
 	    private Date commentDate;
 	    private int parentCommentId;	//(기본은 null)
+	    private String memberGrd;
 }
