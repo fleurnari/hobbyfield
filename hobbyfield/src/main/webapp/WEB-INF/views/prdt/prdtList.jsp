@@ -113,6 +113,9 @@
 .pagination .next:hover {
     background-color: #ccc;
 }
+
+
+
 </style>
 <link href="../resources/css/prdt/bootstrap.min.css" rel="stylesheet">
 <meta charset="UTF-8">
@@ -138,11 +141,12 @@
 			<!-- 좌측 영역 -->
 			<div class="col-md-2">
 				<ul class="list-group">
-					<li class="list-group-item"><a href="prdtInsert">상품등록</a></li>
-					<li class="list-group-item"><a href="cartList">장바구니</a></li>
-					<li class="list-group-item"><a href="orderList">주문목록</a></li>
-					<li class="list-group-item"><a href="adminOrderList">배송관리</a></li>
-					<li class="list-group-item"><a href="${pageContext.request.contextPath}/CSboard/CSboardList">공지사항</a></li>
+					<li class="list-group-item"><a href="#"><img src="${pageContext.request.contextPath}/resources/svg/bars.svg" alt=""> 카테고리</a></li>
+					<li class="list-group-item"><a href="prdtInsert"><img src="${pageContext.request.contextPath}/resources/svg/tags.svg" alt=""> 상품등록</a></li>
+					<li class="list-group-item"><a href="cartList"><img src="${pageContext.request.contextPath}/resources/svg/cart.svg" alt=""> 장바구니</a></li>
+					<li class="list-group-item"><a href="orderList"><img src="${pageContext.request.contextPath}/resources/svg/card.svg" alt=""> 주문목록</a></li>
+					<li class="list-group-item"><a href="adminOrderList" id="deliveryMenu"><img src="${pageContext.request.contextPath}/resources/svg/truck.svg" alt=""> 배송관리</a></li>
+					<li class="list-group-item"><a href="${pageContext.request.contextPath}/CSboard/CSboardList"><img src="${pageContext.request.contextPath}/resources/svg/person.svg" alt="">  공지사항</a></li>
 				</ul>
 			</div>
 			<!-- 상품 목록 영역 -->
@@ -152,7 +156,7 @@
 						<div class="col-md-4">
 							<h3><a href="prdtInfo?prdtId=${prdt.prdtId}">${prdt.prdtName}</a></h3>
 							<br>
-							<p>${prdt.prdtPrice}원</p>
+							<p><fmt:formatNumber type="number" value="${prdt.prdtPrice}" pattern="###,###,###원"/></p>
 						</div>
 					</c:forEach> 
 				</div>
@@ -208,5 +212,19 @@
 			});
 		});
 	</script>
+	
+<script>
+    // 서버에서 세션을 통해 가져온 사용자 권한을 JavaScript 변수에 저장
+    var userPermission = "<%= session.getAttribute("memberGrd") %>";
+
+    // 배송관리 메뉴 클릭 이벤트 처리
+    var adminOrderListMenu = document.getElementById("deliveryMenu");
+    adminOrderListMenu.addEventListener("click", function () {
+        if ((userPermission !== "A2" && userPermission !== "A3") {
+            alert("판매자만 접근이 가능합니다.");
+            event.preventDefault(); // 링크 클릭 이벤트를 취소하여 페이지 이동을 막습니다.
+        }
+    });
+</script>
 </body>
 </html>

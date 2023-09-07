@@ -6,6 +6,10 @@
 <html>
 <head>
 <style type="text/css">
+.list-group {
+	margin-top : 3%;
+
+}
 .list-group-item {
     margin-left: 394px;
     margin-right: 394px;
@@ -14,17 +18,24 @@
 
 #categoryBtn {
     position: relative;
-    top: -5px; /* 원하는 만큼 위로 이동 */
+    top: 50px; 
+    left: 1350px;
+}
+
+#categoryBtn2 {
+    position: relative;
+    top: 50px;
     left: 1350px;
 }
 
 #openReviewModal {
     position: absolute;
-    margin-top : -5px;
+    margin-top : 50px;
     left: 400px;
 }
 
 .rating-stars {
+
     color: #FFD700;
 }
 
@@ -110,18 +121,62 @@
     background-color: rgba(0, 0, 0, 0.4);
 }
 
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+
 .modal-content {
     background-color: #fff;
-    margin: 10% auto;
+    margin: 10% auto; /* 모달을 수직 가운데로 정렬 */
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
+    max-width: 600px; /* 모달의 최대 너비를 설정 */
 }
 
 .modal-title {
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 10px;
+}
+
+/* 리뷰 제목 스타일 */
+#reviewTitle {
+    width: 100%; /
+    padding: 10px; 
+    margin-bottom: 10px; 
+}
+
+/* 리뷰 내용 스타일 */
+#reviewContent {
+    width: 100%; 
+    height: 200px; 
+    padding: 10px; 
+    margin-bottom: 10px; 
+}
+
+#updateReviewTitle{
+	 width: 100%; 
+    padding: 10px; 
+    margin-bottom: 10px; 
+
+
+}
+
+#updateReviewContent{
+	width: 100%; 
+    height: 200px; 
+    padding: 10px; 
+    margin-bottom: 10px; 
+
 }
 
 #updateCommentContent {
@@ -147,30 +202,51 @@
 .container {
     margin-bottom: 50px;
 }
-/* + 버튼 스타일 */
+
 .plus {
-    background-color: #007bff; /* 배경색을 파란색으로 지정 */
-    color: #fff; /* 텍스트 색상을 흰색으로 지정 */
-    font-size: 18px; /* 폰트 크기를 조정 */
-    border: none; /* 테두리 제거 */
-    border-radius: 5px; /* 둥근 모서리를 생성 */
-    padding: 5px 10px; /* 안쪽 여백 설정 */
-    cursor: pointer; /* 커서 스타일을 포인터로 변경 */
+    background-color: #007bff; 
+    color: #fff; 
+    font-size: 18px; 
+    border: none; 
+    border-radius: 5px; 
+    padding: 5px 10px; 
+    cursor: pointer; 
     margin-bottom: 10px;
 }
 
-/* - 버튼 스타일 */
 .minus {
-    background-color: #dc3545; /* 배경색을 빨간색으로 지정 */
-    color: #fff; /* 텍스트 색상을 흰색으로 지정 */
-    font-size: 18px; /* 폰트 크기를 조정 */
-    border: none; /* 테두리 제거 */
-    border-radius: 5px; /* 둥근 모서리를 생성 */
-    padding: 5px 10px; /* 안쪽 여백 설정 */
-    cursor: pointer; /* 커서 스타일을 포인터로 변경 */
+    background-color: #dc3545;
+    color: #fff; 
+    font-size: 18px; 
+    border: none; 
+    border-radius: 5px; 
+    padding: 5px 10px; 
+    cursor: pointer; 
     margin-bottom: 10px;
 }
+ #like_icon {
+    width: 35px;
+    height: 35px;
+}
 
+  #like_button {
+        padding: 0;  
+        border: none; 
+        background: none; 
+        margin-bottom: 10px; 
+    }
+    #like_btn span {
+        font-weight: bold; /* 굵은 텍스트 스타일을 적용 */
+        margin-right: 5px; 
+    }
+   .box {
+   	margin-top: 200px;
+    margin-left: 20%;
+    margin-right: 20%;
+    max-width: 1200px;
+    
+   
+   }
 </style>
 <link href="<c:url value="/resources/css/bootstrap.min.css"/>"
     rel="stylesheet">
@@ -181,7 +257,7 @@
 <body>
 
 
-    <div class="container">
+    <div class="box">
         <div class="row">
             <div class="col-md-12">
 	            <form name="prdtInfo" method="post">
@@ -193,7 +269,14 @@
                 <p><b>상품번호 : </b><span class="badge badge-info">${prdtInfo.prdtId}</span>
                 <p><b>카테고리</b> : ${prdtInfo.prdtCate}<br>
                 <b>상품가격 : ${prdtInfo.prdtPrice}원</b>  
-                <br>
+                <div id="like_btn" style="display: inline-block;">
+				    <span>좋아요 : </span>
+				    <button type="button" id="like_button">
+				        <img id="like_icon" src="${pageContext.request.contextPath}/resources/svg/disLike.svg" alt="DisLike">
+				    </button>
+				</div>
+                
+                
                 <p><b>사이즈 :</b> <select id="sizeSelect" name="prdtOption">
 				    <option value="선택하세요">선택하세요</option>
 				    <option value="S">S</option>
@@ -205,22 +288,26 @@
 				 <button type="button" class="plus">+</button>
 				 <input type="number" class="numBox" min="1" max="${prdtInfo.prdtCount}" value="1" readonly="readonly"/>
 				 <button type="button" class="minus">-</button>
+				<div>
                 <p><a href="#" class="btn btn-primary" id="addCart_btn">장바구니에 담기 &raquo;</a> 
-                <a href="<c:url value="prdtList"/>" class="btn btn-secondary">상품 목록 &raquo;</a>  
-                <a href="<c:url value="cartList"/>" class="btn btn-secondary">장바구니 &raquo;</a>  
+                <a href="<c:url value="prdtList"/>" class="btn btn-secondary">상품 목록 &raquo;</a>
+                <a href="<c:url value="cartList"/>" class="btn btn-secondary">장바구니 &raquo;</a>
+                </div>
             </div>
         </div>
+       
         <hr>
         <button type="submit" class="btn btn-primary" id="delete_btn">삭제(상품)</button>
         <button type="submit" class="btn btn-primary" id="update_btn">수정(상품)</button>
     </div>
-    
-    
+	
+	 
+	
    <!--리뷰 작성 폼  -->
 <div id="reviewModal" class="modal">
     <div class="modal-content">
         <span class="close" id="closeReviewModal">&times;</span>
-        <h4 class="modal-title">리뷰 작성</h4>
+        <h4 class="modal-title">후기(문의) 작성</h4>
         <form id="reviewForm">
             <input type="hidden" name="prdtId" value="${prdtInfo.prdtId}">
             <input type="hidden" name="memberEmail" id="memberEmail" value="${member.memberEmail}">
@@ -242,13 +329,13 @@
                 </select>
             </div>
             <div class="input_area">
-                <input type="text" name="reviewTitle" id="reviewTitle" placeholder="리뷰 제목">
+                <input type="text" name="reviewTitle" id="reviewTitle" placeholder="후기() 제목">
             </div>
             <div class="input_area">
-                <textarea name="reviewContent" id="reviewContent"></textarea>
+                <textarea name="reviewContent" id="reviewContent" placeholder="내용을 작성해주세요"></textarea>
             </div>
             <div class="input_area">
-                <button type="button" id="review_btn">작성하기</button>
+                <button type="button" class="btn btn-primary" id="review_btn">작성하기</button>
             </div>
         </form>
     </div>
@@ -282,8 +369,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="reviewContent">리뷰 내용</label>
-                        <textarea class="form-control" name="reviewContent" id="reviewContent"></textarea>
+                        <label for="reviewContent">후기 내용</label>
+                        <textarea class="form-control" name="reviewContent" id="reviewContent" ></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -297,8 +384,8 @@
 		
 		
 		<!--클릭시 해당 카테고리에 해당하는 글 출력 -->
-		<button class="btn btn-primary" id="categoryBtn"    data-category="후기">후기</button>
-		<button class="btn btn-primary" id="categoryBtn"    data-category="상품문의">상품문의</button>
+		<button class="btn btn-primary" id="categoryBtn"   data-category="후기">후기</button>
+		<button class="btn btn-primary" id="categoryBtn2" data-category="상품문의">상품문의</button>
 
 		<!-- 리뷰 목록과 댓글 목록 -->
 		<div id="categoryReviewList">
@@ -318,14 +405,14 @@
 	<div id="updateReviewModal" class="modal">
 	    <div class="modal-content">
 	        <span class="close" id="closeUpdateReviewModal">&times;</span>
-	        <h4 class="modal-title">후기 수정</h4>
+	        <h4 class="modal-title">후기(문의) 수정</h4>
 	        <form id="updateReviewForm">
 	            <input type="hidden" name="reviewId" id="updateReviewId">
 	            <div class="input_area">
 	                <input type="text" name="reviewTitle" id="updateReviewTitle" placeholder="후기 제목">
 	            </div>
 	            <div class="input_area">
-	                <label for="updateRating">별점:</label>
+	                <label for="updateRating">평점:</label>
 		                <select name="updateRating" id="updateRating">
 		                    <option value="1">1</option>
 		                    <option value="2">2</option>
@@ -335,7 +422,7 @@
 		                </select>
             	</div>
 	            <div class="input_area">
-	                <textarea name="reviewContent" id="updateReviewContent"></textarea>
+	                <textarea name="reviewContent" id="updateReviewContent" ></textarea>
 	            </div>
 	            <div class="input_area">
 	                <button type="button" id="updateReview_btn">수정하기</button>
@@ -363,6 +450,54 @@
 
 </body>
 <script>
+$(document).ready(function() {
+    // 페이지 로드 시 좋아요 상태를 세션에서 복원
+    var prdtId = $("#prdtId").val();
+    var isLiked = sessionStorage.getItem("isLiked_" + prdtId);
+
+    if (isLiked === "true") {
+        // 세션에 저장된 좋아요 상태가 true인 경우, 하트 이미지로 설정
+        $("#like_icon").attr("src", "${pageContext.request.contextPath}/resources/svg/Like.svg");
+    } else {
+        // 세션에 저장된 좋아요 상태가 false인 경우, 빈 하트 이미지로 설정
+        $("#like_icon").attr("src", "${pageContext.request.contextPath}/resources/svg/disLike.svg");
+    }
+
+    // 좋아요 버튼 클릭 이벤트 처리
+    $("#like_button").click(function() {
+        var isLiked = ($("#like_icon").attr("src") === "${pageContext.request.contextPath}/resources/svg/Like.svg");
+
+        var prdtId = $("#prdtId").val();
+        var requestData = JSON.stringify({ "prdtId": prdtId });
+
+        $.ajax({
+            type: "POST",
+            url: "prdtLike",
+            data: requestData,
+            contentType: "application/json",
+            success: function(response) {
+                if (response === "success") {
+                    isLiked = !isLiked; // 좋아요 상태 반전
+
+                    if (isLiked) {
+                        // 좋아요가 추가된 경우 하트로
+                        $("#like_icon").attr("src", "${pageContext.request.contextPath}/resources/svg/Like.svg");
+                    } else {
+                        // 좋아요가 취소된 경우 빈 하트로
+                        $("#like_icon").attr("src", "${pageContext.request.contextPath}/resources/svg/disLike.svg");
+                    }
+
+                    // 세션 업데이트
+                    sessionStorage.setItem("isLiked_" + prdtId, String(isLiked));
+                }
+            },
+            error: function(error) {
+                console.error("좋아요 처리 중 에러 발생:", error);
+            }
+        });
+    });
+});
+
   	// 상품 수정, 삭제 
     $(document).ready(function(){
         $(document).on("click", "#delete_btn", function(){
@@ -543,13 +678,22 @@ function appendButtonsToReviewItem(reviewItem) {
 	        getReviewsByCategory(category, prdtId);
 	    });
 		
-	    
+	    // 상품문의 버튼 클릭 시
+	    $("#categoryBtn2").click(function() {
+	        var category = $(this).data("category");
+	        var prdtId = $("#prdtId").val();
+	        
+	        getReviewsByCategory(category, prdtId);
+	    });
+
 	    
 	    function getReviewsByCategory(category) {
+	        var prdtId = $("#prdtId").val();
 	        $.ajax({
 	            url: 'getReviewsByCategory',
 	            method: 'POST',
-	            data: { category: category},
+	            data: { category: category,
+	            		prdtId: prdtId },
 	            dataType: 'json',
 	            success: function (data) {
 	                var reviewList = data;
@@ -638,39 +782,74 @@ function appendButtonsToReviewItem(reviewItem) {
 	    
 	    
 	    // 별점 계산
-	    function calculateRatingHtml(rating) {
-	        var ratingHtml = '';
-	        for (var i = 0; i < 5; i++) {
-	            if (i < rating) {
-	                ratingHtml += '<span class="rating-stars">\u2605</span>'; // 채워진 별 아이콘
-	            } else {
-	                ratingHtml += '<span class="rating-stars">\u2606</span>'; // 비어있는 별 아이콘
-	            }
-	        }
-	        return ratingHtml;
-	    }
+	   // 별점 계산
+function calculateRatingHtml(rating) {
+    var ratingHtml = '';
+    for (var i = 0; i < 5; i++) {
+        var starSvgPath = (i < rating) ?
+            "${pageContext.request.contextPath}/resources/svg/star.svg" : // 꽉 찬 별의 SVG 파일 경로
+            "${pageContext.request.contextPath}/resources/svg/star2.svg"; // 비어있는 별의 SVG 파일 경로
+
+        var starElement = '<img src="' + starSvgPath + '" alt="Star" width="20" height="20" />';
+        ratingHtml += starElement;
+    }
+    return ratingHtml;
+}
 	    
 	    
  	// 댓글 작성 
- 	 $(document).on("click", "#postCommentBtn", function () {
-	    var reviewId = $(this).data("review-id");
-		console.log(reviewId);
-	    var commentContent = $("#newComment").val();
-	
-	    var data = {
-	        reviewId: reviewId,
-	        commentContent: commentContent
-	    };
+ 	$(document).on("click", "#postCommentBtn", function () {
+    var reviewId = $(this).data("review-id");
+    console.log(reviewId);
+    var commentContent = $("#newComment").val();
+    var category = $("#category").val();
+
+    // 카테고리가 "상품문의"일 때만 권한 확인
+    if (category === "상품문의") {
+        var userPermission = "<%= session.getAttribute("memberGrd") %>"; // 현재 사용자의 등급
+
+        // 권한이 "A2" 또는 "A3"인 경우에만 댓글 작성 허용
+        if (userPermission === "A2" || userPermission === "A3") {
+            var data = {
+                reviewId: reviewId,
+                commentContent: commentContent
+            };
+
+            $.ajax({
+                url: "writeComment",
+                type: "post",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (result) {
+                    if (result === "success") {
+                        location.reload();
+                        alert("댓글이 작성되었습니다.");
+                    } else {
+                        alert("댓글 작성에 실패했습니다.");
+                    }
+                },
+                error: function () {
+                    alert("서버 오류로 인해 댓글 작성에 실패했습니다.");
+                }
+            });
+        } else {
+            alert("상품문의 카테고리는 판매자 또는 A3 권한을 가진 사용자만 댓글을 작성할 수 있습니다.");
+        }
+    } else {
+        // 다른 카테고리일 때는 권한 제한 없이 댓글 작성 허용
+        var data = {
+            reviewId: reviewId,
+            commentContent: commentContent
+        };
 
         $.ajax({
-            url: "writeComment", 
+            url: "writeComment",
             type: "post",
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function (result) {
                 if (result === "success") {
-                	  location.reload();
-                     
+                    location.reload();
                     alert("댓글이 작성되었습니다.");
                 } else {
                     alert("댓글 작성에 실패했습니다.");
@@ -680,8 +859,8 @@ function appendButtonsToReviewItem(reviewItem) {
                 alert("서버 오류로 인해 댓글 작성에 실패했습니다.");
             }
         });
-    });
-		
+    }
+});
 	 	
  	
  	//댓글삭제 

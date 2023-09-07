@@ -23,8 +23,8 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public List<ReviewVO> getReviewsByCategory(String category) {
-		return reviewMapper.getReviewsByCategory(category);
+	public List<ReviewVO> getReviewsByCategory(String category, int prdtId) {
+		return reviewMapper.getReviewsByCategory(category, prdtId);
 	}
 	
 	@Override

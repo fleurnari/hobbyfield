@@ -97,7 +97,7 @@
             <td><fmt:formatNumber type="number" value="${cart.prdtPrice}" pattern="###,###,###원"/></td>
             <td>${cart.prdtOption}</td>
             <td>${cart.cartStock}</td>
-                  <td><fmt:formatNumber type="number" value="${cart.prdtPrice * cart.cartStock}" pattern="###,###,###원"/></td>
+            <td><fmt:formatNumber type="number" value="${cart.prdtPrice * cart.cartStock}" pattern="###,###,###원"/></td>
         </tr>
     
       
@@ -164,7 +164,6 @@
    </form>   
 </div>
 </div>
-
 <script>
 
 //모두선택

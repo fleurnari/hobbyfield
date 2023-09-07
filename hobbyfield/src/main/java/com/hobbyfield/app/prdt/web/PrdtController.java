@@ -26,6 +26,8 @@ import com.hobbyfield.app.common.SearchCriteria;
 import com.hobbyfield.app.csboard.service1.CSReplyVO;
 import com.hobbyfield.app.member.service.MemberVO;
 import com.hobbyfield.app.prdt.service.CommentVO;
+import com.hobbyfield.app.prdt.service.LikeService;
+import com.hobbyfield.app.prdt.service.LikeVO;
 import com.hobbyfield.app.prdt.service.PrdtService;
 import com.hobbyfield.app.prdt.service.PrdtVO;
 import com.hobbyfield.app.prdt.service.ReviewService;
@@ -43,14 +45,20 @@ public class PrdtController {
 	@Autowired
 	ReviewService reviewService;
 	
+	@Autowired
+	LikeService likeService;
 	
 	//상품목록조회
 	@GetMapping("prdtList")
-	public String prdtList(Model model, @ModelAttribute("scri") SearchCriteria scri) {
+	public String prdtList(Model model, @ModelAttribute("scri") SearchCriteria scri, HttpSession session) {
 		model.addAttribute("prdtList", prdtService.selectAllPrdt(scri));
 		PageMaker pageMaker = new PageMaker(); pageMaker.setCri(scri);
 		pageMaker.setTotalCount(prdtService.prdtCount(scri));
 		
+	    MemberVO member = (MemberVO) session.getAttribute("member");
+	    String memberGrd = member.getMemberGrd();
+	    model.addAttribute("memberGrd", memberGrd);
+	    
 		model.addAttribute("pageMaker", pageMaker);
 		return "prdt/prdtList";
 	}
@@ -114,8 +122,8 @@ public class PrdtController {
 	//상품후기 목록 (카테고리별)
 	@PostMapping("getReviewsByCategory")
 	@ResponseBody
-	public List<ReviewVO> getReviewsByCategory(@RequestParam("category") String category) {
-	       return reviewService.getReviewsByCategory(category);
+	public List<ReviewVO> getReviewsByCategory(@RequestParam(value = "category") String cate, @RequestParam(value = "prdtId") int id) {
+	       return reviewService.getReviewsByCategory(cate,id);
 	    }
 		
 		
@@ -141,16 +149,19 @@ public class PrdtController {
     }
     
     //댓글 작성
-  	@PostMapping("/writeComment")
-      @ResponseBody
-      public String writeComment(@RequestBody CommentVO commentVO, HttpSession session) {
-  		  MemberVO member = (MemberVO)session.getAttribute("member");
-  		  commentVO.setMemberEmail(member.getMemberEmail());
-          reviewService.wrtieComment(commentVO);
-          return "success";
-      }
-  	
-  	
+    @PostMapping("/writeComment")
+    @ResponseBody
+    public String writeComment(@RequestBody CommentVO commentVO, HttpSession session) {
+        MemberVO member = (MemberVO) session.getAttribute("member");
+        commentVO.setMemberEmail(member.getMemberEmail());
+        
+        // MemberVO에서 memberGrd 값을 가져와 commentVO에 설정
+        String memberGrd = member.getMemberGrd();
+        commentVO.setMemberGrd(memberGrd);
+        
+        reviewService.wrtieComment(commentVO);
+        return "success";
+    }
   	//댓글 목록
   	@PostMapping("readComment")
   	@ResponseBody
@@ -181,5 +192,40 @@ public class PrdtController {
         return "success";
     }
 	
+  	
+  //상품 좋아요
+ 	@PostMapping("/prdtLike")
+    @ResponseBody
+    public String handleLikeRequest(@RequestBody LikeVO likeVO, HttpSession session) {
+ 		 MemberVO member = (MemberVO) session.getAttribute("member");
+ 	    likeVO.setMemberEmail(member.getMemberEmail());
+ 	    
+ 	    // 중복 좋아요 체크
+ 	    int likeCount = likeService.checkLike(likeVO);
+ 	    
+ 	    if (likeCount == 0) {
+ 	        likeService.likePrdt(likeVO); // 좋아요 추가
+ 	        prdtService.prdtLikeCount(likeVO.getPrdtId());
+ 	        return "success";
+ 	    } else {
+ 	        // 사용자가 취소 여부를 클라이언트에서 확인하므로 이 부분에서는 취소 처리만 진행
+ 	        likeService.deleteLike(likeVO); // 좋아요 취소
+ 	        prdtService.prdtLikeCount(likeVO.getPrdtId());
+ 	        return "cancelled"; // 취소가 완료되었음을 클라이언트에 반환
+ 	    }
+    }
+  
+  	
+  	
+  	//상품 좋아요 취소
+  	 @PostMapping("removeLike")
+     @ResponseBody
+     public String removeLike(@RequestBody LikeVO likeVO) {
+         likeService.deleteLike(likeVO);
+         return "success";
+     }
+  	
+  	
+  	
  	
 }

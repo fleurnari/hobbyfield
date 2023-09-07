@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.hobbyfield.app.prdt.mapper.LikeMapper">
+	<!--좋아요 추가 -->
+	<insert id="likePrdt">
+		INSERT INTO prdt_like 
+		VALUES (like_seq.nextval, #{memberEmail},#{prdtId} , sysdate) 
+	
+	</insert>
+	
+	<!--좋아요 취소 -->
+	<delete id="deleteLike">
+		DELETE FROM prdt_like
+		WHERE prdt_id = #{prdtId} AND member_email = #{memberEmail}
+	</delete>
+	
+	<!--좋아요 중복체크 (하나만)-->
+	<select id="checkLike" resultType="int">
+		SELECT COUNT(*)
+		FROM prdt_like
+		WHERE prdt_id = #{prdtId} AND member_email = #{memberEmail}		
+	
+	</select>
+	
+	<!--상품의 좋아요 개수 -->
+	<select id="likeCount" resultType="int">
+		SELECT COUNT(*)
+		FROM prdt_like
+		WHERE prdt_id = #{prdtId}
+	</select>
+  </mapper>
