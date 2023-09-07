@@ -51,12 +51,21 @@ li {
             </h4>
             </div>
         </div>
+        <div>
+        	<ul>
+        		<c:forEach items="${category}" var="cate">
+        			<li>
+        				<button class="category-btn" data-type-code="${type.literal}">${cate.literal}</button>
+        			</li>
+        		</c:forEach>
+        	</ul>
+        </div>
 	</Section>
 	<Section>
 	<div class="container">
 		<div class="container2">
 		<table>
-							<tbody>
+			<tbody>
 			<c:forEach items="${fundingPostList }" var="fundingPost">
 			<div onclick="location.href='fundingPostInfo?fndPostNumber=${fundingPost.fndPostNumber }'">
 					<figure>
@@ -108,9 +117,10 @@ li {
 					</span>
 				</p>
 			</div>
-					</tbody>
-						</table>
+				</tbody>
+			</table>
 			</c:forEach>
+		</div>
 			<div class="container">
 				<div class="search">
 							<select name="searchType">
@@ -160,6 +170,37 @@ li {
 												.val());
 							});
 		});
+		
+		
+		
+		
+		$(document).on('click', '.category-btn', function(e) {
+			
+			const fndCategory = $(this).data('type-code');
+			
+			$.ajax({
+				url : "${pageContext.request.contextPath}/fundingPost/selectFundingPostCate",
+				type : 'GET',
+				data : { "fndCategory" : fndCategory},
+				dataType : 'json',
+				success : function(cate){
+					
+				},
+				error : function(error) {
+					console.log(error);
+					alert("데이터 로딩 중 오류가 발생 했습니다. 다시 시도해 주세요.");
+				}
+			})
+			
+			
+		});
+		
+		
+		
+		
+		
+		
+		
 	</script>
 </body>
 </html>

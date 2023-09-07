@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hobbyfield.app.comm.mapper.CommCodeMapper;
@@ -54,6 +55,7 @@ public class FundingPostController {
 	
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("scri", scri);
+		model.addAttribute("category", codeMapper.selectCommCodeList("0O"));
 			
 		return "fundingPost/fundingPostList";
 	}
@@ -232,6 +234,15 @@ public class FundingPostController {
 		
 		return true;
 		
+	}
+	
+	// 카테고리별 펀딩 조회
+	@ResponseBody
+	@GetMapping("selectFundingPostCate")
+	public List<FundingPostVO> selectFundingPostCate(@RequestParam String fndCategory, Model model) {
+		model.addAttribute("category", codeMapper.selectCommCodeList("0O"));
+		List<FundingPostVO> category = fundingPostService.selectFundingPostCate(fndCategory);
+		return category;
 	}
 
 }
