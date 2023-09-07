@@ -71,12 +71,15 @@ public class FundingPostController {
 	//펀딩 프로젝트 등록폼
 	@GetMapping("fundingPostInsertForm")
 	public String fundingPostInsertForm() {
+		
 		return "fundingPost/fundingPostInsertForm";
+		
 	}
 	//펀딩 프로젝트 등록	
 	@GetMapping("fundingPostInsert")
 	public String fundingPostInsert(Model model, @ModelAttribute("scri") SearchCriteria scri) {
 		model.addAttribute("fundingPostList", fundingPostService.getFundingPostList(scri));
+		model.addAttribute("category", codeMapper.selectCommCodeList("0O"));
 		return "fundingPost/fundingPostInsert";
 	}
 	//펀딩 프로젝트 등록폼2

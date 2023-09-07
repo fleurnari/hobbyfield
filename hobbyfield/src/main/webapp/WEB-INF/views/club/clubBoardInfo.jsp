@@ -47,7 +47,7 @@
 <body>
 	<div align="center" style="margin-top: 100px;">
 		<div>
-			<form method="post">
+			<form id="boardForm" method="post">
 				<!-- 이름, 작성일 이미지  -->
 				<div>
 					<!-- 이미지 추후 db에서 경로 가져와서 출력 -->
@@ -56,10 +56,14 @@
 						id="clubBoardWriter" name="clubBoardWriter"
 						value="${board.clubBoardWriter}"> <input type="text" id=""
 						name="clubBoardWdate" value="${board.clubBoardWdate}">
+						좋아요 : ${boardLike} 개
 				</div>
 				<div id="editor1">
 					<div id="editor">${board.clubBoardContent}</div>
 				</div>
+				<c:if test="${profile.profileNickname ne board.clubBoardWriter}">
+					<button type="button" id="boardLike">좋아요</button>
+				</c:if>
 			</form>
 		</div>
 
@@ -175,6 +179,9 @@
 	</div>
 	<script>
 	
+
+	
+	
 ClassicEditor
 .create( document.querySelector( '#editor' ), {
 	 toolbar: []
@@ -219,6 +226,12 @@ $('#emojis').on("click","img",function(e){
   
    //이모티콘
 $(document).ready(function() {
+	
+	var userLike = '${userLike}';
+	
+	 if (userLike == 1) {
+		 $('#boardLike').html("좋아요 취소");
+	 }
 
     // 탭 클릭 이벤트 핸들러
     $("#emojiTab a").click(function(e) {
@@ -384,6 +397,33 @@ function recommentInsert(boardNumber, commentNumber) {
 	window.open("${pageContext.request.contextPath}/club/clubRecommentInsert?boardNumber=" + boardNumber + "&commentNumber=" + commentNumber,
 			"clubReommentInsert", "width=570, height=350, resizable = no, scrollbars = no");
 }
+
+
+$("#boardLike").on("click", function() {
+	
+	var boardNumber = '${board.boardNumber}'
+	var profileNickname = '${profile.profileNickname}'
+	
+	$.ajax({
+		url : 'boardLike',
+		data : {
+			'boardNumber' : boardNumber,
+			'profileNickname' : profileNickname
+		},
+		type : 'POST',
+		success : function(result) {
+			if (result == 0) {
+				alert("해당 게시글 좋아요에 성공 했습니다.");
+				$('#boardLike').html("좋아요 취소");
+			} else {
+				alert("좋아요를 취소 했습니다.");
+				$('#boardLike').html("좋아요");
+			}
+		}
+	});
+	
+});
+
 
 
 

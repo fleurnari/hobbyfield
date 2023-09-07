@@ -22,22 +22,23 @@
   				)
   	</insert>
   	
-  	<delete id="deleteBoardLike">
+  	<delete id="deleteBoardLike" parameterType="ClubBoardLikeVO">
   		DELETE FROM club_board_like
-  		where profile_nickname = #{profileNickname}
+  		WHERE profile_nickname = #{profileNickname}
   		AND board_number = #{boardNumber}
   	</delete>
   	
-  	<select id="countBoardLike">
+  	<select id="countBoardLike" resultType="int">
   		SELECT count(*)
   		FROM club_board_like
   		WHERE board_number = #{boardNumber}
   	</select>
-  	
-  	<select id="getMyLikeBoard">
-  		SELECT count(*)
+  
+  	<select id="selectBoardLike" resultType="int">
+  		SELECT COUNT(*)
   		FROM club_board_like
-  		WHERE profile_nickname = #{profileNickname}
+  		WHERE board_number = #{boardNumber}
+  		AND profile_nickname = #{profileNickname}
   	</select>
   
   
