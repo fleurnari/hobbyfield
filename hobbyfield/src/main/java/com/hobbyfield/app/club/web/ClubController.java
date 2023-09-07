@@ -171,11 +171,23 @@ public class ClubController {
 
 	// 가입신청한 소모임 회원 조회(info 또는 clubMain에서 조회) <모임장>
 	@GetMapping("clubManage")
-	public String clubConfirmMember(ClubJoinVO clubJoinVO, Model model) {
+	public String clubConfirmMember(ClubProfileVO profileVO ,CreateclubVO createclubVO, ClubJoinVO clubJoinVO, Model model) {
+		model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); // 지역대그룹 코드
+		model.addAttribute("F", commCodeMapper.selectCommsubList("0F")); // 지역소그룹 코드
+		model.addAttribute("C", commCodeMapper.commCategoryList("0C")); // 모임카테고리 그룹코드
+		model.addAttribute("D", commCodeMapper.clubTypeList("0D")); // 모임분류 그룹코드
+		
 		List<ClubJoinVO> joinVO = clubJoinService.joinClubMemberInfo(clubJoinVO);
+		
+//		ClubProfileVO profile = clubprofileMapper.getClubBoss(profileVO);
+		
+		model.addAttribute("clubInfo",createClubService.getClub(createclubVO));
+//		model.addAttribute("profile", profile);
 		model.addAttribute("beforeMembers", joinVO);
 		return "club/clubManage";
 	}
+	
+	
 
 	// 가입신청한 회원 승인
 	@PostMapping("acceptClubMember")
@@ -319,7 +331,7 @@ public class ClubController {
 		System.out.println(createclubVO);
 		return "redirect:clubList";
 	}
-	
+
 	@PostMapping("/clubQuit")
 	public String clubQuit() {
 		
@@ -343,7 +355,7 @@ public class ClubController {
 	@ResponseBody
 	@GetMapping("selectProfile")
 	public ClubProfileVO getProfile(ClubProfileVO clubprofileVO) {
-		System.out.println("getProfile method called with nickname: " + clubprofileVO.getProfileNickname());
+		System.out.println("닉네임: " + clubprofileVO.getProfileNickname());
 
 		return clubprofileService.getProfile(clubprofileVO);
 	}
@@ -377,6 +389,11 @@ public class ClubController {
 	public int getProfileCount(@RequestParam String email) {
 		return clubprofileMapper.getProfileCountByEmail(email);
 	}
+	
+	// 소모임 생성 3개 제한
+//	@ResponseBody
+//	@PostMapping("")
+//	public int 
 
 	/*========= 게시글 =========*/
 	

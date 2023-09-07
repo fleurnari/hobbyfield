@@ -99,6 +99,15 @@
     WHERE m.member_email = #{memberEmail}
 	</select>
 	
-	
+	<!-- 모임장 프로필 뿌리기 -->
+	<select id="getClubBoss" resultType="ClubProfileVO">
+		SELECT c.club_number
+			, c.profile_nickname
+			, p.profile_img
+			, p.profile_img_path
+		FROM club c 
+		JOIN profile p ON (c.profile_nickname = p.profile_nickname)
+		WHERE c.profile_nickname = #{profileNickname}	
+	</select>
 	
 </mapper>
