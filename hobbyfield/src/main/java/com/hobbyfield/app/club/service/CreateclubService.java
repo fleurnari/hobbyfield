@@ -3,15 +3,12 @@ package com.hobbyfield.app.club.service;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
 
-import org.springframework.stereotype.Service;
 
 public interface CreateclubService {
 	
 	// 소모임 전체조회
 	public List<CreateclubVO> getCreateClubList();
-	
 	
 	// 소모임 가입인원이 많은 클럽
 	public List<CreateclubVO> getClubTop();

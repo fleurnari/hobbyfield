@@ -30,4 +30,7 @@ public interface ClubProfileService {
 
 	public List<ClubProfileVO> getClubProfileVO(String memberEmail);
 	
+	//모임장 프로필 가져오기
+	public ClubProfileVO getClubBoss(ClubProfileVO clubProfileVO);
+	
 }

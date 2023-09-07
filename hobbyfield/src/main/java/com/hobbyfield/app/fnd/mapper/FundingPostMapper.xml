@@ -24,7 +24,7 @@
         SELECT 
             Fnd_Main_Img,
             Fnd_Main_ImgPath,
-            Fnd_Category,
+            FIND_CODE_NM(Fnd_Category) as Fnd_category,
             Fnd_Post_Number, 
             Fnd_Title,
             Fnd_Start_Date,

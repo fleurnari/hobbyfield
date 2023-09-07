@@ -66,12 +66,15 @@ public class FundingPostController {
 	//펀딩 프로젝트 등록폼
 	@GetMapping("/fundingPostInsertForm")
 	public String fundingPostInsertForm() {
+		
 		return "fundingPost/fundingPostInsertForm";
+		
 	}
 	//펀딩 프로젝트 등록	
 	@GetMapping("/fundingPostInsert")
 	public String fundingPostInsert(Model model, @ModelAttribute("scri") SearchCriteria scri) {
 		model.addAttribute("fundingPostList", fundingPostService.getFundingPostList(scri));
+		model.addAttribute("category", codeMapper.selectCommCodeList("0O"));
 		return "fundingPost/fundingPostInsert";
 	}
 	//펀딩 프로젝트 등록폼2
@@ -165,5 +168,63 @@ public class FundingPostController {
 			
 		return "fundingPost/adminAccept";
 	}
-	  
+	
+	// 댓글 작성
+	@ResponseBody
+	@PostMapping("fndCommentInsert")
+	public int insertFndComment(FundingCommentVO fundingCommentVO, HttpServletRequest request) {
+		if (request.getParameter("fndSecret").equals("on")) {
+			fundingCommentVO.setFndSecret("L1");
+		} else {
+			fundingCommentVO.setFndSecret("L2");
+		}
+		
+		int result = fundingCommentService.insertComment(fundingCommentVO);
+		
+		return result; 
+	}
+	
+	// 댓글 수정 폼
+	@GetMapping("fndCommentUpdate")
+	public String updateFndCommentForm(Model model, FundingCommentVO fundingCommentVO) {
+		FundingCommentVO findVO = fundingCommentService.getComment(fundingCommentVO);
+		model.addAttribute("comment", findVO);
+		return "comment/fndCommentUpdate";
+	}
+	
+	// 댓글 수정 수행
+	@ResponseBody
+	@PostMapping("fndCommentUpdate")
+	public boolean updateFndComment(FundingCommentVO fundingCommentVO, HttpServletRequest request) {
+		
+		if (request.getParameter("fndSecret").equals("on")) {
+			fundingCommentVO.setFndSecret("L1");
+		} else {
+			fundingCommentVO.setFndSecret("L2");
+		}
+		
+		int result = fundingCommentService.updateComment(fundingCommentVO);
+	
+		if (result == 0) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	// 댓글 삭제
+	@ResponseBody
+	@PostMapping("fndCommentDelete")
+	public boolean deleteFndComment(FundingCommentVO fundingCommentVO) {
+		
+		int result = fundingCommentService.deleteComment(fundingCommentVO);
+		
+		if (result == 0) {
+			return false;
+		}
+		
+		return true;
+		
+	}
+
 }
