@@ -20,13 +20,29 @@ body {
 	margin-top: 150px;
 }
 
+h5{
+	margin-top: 30px;
+	font-weight: bold;
+
+}
+
 .pointItemType {
 	width: 300px;
+}
+
+.pointContent{
+	margin-bottom: 30px;
 }
 
 .capacity, .emoji {
 	display: none;
 }
+
+.buttonGroup{
+	margin-top: 30px;
+}
+
+
 </style>
 
 <script type="text/javascript"
@@ -57,15 +73,11 @@ body {
 			<input type="hidden" id="emojiId" name="emojiId">
 		</div>
 
-		<div>
+		<div class="pointContent">
 			<h5>내용</h5>
 			<textarea id="editor" name="pointContent"
 				cols="40" rows="5" placeholder="내용을 입력하세요."></textarea>
 		</div>
-		<!-- 		<div> -->
-		<!-- 			<h5>이미지 첨부</h5> -->
-		<!-- 			<input name="uploadFiles" id="pointImgName" type="file" multiple> -->
-		<!-- 		</div> -->
 
 
 		<!-- 증원권 -->
@@ -126,7 +138,7 @@ body {
     	}
     })
     .then(editor => {
-        // 에디터 인스턴스가 생성되면 호출되는 콜백 함수
+    	 editor.isReadOnly = true; // 에디터를 읽기 전용으로 설정
     })
     .catch( error => {
         console.error( error );

@@ -19,18 +19,18 @@ body {
 
 h3 {
 	margin-top: 0;
-	padding-top: 20px; /* 상단 패딩 추가 */
-	border-top: 1px solid #ccc; /* 상단 경계선 추가 */
+	padding-top: 20px; 
+	border-top: 1px solid #ccc;
 	display: flex;
-	align-items: center; /* 텍스트 세로 중앙 정렬 */
+	align-items: center; 
 }
 
 form {
-	margin-top: 20px; /* 폼과 상단 간격 추가 */
+	margin-top: 20px;
 }
 
 .form-input {
-	margin-bottom: 20px; /* 입력 필드와 하단 간격 추가 */
+	margin-bottom: 20px; 
 }
 
 label {
