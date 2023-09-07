@@ -99,14 +99,6 @@
 		'%'||#{text}||'%')
 	</select>
 
-	<!-- 스크롤 쿼리문 -->
-	<select id="getClubBoardScroll" resultType="ClubBoardVO">
-
-
-
-
-	</select>
-
 	<insert id="insertClubBoard" parameterType="ClubBoardVO">
 		<selectKey keyProperty="boardNumber" resultType="int"
 			order="BEFORE">
@@ -143,11 +135,11 @@
 	</insert>
 
 	<update id="updateClubBoard" parameterType="ClubBoardVO">
-
+		
 	</update>
 
 	<update id="updateViewClubBoard" parameterType="ClubBoardVO">
-
+		UPDATE CLUB_BOARD SET CLUB_BOARD_VIEWS = CLUB_BOARD_VIEWS + 1 WHERE BOARD_NUMBER = #{boardNumber}
 	</update>
 
 	<!-- 게시글 작성 활동 포인트 적립 -->

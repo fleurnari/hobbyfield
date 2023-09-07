@@ -94,8 +94,8 @@
            p.profile_nickname, 
            p.profile_img, 
            p.profile_img_path
-    FROM member m
-    JOIN profile p ON m.member_email = p.member_email
+    FROM profile p 
+    JOIN member m ON(m.member_email = p.member_email)
     WHERE m.member_email = #{memberEmail}
 	</select>
 	

@@ -31,46 +31,12 @@
 	height: 80vh;
 }
 
-/* 모임신청 모달창 */
-/* ... 기존 스타일 ... */
-.clubModal {
-	display: none; /* 초기에 모달을 숨깁니다. */
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.5); /* 반투명한 검은색 배경 */
-	z-index: 1; /* 다른 요소 위에 위치 */
-}
-
-.modal_body {
-	width: 25%; /* 화면의 1/3 */
-	height: 80%; /* 화면의 1/3 */
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%); /* 중앙에 위치하도록 설정 */
-	background-color: white;
-	padding: 20px;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-	border-radius: 10px;
-}
-
-    /* 모달 닫기 버튼 (선택) */
-    .close {
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        cursor: pointer;
-    }
     
 </style>
 </head>
 <body>
 	<div align="center" style="margin-top: 150px;">
 		<!-- 검색창 구현 : 사용자이름, 글내용으로 검색 : ajax 처리를 통해 검색된 내용만 다시 불러오도록.-->
-		<p>확인용</p>
 		<!-- 검색창 -->
 		<div class="search-div">
 			<form id="searchForm"
@@ -107,9 +73,8 @@
 			<div>닉네임 : ${profile.profileNickname}</div>
 			<div>
 				<img
-					src="${pageContext.request.contextPath}${profile.profileImgPath}${profile.profileImg}"
+					src="${pageContext.request.contextPath}/${profile.profileImgPath}${profile.profileImg}"
 					style="width: 50px; height: 50px;">
-
 			</div>
 		</div>
 
@@ -129,36 +94,33 @@
 					onclick="location.href='${pageContext.request.contextPath}/club/clubBoardInfo?boardNumber=${board.boardNumber}'">
 					<p>글 번호 : ${board.boardNumber}</p>
 					<div>
-					<img src="${pageContext.request.contextPath}/${board.profileImgPath}/${board.profileImg}">
+					<img src="${pageContext.request.contextPath}/${board.profileImgPath}${board.profileImg}">
 					</div>
 					<p>작성자 : ${board.clubBoardWriter}</p>
 					<div>${board.clubBoardContent}</div>
 					<c:if test="${board.scheduleDate} ne null">
 						<p class="writeDay">
 							작성일 :
-							<fmt:parseDate value="${board.clubBoardWdate}" var="dateFmt"
-								pattern="yyyyMMdd" />
-							<fmt:formatDate value="${dateFmt}" pattern="yyyy-MM-dd" />
+							<fmt:formatDate value="${board.clubBoardWdate}" dateStyle="full"/>
+							
 						</p>
 					</c:if>
 					<p>${board.clubBoardViews}</p>
 					<p>${board.clubBoardType}</p>
 					<c:if test="${board.scheduleDate} ne null">
 						<p>
-							<fmt:parseDate value="${board.scheduleDate}" var="dateFmt"
-								pattern="yyyyMMdd" />
-							<fmt:formatDate value="${dateFmt}" pattern="yyyy-MM-dd" />
+							<fmt:formatDate value="${board.scheduleDate}" dateStyle="full" />
 						</p>
 					</c:if>
 					<!-- 블라인드는 추후 숨기고 가릴 경우 나오지않도록 구현 -->
-					<p>블라인드 : ${board.clubBoardBlind}</p>
 				</div>
 			</c:forEach>
 
 		</div>
-
+	</div>
 
 		<!-- 사이드바1(왼) 소모임정보 : 소모임 이름, 멤버수, 초대버튼,  소모임 설정버튼(모임장만 보이도록)-->
+		<aside class="left-side">
 		<div id="club-info">
 			<div id="club-img">
 				<img
@@ -189,10 +151,13 @@
 				</c:choose>
 			</div>
 		</div>
+	</aside>
 		<!-- 사이드바2(오) 최근 사진, 글쓰기 버튼 -->
-		<div></div>
-	</div>
-
+	<aside class="rigth-side">
+		<div>
+		</div>
+	</aside>
+	
 	<!-- modal 모음 -->
 
 	<!-- 글쓰기 modal -->
@@ -202,11 +167,11 @@
 			<span class="close" id="closeModalBtn">&times;</span>
 			<form name="insertForm" action="clubBoardInsert" method="post"
 				enctype="multipart/form-data">
-				<div>
+				<div class="board-head">
 					<h3>게시글 작성</h3>
 				</div>
-
-				<div>
+				
+				<div class="board-content">
 					<textarea id="editorInsert" name="clubBoardContent"></textarea>
 				</div>
 
@@ -228,6 +193,7 @@
 					<!-- 추후 넣을값 : club_number, club_board_type -> -->
 				</div>
 				<div>
+					<!-- from으로 보내기 위한 데이터 추후 hidden으로 -->
 					<input type="text" id="clubNumber" name="clubNumber"
 						value="${club.clubNumber}"> <input type="text"
 						id="clubBoardType" name="clubBoardType" value="N">
@@ -239,14 +205,18 @@
 		</div>
 	</div>
 
-	<!-- 가입신청 modal -->
-	
 	<!-- 소모임 가입 modal (시작)-->
-	<form action="clubJoinProcess" method="POST" name="">
 	<div id="clubModal" class="clubModal">
 		<div class="modal_body">
+		<form action="clubJoinProcess" method="POST" id="clubJoinForms">
+			<span class="close">&times;</span>
 			<div>
-			<button onclick="hreclubManage=clubNumber?${clubInfo.clubNumber}">관리</button>
+				<select name="profileNickname">
+					<c:forEach items="${profiles}" var="pro">
+						<option value="${pro.profileNickname}">${pro.profileNickname}</option>
+					</c:forEach>
+				</select>
+			</div>
 			<!-- 모임 신청 질문 가져오기 -->
 				<label>모임소개 : ${club.clubInfo}</label><br>
 				<label>카테고리 : ${club.clubCategory}</label><br>
@@ -267,35 +237,16 @@
 				<div>
 					<label>닉네임 선택</label>
 				</div>
-<!-- 				<select name="profileNickname"> -->
-<%-- 					<c:forEach items="${profile}" var="pro"> --%>
-<%-- 						<option value="${pro.profileNickname}">${pro.profileNickname}</option> --%>
-<%-- 					</c:forEach> --%>
-<!-- 				</select> -->
-			</div><br>
-			<button type="button">신청</button>
-			<span class="close">&times;</span>
-		</div>
-	</div>
-	</form>
-	<!-- 소모임 가입 modal (끝) -->
-	
-	<!-- 소모임 탈퇴 modal (시작) -->
-	<div id="mainDeModal" class="main-de-modal">
-		<div class="de-body">
-			<label>모임을 정말로 탈퇴 하시겠습까?</label>
-			<button type="button">탈퇴하기</button>
-			<span class="de-close">&times;</span>
-		</div>
-	</div>
-	
-	
-	<!-- 가입신청 modal -->
-	<div id=applyModal class="modal">
 
-		<form id="clubApply" action="clubApply"></form>
+			
+				<div>
+					<button type="button">신청</button>	
+				</div>
+			</form>
+		</div>
 	</div>
-	
+	<!-- 소모임 가입 modal (끝) -->
+		
 	<!-- 투표 modal -->
 	<div id="voteModal" class="modal">
 		<div class="modal-content">
@@ -322,7 +273,7 @@
 		
 
 	<!-- 소모임 가입 modal (시작)-->
-	<div id="clubModal" class="clubModal">
+	<div id="clubModal" class="club-Modal">
 		<div class="modal_body">
 			<form action="clubJoinProcess" method="POST">
 				<div>
@@ -345,16 +296,17 @@
 					
 					<input type="hidden" name="profileNickname"
 						value="">
-<%-- 					<c:if test="${profiles ne null}"> --%>
-<!-- 						<select> -->
-<%-- 							<c:forEach items="${profiles}" var="pro"> --%>
-<%-- 								<option value="${pro.profilNickname}">${pro.profileNickname}</option> --%>
-<%-- 							</c:forEach> --%>
-<!-- 						</select> -->
-<%-- 					</c:if> --%>
-<%-- 					<c:if test="${profiles eq null}"> --%>
-<!-- 						<button id="profileBtn" >프로필 생성</button> -->
-<%-- 					</c:if> --%>
+						
+					<c:if test="${profiles ne null}">
+						<select>
+							<c:forEach items="${profiles}" var="pro">
+								<option value="${pro.profilNickname}">${pro.profileNickname}</option>
+							</c:forEach>
+						</select>
+					</c:if>
+					<c:if test="${profiles eq null}">
+						<button id="profileBtn" >프로필 생성</button>
+					</c:if>
 				</div>
 				<br>
 				<button type="submit">신청</button>
@@ -406,7 +358,7 @@
 	</div>
 
 
-	<script type="text/javascript">
+<script type="text/javascript">
 
 	var currentPage = 2;  // 현재 페이지 번호 초기화
 	var pageSize = 10;    // 페이지 크기 초기화
@@ -466,7 +418,7 @@
                alert("최대 5개까지 입력 가능합니다.");
            }
        });
-
+  	});
       
        $("#openVoteModal").on("click", function(e) {
     	   e.preventDefault();
@@ -474,7 +426,6 @@
        });
 
        $("#closeVoteModal").on("click", function(e) {
-    	   e.preventDefault();
            $("#voteModal").css("display", "none");
        });  
        
@@ -590,6 +541,11 @@
   	    }
   	});	
 	
+	function openModal(e){
+		
+	}
+
+	
 	
 	
 	//에디터용
@@ -605,12 +561,7 @@
    	.catch( error => {
    	    console.error( error );
    	});
-   	
-	function openModal(e){
-		
-	}
-
+	
 </script>
-
 </body>
 </html>
