@@ -2,6 +2,8 @@ package com.hobbyfield.app.club.report.service;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -16,6 +18,7 @@ public class ReportVO {
 	private Integer reportNumber;
 	private	Integer boardNumber;
 	private String reportInfo;
+	@DateTimeFormat()
 	private Date reportDate;
 	private String reportName;
 	private	String reportedName;

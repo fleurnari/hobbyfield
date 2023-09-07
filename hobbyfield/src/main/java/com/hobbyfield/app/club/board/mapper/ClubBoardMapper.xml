@@ -20,7 +20,7 @@
 		FROM CLUB_BOARD
 		WHERE club_board_blind <> 'AH2'  
 		ORDER BY board_number desc
-		) a where rownum <=3
+		) a where rownum <=6
 		]]>
 	</select>
 

@@ -292,5 +292,22 @@ $(document).ready(function(){
 		
 	}
 	
+	$.ajax({
+        type: "POST",
+        url: "${pageContext.request.contextPath}/club/profileCount",
+        data: { email: "${member.memberEmail}" },
+        success: function(count) {
+            if(count >= 3) {
+                alert("소모임은 최대 3개까지만 생성할 수 있습니다.");
+                return false;
+            } else {
+                // 모든 검사를 통과한 경우 form 제출
+                if(nickCheck && nickchCheck) {
+                    $("#join_form").submit();
+                }
+            }
+        }
+    });
+	
 </script>
 </html>

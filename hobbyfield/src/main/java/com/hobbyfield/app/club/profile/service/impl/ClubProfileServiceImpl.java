@@ -77,4 +77,11 @@ public class ClubProfileServiceImpl implements ClubProfileService {
 		return clubprofileMapper.getClubProfileVO(memberEmail);
 	}
 
+	//모임장 프로필
+	@Override
+	public ClubProfileVO getClubBoss(ClubProfileVO clubProfileVO) {
+		System.out.println("clubProfileVo");
+		return clubprofileMapper.getClubBoss(clubProfileVO);
+	}
+
 }
