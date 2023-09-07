@@ -4,6 +4,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<style type="text/css">
+body {
+	margin-top: 150px;
+	margin-left: 500px;
+	display: center;
+}
+</style>
 </head>
 <body>
 	<form action="talentInsert" class="talentInsert" method="post">
@@ -11,81 +18,75 @@
 			<h3>재능기부 등록</h3>
 		</div>
 		<div class="form-group">
-			<select class="form-contol" id="tlntCate" name="tlntCate">
-				<option select disabled>재능기부 카테고리</option>
-				<option value="Y1">가족</option>
-				<option value="Y2">스터디</option>
-				<option value="Y3">취미(동호회)</option>
-				<option value="Y4">운동</option>
-				<option value="Y5">학교</option>
-				<option value="Y6">팬밴드</option>
-				<option value="Y7">회사</option>
+			<label for="talentCate">카테고리</label> <select class="form-contol"
+				id="tlntCate" name="tlntCate">
+				<option disabled selected>재능기부 카테고리</option>
+				<option id="Y1" value="가족">가족</option>
+				<option id="Y2" value="스터디">스터디</option>
+				<option id="Y3" value="취미(동호회)">취미(동호회)</option>
+				<option id="Y4" value="운동">운동</option>
+				<option id="Y5" value="학교">학교</option>
+				<option id="Y6" value="팬밴드">팬밴드</option>
+				<option id="Y7" value="회사">회사</option>
 			</select>
-			<div>
-				<h6>제목</h6>
-				<input type="text" id="tlntTitle" name="tlntTitle"
-					required="required" placeholder="재능기부 제목을 입력하세요.">
-			</div>
-			<div>
-				<h6>내용</h6>
-				<textarea id="tlntContent" name="tlntContent" required="required"
-					rows="100" cols="100" placeholder="내용을 입력하세요."></textarea>
-				
-			</div>
-			<div>
-				<h6>신청기간</h6>
-				<p>재능기부 신청시작일</p>
-				<input type="date">
-				<p>재능기부 신청마감일</p>
-				<input type="date">
-			</div>
-			<div>
-				<h6>참여인원</h6>
-				<input type="number" value="최대인원 수">
-			</div>
-			<div class="buttonGroup">
-				<button type="submit">등록</button>
-				<button type="button" onclick="location.href='talentMain'">목록</button>
-				<button type="reset" onclick="location.href='talentInsert'">초기화</button>
+		</div>
+		<div>
+			<h6>제목</h6>
+			<span><input type="text" id="tlntTitle" name="tlntTitle"
+				required="required" placeholder="재능기부 제목을 입력하세요."></span>
+		</div>
+		<div>
+			<h6>내용</h6>
+			<div class="editor">
+			<span><textarea id="tlntContent" name="tlntContent"
+					></textarea></span>
 			</div>
 		</div>
-<!-- 	<!-- 재능기부 등록 --> -->
-<!-- 	<insert id="insertTalent" parameterType="TalentVO"> -->
-<!-- 		<selectKey keyProperty="tlntId" resultType="int" -->
-<!-- 			order="BEFORE"> -->
-<!-- 			SELECT NVL(MAX(notice_id), 0) + 1 -->
-<!-- 			FROM TALENT -->
-<!-- 		</selectKey> -->
-<!-- 		INSERT INTO TALENT ( -->
-<!-- 		TLNT_ID, -->
-<!-- 		TLNT_CATE, -->
-<!-- 		TLNT_TITLE, -->
-<!-- 		TLNT_CONTENT, -->
-<!-- 		TLNT_WRITER, -->
-<!-- 		TLNT_WDATE, -->
-<!-- 		TLNT_VIEW, -->
-<!-- 		TLNT_STARTDAY, -->
-<!-- 		TLNT_ENDDAY, -->
-<!-- 		TLNT_CAP, -->
-<!-- 		TLNT_STATUS, -->
-<!-- 		TLNT_REGEND -->
-<!-- 		) VALUES ( -->
-<%-- 		#{tlntId}, --%>
-<%-- 		#{tlntCate}, --%>
-<%-- 		#{tlntTitle}, --%>
-<%-- 		#{tlntContent}, --%>
-<%-- 		#{tlntWriter}, --%>
-<%-- 		#{tlntWdate}, --%>
-<%-- 		#{tlntView}, --%>
-<%-- 		#{tlntStartday}, --%>
-<%-- 		#{tlntEndday}, --%>
-<%-- 		#{tlntCap}, --%>
-<%-- 		#{tlntStatus}, --%>
-<%-- 		#{tlntRegEnd} --%>
-<!-- 		) -->
-	</insert>
-
+		<div>
+			<h6>모집기간</h6>
+			<p>재능기부 모집시작일</p>
+			<span><input type="date"></span>
+			<p>재능기부 모집마감일</p>
+			<span><input type="date"></span>
+		</div>
+		<div>
+			<h6>모집정원</h6>
+			<span><input type="number" value="모집정원"></span>
+		</div>
+		<div>
+			<h6>재능기부 기간</h6>
+			<p>재능기부 시작일</p>
+			<span><input type="date"></span>
+			<p>재능기부 마감일</p>
+			<span><input type="date"></span>
+		</div>
+		<div class="buttonGroup">
+			<button type="submit">등록</button>
+			<button type="button" onclick="location.href='talentList'">목록</button>
+			<button type="reset">초기화</button>
+		</div>
 	</form>
 
+
+
+
+	<script>
+
+//editor
+ClassicEditor
+.create( document.querySelector( '#editor' ), {
+} )
+.then( editor => {
+    const toolbarElement = editor.ui.view.toolbar.element;
+    editor.on( 'change:isReadOnly', ( evt, propertyName, isReadOnly ) => {
+        if ( isReadOnly ) {
+            toolbarElement.style.display = 'none';
+        } else {
+            toolbarElement.style.display = 'flex';
+        }
+    });
+});
+
+</script>
 </body>
 </html>

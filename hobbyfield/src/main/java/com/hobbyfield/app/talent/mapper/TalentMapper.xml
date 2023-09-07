@@ -41,30 +41,23 @@
 		TLNT_WDATE,
 		TLNT_VIEW,
 		TLNT_STARTDAY,
-	TLNT_ENDDAY,
-	TLNT_CAP,
-	TLNT_STATUS,
-	TLNT_REGEND
+		TLNT_ENDDAY,
+		TLNT_CAP,
+		TLNT_STATUS,
+		TLNT_REGEND
 	) VALUES (
  		#{tlntId},
  		#{tlntCate},
  		#{tlntTitle}, 
- 		#{tlntContent}
+ 		#{tlntContent},
  		#{tlntWriter},
- 		#{tlntWdate}, 
+ 		SYSDATE, 
  		#{tlntView}, 
- 		#{tlntStartday}
+ 		#{tlntStartday},
  		#{tlntEndday},
  		#{tlntCap}, 
  		#{tlntStatus},
  		#{tlntRegEnd} 
-	) 
-	
-	
-	
-	
-	
-	
 	</insert>  
 
 	 <!-- 조회수 업데이트 -->

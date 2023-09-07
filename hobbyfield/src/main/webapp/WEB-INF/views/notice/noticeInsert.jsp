@@ -12,7 +12,7 @@
 
 <style>
 body {
-	display: flex;
+/* 	display: flex; */
 	justify-content: center;
 	align-items: center;
 	min-height: 100vh;
@@ -31,8 +31,14 @@ body {
 	z-index: 100;
 }
 
+h3{
+	margin-left: 35%;
+}
+
 .form-input {
+	width: 630px; 
 	margin-bottom: 15px;
+	margin-left: 35%;
 }
 
 .form-input label {

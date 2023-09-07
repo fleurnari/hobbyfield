@@ -11,6 +11,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script><!-- 일단 넣어놓음 -->
 <style>
 body {
 	display: flex;
@@ -21,25 +22,37 @@ body {
 	margin-top: 100px;
 }
 
-input {
+input{
 	border: none;
 }
 
-.product-img {
-	align-items: center;
+button {
+	background-color: #007bff;
+	color: white;
+	border: none;
+	padding: 5px 15px;
+	border-radius: 5px;
+	cursor: pointer;
+	margin-top: 30px;
 }
 
 .jb-division-line {
 	border-top: 1px solid #444444;
-	width: 90%;
+	width: 100%;
 	margin-top: 20px;
 	margin-left: 5%;
 }
 
-.buttonGroup {
-	margin-top: 20px;
-	display: flex;
-	gap: 10px;
+
+
+#purchase {
+	background-color: #007bff;
+	color: white;
+	border: none;
+	padding: 5px 15px;
+	border-radius: 5px;
+	cursor: pointer;
+	float: left; 
 }
 
 .modal {
@@ -73,33 +86,46 @@ input {
 .purchase-button {
 	gap: 10px;
 }
+.purchase-btn{
+	background-color: #007bff;
+	color: white;
+	border: none;
+	padding: 5px 15px;
+	border-radius: 5px;
+	cursor: pointer;
+	float: left; 
+	margin-top: 30px;
+}
 
 .time {
 	font-weight: bold;
 	font-size: 1.2rem;
 }
 
-.product-img {
-	
-}
-
 .product-img img {
 	width: 100px;
-	display: block;
-	
+	display: inlint-block;
+	margin-top: 50px;
+	align-content: center;
 }
 
-.first-img {
-	250px;
+
+.price {
+	margin-top: 5px;
+}
+.states{
+	margin-top: 5px;
 }
 
 .first-img img {
-	width: 400px;
+	width: 260px;
 }
+
+.ck.ck-editor{
+	border: none;
+}
+
 </style>
-
-
-
 </head>
 <body>
 	<div class="container">
@@ -108,16 +134,13 @@ input {
 			<div class="row">
 				<div class="col">
 					<div class="first-img">
-						<img src="${pageContext.request.contextPath}${point.pointImgPath}${point.pointImgName}"
-							alt="상품 이미지">
+						<img src="${pageContext.request.contextPath}${point.pointImgPath}${point.pointImgName}" alt="상품 이미지">
 					</div>
-				</div>
-
+				</div> 
 				<div class="col">
 					<input type="hidden" value="${point.pointId }" name="pointId">
-					<h3>
-						<input type="text" value="${point.pointName }" name="pointName"
-							readonly="readonly">
+					<h3 class="pointName">
+					<input type="text" value="${point.pointName }" name="pointName" readonly="readonly">
 					</h3>
 					<c:if test="${point.pointItemType eq 'W1'}">
 						<c:forEach items="${pointOption}" var="pointOption">
@@ -126,58 +149,48 @@ input {
 							<span>포인트</span>
 						</c:forEach>
 					</c:if>
-					<div>
+					<div class="price">
 						<c:if test="${point.pointItemType eq 'W2'}">
 							<input type="hidden" name="myitemUseterm" value="1">
-							<input type="hidden" value="${point.groupPrice}"
-								name="groupPrice" readonly="readonly">
+							<input type="hidden" value="${point.groupPrice}" name="groupPrice" readonly="readonly">
 							<span>${point.groupPrice} 포인트</span>
 						</c:if>
 					</div>
-					<p>
-						<input type="hidden" value="${point.pointState}" name="pointState"
-							readonly="readonly">${point.pointStateNm}</p>
-					<input type="hidden" value="${point.pointItemType }"
-						name="pointItemType" readonly="readonly"> <input
-						type="hidden" value="${point.pointRegdate}" name="pointRegdate">
-
+					<div>
+					<p class="states">
+						<input type="hidden" value="${point.pointState}" name="pointState" readonly="readonly">${point.pointStateNm}</p>
+						<input type="hidden" value="${point.pointItemType }" name="pointItemType" readonly="readonly"> 
+						<input type="hidden" value="${point.pointRegdate}" name="pointRegdate">
+					</div>
 					<c:if test="${point.pointItemType eq 'W1'}">
 						<p>
 							판매종료 <font class="time" style="font-weight: bold;" size=5>
-								<jsp:useBean id="now" class="java.util.Date" /> <fmt:parseNumber
-									value="${now.time / (1000*60*60*24)}" integerOnly="true"
-									var="nowfmtTime" scope="request" /> <fmt:parseDate
-									value="${point.pointEndterm}" pattern="yyyy-MM-dd"
-									var="endPlanDate" /> <fmt:parseNumber
-									value="${endPlanDate.time / (1000*60*60*24)}"
-									integerOnly="true" var="endDate" /> <c:choose>
-									<c:when test="${endDate - nowfmtTime >= 1}">
-	         				${endDate - nowfmtTime + 1}
-	        					<span>일 남음</span>
-									</c:when>
-									<c:otherwise>
-										<div>
-											<span id="d-day-hour">00</span> <span class="col">:</span> 
-											<span id="d-day-min">00</span> <span class="col">:</span> 
-											<span id="d-day-sec">00</span>
-										</div>
-									</c:otherwise>
+								<jsp:useBean id="now" class="java.util.Date" /> 
+								<fmt:parseNumber
+									value="${now.time / (1000*60*60*24)}" integerOnly="true" var="nowfmtTime" scope="request" /> 
+								<fmt:parseDate value="${point.pointEndterm}" pattern="yyyy-MM-dd" var="endPlanDate" /> 
+								<fmt:parseNumber value="${endPlanDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate" /> 
+								<c:choose>
+								<c:when test="${endDate - nowfmtTime >= 1}"> ${endDate - nowfmtTime + 1} <span>일 남음</span>
+								</c:when>
+								<c:otherwise>
+									<div>
+										<span id="d-day-hour">00</span> <span class="col">:</span> 
+										<span id="d-day-min">00</span> <span class="col">:</span> 
+										<span id="d-day-sec">00</span>
+									</div>
+								</c:otherwise>
 								</c:choose>
 							</font>
-						</p>
+						</p> 
 					</c:if>
 					<div class="purchase-button">
 <!-- 						<button type="button" onclick="location.href='wishList'">위시</button> -->
-						<button type="button" id="purchase" onclick="openModal()">구입</button>
+						<button type="button" id="purchase" onclick="openModal()">포인트로 구입하기</button>
 					</div>
-				</div>
-
-
-			</div>
-
-
-			<div class="jb-division-line"></div>
-
+				</div> 
+			</div> 
+			<div class="jb-division-line"></div> 
 			<div>
 				<div id="editor">
 					${point.pointContent}
@@ -190,7 +203,6 @@ input {
 					</c:forEach>
 				</div>
 			</div>
-			<!-- 		<input type="file" name="emojiName" multiple> -->
 			<!-- 모달 창 -->
 			<div id="myModal" class="modal">
 				<div class="modal-content">
@@ -205,65 +217,51 @@ input {
 						</c:if>
 						<p>구입하시겠습니까?</p>
 					</div>
-
-					<c:if test="${point.pointItemType eq 'W1'}">
-						<div>
-							<label>7일<input type="radio" name="pointOptId"
-								value="${point.pointOptionVO[0].pointOptId }" data-period="7"
-								data-price="${point.pointOptionVO[0].pointPrice }" checked>${point.pointOptionVO[0].pointPrice }포인트</label>
-							<label>14일<input type="radio" name="pointOptId"
-								value="${point.pointOptionVO[1].pointOptId }" data-period="14"
-								data-price="${point.pointOptionVO[1].pointPrice }">${point.pointOptionVO[1].pointPrice }포인트</label>
-							<label>30일<input type="radio" name="pointOptId"
-								value="${point.pointOptionVO[2].pointOptId }" data-period="30"
-								data-price="${point.pointOptionVO[2].pointPrice }">${point.pointOptionVO[2].pointPrice }포인트</label>
-							<label>영구<input type="radio" name="pointOptId"
-								value="${point.pointOptionVO[3].pointOptId }" data-period="0"
-								data-price="${point.pointOptionVO[3].pointPrice }">${point.pointOptionVO[3].pointPrice }포인트</label>
-						</div>
-						<!-- 각 value 값은 기본값을 표시하는 것 -->
-						<input type="hidden" value="7" name="myitemUseterm">
-						<input type="hidden" value="${point.pointOptionVO[0].pointPrice }"
-							name="pointPrice">
-					</c:if>
-
-
+					<div class="options">
+						<c:if test="${point.pointItemType eq 'W1'}">
+							<div>
+								<label>7일<input type="radio" name="pointOptId" value="${point.pointOptionVO[0].pointOptId }" data-period="7" data-price="${point.pointOptionVO[0].pointPrice }" checked>${point.pointOptionVO[0].pointPrice }포인트</label>
+								<label>14일<input type="radio" name="pointOptId" value="${point.pointOptionVO[1].pointOptId }" data-period="14" data-price="${point.pointOptionVO[1].pointPrice }">${point.pointOptionVO[1].pointPrice }포인트</label>
+								<label>30일<input type="radio" name="pointOptId" value="${point.pointOptionVO[2].pointOptId }" data-period="30" data-price="${point.pointOptionVO[2].pointPrice }">${point.pointOptionVO[2].pointPrice }포인트</label>
+								<label>영구<input type="radio" name="pointOptId" value="${point.pointOptionVO[3].pointOptId }" data-period="0" data-price="${point.pointOptionVO[3].pointPrice }">${point.pointOptionVO[3].pointPrice }포인트</label>
+							</div>
+							<!-- 각 value 값은 기본값을 표시하는 것 -->
+							<input type="hidden" value="7" name="myitemUseterm">
+							<input type="hidden" value="${point.pointOptionVO[0].pointPrice }" name="pointPrice">
+						</c:if>
+					</div> 
 					<button type="submit" class="purchase-btn">구매확인</button>
 				</div>
 			</div>
 		</form>
 
 		<!-- 버튼 -->
-		<div class="buttonGroup">
-<%-- 			<c:if test="${member.memberGrd eq A3}"> --%>
-				<button type="submit"
-					onclick="location.href='pointUpdate?pointId=${point.pointId}'">수정</button>
-				<button type="submit"
-					onclick="location.href='pointDelete?pointId=${point.pointId}'">삭제</button>
-<%-- 			</c:if> --%>
-			<button type="button" onclick="location.href='pointList'">목록</button>
-		</div> 
+		<c:if test="${member.memberGrd eq 'A3'}">
+			<button type="submit" onclick="location.href='pointUpdate?pointId=${point.pointId}'">수정</button>
+			<button type="submit" onclick="location.href='pointDelete?pointId=${point.pointId}'">삭제</button>
+		</c:if>
+		<button type="button" onclick="location.href='pointList'">목록</button> 
 	</div>
 
 
 	<script type="text/javascript">
 	
 	//editor
-	ClassicEditor
-	.create( document.querySelector( '#editor' ), {
-		 toolbar: [],
-		 readOnly : true
-	} )
-	.then( editor => {
-	    const toolbarElement = editor.ui.view.toolbar.element;
-	    editor.on( 'change:isReadOnly', ( evt, propertyName, isReadOnly ) => {
-	        if ( isReadOnly ) {
-	            toolbarElement.style.display = 'none';
-	        } else {
-	            toolbarElement.style.display = 'flex';
-	        }
-	    });
-	})
+	   ClassicEditor
+	   .create( document.querySelector( '#editor' ), {
+	       toolbar: [],
+	       readOnly : true
+	   } )
+	   .then( editor => {
+	       const toolbarElement = editor.ui.view.toolbar.element;
+	       editor.on( 'change:isReadOnly', ( evt, propertyName, isReadOnly ) => {
+	           if ( isReadOnly ) {
+	               toolbarElement.style.display = 'none';
+	           } else {
+	               toolbarElement.style.display = 'flex';
+	           }
+	       });
+	   })
 	
 	 //줄바꿈
 	function replaceBrTag(str) 
@@ -336,35 +334,6 @@ function remaindTime() {
 
 // 구매모달
  
-// 모달 열기
-//  function openModal() {
-//    var modal = document.getElementById("myModal");
-//    modal.style.display = "block";
-//  }
-
-//  // 모달 닫기
-//  function closeModal() {
-//    var modal = document.getElementById("myModal");
-//    modal.style.display = "none";
-//  }
-
-//  // 구입 버튼 클릭 시 모달 열기
-//  document.getElementById("purchase").addEventListener("click", openModal);
-
-
-//  // 모달 닫기 버튼 및 모달 외부를 클릭하여 모달 닫기
-//  var modal = document.getElementById("myModal");
-//  window.onclick = function (event) {
-//    if (event.target == modal) {
-//      modal.style.display = "none";
-//    }
-//  };
-
-//  // 모달 내 닫기 버튼 클릭 시 모달 닫기
-//  document.querySelector(".close").addEventListener("click", closeModal);
-
-
- 
 // 구매 버튼 클릭 시 모달 열기와 purchaseBtn 함수 실행
 document.getElementById("purchase").addEventListener("click", function () {
     openModal(); // 모달 열기 함수 호출
@@ -406,7 +375,6 @@ $('form').on('submit', function(e){
 		return false;
 	}
 	
-// 	$('memberActpnt')>=$('point.groupPrice')
 	
 	let objData = serializeObject();
 	
