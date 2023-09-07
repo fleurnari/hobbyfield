@@ -7,7 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="resources/js/common.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/common.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
 .container2{
 display:flex;
@@ -51,13 +52,13 @@ flex-wrap:wrap;
 	<div class="container">
 			<div class="text-center">
 			<h4>
-			  <span onclick="location.href='${pageContext.request.contextPath}/fundingPostList'"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></span>&nbsp;&nbsp;
+			  <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostList'"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></span>&nbsp;&nbsp;
               <span onclick="location.href='#'">카테고리</span>&nbsp;&nbsp;
               <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
               <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
               <span onclick="location.href='#'">공지사항</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingSupportList'" >후원현황</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPostInsertForm'" style="color:#5aa5db;">프로젝트만들기</span>
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'" >후원현황</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'" style="color:#5aa5db;">프로젝트만들기</span>
             </h4>
             </div>
         </div>
@@ -170,6 +171,19 @@ flex-wrap:wrap;
              </div>
             </section>
                 <script>
+                /* 이미지 업로드 */
+                function imgUploadHandler(list) {
+              			for (i = 0; i < list.length; i++) {
+              				let tag = `<input type="text" name="fndMainImg" value="\${list[i].UUID}">
+              				           <input type="text" name="fndMainImgPath" value="\${list[i].url}">`
+              				$('#frm').append(tag);
+              			}
+              		}
+  
+                
+                
+                
+                
                 var form = document.getElementById('frm');
                 var submitButton = document.getElementById('submitButton');
                 var fndCateGory = document.querySelector('[name="insertCateGory"]');
@@ -216,15 +230,7 @@ flex-wrap:wrap;
 
                 });
                 
-                /* 이미지 업로드 */
-                function imgUploadHandler(list) {
-                			for (i = 0; i < list.length; i++) {
-                				let tag = `<input type="text" name="fndMainImg" value="\${list[i].UUID}">
-                				           <input type="text" name="fndMainImgPath" value="\${list[i].url}">`
-                				$('#frm').append(tag);
-                			}
-                		}
-  
+               
                 $('#deleteFnd').on('submit', function(e){
             		e.preventDefault();
             		
@@ -249,7 +255,34 @@ flex-wrap:wrap;
             		
             	});
             	
-
+                $('#submitButton').click(function(event) {
+                	event.preventDefault();
+                    // 확인 대화 상자를 띄우고 사용자의 선택을 받습니다.
+                    Swal.fire({
+                        title: '프로젝트를 생성하시겠습니까?',
+                        text: "",
+                        icon: 'success',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '확인',
+                        cancelButtonText: '취소'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // 리다이렉션을 여기에 추가
+                            Swal.fire({
+                                icon: 'success',
+                                title: '저장되었습니다',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                // 확인 대화 상자의 닫힘 이후에 폼을 제출합니다.
+                                $('#insertCateGory').submit();
+                            });
+                        }
+                    });
+                });
+  
 
 /* 				$(document).ready(function(){
 					

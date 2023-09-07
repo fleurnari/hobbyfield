@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -21,6 +22,7 @@ import com.hobbyfield.app.fnd.service.FundingSupportVO;
 import com.hobbyfield.app.member.service.MemberService;
 import com.hobbyfield.app.member.service.MemberVO;
 //2023-08-28 신영환 펀딩 후원 컨트롤러
+@RequestMapping("/fundingPost/*")
 @Controller
 public class FundingSupportController {
 	
@@ -29,7 +31,7 @@ public class FundingSupportController {
 	@Autowired
 	MemberService memberService;
 	//펀딩 후원 목록 페이지
-	@GetMapping("fundingSupportList")
+	@GetMapping("/fundingSupportList")
 	public String fundingSupportList(HttpSession session, FundingSupportVO fundingSupportVO, Model model) {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 	    fundingSupportVO.setMemberEmail(member.getMemberEmail());
@@ -39,7 +41,7 @@ public class FundingSupportController {
 	    return "fundingPost/fundingSupportList";
 	}
 	
-	@GetMapping("supportManagement")
+	@GetMapping("/supportManagement")
 	public String supportManagement(@RequestParam(value = "fndPostNumber") Integer fndPostNumber, FundingSupportVO fundingSupportVO, @ModelAttribute("scri") SearchCriteria scri, Model model, HttpServletRequest request) {
 	    FundingSupportVO sn = new FundingSupportVO();
 	    sn.setFndPostNumber(fndPostNumber);
@@ -62,7 +64,7 @@ public class FundingSupportController {
 	    return "fundingPost/supportManagement";
 	}	
 	
-	@PostMapping("insertfundingInvoce")
+	@PostMapping("/insertfundingInvoce")
 	public String insertfundingInvoce(FundingSupportVO fundingSupportVO, Model model) {
 		fundingSupportService.insertfundingInvoce(fundingSupportVO);
 		List<FundingSupportVO> fundingSupportList = fundingSupportService.getFundingSupportInfo(fundingSupportVO);

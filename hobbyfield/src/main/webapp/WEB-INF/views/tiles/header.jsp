@@ -22,7 +22,7 @@
           <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/club/clubMain">소모임</a></li>
-              <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/fundingPostList">펀딩</a></li>
+              <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/fundingPost/fundingPostList">펀딩</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath }/prdt/prdtList">쇼핑몰</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/point/pointList">포인트샵</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/talent/talentList">재능기부</a></li>

@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>전체 리스트 조회</title>
-<script type="text/javascript" src="resources/js/common.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 <style type="text/css">
 .container2{
 display:flex;
@@ -38,15 +38,15 @@ li {
 	<div class="container">
 			<div class="text-center">
 			<h4>
-			  <span onclick="location.href='${pageContext.request.contextPath}/fundingPostList'"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></span>&nbsp;&nbsp;
+			  <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostList'"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></span>&nbsp;&nbsp;
               <span onclick="location.href='#'">카테고리</span>&nbsp;&nbsp;
               <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
               <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/notice/noticeList'">공지사항</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPostInsertForm'">프로젝트만들기</span>
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/notice/noticeList'">공지사항</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'">프로젝트만들기</span>
            	  <c:if test="${member.memberGrd eq 'A3'}">
-                	<span onclick="location.href='${pageContext.request.contextPath}/adminAccept'">프로젝트 승인</span>
+                	<span onclick="location.href='${pageContext.request.contextPath}/fundingPost/adminAccept'">프로젝트 승인</span>
                 </c:if>
             </h4>
             </div>
