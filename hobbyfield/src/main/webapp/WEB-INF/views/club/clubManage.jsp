@@ -48,8 +48,6 @@
 	text-decoration: none;
 	cursor: pointer;
 }
-
-
 </style>
 
 <body>
@@ -202,50 +200,49 @@
 
 
 		<!-- 가입신청리스트(모임장만) modal창으로 확인 -->
-
-	<div>
-		<table>
-			<thead align="center">
-				<tr>
-					<th>닉네임</th>
-					<th>가입신청일자</th>
-					<th>질문답변 1</th>
-					<th>질문답변 2</th>
-					<th>질문답변 3</th>
-					<th>승인처리</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${beforeMembers}" var="members">
+		<div>
+			<table>
+				<thead align="center">
 					<tr>
-						<td>${members.profileNickname }</td>
-						<td>${members.applyDate }</td>
-						<td>${members.applyAnswer1 }</td>
-						<td>${members.applyAnswer2 }</td>
-						<td>${members.applyAnswer3 }</td>
-						<td>
-							<button type="button" class="accept"
-								data-nickname="${members.profileNickname}"
-								data-clubnumber="${members.clubNumber}">수락</button>
-							<button type="button" class="reject"
-								data-nickname="${members.profileNickname}"
-								data-clubnumber="${members.clubNumber}">거절</button>
-						</td>
+						<th>닉네임</th>
+						<th>가입신청일자</th>
+						<th>질문답변 1</th>
+						<th>질문답변 2</th>
+						<th>질문답변 3</th>
+						<th>승인처리</th>
 					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					<c:forEach items="${beforeMembers}" var="members">
+						<tr>
+							<td>${members.profileNickname }</td>
+							<td>${members.applyDate }</td>
+							<td>${members.applyAnswer1 }</td>
+							<td>${members.applyAnswer2 }</td>
+							<td>${members.applyAnswer3 }</td>
+							<td>
+								<button type="button" class="accept"
+									data-nickname="${members.profileNickname}"
+									data-clubnumber="${members.clubNumber}">수락</button>
+								<button type="button" class="reject"
+									data-nickname="${members.profileNickname}"
+									data-clubnumber="${members.clubNumber}">거절</button>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+
+
+
 	</div>
 
 
 
-</div>
 
 
-
-
-
-		<script type="text/javascript">
+	<script type="text/javascript">
 	//수락 거절 버튼
 	$(document).ready(function() {
 	    $('.accept').click(function() {
@@ -282,9 +279,7 @@
 	    });
 	});	
 	
-	//==========소모임 수정 영역============
-		
-		
+	//==========소모임 수정 영역============	
 	// 모달 창과 버튼 요소 선택
 	$(document).ready(function(){
 	let modal = document.getElementById('updateModal');

@@ -7,36 +7,27 @@
 <head>
 <meta charset="UTF-8">
 <title>소모임 게시글</title>
-
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-
 <script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 <script
 	src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
 <script
 	src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
 <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
-<!-- 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ckediotr.css">
- -->
+
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/club/clubboard.css">
-<!-- 임시 style 추후 삭제후 link를 통하여 사용 -->
+
 <style type="text/css">
 .ck.ck-editor {
-	width: 80%;
-	max-width: 800px;
+	width: 50%;
+	max-width: 500px;
 	margin: 0 auto;
 }
-
 .ck-editor__editable {
 	height: 80vh;
 }
 
-   
-/* 소모임 수정 모달  */
-/* 모달 창 전체 스타일 */
 .update-modal {
     display: none; 
     position: fixed; /* 고정 위치 */
@@ -77,7 +68,7 @@
 
 /* 모임신청 모달창 */
 /* ... 기존 스타일 ... */
-.clubModal {
+.club-modal {
 	display: none; /* 초기에 모달을 숨깁니다. */
 	position: fixed;
 	top: 0;
@@ -88,7 +79,7 @@
 	z-index: 1; /* 다른 요소 위에 위치 */
 }
 
-.modal_body {
+.modal-body {
 	display: none;
 	width: 25%; /* 화면의 1/3 */
 	height: 80%; /* 화면의 1/3 */
@@ -101,15 +92,14 @@
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 	border-radius: 10px;
 }
+/* 모달 닫기 버튼 (선택) */
+.close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+}
 
-    /* 모달 닫기 버튼 (선택) */
-    .close {
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        cursor: pointer;
-    }
-    
 	
 </style>
 </head>
@@ -132,19 +122,10 @@
 			</form>
 		</div>
 
-		
-		<div>
-    		<button type="button" class="club-join" id="openModal">소모임 가입</button>
-    	</div>
-    	
-    	<div>
+		<div class="button-group">
+    		<button type="button" class="modal-btn" id="">소모임 가입</button>
     		<button onclick="location.href='${pageContext.request.contextPath}/club/clubManage?clubNumber=${club.clubNumber}'">관리</button>
-    	</div>
-    	
-   		<div>
-    		<button type="button" class="delete-Modal" id="deleteModal">소모임 탈퇴</button>
-    	</div>
-		
+		</div>
 		<h1>게시글 목록</h1>
 
 		<!-- Session 확인용 : 추후 삭제 -->
@@ -219,7 +200,7 @@
 				<c:choose>
 					<c:when test="${profile ne null}">
 						<div class="insert-Btn">
-							<button id="openModalBtn">글쓰기</button>
+							<button id="boardModalBtn">글쓰기</button>
 							<button id="clubInfo">소모임 정보</button>
 						</div>
 					</c:when>
@@ -239,7 +220,6 @@
 	</aside>
 	
 	<!-- modal 모음 -->
-
 	<!-- 글쓰기 modal -->
 	<!-- 게시글 등록 modal-->
 	<div id="boardInsertModal" class="modal">
@@ -286,12 +266,11 @@
 	</div>
 
 	<!-- 소모임 가입 modal (시작)-->
-	<div id="clubModal" class="clubModal">
-		<div class="modal_body">
-		<form action="clubJoinProcess" method="POST" id="clubJoinForms">
+	<div id="applyModal" class="apply-modal">
+		<div class="modal-body">
+			<form action="clubJoinProcess" method="POST" id="clubJoinForms">
 			<span class="close">&times;</span>
-			<div>
-
+			<div class="profile-list">
 				<select name="profileNickname">
 					<c:forEach items="${profiles}" var="pro">
 						<option value="${pro.profileNickname}">${pro.profileNickname}</option>
@@ -299,7 +278,6 @@
 				</select>
 			</div>
 
-			<button onclick="hreclubManage=clubNumber?"${club.clubNumber}">관리</button>
 
 			<!-- 모임 신청 질문 가져오기 -->
 				<label>모임소개 : ${club.clubInfo}</label><br>
@@ -321,8 +299,6 @@
 				<div>
 					<label>닉네임 선택</label>
 				</div>
-
-			
 				<div>
 					<button type="button">신청</button>	
 				</div>
@@ -357,7 +333,6 @@
 		
 
 	<!-- 소모임 가입 modal (시작)-->
-
 	<div id="clubModal" class="club-Modal">
 		<div class="modal_body">
 			<form action="clubJoinProcess" method="POST">
@@ -399,48 +374,7 @@
 			</form>
 		</div>
 	</div>
-<!-- 	<div id="clubModal" class="clubModal"> -->
-<!-- 		<div class="modal_body"> -->
-<!-- 			<form action="clubJoinProcess" method="POST"> -->
-<!-- 				<div> -->
-<!-- 					모임 신청 질문 가져오기 -->
-<%-- 					<label>모임소개 : ${club.clubInfo}</label><br>  --%>
-<%-- 					<label>카테고리: ${club.clubCategory}</label><br>  --%>
-<%-- 					<label>모임장 : ${club.profileNickname}</label><br>  --%>
-<%-- 					<label>모임유형 : ${club.clubType}</label><br>  --%>
-<%-- 					<label>모임지역 : ${club.majorLocation}</label><br>  --%>
-<!-- 					<label>모임인원 : count되게 작성해야함 50/50</label> -->
-<!-- 					<h3>가입 질문 답변</h3><br>  -->
-<%-- 					<label>${club.singupQuestion1}</label><br>  --%>
-<!-- 					<input type="text" name="applyAnswer1"><br>  -->
-<%-- 					<label>${club.singupQuestion2}</label><br> --%>
-<!-- 					<input type="text" name="applyAnswer2"><br>  -->
-<%-- 					<label>${club.singupQuestion3}</label><br> --%>
-<!-- 					<input type="text" name="applyAnswer3"><br>  -->
-<!-- 					<input type="hidden" value="H1" name="applyStatus">  -->
-<%-- 					<input type="hidden" name="clubNumber" value="${club.clubNumber}"> --%>
-					
-<!-- 					<input type="hidden" name="profileNickname" -->
-<!-- 						value=""> -->
-<%-- 					<c:if test="${profiles ne null}"> --%>
-<!-- 						<select> -->
-<%-- 							<c:forEach items="${profiles}" var="pro"> --%>
-<%-- 								<option value="${pro.profilNickname}">${pro.profileNickname}</option> --%>
-<%-- 							</c:forEach> --%>
-<!-- 						</select> -->
-<%-- 					</c:if> --%>
-<%-- 					<c:if test="${profiles eq null}"> --%>
-<!-- 						<button id="profileBtn" >프로필 생성</button> -->
-<%-- 					</c:if> --%>
-<!-- 				</div> -->
-<!-- 				<br> -->
-<!-- 				<button type="submit">신청</button> -->
-<!-- 				<span class="close">&times;</span> -->
-<!-- 			</form> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
-
-
+	
 
 	<!-- 프로필 생성 modal -->
 	<div id="profileInsertModal">
@@ -482,104 +416,7 @@
 		</div>
 	</div>
 	
-	<!-- 소모임 수정 -->
-<!-- 	<button type="button" id="clubUpdateButton">소모임수정</button> -->
-<!-- 	<form action="clubUpdate" method="post" id="updateForm"> -->
-<!-- 		<div id="updateModal" class="update-modal"> -->
-<!-- 			<div class="update-body"> -->
-<!-- 			<div align="center" class="update-top"> -->
-<!-- 				<h2>소모임 수정</h2>					 -->
-<!-- 			</div> -->
-			
-<!-- 			<div> -->
-<%-- 				<input type="hidden" name="clubNumber" class="clubNumber" value="${club.clubNumber }"> --%>
-<%-- 				<input type="hidden" name="profileNickname" class="ProfileNickname" value="${club.profileNickname }"> --%>
-<!-- 			</div> -->
-			
-<!-- 			<div> -->
-<!-- 				<label>모임이름</label> -->
-<%-- 				<input type="text" class="club_input" name="clubName" value="${club.clubName}"><br> --%>
-<!-- 				<span class="club_input_re1">사용 가능한 모임 이름입니다.</span> -->
-<!-- 				<span class="club_input_re2">모임 이름이 이미 존재합니다. </span> -->
-<!-- 				<span class="final_club_ck">모임 이름을 정해주세요</span> -->
-<!-- 			</div> -->
-			
-<!-- 			<div> -->
-<!-- 				<label>모임카테고리</label> -->
-<!-- 				<select class="club_category" name="clubCategory"> -->
-<%-- 					<c:forEach items="${C}" var="category"> --%>
-<%-- 						<option value="${category.subcode }">${category.literal}</option> --%>
-<%-- 					</c:forEach> --%>
-<!-- 				</select> -->
-<!-- 			</div> -->
-
-<!-- 			<div> -->
-<!-- 				<label>소모임 분류</label> -->
-<%-- 				<c:forEach items="${D}" var="type"> --%>
-<%-- 					<input type="radio" name="clubType" value="${type.subcode}" checked="checked">${type.literal} --%>
-<%-- 				</c:forEach> --%>
-<!-- 			</div> -->
-			
-<!-- 			<div> -->
-<!-- 				<label>소모임 소개</label> -->
-<%-- 				<input type="text" name="clubInfo" value="${club.clubInfo}"><br> --%>
-<!-- 			</div> -->
-			
-<!-- 			<div> -->
-<!-- 				<div> -->
-<!-- 				<label>광역지역 : </label> -->
-<!-- 				<select class="majorlocation" name="majorLocation" id="majorLocation"> -->
-<!-- 				    <option value="">선택</option> -->
-<%-- 					<c:forEach items="${E}" var="major" >					 --%>
-<%-- 						<option value="${major.subcode }">${major.literal }</option> --%>
-<%-- 					</c:forEach> --%>
-<!-- 				</select> -->
-<!-- 				</div> -->
-				
-<!-- 				<div> -->
-<!-- 				<label></label> -->
-<!-- 				<select class="sublocation" name="subLocation" id="subLocation"> -->
-<%-- 					 <option value="${major.literal }">선택</option> --%>
-<!-- 				</select><br> -->
-<!-- 				</div> -->
-				
-<!-- 			</div> -->
-			
-<!-- 			<div> -->
-<!-- 				<label>공개여부 : </label> -->
-<%-- 				<input type="radio" name="clubPublic" checked="checked" value="G1" ${club.clubPublic == 'G1' ? 'checked' : ''} readonly />공개 --%>
-<!-- 			</div> -->
-			
-<!-- 			<div> -->
-<!-- 				<div> -->
-<!-- 				<label>질문1</label> -->
-<%-- 				<input type="text" name="singupQuestion1" value="${club.singupQuestion1 }"><br> --%>
-<!-- 				</div> -->
-<!-- 				<div> -->
-<!-- 				<label>질문2</label> -->
-<%-- 				<input type="text" name="singupQuestion2" value="${club.singupQuestion2 }"><br> --%>
-<!-- 				</div> -->
-<!-- 				<div> -->
-<!-- 				<label>질문3</label> -->
-<%-- 				<input type="text" name="singupQuestion3" value="${club.singupQuestion3 }"><br> --%>
-<!-- 				</div> -->
-<!-- 			</div> -->
-			
-<!-- 			<div id="preview"></div> -->
-<!-- 				<input id="imgInput" name="uploadFile" type="file" value="clubImg" onchange="readURL(this);"> -->
-<%-- 				<img class=images id="preview" src="${pageContext.request.contextPath}/download/img/${profile.profileImg}${profil.profileImgPath}" alt="Profile Image"/> --%>
-<!-- 				<button type="button" id="uploadBtn">upload</button> -->
-<!-- 			</div> -->
-
-
-<!-- 			<div> -->
-<!-- 				<button type="submit" class="update-button">수정하기</button> -->
-<!-- 			</div> -->
-			
-<!-- 			<span class="update-close">&times;</span> -->
-			
-<!-- 		</div> -->
-<!-- 	</form> -->
+	
 	
 
 </body>
