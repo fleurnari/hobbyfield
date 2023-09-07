@@ -30,6 +30,8 @@ public class ClubBoardVO {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date scheduleDate;
 	private String clubBoardBlind;
+	private String profileImg;
+	private String profileImgPath;
 	
 	private String memberEmail;
 	// 페이징을 위한 VO

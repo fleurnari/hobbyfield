@@ -38,11 +38,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 		MemberVO member = new MemberVO();
 		member.setMemberEmail(authentication.getName());
 		
-		member = memberMapper.loginMember(member);
-		
-		// 로그인시 Session에 자신의 모든 프로필 담기
-		// ClubProfileVO prfile = new ClubProfileVO();
-		
+		member = memberMapper.loginMember(member);		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 		
 		if ((member.getMemberLtstconn() == null) || !(dateFormat.format(new Date()).equals(dateFormat.format(member.getMemberLtstconn())))) {
@@ -56,12 +52,10 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 			
 		}
 		
-//		ClubProfileVO profile =  new ClubProfileVO();
-//		profile.setMemberEmail(member.getMemberEmail());
-//		List<ClubProfileVO> findVO = clubprofileMapper.getMyProfile(profile);
-//		if(findVO != null) {
-//			request.getSession().setAttribute("profileList", findVO);			
-//		}
+		List<ClubProfileVO> findVO = clubprofileMapper.getClubProfileVO(member.getMemberEmail());
+		if(findVO != null) {
+			request.getSession().setAttribute("profileList", findVO);			
+		}
 		
 		request.getSession().setAttribute("member", member);
 		response.sendRedirect(request.getContextPath() + "/");

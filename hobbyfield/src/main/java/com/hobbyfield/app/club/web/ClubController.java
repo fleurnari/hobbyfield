@@ -88,7 +88,7 @@ public class ClubController {
 	
     /*========= 소모임 조회관련 =========*/
     // 소모임 전체조회(메인페이지)
- 	@GetMapping("clubMain")
+ 	@GetMapping("/clubMain")
  	public String clubMain(Model model) {
  		model.addAttribute("clubList", createClubService.getClubTop());
  		model.addAttribute("board", clubBoardService.getAllClubBoardList());
@@ -176,11 +176,23 @@ public class ClubController {
 
 	// 가입신청한 소모임 회원 조회(info 또는 clubMain에서 조회) <모임장>
 	@GetMapping("clubManage")
-	public String clubConfirmMember(ClubJoinVO clubJoinVO, Model model) {
+	public String clubConfirmMember(ClubProfileVO profileVO ,CreateclubVO createclubVO, ClubJoinVO clubJoinVO, Model model) {
+		model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); // 지역대그룹 코드
+		model.addAttribute("F", commCodeMapper.selectCommsubList("0F")); // 지역소그룹 코드
+		model.addAttribute("C", commCodeMapper.commCategoryList("0C")); // 모임카테고리 그룹코드
+		model.addAttribute("D", commCodeMapper.clubTypeList("0D")); // 모임분류 그룹코드
+		
 		List<ClubJoinVO> joinVO = clubJoinService.joinClubMemberInfo(clubJoinVO);
+		
+//		ClubProfileVO profile = clubprofileMapper.getClubBoss(profileVO);
+		
+		model.addAttribute("clubInfo",createClubService.getClub(createclubVO));
+//		model.addAttribute("profile", profile);
 		model.addAttribute("beforeMembers", joinVO);
 		return "club/clubManage";
 	}
+	
+	
 
 	// 가입신청한 회원 승인
 	@PostMapping("acceptClubMember")
@@ -324,7 +336,7 @@ public class ClubController {
 		System.out.println(createclubVO);
 		return "redirect:clubList";
 	}
-	
+
 	@PostMapping("/clubQuit")
 	public String clubQuit() {
 		
@@ -348,7 +360,7 @@ public class ClubController {
 	@ResponseBody
 	@GetMapping("selectProfile")
 	public ClubProfileVO getProfile(ClubProfileVO clubprofileVO) {
-		System.out.println("getProfile method called with nickname: " + clubprofileVO.getProfileNickname());
+		System.out.println("닉네임: " + clubprofileVO.getProfileNickname());
 
 		return clubprofileService.getProfile(clubprofileVO);
 	}
@@ -382,6 +394,11 @@ public class ClubController {
 	public int getProfileCount(@RequestParam String email) {
 		return clubprofileMapper.getProfileCountByEmail(email);
 	}
+	
+	// 소모임 생성 3개 제한
+//	@ResponseBody
+//	@PostMapping("")
+//	public int 
 
 	/*========= 게시글 =========*/
 	
@@ -424,8 +441,6 @@ public class ClubController {
 	// 해당소모임 게시물 보는 페이지
 		@GetMapping("/clubBoardList")
 		public String clubBoardList(Model model, CreateclubVO vo, HttpServletRequest request) {
-//			List<ClubBoardVO> clubBoardList = clubBoardService.getSelectClubBoardList(vo);
-//			model.addAttribute("boardList", clubBoardList);
 			HashMap<String, Integer> map = new HashMap<>();
 		 	map.put("start", 1);
 		 	map.put("end", 10);
@@ -433,11 +448,21 @@ public class ClubController {
 		 	List<ClubBoardVO> scrollList = clubBoardService.getSelectClubBoardList(map);
 		 	model.addAttribute("boardList", scrollList);
 		 	System.out.println(scrollList);
+		 	
 			HttpSession session = request.getSession();
 			MemberVO mvo = (MemberVO)session.getAttribute("member");
+			
 			CreateclubVO cvo = createClubService.getClub(vo);
 			session.setAttribute("club", cvo);
 			ClubProfileVO profile = clubprofileMapper.getSessionProfile(mvo.getMemberEmail(), vo.getClubNumber());
+			
+			//소모임 수정 부분
+		 	//공통코드 , ClubProfileVO clubprofileVO
+			model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); // 지역대그룹 코드
+			model.addAttribute("F", commCodeMapper.selectCommsubList("0F")); // 지역소그룹 코드
+			model.addAttribute("C", commCodeMapper.commCategoryList("0C")); // 모임카테고리 그룹코드
+			model.addAttribute("D", commCodeMapper.clubTypeList("0D")); // 모임분류 그룹코드
+			
 			if( profile != null) {
 				session.setAttribute("profile", profile);
 			}else {
@@ -475,10 +500,10 @@ public class ClubController {
 		
 		// 가져온 세션값을 토대로 자신의 프로필을 가져와서 오기
 		ClubProfileVO profile = clubprofileMapper.getSessionProfile(mvo.getMemberEmail(), cvo.getClubNumber());
-
+		
 		// 가져온 값을 세션에 담기
 		session.setAttribute("profile", profile);
-    
+		
 		//이모지 이름 가져오기
 		List<PointVO> point =  pointService.emojiGroup(mvo.getMemberEmail());
 		model.addAttribute("point", point);
