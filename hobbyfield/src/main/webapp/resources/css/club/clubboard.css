@@ -1,3 +1,4 @@
+/* Modal styles */
 .ck.ck-editor {
 	width: 80%;
 	max-width: 800px;
@@ -7,7 +8,17 @@
 .ck-editor__editable {
 	height: 80vh;
 }
+
 /* Modal styles */
+
+/* Modal button */
+
+
+/* Modal head */
+
+
+
+/* Modal body */
 .modal {
 	display: none;
 	position: fixed;
@@ -37,7 +48,29 @@
 	font-weight: bold;
 	cursor: pointer;
 }
+
 #clubBoardList {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 20px;
+  width: 40%;
+}
+#clubBoardInsert {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 20px;
+  width: 40%;
+}
+#clubBoardList {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 20px;
+  width: 40%;
+}
+#profileInsert {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -128,6 +161,7 @@
   position: relative;
   width: 300px;
 }
+/* section */
 .search-text {
   width: 300px;
   border: 1px solid #bbb;
@@ -143,3 +177,5 @@
   right: 12px;
   margin: 0;
 }
+
+/* aside */

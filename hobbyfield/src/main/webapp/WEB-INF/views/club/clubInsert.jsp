@@ -103,7 +103,7 @@ label {
 		<div>
 			<div><label>닉네임 선택</label>
 			    <select id="profile" name="profileNickname">
-			        <c:forEach items="${getNomalMypage}" var="profile">
+			        <c:forEach items="${profileList}" var="profile">
 			            <option value="${profile.profileNickname}">${profile.profileNickname}</option>
 			        </c:forEach>
 			    </select>
@@ -188,7 +188,7 @@ label {
 </body>
 
 <script>
-
+	
 	// 유효성 검사 통과 유무 변수 
 	/* var clubName = false; //모임이름 
 	var clubnameCheck = false; //모임이름 중복체크 */

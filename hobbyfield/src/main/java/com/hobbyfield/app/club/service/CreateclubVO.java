@@ -20,7 +20,9 @@ public class CreateclubVO {
 	private String clubImgPath;
 	private Integer clubTotal;
 	private String memberEmail;
-
+	
+	private String profileImg;
+	private String profileImgPath;
 	private String clubManager;
 	
 }

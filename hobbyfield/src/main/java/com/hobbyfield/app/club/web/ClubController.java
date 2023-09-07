@@ -436,8 +436,6 @@ public class ClubController {
 	// 해당소모임 게시물 보는 페이지
 		@GetMapping("/clubBoardList")
 		public String clubBoardList(Model model, CreateclubVO vo, HttpServletRequest request) {
-//			List<ClubBoardVO> clubBoardList = clubBoardService.getSelectClubBoardList(vo);
-//			model.addAttribute("boardList", clubBoardList);
 			HashMap<String, Integer> map = new HashMap<>();
 		 	map.put("start", 1);
 		 	map.put("end", 10);
@@ -497,10 +495,10 @@ public class ClubController {
 		
 		// 가져온 세션값을 토대로 자신의 프로필을 가져와서 오기
 		ClubProfileVO profile = clubprofileMapper.getSessionProfile(mvo.getMemberEmail(), cvo.getClubNumber());
-
+		
 		// 가져온 값을 세션에 담기
 		session.setAttribute("profile", profile);
-    
+		
 		//이모지 이름 가져오기
 		List<PointVO> point =  pointService.emojiGroup(mvo.getMemberEmail());
 		model.addAttribute("point", point);

@@ -51,11 +51,15 @@
 				<!-- 이름, 작성일 이미지  -->
 				<div>
 					<!-- 이미지 추후 db에서 경로 가져와서 출력 -->
-					<img alt="프로필이미지" src="download/img/common.png"
-						style="width: 50px; height: 50px;"> <input type="text"
+					<img alt="프로필이미지" src="${pageContext.request.contextPath}/${board.profileImgPath}${board.profileImg}"
+						style="width: 50px; height: 50px;"> 
+					<input type="hidden"
 						id="clubBoardWriter" name="clubBoardWriter"
-						value="${board.clubBoardWriter}"> <input type="text" id=""
+						value="${board.clubBoardWriter}"> 
+					<p>${board.clubBoardWriter}</p>
+					<input type="text" id="clubBoardWdate"
 						name="clubBoardWdate" value="${board.clubBoardWdate}">
+					<fmt:formatDate value="${board.clubBoardWdate}" dateStyle="full"/>
 				</div>
 				<div id="editor1">
 					<div id="editor">${board.clubBoardContent}</div>
