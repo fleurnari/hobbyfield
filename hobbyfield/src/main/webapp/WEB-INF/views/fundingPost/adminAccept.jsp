@@ -7,7 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>관리자 수락 페이지</title>
-<script type="text/javascript" src="resources/js/common.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/common.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style type="text/css">
 .container2{
 display:flex;
@@ -45,6 +46,7 @@ li {
   처음부터 보이게 하는 상황이라면 display:flex; */
 	padding: 15px;
 	/* 반응형의 경우 padding이 없으면 박스가 화면에 붙어서 안이뻐짐 */
+	z-index: 1;
 }
 
 .popup {
@@ -189,15 +191,15 @@ li {
     <div class="container">
         <div class="text-center">
             <h4>
-                <span onclick="location.href='${pageContext.request.contextPath}/fundingPostList'"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></span>&nbsp;&nbsp;
+                <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostList'"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></span>&nbsp;&nbsp;
                 <span onclick="location.href='#'">카테고리</span>&nbsp;&nbsp;
                 <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
                 <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
-                <span onclick="location.href='${pageContext.request.contextPath}/noticeList'">공지사항</span>&nbsp;&nbsp;
-                <span onclick="location.href='${pageContext.request.contextPath}/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
-                <span onclick="location.href='${pageContext.request.contextPath}/fundingPostInsertForm'">프로젝트만들기</span>
+                <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/noticeList'">공지사항</span>&nbsp;&nbsp;
+                <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
+                <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'">프로젝트만들기</span>
                 <c:if test="${member.memberGrd eq 'A3'}">
-                	<span onclick="location.href='${pageContext.request.contextPath}/adminAccept'"  style="color:#5aa5db;">프로젝트 승인</span>
+                	<span onclick="location.href='${pageContext.request.contextPath}/fundingPost/adminAccept'"  style="color:#5aa5db;">프로젝트 승인</span>
                 </c:if>
             </h4>
         </div>
@@ -221,7 +223,7 @@ li {
     		</thead>
     		<tbody>
     			<c:forEach items="${fundingPostList }" var="fundingPost">
-    				<c:if test = "${fundingPost.fndStatus eq '0' }">
+    				
     					<tr>
     						<td>${fundingPost.fndCategory }</td>
     						<td>${fundingPost.fndTitle }</td>
@@ -278,7 +280,7 @@ li {
      </div>
 							</td>
 						</tr>
-    				</c:if>
+    
     			</c:forEach>
     		</tbody>
     	</table>
@@ -361,13 +363,16 @@ li {
 	                data: { fndPostNumber: fndPostNumber, fndStatus: fndStatus },
 	                success: function (response) {
 	                    // 성공 시 처리
-	                    let message = '승인 완료';
-	                    alert(message);
-	                 // 모달 창 닫기
-	                    $("#" + modalId).fadeOut();
+	                	Swal.fire({
+	                		title: '승인성공!', // 제목 추가
+	                        text: 'success' // 텍스트 추가
+	                        }).then(function () {
+	                        // 모달 창 닫기
+	                        $("#" + modalId).fadeOut();
 
-	                    // 페이지 새로고침
-	                    location.reload();
+	                        // 페이지 새로고침
+	                        location.reload();
+	                    });
 	                },
 	                error: function (error) {
 	                    // 실패 시 처리

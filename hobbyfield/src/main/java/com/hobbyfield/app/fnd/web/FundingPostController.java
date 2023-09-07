@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,19 +12,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hobbyfield.app.comm.mapper.CommCodeMapper;
 import com.hobbyfield.app.common.PageMaker;
 import com.hobbyfield.app.common.SearchCriteria;
-import com.hobbyfield.app.fnd.service.FundingCommentService;
-import com.hobbyfield.app.fnd.service.FundingCommentVO;
 import com.hobbyfield.app.fnd.service.FundingGoodsService;
 import com.hobbyfield.app.fnd.service.FundingPostService;
 import com.hobbyfield.app.fnd.service.FundingPostVO;
 import com.hobbyfield.app.member.service.MemberVO;
 
 //2023-08-18 신영환 펀딩관련 컨트롤러
+@RequestMapping("/fundingPost/*")
 @Controller
 public class FundingPostController {
 
@@ -38,11 +37,8 @@ public class FundingPostController {
 	@Autowired
 	CommCodeMapper codeMapper;
 	
-	@Autowired
-	FundingCommentService fundingCommentService;
-	
 	//전체조회
-	@GetMapping("fundingPostList")
+	@GetMapping("/fundingPostList")
 	public String FundingPostList(Model model, @ModelAttribute("scri") SearchCriteria scri) {
 		model.addAttribute("fundingPostList", fundingPostService.getFundingPostList(scri));
 		
@@ -58,29 +54,28 @@ public class FundingPostController {
 	
 
 	//펀딩 프로젝트 상세보기
-	@GetMapping("fundingPostInfo")
+	@GetMapping("/fundingPostInfo")
 	public String fundingPostInfo(FundingPostVO fundingPostVO, Model model) {
 		FundingPostVO findVO = fundingPostService.getFundingPostInfo(fundingPostVO);
 		fundingPostService.updateFundingPostViews(fundingPostVO);
 		model.addAttribute("fundingPostInfo",findVO);
 		model.addAttribute("fundingGoodsInfo",fundingGoodsService.getFundingGoods(fundingPostVO));
-		model.addAttribute("commentList", fundingCommentService.getCommentList(findVO.getFndPostNumber()));
 		return "fundingPost/fundingPostInfo";
 	}
 	
 	//펀딩 프로젝트 등록폼
-	@GetMapping("fundingPostInsertForm")
+	@GetMapping("/fundingPostInsertForm")
 	public String fundingPostInsertForm() {
 		return "fundingPost/fundingPostInsertForm";
 	}
 	//펀딩 프로젝트 등록	
-	@GetMapping("fundingPostInsert")
+	@GetMapping("/fundingPostInsert")
 	public String fundingPostInsert(Model model, @ModelAttribute("scri") SearchCriteria scri) {
 		model.addAttribute("fundingPostList", fundingPostService.getFundingPostList(scri));
 		return "fundingPost/fundingPostInsert";
 	}
 	//펀딩 프로젝트 등록폼2
-		@GetMapping("fundingPostInsert20")
+		@GetMapping("/fundingPostInsert20")
 		public String fundingPostInsert20(String fndPostNumber, FundingPostVO fundingPostVO, Model model) {
 			FundingPostVO findVO = fundingPostService.getFundingPostInfo(fundingPostVO);
 			model.addAttribute("fndPostNumber",fndPostNumber);
@@ -88,7 +83,7 @@ public class FundingPostController {
 			
 			return "fundingPost/fundingPostInsert20";
 	}
-		@PostMapping("fundingPostInsert")
+		@PostMapping("/fundingPostInsert")
 		public String fundingPostInsertProcess(HttpSession session, FundingPostVO fundingPostVO, Model model) {
 			MemberVO member = (MemberVO) session.getAttribute("member");
 			fundingPostVO.setMemberEmail(member.getMemberEmail());
@@ -98,7 +93,7 @@ public class FundingPostController {
 		}
 	//펀딩 프로젝트 임시저장(update)
 	//데이터가 돌아와야하므로 post처리
-	@PostMapping("fundingPostUpdate")
+	@PostMapping("/fundingPostUpdate")
 	//데이터 돌려주기위함
 	@ResponseBody
 	//두개의 데이터를 돌려받기위해
@@ -116,14 +111,14 @@ public class FundingPostController {
 	}
 	
 	//관리자 페이지 승인
-	@PostMapping("fundingAdminUpdate")
+	@PostMapping("/fundingAdminUpdate")
 	public String FundingAdminUpdate(FundingPostVO fundingPostVO, Model model) {
 		model.addAttribute(fundingPostService.updateFundingPostInfo(fundingPostVO));
 		
 		return "fundingPost/adminAccept";
 	}
 	//펀딩 내 프로젝트
-	@GetMapping("fundingMyProject")
+	@GetMapping("/fundingMyProject")
 	public String FundingMyProjectList(HttpSession session, FundingPostVO fundingPostVO, Model model) {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		fundingPostVO.setMemberEmail(member.getMemberEmail());
@@ -145,7 +140,7 @@ public class FundingPostController {
 	
 	  //펀딩 프로젝트 삭제
 	  
-	@PostMapping("fundingPostDelete")
+	@PostMapping("/fundingPostDelete")
 	public String fundingPostDelete(FundingPostVO fndPostNumber, Model model) {
 		model.addAttribute(fundingPostService.deleteFundingPost(fndPostNumber));
 		model.addAttribute(fundingGoodsService.deletePostGoods(fndPostNumber));
@@ -154,9 +149,12 @@ public class FundingPostController {
 	}
 	
 	//관리자 페이지
-	@GetMapping("adminAccept")
+	@GetMapping("/adminAccept")
 	public String adminAcceptForm(Model model,  @ModelAttribute("scri") SearchCriteria scri) {
+		scri.setSearchType("status");
+		scri.setKeyword("0");
 		model.addAttribute("fundingPostList", fundingPostService.getFundingPostList(scri));
+	
 		
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(scri);
@@ -166,60 +164,6 @@ public class FundingPostController {
 		model.addAttribute("scri", scri);
 			
 		return "fundingPost/adminAccept";
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	// 댓글 작성
-	@ResponseBody
-	@PostMapping("fndCommentInsert")
-	public int insertFndComment(FundingCommentVO fundingCommentVO, HttpServletRequest request) {
-		if (request.getParameter("fndSecret").equals("on")) {
-			fundingCommentVO.setFndSecret("L1");
-		} else {
-			fundingCommentVO.setFndSecret("L2");
-		}
-		
-		int result = fundingCommentService.insertComment(fundingCommentVO);
-		
-		return result; 
-	}
-	
-	// 댓글 수정 폼
-	@GetMapping("fndCommentUpdate")
-	public String updateFndCommentForm(Model model, FundingCommentVO fundingCommentVO) {
-		FundingCommentVO findVO = fundingCommentService.getComment(fundingCommentVO);
-		model.addAttribute("comment", findVO);
-		return "comment/fndCommentUpdate";
-	}
-	
-	// 댓글 수정 수행
-	
-	// 댓글 삭제
-	@ResponseBody
-	@PostMapping("fndCommentDelete")
-	public boolean deleteFndComment(FundingCommentVO fundingCommentVO) {
-		
-		int result = fundingCommentService.deleteComment(fundingCommentVO);
-		
-		if (result == 0) {
-			return false;
-		}
-		
-		return true;
-		
 	}
 	  
 }

@@ -39,6 +39,7 @@
         FROM Funding_Post
         WHERE 1=1
             <include refid="search"></include>
+       
     ) funding
     WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
     ORDER BY Fnd_Post_Number DESC
@@ -176,7 +177,7 @@
 			<if test="searchType == 'c'.toString()">AND FND_CONTENT LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'w'.toString()">AND MEMBER_EMAIL LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'tc'.toString()">AND( (FND_TITLE LIKE '%' || #{keyword} || '%') or (FND_CONTENT LIKE '%' || #{keyword} || '%') )</if>
-			<if test="searchType == 'status'.toString()">And fnd_Status LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'status'.toString()">And fnd_Status= #{keyword}</if>
 		</if>
 	</sql>
 </mapper>

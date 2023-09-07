@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="resources/js/common.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <style>
 .container2{
@@ -53,20 +53,20 @@ flex-wrap:wrap;
 	<div class="container">
 			<div class="text-center">
 			<h4>
-			  <span onclick="location.href='${pageContext.request.contextPath}/fundingPostList'"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></span>&nbsp;&nbsp;
+			  <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostList'"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></span>&nbsp;&nbsp;
               <span onclick="location.href='#'">카테고리</span>&nbsp;&nbsp;
               <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
               <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
               <span onclick="location.href='#'">공지사항</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingSupportList'" >후원현황</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPostInsertForm'" style="color:#5aa5db;">프로젝트만들기</span>
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'" >후원현황</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'" style="color:#5aa5db;">프로젝트만들기</span>
             </h4>
             </div>
         </div>
 		<br><br><br>
 
 			<div class="text-center">
-				<h4><span   onclick="location.href='${pageContext.request.contextPath}/fundingPostInsert20?fndPostNumber=${fundingPostGoods.fndPostNumber }'" >프로젝트 설정</span><span> | </span><span style="color:red;">옵션 구성</span></h4>
+				<h4><span   onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsert20?fndPostNumber=${fundingPostGoods.fndPostNumber }'" >프로젝트 설정</span><span> | </span><span style="color:red;">옵션 구성</span></h4>
 						<p>프로젝트를 설정해주세요</p>
 					</div>
 					<br>
