@@ -265,45 +265,32 @@
 	</div>
 
 
-
-
-
-	<script type="text/javascript">
-	//수락 거절 버튼
-	$(document).ready(function() {
-	    $('.accept').click(function() {
-	        var nickname = $(this).data('nickname');
-	        var clubnumber = $(this).data('clubnumber');
-			
-	        $.post("${pageContext.request.contextPath}/club/acceptClubMember", 
-	        		{ profileNickname: nickname, clubNumber: clubnumber }, 
-	        		function(data) {
-	            if(data.success) {
-	            	console.log(nickname)
-	                alert("수락되었습니다.");
-	                
-	                
-	            } else {
-	                alert("오류 발생");
-	            }
-	        });
-	    });
-	
-	    
-	    $('.reject').click(function() {
-	        var nickname = $(this).data('nickname');
-	        var clubnumber = $(this).data('clubnumber');
-	
-	        $.post("${pageContext.request.contextPath}/club/rejectClubMember", { profileNickname: nickname, clubNumber: clubnumber }, function(data) {
-	            if(data.success) {
-	                alert("거절되었습니다.");
-	                location.reload();
-	            } else {
-	                alert("오류 발생");
-	            }
-	        });
-	    });
-	});	
+<script type="text/javascript">
+   //수락 거절 버튼
+   $(document).ready(function() {
+       $('.accept').click(function() {
+           var nickname = $(this).data('nickname');
+           var clubnumber = $(this).data('clubnumber');
+         
+           $.post("${pageContext.request.contextPath}/club/acceptClubMember", 
+                 { "profileNickname": nickname, "clubNumber": clubnumber }, 
+                 function(data) {
+                   alert(data.msg);
+                   location.reload()
+           });
+       });
+   
+       
+       $('.reject').click(function() {
+           var nickname = $(this).data('nickname');
+           var clubnumber = $(this).data('clubnumber');
+   
+           $.post("${pageContext.request.contextPath}/club/rejectClubMember", { "profileNickname": nickname, "clubNumber": clubnumber }, function(data) {
+               alert(data.msg);
+               location.reload()
+           });
+       });
+   });   
 	
 	//==========소모임 수정 영역============	
 	// 모달 창과 버튼 요소 선택

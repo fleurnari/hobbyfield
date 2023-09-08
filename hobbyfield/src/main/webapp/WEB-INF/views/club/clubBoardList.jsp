@@ -561,7 +561,7 @@ body {
   	            success: function(boards) {
   	            	console.log("현재페이지:", currentPage);  // 현재 페이지 번호 출력
   	                console.log("반횐된 데이터:", boards);     // 반환된 소모임 데이터 출력
-  	            
+  	            	
   	                if (boards.length > 0) {
   	                    $.each(boards, function(index, board) {
   	                        $('#boardList').append(`
@@ -571,7 +571,7 @@ body {
   	                					<button></button>
   	                				</div>
   	                				<div class="boardMain"
-  	                					onclick="location.href='${pageContext.request.contextPath}/club/clubBoardInfo?boardNumber=\${board.boardNumber}'">
+  	                					onclick="location.href='${pageContext.request.contextPath}/club/clubBoardInfo?boardNumber=${board.boardNumber}'">
   	                					<p>글 번호 : \${board.boardNumber}</p>
   	                					<p>작성자 : \${board.clubBoardWriter}</p>
   	                					<div>\${board.clubBoardContent}</div>
@@ -582,11 +582,11 @@ body {
   	                					</p>
   	                					<p>\${board.clubBoardViews}</p>
   	                					<p>\${board.clubBoardType}</p>
-  	                					<c:if test="\${board.scheduleDate ne null}">
+  	                					<c:if test="${board.scheduleDate ne null}">
   	                						<p>
-  	                							<fmt:parseDate value="\${board.scheduleDate}" var="dateFmt"
+  	                							<fmt:parseDate value="${board.scheduleDate}" var="dateFmt"
   	                								pattern="yyyyMMdd" />
-  	                							<fmt:formatDate value="\${dateFmt}" pattern="yyyy-MM-dd" />
+  	                							<fmt:formatDate value="${dateFmt}" pattern="yyyy-MM-dd" />
   	                						</p>
   	                					</c:if>
   	                				</div>

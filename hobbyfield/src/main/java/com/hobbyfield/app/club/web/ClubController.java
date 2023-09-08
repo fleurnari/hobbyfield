@@ -213,34 +213,35 @@ public class ClubController {
 	
 
 	// 가입신청한 회원 승인
-	@PostMapping("/acceptClubMember")
-	@ResponseBody
-	public Map<String, String> acceptClubMember(@RequestParam String profileNickname, @RequestParam int clubNumber,
-			RedirectAttributes redirectAttrs) {
-		ClubJoinVO joinVO = new ClubJoinVO();
-		joinVO.setProfileNickname(profileNickname);
-		joinVO.setClubNumber(clubNumber);
-		boolean result = clubJoinService.acceptMember(joinVO);
-		if (result) {
-			return Collections.singletonMap("msg", "승인되었습니다.");
+	   @PostMapping("/acceptClubMember")
+	   @ResponseBody
+	   public Map<String, String> acceptClubMember(@RequestParam String profileNickname, @RequestParam int clubNumber,
+	         RedirectAttributes redirectAttrs) {
+	      ClubJoinVO joinVO = new ClubJoinVO();
+	      joinVO.setProfileNickname(profileNickname);
+	      joinVO.setClubNumber(clubNumber);
+	      boolean result = clubJoinService.acceptMember(joinVO);
+	      if (result) {
+	         return Collections.singletonMap("msg", "승인되었습니다.");
 
-		} else {
-			return Collections.singletonMap("msg", "오류발생.");
-		}
-	}
+	      } else {
+	         return Collections.singletonMap("msg", "오류발생.");
+	      }
+	   }
 
-	// 가입신청한 회원 거부
-	@PostMapping("/rejectClubMember")
-	@ResponseBody
-	public Map<String, String> rejectClubMember(@RequestParam String profileNickname, @RequestParam int clubNumber,
-			RedirectAttributes redirectAttrs) {
-		boolean result = clubJoinService.rejectMember(profileNickname, clubNumber);
-		if (result) {
-			return  Collections.singletonMap("msg", "거절되었습니다.");
-		} else {
-			return Collections.singletonMap("msg", "오류발생.");
-		}
-	}
+	   // 가입신청한 회원 거부
+	   @PostMapping("/rejectClubMember")
+	   @ResponseBody
+	   public Map<String, String> rejectClubMember(@RequestParam String profileNickname, @RequestParam int clubNumber,
+	         RedirectAttributes redirectAttrs) {
+	      boolean result = clubJoinService.rejectMember(profileNickname, clubNumber);
+	      if (result) {
+	         return  Collections.singletonMap("msg", "거절되었습니다.");
+	      } else {
+	         return Collections.singletonMap("msg", "오류발생.");
+	      }
+	   }
+
 	
 	/*========= 소모임 등록관련 =========*/
 	// 소모임 등록 페이지
@@ -543,16 +544,14 @@ public class ClubController {
 	// 삭제할것
 	// 소모임 게시물 상세 보기
 	@GetMapping("/clubBoardInfo")
-	public String clubBoardInfo(Model model, HttpServletRequest request, EmojiVO emojiVO) {
-		
-		ClubBoardVO cvo = (ClubBoardVO)request.getAttribute("clubBoard");
-		clubBoardService.getClubBoardInfo(cvo);
+	public String clubBoardInfo(Model model, ClubBoardVO vo, HttpServletRequest request, EmojiVO emojiVO) {
+		ClubBoardVO cvo = clubBoardService.getClubBoardInfo(vo);
 		model.addAttribute("board", cvo);
-		model.addAttribute("commentList", clubCommentService.getBoardComment(cvo.getBoardNumber()));
+		model.addAttribute("commentList", clubCommentService.getBoardComment(vo.getBoardNumber()));
 		
 		CreateclubVO clubVO = new CreateclubVO();
 		clubVO.setClubNumber(cvo.getClubNumber());
-		// model.addAttribute("club", createClubService.getClub(clubVO));
+		model.addAttribute("club", createClubService.getClub(clubVO));
 		
 		// 세션 객체 생성후 request의 session값 담기
 		HttpSession session = request.getSession();
