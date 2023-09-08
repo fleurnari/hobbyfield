@@ -18,6 +18,7 @@ public interface PushService {
 	
 	// 알림 삭제
 	public int deletePush(int pushId);
-
-
+	
+	// 알림 삭제
+	public int deleteAllPush(String memberEmail);
 }

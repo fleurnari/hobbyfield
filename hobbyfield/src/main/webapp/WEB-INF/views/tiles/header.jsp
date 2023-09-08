@@ -145,12 +145,10 @@
   	    });
   }
   
+  // 알림 읽음 여부 변경
   
-	$("#chat").on('click',function(e){
-		e.preventDefault();
-		window.open("${pageContext.request.contextPath}/chat/chatting","chat","width=500, height=800, top=200, left=200");
-        // 경로, 파일, 너비, 높이, 위치 지정
-	});
+  // 알림 전체 삭제
+  
   
  
 	</script>

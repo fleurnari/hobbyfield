@@ -45,6 +45,12 @@ public class PushServiceImpl implements PushService {
 		return pushMapper.deletePush(pushId);
 	}
 
+	@Override
+	public int deleteAllPush(String memberEmail) {
+
+		return pushMapper.deleteAllPush(memberEmail);
+	}
+
 
 	
 

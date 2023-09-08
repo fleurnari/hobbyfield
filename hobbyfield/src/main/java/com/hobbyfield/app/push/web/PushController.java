@@ -73,7 +73,15 @@ public class PushController {
 	}
 	
 	
-	
+	// 알림 전체 삭제
+	@ResponseBody
+	@PostMapping("/deleteAllPush")
+	public String deleteAllPush(String memberEmail) {
+		
+		pushService.deleteAllPush(memberEmail);
+		
+		return null;
+	}
 	
 	
 }

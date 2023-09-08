@@ -62,5 +62,12 @@
 		FROM push
 		WHERE push_id = #{pushId}
 	</delete>
+	
+	<!-- 알림 전체 삭제 처리 -->
+	<delete id="deleteAllPush">
+		DELETE
+		FROM push
+		WHERE member_email = #{memberEmail}
+	</delete>
 
 </mapper>
