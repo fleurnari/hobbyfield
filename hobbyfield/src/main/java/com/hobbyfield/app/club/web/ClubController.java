@@ -175,20 +175,21 @@ public class ClubController {
 	}
 
 	// 가입신청한 소모임 회원 조회(info 또는 clubMain에서 조회) <모임장>
-	@GetMapping("clubManage")
-	public String clubConfirmMember(ClubProfileVO profileVO ,CreateclubVO createclubVO, ClubJoinVO clubJoinVO, Model model) {
+	@GetMapping("/clubManage")
+	public String clubConfirmMember(HttpSession session ,CreateclubVO createclubVO, ClubJoinVO clubJoinVO, Model model) {
 		model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); // 지역대그룹 코드
 		model.addAttribute("F", commCodeMapper.selectCommsubList("0F")); // 지역소그룹 코드
 		model.addAttribute("C", commCodeMapper.commCategoryList("0C")); // 모임카테고리 그룹코드
 		model.addAttribute("D", commCodeMapper.clubTypeList("0D")); // 모임분류 그룹코드
 		
 		List<ClubJoinVO> joinVO = clubJoinService.joinClubMemberInfo(clubJoinVO);
-		
-//		ClubProfileVO profile = clubprofileMapper.getClubBoss(profileVO);
-		
-		model.addAttribute("clubInfo",createClubService.getClub(createclubVO));
-//		model.addAttribute("profile", profile);
+		createclubVO = (CreateclubVO)session.getAttribute("club");
+		int num =createclubVO.getClubNumber();
+		List<ClubJoinVO> clubMember =clubJoinService.clubMemberList(num);
+		model.addAttribute("clubMember",clubMember);
+		// model.addAttribute("club",createClubService.getClub(createclubVO));
 		model.addAttribute("beforeMembers", joinVO);
+		
 		return "club/clubManage";
 	}
 	
@@ -470,7 +471,22 @@ public class ClubController {
 			}
 			return "club/clubBoardList";
 		}
-	
+	@ResponseBody
+ 	@RequestMapping(value="clubBoardScroll", produces="application/json; charset=UTF-8")
+ 	public ResponseEntity<List<ClubBoardVO>> clubBoardScroll(@RequestParam("startPage") int startPage, 
+ 	                                                          @RequestParam("endPage") int endPage,
+ 	                                                          HttpSession se) {
+ 	    HashMap<String, Integer> map = new HashMap<>();
+ 	    CreateclubVO vo = (CreateclubVO)se.getAttribute("club");
+ 	    map.put("start", startPage);
+ 	    map.put("end", endPage);
+ 	    map.put("clubNumber", vo.getClubNumber());
+ 	    List<ClubBoardVO> scrollList = clubBoardService.getSelectClubBoardList(map);
+ 	    return new ResponseEntity<>(scrollList, HttpStatus.OK);
+ 	}
+		
+		
+		
 	@GetMapping("/searchBoard")
 	public String searchBoard(Model model, @RequestParam(value = "searchNum") int num 
 			, @RequestParam(value = "searchText") String text) {
@@ -484,14 +500,16 @@ public class ClubController {
 	// 삭제할것
 	// 소모임 게시물 상세 보기
 	@GetMapping("/clubBoardInfo")
-	public String clubBoardInfo(Model model, ClubBoardVO vo, HttpServletRequest request, EmojiVO emojiVO) {
-		ClubBoardVO cvo = clubBoardService.getClubBoardInfo(vo);
+	public String clubBoardInfo(Model model, HttpServletRequest request, EmojiVO emojiVO) {
+		
+		ClubBoardVO cvo = (ClubBoardVO)request.getAttribute("clubBoard");
+		clubBoardService.getClubBoardInfo(cvo);
 		model.addAttribute("board", cvo);
-		model.addAttribute("commentList", clubCommentService.getBoardComment(vo.getBoardNumber()));
+		model.addAttribute("commentList", clubCommentService.getBoardComment(cvo.getBoardNumber()));
 		
 		CreateclubVO clubVO = new CreateclubVO();
 		clubVO.setClubNumber(cvo.getClubNumber());
-		model.addAttribute("club", createClubService.getClub(clubVO));
+		// model.addAttribute("club", createClubService.getClub(clubVO));
 		
 		// 세션 객체 생성후 request의 session값 담기
 		HttpSession session = request.getSession();

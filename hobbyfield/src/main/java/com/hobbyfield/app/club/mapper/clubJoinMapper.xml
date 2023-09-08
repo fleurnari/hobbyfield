@@ -51,7 +51,12 @@
        WHERE club_number = #{clubNumber} AND apply_status = 'H1'
    </select>
 	
-	<!-- 로그인시 현재 프로필리스트 가져오기 -->
+	<select id="clubMemberList" resultType="ClubJoinVO">
+		SELECT DISTINCT CLUB_MEMBER_NUMBER, PROFILE_NICKNAME, CLUB_NUMBER, CLUB_JOIN_DATE
+		FROM CLUB_MEMBER 
+		WHERE CLUB_NUMBER =  #{clubNumber}
+	</select>
+	
 	
 
 	<!-- 소모임 가입 신청한 회원 승인 -->

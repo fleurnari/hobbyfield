@@ -12,6 +12,18 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 </head>
 <style>
+.member-modal{
+	padding-left: 22px;
+	padding-right: 22px;
+	
+}
+
+.member-profile img{
+	width: 50px;
+	height: 50px;
+}
+
+
 /* 소모임 수정 모달  */
 /* 모달 창 전체 스타일 */
 .update-modal {
@@ -51,11 +63,18 @@
 </style>
 
 <body>
-	<div align="center" style="margin-top: 100px;">
 
+	<div align="center" style="margin-top: 100px;">
 		<h2>소모임 설정</h2>
 		<!-- 소모임 정보 및 관리(모임장만) -->
 		<div id="clubInfo">
+			<div class="">
+				<img src="${pageContext.request.contextPath}${profile.profileImgPath}${profile.profileImg}">
+			</div>
+			<div class="">
+				모임 사진
+				<img src="${pageContext.request.contextPath}/${club.profileImgPath}${club.profileImg}">
+			</div>
 			<div>
 				<p>모임소개 : ${club.clubInfo}</p>
 			</div>
@@ -64,10 +83,6 @@
 			</div>
 			<div>
 				<p>모임장 : ${club.profileNickname}</p>
-			</div>
-			<div>
-				모임장 프로필 <img
-					src="${pageContext.request.contextPath}/${club.profileImgPath}${club.profileImg}">
 			</div>
 			<div>
 				<p>모임유형 : ${club.clubType}</p>
@@ -83,10 +98,9 @@
 
 
 					<!-- 소모임 수정 -->
-
-					<form action="clubUpdate" method="post" id="updateForm">
-						<div id="updateModal" class="update-modal">
-							<div class="update-body">
+					<div id="updateModal" class="update-modal">
+						<form action="clubUpdate" method="post" id="updateForm">
+							<div class="update-body"><span class="update-close">&times;</span>
 								<div align="center" class="update-top">
 									<h2>소모임 수정</h2>
 								</div>
@@ -97,16 +111,14 @@
 										name="profileNickname" class="ProfileNickname"
 										value="${club.profileNickname }">
 								</div>
-
-								<div>
+								<div class="club-name-update">
 									<label>모임이름</label> <input type="text" class="club_input"
 										name="clubName" value="${club.clubName}"><br> <span
 										class="club_input_re1">사용 가능한 모임 이름입니다.</span> <span
 										class="club_input_re2">모임 이름이 이미 존재합니다. </span> <span
 										class="final_club_ck">모임 이름을 정해주세요</span>
 								</div>
-
-								<div>
+								<div class="club-name-update">
 									<label>모임카테고리</label> <select class="club_category"
 										name="clubCategory">
 										<c:forEach items="${C}" var="category">
@@ -115,15 +127,15 @@
 									</select>
 								</div>
 
-								<div>
+								<div class="club-type-update">
 									<label>소모임 분류</label>
 									<c:forEach items="${D}" var="type">
 										<input type="radio" name="clubType" value="${type.subcode}"
 											checked="checked">${type.literal}
-						</c:forEach>
+									</c:forEach>
 								</div>
 
-								<div>
+								<div class="club-info-update">
 									<label>소모임 소개</label> <input type="text" name="clubInfo"
 										value="${club.clubInfo}"><br>
 								</div>
@@ -173,7 +185,7 @@
 								<input id="imgInput" name="uploadFile" type="file"
 									value="clubImg" onchange="readURL(this);"> <img
 									class=images id="preview"
-									src="${pageContext.request.contextPath}/download/img/${profile.profileImg}${profil.profileImgPath}"
+									src="${pageContext.request.contextPath}${profil.profileImgPath}${profile.profileImg}"
 									alt="Profile Image" />
 								<button type="button" id="uploadBtn">upload</button>
 							</div>
@@ -182,10 +194,10 @@
 								<button type="submit" class="update-button">수정하기</button>
 							</div>
 
-							<span class="update-close">&times;</span>
+						
 
-						</div>
-					</form>
+						</form>
+					</div>
 
 
 				</div>
@@ -196,11 +208,24 @@
 				<div id="quitBtn">탈퇴</div>
 			</div>
 		</div>
-
+	
+		<!-- clubMember Modal -->
+		<div class="member-modal">
+			<div class="member-modal-content">
+				<c:forEach items="${clubMember}" var="member">
+				<div class="member-modal-img">
+					<img class="member-profile" src="${pageContext.request.contextPath}${member.profileImgPath}${member.profileImgPath}">
+					<p class="member-name">${member.profileNickname}</p>
+					<a></a>
+				</div>
+			
+				</c:forEach>
+			</div>
+		</div>
 
 
 		<!-- 가입신청리스트(모임장만) modal창으로 확인 -->
-		<div>
+		<div class="applyList">
 			<table>
 				<thead align="center">
 					<tr>

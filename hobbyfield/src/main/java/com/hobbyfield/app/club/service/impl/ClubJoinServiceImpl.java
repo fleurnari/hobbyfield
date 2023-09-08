@@ -78,6 +78,12 @@ public int quitClubMember(ClubJoinVO vo) {
 	return result;
 }
 
+
+@Override
+public List<ClubJoinVO> clubMemberList(int clubNumber) {
+	return clubJoinMapper.clubMemberList(clubNumber);
+}
+
 }
 
 
