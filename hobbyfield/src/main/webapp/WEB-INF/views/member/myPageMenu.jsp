@@ -58,7 +58,7 @@
 					<a href="${pageContext.request.contextPath}/member/selectJoinClub">나의 소모임</a>
 				</div>
 				<div class="menu">
-					<a href="${pageContext.request.contextPath}/club/profileList">나의 소모임 프로필</a>
+					<a href="${pageContext.request.contextPath}/club/profileList">나의 프로필</a>
 				</div>
 				<div class="menu">
 					<a href="${pageContext.request.contextPath}/member/myitemList">나의 아이템</a>

@@ -47,6 +47,9 @@ public interface CreateclubService {
 	
 	//소모임 인원 체크
 	public int countMember(int clubNumber);
+	
+	//모임 생성시 닉네임 갯수 확인용
+	public int countClubsByProfile(String profileNickname);
 
 
 }

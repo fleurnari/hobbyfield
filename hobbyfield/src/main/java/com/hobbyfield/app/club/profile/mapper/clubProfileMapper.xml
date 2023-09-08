@@ -47,14 +47,24 @@
 	
 	<!-- 프로필 화면 : 개인정보 조회 (이미지 조회도 가능해야함)-->
 	<select id="getNomalMypage" resultType="ClubProfileVO">
-	 	SELECT  p.profile_nickname
-            , p.profile_img
-			, p.profile_img_path
-            , LISTAGG(club_name, ',') WITHIN GROUP(ORDER BY c.club_number) as club_name
-     	FROM profile p LEFT JOIN club_member m ON p.profile_nickname = m.profile_nickname
-                JOIN club c ON m.club_number = c.club_number
-     	WHERE member_email = #{memberEmail}
-        GROUP BY p.profile_nickname, p.profile_img, p.profile_img_path 
+	 	SELECT
+    p.profile_nickname,
+    p.profile_img,
+    p.profile_img_path,
+    LISTAGG(club_name, ',') WITHIN GROUP(
+    ORDER BY
+        c.club_number
+    ) AS club_name
+FROM
+    profile     p
+    LEFT OUTER JOIN club_member m ON p.profile_nickname = m.profile_nickname
+    LEFT OUTER JOIN club        c ON m.club_number = c.club_number
+WHERE
+    member_email = #{memberEmail}
+GROUP BY
+    p.profile_nickname,
+    p.profile_img,
+    p.profile_img_path
 	</select>
 	
 	<!-- 닉네임 중복체크 -->

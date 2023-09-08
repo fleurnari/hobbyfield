@@ -104,6 +104,11 @@ public class CreateclubServiceImpl implements CreateclubService {
 		return createclubMapper.countMember(clubNumber);
 	}
 
+	//모임 생성시 프로필 갯수 확인
+	@Override
+	public int countClubsByProfile(String profileNickname) {
+		 return createclubMapper.countClubNick(profileNickname);
+	}
 	
 
 	

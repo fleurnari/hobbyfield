@@ -2,6 +2,8 @@ package com.hobbyfield.app.club.web;
 
 
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,8 +88,10 @@ public class ClubController {
     @Autowired
     ClubBoardLikeService clubBoardLikeService; 
 
-
-	
+    @Autowired
+    CreateclubMapper createClubMapper;
+    
+    
     /*========= 소모임 조회관련 =========*/
     // 소모임 전체조회(메인페이지)
  	@GetMapping("/clubMain")
@@ -201,32 +205,31 @@ public class ClubController {
 
 	// 가입신청한 회원 승인
 	@PostMapping("/acceptClubMember")
-	public String acceptClubMember(@RequestParam String profileNickname, @RequestParam int clubNumber,
+	@ResponseBody
+	public Map<String, String> acceptClubMember(@RequestParam String profileNickname, @RequestParam int clubNumber,
 			RedirectAttributes redirectAttrs) {
 		ClubJoinVO joinVO = new ClubJoinVO();
 		joinVO.setProfileNickname(profileNickname);
 		joinVO.setClubNumber(clubNumber);
 		boolean result = clubJoinService.acceptMember(joinVO);
 		if (result) {
-			redirectAttrs.addFlashAttribute("message", "수락되었습니다.");
-			return "redirect:/clubManage";
+			return Collections.singletonMap("msg", "승인되었습니다.");
+
 		} else {
-			redirectAttrs.addFlashAttribute("error", "오류 발생");
-			return "redirect:/clubManage";
+			return Collections.singletonMap("msg", "오류발생.");
 		}
 	}
 
 	// 가입신청한 회원 거부
 	@PostMapping("/rejectClubMember")
-	public String rejectClubMember(@RequestParam String profileNickname, @RequestParam int clubNumber,
+	@ResponseBody
+	public Map<String, String> rejectClubMember(@RequestParam String profileNickname, @RequestParam int clubNumber,
 			RedirectAttributes redirectAttrs) {
 		boolean result = clubJoinService.rejectMember(profileNickname, clubNumber);
 		if (result) {
-			redirectAttrs.addFlashAttribute("message", "거절되었습니다.");
-			return "redirect:/clubManage";
+			return  Collections.singletonMap("msg", "거절되었습니다.");
 		} else {
-			redirectAttrs.addFlashAttribute("error", "오류 발생");
-			return "redirect:/clubManage";
+			return Collections.singletonMap("msg", "오류발생.");
 		}
 	}
 	
@@ -248,12 +251,37 @@ public class ClubController {
 
 	// 소모임 등록 처리 Process
 	@PostMapping("/clubInsert")
-	public String clubInsertProcess(CreateclubVO clubVO, HttpSession session) {
+	public String clubInsertProcess(CreateclubVO clubVO, HttpSession session, RedirectAttributes redirectAttributes) {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		clubVO.setMemberEmail(member.getMemberEmail());
 
-		createClubService.insertClubInfo(clubVO);
-		return "redirect:clubList";
+		int result = createClubService.insertClubInfo(clubVO);
+		
+	    if (result == -2) {
+	        // 클럽 생성 제한인 경우
+	        redirectAttributes.addFlashAttribute("errorMessage", "클럽을 더 이상 생성할 수 없습니다.");
+	        return "redirect:clubInsert";
+	    }
+
+	    // 클럽 생성 성공 메시지 추가
+	    redirectAttributes.addFlashAttribute("successMessage", "클럽이 성공적으로 생성되었습니다.");
+	    return "redirect:clubList";
+		
+//		createClubService.insertClubInfo(clubVO);
+//		return "redirect:clubList";
+	}
+	
+	//소모임 등록 제한
+	@GetMapping("/checkClubCount")
+	@ResponseBody
+	public Map<String, Object> checkClubCount(String profileNickname) {
+		int clubCount = createClubMapper.countClubNick(profileNickname);
+	    
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("exists", clubCount > 0);
+	    
+	    
+	    return response;
 	}
 
 	// 소모임 등록 - 하위지역 반응 처리(공통코드받아서)
@@ -308,6 +336,8 @@ public class ClubController {
 		clubJoinService.clubJoinInfo(joinVO);
 		return "redirect:clubList";
 	}
+	
+	
 
 	// 소모임 삭제?
 	

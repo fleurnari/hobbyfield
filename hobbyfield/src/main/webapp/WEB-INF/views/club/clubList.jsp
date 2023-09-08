@@ -9,6 +9,64 @@
 <meta charset="UTF-8">
 <title>소모임 조회 메인 페이지</title>
 <style>
+div, ul, li {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+a {
+	text-decoration: none;
+}
+
+.quickmenu {
+	position: fixed; /* 이 부분을 fixed로 변경했습니다. */
+	width: 150px;
+	top: 85%;
+	margin-top: -50px;
+	right: 10px;
+	background: #FFD3A5;;
+	z-index: 100; /* 다른 요소들 위에 표시되도록 z-index 설정 */
+}
+
+.quickmenu ul {
+	position: relative;
+	float: left;
+	width: 100%;
+	display: inline-block;
+	border: 1px solid #ddd;
+}
+
+.quickmenu ul li {
+	float: left;
+	width: 100%;
+	border-bottom: 1px solid #ddd;
+	text-align: center;
+	display: inline-block;
+}
+
+.quickmenu ul li a {
+	position: relative;
+	float: left;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	color: #999;
+	font-size: 9.5pt;
+}
+
+.quickmenu ul li a:hover {
+	color: #000;
+}
+
+.quickmenu ul li:last-child {
+	border-bottom: 0;
+}
+
+
 #clubContainer {
 	display: flex;
 	flex-wrap: wrap;
@@ -172,6 +230,15 @@
 						<button class="category-btn" data-type-code="${type.literal}">${type.literal}</button>
 					</li>
 				</c:forEach>
+			</ul>
+		</div>
+		
+		<!-- 퀵메뉴 -->
+		<div class="quickmenu">
+			<ul>
+				<li><a href="${pageContext.request.contextPath}/club/clubList">소모임 조회</a></li>
+				<li><a href="${pageContext.request.contextPath}/club/clubInsert">소모임 생성</a></li>
+				<li><a href="${pageContext.request.contextPath}/club/profileInsert">프로필 생성</a></li>
 			</ul>
 		</div>
 

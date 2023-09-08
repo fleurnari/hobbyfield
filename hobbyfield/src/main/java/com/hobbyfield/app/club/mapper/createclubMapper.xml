@@ -346,5 +346,12 @@
 		where club_number = #{club_number}
 	</select>
 		
+	<!-- 소모임 등록 3개 제한 -->
+	<select id="countClubNick" resultType="int">
+	SELECT COUNT(*)
+	FROM club
+	WHERE PROFILE_NICKNAME = #{profileNickname}
+	</select>	
+		
 
 </mapper>

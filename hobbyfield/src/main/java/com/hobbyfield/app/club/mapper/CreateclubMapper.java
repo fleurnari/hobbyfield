@@ -50,4 +50,8 @@ public interface CreateclubMapper {
 	
 	//가입 인원수 체크
 	public int countMember(int clubNumber);
+	
+	
+	//소모임 등록 3개 제한
+	public int countClubNick(String profileNickname);
 }
