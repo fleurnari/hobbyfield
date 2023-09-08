@@ -119,9 +119,9 @@
 				<label for="clubCommentContent">댓글 내용 : </label>
 
 				<div id="editor2"></div>
-				
+
 				<label for="clubCommentSecret">비밀 댓글 : </label>
-				 <input type="checkbox"  id="clubCommentSecret" name="clubCommentSecret">
+				 <input type="checkbox"  id="clubCommentSecret" name="clubCommentSecret" value="">
 				<button type="button" id="commentInsert">댓글 작성</button>
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#emojiModal">😊</button>
 			</form>
@@ -310,8 +310,7 @@ $(document).ready(function() {
 		var boardNumber = form.boardNumber.value;
 		var profileNickname = form.profileNickname.value;
 		var clubCommentContent =  replyEditor.getData();
-		var clubCommentSecretCheckbox = form.clubCommentSecret;
-		var commentSecret = clubCommentSecretCheckbox.checked ? "on" : "";
+		var commentSecret = clubCommentSecret.checked ? "L1" : "L2";
 		
 		var clubBoardWriter = '${board.clubBoardWriter}';
 		var writerEmail = '${board.memberEmail}';

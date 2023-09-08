@@ -21,7 +21,7 @@ body {
 }
 
 div.top {
-    width: 50%; /* 너비 설정 */
+    width: 40%; /* 너비 설정 */
     margin: 50px auto; /* 중앙 정렬 */
     background-color: #fff; /* 배경색 설정 */
     padding: 20px; /* 내부 여백 설정 */
@@ -32,11 +32,13 @@ div.top {
 label {
     font-weight: bold; /* 레이블 글씨 굵게 설정 */
     margin-bottom: 10px; /* 아래쪽 여백 설정 */
+    display: block; /* 작동오류시 먼저 찾기 */
+ 	margin-bottom: 10px;
 }
 
 /* 입력필드 스타일 */
 input[type="text"], input[type="file"], select {
-    width: 100%; /* 너비 설정 */
+    width: 50%; /* 너비 설정 */
     padding: 10px; /* 내부 여백 설정 */
     margin: 10px 0; /* 외부 여백 설정 */
     border: 1px solid #ccc; /* 테두리 설정 */
@@ -78,17 +80,15 @@ span {
     text-align: center; /* 중앙 정렬 */
     margin-top: 20px; /* 위쪽 여백 설정 */
 }
-</style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-<title>소모임 등록</title>
-<style type="text/css">
-label {
-  display: block;
-  margin-bottom: 10px;
-}
 
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script type="text/javascript" src="resources/js/common.js"></script>
+<title>소모임 등록</title>
+<style type="text/css">
+
+</style>
+
 
 
 </head>
@@ -288,9 +288,7 @@ $(document).ready(function(){
 			}
 		}
 	
-	function insertCountCheck(data){
-		
-	}
+	
 	
 	$.ajax({
         type: "POST",
@@ -299,7 +297,7 @@ $(document).ready(function(){
         success: function(count) {
             if(count >= 3) {
                 alert("소모임은 최대 3개까지만 생성할 수 있습니다.");
-                return false;
+                window.location.href = "${pageContext.request.contextPath}/club/clubList";
             } else {
                 // 모든 검사를 통과한 경우 form 제출
                 if(nickCheck && nickchCheck) {
@@ -308,6 +306,109 @@ $(document).ready(function(){
             }
         }
     });
+	
+	
+	function validateForm() {
+ let clubName = document.getElementsByName('clubName')[0];
+ let clubCategory = document.getElementsByName('clubCategory')[0];
+ let clubType = document.querySelector('input[name="clubType"]:checked');
+ let clubInfo = document.getElementsByName('clubInfo')[0];
+ let majorLocation = document.getElementsByName('majorLocation')[0];
+ let subLocation = document.getElementsByName('subLocation')[0];
+ let clubPublic = document.querySelector('input[name="clubPublic"]:checked');
+ let singupQuestion1 = document.getElementsByName('singupQuestion1')[0];
+ let singupQuestion2 = document.getElementsByName('singupQuestion2')[0];
+ let singupQuestion3 = document.getElementsByName('singupQuestion3')[0];
+
+ if (clubName.value.trim() === '') {
+     alert('모임 이름을 입력해주세요.');
+     clubName.focus();
+     return false;
+ }
+
+ if (clubCategory.value.trim() === '') {
+     alert('모임 카테고리를 선택해주세요.');
+     clubCategory.focus();
+     return false;
+ }
+
+ if (!clubType) {
+     alert('소모임 분류를 선택해주세요.');
+     return false;
+ }
+
+ if (clubInfo.value.trim() === '') {
+     alert('소모임 소개를 입력해주세요.');
+     clubInfo.focus();
+     return false;
+ }
+
+ if (majorLocation.value.trim() === '') {
+     alert('광역지역을 선택해주세요.');
+     majorLocation.focus();
+     return false;
+ }
+
+ if (subLocation.value.trim() === '') {
+     alert('지역구를 선택해주세요.');
+     subLocation.focus();
+     return false;
+ }
+
+ if (!clubPublic) {
+     alert('공개 여부를 선택해주세요.');
+     return false;
+ }
+
+ if (singupQuestion1.value.trim() === '') {
+     alert('질문1을 입력해주세요.');
+     singupQuestion1.focus();
+     return false;
+ }
+
+ if (singupQuestion2.value.trim() === '') {
+     alert('질문2를 입력해주세요.');
+     singupQuestion2.focus();
+     return false;
+ }
+
+ if (singupQuestion3.value.trim() === '') {
+     alert('질문3을 입력해주세요.');
+     singupQuestion3.focus();
+     return false;
+ }
+
+}
+	
+
+// "등록하기" 버튼 클릭 시 유효성 검사 실행
+document.querySelector(".join_button").addEventListener("click", function(e) {
+ if (!validateForm()) {
+     //e.preventDefault();
+ }
+});
+
+
+//프로필 선택시 클럽 생성 가능 여부 확인
+$("#profile").change(function() {
+ var selectedProfile = $(this).val();
+
+ $.ajax({
+     type: "GET",
+     url: "${pageContext.request.contextPath}/club/checkClubCount",
+     data: { profileNickname: selectedProfile },
+     dataType: "json",
+     success: function(response) {
+     	if (response.clubCount >= 3) { // 클럽 생성 제한을 3개로 설정
+             alert("이 프로필로는 이미 클럽이 생성되었습니다.");
+             window.location.href = "${pageContext.request.contextPath}/club/clubList"; // 클럽 리스트 페이지로 리다이렉트
+         } else {
+         	$(".join_button").prop("disabled", false); // 클럽 생성 가능한 경우, 등록 버튼 활성화
+         }
+     }
+ });
+});
+
 	
 </script>
 </html>

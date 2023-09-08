@@ -31,5 +31,8 @@ public interface FundingPostService {
 	
 	//펀딩게시글 카운트
 	public int postCount(SearchCriteria scri);
+	
+	// 카테고리별 펀딩 정렬
+	public List<FundingPostVO> selectFundingPostCate(String fndCategory);
 
 }
