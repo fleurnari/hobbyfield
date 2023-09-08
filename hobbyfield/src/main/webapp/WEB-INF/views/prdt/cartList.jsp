@@ -270,6 +270,9 @@ $(document).ready(function() {
             custom_data: JSON.stringify(orderData) // 주문 정보를 결제 요청에 추가
         };
 
+        
+        
+        //결제ID생성
         function generateUniqueMerchantUid() {
             var now = new Date();
             var year = now.getFullYear();
@@ -306,7 +309,7 @@ $(document).ready(function() {
                     success: function(result) {
                         if (result === "success") {
                             console.log("주문 정보 전송 성공");
-                            location.href = "orderList";
+                            console.log(paymentData);
                         } else {
                             console.log("주문 정보 전송 실패");
                         }
