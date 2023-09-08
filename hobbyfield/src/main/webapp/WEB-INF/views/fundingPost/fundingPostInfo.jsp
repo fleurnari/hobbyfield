@@ -640,7 +640,7 @@ function remaindTime() {
 	var fndPostNumber = form.fndPostNumber.value;
 	var memberEmail = form.memberEmail.value;
 	var fndCommentContent = form.fndCommentContent.value;
-	var fndSecret = form.fndSecret.checked ? "on" : "";
+	var fndSecret = form.fndSecret.checked ? "L1" : "L2";
 	
 	$.ajax({
 		url : '${pageContext.request.contextPath}/fundingPost/fndCommentInsert',

@@ -181,12 +181,7 @@ public class FundingPostController {
 	// 댓글 작성
 	@ResponseBody
 	@PostMapping("fndCommentInsert")
-	public int insertFndComment(FundingCommentVO fundingCommentVO, HttpServletRequest request) {
-		if (request.getParameter("fndSecret").equals("on")) {
-			fundingCommentVO.setFndSecret("L1");
-		} else {
-			fundingCommentVO.setFndSecret("L2");
-		}
+	public int insertFndComment(FundingCommentVO fundingCommentVO) {
 		
 		int result = fundingCommentService.insertComment(fundingCommentVO);
 		
@@ -204,13 +199,7 @@ public class FundingPostController {
 	// 댓글 수정 수행
 	@ResponseBody
 	@PostMapping("fndCommentUpdate")
-	public boolean updateFndComment(FundingCommentVO fundingCommentVO, HttpServletRequest request) {
-		
-		if (request.getParameter("fndSecret").equals("on")) {
-			fundingCommentVO.setFndSecret("L1");
-		} else {
-			fundingCommentVO.setFndSecret("L2");
-		}
+	public boolean updateFndComment(FundingCommentVO fundingCommentVO) {
 		
 		int result = fundingCommentService.updateComment(fundingCommentVO);
 	
