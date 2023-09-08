@@ -32,4 +32,7 @@ public interface FundingPostMapper {
 
 	//펀딩 게시글 수
 	public int getTotalCount(SearchCriteria scri);
+	
+	// 카테고리별 펀딩 정렬
+	public List<FundingPostVO> selectFundingPostCate(String fndCategory);
 }

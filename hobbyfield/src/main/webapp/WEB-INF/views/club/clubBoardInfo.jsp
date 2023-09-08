@@ -118,11 +118,8 @@
 				<label for="clubCommentContent">댓글 내용 : </label>
 
 				<div id="editor2"></div>
-				<!-- 댓글이 정상적으로 작성된다면 필요없겠지요..? -->	
-				<!-- div id="eidtor2" <textarea rows="1" cols="100" id="clubCommentContent" name="clubCommentContent"></textarea> -->
-				
 				<label for="clubCommentSecret">비밀 댓글 : </label>
-				 <input type="checkbox"  id="clubCommentSecret" name="clubCommentSecret">
+				 <input type="checkbox"  id="clubCommentSecret" name="clubCommentSecret" value="">
 				<button type="button" id="commentInsert">댓글 작성</button>
 			</form>
 		</div>
@@ -313,8 +310,7 @@ $(document).ready(function() {
 		var boardNumber = form.boardNumber.value;
 		var profileNickname = form.profileNickname.value;
 		var clubCommentContent =  replyEditor.getData();
-		var clubCommentSecretCheckbox = form.clubCommentSecret;
-		var commentSecret = clubCommentSecretCheckbox.checked ? "on" : "";
+		var commentSecret = clubCommentSecret.checked ? "L1" : "L2";
 		
 		var clubBoardWriter = '${board.clubBoardWriter}';
 		var writerEmail = '${board.memberEmail}';

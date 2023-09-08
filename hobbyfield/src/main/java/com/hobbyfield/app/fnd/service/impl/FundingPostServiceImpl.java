@@ -83,4 +83,10 @@ public class FundingPostServiceImpl implements FundingPostService {
 		return fundingPostMapper.getTotalCount(scri);
 	}
 
+	// 카테고리별 펀딩 정렬
+	@Override
+	public List<FundingPostVO> selectFundingPostCate(String fndCategory) {
+		return fundingPostMapper.selectFundingPostCate(fndCategory);
+	}
+
 }

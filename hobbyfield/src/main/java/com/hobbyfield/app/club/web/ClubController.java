@@ -566,11 +566,6 @@ public class ClubController {
 	@ResponseBody
 	@PostMapping("clubCommentInsert")
 	public int insertClubComment(ClubCommentVO clubCommentVO, HttpServletRequest request) {
-		if (request.getParameter("clubCommentSecret").equals("on")) {
-			clubCommentVO.setClubCommentSecret("L1");
-		} else {
-			clubCommentVO.setClubCommentSecret("L2");
-		}
 		
 		clubCommentVO.setClubCommentPartnumber(0);
 		clubCommentVO.setClubCommentLevel("M1");
@@ -603,13 +598,7 @@ public class ClubController {
 	// 댓글 수정 수행
 	@ResponseBody
 	@PostMapping("clubCommentUpdate")
-	public boolean updateClubComment(ClubCommentVO clubCommentVO, HttpServletRequest request) {
-		
-		if (request.getParameter("clubCommentSecret").equals("on")) {
-			clubCommentVO.setClubCommentSecret("L1");
-		} else {
-			clubCommentVO.setClubCommentSecret("L2");
-		}
+	public boolean updateClubComment(ClubCommentVO clubCommentVO) {
 		
 		int result = clubCommentService.updateComment(clubCommentVO);
 		
@@ -651,12 +640,6 @@ public class ClubController {
 	@ResponseBody
 	@PostMapping("clubRecommentInsert")
 	public int recommentInsert(ClubCommentVO clubCommentVO, HttpServletRequest request) {
-		
-		if (request.getParameter("clubCommentSecret").equals("on")) {
-			clubCommentVO.setClubCommentSecret("L1");
-		} else {
-			clubCommentVO.setClubCommentSecret("L2");
-		}
 		
 		clubCommentVO.setClubCommentPartnumber(clubCommentVO.getCommentNumber());
 		clubCommentVO.setClubCommentLevel("M2");
