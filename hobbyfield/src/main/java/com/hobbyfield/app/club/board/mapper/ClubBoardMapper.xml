@@ -7,20 +7,25 @@
 
 	<select id="getAllClubBoardList" resultType="ClubBoardVO">
 		 <![CDATA[
-		select a.* from (
-		SELECT BOARD_NUMBER,
-		CLUB_NUMBER,
-		CLUB_BOARD_WRITER,
-		CLUB_BOARD_CONTENT,
-		CLUB_BOARD_WDATE,
-		CLUB_BOARD_VIEWS,
-		CLUB_BOARD_TYPE,
-		SCHEDULE_DATE,
-		CLUB_BOARD_BLIND
-		FROM CLUB_BOARD
-		WHERE club_board_blind <> 'AH2'  
-		ORDER BY board_number desc
-		) a where rownum <=6
+		select a.* 
+		from (
+			SELECT BOARD_NUMBER,
+			b.CLUB_NUMBER,
+			b.CLUB_BOARD_WRITER,
+			b.CLUB_BOARD_CONTENT,
+			b.CLUB_BOARD_WDATE,
+			b.CLUB_BOARD_VIEWS,
+			b.CLUB_BOARD_TYPE,
+			b.SCHEDULE_DATE, 
+			b.CLUB_BOARD_BLIND,
+	        c.CLUB_NAME,
+	        p.profile_img,
+	        p.profile_img_path
+			FROM CLUB_BOARD b JOIN CLUB c ON(b.CLUB_NUMBER = c.CLUB_NUMBER)
+	        JOIN PROFILE p ON(b.CLUB_BOARD_WRITER = p.profile_nickname)
+			WHERE club_board_blind <> 'AH2'  
+			ORDER BY board_number desc) a 
+		where rownum <=6
 		]]>
 	</select>
 

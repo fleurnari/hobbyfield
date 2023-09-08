@@ -1,15 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script src="" type="text/javascript"></script>
 <head>
 <meta charset="UTF-8">
 <title>메인 페이지</title>
 <style>
+
 div, ul, li {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -72,6 +74,7 @@ a {
 	min-height: 1000px;
 }
 
+
 #clubContainer {
 	display: flex;
 	flex-wrap: wrap;
@@ -124,14 +127,125 @@ a {
 .ck-editor__editable {
 	height: 80vh;
 }
+
+#clubContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* 요소 사이의 간격을 조정합니다. */
+}
+
+.club-board {
+    width: calc(33.33% - 10px); /* 각 요소의 폭을 조정하고 여백을 고려합니다. */
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+.club-board:hover{
+	transform: translateY(-5px);
+	box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+}
+.club-info {
+    font-weight: bold;
+    font-size: 18px;
+    color: #333;
+    border-bottom: 1px; solid; color:black;   
+    background-color: gray;
+}
+
+.board-writer {
+    font-style: italic;
+    color: #666;
+}
+
+.board-content {
+    margin-top: 10px;
+}
+
+.board-write-date {
+    color: #888;
+}
+
+.writer-img {
+    max-width: 45px;
+    max-height: 45px;
+    height: auto;
+}
+.board-content img{
+	display: none;
+}
+
+
 </style>
 </head>
 <body>
 	<section>
-	<div align="center" style="margin-top: 100px;">
+		<div align="center" style="margin-top: 100px;">
+
+
+
+			<h3>club 상위 리스트</h3>
+			<div>
+				<a href="${pageContext.request.contextPath}/club/clubList">소모임
+					조회페이지</a>
+			</div>
+
+		</div>
+
+		<!-- 소모임 표시 -->
+		<div id="clubContainer">
+			<c:forEach items="${clubList}" var="club">
+
+				<div class="clubItem"
+					onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${club.clubNumber}'">
+
+					<img
+						src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}">
+					<div class="clubInfo">
+						<p>모임리더: ${club.profileNickname}</p>
+						<p>모임이름: ${club.clubName}</p>
+						<p>카테고리: ${club.clubCategory}</p>
+						<p>분류: ${club.clubType}</p>
+						<p>소개글: ${club.clubInfo}</p>
+						<p>광역시: ${club.majorLocation}</p>
+						<p>구: ${club.subLocation}</p>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
 		
+		<h3>최신 게시글</h3>
+			
+		<div>
+			<div id="clubContainer">
+				<c:forEach items="${board}" var="board">
+					<div class="club-board">
+						<div class="club-info">
+							<p>${board.clubName}</p>
+						</div>
+						<div class="board-writer">
+							<p>게시글작성자: ${board.clubBoardWriter}</p>
+							<img alt="writerImg"
+								src="${pageContext.request.contextPath}/${board.profileImgPath}${board.profileImg}"
+								class="writer-img">
+						</div>
+						<div class="board-content">${board.clubBoardContent}</div>
+						<div class="board-write-date">
+							작성일:
+							<fmt:formatDate value="${board.scheduleDate}"
+								pattern="yyyy-MM-dd" />
+						</div>
+					</div>
+				</c:forEach>
+			</div>
+		</div>
+	</section>
+
+	<script type="text/javascript">
+	$(document).ready(function(){
 		
-		
+
 		  <h3>인기 모임</h3> 
 <!-- 	          <div> -->
 <%-- 	          <a href="${pageContext.request.contextPath}/club/clubList">소모임 조회페이지</a> --%>
@@ -147,27 +261,10 @@ a {
 				<li><a href="${pageContext.request.contextPath}/club/profileInsert">프로필 생성</a></li>
 			</ul>
 		</div>
+
 		
-		 <!-- 소모임 표시 -->    
-	     <div id="clubContainer"> 
-	            <c:forEach items="${clubList}" var="club">
+	});
 
-	                <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${club.clubNumber}'">
-
-	                    <img src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}">
-	                    <div class="clubInfo">
-	                        <p>모임리더: ${club.profileNickname}</p>
-	                        <p>모임이름: ${club.clubName}</p>
-	                        <p>카테고리: ${club.clubCategory}</p>
-	                        <p>분류: ${club.clubType}</p>
-	                        <p>소개글: ${club.clubInfo}</p>
-	                        <p>광역시: ${club.majorLocation}</p>
-	                        <p>구: ${club.subLocation}</p>
-	                    </div>
-	                </div>
-	            </c:forEach>
-	        </div>	
-	
 	<h3>최신 게시글</h3>
 
 	   <div>
@@ -202,6 +299,7 @@ a {
 	</section>
     		
 <script type="text/javascript">
+
 	$('#clubLink').on("click",function(e){
 		e.stopPropagation();
 		var email = $('#checkClub').
@@ -247,10 +345,7 @@ a {
 
 
 // 	bootstrap modal ex
+  </script>
 
-	
-</script>	
-	
-	
 </body>
 </html>

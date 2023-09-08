@@ -19,4 +19,7 @@ public interface ClubJoinService {
    // 소모임 탈퇴
    public int quitClubMember(ClubJoinVO vo);
    
+   // 특정 소모임 멤버 조회
+   public List<ClubJoinVO> clubMemberList(int clubNumber);
+   
 }

@@ -30,7 +30,6 @@
 	overflow: auto;
 	background-color: rgba(0, 0, 0, 0.5);
 }
-
 .modal-content {
 	background-color: white;
 	margin: 10% auto;
@@ -48,6 +47,67 @@
 	font-weight: bold;
 	cursor: pointer;
 }
+.board-modal{
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+.board-content-modal{
+	background-color: white;
+	margin: 10% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
+	max-width: 800px;
+}
+.apply-modal{
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+.apply-content-modal{
+	background-color: white;
+	margin: 10% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
+	max-width: 800px;
+}
+.vote-modal{
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+.vote-content-modal{
+	background-color: white;
+	margin: 10% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
+	max-width: 800px;
+}
+
+
+
+
 
 #clubBoardList {
   display: flex;

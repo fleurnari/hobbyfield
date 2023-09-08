@@ -9,5 +9,5 @@ public interface ClubMemberService {
 	
 	// 내 소모임에 가입한 회원 
 	public List<ClubMemberVO> getMyClubMemberList();
-	
+
 }
