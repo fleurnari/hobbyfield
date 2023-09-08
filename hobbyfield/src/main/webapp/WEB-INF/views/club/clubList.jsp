@@ -9,6 +9,64 @@
 <meta charset="UTF-8">
 <title>소모임 조회 메인 페이지</title>
 <style>
+div, ul, li {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+a {
+	text-decoration: none;
+}
+
+.quickmenu {
+	position: fixed; /* 이 부분을 fixed로 변경했습니다. */
+	width: 150px;
+	top: 85%;
+	margin-top: -50px;
+	right: 10px;
+	background: #FFD3A5;;
+	z-index: 100; /* 다른 요소들 위에 표시되도록 z-index 설정 */
+}
+
+.quickmenu ul {
+	position: relative;
+	float: left;
+	width: 100%;
+	display: inline-block;
+	border: 1px solid #ddd;
+}
+
+.quickmenu ul li {
+	float: left;
+	width: 100%;
+	border-bottom: 1px solid #ddd;
+	text-align: center;
+	display: inline-block;
+}
+
+.quickmenu ul li a {
+	position: relative;
+	float: left;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	color: #999;
+	font-size: 9.5pt;
+}
+
+.quickmenu ul li a:hover {
+	color: #000;
+}
+
+.quickmenu ul li:last-child {
+	border-bottom: 0;
+}
+
+
 #clubContainer {
 	display: flex;
 	flex-wrap: wrap;
@@ -172,6 +230,15 @@
 						<button class="category-btn" data-type-code="${type.literal}">${type.literal}</button>
 					</li>
 				</c:forEach>
+			</ul>
+		</div>
+		
+		<!-- 퀵메뉴 -->
+		<div class="quickmenu">
+			<ul>
+				<li><a href="${pageContext.request.contextPath}/club/clubList">소모임 조회</a></li>
+				<li><a href="${pageContext.request.contextPath}/club/clubInsert">소모임 생성</a></li>
+				<li><a href="${pageContext.request.contextPath}/club/profileInsert">프로필 생성</a></li>
 			</ul>
 		</div>
 
@@ -424,163 +491,6 @@
 	    });
 	});
 	
-	
-	
-// $(document).ready(function() {
-// 	//지역종류 가로스크롤
-// 	// 요소 & 사이즈
-//     const list = document.querySelector('.region-list');
-//     const listScrollWidth = list.scrollWidth;
-//     const listClientWidth = list.clientWidth;
-
-//     // 이벤트마다 갱신될 값
-//     let startX = 0;
-//     let nowX = 0;
-//     let endX = 0;
-//     let listX = 0;
-
-//     function getClientX(e) {
-//         const isTouches = e.touches ? true : false;
-//         return isTouches ? e.touches[0].clientX : e.clientX;
-//     }
-
-//     function getTranslateX() {
-//         return parseInt(getComputedStyle(list).transform.split(/[^\-0-9]+/g)[5]);
-//     }
-
-//     function setTranslateX(x) {
-//         list.style.transform = `translateX(${x}px)`;
-//     }
-
-//     function onScrollStart(e) {
-//         startX = getClientX(e);
-//         window.addEventListener('mousemove', onScrollMove);
-//         window.addEventListener('touchmove', onScrollMove);
-//         window.addEventListener('mouseup', onScrollEnd);
-//         window.addEventListener('touchend', onScrollEnd);
-//     }
-
-//     function onScrollMove(e) {
-//         nowX = getClientX(e);
-//         setTranslateX(listX + nowX - startX);
-//     }
-
-//     function onScrollEnd(e) {
-//         endX = getClientX(e);
-//         listX = getTranslateX();
-
-//         if (listX > 0) {
-//             setTranslateX(0);
-//             list.style.transition = `all 0.3s ease`;
-//             listX = 0;
-//         } else if (listX < listClientWidth - listScrollWidth) {
-//             setTranslateX(listClientWidth - listScrollWidth);
-//             list.style.transition = `all 0.3s ease`;
-//             listX = listClientWidth - listScrollWidth;
-//         }
-
-//         window.removeEventListener('mousedown', onScrollStart);
-//         window.removeEventListener('touchstart', onScrollStart);
-//         window.removeEventListener('mousemove', onScrollMove);
-//         window.removeEventListener('touchmove', onScrollMove);
-//         window.removeEventListener('mouseup', onScrollEnd);
-//         window.removeEventListener('touchend', onScrollEnd);
-//         window.removeEventListener('click', onClick);
-
-//         setTimeout(() => {
-//             bindEvents();
-//             list.style.transition = '';
-//         }, 300);
-//     }
-
-//     function onClick(e) {
-//         if (startX - endX === 0) {
-//             const clickedX = getClientX(e);
-//             const halfWidth = listClientWidth / 2;
-
-//             if (clickedX < halfWidth) {
-//                 listX -= halfWidth;
-//             } else {
-//                 listX += halfWidth;
-//             }
-
-//             if (listX > 0) {
-//                 listX = 0;
-//             } else if (listX < listClientWidth - listScrollWidth) {
-//                 listX = listClientWidth - listScrollWidth;
-//             }
-
-//             list.style.transition = `all 0.3s ease`;
-//             setTranslateX(listX);
-
-//             setTimeout(() => {
-//                 list.style.transition = '';
-//             }, 300);
-//         } else {
-//             e.preventDefault();
-//         }
-//     }
-
-//     function bindEvents() {
-//         list.addEventListener('mousedown', onScrollStart);
-//         list.addEventListener('touchstart', onScrollStart);
-//         list.addEventListener('click', onClick);
-//     }
-
-//     bindEvents();
-// });
-
-
-// 	$('#clubLink').on("click",function(e){
-// 		.stopPropagation();
-// 		var email = $('#checkClub').
-// 		// ajax로 해당 소모임에 사용자가 가입되어있는지 확인, 
-// 		// 가입되어있을시 해당 페이지로 이동, 아닐시 가입페이지로 이동
-// 		// 
-// 		// ajax로 통해 보내야할 데이터는 Session의 member.memberEmail
-// 		$.ajax({
-// 			url : 'checkClubApply',
-// 			data : email,
-// 			type : 'POST',
-// 			success : function(result) {
-// 					console.log("ajax 호출, Session의 email : " + email);	
-// 					if(result == ture){
-// 						// 해당 소모임 메인페이지 이동 호출 
-// 					}esle{
-// 						alert("해당 소모임 가입페이지로 이동합니다.")
-// 					}
-// 				}
-			
-// 			}
-// 		})
-
-		
-// 	});
-
-// 	$('#clubContainer').on('click',function(e){
-// 		var linkta
-// 	});
-	
-// 	ClassicEditor
-//     .create( document.querySelector( '#editor' ), {
-//     	toolbar: []
-//     })
-//     .then(editor => {
-        
-
-//         editor.isReadOnly = true; // 에디터를 읽기 전용으로 설정
-//     })
-//     .catch( error => {
-//         console.error( error );
-//     });
-
-//       editor.isReadOnly = true; // 에디터를 읽기 전용으로 설정
-//    })
-//    .catch( error => {
-//       console.error( error );
-//    });
-// 	bootstrap modal ex
-
 	
 </script>
 
