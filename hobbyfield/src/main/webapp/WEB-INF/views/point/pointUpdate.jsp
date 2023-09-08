@@ -9,11 +9,12 @@
 <title>포인트 상점 수정</title>
 <style>
 body {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
 	align-items: center;
 	min-height: 100vh; 
+}
+
+.container {
+	width: 50%; 
 }
 
 h3 {

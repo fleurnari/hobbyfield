@@ -214,17 +214,17 @@
 	</script>
 	
 <script>
-    // 서버에서 세션을 통해 가져온 사용자 권한을 JavaScript 변수에 저장
-    var userPermission = "<%= session.getAttribute("memberGrd") %>";
 
-    // 배송관리 메뉴 클릭 이벤트 처리
-    var adminOrderListMenu = document.getElementById("deliveryMenu");
-    adminOrderListMenu.addEventListener("click", function () {
-        if ((userPermission !== "A2" && userPermission !== "A3") {
-            alert("판매자만 접근이 가능합니다.");
-            event.preventDefault(); // 링크 클릭 이벤트를 취소하여 페이지 이동을 막습니다.
-        }
-    });
+// 모델에 추가한 memberGrd 값을 가져와서 JavaScript 변수에 저장
+var userPermission = "${memberGrd}";
+console.log(userPermission);
+var adminOrderListMenu = document.getElementById("deliveryMenu");
+adminOrderListMenu.addEventListener("click", function () {
+    if (userPermission !== "A2" && userPermission !== "A3") {
+        alert("판매자만 접근이 가능합니다.");
+        event.preventDefault(); 
+    }
+});
 </script>
 </body>
 </html>

@@ -11,6 +11,70 @@
 <meta charset="UTF-8">
 <title>메인 페이지</title>
 <style>
+
+div, ul, li {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+a {
+	text-decoration: none;
+}
+
+.quickmenu {
+	position: fixed; /* 이 부분을 fixed로 변경했습니다. */
+	width: 150px;
+	top: 85%;
+	margin-top: -50px;
+	right: 10px;
+	background: #FFD3A5;;
+	z-index: 100; /* 다른 요소들 위에 표시되도록 z-index 설정 */
+}
+
+.quickmenu ul {
+	position: relative;
+	float: left;
+	width: 100%;
+	display: inline-block;
+	border: 1px solid #ddd;
+}
+
+.quickmenu ul li {
+	float: left;
+	width: 100%;
+	border-bottom: 1px solid #ddd;
+	text-align: center;
+	display: inline-block;
+}
+
+.quickmenu ul li a {
+	position: relative;
+	float: left;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	color: #999;
+	font-size: 9.5pt;
+}
+
+.quickmenu ul li a:hover {
+	color: #000;
+}
+
+.quickmenu ul li:last-child {
+	border-bottom: 0;
+}
+
+.content {
+	position: relative;
+	min-height: 1000px;
+}
+
+
 #clubContainer {
 	display: flex;
 	flex-wrap: wrap;
@@ -63,6 +127,7 @@
 .ck-editor__editable {
 	height: 80vh;
 }
+
 #clubContainer {
     display: flex;
     flex-wrap: wrap;
@@ -110,6 +175,7 @@
 .board-content img{
 	display: none;
 }
+
 
 </style>
 </head>
@@ -179,10 +245,61 @@
 	<script type="text/javascript">
 	$(document).ready(function(){
 		
-		$('.board-content img').remove();
+
+		  <h3>인기 모임</h3> 
+<!-- 	          <div> -->
+<%-- 	          <a href="${pageContext.request.contextPath}/club/clubList">소모임 조회페이지</a> --%>
+<!-- 	          </div> -->
+	          
+    </div>
+    
+    		<!-- 퀵메뉴 -->
+		<div class="quickmenu">
+			<ul>
+				<li><a href="${pageContext.request.contextPath}/club/clubList">소모임 조회</a></li>
+				<li><a href="${pageContext.request.contextPath}/club/clubInsert">소모임 생성</a></li>
+				<li><a href="${pageContext.request.contextPath}/club/profileInsert">프로필 생성</a></li>
+			</ul>
+		</div>
+
 		
 	});
-	
+
+	<h3>최신 게시글</h3>
+
+	   <div>
+			<div id="clubContainer">
+				<c:forEach items="${board}" var="board">
+					<div id="clubBoard">
+						<p>
+							<strong>게시글번호:</strong> ${board.boardNumber}
+						</p>
+						<p>
+							<strong>소모임번호:</strong> ${board.clubNumber}
+						</p>
+						<p>
+							<strong>게시글작성자:</strong> ${board.clubBoardWriter}
+						</p>
+						<p>
+							<strong>게시글내용:</strong>
+						</p>
+						<div id="editor">${board.clubBoardContent}</div>
+						<p>
+							<strong>작성일:</strong> ${board.clubBoardWdate}
+						</p>
+						<p>
+							<strong>일정날짜:</strong>
+							<fmt:formatDate value="${board.scheduleDate}"
+								pattern="yyyy-MM-dd" />
+						</p>
+					</div>
+				</c:forEach>
+			</div>
+		</div>
+	</section>
+    		
+<script type="text/javascript">
+
 	$('#clubLink').on("click",function(e){
 		e.stopPropagation();
 		var email = $('#checkClub').
@@ -205,30 +322,30 @@
 			
 			})
 		});
-	
-	
-	$('#clubContainer').on('click',function(e){
-		var linkta
-	});
-	
-	 ClassicEditor
-	   .create( document.querySelector( '#editor' ), {
-	       toolbar: []
-	       readOnly : true;
-	   } )
-	   .then( editor => {
-	       const toolbarElement = editor.ui.view.toolbar.element;
-	       editor.on( 'change:isReadOnly', ( evt, propertyName, isReadOnly ) => {
-	           if ( isReadOnly ) {
-	               toolbarElement.style.display = 'none';
-	           } else {
-	               toolbarElement.style.display = 'flex';
-	           }
-	       });
-	   })
-	
-</script>
 
+
+// 	$('#clubContainer').on('click',function(e){
+// 		var linkta
+// 	});
+	
+// 	ClassicEditor
+//     .create( document.querySelector( '#editor' ), {
+//     	toolbar: []
+//     })
+//     .then(editor => {
+        
+
+//         editor.isReadOnly = true; // 에디터를 읽기 전용으로 설정
+//     })
+//     .catch( error => {
+//         console.error( error );
+//     });
+
+//       editor.isReadOnly = true; // 에디터를 읽기 전용으로 설정
+
+
+// 	bootstrap modal ex
+  </script>
 
 </body>
 </html>

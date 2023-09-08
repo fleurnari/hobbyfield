@@ -39,7 +39,7 @@
 				var commentNumber = form.fndCommentNumber.value;
 				var fndCommentContent = form.fndCommentContent.value;
 				var fndCommentSecretCheckbox = form.fndSecret;
-				var commentSecret = fndCommentSecretCheckbox.checked ? "on" : "";
+				var commentSecret = fndCommentSecretCheckbox.checked ? "L1" : "L2";
 				
 				$.ajax({
 					url : 'fndCommentUpdate',

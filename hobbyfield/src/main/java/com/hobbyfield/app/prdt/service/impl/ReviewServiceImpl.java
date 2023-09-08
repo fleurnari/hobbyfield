@@ -50,10 +50,6 @@ public class ReviewServiceImpl implements ReviewService {
 		return reviewMapper.readComment(reviewId);
 	}
 
-	@Override
-	public CommentVO getComment(int reviewId) {
-		return reviewMapper.getComment(reviewId);
-	}
 
 	@Override
 	public void deleteComment(int commentId) {
@@ -69,6 +65,17 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public int reviewCount(SearchCriteria scri) {
 		return reviewMapper.reviewCount(scri);
+	}
+
+	@Override
+	public CommentVO getCommentById(int commentId) {
+		
+		return reviewMapper.getCommentById(commentId);
+	}
+
+	@Override
+	public ReviewVO getReviewById(int reviewId) {
+		return reviewMapper.getReviewById(reviewId);
 	}
 
 

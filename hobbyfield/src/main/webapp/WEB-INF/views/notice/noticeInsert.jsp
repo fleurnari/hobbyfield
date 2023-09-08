@@ -106,8 +106,8 @@ h3{
 
 			</div>
 			<div class="submit-buttons">
-				<button class="submit" type="submit" onclick="location.href='InsertNotice'">등록</button>
-				<button class="submit" type="button" onclick="location.href='noticeList'">초기화</button>
+				<button class="submit" type="submit" >등록</button>
+				<button class="submit" type="reset">초기화</button>
 				<button type="button" onclick="location.href='noticeList'">목록</button>
 			</div>
 		</div>

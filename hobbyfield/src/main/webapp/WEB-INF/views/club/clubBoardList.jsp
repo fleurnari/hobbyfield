@@ -404,6 +404,7 @@ body {
 					</div>
 
 
+
 					<div class="profileSection">
 						<label>첨부이미지</label>
 						<div id="preview"></div>
@@ -415,6 +416,7 @@ body {
 					<div class="join_button_wrap">
 						<button type="submit" class="join_button">등록하기</button>
 					</div>
+
 
 				</form>
 			</div>

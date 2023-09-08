@@ -33,6 +33,7 @@ li {
 
 </head>
 <body>
+	<jsp:useBean id="now" class="java.util.Date" />
 	<Section>
 	<br><br><br><br>
 	<div class="container">
@@ -51,13 +52,20 @@ li {
             </h4>
             </div>
         </div>
+        <div>
+        	<ul>
+        		<c:forEach items="${category}" var="type">
+        			<li>
+        				<button class="category-btn" data-type-code="${type.literal}">${type.literal}</button>
+        			</li>
+        		</c:forEach>
+        	</ul>
+        </div>
 	</Section>
 	<Section>
 	<div class="container">
 		<div class="container2">
-		<table>
-							<tbody>
-			<c:forEach items="${fundingPostList }" var="fundingPost">
+			<c:forEach items="${fundingPostList}" var="fundingPost">
 			<div onclick="location.href='fundingPostInfo?fndPostNumber=${fundingPost.fndPostNumber }'">
 					<figure>
 						<img id="img" src="${fundingPost.fndMainImgPath}${fundingPost.fndMainImg }" alt="">
@@ -83,8 +91,6 @@ li {
 				<p>
 					<span>펀딩 마감까지 남은 시간</span>
 					<span class="time">
-						<jsp:useBean id="now" class="java.util.Date" />
-					
 						<fmt:parseNumber value="${now.time / (1000*60*60*24)}" integerOnly="true" var="nowfmtTime" scope="request"/>
 					
     					<fmt:parseDate value="${today}"  pattern="yyyy-MM-dd" var="strPlanDate" />
@@ -107,10 +113,9 @@ li {
     					</c:choose>
 					</span>
 				</p>
-			</div>
-					</tbody>
-						</table>
 			</c:forEach>
+		</div>
+	</div>
 			<div class="container">
 				<div class="search">
 							<select name="searchType">
@@ -160,6 +165,90 @@ li {
 												.val());
 							});
 		});
+		
+		
+		
+		// 카테고리별 정렬
+		$(document).on('click', '.category-btn', function(e) {
+			
+			const fndCategory = $(this).data('type-code');
+			
+			$.ajax({
+				url : "${pageContext.request.contextPath}/fundingPost/selectFundingPostCate",
+				type : 'GET',
+				data : { "fndCategory" : fndCategory},
+				dataType : 'json',
+				success : function(cate){
+					
+					// 펀딩 전체 조회 내용 삭제
+					$(".container2").empty();
+			
+					$.each(cate, function(index, fundingPost) {
+						
+						$(".container2").append(`
+								<div onclick="location.href='fundingPostInfo?fndPostNumber=\${fundingPost.fndPostNumber}'">
+								<figure>
+									<img id="img" src="${fundingPost.fndMainImgPath}${fundingPost.fndMainImg }" alt="">
+								</figure>
+							<p>
+								<span>${fundingPost.fndCategory }</span>
+							</p>
+							<p>
+								<span><h3>프로젝트 이름</h3></span>
+								<span>${fundingPost.fndTitle }</span>
+							</p>
+							<br />
+							<p>
+								<span>${fundingPost.fndStatus}</span>
+							</p>
+							<p>
+								<span><fmt:formatNumber value="${(fundingPost.fndCurrentAmount / fundingPost.fndTargetAmount) * 100 }" pattern="#.##" />
+			        %</span><span>        조회수: ${fundingPost.fndViews }</span>
+							</p>
+							<p>
+								<span>${fundingPost.fndCurrentAmount }</span>
+							</p>
+							<p>
+								<span>펀딩 마감까지 남은 시간</span>
+								<span class="time">
+									<fmt:parseNumber value="${now.time / (1000*60*60*24)}" integerOnly="true" var="nowfmtTime" scope="request"/>
+								
+			    					<fmt:parseDate value="${today}"  pattern="yyyy-MM-dd" var="strPlanDate" />
+			    					<fmt:parseNumber value="${strPlanDate.time / (1000*60*60*24)}" integerOnly="true" var="strDate"/>
+			    				
+			    					<fmt:parseDate value="${fundingPost.fndEndDate}"  pattern="yyyy-MM-dd" var="endPlanDate"/>
+			    					<fmt:parseNumber value="${endPlanDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate"/>
+
+			    					<c:choose>
+			        					<c:when test="${endDate - nowfmtTime >= 1}">
+			            					${endDate - nowfmtTime + 1}
+			           						<span>일 남음</span>
+			        					</c:when>
+			        					<c:when test="${endDate - nowfmtTime == 0}">
+			                         		<span>오늘 마감</span>
+			        					</c:when>
+			        					<c:otherwise>
+			            					<span>마감</span>
+			        					</c:otherwise>
+			    					</c:choose>
+								</span>
+							</p>
+						`);
+					});
+				},
+				error : function(error) {
+					console.log(error);
+					alert("데이터 로딩 중 오류가 발생 했습니다. 다시 시도해 주세요.");
+				}
+			});
+		});
+		
+		
+		
+		
+		
+		
+		
 	</script>
 </body>
 </html>

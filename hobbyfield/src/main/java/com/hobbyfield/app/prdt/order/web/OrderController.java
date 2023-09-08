@@ -19,12 +19,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 import com.hobbyfield.app.member.service.MemberService;
 import com.hobbyfield.app.member.service.MemberVO;
 import com.hobbyfield.app.prdt.order.mapper.OrderMapper;
 import com.hobbyfield.app.prdt.order.service.OrderService;
 import com.hobbyfield.app.prdt.order.service.OrderVO;
+import com.hobbyfield.app.prdt.order.service.Payment;
 import com.siot.IamportRestClient.IamportClient;
 
 @RequestMapping("prdt/")
@@ -65,6 +67,8 @@ public class OrderController {
 	    orderService.insertOrderInfo(orderVO);
 
 	    return "success";
+	    
+	    
 	}
 		
 	  //주문목록(사용자)
@@ -142,4 +146,24 @@ public class OrderController {
 	      }
 	      return response;
 	  }
+	  
+	  //아임포트 결제취소
+	  @PostMapping("/cancel")
+	    public ResponseEntity<?> cancelPayment(@RequestBody Payment payment) {
+	        // 결제 취소 요청을 외부 API로 전송
+	        String apiUrl = "https://api.iamport.kr/payments/cancel?_token=7cfcf250b229b9de0775cd27931a5c68cf05f4d7";
+	        ResponseEntity<String> response = sendCancelRequest(apiUrl, payment);
+
+	        return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
+	    }
+
+	    private ResponseEntity<String> sendCancelRequest(String apiUrl, Payment payment) {
+	        RestTemplate restTemplate = new RestTemplate();
+	        ResponseEntity<String> response = restTemplate.postForEntity(apiUrl, payment, String.class);
+
+	        return response;
+	    }
+	  
+	 
+	  
 }
