@@ -4,24 +4,6 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hobbyfield.app.notice.mapper.NoticeMapper">
 
-	<!-- 공지사항 개수 --> 
-<!-- 	<select id ="getNoticeCount" resultType="int"> -->
-<!-- 		SELECT COUNT(cs_number) -->
-<!-- 		  FROM notice -->
-<!-- 		 WHERE 1=1 -->
-<!-- 		 <include refid="search"></include> -->
-<!-- 		 AND notice_id > 0 -->
-<!-- 	</select> -->
-	
-<!-- 	<sql id="search"> -->
-<!-- 		<if test="searchType != null"> -->
-<!-- 			<if test="searchType == 't'.toString()">AND notice_title LIKE '%' || #{keyword} || '%'</if> -->
-<!-- 			<if test="searchType == 's'.toString()">AND notice_subject LIKE '%' || #{keyword} || '%'</if> -->
-<!-- 			<if test="searchType == 'c'.toString()">AND notice_cate LIKE '%' || #{keyword} || '%'</if> -->
-<!-- 			<if test="searchType == 'tc'.toString()">AND( (notice_title LIKE '%' || #{keyword} || '%') or (notice_subject LIKE '%' || #{keyword} || '%') )</if> -->
-<!-- 		</if> -->
-<!-- 	</sql> -->
-
 	<!-- 공지사항 전체조회 -->
 	<select id="selectNoticeAllList"
 		resultType="NoticeVO">
