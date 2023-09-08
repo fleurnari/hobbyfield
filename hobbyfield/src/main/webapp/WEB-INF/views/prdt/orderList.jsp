@@ -64,13 +64,12 @@ IMP.init("imp10078031");
 // 결제 취소 함수
 function cancelPayment() {
   $.ajax({
-    url: "https://kapi.kakao.com/v1/payment/cancel",
+    url: "https://api.iamport.kr/payments/cancel?_token=7cfcf250b229b9de0775cd27931a5c68cf05f4d7",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify({
-      merchant_uid: "20230904174131865",
-      reason: "사용자 요청", // 사유
-      refund_holder: "예금주"
+      imp_uid: "imp_100895842761",
+      merchant_uid: "20230908135455651"
     }),
     dataType: "json",
     success: function(response) {
@@ -97,7 +96,7 @@ $(document).ready(function() {
     // 주문 취소 버튼 클릭 이벤트 처리
     $(".cancelBtn").click(function() {
         var orderId = $(this).attr("data-orderId");  // 주문 번호 가져오기
-        var $row = $(this).closest("tr"); // 현재 행 (tr) 찾기
+        var $row = $(this).closest("tr"); 
         
         $.ajax({
             url: "getDelivery", 
@@ -105,7 +104,7 @@ $(document).ready(function() {
             dataType: "json", 
             data: { orderId: orderId },
             success: function(data) {
-                var deliveryStatus = data.delivery; // JSON 데이터의 'delivery' 속성 값을 가져옴
+                var deliveryStatus = data.delivery; 
             
                 if (deliveryStatus === "배송준비중") {
                     
@@ -116,7 +115,6 @@ $(document).ready(function() {
                         success: function(result) {
                             if (result === "success") {
                                 $row.remove();
-                                // 성공 알림 메시지 띄우기
                                 alert("주문이 취소되었습니다.");
                                 console.log("주문 취소 성공");
                             } else {
@@ -128,7 +126,6 @@ $(document).ready(function() {
                         }
                     });
                 } else {
-                    // 주문 상태가 배송 준비 중이 아닌 경우 알림 메시지 표시
                     alert("주문 상태가 배송 준비 중이 아닙니다.");
                     console.log(deliveryStatus);
                 }

@@ -21,6 +21,14 @@
         DELETE FROM review
         WHERE review_id = #{reviewId}
     </delete>
+    
+     <!--댓글조회  -->
+     <select id="getReviewById" resultType="ReviewVO">
+        SELECT * FROM review
+        WHERE review_id = #{reviewId}
+    </select>
+    
+    
     <!--후기(문의) 수정  -->
     <update id="updateReview" parameterType="ReviewVO">
     UPDATE review
@@ -34,9 +42,17 @@
 	
 	<!--댓글 작성  -->
     <insert id="wrtieComment" parameterType="CommentVO">
-      INSERT INTO review_comment (comment_id, review_id, member_email, comment_content)
-      VALUES (comment_seq.nextval, #{reviewId}, #{memberEmail}, #{commentContent})
+      INSERT INTO review_comment (comment_id, review_id, member_email, comment_content, member_grd)
+      VALUES (comment_seq.nextval, #{reviewId}, #{memberEmail}, #{commentContent}, #{memberGrd})
     </insert>
+    
+    
+    <!--댓글조회  -->
+     <select id="getCommentById" resultType="CommentVO">
+        SELECT * FROM review_comment
+        WHERE COMMENT_ID = #{commentId}
+    </select>
+    
     
     <!--댓글 목록조회  -->
      <select id="readComment" resultType="CommentVO">
