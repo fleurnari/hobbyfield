@@ -26,6 +26,12 @@ h5{
 
 }
 
+label {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
 .pointItemType {
 	width: 300px;
 }
@@ -113,11 +119,11 @@ h5{
 			</div>
 		</div>
 
-		<div class="mb-2">
+		<div>
 			<input type="file" name="uploadFile" multiple="multiple">
 			<button type="button" id="uploadBtn">upload</button>
 		</div>
-		
+		<div id="preview"></div>
 		<div class="buttonGroup">
 			<button type="submit">등록</button>
 			<button type="button" onclick="location.href='pointList'">목록</button>
@@ -125,7 +131,6 @@ h5{
 		</div>
 		<div id="emojiFile"></div>
 	</form>
-	<div id="preview"></div>
 
 
 	<script>

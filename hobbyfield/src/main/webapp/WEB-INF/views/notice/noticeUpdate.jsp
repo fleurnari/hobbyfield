@@ -13,7 +13,7 @@ body {
 }
 
 .container {
-	width: 80%;
+	width: 50%;
 	margin: 0 auto;
 }
 
@@ -23,6 +23,16 @@ h3 {
 	border-top: 1px solid #ccc;
 	display: flex;
 	align-items: center; 
+}
+
+button {
+	background-color: #007bff;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	font-size: 16px;
+	cursor: pointer;
 }
 
 form {
@@ -57,16 +67,8 @@ select {
 	font-size: 16px;
 }
 
-button {
-	background-color: #007bff;
-	color: white;
-	border: none;
-	padding: 10px 20px;
-	border-radius: 5px;
-	font-size: 16px;
-	cursor: pointer;
-	margin-right: 10px;
-}
+
+
 </style>
 </head>
 <body>
@@ -74,8 +76,7 @@ button {
 		<h3>공지사항 수정</h3>
 		<form method="post">
 			<div class="form-input">
-				<label for="noticeCate">카테고리</label> <select id="noticeCate"
-					name="noticeCate" required>
+				<label for="noticeCate">카테고리</label> <select id="noticeCate" name="noticeCate" required>
 					<option value="" disabled selected>카테고리 선택</option>
 					<option value="" disabled selected>카테고리</option>
 					<option value="AA1">전체공지</option>
@@ -102,8 +103,7 @@ button {
 
 			<button type="submit">수정완료</button>
 			<button type="button" onclick="location.href='noticeList'">취소</button>
-			<button type="reset">초기화</button>
-
+			<button type="reset">초기화</button> 
 		</form>
 	</div>
 
@@ -115,11 +115,11 @@ button {
                 method : 'post',
                 data : objData
             })
-            .done(data => {
+            .done(data => { 
                 if(data.result){
-                   arlert("공지사항이 수정되었습니다.");
+                   alert("공지사항이 수정되었습니다.");
                 } else {
-                	arlert("공지사항이 수정되지 않았습니다.");
+                	alert("공지사항이 수정되지 않았습니다.");
                 }
             })
             .fail(reject => console.log(reject));

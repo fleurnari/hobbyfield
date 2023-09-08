@@ -33,7 +33,7 @@ button {
 	padding: 5px 15px;
 	border-radius: 5px;
 	cursor: pointer;
-	margin-top: 30px;
+	margin-top: 50px;
 }
 
 .jb-division-line {
@@ -238,7 +238,7 @@ button {
 		<!-- 버튼 -->
 		<c:if test="${member.memberGrd eq 'A3'}">
 			<button type="submit" onclick="location.href='pointUpdate?pointId=${point.pointId}'">수정</button>
-			<button type="submit" onclick="location.href='pointDelete?pointId=${point.pointId}'">삭제</button>
+			<button type="button" onclick="location.href='pointDelete?pointId=${point.pointId}'">삭제</button>
 		</c:if>
 		<button type="button" onclick="location.href='pointList'">목록</button> 
 	</div>
@@ -252,16 +252,10 @@ button {
 	       toolbar: [],
 	       readOnly : true
 	   } )
-	   .then( editor => {
-	       const toolbarElement = editor.ui.view.toolbar.element;
-	       editor.on( 'change:isReadOnly', ( evt, propertyName, isReadOnly ) => {
-	           if ( isReadOnly ) {
-	               toolbarElement.style.display = 'none';
-	           } else {
-	               toolbarElement.style.display = 'flex';
-	           }
-	       });
-	   })
+	   .then(editor => {
+        const toolbarElement = editor.ui.view.toolbar.element;
+        toolbarElement.style.display = 'none'; 
+    	});
 	
 	 //줄바꿈
 	function replaceBrTag(str) 
@@ -280,7 +274,7 @@ button {
 	$('.pointContent').html( replaceBrTag($('.pointContent').text()) )
 	
 $('[name="pointOptId"]').click(function(e){
-	$('[name="myitemUseterm"]').val(  $(e.target).data('period')  )
+	$('[name="myitemUseterm"]').val(  $(e.target).data('period'))
 	$('[name="pointPrice"]').val( $(e.target).data('price'))
 })
 
@@ -288,11 +282,11 @@ $('[name="pointOptId"]').click(function(e){
 window.onload = function () {
     var currentDate = new Date();
     if("${point.pointItemType}" == "W1"){
-	    var pointEndterm = new Date("${point.pointEndterm}"); 
+	    var pointEndterm = new Date("${point.pointEndterm}");
 	    if (pointEndterm < currentDate) {
 	        alert("판매완료된 아이템입니다.");
 	        window.location.href = "pointList";
-	    } 
+	    }
 	    setInterval(remaindTime,1000); 
     }
 };

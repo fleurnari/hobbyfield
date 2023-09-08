@@ -30,7 +30,7 @@ font-weight: bold;
 }
 
 .notice-link {
-	margin-left: 10%;
+	margin-left: 12%;
 	font-weight: bold;
 	text-decoration: underline 2px;
 }
@@ -41,12 +41,18 @@ font-weight: bold;
 	text-decoration: underline 2px;
 }
 
-.btn-group {
-	margin-bottom: 20px;
-	margin-left: 92%;
+.write-button {
+	background-color: #007bff;
+	color: white;
+	border: none;
+	padding: 5px 15px;
+	border-radius: 5px;
+	cursor: pointer;
+	float: left;
+	margin-left: 1%;
 }
 
-.sort-right {
+.sort-right { /*자스 넣고 버튼 스타일 줘*/
 	width: 200px;
 	text-align: right;
 	margin-left: auto;
@@ -127,49 +133,41 @@ th {
 			class="notice-link">공지사항</a>
 	</div>
 	<div class="container">
-		<div class="btn-group">
-			<button type="button" onclick="location.href='pointInsert'">상품등록</button>
+		<div >
+			<c:if test="${member.memberGrd eq 'A3'}">
+				<button type="button" class="write-button" onclick="location.href='pointInsert'">상품등록</button>
+			</c:if>
 		</div>
-		<form class="sort-right">
-			<select class="form-control" id="sortOption" name="sortOption"
-				onchange="changeOptionSelect()">
-				<option disabled selected>▼조회순</option>
-				<option value="latest">최신순</option>
-				<option value="latest">조회많은순</option>
-				<option value="low">낮은가격순</option>
-				<option value="high">높은가격순</option>
-			</select>
-		</form>
+<!-- 		<form class="sort-right"> -->
+<!-- 			<select class="form-control" id="sortOption" name="sortOption" onchange="changeOptionSelect()"> -->
+<!-- 				<option disabled selected>▼조회순</option> -->
+<!-- 				<option value="latest">최신순</option> -->
+<!-- 				<option value="oldest">오래된순</option> -->
+<!-- 			</select> -->
+<!-- 		</form> -->
 
 		<!-- 수정해야함 -->
 		<div class="state-buttons" role="group">
-			<button class="state-button" type="button" name="state1" value="V1"
-				onclick="changestate('V1')">판매중</button>
-			<button class="state-button" type="button" name="state2" value="V2"
-				onclick="changestate('V2')">판매종료</button>
+			<button class="state-button" type="button" name="state1" value="V1" onclick="changestate('V1')">판매중</button>
+			<button class="state-button" type="button" name="state2" value="V2" onclick="changestate('V2')">판매종료</button>
 		</div>
 		<div class="point-list">
 			<c:forEach items="${pointList}" var="point"> 
 				<div class="point-item" onclick="location.href='pointInfo?pointId=${point.pointId}'"
-					data-state="${point.pointState}">
+					data-state="${point.pointState}" data-sort="${point.pointItemType }">
 					<img src="${pageContext.request.contextPath}${point.pointImgPath}${point.pointImgName}"  alt="상품 이미지"><br>
 					<div class="point-details">
 						<p>${point.pointId}</p><span><p>${point.pointName}</p></span>
 						<c:if test="${point.pointItemType eq 'W1' }">
 						<p class="time">
 							<jsp:useBean id="now" class="java.util.Date" />
-							<fmt:parseNumber value="${now.time / (1000*60*60*24)}"
-								integerOnly="true" var="nowfmtTime" scope="request" />
-							<fmt:parseDate value="${today}" pattern="yyyy-MM-dd"
-								var="strPlanDate" />
-							<fmt:parseNumber value="${strPlanDate.time / (1000*60*60*24)}"
-								integerOnly="true" var="strDate" />
-							<fmt:parseDate value="${point.pointEndterm}" pattern="yyyy-MM-dd"
-								var="endPlanDate" />
-							<fmt:parseNumber value="${endPlanDate.time / (1000*60*60*24)}"
-								integerOnly="true" var="endDate" />
+								<fmt:parseNumber value="${now.time / (1000*60*60*24)}" integerOnly="true" var="nowfmtTime" scope="request" />
+								<fmt:parseDate value="${today}" pattern="yyyy-MM-dd" var="strPlanDate" />
+								<fmt:parseNumber value="${strPlanDate.time / (1000*60*60*24)}" integerOnly="true" var="strDate" />
+								<fmt:parseDate value="${point.pointEndterm}" pattern="yyyy-MM-dd" var="endPlanDate" />
+								<fmt:parseNumber value="${endPlanDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate" />
 							<c:choose>
-								<c:when test="${endDate - nowfmtTime >= 1}">
+								<c:when test="${endDate - nowfmtTime > 0}">
                                     ${endDate - nowfmtTime + 1}
                                     <span>일 남음</span>
 								</c:when>
@@ -204,6 +202,9 @@ th {
                 item.style.display = 'flex';
             });
         }
+        
+        changestate('V1');	
+        
     </script>
 </body>
 </html>

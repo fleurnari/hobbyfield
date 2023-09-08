@@ -37,8 +37,9 @@
 
 /* 이모티콘 모달 */
 .emojiModal {
-	width: 100px;
+	width: 100px; 
 }
+ 
  
 </style>
 
@@ -118,12 +119,11 @@
 				<label for="clubCommentContent">댓글 내용 : </label>
 
 				<div id="editor2"></div>
-				<!-- 댓글이 정상적으로 작성된다면 필요없겠지요..? -->	
-				<!-- div id="eidtor2" <textarea rows="1" cols="100" id="clubCommentContent" name="clubCommentContent"></textarea> -->
 				
 				<label for="clubCommentSecret">비밀 댓글 : </label>
 				 <input type="checkbox"  id="clubCommentSecret" name="clubCommentSecret">
 				<button type="button" id="commentInsert">댓글 작성</button>
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#emojiModal">😊</button>
 			</form>
 		</div>
 	</div>
@@ -140,9 +140,6 @@
 	
 
 	<!-- 이모티콘 모달 -->
-	<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-		data-bs-target="#emojiModal">😊</button>
-
 	<div class="modal fade" id="emojiModal" tabindex="-1"
 		aria-labelledby="emojiModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-scrollable modal-lg">
