@@ -37,8 +37,7 @@
 				
 				var commentNumber = form.commentNumber.value;
 				var clubCommentContent = form.clubCommentContent.value;
-				var clubCommentSecretCheckbox = form.clubCommentSecret;
-				var commentSecret = clubCommentSecretCheckbox.checked ? "on" : "";
+				var commentSecret = clubCommentSecret.checked ? "L1" : "L2";
 				
 				$.ajax({
 					url : 'clubCommentUpdate',

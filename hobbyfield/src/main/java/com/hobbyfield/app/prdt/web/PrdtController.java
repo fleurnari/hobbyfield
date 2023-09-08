@@ -48,6 +48,16 @@ public class PrdtController {
 	@Autowired
 	LikeService likeService;
 	
+	
+	@GetMapping("/getEmail")
+	@ResponseBody
+	public String getCurrentUserEmail(HttpSession session) {
+	    String memberEmail = (String) session.getAttribute("memberEmail");
+	    return memberEmail;
+	}
+	
+	
+	
 	//상품목록조회
 	@GetMapping("prdtList")
 	public String prdtList(Model model, @ModelAttribute("scri") SearchCriteria scri, HttpSession session) {
@@ -66,8 +76,13 @@ public class PrdtController {
 	
 	//상품상세보기
 	@GetMapping("prdtInfo")
-	public String prdtInfo(PrdtVO prdtVO, Model model) {
+	public String prdtInfo(PrdtVO prdtVO, Model model, HttpSession session ) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+	    String memberGrd = member.getMemberGrd();
+	    model.addAttribute("memberGrd", memberGrd);
 		model.addAttribute("prdtInfo", prdtService.selectPrdt(prdtVO.getPrdtId()));
+		
+		
 		return "prdt/prdtInfo";
 	}
 	
@@ -129,39 +144,77 @@ public class PrdtController {
 		
 	//상품후기(문의) 삭제
 	@PostMapping("/deleteReview")
-    @ResponseBody
-    public String deleteReview(@RequestParam("reviewId") int reviewId) {
-        try {
-            reviewService.deleteReview(reviewId);
-            return "success";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "error";
-        }
-    }
+	@ResponseBody
+	public ResponseEntity<String> deleteReview(@RequestParam("reviewId") int reviewId, HttpSession session) {
+	    MemberVO member = (MemberVO) session.getAttribute("member");
+
+
+	    String memberEmail = member.getMemberEmail();
+	    ReviewVO existingReview = reviewService.getReviewById(reviewId);
+
+	    if (existingReview == null) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("리뷰를 찾을 수 없습니다.");
+	    }
+
+	    // 리뷰 작성자와 현재 사용자 비교
+	    if (!memberEmail.equals(existingReview.getMemberEmail())) {
+	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("리뷰 작성자만 삭제할 수 있습니다.");
+	    }
+
+	    try {
+	        reviewService.deleteReview(reviewId);
+	        return ResponseEntity.ok("success");
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("리뷰 삭제에 실패했습니다.");
+	    }
+	}
 	
 	//상품후기(문의) 수정 
-    @PostMapping("/updateReview")
-    @ResponseBody
-    public String updateReview(@RequestBody ReviewVO reviewVO) {
-        reviewService.updateReview(reviewVO);
-        return "success";
-    }
+	@PostMapping("/updateReview")
+	@ResponseBody
+	public ResponseEntity<String> updateReview(@RequestBody ReviewVO reviewVO, HttpSession session) {
+	    MemberVO member = (MemberVO) session.getAttribute("member");
+
+
+	    String memberEmail = member.getMemberEmail();
+	    ReviewVO existingReview = reviewService.getReviewById(reviewVO.getReviewId());
+
+	    if (existingReview == null) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("리뷰를 찾을 수 없습니다.");
+	    }
+
+	    // 리뷰 작성자와 현재 사용자 비교
+	    if (!memberEmail.equals(existingReview.getMemberEmail())) {
+	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("리뷰 작성자만 수정할 수 있습니다.");
+	    }
+
+	    try {
+	        reviewService.updateReview(reviewVO);
+	        return ResponseEntity.ok("success");
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("리뷰 수정에 실패했습니다.");
+	    }
+	}
     
     //댓글 작성
     @PostMapping("/writeComment")
     @ResponseBody
     public String writeComment(@RequestBody CommentVO commentVO, HttpSession session) {
         MemberVO member = (MemberVO) session.getAttribute("member");
+        String memberEmail = member.getMemberEmail(); // 세션에서 이메일 값을 가져옴
+        System.out.println("값 불러 옴????: " + memberEmail); // 값을 출력
         commentVO.setMemberEmail(member.getMemberEmail());
         
-        // MemberVO에서 memberGrd 값을 가져와 commentVO에 설정
         String memberGrd = member.getMemberGrd();
         commentVO.setMemberGrd(memberGrd);
         
         reviewService.wrtieComment(commentVO);
         return "success";
     }
+    
+	
+    
+    
   	//댓글 목록
   	@PostMapping("readComment")
   	@ResponseBody
@@ -173,10 +226,27 @@ public class PrdtController {
   	
   	//댓글삭제
   	@PostMapping("/deleteComment/{commentId}")
-  	public ResponseEntity<Map<String, String>> deleteComment(@PathVariable int commentId) {
+  	public ResponseEntity<Map<String, String>> deleteComment(@PathVariable int commentId, HttpSession session) {
   	    Map<String, String> response = new HashMap<>();
+  	    MemberVO member = (MemberVO) session.getAttribute("member");
+  	    
+  	    
+  	    String memberEmail = member.getMemberEmail(); // 세션에서 이메일 값을 가져옴
+
   	    try {
-  	        reviewService.deleteComment(commentId);
+  	        CommentVO comment = reviewService.getCommentById(commentId); // 댓글 정보 가져오기
+  	        if (comment == null) {
+  	            response.put("error", "댓글을 찾을 수 없습니다.");
+  	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+  	        }
+
+  	        // 댓글 작성자와 현재 사용자 비교
+  	        if (!memberEmail.equals(comment.getMemberEmail())) {
+  	            response.put("error", "댓글 작성자만 삭제할 수 있습니다.");
+  	            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+  	        }
+
+  	        reviewService.deleteComment(commentId); // 댓글 삭제
   	        response.put("message", "댓글이 삭제되었습니다.");
   	        return ResponseEntity.ok(response);
   	    } catch (Exception e) {
@@ -184,13 +254,33 @@ public class PrdtController {
   	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
   	    }
   	}
+  	
   	//댓글수정
   	@PostMapping("updateComment")
-    @ResponseBody
-    public String updateComment(@RequestBody CommentVO commentVO) {
-        reviewService.updateComment(commentVO);
-        return "success";
-    }
+  	@ResponseBody
+  	public ResponseEntity<String> updateComment(@RequestBody CommentVO commentVO, HttpSession session) {
+  	    MemberVO member = (MemberVO) session.getAttribute("member");
+
+
+  	    String memberEmail = member.getMemberEmail();
+  	    CommentVO existingComment = reviewService.getCommentById(commentVO.getCommentId());
+
+  	    if (existingComment == null) {
+  	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("댓글을 찾을 수 없습니다.");
+  	    }
+
+  	    // 댓글 작성자와 현재 사용자 비교
+  	    if (!memberEmail.equals(existingComment.getMemberEmail())) {
+  	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("댓글 작성자만 수정할 수 있습니다.");
+  	    }
+
+  	    try {
+  	        reviewService.updateComment(commentVO);
+  	        return ResponseEntity.ok("success"); // 클라이언트와 일치하는 응답 메시지
+  	    } catch (Exception e) {
+  	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("실패 ㅠ.");
+  	    }
+  	}
 	
   	
   //상품 좋아요

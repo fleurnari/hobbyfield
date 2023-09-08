@@ -6,10 +6,19 @@
 
 	<!-- 포인트 상품 전체조회 -->
 	<select id="selectPointAllList" resultType="PointVO">
-		SELECT *
+		SELECT   POINT_ID
+				,POINT_NAME
+				,POINT_CONTENT
+				,POINT_ITEM_TYPE
+				,(case when POINT_ITEM_TYPE='W1' and  SYSDATE-POINT_ENDTERM>0 then 'V2' else 'V1' end)POINT_STATE
+				,POINT_VIEW
+				,POINT_REGDATE
+				,POINT_ENDTERM
+				,POINT_IMG_NAME
+				,POINT_IMG_PATH
+				,GROUP_PRICE
 		FROM POINT
-		ORDER BY
-		point_endterm asc
+		ORDER BY point_endterm ASC
 	</select>
 
 	<!-- 포인트 상품 단건조회 -->
@@ -42,6 +51,8 @@
 		FROM 	POINT_OPTION
 		WHERE 	point_id = #{pointId}
 	</select>
+
+	
 
  	<!-- 이모지 단건조회 -->
  	<select id="selectEmojiInfo" resultType="EmojiVO">

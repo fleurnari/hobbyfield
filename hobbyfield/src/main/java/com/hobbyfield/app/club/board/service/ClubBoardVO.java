@@ -32,7 +32,7 @@ public class ClubBoardVO {
 	private String clubBoardBlind;
 	private String profileImg;
 	private String profileImgPath;
-	
+	private String clubName;
 	private String memberEmail;
 	// 페이징을 위한 VO
 //	private Integer start;

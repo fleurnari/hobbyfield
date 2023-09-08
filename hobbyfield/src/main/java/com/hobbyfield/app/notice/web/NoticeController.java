@@ -28,15 +28,7 @@ public class NoticeController {
 
 	// 공지사항 전체조회
 	@GetMapping("/noticeList")
-	public String getNoticeAllList(Model model) {
-//		//페이징, 검색 정보 서비스로 전달
-//		model.addAttribute("noticeList", noticeService.getNoticeAllList());
-//		//noticeList로 페이징 정보전달
-//		PageMaker pageMaker = new PageMaker();
-//        pageMaker.setCri(cri);
-//        pageMaker.setTotalCount(noticeService.getNoticeCount(cri));
-//        model.addAttribute("pageMaker", pageMaker);
-        
+	public String getNoticeAllList(Model model) {     
 		model.addAttribute("noticeList", noticeService.getNoticeAllList());
 		return "notice/noticeList";
 	}
@@ -45,6 +37,7 @@ public class NoticeController {
 	@GetMapping("/noticeInfo")
 	public String getNoticeInfo(NoticeVO noticeVO, Model model) {
 		NoticeVO findVO = noticeService.getNoticeInfo(noticeVO);
+		//공지사항 조회수 업데이트
 		noticeService.updateNoticeView(findVO);
 		model.addAttribute("notice", findVO);
 		return "notice/noticeInfo";

@@ -31,13 +31,18 @@ public interface ReviewMapper {
 	 //댓글목록조회
 	 public List<CommentVO> readComment(int reviewId);
 	 
-	 //댓글상세보기
-	 public CommentVO getComment(int reviewId);
-	 
 	 //댓글삭제
 	 public void deleteComment(int commentId);
 	 
 	 //댓글수정
 	 public void updateComment(CommentVO commentVO);
+	 
+	 //댓글정보 불러오기 위함
+	 CommentVO getCommentById(int commentId);
+	 //후기글 정보 불러오기 위함
+	 ReviewVO getReviewById(int reviewId);
+	 
+	 
+		
 	 
 }

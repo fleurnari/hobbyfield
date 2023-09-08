@@ -18,7 +18,7 @@
 			<br>
 			<label for="clubCommentSecret">비밀 댓글</label>
 			<input type="hidden" id="commentSecret" name="commentSecret">
-			<input type="checkbox" id="clubCommentSecret" name="clubCommentSecret">
+			<input type="checkbox" id="clubCommentSecret" name="clubCommentSecret" value="">
 		</div>
 		<div>
 			<button type="button" id="recommentInsertBtn" class="btn btn-primary btn-outline btn-lg">작성</button>&nbsp;&nbsp;
@@ -35,8 +35,7 @@
 				var boardNumber = form.boardNumber.value;
 				var profileNickname = form.profileNickname.value;
 				var clubCommentContent = form.clubCommentContent.value;
-				var clubCommentSecretCheckbox = form.clubCommentSecret;
-				var commentSecret = clubCommentSecretCheckbox.checked ? "on" : "";
+				var commentSecret = clubCommentSecret.checked ? "L1" : "L2";
 				
 				$.ajax({
 					url : 'clubRecommentInsert',

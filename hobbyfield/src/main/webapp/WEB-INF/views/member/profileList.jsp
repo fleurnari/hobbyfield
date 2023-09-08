@@ -89,14 +89,15 @@
          		<a class="btn btn-success" href="${pageContext.request.contextPath}/club/profileInsert">프로필 생성</a>
          	</div>
 			<table border="1">
-					<thead>
+					<thead align="center">
 						<tr>
 							<th>프로필 닉네임</th>
+							<th>가입한 모임이름</th>
 							<th>프로필 이미지</th>
 						</tr>
 					</thead>
 					<c:forEach items="${getNomalMypage}" var="profile">
-					<tbody class="table-hover">
+					<tbody class="table-hover" align="center">
 <!-- 						<tr onclick="selectProfile(this.value)"> -->
 						<tr data-profile-nickname="${profile.profileNickname }"
 							data-club-img="${profile.profileImg }"

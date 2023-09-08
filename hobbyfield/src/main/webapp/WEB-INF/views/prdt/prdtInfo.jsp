@@ -35,13 +35,13 @@
 }
 
 .rating-stars {
-
+	padding-bottom : 10px;
     color: #FFD700;
 }
 
 .comment-list {
     list-style-type: none;
-    padding: 0;
+    padding: 10px 0 0 0; 
     margin-left: 20px;
     margin-right: 20px;
 }
@@ -450,6 +450,7 @@
 
 </body>
 <script>
+
 $(document).ready(function() {
     // 페이지 로드 시 좋아요 상태를 세션에서 복원
     var prdtId = $("#prdtId").val();
@@ -472,7 +473,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "prdtLike",
+            url: "${pageContext.request.contextPath}/prdt/prdtLike",
             data: requestData,
             contentType: "application/json",
             success: function(response) {
@@ -622,7 +623,7 @@ $(document).ready(function() {
         		};
          
          $.ajax({
-             url: "writeReview",
+             url: "${pageContext.request.contextPath}/prdt/writeReview",
              type: "post",
              contentType: "application/json",
              data: JSON.stringify(data),
@@ -653,6 +654,8 @@ $(document).ready(function() {
 </script>
 
 <script>
+
+
 function appendButtonsToReviewItem(reviewItem) {
     var deleteButton = document.createElement("button");
     deleteButton.textContent = "삭제";
@@ -690,7 +693,7 @@ function appendButtonsToReviewItem(reviewItem) {
 	    function getReviewsByCategory(category) {
 	        var prdtId = $("#prdtId").val();
 	        $.ajax({
-	            url: 'getReviewsByCategory',
+	            url: '${pageContext.request.contextPath}/prdt/getReviewsByCategory',
 	            method: 'POST',
 	            data: { category: category,
 	            		prdtId: prdtId },
@@ -720,15 +723,16 @@ function appendButtonsToReviewItem(reviewItem) {
 	                    
 	                    
 	                    // 리뷰 내용과 작성일 표시
-	                    reviewListItem.innerHTML = '<h5 class="mb-1">' + review.reviewTitle + '</h5>' +
-	                        '<small class="text-muted">' + review.memberEmail + ' | ' + formattedDate + '</small>' +
-	                        '<p class="mb-1">' + review.reviewContent + '</p>' +
-	                        '<button type="button" class="deleteRv_btn">삭제</button>' +
-	                        '<button type="button" class="updateRv_btn" data-review-id="' + review.reviewId + '">수정</button>';
-	                    
-	                        if (category === '후기') {
-	                            reviewListItem.innerHTML += '<div class="rating-stars">' + calculateRatingHtml(review.rating) + '</div>';
-	                        }
+	                   reviewListItem.innerHTML = '<h5 class="mb-1">' + review.reviewTitle + '</h5>' +
+					    '<small class="text-muted">' + review.memberEmail + ' | ' + formattedDate + '</small>' +
+					    '<p class="mb-1">' + review.reviewContent + '</p>';
+						
+						if (category === '후기') {
+						    reviewListItem.innerHTML += '<div class="rating-stars">' + calculateRatingHtml(review.rating) + '</div>';
+						}
+						
+						reviewListItem.innerHTML += '<button type="button" class="deleteRv_btn">삭제</button>' +
+						    '<button type="button" class="updateRv_btn" data-review-id="' + review.reviewId + '">수정</button>';
 	                        
 	                    // 리뷰 목록 아이템을 리뷰 목록 컨테이너에 추가
 	                    reviewListContainer.append(reviewListItem);
@@ -743,7 +747,7 @@ function appendButtonsToReviewItem(reviewItem) {
 	    // 댓글 목록을 가져오는 함수
 	    function getCommentsByReviewId(reviewId, reviewListItem) {
 	        $.ajax({
-	            url: 'readComment',
+	            url: '${pageContext.request.contextPath}/prdt/readComment',
 	            type: 'POST',
 	            data: { reviewId: reviewId },
 	            dataType: 'json',
@@ -797,98 +801,74 @@ function calculateRatingHtml(rating) {
 }
 	    
 	    
- 	// 댓글 작성 
- 	$(document).on("click", "#postCommentBtn", function () {
+//댓글 작성 
+	$(document).on("click", "#postCommentBtn", function () {
     var reviewId = $(this).data("review-id");
-    console.log(reviewId);
     var commentContent = $("#newComment").val();
-    var category = $("#category").val();
 
-    // 카테고리가 "상품문의"일 때만 권한 확인
-    if (category === "상품문의") {
-        var userPermission = "<%= session.getAttribute("memberGrd") %>"; // 현재 사용자의 등급
+    // 댓글 내용이 비어 있는지 확인
+    if (!commentContent) {
+        alert("댓글 내용을 입력해주세요.");
+        return;
+    }
 
-        // 권한이 "A2" 또는 "A3"인 경우에만 댓글 작성 허용
-        if (userPermission === "A2" || userPermission === "A3") {
-            var data = {
-                reviewId: reviewId,
-                commentContent: commentContent
-            };
+    // 댓글 작성 요청 데이터 준비
+    var data = {
+        reviewId: reviewId,
+        commentContent: commentContent,
+    };
 
-            $.ajax({
-                url: "writeComment",
-                type: "post",
-                contentType: "application/json",
-                data: JSON.stringify(data),
-                success: function (result) {
-                    if (result === "success") {
-                        location.reload();
-                        alert("댓글이 작성되었습니다.");
-                    } else {
-                        alert("댓글 작성에 실패했습니다.");
-                    }
-                },
-                error: function () {
-                    alert("서버 오류로 인해 댓글 작성에 실패했습니다.");
-                }
-            });
-        } else {
-            alert("상품문의 카테고리는 판매자 또는 A3 권한을 가진 사용자만 댓글을 작성할 수 있습니다.");
+    $.ajax({
+        url: "${pageContext.request.contextPath}/prdt/writeComment",
+        type: "post",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function (result) {
+            if (result === "success") {
+                location.reload();
+                alert("댓글이 작성되었습니다.");
+            } else {
+                alert("댓글 작성에 실패했습니다.");
+            }
+        },
+        error: function () {
+            alert("서버 오류로 인해 댓글 작성에 실패했습니다.");
         }
-    } else {
-        // 다른 카테고리일 때는 권한 제한 없이 댓글 작성 허용
-        var data = {
-            reviewId: reviewId,
-            commentContent: commentContent
-        };
+    });
+});
+ 	
+ 	//댓글삭제 
+    $(document).on("click", ".deleteComment_btn", function () {
+    var commentItem = $(this).closest("li");
+    var commentId = commentItem.data("comment-id");
+    
+    var confirmDelete = confirm("진짜 삭제하실?");
 
+    if (confirmDelete) {
         $.ajax({
-            url: "writeComment",
-            type: "post",
-            contentType: "application/json",
-            data: JSON.stringify(data),
-            success: function (result) {
-                if (result === "success") {
-                    location.reload();
-                    alert("댓글이 작성되었습니다.");
-                } else {
-                    alert("댓글 작성에 실패했습니다.");
-                }
+            type: "POST",
+            url: "${pageContext.request.contextPath}/prdt/deleteComment/" + commentId,
+            success: function (data) {
+                console.log("댓글이 삭제되었습니다.");
+                commentItem.remove();
             },
-            error: function () {
-                alert("서버 오류로 인해 댓글 작성에 실패했습니다.");
+            error: function (error) {
+                if (error.status === 403) {
+                    alert("본인이 쓴 댓글만 삭제가능합니다.");
+                } else {
+                    console.error("댓글 삭제에 실패했습니다.");
+                }
             }
         });
     }
 });
-	 	
- 	
- 	//댓글삭제 
-    $(document).on("click", ".deleteComment_btn", function () {
-        var commentItem = $(this).closest("li"); // 클릭한 버튼이 속한 댓글 아이템 가져오기
-        var commentId = commentItem.data("comment-id"); // 해당 댓글의 ID 가져오기
-
-        // 사용자에게 확인 메시지를 보여줍니다.
-        var confirmDelete = confirm("진짜 삭제하실?");
-
-        if (confirmDelete) {
-            // 사용자가 확인을 누르면 서버로 댓글 삭제 요청 보내기
-            $.ajax({
-                type: "POST", // POST 메소드 사용
-                url: "${pageContext.request.contextPath}/prdt/deleteComment/" + commentId, // 댓글 ID를 URL에 추가
-                success: function (data) {
-                    // 삭제가 성공한 경우의 처리
-                    console.log("댓글이 삭제되었습니다.");
-                    commentItem.remove(); // 삭제된 댓글 아이템 제거
-                },
-                error: function (error) {
-                    // 삭제가 실패한 경우의 처리
-                    console.error("댓글 삭제에 실패했습니다.");
-                }
-            });
-        }
-    });
 	 	 
+ 	
+   
+    
+ 	
+ 	
+ 	
  // 댓글 수정 모달 창 열기
     $(document).on("click", ".editComment_btn", function() {
         var commentItem = $(this).closest("li"); // 클릭한 버튼이 속한 댓글 아이템 가져오기
@@ -910,40 +890,44 @@ function calculateRatingHtml(rating) {
 
     // 댓글 수정 버튼 클릭 시
     $("#updateComment_btn").click(function() {
-        var commentId = $("#updateCommentId").val();
-        var updatedCommentContent = $("#updateCommentContent").val(); // 댓글 내용 가져오기
+    var commentId = $("#updateCommentId").val();
+    var updatedCommentContent = $("#updateCommentContent").val(); // 댓글 내용 가져오기
 
-        // 값이 비어 있는지 확인
-        if (!updatedCommentContent) {
-            alert("댓글 내용을 입력해주세요.");
-            return;
-        }
+    // 값이 비어 있는지 확인
+    if (!updatedCommentContent) {
+        alert("댓글 내용을 입력해주세요.");
+        return;
+    }
 
-        var data = {
-            commentId: commentId,
-            commentContent: updatedCommentContent
-        };
+    var data = {
+        commentId: commentId,
+        commentContent: updatedCommentContent
+    };
 
-        $.ajax({
-            url: "updateComment", // 댓글 수정을 처리할 서버 엔드포인트
-            type: "post",
-            data: JSON.stringify(data),
-            contentType: "application/json",
-            success: function(result) {
-                if (result === "success") {
-                    alert("댓글이 수정되었습니다.");
-                    // 모달 창 닫기
-                    $("#updateCommentModal").css("display", "none");
-                    location.reload(); // 페이지 새로고침
-                } else {
-                    alert("댓글 수정에 실패했습니다.");
-                }
-            },
-            error: function() {
+    $.ajax({
+        url: "${pageContext.request.contextPath}/prdt/updateComment", // 댓글 수정을 처리할 서버 엔드포인트
+        type: "post",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(result) {
+            if (result === "success") {
+                alert("댓글이 수정되었습니다.");
+                // 모달 창 닫기
+                $("#updateCommentModal").css("display", "none");
+                location.reload(); // 페이지 새로고침
+            } else {
+                alert("댓글 수정에 실패했습니다.");
+            }
+        },
+        error: function(jqXHR) {
+            if (jqXHR.status === 403) {
+                alert("본인이 작성한 댓글만 수정이 가능합니다.");
+            } else {
                 alert("서버 오류로 인해 댓글 수정에 실패했습니다.");
             }
-        });
+        }
     });
+});
     
  	
  	
@@ -955,7 +939,7 @@ function calculateRatingHtml(rating) {
             var reviewItem = $(this).closest("li");
             var reviewId = reviewItem.data("review-id");
             $.ajax({
-                url: "deleteReview",
+                url: "${pageContext.request.contextPath}/prdt/deleteReview",
                 type: "post",
                 data: { reviewId: reviewId },
                 success: function (result) {
@@ -966,8 +950,12 @@ function calculateRatingHtml(rating) {
                         alert("후기 삭제에 실패했습니다.");
                     }
                 },
-                error: function () {
-                    alert("실패 ㅠ");
+                error: function (jqXHR) {
+                	if(jqXHR.status === 403){
+                		alert("본인이 작성한 후기(문의)만 삭제 가능합니다.")
+                	} else{
+                		alert("실패 ㅠ");
+                	}
                 },
             });
         }
@@ -998,43 +986,50 @@ function calculateRatingHtml(rating) {
     });
 
  // 후기 수정 버튼 클릭 시
-    $("#updateReview_btn").click(function() {
-        var reviewId = $("#updateReviewId").val();
-        var updatedReviewTitle = $("#updateReviewTitle").val(); // 후기 제목 가져오기
-        var updatedReviewContent = $("#updateReviewContent").val(); // 후기 내용 가져오기
-        var updatedRating = $("#updateRating").val(); // 별점 가져오기
-        // 값이 비어 있는지 확인
-        if (!updatedReviewTitle || !updatedReviewContent) {
-            alert("리뷰 제목과 내용을 모두 입력해주세요.");
-            return;
-        }
+    $("#updateReview_btn").click(function () {
+    var reviewId = $("#updateReviewId").val();
+    var updatedReviewTitle = $("#updateReviewTitle").val(); // 후기 제목 가져오기
+    var updatedReviewContent = $("#updateReviewContent").val(); // 후기 내용 가져오기
+    var updatedRating = $("#updateRating").val(); // 별점 가져오기
 
-        var data = {
-                reviewId: reviewId,
-                reviewTitle: updatedReviewTitle,
-                reviewContent: updatedReviewContent,
-                rating: updatedRating 
-            };
-        
-        $.ajax({
-            url: "updateReview", // 리뷰 수정을 처리할 서버 엔드포인트
-            type: "post",
-            data: JSON.stringify(data),
-            contentType: "application/json",
-            success: function(result) {
-                if (result === "success") {
-                    alert("리뷰가 수정되었습니다.");
-                    // 모달 창 닫기
-                    $("#updateReviewModal").css("display", "none");
-                    location.reload();
-                } else {
-                    alert("리뷰 수정에 실패했습니다.");
-                }
-            },
-            error: function() {
-                alert("서버 오류로 인해 리뷰 수정에 실패했습니다.");
+    // 값이 비어 있는지 확인
+    if (!updatedReviewTitle || !updatedReviewContent) {
+        alert("리뷰 제목과 내용을 모두 입력해주세요.");
+        return;
+    }
+
+    var data = {
+        reviewId: reviewId,
+        reviewTitle: updatedReviewTitle,
+        reviewContent: updatedReviewContent,
+        rating: updatedRating,
+    };
+
+    $.ajax({
+        url: "${pageContext.request.contextPath}/prdt/updateReview", 
+        type: "post",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function (result) {
+            if (result === "success") {
+                alert("리뷰가 수정되었습니다.");
+                // 모달 창 닫기
+                $("#updateReviewModal").css("display", "none");
+                location.reload();
+            } else if (result === "forbidden") {
+                alert("리뷰 수정 권한이 없습니다.");
+            } else {
+                alert("리뷰 수정에 실패했습니다.");
             }
-        });
+        },
+        error: function (jqXHR) {
+            if (jqXHR.status === 403) {
+                alert("본인이 작성한 후기(문의)만 수정이 가능합니다.");
+            } else {
+                alert("ㅠㅠ.");
+            }
+        },
     });
+});
 </script>
 </html>
