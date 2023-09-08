@@ -297,8 +297,30 @@
         </div>
        
         <hr>
-        <button type="submit" class="btn btn-primary" id="delete_btn">삭제(상품)</button>
-        <button type="submit" class="btn btn-primary" id="update_btn">수정(상품)</button>
+<div class="row">
+    <div class="col-1">
+        <button type="submit" class="btn btn-primary btn-block" id="delete_btn">삭제</button>
+    </div>
+    <div class="col-1">
+        <button type="submit" class="btn btn-primary btn-block" id="update_btn">수정</button>
+    </div>
+</div>
+    </div>
+	    <script>
+			var memberGrd = "${memberGrd}"; 
+			
+			var deleteBtn = document.getElementById("delete_btn");
+			var updateBtn = document.getElementById("update_btn");
+			
+			// memberGrd가 "A1"인 경우에 안보이게
+			if (memberGrd === "A1") {
+			    deleteBtn.style.display = "none"; 
+			    updateBtn.style.display = "none"; 
+			} else {
+			    deleteBtn.style.display = "block"; 
+			    updateBtn.style.display = "block"; 
+			}
+	</script>
     </div>
 	
 	 

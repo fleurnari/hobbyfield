@@ -49,15 +49,13 @@ public class PrdtController {
 	LikeService likeService;
 	
 	
-	@GetMapping("/getEmail")
-	@ResponseBody
-	public String getCurrentUserEmail(HttpSession session) {
-	    String memberEmail = (String) session.getAttribute("memberEmail");
-	    return memberEmail;
+	@GetMapping("/getGrd")
+	   public String getCurrentUserGrd(HttpSession session, Model model) {
+	       String memberGrd = (String) session.getAttribute("memberGrd");
+	       model.addAttribute("memberGrd", memberGrd);
+	       return "prdt/prdtInfo";
 	}
-	
-	
-	
+
 	//상품목록조회
 	@GetMapping("prdtList")
 	public String prdtList(Model model, @ModelAttribute("scri") SearchCriteria scri, HttpSession session) {
