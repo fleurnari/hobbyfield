@@ -7,13 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.hobbyfield.app.common.Criteria;
+import com.hobbyfield.app.comm.mapper.CommCodeMapper;
 import com.hobbyfield.app.common.PageMaker;
+import com.hobbyfield.app.common.SearchCriteria;
 import com.hobbyfield.app.notice.service.NoticeService;
 import com.hobbyfield.app.notice.service.NoticeVO;
 
@@ -23,13 +25,24 @@ public class NoticeController {
 	@Autowired
 	NoticeService noticeService;
 	
-//	@Autowired
-//	Criteria cri;
+	@Autowired
+	CommCodeMapper codeMapper;
 
 	// 공지사항 전체조회
 	@GetMapping("/noticeList")
-	public String getNoticeAllList(Model model) {     
-		model.addAttribute("noticeList", noticeService.getNoticeAllList());
+	public String getNoticeAllList(Model model, NoticeVO noticeVO, @ModelAttribute("scri") SearchCriteria scri) {    
+		model.addAttribute("noticeList", noticeService.getNoticeAllList(scri, noticeVO));
+		
+		//검색&페이징
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(scri);
+		pageMaker.setTotalCount(noticeService.countNotice(scri, noticeVO));
+		
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("scri", scri);
+		
+		//카테고리별 조회
+		model.addAttribute("cate", codeMapper.selectNoticeCate("0AA"));
 		return "notice/noticeList";
 	}
 

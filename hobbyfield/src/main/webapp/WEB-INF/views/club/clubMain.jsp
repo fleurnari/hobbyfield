@@ -180,18 +180,18 @@ a {
 </style>
 </head>
 <body>
-	<section>
-		<div align="center" style="margin-top: 100px;">
-
-
-
-			<h3>club 상위 리스트</h3>
-			<div>
-				<a href="${pageContext.request.contextPath}/club/clubList">소모임
-					조회페이지</a>
-			</div>
-
+	
+		<div class="quickmenu">
+			<ul>
+				<li><a href="${pageContext.request.contextPath}/club/clubList">소모임 조회</a></li>
+				<li><a href="${pageContext.request.contextPath}/club/clubInsert">소모임 생성</a></li>
+				<li><a href="${pageContext.request.contextPath}/club/profileInsert">프로필 생성</a></li>
+			</ul>
 		</div>
+	
+<!-- 		<div align="center" style="margin-top: 100px;"> -->
+			<h3>소모임 등록순</h3>
+<!-- 		</div> -->
 
 		<!-- 소모임 표시 -->
 		<div id="clubContainer">
@@ -242,8 +242,7 @@ a {
 		</div>
 	</section>
 
-	<script type="text/javascript">
-	$(document).ready(function(){
+	
 		
 
 		  <h3>인기 모임</h3> 
@@ -296,7 +295,7 @@ a {
 				</c:forEach>
 			</div>
 		</div>
-	</section>
+
     		
 <script type="text/javascript">
 
@@ -324,6 +323,9 @@ a {
 		});
 
 
+
+// 	$(document).ready(function(){
+	
 // 	$('#clubContainer').on('click',function(e){
 // 		var linkta
 // 	});

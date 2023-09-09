@@ -206,6 +206,14 @@ a {
     width: 70%;  /* 전체 너비 설정. 필요에 따라 조절 가능 */
     margin: 0 auto;  /* 중앙 정렬 */
 }
+
+.active{
+	background-color: blue;
+}
+
+
+
+
 </style>
 </head>
 
@@ -215,9 +223,12 @@ a {
 		<a class="btn btn-success" href="${pageContext.request.contextPath}/club/clubInsert">소모임 생성</a>
 		<!-- 지역 정렬 -->
 		<ul class="region-list">
+				<li class="region-item">
+					<button class="region-btn" data-region-code="">지역전체</button>
+				</li>
 			<c:forEach items="${E}" var="region">
 				<li class="region-item">
-					<button class="region-btn" data-region-code="${region.literal}">${region.literal}</button>
+					<button class="region-btn" data-region-code="${region.subcode}">${region.literal}</button>
 				</li>
 			</c:forEach>
 		</ul>
@@ -225,9 +236,12 @@ a {
 		<!-- 모임 종류 정렬 -->
 		<div class="center-container">
 			<ul class="category-list">
+				<li class="category-item">
+					<button class="category-btn" data-type-code="">카테고리전체</button>
+				</li>
 				<c:forEach items="${C}" var="type">
 					<li class="category-item">
-						<button class="category-btn" data-type-code="${type.literal}">${type.literal}</button>
+						<button class="category-btn" data-type-code="${type.subcode}">${type.literal}</button>
 					</li>
 				</c:forEach>
 			</ul>
@@ -273,63 +287,29 @@ a {
 	var isLoading = false; // 중복 요청을 확인
 
 	
-	//카테고리 버튼 클릭 이벤트 핸들러
-	$(document).on('click', '.category-btn', function(e) {
-	    const clubCategory = $(this).data('type-code');
-	    console.log("카테고리", clubCategory);
-	
-	    // 서버에 지역 코드 전송
-	    $.ajax({
-	    	url: "${pageContext.request.contextPath}/club/getClubsByCate",
-	        type: 'GET',
-	        data: { "clubCategory" : clubCategory },
-	        dataType: 'json',
-	        success: function(Cate) {
-	        	 console.log("Received Cate:", Cate);
-	            // #clubContainer 내용삭제
-	            $('#clubContainer').empty();
-	            
-	            // 서버로부터 받은 소모임 리스트를 화면에 추가
-	            $.each(Cate, function(index, club) {
-	                //각 소모임의 정보를 표시하는 코드 
-	                $('#clubContainer').append(`
-	                		<div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=\${club.clubNumber}'">
-	                        <img src="${pageContext.request.contextPath}\${club.clubImgPath}\${club.clubImg}">
-	                        <div class="clubInfo">
-	                            <p>모임리더: \${club.profileNickname}</p>
-	                            <p>모임이름: \${club.clubName}</p>
-	                            <p>카테고리: \${club.clubCategory}</p>
-	                            <p>분류: \${club.clubType}</p>
-	                            <p>소개글: \${club.clubInfo}</p>
-	                            <p>광역시: \${club.majorLocation}</p>
-	                            <p>구: \${club.subLocation}</p>
-	                        </div>
-	                    </div>
-	                `);
-	            });
-	        },
-	        error: function(error) {
-	            console.error("카테고리 정렬 에러", error);
-	            alert("데이터 로딩 중 오류가 발생했습니다. 다시 시도해 주세요.");
-	        }
-	    });
-	});
-
-	
-
-	   
 
 	//카테고리 종류 정렬
 	//카테고리 버튼 클릭 이벤트 핸들러
-	$(document).on('click', '.region-btn', function() {
-		//버블링 방지
-		
-	    const majorLocation = $(this).data('region-code');
+	$('.region-btn, .category-btn' ).on('click', function() {
+		let majorLocation = "";
+		let clubCategory = "";
+		if ( $(this).hasClass("region-btn") ) {			
+			$('.region-list .region-btn').removeClass('active')
+			$(this).addClass('active')
+	    	majorLocation = $(this).data('region-code');
+			clubCategory = $('.category-list .active').length>0  ? $('.category-list .active').data('type-code') : "";
+		} else {
+			$('.category-list .category-btn').removeClass('active')
+			$(this).addClass('active')
+	    	clubCategory = $(this).data('type-code');
+			majorLocation = $('.region-list .active').length>0  ? $('.region-list .active').data('region-code') : "";
+			
+		}
 	    // 서버에 지역 코드 전송
 	    $.ajax({
-	    	url: "${pageContext.request.contextPath}/club/getClubsByRegion",
+	    	url: "${pageContext.request.contextPath}/club/getClubsByRegionAndCate",
 	        type: 'GET',
-	        data: { "majorLocation" : majorLocation },
+	        data: { "majorLocation" : majorLocation, "clubCategory" : clubCategory },
 	        dataType: 'json',
 	        success: function(clubs) {
 	        	 console.log("Received clubs:", clubs);
@@ -341,7 +321,7 @@ a {
 	                //각 소모임의 정보를 표시하는 코드 
 	                $('#clubContainer').append(`
 	                		<div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=\${club.clubNumber}'">
-	                        	<img src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}">
+	                        	<img src="${pageContext.request.contextPath}/\${club.clubImgPath}\${club.clubImg}">
 	                        <div class="clubInfo">
 	                            <p>모임리더: \${club.profileNickname}</p>
 	                            <p>모임이름: \${club.clubName}</p>
@@ -363,6 +343,10 @@ a {
 	    });
 	});
 
+	
+	
+
+	
 
 
 
@@ -412,6 +396,7 @@ a {
 	        });
 	    }
 	});
+
 	
 	function showError(message) {
 	    let errorDiv = $("#errorDiv");

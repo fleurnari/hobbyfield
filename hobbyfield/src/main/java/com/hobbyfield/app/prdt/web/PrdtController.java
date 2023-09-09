@@ -55,7 +55,7 @@ public class PrdtController {
 	@Autowired
 	OrderService orderService;
 	
-	@GetMapping("getGrd")
+	@GetMapping("/getGrd")
 	   public String getCurrentUserGrd(HttpSession session, Model model) {
 	       String memberGrd = (String) session.getAttribute("memberGrd");
 	       model.addAttribute("memberGrd", memberGrd);
@@ -68,7 +68,6 @@ public class PrdtController {
 	       model.addAttribute("memberEmail", memberEmail);
 	       return "prdt/prdtInfo";
 	}
-	
 	
 	//상품목록조회
 	@GetMapping("prdtList")
