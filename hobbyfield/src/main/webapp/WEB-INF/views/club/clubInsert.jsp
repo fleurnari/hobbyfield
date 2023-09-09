@@ -225,9 +225,9 @@ $(document).ready(function(){
 
 //소모임 이름 중복체크
 
-	$('.club_input').on("propertychange change keyup paste input", function() {
+	$('.club-input').on("propertychange change keyup paste input", function() {
 
-		var clubName = $('.club_input').val(); //.club_input 입력될 값
+		var clubName = $('.club-input').val(); //.club_input 입력될 값
 		var data = {
 			clubName : clubName
 		} //.컨트롤에 넘길 데이터 이름 데이터(.club_input에 입력되는 값)
@@ -239,12 +239,12 @@ $(document).ready(function(){
 			success : function(result) {
 
 				if (result != 'fail') {
-					$('.club_input_re1').css("display", "inline-block");
-					$('.club_input_re2').css("display", "none");
+					$('.club-input-re1').css("display", "inline-block");
+					$('.club-input-re2').css("display", "none");
 					clubnameChk = true;
 				} else {
-					$('.club_input_re2').css("display", "inline-block");
-					$('.club_input_re1').css("display", "none");
+					$('.club-input_re2').css("display", "inline-block");
+					$('.club-input_re1').css("display", "none");
 					clubnameChk = false;
 				}
 			}
@@ -301,7 +301,7 @@ $(document).ready(function(){
             } else {
                 // 모든 검사를 통과한 경우 form 제출
                 if(nickCheck && nickchCheck) {
-                    $("#join_form").submit();
+                    $("#join-form").submit();
                 }
             }
         }

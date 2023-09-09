@@ -170,8 +170,9 @@ public class ClubController {
 	    model.addAttribute("profile", profileInfo);
 		model.addAttribute("clubInfo", findVO);
 		System.out.println(profileInfo);
-		return "club/clubInfo";
-	}
+	
+	return "club/clubInfo";
+}
 
 	// 내가 생성한 소모임 조회(데이터불러오기 가능/input태그 들어가지 않음)
 	@ResponseBody
