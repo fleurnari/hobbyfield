@@ -75,17 +75,6 @@ public class CreateclubServiceImpl implements CreateclubService {
 		return null;
 	}
 	
-	//소모임 지역 정렬
-	@Override
-	public List<CreateclubVO> getOrderLocation(String majorLocation) {
-		return createclubMapper.getOrderLocation(majorLocation);
-	}
-	
-	//소모임 종류 정렬
-	@Override
-	public List<CreateclubVO> getOrderCategory(String clubCategory){
-		return createclubMapper.getOrderCategory(clubCategory);
-	}
 	
 	//소모임 top
 	@Override
@@ -98,7 +87,8 @@ public class CreateclubServiceImpl implements CreateclubService {
 	public List<CreateclubVO> getClubsForInfiniteScroll(Map<String, Integer> map) {
 	    return createclubMapper.selectClubsForInfiniteScroll(map);
 	}
-
+	
+	//가입 인원확인(카운트만)
 	@Override
 	public int countMember(int clubNumber) {
 		return createclubMapper.countMember(clubNumber);
@@ -109,9 +99,12 @@ public class CreateclubServiceImpl implements CreateclubService {
 	public int countClubsByProfile(String profileNickname) {
 		 return createclubMapper.countClubNick(profileNickname);
 	}
-	
 
-	
+	//지역 종류 2중정렬
+	@Override
+	public List<CreateclubVO> getMixOrder(String majorLocation, String clubCategory) {
+		return createclubMapper.getMixOrder(majorLocation, clubCategory);
+	}
 
 	
 
