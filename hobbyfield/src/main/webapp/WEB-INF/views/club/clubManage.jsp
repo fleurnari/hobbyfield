@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -7,8 +7,9 @@
 <meta charset="UTF-8">
 <title>소모임 관리 페이지</title>
 <link rel="stylesheet"
-   href="${pageContext.request.contextPath}/resources/css/club/insertclub.css">
+	href="${pageContext.request.contextPath}/resources/css/club/insertclub.css">
 <script
+
    src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/common.js"></script>   
 <link rel="stylesheet"
@@ -54,6 +55,7 @@
 
 .club-img{
 	width: 200px;
+
 }
 
 #clubUpdate label{
@@ -66,6 +68,7 @@
 </style>
 
 <body>
+
 	<div class="container">
 		<!-- 모임 이름 -->
 		<h2 align="center">${club.clubName}</h2>
@@ -267,14 +270,48 @@
 					</table>
 				</div>
 			</c:if>
+
 		</div>
 	</div>
 
 
 
+		<!-- 가입신청리스트(모임장만) modal창으로 확인 -->
+		<div class="applyList">
+			<table>
+				<thead align="center">
+					<tr>
+						<th>닉네임</th>
+						<th>가입신청일자</th>
+						<th>질문답변 1</th>
+						<th>질문답변 2</th>
+						<th>질문답변 3</th>
+						<th>승인처리</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${beforeMembers}" var="members">
+						<tr>
+							<td>${members.profileNickname }</td>
+							<td>${members.applyDate }</td>
+							<td>${members.applyAnswer1 }</td>
+							<td>${members.applyAnswer2 }</td>
+							<td>${members.applyAnswer3 }</td>
+							<td>
+								<button type="button" class="accept"
+									data-nickname="${members.profileNickname}"
+									data-clubnumber="${members.clubNumber}">수락</button>
+								<button type="button" class="reject"
+									data-nickname="${members.profileNickname}"
+									data-clubnumber="${members.clubNumber}">거절</button>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
 
 
-
+		</div>
 
 
 	<script type="text/javascript">
