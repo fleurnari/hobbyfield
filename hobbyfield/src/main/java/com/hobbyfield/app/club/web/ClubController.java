@@ -584,10 +584,11 @@ public class ClubController {
 	
 	// 댓글 수정 폼
 	@GetMapping("clubCommentUpdate")
-	public String updateClubCommentForm(Model model, ClubCommentVO clubCommentVO) {
+	@ResponseBody
+	public ClubCommentVO updateClubCommentForm(Model model, ClubCommentVO clubCommentVO) {
 		ClubCommentVO findVO = clubCommentService.getComment(clubCommentVO);
-		model.addAttribute("comment", findVO);
-		return "comment/clubCommentUpdate";
+		
+		return findVO;
 	}
 	
 	// 댓글 수정 수행
