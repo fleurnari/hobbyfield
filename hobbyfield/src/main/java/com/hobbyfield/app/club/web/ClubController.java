@@ -136,16 +136,6 @@ public class ClubController {
 	    List<CreateclubVO> clubs = createClubService.getMixOrder(majorLocation, clubCategory);
 	    return clubs;
 	}
-	
-
-	//소모임 종류 정렬(조회페이지/종류정렬)
-	@ResponseBody
-	@GetMapping("/getClubsByCate")
-	public List<CreateclubVO> getClubsByCategory(@RequestParam String clubCategory, Model model) {
-		model.addAttribute("C", commCodeMapper.commCategoryList("0C")); // 모임카테고리 그룹코드
-	    List<CreateclubVO> Cate = createClubService.getOrderCategory(clubCategory);
-	    return Cate;
-	}
 
 	// 내가 생성한 소모임 조회(데이터불러오기 가능/input태그 들어가지 않음)
 	@ResponseBody
