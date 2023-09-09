@@ -128,12 +128,11 @@ th {
 </head>
 <body>
 		<h2 class="point">포인트</h2><span><h2 class="sangjum">상점</h2></span> 
-	<div class="header-left">
-		<a href="${pageContext.request.contextPath}/notice/noticeList"
-			class="notice-link">공지사항</a>
-	</div>
+<!-- 	<div class="header-left"> -->
+<%-- 		<a href="${pageContext.request.contextPath}/notice/noticeList" class="notice-link">공지사항</a> --%>
+<!-- 	</div> -->
 	<div class="container">
-		<div >
+		<div>
 			<c:if test="${member.memberGrd eq 'A3'}">
 				<button type="button" class="write-button" onclick="location.href='pointInsert'">상품등록</button>
 			</c:if>
@@ -146,7 +145,6 @@ th {
 <!-- 			</select> -->
 <!-- 		</form> -->
 
-		<!-- 수정해야함 -->
 		<div class="state-buttons" role="group">
 			<button class="state-button" type="button" name="state1" value="V1" onclick="changestate('V1')">판매중</button>
 			<button class="state-button" type="button" name="state2" value="V2" onclick="changestate('V2')">판매종료</button>
