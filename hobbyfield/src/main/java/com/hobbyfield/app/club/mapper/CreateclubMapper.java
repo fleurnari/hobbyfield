@@ -3,6 +3,8 @@ package com.hobbyfield.app.club.mapper;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.hobbyfield.app.club.service.CreateclubVO;
 
 public interface CreateclubMapper {
@@ -39,18 +41,14 @@ public interface CreateclubMapper {
 	//소모임 이름 중복체크
 	public int clubnameChk(String clubName);
 	
-	//소모임 종류 정렬
-	public List<CreateclubVO> getOrderCategory(String clubCategory);
-	
-	//소모임 지역 정렬
-	public List<CreateclubVO> getOrderLocation(String majorLocation);
+	//지역 종류 2중 정렬
+	public List<CreateclubVO> getMixOrder(@Param("majorLocation") String majorLocation, @Param("clubCategory")String clubCategory);
 	
 	//페이징
 	public List<CreateclubVO> selectClubsForInfiniteScroll(Map<String, Integer> map);
 	
 	//가입 인원수 체크
 	public int countMember(int clubNumber);
-	
 	
 	//소모임 등록 3개 제한
 	public int countClubNick(String profileNickname);

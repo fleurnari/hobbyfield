@@ -70,13 +70,6 @@
 		</beans:property>
 	</beans:bean>
 	
-		<!-- 웹소캣 등록 -->
-		<beans:bean id="echoHandler" class="com.hobbyfield.app.chat.web.ChatHandler"/>
-		<websocket:handlers>
-			<websocket:mapping handler="echoHandler" path="/echo"/>
-			<websocket:sockjs/>
-		</websocket:handlers>
-	
 	<context:component-scan base-package="com.hobbyfield.app" />
 
 </beans:beans>

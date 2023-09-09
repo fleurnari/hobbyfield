@@ -25,7 +25,7 @@
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/fundingPost/fundingPostList">펀딩</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath }/prdt/prdtList">쇼핑몰</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/point/pointList">포인트샵</a></li>
-              <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/talent/talentList">재능기부</a></li>
+              <li class="nav-item px-2"><a class="nav-link fw-bold" href="${pageContext.request.contextPath}/notice/noticeList">공지사항</a></li>
             </ul>
             
             	<c:if test = "${member == null}">
@@ -36,7 +36,6 @@
           			    <img src="${pageContext.request.contextPath}/resources/img/push.png" width="30px" onclick="pushList()" style="position: relative;">
           			    <div id="nemo" style="position: absolute; top: 0px;"></div>
 						<span>${member.memberNm} 님 환영합니다.</span>
-						<a href="#" id="chat" title="채팅">채팅</a>
 						<a href="${pageContext.request.contextPath}/member/myPage">마이페이지</a>
 						<c:if test="${member.memberGrd eq 'A3'}">
 							<a href="${pageContext.request.contextPath}/admin/memberList">관리자 페이지</a>
