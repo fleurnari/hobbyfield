@@ -75,6 +75,7 @@
 
 </style>
 <script type="text/javascript" src="resources/js/common.js"></script>
+
 </head>
 <body>
 <section>

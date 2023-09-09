@@ -8,7 +8,7 @@ public class Criteria {
 	
 	public Criteria() {
 		this.page = 1;
-		this.perPageNum = 10;
+		this.perPageNum = 9;
 	}
 	
 	public Criteria(int page, int i) {
@@ -24,7 +24,7 @@ public class Criteria {
 	
 	public void setPerPageNum(int perPageNum) {
 		if (perPageNum <= 0 || perPageNum > 100) {
-			this.perPageNum = 10;
+			this.perPageNum = 9;
 			return;
 		}
 		this.perPageNum = perPageNum;

@@ -52,7 +52,28 @@
 
 
 
-
+<button onclick="getToken()">토큰 확인</button>
+  <p id="tokenResult"></p>
+<script>
+function getToken() {
+	  $.ajax({
+	    url: "${pageContext.request.contextPath}/api/getToken", // 요청할 URL
+	    type: "GET", // GET 요청
+	    dataType: "json", // 응답 데이터 타입
+	    success: function(response) {
+	      if (response) {
+	        console.log("토큰: " + response);
+	        alert("토큰을 성공적으로 가져왔습니다.");
+	      } else {
+	        alert("토큰을 가져오는 데 실패했습니다.");
+	      }
+	    },
+	    error: function() {
+	      alert("서버와 통신 중 오류가 발생했습니다.");
+	    }
+	  });
+	}
+</script>
 
 <button onclick="cancelPayment()">카카오페이 결제취소 테스트</button>
 
@@ -64,12 +85,12 @@ IMP.init("imp10078031");
 // 결제 취소 함수
 function cancelPayment() {
   $.ajax({
-    url: "https://api.iamport.kr/payments/cancel?_token=7cfcf250b229b9de0775cd27931a5c68cf05f4d7",
+    url: "${pageContext.request.contextPath}/api/getToken",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify({
-      imp_uid: "imp_100895842761",
-      merchant_uid: "20230908135455651"
+      imp_uid: "imp_499584943298",
+      merchant_uid: "20230909103945371"
     }),
     dataType: "json",
     success: function(response) {
