@@ -2,7 +2,6 @@ package com.hobbyfield.app.club.web;
 
 
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +31,6 @@ import com.hobbyfield.app.club.board.service.ClubCommentVO;
 import com.hobbyfield.app.club.like.service.ClubBoardLikeService;
 import com.hobbyfield.app.club.like.service.ClubBoardLikeVO;
 import com.hobbyfield.app.club.mapper.CreateclubMapper;
-import com.hobbyfield.app.club.member.service.ClubMemberVO;
 import com.hobbyfield.app.club.profile.mapper.ClubProfileMapper;
 import com.hobbyfield.app.club.profile.service.ClubProfileService;
 import com.hobbyfield.app.club.profile.service.ClubProfileVO;
@@ -96,6 +94,7 @@ public class ClubController {
     // 소모임 전체조회(메인페이지)
  	@GetMapping("/clubMain")
  	public String clubMain(Model model) {
+ 		//소모임 등록순
  		model.addAttribute("clubList", createClubService.getClubTop());
  		model.addAttribute("board", clubBoardService.getAllClubBoardList());
  		model.addAttribute("clubCategorie", commCodeMapper.clubTypeList("0C"));
@@ -132,13 +131,13 @@ public class ClubController {
 	
 	//소모임 정렬(조회페이지/지역정렬)
 	@ResponseBody
-	@GetMapping("/getClubsByRegion")
-	public List<CreateclubVO> getClubsByRegion(@RequestParam String majorLocation, Model model) {
-		model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); // 지역대그룹 코드
-	    List<CreateclubVO> clubs = createClubService.getOrderLocation(majorLocation);
+	@GetMapping("/getClubsByRegionAndCate")
+	public List<CreateclubVO> getClubsByRegion(@RequestParam String majorLocation, @RequestParam String clubCategory,Model model) {
+	    List<CreateclubVO> clubs = createClubService.getMixOrder(majorLocation, clubCategory);
 	    return clubs;
 	}
 	
+
 	//소모임 종류 정렬(조회페이지/종류정렬)
 	@ResponseBody
 	@GetMapping("/getClubsByCate")
@@ -147,32 +146,6 @@ public class ClubController {
 	    List<CreateclubVO> Cate = createClubService.getOrderCategory(clubCategory);
 	    return Cate;
 	}
-
-	
-	// 소모임 세부조회
-	@GetMapping("/clubInfo")
-	public String getClubInfo(HttpSession session, @RequestParam Integer clubNumber, Model model) {
-		// 소모임 정보 조회
-		CreateclubVO clubVO = new CreateclubVO();
-		clubVO.setClubNumber(clubNumber);
-		CreateclubVO findVO = createClubService.getClub(clubVO);
-		
-		// 로그인한 유저의 프로필 정보 가져오기
-		MemberVO member = (MemberVO) session.getAttribute("member");
-		
-		// 로그인한 유저의 이메일을 clubProfileVO에 설정
-	    ClubProfileVO clubProfileVO = new ClubProfileVO();
-	    clubProfileVO.setMemberEmail(member.getMemberEmail());
-	    
-	    // 로그인한 유저의 프로필 정보 가져오기
-	    List<ClubProfileVO> profileInfo = clubprofileService.getClubProfileVO(member.getMemberEmail());
-		// 모델에 추가
-	    model.addAttribute("profile", profileInfo);
-		model.addAttribute("clubInfo", findVO);
-		System.out.println(profileInfo);
-	
-	return "club/clubInfo";
-}
 
 	// 내가 생성한 소모임 조회(데이터불러오기 가능/input태그 들어가지 않음)
 	@ResponseBody
@@ -183,22 +156,28 @@ public class ClubController {
 
 	// 가입신청한 소모임 회원 조회(info 또는 clubMain에서 조회) <모임장>
 	@GetMapping("/clubManage")
-
-	public String clubConfirmMember(HttpSession session ,CreateclubVO createclubVO, ClubJoinVO clubJoinVO, Model model) {
-
+	public String clubConfirmMember(HttpSession session ,
+			                        CreateclubVO createclubVO, 
+			                        ClubProfileVO clubProfileVO, ClubJoinVO clubJoinVO, Model model) {
+		//선호 시작
 		model.addAttribute("E", commCodeMapper.selectCommCodeList("0E")); // 지역대그룹 코드
 		model.addAttribute("F", commCodeMapper.selectCommsubList("0F")); // 지역소그룹 코드
 		model.addAttribute("C", commCodeMapper.commCategoryList("0C")); // 모임카테고리 그룹코드
 		model.addAttribute("D", commCodeMapper.clubTypeList("0D")); // 모임분류 그룹코드
 		
 		List<ClubJoinVO> joinVO = clubJoinService.joinClubMemberInfo(clubJoinVO);
-
+		
+		clubProfileVO.setProfileNickname(((CreateclubVO)session.getAttribute("club")).getProfileNickname());
+		ClubProfileVO profile = clubprofileMapper.selectProfileInfo(clubProfileVO);
+		model.addAttribute("profile", profile);
+		
 		createclubVO = (CreateclubVO)session.getAttribute("club");
 		int num =createclubVO.getClubNumber();
 		List<ClubJoinVO> clubMember =clubJoinService.clubMemberList(num);
 		model.addAttribute("clubMember",clubMember);
-		// model.addAttribute("club",createClubService.getClub(createclubVO));
-
+		model.addAttribute("club",createClubService.getClub(createclubVO));
+		// 선호 끝
+		
 		// 0908 백대규
 		//int countMembers = createClubService.countMember(clubNumber);
 		//model.addAttribute(countMembers);
@@ -282,18 +261,18 @@ public class ClubController {
 //		return "redirect:clubList";
 	}
 	
-	//소모임 등록 제한
-	@GetMapping("/checkClubCount")
-	@ResponseBody
-	public Map<String, Object> checkClubCount(String profileNickname) {
-		int clubCount = createClubMapper.countClubNick(profileNickname);
-	    
-	    Map<String, Object> response = new HashMap<>();
-	    response.put("exists", clubCount > 0);
-	    
-	    
-	    return response;
-	}
+	//소모임 등록 제한 
+//	@GetMapping("/checkClubCount")
+//	@ResponseBody
+//	public Map<String, Object> checkClubCount(String profileNickname) {
+//		int clubCount = createClubMapper.countClubNick(profileNickname);
+//	    
+//	    Map<String, Object> response = new HashMap<>();
+//	    response.put("exists", clubCount > 0);
+//	    
+//	    
+//	    return response;
+//	}
 
 	// 소모임 등록 - 하위지역 반응 처리(공통코드받아서)
 	@ResponseBody
@@ -379,7 +358,7 @@ public class ClubController {
 	@PostMapping("/clubUpdate")
 	public String clubUpdate(CreateclubVO createclubVO){
 		createClubService.updateClub(createclubVO);
-		System.out.println(createclubVO);
+//		System.out.println(createclubVO);
 		return "redirect:clubList";
 	}
 
@@ -615,10 +594,11 @@ public class ClubController {
 	
 	// 댓글 수정 폼
 	@GetMapping("clubCommentUpdate")
-	public String updateClubCommentForm(Model model, ClubCommentVO clubCommentVO) {
+	@ResponseBody
+	public ClubCommentVO updateClubCommentForm(Model model, ClubCommentVO clubCommentVO) {
 		ClubCommentVO findVO = clubCommentService.getComment(clubCommentVO);
-		model.addAttribute("comment", findVO);
-		return "comment/clubCommentUpdate";
+		
+		return findVO;
 	}
 	
 	// 댓글 수정 수행

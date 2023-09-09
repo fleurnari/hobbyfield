@@ -20,7 +20,7 @@ public class PrdtVO {
 	private String prdtThum;			//상품썸네일이미지
 	private String memberEmail;			//회원아이디
 	private String prdtOption;			//상품옵션
-	
+	private String prdtDetail;
 	
 	
 	

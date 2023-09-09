@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hobbyfield.app.common.SearchCriteria;
 import com.hobbyfield.app.notice.mapper.NoticeMapper;
 import com.hobbyfield.app.notice.service.NoticeService; // NoticeService를 임포트해야 합니다.
 import com.hobbyfield.app.notice.service.NoticeVO;
@@ -13,18 +14,20 @@ import com.hobbyfield.app.notice.service.NoticeVO;
 public class NoticeServiceImpl implements NoticeService {
 	@Autowired
 	private NoticeMapper noticeMapper;
+	
 
 	// 공지사항 전체조회
 	@Override
-	public List<NoticeVO> getNoticeAllList() {
-		return noticeMapper.selectNoticeAllList();
+	public List<NoticeVO> getNoticeAllList(SearchCriteria scri, NoticeVO noticeVO) {
+		return noticeMapper.selectNoticeAllList(scri,noticeVO);
 	}
-	
-//	// 페이징 공지사항 갯수
-//	@Override
-//	public int getNoticeCount(SearchCriteria scri) {
-//        return noticeMapper.getNoticeCount(scri);
-//    }
+
+	//공지사항 개수
+	@Override
+	public int countNotice(SearchCriteria scri, NoticeVO noticeVO) {
+		return noticeMapper.countNotice(scri, noticeVO);
+	}
+
 
 	// 공지사항 단건조회
 	@Override
@@ -72,6 +75,13 @@ public class NoticeServiceImpl implements NoticeService {
 		
 		return result;
 	}
+
+	// 공지사항 카테고리별 조회
+	@Override
+	public List<NoticeVO> selectNoticeCate(String noticeCate) { 
+		return noticeMapper.selectNoticeCate(noticeCate);
+	}
+
 
 
 

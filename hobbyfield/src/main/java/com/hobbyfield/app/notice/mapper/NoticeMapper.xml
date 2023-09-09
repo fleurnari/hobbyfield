@@ -5,29 +5,57 @@
 <mapper namespace="com.hobbyfield.app.notice.mapper.NoticeMapper">
 
 	<!-- 공지사항 전체조회 -->
-	<select id="selectNoticeAllList"
-		resultType="NoticeVO">
-		SELECT * 
-		FROM notice
-		ORDER BY 
-		notice_id ASC
+    <select id="selectNoticeAllList" resultType="NoticeVO" >
+        SELECT *
+        FROM (
+            SELECT a.*, ROWNUM AS rnum
+            FROM (
+	            SELECT  NOTICE_ID,
+		                FIND_CODE_NM(notice_cate) NOTICE_CATE,
+		                NOTICE_TITLE,
+		                NOTICE_SUBJECT,
+		                NOTICE_WRITER,
+		                NOTICE_WDATE,
+		                NOTICE_VIEW
+		        FROM notice
+		        WHERE 1=1
+		        	<include refid="search"></include>
+	       
+	            ORDER BY notice_id ASC
+	        ) a
+	        ) 
+	        WHERE rnum BETWEEN #{scri.rowStart} AND #{scri.rowEnd}
+    </select>
+	
+	<!-- 공지사항 개수 -->
+	<select id="countNotice" resultType="int">
+		SELECT COUNT(notice_id)
+		FROM NOTICE
+		WHERE 1=1
+			<include refid="search"></include>
 	</select>
 
+	<sql id="search">
+            <if test="noticeVO.noticeCate != null and noticeVO.noticeCate !=''">
+               AND notice_cate = #{noticeVO.noticeCate}
+            </if>
+			<if test="scri.searchType != null and scri.searchType == 'title'.toString()"> 
+			   AND notice_title LIKE '%' || #{scri.keyword} || '%'
+			</if>
+	</sql>
+
 	<!-- 공지사항 단건조회 -->
-	<select id="selectNoticeInfo"
-		parameterType="NoticeVO"
-		resultType="NoticeVO">
+	<select id="selectNoticeInfo" parameterType="NoticeVO" resultType="NoticeVO">
 		SELECT
-		notice_id,
-		notice_cate,
-		notice_title,
-		notice_subject,
-		notice_writer,
-		notice_wdate,
-		notice_view
+			notice_id,
+			notice_cate,
+			notice_title,
+			notice_subject,
+			notice_writer,
+			notice_wdate,
+			notice_view
 		FROM notice
-		WHERE notice_id =
-		#{noticeId}
+		WHERE notice_id = #{noticeId}
 		ORDER BY notice_id ASC
 	</select>
 
@@ -88,6 +116,21 @@
 		notice_view = notice_view + 1
 		WHERE notice_id = #{noticeId}
 	</update>
+
+	<!-- 카테고리별 조회 -->
+	<select id="selectNoticeCate" resultType="NoticeVO">
+		SELECT	notice_id,
+				FIND_CODE_NM(notice_cate) as notice_cate,
+				notice_title,
+				notice_subject,
+				notice_writer, 
+				notice_wdate,
+				notice_view 
+		FROM	notice
+		WHERE FIND_CODE_NM(notice_cate) = #{noticeCate} 
+	</select>
+
+
 
 </mapper>
 

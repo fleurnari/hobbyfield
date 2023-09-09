@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/insertclub.css">
+<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 <title>프로필 유저정보</title>
 <style type="text/css">
 	.images{
@@ -74,6 +75,7 @@
 
 </style>
 <script type="text/javascript" src="resources/js/common.js"></script>
+
 </head>
 <body>
 <section>

@@ -17,4 +17,7 @@ public interface CommCodeMapper {
 	//모임분류코드
 	List<CommCodeVO> clubTypeList(String code);
 	
+	//공지사항카테고리코드
+	List<CommCodeVO> selectNoticeCate(String code);
+	
 }

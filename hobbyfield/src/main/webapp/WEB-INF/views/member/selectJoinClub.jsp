@@ -94,11 +94,12 @@
 							<th align="center" width="150">모임 분류</th>
 							<th align="center" width="150">공개 여부</th>
 							<th align="center" width="150">회원 구분</th>
+							<th align="center" width="150">소모임 정원</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach items="${clubList}" var="club">
-							<tr onclick="location.href='${pageContext.request.contextPath}/clubInfo?clubNumber=${club.clubNumber}&profileNickname=${club.profileNickname}'">
+							<tr onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${club.clubNumber}'">
 								<td><img src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}"></td>
 								<td>${club.clubName}</td>
 								<td>${club.clubCategory}</td>
@@ -110,6 +111,14 @@
 									</c:when>
 									<c:otherwise>
 										<td>모임회원</td>
+									</c:otherwise>
+								</c:choose>
+								<c:choose>
+									<c:when test="${club.clubTotal == 0}">
+										<td>제한 없음</td>
+									</c:when>
+									<c:otherwise>
+										<td> ${club.clubTotal} 명 </td>
 									</c:otherwise>
 								</c:choose>
 							</tr>

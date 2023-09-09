@@ -172,13 +172,17 @@
 	<!-- 소모임 세부조회 -->
 	<select id="getClubInfo" resultType="CreateclubVO">
 		SELECT 
-				c.club_number
-			   , c.profile_nickname
-         	   , c.club_name
+				club_number
+			   , profile_nickname
+         	   , club_name
+         	   , club_category as club_category_cd
 			   , FIND_CODE_NM(club_category) AS club_category
+			   , club_type as club_type_cd
 			   , FIND_CODE_NM(club_type) AS club_type
 			   , club_info
+			   , major_location as major_location_cd
 			   , FIND_CODE_NM(major_location) AS major_location
+			   , sub_location as sub_location_cd
 			   , FIND_CODE_NM(sub_location) AS sub_location
 			   , club_public
 			   , singup_question1
@@ -187,9 +191,9 @@
 			   , club_img
 			   , club_img_path
 			   , club_total
-               , p.profile_img
-               , p.profile_img_path
-		FROM club c JOIN profile p ON(c.profile_nickname = p.profile_nickname)
+               , club_img
+               , club_img_path
+		FROM club
 		WHERE club_number = #{clubNumber}
 	</select>
 	
@@ -255,12 +259,6 @@
 	SELECT * FROM DUAL
 	</insert>
 	
- 	<!-- 닉네임 중복체크 --> 
-<!-- 	<select id="nickChk" resultType="int"> -->
-<!-- 		SELECT count(*)  -->
-<!-- 		FROM club -->
-<!-- 		WHERE profile_nickname = #{profileNickname} -->
-<!-- 	</select> -->
 	
 	<!-- 소모임 이름 중복체크 -->
 	<select id="clubnameChk" resultType="int">
@@ -337,6 +335,35 @@
 		FROM club
 		WHERE FIND_CODE_NM(major_location) = '${majorLocation}'
 		ORDER BY  FIND_CODE_NM(major_location) DESC
+	</select>
+	
+	<!-- 2중정렬 -->
+	<select id="getMixOrder" resultType="CreateclubVO">
+	select club_number
+				, profile_nickname
+				, club_name
+				, FIND_CODE_NM(club_category) AS club_category
+				, FIND_CODE_NM(club_type) AS club_type
+				, club_info
+				, FIND_CODE_NM(major_location) AS major_location
+				, FIND_CODE_NM(sub_location) AS sub_location
+				, club_public
+				, singup_question1
+				, singup_question2
+				, singup_question3
+				, club_img
+				, club_img_path
+				, club_total
+		FROM club     	
+		<where>
+		<if test="clubCategory != null and clubCategory !=''">
+		 club_category = #{clubCategory}
+		 </if>
+        <if test="majorLocation != null and majorLocation !=''">
+        AND major_location = #{majorLocation}
+        </if>
+        </where>
+        ORDER BY club_category DESC, major_location DESC
 	</select>
 	
 	<!-- 소모임 인원 카운트 -->
