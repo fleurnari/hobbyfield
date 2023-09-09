@@ -18,9 +18,12 @@ public interface PushMapper {
 	public int insertPush(@Param("pushTarget") String pushTarget, @Param("pushTyp") String pushTyp,  @Param("pushCntn") String pushCntn, @Param("pushUrl") String pushUrl);
 	
 	// 알림 확인 여부 변경
-	public int updatePush(int pushId);
+	public int updatePush(String memberEmail);
 	
 	// 알림 삭제
 	public int deletePush(int pushId);
+	
+	// 알림 전체 삭제
+	public int deleteAllPush(String memberEmail);
 
 }

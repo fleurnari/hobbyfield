@@ -171,9 +171,12 @@ span {
 				<input type="text" name="singupQuestion3"><br>
 			</div>
 			
+			<img src="noimg.jpg" width="300" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/img/clubImg.jpg';"/>
 			
 			<div id="preview"></div>
+			
 			<input name="uploadFile" type="file" value="" onchange="readURL(this);">
+			
 			<button type="button" id="uploadBtn">upload</button>
 			
 			<!-- 소모임 정원 default값 50 -->
@@ -225,9 +228,9 @@ $(document).ready(function(){
 
 //소모임 이름 중복체크
 
-	$('.club_input').on("propertychange change keyup paste input", function() {
+	$('.club-input').on("propertychange change keyup paste input", function() {
 
-		var clubName = $('.club_input').val(); //.club_input 입력될 값
+		var clubName = $('.club-input').val(); //.club_input 입력될 값
 		var data = {
 			clubName : clubName
 		} //.컨트롤에 넘길 데이터 이름 데이터(.club_input에 입력되는 값)
@@ -239,12 +242,12 @@ $(document).ready(function(){
 			success : function(result) {
 
 				if (result != 'fail') {
-					$('.club_input_re1').css("display", "inline-block");
-					$('.club_input_re2').css("display", "none");
+					$('.club-input-re1').css("display", "inline-block");
+					$('.club-input-re2').css("display", "none");
 					clubnameChk = true;
 				} else {
-					$('.club_input_re2').css("display", "inline-block");
-					$('.club_input_re1').css("display", "none");
+					$('.club-input_re2').css("display", "inline-block");
+					$('.club-input_re1').css("display", "none");
 					clubnameChk = false;
 				}
 			}
@@ -289,23 +292,6 @@ $(document).ready(function(){
 		}
 	
 	
-	
-	$.ajax({
-        type: "POST",
-        url: "${pageContext.request.contextPath}/club/profileCount",
-        data: { email: "${member.memberEmail}" },
-        success: function(count) {
-            if(count >= 3) {
-                alert("소모임은 최대 3개까지만 생성할 수 있습니다.");
-                window.location.href = "${pageContext.request.contextPath}/club/clubList";
-            } else {
-                // 모든 검사를 통과한 경우 form 제출
-                if(nickCheck && nickchCheck) {
-                    $("#join_form").submit();
-                }
-            }
-        }
-    });
 	
 	
 	function validateForm() {
@@ -390,24 +376,24 @@ document.querySelector(".join_button").addEventListener("click", function(e) {
 
 
 //프로필 선택시 클럽 생성 가능 여부 확인
-$("#profile").change(function() {
- var selectedProfile = $(this).val();
+// $("#profile").change(function() {
+//  var selectedProfile = $(this).val();
 
- $.ajax({
-     type: "GET",
-     url: "${pageContext.request.contextPath}/club/checkClubCount",
-     data: { profileNickname: selectedProfile },
-     dataType: "json",
-     success: function(response) {
-     	if (response.clubCount >= 3) { // 클럽 생성 제한을 3개로 설정
-             alert("이 프로필로는 이미 클럽이 생성되었습니다.");
-             window.location.href = "${pageContext.request.contextPath}/club/clubList"; // 클럽 리스트 페이지로 리다이렉트
-         } else {
-         	$(".join_button").prop("disabled", false); // 클럽 생성 가능한 경우, 등록 버튼 활성화
-         }
-     }
- });
-});
+//  $.ajax({
+//      type: "GET",
+//      url: "${pageContext.request.contextPath}/club/checkClubCount",
+//      data: { profileNickname: selectedProfile },
+//      dataType: "json",
+//      success: function(response) {
+//      	if (response.clubCount >= 3) { // 클럽 생성 제한을 3개로 설정
+//              alert("이 프로필로는 이미 클럽이 생성되었습니다.");
+//              window.location.href = "${pageContext.request.contextPath}/club/clubList"; // 클럽 리스트 페이지로 리다이렉트
+//          } else {
+//          	$(".join_button").prop("disabled", false); // 클럽 생성 가능한 경우, 등록 버튼 활성화
+//          }
+//      }
+//  });
+// });
 
 	
 </script>

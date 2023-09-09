@@ -10,106 +10,39 @@
 }
 
 /* Modal styles */
-
-/* Modal button */
-
-
-/* Modal head */
-
-
-
-/* Modal body */
-.modal {
-   display: none;
-   position: fixed;
-   z-index: 1000;
-   left: 0;
-   top: 0;
-   width: 100%;
-   height: 100%;
-   overflow: auto;
-   background-color: rgba(0, 0, 0, 0.5);
-}
-.modal-content {
-   background-color: white;
-   margin: 10% auto;
-   padding: 20px;
-   border: 1px solid #888;
-   width: 80%;
-   max-width: 800px;
+/* open button */
+.open-modal-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
+.open-modal-btn:hover {
+  background-color: #0056b3;
+}
+
+/* close button */
 .close {
-   position: absolute;
-   top: 10px;
-   right: 20px;
-   font-size: 30px;
-   font-weight: bold;
-   cursor: pointer;
-}
-/*modal시작 */
-#clubModal{
-   display: none;
-   position: fixed;
-   z-index: 1000;
-   left: 0;
-   top: 0;
-   width: 100%;
-   height: 100%;
-   overflow: auto;
-   background-color: rgba(0, 0, 0, 0.5);
-}
-.modal_body{
-   background-color: white;
-   margin: 10% auto;
-   padding: 20px;
-   border: 1px solid #888;
-   width: 80%;
-   max-width: 800px;
-}
-#voteModal{
-   display: none;
-   position: fixed;
-   z-index: 1000;
-   left: 0;
-   top: 0;
-   width: 100%;
-   height: 100%;
-   overflow: auto;
-   background-color: rgba(0, 0, 0, 0.5);
-}
-.vote-content-modal{
-   background-color: white;
-   margin: 10% auto;
-   padding: 20px;
-   border: 1px solid #888;
-   width: 80%;
-   max-width: 800px;
-}
-#applyModal{
-   display: none;
-   position: fixed;
-   z-index: 1000;
-   left: 0;
-   top: 0;
-   width: 100%;
-   height: 100%;
-   overflow: auto;
-   background-color: rgba(0, 0, 0, 0.5);
-}
-.apply-content-modal{
-   background-color: white;
-   margin: 10% auto;
-   padding: 20px;
-   border: 1px solid #888;
-   width: 80%;
-   max-width: 800px;
+  color: #aaa;
+  font-size: 30px;
+  cursor: pointer;
+  right: 100px;
+  position: absolute;
 }
 
-.board-modal{
+.close:hover {
+  color: #555;
+}
+
+/* Modalmain  */
+.main-modal {
    display: none;
    position: fixed;
-   z-index: 1000;
+   z-index: 1;
    left: 0;
    top: 0;
    width: 100%;
@@ -117,56 +50,22 @@
    overflow: auto;
    background-color: rgba(0, 0, 0, 0.5);
 }
-.board-content-modal{
+/* Modal content */
+.content-modal {
    background-color: white;
    margin: 10% auto;
    padding: 20px;
    border: 1px solid #888;
    width: 80%;
    max-width: 800px;
+   min-height: 500px;
 }
-.apply-modal{
-   display: none;
-   position: fixed;
-   z-index: 1000;
-   left: 0;
-   top: 0;
-   width: 100%;
-   height: 100%;
-   overflow: auto;
-   background-color: rgba(0, 0, 0, 0.5);
-}
-.apply-content-modal{
-   background-color: white;
-   margin: 10% auto;
-   padding: 20px;
-   border: 1px solid #888;
-   width: 80%;
-   max-width: 800px;
-}
-.vote-modal{
-   display: none;
-   position: fixed;
-   z-index: 1000;
-   left: 0;
-   top: 0;
-   width: 100%;
-   height: 100%;
-   overflow: auto;
-   background-color: rgba(0, 0, 0, 0.5);
-}
-.vote-content-modal{
-   background-color: white;
-   margin: 10% auto;
-   padding: 20px;
-   border: 1px solid #888;
-   width: 80%;
-   max-width: 800px;
+/* submit-btn */
+.submit-btn{
+	
 }
 
-
-
-
+/* 내용 style */
 
 #clubBoardList {
   display: flex;
@@ -198,12 +97,16 @@
 }
 
 .boardMain {
+  width: 40%;
+  height: 300px;
   background-color: #ffffff;
   border: 1px solid #e1e1e1;
   border-radius: 5px;
   padding: 15px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  margin-top: 50px;
 }
 
 .boardMain:hover {
@@ -221,66 +124,12 @@
   margin-right: 10px;
 }
 
-#openModalBtn {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-#openModalBtn:hover {
-  background-color: #0056b3;
-}
-
-.close {
-  color: #aaa;
-  font-size: 30px;
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  cursor: pointer;
-}
-
-.close:hover {
-  color: #555;
-}
-
-
-#openModalBtn {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-#openModalBtn:hover {
-  background-color: #0056b3;
-}
-
-.close {
-  color: #aaa;
-  font-size: 30px;
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  cursor: pointer;
-}
-
-.close:hover {
-  color: #555;
-}
-
+/* 검색창 */
 .search-div {
   position: relative;
   width: 300px;
 }
-/* section */
+
 .search-text {
   width: 300px;
   border: 1px solid #bbb;
@@ -298,3 +147,25 @@
 }
 
 /* aside */
+.left-side{
+	float: left;
+	position: fixed;
+	top: 200px;
+	left: 80px;
+}
+.left-side img{
+	height: 300px;
+	width: 200px;
+}
+.rigth-side{
+	float: right;
+	position: fixed;
+	top: 200px;
+	right: 150px;
+}
+.button-group{
+	margin: 0 auto;
+}
+
+
+

@@ -36,11 +36,8 @@ public interface CreateclubService {
 	// 소모임 검색
 	public List<CreateclubVO> searchClub(CreateclubVO createclubVO);
 	
-	// 소모임 종류 정렬
-	public List<CreateclubVO> getOrderCategory(String clubCategory);
-	
-	// 소모임 지역 정렬
-	public List<CreateclubVO> getOrderLocation(String majorLocation);
+	// 지역 종류 2중 정렬
+	public List<CreateclubVO> getMixOrder(String majorLocation, String clubCategory);
 	
 	//페이징
 	public List<CreateclubVO> getClubsForInfiniteScroll(Map<String, Integer> map);
@@ -50,6 +47,8 @@ public interface CreateclubService {
 	
 	//모임 생성시 닉네임 갯수 확인용
 	public int countClubsByProfile(String profileNickname);
+
+
 
 
 }

@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style type="text/css">
 .list-group {
 	margin-top : 3%;
@@ -247,6 +248,14 @@
     
    
    }
+   
+   .prdtDetail {
+    width: 60%; 
+    margin-top: 30px; 
+    margin-bottom: 10px; 
+    margin-left: 380px;
+    font-size: 20px; /* 글자 크기를 16px로 설정 */
+}
 </style>
 <link href="<c:url value="/resources/css/bootstrap.min.css"/>"
     rel="stylesheet">
@@ -263,8 +272,15 @@
 	            <form name="prdtInfo" method="post">
 							  <input type="hidden" name="prdtId" id="prdtId" value="${prdtInfo.prdtId}">
 				</form>
+				
+				
+				
+				
                 <h3>${prdtInfo.prdtName}</h3>  
                 <p>${prdtInfo.prdtContents}</p>
+                <div id="prdtImg">
+				<img alt="" src="${pageContext.request.contextPath}${prdtInfo.prdtThumPath}${prdtInfo.prdtThum}" style="width: 250px; height: 300px;">
+				</div>
                 <br>
                 <p><b>상품번호 : </b><span class="badge badge-info">${prdtInfo.prdtId}</span>
                 <p><b>카테고리</b> : ${prdtInfo.prdtCate}<br>
@@ -322,7 +338,10 @@
 			}
 	</script>
     </div>
-	
+		<div class="prdtDetail">
+		<p>${prdtInfo.prdtDetail}</p>
+		
+		</div>
 	 
 	
    <!--리뷰 작성 폼  -->
@@ -650,15 +669,16 @@ $(document).ready(function() {
              contentType: "application/json",
              data: JSON.stringify(data),
              success: function(result) {
-                 alert("리뷰가 작성되었습니다.");
-                 $("#reviewTitle").val("");	//제목  초기화
-                 $("#reviewContent").val("");	//후기 내용 초기화
-                 $("#reviewModal").css("display", "none"); // 모달 닫기
-                 getReviewsByCategory(category);
-
+                 if (result === "success") {
+                     alert("리뷰가 작성되었습니다.");
+                     // 리뷰 작성 완료 후 처리 (예: 모달 닫기)
+                 } else {
+                     alert(result); // 서버에서 반환한 오류 메시지 표시
+                 }
              },
-             error: function() {
-                 alert("리뷰 작성에 실패하였습니다.");
+             error: function(xhr, status, error) {
+                 console.error(xhr.responseText); // 서버에서 반환한 오류 메시지 출력
+                 alert("본인이 구매한 상품만 후기작성이 가능합니다.");
              }
          });
      });
@@ -830,7 +850,11 @@ function calculateRatingHtml(rating) {
 
     // 댓글 내용이 비어 있는지 확인
     if (!commentContent) {
-        alert("댓글 내용을 입력해주세요.");
+    	Swal.fire(
+    			  '내용을 작성해주세요',
+    			  '',
+    			  'error'
+    			)
         return;
     }
 

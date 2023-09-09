@@ -34,4 +34,13 @@
 	</select>
 	
 	<!-- 모임공개 여부 공통코드 sql문  -->
+	
+	
+	
+	<!-- 공지사항 카테고리별 조회 -->
+	<select id="selectNoticeCate" resultType="CommcodeVO">
+		SELECT subcode, literal
+		FROM code_tree
+		WHERE code = #{code}
+	</select>
 </mapper>

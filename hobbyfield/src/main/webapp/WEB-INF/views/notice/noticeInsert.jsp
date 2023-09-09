@@ -79,12 +79,11 @@ h3{
 			<label for="noticeCate">카테고리</label> 
 			<select id="noticeCate" name="noticeCate" required>
 				<option id="" disabled selected>카테고리</option>
-				<option id="AA1" value="사이트전체공지">사이트전체공지</option>
-				<option id="AA2" value="소모임">소모임</option>
-				<option id="AA3" value="펀딩">펀딩</option>
-				<option id="AA4" value="쇼핑몰">쇼핑몰</option>
-				<option id="AA5" value="재능기부">재능기부</option>
-				<option id="AA6" value="포인트">포인트</option>
+				<option id="AA1" value="AA1">사이트전체공지</option>
+				<option id="AA2" value="AA2">소모임</option>
+				<option id="AA3" value="AA3">펀딩</option>
+				<option id="AA4" value="AA4">쇼핑몰</option>
+				<option id="AA5" value="AA6">포인트</option>
 			</select>
 
 		</div>		

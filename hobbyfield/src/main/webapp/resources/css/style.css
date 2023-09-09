@@ -1,4 +1,4 @@
-/*ÃÊ±âÈ­*/
+/*ï¿½Ê±ï¿½È­*/
 *{
     margin: 0;
     padding: 0;
@@ -16,7 +16,7 @@ input,textarea{outline: none;}
 
 #wrapper{width: 100%;}
 
-/*Çì´õ*/
+/*ï¿½ï¿½ï¿½*/
 header{
     width: 100%;
     height: auto;
@@ -71,7 +71,7 @@ header > .logo a {
     font-weight: bold;
 }
 
-/*¸ÞÀÎ*/
+/*ï¿½ï¿½ï¿½ï¿½*/
 #cs {
     width: 100%;
     height: auto;
@@ -130,7 +130,6 @@ header > .logo a {
 #cs > .main > section > ul {}
 #cs > .main > section > ul > li {
     text-indent: 10px;
-    margin-top: 12px;
 }
 #cs > .main > section > ul .title {
     font-size: 18px;
@@ -264,7 +263,7 @@ header > .logo a {
     margin-right: 6px;
 }
 
-/*ÇªÅÍ*/
+/*Çªï¿½ï¿½*/
 footer{
     width: 100%;
     height: 192px;
@@ -318,7 +317,7 @@ footer  p > strong {
     font-weight: bold;
 }
 
-/*¹öÆ° °øÅë*/
+/*ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½*/
 .btnWrite {
     float: right;
     padding: 10px 20px;
@@ -364,7 +363,7 @@ footer  p > strong {
 .btnSubmit:hover {
     background-color: #0956f6;
 }
-/*°í°´¼¾ÅÍ sub °øÅë*/
+/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ sub ï¿½ï¿½ï¿½ï¿½*/
 #cs > div > section > article > nav {
     width: 100%;
     height: auto;
@@ -378,7 +377,7 @@ footer  p > strong {
     font-size: 20px;
 }
 
-/*notice °øÅë*/
+/*notice ï¿½ï¿½ï¿½ï¿½*/
 #cs > .notice {}
 #cs > .notice > nav {
     width: 100%;
@@ -449,7 +448,7 @@ footer  p > strong {
     box-sizing: border-box;
 }
 
-/*notice - ±Û¸ñ·Ï*/
+/*notice - ï¿½Û¸ï¿½ï¿½*/
 #cs > .notice > .list > article > table {
     width: 100%;
     border-collapse: collapse;
@@ -504,7 +503,7 @@ footer  p > strong {
     color: #fff;
 }
 
-/*notice - ±Ûº¸±â*/
+/*notice - ï¿½Ûºï¿½ï¿½ï¿½*/
 #cs > .notice > .view {}
 #cs > .notice > .view > article > nav {
     width: 100%;
@@ -535,7 +534,7 @@ footer  p > strong {
     line-height: 32px;
 }
 
-/*faq °øÅë*/
+/*faq ï¿½ï¿½ï¿½ï¿½*/
 #cs > .faq {}
 #cs > .faq > nav {
     width: 100%;
@@ -605,7 +604,7 @@ footer  p > strong {
     box-sizing: border-box;
 }
 
-/*faq - ±Û¸ñ·Ï*/
+/*faq - ï¿½Û¸ï¿½ï¿½*/
 #cs > .faq > .list > article > div {
     margin-top: 26px;
 }
@@ -653,7 +652,7 @@ footer  p > strong {
     text-align: center;
 }
 
-/*faq - ±Ûº¸±â*/
+/*faq - ï¿½Ûºï¿½ï¿½ï¿½*/
 #cs > .faq > .view {}
 #cs > .faq > .view > article {}
 #cs > .faq > .view > article > nav {
@@ -692,7 +691,7 @@ footer  p > strong {
     line-height: 32px;
 }
 
- /*qna - °øÅë*/
+ /*qna - ï¿½ï¿½ï¿½ï¿½*/
  #cs > .qna {}
  #cs > .qna > nav {
      width: 100%;
@@ -762,7 +761,7 @@ footer  p > strong {
      padding: 26px;
      box-sizing: border-box;
  }
- /*qna - ¸®½ºÆ®*/
+ /*qna - ï¿½ï¿½ï¿½ï¿½Æ®*/
  #cs > .qna > .list > article > table {
      width: 100%;
      border-collapse: collapse;
@@ -818,7 +817,7 @@ footer  p > strong {
      color: #fff;
  }
 
- /*qna - ±Ûº¸±â*/
+ /*qna - ï¿½Ûºï¿½ï¿½ï¿½*/
  #cs > .qna > .view {}
  #cs > .qna > .view > article {}
  #cs > .qna > .view > article > nav {
@@ -850,7 +849,7 @@ footer  p > strong {
      line-height: 32px;
  }
 
-/*qna - ±Û¾²±â*/
+/*qna - ï¿½Û¾ï¿½ï¿½ï¿½*/
  #cs > .qna > .write > article table {
     width: 100%;
     border-collapse: collapse;

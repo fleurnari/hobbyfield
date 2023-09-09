@@ -21,6 +21,11 @@ public class CreateclubVO {
 	private Integer clubTotal;
 	private String memberEmail;
 	
+	private String clubCategoryCd;
+	private String clubTypeCd;
+	private String majorLocationCd;
+	private String subLocationCd;
+	
 	private String profileImg;
 	private String profileImgPath;
 	private String clubManager;

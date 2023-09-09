@@ -25,8 +25,8 @@
   	
   	<!-- 상품등록  -->
   	<insert id="insertPrdt" parameterType="PrdtVO">
-	    INSERT INTO prdt(prdt_id, prdt_name, prdt_cate, prdt_contents, reg_date, prdt_price, prdt_count, prdt_soldout, prdt_thum, member_email, prdt_option)
-	    VALUES(prdt_id_seq.NEXTVAL, #{prdtName}, #{prdtCate}, #{prdtContents}, sysdate, #{prdtPrice}, #{prdtCount}, #{prdtSoldout}, #{prdtThum}, #{memberEmail}, #{prdtOption})
+	    INSERT INTO prdt(prdt_id, prdt_name, prdt_cate, prdt_contents, reg_date, prdt_price, prdt_count, prdt_soldout, prdt_thum, prdt_thum_path, member_email, prdt_option, prdt_detail)
+	    VALUES(prdt_id_seq.NEXTVAL, #{prdtName}, #{prdtCate}, #{prdtContents}, sysdate, #{prdtPrice}, #{prdtCount}, #{prdtSoldout}, #{prdtThum}, #{prdtThumPath},#{memberEmail}, #{prdtOption}, #{prdtDetail})
 	</insert>
   	
   	<!-- 상품상세보기 -->
@@ -36,13 +36,14 @@
   	
   	<!-- 상품리스트 조회(페이징,검색) -->
 	<select id="selectAllPrdt" resultType="PrdtVO" parameterType="Criteria">
-	    SELECT prdt_name, prdt_id, prdt_price, prdt_thum 
+	    SELECT prdt_name, prdt_id, prdt_price, prdt_thum, prdt_thum_path 
 	    FROM ( 
             SELECT  
                    prdt_name,
                    prdt_id, 
                    prdt_price, 
-                   prdt_thum,  
+                   prdt_thum,
+                   prdt_thum_path,  
                    ROW_NUMBER() OVER(ORDER BY prdt_id DESC) AS RNUM
              FROM prdt
              WHERE 1=1

@@ -29,7 +29,7 @@
 			</tr>
 			<tr>
 				<th>작성자</th>
-				<td><input class="form-control" name="csWriter" ></td>
+    <td><input class="form-control" name="csWriter" value="${member.memberEmail }"></td>
 			</tr>
 			<tr>
 				<th>내용</th>

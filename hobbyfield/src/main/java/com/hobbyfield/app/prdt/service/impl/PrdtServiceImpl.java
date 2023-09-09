@@ -25,7 +25,7 @@ public class PrdtServiceImpl implements PrdtService {
 	@Override
 	public int insertPrdt(PrdtVO prdtVO) {
 		int result = prdtMapper.insertPrdt(prdtVO);
-		
+		System.out.println(prdtVO);
 		if(result == 1) {
 			return prdtVO.getPrdtId();
 		}else {

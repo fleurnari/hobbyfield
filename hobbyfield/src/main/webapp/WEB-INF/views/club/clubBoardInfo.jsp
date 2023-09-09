@@ -349,11 +349,6 @@ $(document).ready(function() {
 					},
 				dataType : "json",
 				success : function(result) {
-					if (result == 1) {
-						alert("작성자에게 댓글 알림이 전송 되었습니다.");
-					} else {
-						alert("작성자에게 댓글 알림 전송에 실패 했습니다.");
-					}
 				}
 			});
 		}

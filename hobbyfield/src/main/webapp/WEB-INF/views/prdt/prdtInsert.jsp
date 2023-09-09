@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <title>상품등록</title>
 <link href="../resources/css/prdt/bootstrap.min.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -52,15 +53,26 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="prdtContents" class="col-sm-2 control-label">상품상세설명</label>
+                <label for="prdtContents" class="col-sm-2 control-label">상품설명</label>
                 <div class="col-sm-5">
                     <textarea id="prdtContents" name="prdtContents" class="form-control"></textarea>
                 </div>
             </div>
             <div class="form-group row">
+                <label for="prdtContents" class="col-sm-2 control-label">상품상세설명</label>
+                <div class="col-sm-5">
+                    <textarea id="prdtDetail" name="prdtDetail" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
                 <label for="prdtThum" class="col-sm-2 control-label">상품이미지</label>
                 <div class="col-sm-3">
-                    <input type="text" id="prdtThum" name="prdtThum" class="form-control">
+                  <input type="text" id="" name="" class="form-control">
+                  <input name="uploadFile" type="file" value="profileImg" onchange="readURL(this);">
+                  <button type="button" id="uploadBtn">upload</button>
+                </div>
+                <div id=preview>
+                
                 </div>
             </div>
             <br>
@@ -75,8 +87,18 @@
 </div>
     
     
-</body>
-<script>
 
+<script>
+/* 이미지 업로드 */
+function imgUploadHandler(list) {
+			for (i = 0; i < list.length; i++) {
+				let tag = `<input type="hidden" id="prdtThum" name="prdtThum" value="\${list[i].UUID}">
+				           <input type="hidden" id="prdtThumPath" name="prdtThumPath" value="\${list[i].url}">`
+				$('.form-horizontal').append(tag);
+			}
+		}
 </script>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/common.js"></script>
+</body>
 </html>

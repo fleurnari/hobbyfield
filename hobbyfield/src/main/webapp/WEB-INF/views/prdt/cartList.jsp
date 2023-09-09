@@ -83,6 +83,7 @@
         <table class="table table-hover">
         <tr>
             <th>선택</th>
+            <th>상품번호</th>
             <th>상품명</th>
             <th>가격</th>
             <th>사이즈</th>
@@ -93,6 +94,7 @@
         <c:forEach items="${cartList}" var="cart">
         <tr>
             <td><input type="checkbox" name="chBox" class="chBox" data-cartId="${cart.cartId }"/></td>
+            <td>${cart.prdtId}</td>
             <td>${cart.prdtName}</td>
             <td><fmt:formatNumber type="number" value="${cart.prdtPrice}" pattern="###,###,###원"/></td>
             <td>${cart.prdtOption}</td>
@@ -228,13 +230,14 @@ $(document).ready(function() {
     $(".order_btn").click(function() {
         var selectedPrdtName = []; // 선택한 상품 담을 배열
         var selectedPrdtOption = [];
-        
+        var selectedPrdtId = []; 
         $(".chBox:checked").each(function() {
-            var prdtName = $(this).closest("tr").find("td:eq(1)").text();
-            var prdtOption = $(this).closest("tr").find("td:eq(3)").text();
-            
+        	 var prdtName = $(this).closest("tr").find("td:eq(2)").text(); // 상품명 가져오기
+             var prdtOption = $(this).closest("tr").find("td:eq(4)").text(); // 사이즈 가져오기
+             var prdtId = $(this).closest("tr").find("td:eq(1)").text(); // 상품번호 가져오기
             selectedPrdtName.push(prdtName); // 배열에 상품명 추가
             selectedPrdtOption.push(prdtOption);
+            selectedPrdtId.push(prdtId);
         });
 
         // 주문 정보를 아임포트 결제 요청에 포함
@@ -248,7 +251,8 @@ $(document).ready(function() {
             prdtName: selectedPrdtName.join(','),
             prdtOption: selectedPrdtOption.join(','), 
             amount: ${sum},
-            iamUid: generateUniqueMerchantUid() // iam_uid 추가
+            iamUid: generateUniqueMerchantUid(),
+            prdtId: selectedPrdtId.join(',') 
         };
 
 
@@ -300,6 +304,9 @@ $(document).ready(function() {
                 console.log("결제 성공");
                 console.log(response);
 
+                // response.imp_uid 값을 orderData에 추가
+                orderData.impUid = response.imp_uid;
+
                 // 결제 성공 시 서버로 결제 정보를 전송
                 $.ajax({
                     url: "orderInfo",
@@ -309,7 +316,7 @@ $(document).ready(function() {
                     success: function(result) {
                         if (result === "success") {
                             console.log("주문 정보 전송 성공");
-                            console.log(paymentData);
+                            console.log(orderData);
                         } else {
                             console.log("주문 정보 전송 실패");
                         }
