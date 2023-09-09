@@ -34,9 +34,9 @@ public class PushServiceImpl implements PushService {
 	}
 	
 	@Override
-	public int updatePush(int pushId) {
+	public int updatePush(String memberEmail) {
 
-		return pushMapper.updatePush(pushId);
+		return pushMapper.updatePush(memberEmail);
 	}
 
 	@Override

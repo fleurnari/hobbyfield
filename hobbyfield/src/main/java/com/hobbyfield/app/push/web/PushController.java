@@ -27,6 +27,8 @@ public class PushController {
 	@GetMapping("/selectPushList")
 	public List<PushVO> selectPushList(String memberEmail) {
 		
+		pushService.updatePush(memberEmail);
+		
 		return pushService.selectPushList(memberEmail);
 	
 	}
@@ -50,17 +52,6 @@ public class PushController {
 		
 		return result;
 	}
-	
-	// 알림 읽음 여부 변경
-	@ResponseBody
-	@PostMapping("/updatePush")
-	public String updatePush(int pushId) {
-		
-		pushService.updatePush(pushId);
-		
-		return null;
-	}
-	
 	
 	// 알림 삭제
 	@ResponseBody

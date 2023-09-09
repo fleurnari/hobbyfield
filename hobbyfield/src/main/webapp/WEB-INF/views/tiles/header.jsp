@@ -56,10 +56,10 @@
 		        <div class="modal-content">
 		            <div class="modal-header">
 		                <h5 class="modal-title" id="pushModalLabel">알림</h5>
+		                <button type="button" class="btn btn-secondary" onclick="deleteAllPush()">전체 삭제</button>
 		                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		            </div>
-		            <div class="modal-body">
-		                
+		            <div class="modal-body">    
 		                
 		            </div>
 		            <div class="modal-footer">
@@ -78,6 +78,7 @@
 			data : {"memberEmail" : memberEmail},
 			dataType : "json",
 	        success : function(data){
+	        	$('#nemo').text(0);
 	         	var a='';
 	         	 $.each(data, function(key, value){
 	 	         	var pushDatetime = new Date(value.pushDatetime);
@@ -111,7 +112,6 @@
   	function deletePush(pushId, element){
   		event.target.parentNode.nextElementSibling.remove();
   		event.target.parentNode.remove();
-  		$('#nemo').text(Number($('#nemo').text()) - 1);
   		$.ajax({
   	        url : '${pageContext.request.contextPath}/push/deletePush',
   	        type : 'post',
@@ -125,12 +125,30 @@
   	
   	
   	}
+ 
+    
+    // 알림 전체 삭제
+    function deleteAllPush() {
+    	var memberEmail = "${member.memberEmail}";
+    	
+    	 $(".modal-body").remove();
+    	$.ajax({
+    		url : '${pageContext.request.contextPath}/push/deleteAllPush',
+    		type : 'post',
+    		data : {'memberEmail' : memberEmail},
+    		dataType : "json",
+    		success : function() {
+    			
+    		}
+    		
+    	});
+    }
 
 
   //알림 수 
   function pushCount(){
 	  var memberEmail = "${member.memberEmail}";
-	  
+
   	 $.ajax({
   	        url : '${pageContext.request.contextPath}/push/selectPushCount',
   	        type : 'get',
@@ -145,9 +163,9 @@
   	    });
   }
   
-  // 알림 읽음 여부 변경
+
   
-  // 알림 전체 삭제
+  
   
   
  

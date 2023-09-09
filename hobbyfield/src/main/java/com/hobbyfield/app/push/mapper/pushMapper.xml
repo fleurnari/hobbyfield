@@ -53,7 +53,7 @@
 	<update id="updatePush">
 		UPDATE PUSH
 		SET push_chk = 'AG1'
-		WHERE push_id = #{pushId}
+		WHERE push_target = #{memberEmail}
 	</update>
 	
 	<!-- 알림 삭제 처리 -->
@@ -67,7 +67,7 @@
 	<delete id="deleteAllPush">
 		DELETE
 		FROM push
-		WHERE member_email = #{memberEmail}
+		WHERE push_target = #{memberEmail}
 	</delete>
 
 </mapper>

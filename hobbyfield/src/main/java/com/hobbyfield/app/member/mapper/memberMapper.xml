@@ -112,7 +112,8 @@
 			   			FIND_CODE_NM(c.club_type) AS club_type,
 			   			FIND_CODE_NM(c.club_public) AS club_public,
 			   			c.club_img,
-			   			c.club_img_path
+			   			c.club_img_path,
+			   			c.club_total
 			   
 		FROM club c
 		
