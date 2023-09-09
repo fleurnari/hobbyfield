@@ -26,9 +26,9 @@
 
 	<!-- 포인트 차감 -->
 	<update id="decreasePoint" parameterType="MyitemVO">
-	update member 
-	set MEMBER_ACTPNT = MEMBER_ACTPNT-#{pointPrice}
-	where MEMBER_EMAIL = #{memberEmail}
+		update member
+		set MEMBER_ACTPNT = MEMBER_ACTPNT-#{pointPrice}
+		where MEMBER_EMAIL = #{memberEmail}
 	</update>
 	
 	<!-- 나의 아이템 등록 -->
@@ -76,5 +76,6 @@
 		SET CLUB_TOTAL = 0
 		WHERE CLUB_NUMBER = #{clubNumber}
 	</update>
+
 
 </mapper>

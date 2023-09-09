@@ -129,8 +129,7 @@ button {
 </head>
 <body>
 	<div class="container">
-		<form action="${pageContext.request.contextPath}/member/myitemBuy"
-			method="POST" name="myitemBuy">
+		<form action="${pageContext.request.contextPath}/member/myitemBuy" method="POST" name="myitemBuy">
 			<div class="row">
 				<div class="col">
 					<div class="first-img">
@@ -219,12 +218,21 @@ button {
 					</div>
 					<div class="options">
 						<c:if test="${point.pointItemType eq 'W1'}">
-							<div>
-								<label>7일<input type="radio" name="pointOptId" value="${point.pointOptionVO[0].pointOptId }" data-period="7" data-price="${point.pointOptionVO[0].pointPrice }" checked>${point.pointOptionVO[0].pointPrice }포인트</label>
-								<label>14일<input type="radio" name="pointOptId" value="${point.pointOptionVO[1].pointOptId }" data-period="14" data-price="${point.pointOptionVO[1].pointPrice }">${point.pointOptionVO[1].pointPrice }포인트</label>
-								<label>30일<input type="radio" name="pointOptId" value="${point.pointOptionVO[2].pointOptId }" data-period="30" data-price="${point.pointOptionVO[2].pointPrice }">${point.pointOptionVO[2].pointPrice }포인트</label>
-								<label>영구<input type="radio" name="pointOptId" value="${point.pointOptionVO[3].pointOptId }" data-period="0" data-price="${point.pointOptionVO[3].pointPrice }">${point.pointOptionVO[3].pointPrice }포인트</label>
-							</div>
+						<table class="table">
+						<tr>
+						<td>7일</td>
+						<td>14일</td>
+						<td>30일</td>
+						<td>영구</td>
+						</tr>
+						<tr>
+						<td><input type="radio" name="pointOptId" value="${point.pointOptionVO[0].pointOptId }" data-period="7" data-price="${point.pointOptionVO[0].pointPrice }" checked>${point.pointOptionVO[0].pointPrice }</td>
+						<td><input type="radio" name="pointOptId" value="${point.pointOptionVO[1].pointOptId }" data-period="14" data-price="${point.pointOptionVO[1].pointPrice }">${point.pointOptionVO[1].pointPrice }</td>
+						<td><input type="radio" name="pointOptId" value="${point.pointOptionVO[2].pointOptId }" data-period="30" data-price="${point.pointOptionVO[2].pointPrice }">${point.pointOptionVO[2].pointPrice }</td>
+						<td><input type="radio" name="pointOptId" value="${point.pointOptionVO[3].pointOptId }" data-period="0" data-price="${point.pointOptionVO[3].pointPrice }">${point.pointOptionVO[3].pointPrice }</td>
+						</tr>
+						
+						</table>
 							<!-- 각 value 값은 기본값을 표시하는 것 -->
 							<input type="hidden" value="7" name="myitemUseterm">
 							<input type="hidden" value="${point.pointOptionVO[0].pointPrice }" name="pointPrice">
@@ -362,7 +370,8 @@ $('form').on('submit', function(e){
 	e.preventDefault();
 	//포인트 보유 확인
 	let pnt = Number($('#memberActpnt').text())
-	let groupPrice = Number($('#groupPrice').text())
+	let groupPrice = myitemBuy.pointPrice.value;
+
 	if(pnt < groupPrice){
 		alert("보유 포인트가 부족합니다.");
 		closeModal();
@@ -379,15 +388,19 @@ $('form').on('submit', function(e){
 	})
 	.done(data => {
 		if (data){
-			alert("아이템 구매가 완료 되었습니다.");
-			window.location.href = '${pageContext.request.contextPath}/member/myitemList';
+			Swal.fire(
+					  '구매완료',
+					  '',
+					  'success'
+					)
+			
 		} else {
 			alert("아이템 구매에 실패 했습니다.");
 			window.location.href = '${pageContext.request.contextPath}/member/myitemList';
 			}
 	})
 	.fail(reject => console.log(reject));
-	
+	window.location.href = '${pageContext.request.contextPath}/member/myitemList';
 	return false;
 	});
 	
