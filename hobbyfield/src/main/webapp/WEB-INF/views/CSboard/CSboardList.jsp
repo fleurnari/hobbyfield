@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta charset="UTF-8">
 <title>CS게시글</title>
 <script
@@ -15,153 +16,108 @@ li {
 	float: left;
 	padding: 6px;
 }
+ .custom-container {
+        margin-top: 150px; /* 원하는 여백 크기(px) 설정 */
+    }
+   a {
+    cursor: pointer; /* 포인터 모양의 커서로 변경 */
+}
 </style>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath }/resources/css/common.css?after">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath }/resources/css/style.css?after">
+<link href="../resources/css/prdt/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-	<div id="wrapper">
-		<header>
-			<div class="top">
-				<div>
-					<p>
-						<a href="#">로그인</a> <a href="#">회원가입</a> <a href="#">마이페이지</a> <a
-							href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-							장바구니
-						</a>
-					</p>
-				</div>
-			</div>
-			<div class="logo">
-				<div>
-					<a href="#"> <img src="" alt="로고"> 고객센터
-					</a>
-				</div>
-			</div>
-		</header>
-		<section id="cs">
-			<div class="notice">
-				<nav>
-					<div>
-						<p>
-							홈 <span>></span> CS
-						</p>
-					</div>
-				</nav>
-				<section class="list">
-					<aside>
-						<h2>공지사항</h2>
-						<ul>
-							<li class="on"><a href="#">전체</a></li>
-							<li><a href="${pageContext.request.contextPath }/CSboard/CSboardList">CS게시판</a></li>
-							<li><a href="#">고객서비스</a></li>
-							<li><a href="#">이벤트당첨</a></li>
-						</ul>
-					</aside>
-					<article>
-						<nav>
-							<h1>전체 게시글</h1>
-							<br>
-							<h2>CS게시판</h2>
-						</nav>
-						<table>
-							<tbody>
-								<c:forEach items="${CSboardList }" var="CSboard">
-									<tr
-										onclick="location.href='CSboardInfo?csNumber=${CSboard.csNumber}&page=${scri.page}&perPageNum=${scri.perPageNum}&searchType=${scri.searchType}&keyword=${scri.keyword}'">
-										<td>${CSboard.csNumber }</td>
-										<td>${CSboard.csTitle }</td>
-										<td>${CSboard.csCate }</td>
-										<td>${CSboard.csWriter }</td>
-										<td><fmt:formatDate value="${CSboard.csDate }"
-												pattern="yyyy년MM월dd일" /></td>
-									</tr>
-								</c:forEach>
-								<div align="center">
-									<button type="button" class="btnList"
-										onclick="location.href='CSboardInsert'">게시글등록</button>
-							</tbody>
-						</table>
-						<div class="search">
-							<select name="searchType">
-								<option value="t"
-									<c:out value="${scri.searchType eq 't' ? 'selected' : ''}"/>>제목</option>
-								<option value="c"
-									<c:out value="${scri.searchType eq 'c' ? 'selected' : ''}"/>>내용</option>
-								<option value="w"
-									<c:out value="${scri.searchType eq 'w' ? 'selected' : ''}"/>>작성자</option>
-								<option value="tc"
-									<c:out value="${scri.searchType eq 'tc' ? 'selected' : ''}"/>>제목+내용</option>
-							</select> <input type="text" name="keyword" id="keywordInput"
-								value="${scri.keyword}" />
-
-							<button id="searchBtn" type="button">검색</button>
-						</div>
-						<div>
-							<ul>
-								<c:if test="${pageMaker.prev}">
-									<li><a
-										href="${pageContext.request.contextPath }/CSboard/CSboardList${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a></li>
-								</c:if>
-
-								<c:forEach begin="${pageMaker.startPage}"
-									end="${pageMaker.endPage}" var="idx">
-									<li><a
-										href="${pageContext.request.contextPath }/CSboard/CSboardList${pageMaker.makeSearch(idx)}">${idx}</a></li>
-								</c:forEach>
-
-								<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-									<li><a
-										href="${pageContext.request.contextPath }/CSboard/CSboardList${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a></li>
-								</c:if>
-							</ul>
-						</div>
-					</article>
-				</section>
-			</div>
-		</section>
-		<footer>
-			<ul>
-				<li><a href="#">회사소개</a></li>
-				<li><a href="#">서비스이용약관</a></li>
-				<li><a href="#">개인정보처리방침</a></li>
-				<li><a href="#">전자금융거래약관</a></li>
-			</ul>
-			<div>
-				<p>
-					<img src="" alt="푸터로고">
-				</p>
-				<p>
-					<strong>HobbyGang</strong> <br> 예담 <br> 대표이사 : 신나리 <br>
-					사업자등록번호 : 220-81-83676 사업자정보확인 <br> 통신판매업신고 : 강남 10630호 Fax :
-					02-589-8842
-				</p>
-				<p>
-					<strong>고객센터</strong> <br> Tel : 1234-5678 (평일 09:00 ~ 18:00)
-					<br> 스마일클럽/SVIP 전용 : 1522-5700 (365일 09:00~18:00) <br>
-					경기도 부천시 원미구 부일로 223(상동) 투나빌딩 6층 <br> Fax : 051-123-4567 | Mail
-					: nateok12@naver.com <br>
-				</p>
-			</div>
-		</footer>
-	</div>
-	<script>
-		$(function() {
-			$('#searchBtn')
-					.click(
-							function() {
-								self.location = "${pageContext.request.contextPath }/CSboard/CSboardList"
-										+ '${pageMaker.makeQuery(1)}'
-										+ "&searchType="
-										+ $("select option:selected").val()
-										+ "&keyword="
-										+ encodeURIComponent($('#keywordInput')
-												.val());
-							});
-		});
-	</script>
-
+    <div class="container custom-container">
+        <nav>
+                    <div>
+                        <h5>
+                            카테고리
+                            <span>></span>
+                            배송관련안내
+                        </h5>
+                    </div>
+                </nav>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="list-group">
+                    <li class="list-group-item"><a href="#"><img src="${pageContext.request.contextPath}/resources/svg/bars.svg" alt=""> 카테고리</a></li>
+					<li class="list-group-item"><a href="${pageContext.request.contextPath}/prdt/prdtInsert"><img src="${pageContext.request.contextPath}/resources/svg/tags.svg" alt=""> 상품등록</a></li>
+					<li class="list-group-item"><a href="${pageContext.request.contextPath}/prdt/cartList"><img src="${pageContext.request.contextPath}/resources/svg/cart.svg" alt=""> 장바구니</a></li>
+					<li class="list-group-item"><a href="${pageContext.request.contextPath}/prdt/orderList"><img src="${pageContext.request.contextPath}/resources/svg/card.svg" alt=""> 주문목록</a></li>
+					<li class="list-group-item"><a href="${pageContext.request.contextPath}/prdt/adminOrderList" id="deliveryMenu"><img src="${pageContext.request.contextPath}/resources/svg/truck.svg" alt=""> 배송관리</a></li>
+					<li class="list-group-item"><a href="${pageContext.request.contextPath}/CSboard/CSboardList"><img src="${pageContext.request.contextPath}/resources/svg/person.svg" alt="">  공지사항</a></li>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th style="width: 50%;">제목</th>
+                            <th>작성자</th>
+                            <th>작성일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${CSboardList}" var="CSboard">
+                            <tr onmouseover="this.style.cursor='pointer';" onclick="location.href='CSboardInfo?csNumber=${CSboard.csNumber}&page=${scri.page}&perPageNum=${scri.perPageNum}&searchType=${scri.searchType}&keyword=${scri.keyword}'">
+                                <td>${CSboard.csNumber}</td>
+                                <td>${CSboard.csTitle}</td>
+                                <td>${CSboard.csWriter}</td>
+                                <td><fmt:formatDate value="${CSboard.csDate}" pattern="yyyy년MM월dd일" /></td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary" onclick="location.href='CSboardInsert'">게시글 등록</button>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" style="margin-top: 20px;">
+                        <form class="form-inline">
+                            <div class="form-group">
+                               <select class="form-control" name="searchType">
+								    <option value="t" ${scri.searchType eq 't' ? 'selected' : ''}>제목</option>
+								    <option value="c" ${scri.searchType eq 'c' ? 'selected' : ''}>내용</option>
+								    <option value="w" ${scri.searchType eq 'w' ? 'selected' : ''}>작성자</option>
+								    <option value="tc" ${scri.searchType eq 'tc' ? 'selected' : ''}>제목+내용</option>
+								</select>
+                            </div>
+                            <div class="form-group mx-sm-3">
+                                <input type="text" class="form-control" id="keywordInput" name="keyword" value="${scri.keyword}" placeholder="검색어 입력">
+                            </div>
+                            <button type="button" class="btn btn-primary" id="searchBtn">검색</button>
+                        </form>
+                    </div>
+                </div>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        <c:if test="${pageMaker.prev}">
+                            <li class="page-item">
+                                <a class="page-link" href="${pageContext.request.contextPath}/CSboard/CSboardList${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a>
+                            </li>
+                        </c:if>
+                        <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+                            <li class="page-item">
+                                <a class="page-link" href="${pageContext.request.contextPath}/CSboard/CSboardList${pageMaker.makeSearch(idx)}">${idx}</a>
+                            </li>
+                        </c:forEach>
+                        <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+                            <li class="page-item">
+                                <a class="page-link" href="${pageContext.request.contextPath}/CSboard/CSboardList${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a>
+                            </li>
+                        </c:if>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script>
+        $(function() {
+            $('#searchBtn').click(function() {
+                self.location = "${pageContext.request.contextPath}/CSboard/CSboardList" + '${pageMaker.makeQuery(1)}' + "&searchType=" + $("select option:selected").val() + "&keyword=" + encodeURIComponent($('#keywordInput').val());
+            });
+        });
+    </script>
 </body>
 </html>

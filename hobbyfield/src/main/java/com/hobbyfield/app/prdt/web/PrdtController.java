@@ -1,8 +1,10 @@
 package com.hobbyfield.app.prdt.web;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -25,6 +27,8 @@ import com.hobbyfield.app.common.PageMaker;
 import com.hobbyfield.app.common.SearchCriteria;
 import com.hobbyfield.app.csboard.service1.CSReplyVO;
 import com.hobbyfield.app.member.service.MemberVO;
+import com.hobbyfield.app.prdt.order.service.OrderService;
+import com.hobbyfield.app.prdt.order.service.OrderVO;
 import com.hobbyfield.app.prdt.service.CommentVO;
 import com.hobbyfield.app.prdt.service.LikeService;
 import com.hobbyfield.app.prdt.service.LikeVO;
@@ -48,14 +52,22 @@ public class PrdtController {
 	@Autowired
 	LikeService likeService;
 	
+	@Autowired
+	OrderService orderService;
 	
-	@GetMapping("/getEmail")
-	@ResponseBody
-	public String getCurrentUserEmail(HttpSession session) {
-	    String memberEmail = (String) session.getAttribute("memberEmail");
-	    return memberEmail;
+	@GetMapping("getGrd")
+	   public String getCurrentUserGrd(HttpSession session, Model model) {
+	       String memberGrd = (String) session.getAttribute("memberGrd");
+	       model.addAttribute("memberGrd", memberGrd);
+	       return "prdt/prdtInfo";
 	}
 	
+	@GetMapping("getMemberEmail")
+	   public String getEmail(HttpSession session, Model model) {
+			MemberVO memberEmail = (MemberVO) session.getAttribute("memberEmail");
+	       model.addAttribute("memberEmail", memberEmail);
+	       return "prdt/prdtInfo";
+	}
 	
 	
 	//상품목록조회
@@ -125,14 +137,35 @@ public class PrdtController {
 	
 	//상품후기 작성
 	@PostMapping("writeReview")
-    @ResponseBody
-    public void writeComment(@RequestBody ReviewVO reviewVO, HttpSession session) {
-		
-		MemberVO member = (MemberVO)session.getAttribute("member");
-		reviewVO.setMemberEmail(member.getMemberEmail());
-		reviewService.writeReview(reviewVO);
-        
-    }
+	@ResponseBody
+	public ResponseEntity<String> writeComment(@RequestBody ReviewVO reviewVO, HttpSession session) {
+	    MemberVO member = (MemberVO) session.getAttribute("member");
+
+	    // 해당 회원의 구매 이력을 조회합니다.
+	    List<OrderVO> orderList = orderService.orderList(member.getMemberEmail());
+
+	    // 구매한 상품의 목록을 저장할 Set을 생성합니다.
+	    Set<Integer> purchasedProducts = new HashSet<>();
+
+	    // 구매 이력을 반복하면서 구매한 상품을 결정합니다.
+	    for (OrderVO order : orderList) {
+	        purchasedProducts.add(order.getPrdtId());
+	    }
+
+	    // reviewVO에 있는 productId를 확인하여 구매한 상품인지 확인합니다.
+	    if (purchasedProducts.contains(reviewVO.getPrdtId())) {
+	        // 구매한 상품인 경우 후기를 작성합니다.
+	        reviewVO.setMemberEmail(member.getMemberEmail());
+	        reviewService.writeReview(reviewVO);
+	        System.out.println("리뷰 작성 성공: " + reviewVO.toString());
+	        return new ResponseEntity<>("success", HttpStatus.OK); // 성공 응답 반환
+	    } else {
+	        // 구매한 상품이 아닌 경우에 대한 처리를 수행합니다.
+	        // 예를 들어, 오류 메시지를 반환합니다.
+	        System.out.println("리뷰 작성 실패 - 구매한 상품이 아님: " + reviewVO.toString());
+	        return new ResponseEntity<>("구매한 사람만 후기를 작성할 수 있습니다.", HttpStatus.BAD_REQUEST);
+	    }
+	}
 	
 	//상품후기 목록 (카테고리별)
 	@PostMapping("getReviewsByCategory")

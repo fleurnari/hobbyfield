@@ -1,9 +1,9 @@
-/* °øÅë */
+/* ï¿½ï¿½ï¿½ï¿½ */
 
 * {
     margin: 0px;
     padding: 0px;
-    font: 12px °íµñ;
+    font: 12px ï¿½ï¿½ï¿½;
 }
 
 ul, ol { list-style: none; }
@@ -17,7 +17,7 @@ input, textarea { outline: none; }
 
 #wrapper { width: 100%; }
 
-/* Çì´õ */
+/* ï¿½ï¿½ï¿½ */
 
 header {
     width: 100%;
@@ -141,7 +141,7 @@ header > .menu > div > ul > li > a {
     padding: 0 10px;
 }
 
-/* ¸ÞÀÎ */
+/* ï¿½ï¿½ï¿½ï¿½ */
 
 main {
     width: 1200px;
@@ -248,7 +248,7 @@ main > section {
     box-sizing: border-box;
 }
 
-/* ÇªÅÍ */
+/* Çªï¿½ï¿½ */
 
 footer {
     width: 100%;
@@ -310,7 +310,7 @@ footer > div > p > strong {
     font-weight: bold;
 }
 
-/* ÇÏ´Ü ¹öÆ° */
+/* ï¿½Ï´ï¿½ ï¿½ï¿½Æ° */
 
 #top {
     position: fixed;
@@ -326,8 +326,8 @@ footer > div > p > strong {
 }
  
 
-»óÇ° ¸ñ·Ï È­¸é CSS - product.css (»óÇ° ¸ñ·Ï + ÀÌÈÄ È­¸é ±¸Çö CSS)
-/* »óÇ°¸ñ·Ï */
+ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ È­ï¿½ï¿½ CSS - product.css (ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ + ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ CSS)
+/* ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ */
 
 #product > section {
     padding: 16px;
@@ -429,7 +429,7 @@ footer > div > p > strong {
 }
 
 #product > .list > table .dis-price::after {
-    content: "¿ø";
+    content: "ï¿½ï¿½";
 }
 
 #product > .list > table .org-price {
@@ -438,7 +438,7 @@ footer > div > p > strong {
 }
 
 #product > .list > table .org-price::after {
-    content: "¿ø";
+    content: "ï¿½ï¿½";
 }
 
 #product > .list > table .discount {
@@ -447,7 +447,7 @@ footer > div > p > strong {
 }
 
 #product > .list > table .discount::after {
-    content: "¡é";
+    content: "ï¿½ï¿½";
 }
 
 #product > .list > table .free-delivery {
@@ -523,7 +523,7 @@ footer > div > p > strong {
     text-decoration: none;
 }
 
-/* »óÇ°»ó¼¼ */
+/* ï¿½ï¿½Ç°ï¿½ï¿½ */
 #product > .view > article {
     width: 100%;
     height: auto;
@@ -583,7 +583,7 @@ footer > div > p > strong {
     color: #aaa;
 }
 
-#product > .view > .info > .summary .org_price > del::after { content: "¿ø"; }
+#product > .view > .info > .summary .org_price > del::after { content: "ï¿½ï¿½"; }
 
 #product > .view > .info > .summary .org_price > span {
     color: #eb000a;
@@ -591,7 +591,7 @@ footer > div > p > strong {
     margin-left: 6px;
 }
 
-#product > .view > .info > .summary .org_price > span::after { content: "¡é"; }
+#product > .view > .info > .summary .org_price > span::after { content: "ï¿½ï¿½"; }
 
 #product > .view > .info > .summary .dis_price > ins {
     font-size: 26px;
@@ -599,7 +599,7 @@ footer > div > p > strong {
     text-decoration: none;
 }
 
-#product > .view > .info > .summary .dis_price > ins::after { content: "¿ø"; }
+#product > .view > .info > .summary .dis_price > ins::after { content: "ï¿½ï¿½"; }
 #product > .view > .info > .summary .delivery {
     font-size: 16px;
     color: #2e8de5;
@@ -690,7 +690,7 @@ footer > div > p > strong {
     letter-spacing: -0.5px;
 }
 
-#product > .view > .info > .summary .total > span::after { content: "¿ø";}
+#product > .view > .info > .summary .total > span::after { content: "ï¿½ï¿½";}
 
 #product > .view > .info > .summary .total > em {
     float: right;
@@ -856,7 +856,7 @@ footer > div > p > strong {
 }
 
 
-/* Àå¹Ù±¸´Ï */
+/* ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ */
 
 #product > .cart > form {}
 

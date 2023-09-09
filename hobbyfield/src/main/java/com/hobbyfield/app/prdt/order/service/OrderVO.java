@@ -20,6 +20,8 @@ public class OrderVO {
 	    private int amount;			//총액
 	    private String iamUid;
 	    private String prdtOption;
+	    private int prdtId;
+	    private String impUid; 
 		/*
 		 * create table prdt_order(
 		 * 
