@@ -171,9 +171,10 @@ span {
 				<input type="text" name="singupQuestion3"><br>
 			</div>
 			
-			<img src="noimg.jpg" width="300" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/img/clubImg.jpg';"/>
 			
-			<div id="preview"></div>
+			<div id="preview">
+				<img src="noimg.jpg" width="300" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/img/clubImg.jpg';"/>
+			</div>
 			
 			<input name="uploadFile" type="file" value="" onchange="readURL(this);">
 			

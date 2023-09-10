@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.util.SystemOutLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -167,7 +168,7 @@ public class MemberController {
 				pointRecordService.insertPointLog(pointRecord);
 				
 			}
-		
+			System.out.println(kakaoMember);
 			session.setAttribute("member", kakaoMember);
 			return "home";
 		} else {

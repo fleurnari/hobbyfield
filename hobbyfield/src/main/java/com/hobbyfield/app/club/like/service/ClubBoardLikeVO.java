@@ -7,9 +7,9 @@ public class ClubBoardLikeVO {
 //	LIKE_NUMBER      NOT NULL NUMBER(4)    
 //	PROFILE_NICKNAME NOT NULL VARCHAR2(50) 
 //	BOARD_NUMBER     NOT NULL NUMBER(4)    
-	private int likeNumber;
+	private Integer likeNumber;
 	private String profileNickname;
-	private int boardNumber;
+	private Integer boardNumber;
 	
 	
 }

@@ -7,8 +7,8 @@ public interface ClubBoardLikeService {
 	// 좋아요 삭제
 	public int deleteBoardLike(ClubBoardLikeVO clubBoardLikeVO);
 	// 좋아요 총합
-	public int countBoardLike(int boardNumber);
+	public int countBoardLike(Integer boardNumber);
 	// 좋아요 눌렀는지 확인
-	public int selectBoardLike(int boardNumber, String profileNickname);
+	public int selectBoardLike(Integer boardNumber, String profileNickname);
 	
 }
