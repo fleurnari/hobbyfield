@@ -21,6 +21,9 @@ import org.springframework.stereotype.Service;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.hobbyfield.app.club.board.service.ClubBoardVO;
+import com.hobbyfield.app.club.board.service.ClubCommentVO;
+import com.hobbyfield.app.club.like.service.ClubBoardLikeVO;
 import com.hobbyfield.app.club.service.CreateclubVO;
 import com.hobbyfield.app.common.MailUtils;
 import com.hobbyfield.app.common.TempKey;
@@ -238,5 +241,23 @@ public class MemberServiceImpl implements MemberService{
 		sendMail.setFrom("fleurnari2@gmail.com", "HobbyField");
 		sendMail.setTo(memberEmail);
 		sendMail.send();
+	}
+
+	@Override
+	public List<ClubBoardVO> selectMyClubBoard(String memberEmail) {
+
+		return memberMapper.selectMyClubBoard(memberEmail);
+	}
+
+	@Override
+	public List<ClubCommentVO> selectMyClubComment(String memberEmail) {
+
+		return memberMapper.selectMyClubComment(memberEmail);
+	}
+
+	@Override
+	public List<ClubBoardLikeVO> selectMyClubLike(String memberEmail) {
+
+		return memberMapper.selectMyClubLike(memberEmail);
 	}
 }

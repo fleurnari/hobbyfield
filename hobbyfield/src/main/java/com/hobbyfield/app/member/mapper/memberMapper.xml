@@ -157,5 +157,58 @@
 		AND member_nm = #{memberNm}	
 	</update>
 	
+	<!-- 마이 페이지 - 내가 쓴 소모임 글 -->
+	<select id="selectMyClubBoard" resultType="ClubBoardVO">
+		SELECT c.board_number, 
+	        c.club_number, 
+	        c.club_board_writer, 
+	        c.club_board_content,
+	        c.club_board_views, 
+	        c.club_board_type, 
+	        c.schedule_date,
+	        c.club_board_blind,
+	        p.profile_img,
+	        p.profile_img_path
+		FROM CLUB_BOARD c JOIN PROFILE p ON(c.club_board_writer=p.profile_nickname)
+		JOIN member m ON(p.member_email = m.member_email)
+		WHERE m.member_email = #{memberEmail}
+	</select>
+	
+	<!-- 마이 페이지 - 내가 쓴 소모임 댓글 -->
+	<select id="selectMyClubComment" resultType="ClubCommentVO">
+		SELECT DISTINCT  c.comment_number,
+		        		 c.board_number,
+		        		 c.club_comment_content,
+		        		 c.club_comment_date,
+		        		 c.club_comment_secret,
+		        		 c.club_comment_level,
+		        		 c.profile_nickname,
+		        		 p.profile_img,
+		        		 p.profile_img_path
+		FROM CLUB_COMMENT c JOIN profile p ON(c.profile_nickname = p.profile_nickname)
+		JOIN member m ON(p.member_email = p.member_email)
+		WHERE p.member_email = #{memberEmail}
+	</select>
+	
+	<!-- 마이 페이지 - 내가 좋아요 한 소모임 글 -->
+	<select id="selectMyClubLike" resultType="ClubBoardLikeVO">
+		SELECT  l.like_number,
+		        l.profile_nickname,
+		        l.board_number,
+		        c.club_number,
+		        c.club_board_content,
+		        c.club_board_wdate,
+		        c.club_board_views,
+		        c.club_board_type,
+		        c.schedule_date,
+		        c.club_board_blind,
+		        p.profile_img,
+		        p.profile_img_path
+		FROM CLUB_BOARD_LIKE l JOIN CLUB_BOARD C ON(l.board_number = c.board_number)
+		JOIN profile p ON(l.profile_nickname = p.profile_nickname)
+		JOIN member m ON(p.member_email = m.member_email)
+		WHERE p.member_email = #{memberEmail}
+	</select>
+	
   </mapper>
   
