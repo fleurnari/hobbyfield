@@ -72,7 +72,6 @@ public class ClubController {
   
     @Autowired
 	ClubJoinService clubJoinService;
-    
 
     @Autowired 
     PointService pointService;

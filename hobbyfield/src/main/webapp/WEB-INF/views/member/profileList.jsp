@@ -25,7 +25,7 @@
 	    width: 100%;
 	    height: 100%;
 	    background-color: rgba(0,0,0,0.5);
-	    z-index: 1000;
+	    z-index: 1;
 	    display: flex;
 	    justify-content: center;
 	    align-items: center;
@@ -33,7 +33,7 @@
 	}
 
     .modal-body {
-	    width: 70%;  /* 너비 조정 */
+/* 	    width: 25%;  /* 너비 조정 */ */
 	    background-color: white;
 	    padding: 40px 40px 60px 40px;  /* 패딩을 조정하여 내용이 적절히 들어갈 수 있도록 합니다. */
 	    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -71,7 +71,58 @@
 	    border: none;  /* 버튼의 테두리 제거 */
 	    cursor: pointer;  /* 버튼에 마우스 오버 시 포인터 아이콘으로 변경 */
 	}
+	
+    /* 박스 스타일 */
+	#box {
+	  display: flex;
+	  justify-content: center;
+	  align-items: flex-start;
+	  width: 90%; /* 너비를 조절하여 중앙에 위치하게 함 */
+      margin: 0 auto; /* 중앙 정렬 */
+	}
+	
+     #box > div:first-child {
+        margin-right: 50px; /* 카테고리 오른쪽 간격 조절 */
+    }
+    
+    .table td, .table th {
+    vertical-align: middle;
+    color: initial;
+    padding: 20px 8px;
+   
+	}
+	
+	.tr{
+	width: 20px;
+	}
+	
+    
+    .table {
+    width: 100%; 
+    margin: 20px 0; /* 표의 위아래 간격 조절 */
+    font-size: 14px;
+    border-collapse: collapse;
+	}
+	
+	tr:hover {
+    cursor: pointer;
+  	}	
 
+	 .btn-primary {
+        margin-top: 20px;
+        margin-right: 0;
+        right : 400px;
+        align-self: flex-start;
+        order: 2;  /* 버튼이 뒤로 오게*/
+    }
+	
+	.images{
+		width: 200px;
+		height: 150px;
+		margin: 0 auto; /* 중앙 정렬 */
+	}
+	
+	
 
 </style>
 <script type="text/javascript" src="resources/js/common.js"></script>
@@ -81,20 +132,20 @@
 <section>
 
 	<div align="center">
-		<div>
 		<div id="box">
 			<div>
          		<jsp:include page="myPageMenu.jsp"></jsp:include>
          	</div>
+         	 <div style="flex: 1; width: 100%;"> 
+         	<div style="text-align: right;">
+         		<a class="btn btn-primary" href="${pageContext.request.contextPath}/club/profileInsert">프로필 생성</a>
+         	 </div>
          	
-         	<div>
-         		<a class="btn btn-success" href="${pageContext.request.contextPath}/club/profileInsert">프로필 생성</a>
-         	</div>
-			<table border="1">
+			<table class="table table-striped table-hover">
 					<thead align="center">
 						<tr>
-							<th>프로필 닉네임</th>
-							<th>가입한 모임이름</th>
+							<th>닉네임</th>
+							<th>가입한 모임</th>
 							<th>프로필 이미지</th>
 						</tr>
 					</thead>
@@ -109,18 +160,20 @@
 							<td>${profile.profileNickname}</td>
 							<td>${profile.clubName}</td>
 							<td>
-							<img class="images" src="${pageContext.request.contextPath}/download/img/${profile.profileImg}${profil.profileImgPath}"/>
+							<img class="images" src="${pageContext.request.contextPath}/download/img/${profile.profileImg}${profile.profileImgPath}"/>
 							</td>	
 						</tr>
 					</tbody>
 				</c:forEach>
 			</table>
 		</div>
+		</div>
 	</div>
+	
 		<!-- modal 창 시작 -->
 		<form action="updateProfile" method="POST" id="uploadForm">
 			<div align="center" id="club-modal" class="club-modal">
-				<div class="modal-body">
+				<div class="modal-body" style="width: 25%;">
 				
 				<input type="text" value="${profileNickname}" name="profileNickname" readonly>
 				
@@ -141,12 +194,7 @@
 			
 			</div>
 		</form>
-		<!-- modal 창 끝 -->
 		
-
-
-		
-	</div>
 </section>
 	
 <script>

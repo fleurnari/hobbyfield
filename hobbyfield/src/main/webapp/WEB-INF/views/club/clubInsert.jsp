@@ -81,8 +81,20 @@ span {
     margin-top: 20px; /* 위쪽 여백 설정 */
 }
 
+.question-box{
+    width: 70%;
+    height: 6.25em;
+    border: medium;
+    resize: none;
+}
+
+.form-control{
+	width: 50%;
+}
+
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club/insertclub.css">
 <script type="text/javascript" src="resources/js/common.js"></script>
 <title>소모임 등록</title>
 <style type="text/css">
@@ -98,11 +110,11 @@ span {
 <form action="clubInsert" method="post" id="join_form">
 	<div align="center" class="top">
 		<div class="club_create_sub">
-			<h2>소모임 정보</h2>		
+			<h2>소모임 등록</h2>		
 		</div>
 		<div>
 			<div><label>닉네임 선택</label>
-			    <select id="profile" name="profileNickname">
+			    <select id="profile" name="profileNickname" class="form-control">
 			        <c:forEach items="${profileList}" var="profile">
 			            <option value="${profile.profileNickname}">${profile.profileNickname}</option>
 			        </c:forEach>
@@ -122,8 +134,8 @@ span {
 			</div>
 
 				<div>
-					<label>모임카테고리 : </label> 
-					<select class="club_category" name="clubCategory">
+					<label>모임카테고리  </label> 
+					<select class="club_category" name="clubCategory" class="form-control">
 						<c:forEach items="${C}" var="category">
 							<option value="${category.subcode }">${category.literal}</option>
 						</c:forEach>
@@ -143,40 +155,37 @@ span {
 			</div>
 			
 			<div>
-				<label>광역지역 : </label>
-				<select class="majorlocation" name="majorLocation" id="majorLocation">
+				<label>광역지역  </label>
+				<select class="majorlocation" name="majorLocation" id="majorLocation" class="form-control">
 				    <option value="">선택</option>
 					<c:forEach items="${E}" var="major" >					
 						<option value="${major.subcode }">${major.literal }</option>
 					</c:forEach>
 				</select>
 				
-				<select class="sublocation" name="subLocation" id="subLocation">
+				<select class="sublocation" name="subLocation" id="subLocation" class="form-control">
 					 <option value="">선택</option>
 				</select><br>
 			</div>
 			
 			<div>
-				<label>공개여부 : </label>
+				<label>공개여부 </label>
 				<input type="radio" name="clubPublic" value="G1" checked="checked"/>공개
 				<input type="radio" name="clubPublic" value="G2" />비공개
-			</div>
+			</div><br>
 			
 			<div>
 				<label>질문1</label>
-				<input type="text" name="singupQuestion1"><br>
+				<textarea name="singupQuestion1" placeholder="내용을 입력해 주세요." class="question-box" ></textarea><br>
 				<label>질문2</label>
-				<input type="text" name="singupQuestion2"><br>
+				<textarea name="singupQuestion2" placeholder="내용을 입력해 주세요." class="question-box"></textarea><br>
 				<label>질문3</label>
-				<input type="text" name="singupQuestion3"><br>
+				<textarea name="singupQuestion3" placeholder="내용을 입력해 주세요." class="question-box"></textarea><br>
 			</div>
 			
-			<img src="noimg.jpg" width="300" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/img/clubImg.jpg';"/>
 			
-			<div id="preview"></div>
-			
+			<div id="preview"><img src="noimg.jpg" width="300" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/img/clubImg.jpg';"/></div>
 			<input name="uploadFile" type="file" value="" onchange="readURL(this);">
-			
 			<button type="button" id="uploadBtn">upload</button>
 			
 			<!-- 소모임 정원 default값 50 -->
@@ -196,14 +205,14 @@ span {
 	/* var clubName = false; //모임이름 
 	var clubnameCheck = false; //모임이름 중복체크 */
 	var clubNameCheck = false; //모임이름 
-	var clubnameChk = false; //모임이름 중복체크
+    var clubnameChk = false; //모임이름 중복체크
 	
 $(document).ready(function(){
 	//모임생성 버튼(모임생성 기능 작동)
 	$(".join_button").on("click", function() {
 		
 		//입력값 변수
-		var club = $('.club_input').val(); //소모임 이름 입력란 
+		var clubName = $('.club_input').val(); //소모임 이름 입력란 
 		
 		/* 모임이름 유효성 검사*/
 		if(clubName == ""){
@@ -215,7 +224,7 @@ $(document).ready(function(){
 		}
 		
 		/* 최종 유효성 검사를 진행하고 form에 말아서 전달 */
-		if(clubName&&clubnameCheck){
+		if(clubName && clubnameChk){
 		
         $("#join_form").submit();
 			
@@ -228,9 +237,9 @@ $(document).ready(function(){
 
 //소모임 이름 중복체크
 
-	$('.club-input').on("propertychange change keyup paste input", function() {
+	$('.club_input').on("propertychange change keyup paste input", function() {
 
-		var clubName = $('.club-input').val(); //.club_input 입력될 값
+		var clubName = $('.club_input').val(); //.club_input 입력될 값
 		var data = {
 			clubName : clubName
 		} //.컨트롤에 넘길 데이터 이름 데이터(.club_input에 입력되는 값)
@@ -242,12 +251,12 @@ $(document).ready(function(){
 			success : function(result) {
 
 				if (result != 'fail') {
-					$('.club-input-re1').css("display", "inline-block");
-					$('.club-input-re2').css("display", "none");
+					$('.club_input_re1').css("display", "inline-block");
+					$('.club_input_re2').css("display", "none");
 					clubnameChk = true;
 				} else {
-					$('.club-input_re2').css("display", "inline-block");
-					$('.club-input_re1').css("display", "none");
+					$('.club_input_re2').css("display", "inline-block");
+					$('.club_input_re1').css("display", "none");
 					clubnameChk = false;
 				}
 			}
@@ -289,10 +298,7 @@ $(document).ready(function(){
 				           <input type="hidden" name="clubImgPath" value="\${list[i].url}">`
 				$('#join_form').append(tag);
 			}
-		}
-	
-	
-	
+		}	
 	
 	function validateForm() {
  let clubName = document.getElementsByName('clubName')[0];
@@ -369,13 +375,32 @@ $(document).ready(function(){
 
 // "등록하기" 버튼 클릭 시 유효성 검사 실행
 document.querySelector(".join_button").addEventListener("click", function(e) {
- if (!validateForm()) {
-     //e.preventDefault();
- }
+    if (!validateForm()) {
+        e.preventDefault();
+    }
 });
 
 
-//프로필 선택시 클럽 생성 가능 여부 확인
+
+// $.ajax({
+//     type: "POST",
+//     url: "${pageContext.request.contextPath}/club/profileCount",
+//     data: { email: "${member.memberEmail}" },
+//     success: function(count) {
+//         if(count >= 3) {
+//             alert("소모임은 최대 3개까지만 생성할 수 있습니다.");
+//             window.location.href = "${pageContext.request.contextPath}/club/clubList";
+//         } else {
+//             // 모든 검사를 통과한 경우 form 제출
+//             if(nickCheck && nickchCheck) {
+//                 $("#join_form").submit();
+//             }
+//         }
+//     }
+// });
+
+
+// //프로필 선택시 클럽 생성 가능 여부 확인
 // $("#profile").change(function() {
 //  var selectedProfile = $(this).val();
 
@@ -396,5 +421,6 @@ document.querySelector(".join_button").addEventListener("click", function(e) {
 // });
 
 	
+
 </script>
 </html>
