@@ -1,9 +1,7 @@
 package com.hobbyfield.app.club.board.service;
 
 import java.util.Date;
-
 import org.springframework.format.annotation.DateTimeFormat;
-
 import lombok.Data;
 
 @Data

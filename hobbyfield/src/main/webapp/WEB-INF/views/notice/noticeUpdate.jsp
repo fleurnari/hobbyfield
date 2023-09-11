@@ -6,14 +6,15 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
 body {
 	margin-top: 150px;
-	font-family: Arial, sans-serif; /* 폰트 설정 */
+	font-family: Arial, sans-serif;
 }
 
 .container {
-	width: 50%;
+	width: 90%;
 	margin: 0 auto;
 }
 
@@ -39,14 +40,14 @@ form {
 	margin-top: 20px;
 }
 
-.form-input {
-	margin-bottom: 20px; 
-}
+/* .form-input { */
+/* 	margin-bottom: 5px;  */
+/* } */
 
 label {
 	display: block;
 	font-weight: bold;
-	margin-bottom: 5px;
+/* 	margin-bottom: 5px; */
 }
 
 input[type="text"], textarea {
@@ -84,7 +85,6 @@ select {
 					<option value="AA3">펀딩</option>
 					<option value="AA4">쇼핑몰</option>
 					<option value="AA5">포인트상점</option>
-					<option value="AA6">재능기부</option>
 				</select>
 			</div>
 
@@ -117,9 +117,23 @@ select {
             })
             .done(data => { 
                 if(data.result){
-                   alert("공지사항이 수정되었습니다.");
+                	Swal.fire(
+                			  '공지사항이 수정되었습니다.',
+                			  ' ',
+                			  'success'
+                	).then(()=>{
+                        window.location.href = "noticeList";
+                      			
+                      		})
                 } else {
-                	alert("공지사항이 수정되지 않았습니다.");
+                	Swal.fire(
+              			  '공지사항이 수정에 실패했습니다.',
+              			  ' ',
+              			  'error'
+              		).then(()=>{
+               		 window.location.href = "noticeList";
+              			
+              		})
                 }
             })
             .fail(reject => console.log(reject));

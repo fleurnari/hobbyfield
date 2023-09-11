@@ -6,36 +6,75 @@
 <html>
 <head>
 <style>
+
 body {
-	margin-top: 150px;
+	margin-top: 150px; 
+	background: fff;
+	font-family: sans-serif;
+	font-weight: 100;
+
+}
+.header {
+	text-align: center;
+	padding: 20px;
+	margin-bottom: 30px;
 }
 
+.title {
+	margin-bottom: 30px;
+}
+
+
 .notice-info {
-	width: 50%;
-	margin: 0 auto;
-	border-collapse: collapse;
+    width: 95%;
+    margin: 0 auto;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
 .notice-info th, .notice-info td {
-	border: 1px solid #ddd; 
-	padding: 10px;
-	height: 30px;
-	text-align: center;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    height: 30px;
+    text-align: center; 
+}
+.col-1 { width: 10%; }
+.col-2 { width: 8%; }
+.col-3 { 
+		width: 18%; 
+}
+.col-4 { width: 57%; }
+.col-5 { width: 22%; }
+
+th.col-1, th.col-3, th.col-4, th.col-5 {
+    background-color: #f0f0f0; 
+    text-align: center; 
 }
 
 .notice-subject {
-	width: 50%;
-	margin: 0 auto;
-	border-collapse: collapse;
+    width: 95%;
+    margin: 0 auto;
+    border-collapse: separate; 
+    border-spacing: 0; 
 }
 
-.notice-subject th, .notice-subject td {
-	border: 1px solid #ddd; 
-	padding: 10px;
-	height: 30px;
-	text-align: center;
+.notice-subject th {
+    border: none;
+    border-bottom: 1px solid #ddd; 
+    background-color: #f0f0f0; 
+    padding: 10px;
+    height: 30px;
+    text-align: center;
 }
 
+.notice-subject td {
+    border: none; 
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    height: 30px;
+    text-align: left;
+}
 .btn-group { 
  	text-align: center;
  	margin-top: 30px;
@@ -49,13 +88,16 @@ body {
 	padding: 5px 15px;
 	border-radius: 5px;
 	cursor: pointer;
-	margin-top: 30px;
-	margin-left: 5px;
+	margin-top: 50px;
 	
 }
 
 .centered-button{
-	margin-top: 30px;
+	margin-top: 50px;
+}
+
+.ck.ck-editor {
+    border: none;
 }
 
 
@@ -64,26 +106,39 @@ body {
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <meta charset="UTF-8">
 </head>
 <body>
+<div class="header">
+		<h1 class="title">공지사항</h1>
+		
+</div>
 	<div>
 		<table class="notice-info">
 			<thead>
 				<tr>
-					<th>글번호</th>
-					<th>작성자</th>
-					<th>카테고리</th>
-					<th>제목</th>
-					<th>작성일자</th>
+					<th class="col-1">글번호</th>
+<!-- 					<th class="col-2">작성자</th> -->
+					<th class="col-3">카테고리</th>
+					<th class="col-4">제목</th>
+					<th class="col-5">작성일자</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
 					<td>${notice.noticeId}</td>
-					<td>${notice.noticeWriter}</td>
-					<td>${notice.noticeCate}</td>
+<%-- 					<td>${notice.noticeWriter}</td> --%>
+<%-- 					<td>${notice.noticeCate}</td> --%>
+					<td> <c:choose>
+					        <c:when test="${notice.noticeCate == 'AA1'}">사이트전체공지</c:when>
+					        <c:when test="${notice.noticeCate == 'AA2'}">소모임</c:when>
+					        <c:when test="${notice.noticeCate == 'AA3'}">펀딩</c:when>
+					        <c:when test="${notice.noticeCate == 'AA4'}">쇼핑몰</c:when>
+					        <c:when test="${notice.noticeCate == 'AA5'}">포인트</c:when>
+					        <c:otherwise>기타</c:otherwise>
+					    </c:choose>
+					</td>
 					<td>${notice.noticeTitle}</td>
 					<td><fmt:parseDate value="${notice.noticeWdate}" pattern="yyyy-MM-dd" var="noticeWdate" /> 
 						<fmt:formatDate value="${noticeWdate}" pattern="yyyy-MM-dd" /></td>
@@ -116,6 +171,7 @@ body {
 	</div>
 	
 	<script type="text/javascript">
+	//editor
 	ClassicEditor
 	.create( document.querySelector( '#editor' ), {
 		 toolbar: [],

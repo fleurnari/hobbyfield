@@ -317,6 +317,7 @@ $(document).ready(function() {
                         if (result === "success") {
                             console.log("주문 정보 전송 성공");
                             console.log(orderData);
+                            location.href = "orderList";
                         } else {
                             console.log("주문 정보 전송 실패");
                         }

@@ -9,15 +9,15 @@
 <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
 <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>	
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
-body {
-/* 	display: flex; */
-	justify-content: center;
-	align-items: center;
-	min-height: 100vh;
-	margin-top: 150px;
-	font-family: Arial, sans-serif;
+body { 
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    	margin-top: 150px;
 }
 
 .header {
@@ -32,19 +32,23 @@ body {
 }
 
 h3{
-	margin-left: 35%;
+	margin-left: 43%;
+
 }
 
 .form-input {
-	width: 630px; 
-	margin-bottom: 15px;
-	margin-left: 35%;
+    width: 90%; 
+    margin-top: 50px;
+    margin-bottom: 15px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .form-input label {
-	display: block;
-	margin-bottom: 5px;
+    display: block;
+    margin-bottom: 5px;
 }
+
 
 .form-input select, .form-input input, .form-input textarea {
 	width: 100%;
@@ -55,19 +59,19 @@ h3{
 }
 
 .submit-buttons {
-	display: flex;
-	justify-content: space-between;
-	margin-top: 20px;
+    text-align: center; 
+    margin-top: 30px;
 }
 
-.submit-button {
+.submit-buttons button{
 	background-color: #007bff;
 	color: white;
 	border: none;
-	padding: 8px 15px;
-	border-radius: 4px;
+	padding: 5px 15px;
+	border-radius: 5px;
 	cursor: pointer;
 }
+
 </style>
 </head>
 <body>
@@ -83,7 +87,7 @@ h3{
 				<option id="AA2" value="AA2">소모임</option>
 				<option id="AA3" value="AA3">펀딩</option>
 				<option id="AA4" value="AA4">쇼핑몰</option>
-				<option id="AA5" value="AA6">포인트</option>
+				<option id="AA5" value="AA5">포인트</option>
 			</select>
 
 		</div>		
@@ -127,23 +131,32 @@ h3{
     .catch( error => {
         console.error( error );
     });
+    
+    
+	function showSuccessMessage(result) {
+	    if (result) {
+	        Swal.fire(
+	            '공지사항이 등록되었습니다.',
+	            '',
+	            'success'
+	        ).then((result) => {
+	            if (result.isConfirmed) {
+	                window.location.href = 'noticeList';
+	            }
+	        });
+	    } else {
+	        Swal.fire(
+	            '공지사항 등록에 실패했습니다.',
+	            '',
+	            'error'
+	        );
+	    }
+	}
+
+
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

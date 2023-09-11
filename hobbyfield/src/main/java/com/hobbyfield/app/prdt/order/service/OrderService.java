@@ -31,7 +31,7 @@ public interface OrderService {
 	
 	int paymentInfo(String imp_uid, String access_token) throws IOException;
 	
-	public void payMentCancle(String access_token, String imp_uid) throws IOException;
+	public void payMentCancle(String access_token, String imp_uid, String amount) throws IOException;
 	
 
 }

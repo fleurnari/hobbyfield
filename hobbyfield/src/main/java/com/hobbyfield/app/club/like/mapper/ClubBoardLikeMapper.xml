@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.hobbyfield.app.club.like.mapper.ClubBoardLikeMapper">
   	<insert id="insertBoardLike" parameterType="clubBoardLikeVO">
-  		<selectKey keyProperty="likeNumber" resultType="int" order="BEFORE">
+  		<selectKey keyProperty="likeNumber" resultType="Integer" order="BEFORE">
 			SELECT NVL(MAX(like_number),0) + 1
 			FROM club_board_like	
 		</selectKey>
@@ -28,14 +28,14 @@
   		AND board_number = #{boardNumber}
   	</delete>
   	
-  	<select id="countBoardLike" resultType="int">
-  		SELECT count(*)
+  	<select id="countBoardLike" resultType="Integer">
+  		SELECT NVL(count(*),0)
   		FROM club_board_like
   		WHERE board_number = #{boardNumber}
   	</select>
   
-  	<select id="selectBoardLike" resultType="int">
-  		SELECT COUNT(*)
+  	<select id="selectBoardLike" resultType="Integer">
+  		SELECT NVL(COUNT(*),0)
   		FROM club_board_like
   		WHERE board_number = #{boardNumber}
   		AND profile_nickname = #{profileNickname}

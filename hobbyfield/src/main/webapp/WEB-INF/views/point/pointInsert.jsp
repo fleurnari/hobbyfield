@@ -11,44 +11,83 @@
 <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>	
 
 <style>
-body {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
-	min-height: 100vh;
-	margin-top: 150px;
+
+  body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: white; /* Set background color to white */
+    }
+
+    form {
+        max-width: 100%; /* Set the width to the maximum available */
+        padding: 20px;
+    }
+
+    h3 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    select.form-control, input[type="text"], input[type="number"], input[type="date"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        resize: vertical;
+    }
+
+    .emoji-options {
+        display: none;
+    }
+
+    .buttonGroup {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-right: 10px;
+    }
+
+    #preview {
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 5px;
+    }
+#uploadBtn{
+	margin-top: 7px; 
+	padding: 3px;
 }
-
-h5{
-	margin-top: 30px;
-	font-weight: bold;
-
-}
-
-label {
-	display: block;
-	font-weight: bold;
-	margin-bottom: 5px;
-}
-
-.pointItemType {
-	width: 300px;
-}
-
-.pointContent{
-	margin-bottom: 30px;
-}
-
-.capacity, .emoji {
-	display: none;
-}
-
-.buttonGroup{
-	margin-top: 30px;
-}
-
-
+    
 </style>
 
 <script type="text/javascript"
@@ -61,10 +100,10 @@ label {
 		</div>
 		<div class="form-group">
 			<h5>
-				<label for="pointItemType">상품유형</label>
+				<label for="pointItemType">아이템유형</label>
 			</h5>
 			<select class="form-control" id="pointItemType" name="pointItemType">
-				<option selected disabled>상품유형</option>
+				<option selected disabled>아이템유형 선택</option>
 				<option value="W2">소모임증원권</option>
 				<option value="W1">이모티콘</option>
 			</select>
@@ -184,11 +223,6 @@ label {
 						pointContent.focus();
 						return;
 					}
-					// 					if (pointimgname.value == '') {
-					// 						alert('이미지를 등록하세요.');
-					// 						pointimgname.focus();
-					// 						return;
-					// 					}
 
 					this.submit();
 				});

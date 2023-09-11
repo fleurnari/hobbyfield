@@ -61,8 +61,18 @@
 					<a href="${pageContext.request.contextPath}/club/profileList">나의 프로필</a>
 				</div>
 				<div class="menu">
+					<a href="${pageContext.request.contextPath}/member/selectMyClubBoard">내가 쓴 글</a>
+				</div>
+				<div class="menu">
+					<a href="${pageContext.request.contextPath}/member/selectMyClubComment">내가 쓴 댓글</a>
+				</div>
+				<div class="menu">
+					<a href="${pageContext.request.contextPath}/member/selectMyClubLike">나의 좋아요</a>
+				</div>
+				<div class="menu">
 					<a href="${pageContext.request.contextPath}/member/myitemList">나의 아이템</a>
 				</div>
+
 		    </div>
 		</c:if>
 		

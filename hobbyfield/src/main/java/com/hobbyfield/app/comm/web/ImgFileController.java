@@ -99,6 +99,9 @@ public class ImgFileController {
 			imgPath = loadUrl;
 			File saveFile = new File(newInfImgFileName);
 			multipartFile.transferTo(saveFile);
+			if(!"local".equals(mode)) {
+				Runtime.getRuntime().exec("chmod 666 " + saveFile);
+			}
 			try {
 				multipartFile.transferTo(saveFile);
 				mv.put("url", imgPath);

@@ -12,7 +12,7 @@
   
   <!--주문목록조회 -->
   <select id="orderList" resultType="OrderVO">
-  		SELECT order_id, member_email, member_zip, member_baseaddr, member_detaaddr, delivery, order_memo, prdt_name, amount, order_date, prdt_option, prdt_id
+  		SELECT order_id, member_email, member_zip, member_baseaddr, member_detaaddr, delivery, order_memo, prdt_name, amount, order_date, prdt_option, prdt_id, imp_uid
   		FROM prdt_order
   		WHERE member_email = #{memberEmail}
   </select>
