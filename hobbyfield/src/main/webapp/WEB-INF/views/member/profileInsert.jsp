@@ -9,21 +9,106 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club/insertclub.css">
 <title>프로필 등록</title>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/common.js"></script>
+<style type="text/css">
+ body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.profile_top {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Typography */
+h2 {
+    color: #333;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* Links */
+a {
+    text-decoration: none;
+    color: #007BFF;
+    margin: 15px 0;
+    display: inline-block;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Input fields */
+input[type="text"], input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Labels */
+label, .nick_name {
+    display: block;
+    margin: 15px 0 5px;
+}
+
+/* Buttons */
+button {
+    background-color: #007BFF;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.profileSection {
+    margin-top: 20px;
+}
+
+#preview {
+    width: 100%;
+    height: 200px;
+    border: 1px dashed #ccc;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+#preview img {
+    max-width: 100%;
+    max-height: 100%;
+}
+</style>
 </head>
 <body>
+
 <div align="center" class="profile_top">
 
-	<div>
-		<a href="${pageContext.request.contextPath}/club/profileList">프로필 조회</a>
-	</div><br>
-
+	<div id="box">
 		<div>
 			<jsp:include page="myPageMenu.jsp"></jsp:include>
 		</div>
 
+	<div>
 		<form action="profileInsert" method="post" id="join_form">
       <div class="profile_info">
-         <h2>프로필 정보</h2><br>
+         <h3>프로필 정보</h3>
       </div>
       
       <div>
@@ -35,28 +120,29 @@
          <span class="nick_input_re2">닉네임이 이미 존재합니다.</span>
          <span class="final_name_ck">사용할 닉네임을 입력하세요.</span>
          <c:if test="${not empty errorMessage}">
-	     <div class="error">${errorMessage}</div>
+	     	<div class="error">${errorMessage}</div>
 		 </c:if>
-         
       </div>
       
       <div>
-         <label>이메일 : ${member.memberEmail}</label><br>
+         <label>이메일  ${member.memberEmail}</label><br>
          <input type="hidden" value="${member.memberEmail}" name="memberEmail">
       </div>
       
       <div class="profileSection">
          <label>첨부이미지</label>
-         <div id="preview"></div>
+         <div id="preview"><img src="noimg.jpg" width="300" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/img/clubImg.jpg';"/></div>
 			<input name="uploadFile" type="file" value="profileImg" onchange="readURL(this);">
-			<button type="button" id="uploadBtn">upload</button>
+			<button type="button" id="uploadBtn" class="btn btn-success">upload</button>
       </div>
       
       <div class="join_button_wrap">
-         <button type="submit" class="join_button">등록하기</button>
+         <button type="submit" class="btn btn-success join_button">등록하기</button>
       </div>
       
    </form>
+   </div>
+   </div>
 
 </div>
 </body>

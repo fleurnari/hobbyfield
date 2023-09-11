@@ -16,7 +16,7 @@
 	<select id="selectCommsubList" resultType="CommCodeVO">
 		select subcode, literal
 		from code_tree
-		where subcode like '%'||#{subcode}||'%' AND NOT subcode = #{subcode}
+		where subcode like '%'||#{subcode}||'F%' AND NOT subcode = #{subcode}
 	</select>
 
 	<!-- 카테고리 공통코드 조회 sql문 -->

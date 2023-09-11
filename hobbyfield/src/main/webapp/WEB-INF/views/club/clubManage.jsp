@@ -16,137 +16,169 @@
 	href="${pageContext.request.contextPath}/resources/css/club/clubboard.css">   
 </head>
 <style>
-/* 소모임 수정 모달  */
-/* 모달 창 전체 스타일 */
- .update-modal { 
-   display: none; 
-   position: fixed; /* 고정 위치 */ 
-   z-index: 1; /* z-index로 다른 내용 위에 위치 */
-   left: 0; 
-    top: 0; 
-   width: 100%; /* 전체 너비 */ 
-   height: 100%; /* 전체 높이 */ 
-    overflow: auto; /* 스크롤 가능 */ 
-   background-color: rgba(0, 0, 0, 0.4); /* 반투명한 검은색 배경 */ 
- } 
-
- /* 모달 창 내용 스타일 */ 
- .update-body { 
-    background-color: #fefefe; 
-    margin: 15% auto; /* 중앙 정렬 */ 
-    padding: 20px; 
-    border: 1px solid #888; 
-    width: 50%; /* 모달 창 너비 */ 
-} 
-
- /* 닫기 버튼 스타일 */
- .update-close { 
-      color: #aaa; 
-    float: right; 
-    font-size: 28px;
-    font-weight: bold;
- } 
-
- .update-close:hover, .update-close:focus { 
-    color: black; 
-    text-decoration: none; 
-    cursor: pointer; 
- } 
 
 .club-img{
-	width: 200px;
+	width: 70%; 
+    max-width: 300px; 
+   	margin: 30px auto; /* 중앙 정렬 */
+   	height: 300px;
 
 }
 
-#clubUpdate label{
-	display: inline-block;
+#exampleModal label{
 	width: 100px;
 }
-#clubUpdate input[type=text], #clubUpdate textarea {
+#exampleModal input[type=text], #exampleModal textarea {
 	width: 80%;
 }
+
+ textarea {
+    width: 100%;
+    height: 6.25em;
+    border: none;
+    resize: none;
+  }
+
+/* 중앙 정렬 및 테두리 색상 */
+.club-management-container  {
+    background-color: #f4f6fa;
+    border-radius: 50px; 
+    padding: 20px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 소모임 이름 위치 및 스타일 */
+.club-name {
+    margin-bottom: 30px;
+}
+
+
+/* 수정 버튼 스타일 */
+#clubUpdateButton {
+    background-color: #007BFF; /* 부트스트랩 파란색 */
+}
+
+.btn-group {
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    gap: 10px; /* 버튼 간 간격 */
+    align-items: center; /* 수직 중앙 정렬 */
+}
+
+.btn-group button {
+    width: auto; /* 버튼의 너비를 내용에 맞게 자동으로 설정 */
+    text-overflow: ellipsis; /* 긴 텍스트를 ...로 표시 */
+    white-space: nowrap; /* 줄바꿈 방지 */
+    overflow: hidden; /* 숨김 처리 */
+    max-width: 200px;
+    border-radius: 50px; 
+    
+}
+
+#clubContainer {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+}
+
+.images {
+	width: 400px;
+	
+}
+
+.modal-body {
+    max-height: 400px; /* 원하는 높이로 조절 */
+    overflow-y: auto;
+}
+
+.btn-secondary{
+	
+	}
+
 </style>
 
 <body>
-
-	<div class="container">
+	<div class="top">
+	<div class="club-management-container">
 		<!-- 모임 이름 -->
-		<h2 align="center">${club.clubName}</h2>
+		<h2 align="center" class="club-name text-center">${club.clubName}</h2>
 
 		<!-- 소모임 정보 및 관리(모임장만) -->
-		<div class="row">
-			<div class="col" align="center">
+		<div class="row align-items-center">
+			<div class="col-md-6 text-center d-flex justify-content-center align-items-center">
 				<c:if test="${not empty club.clubImg }">
 					<img class="club-img"
 						src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}">
 				</c:if>
 				<c:if test="${empty club.clubImg }">
 					<img class="club-img"
-						src="${pageContext.request.contextPath}/resources/img/clubImg.jpg"
-						>
+						src="${pageContext.request.contextPath}/resources/img/clubImg.jpg">
 				</c:if>
+				
+				
 			</div>
 
-			<div class="col">
-
-				<div>
-					<p>모임소개 : ${club.clubInfo}</p>
-				</div>
-
-				<div>
-					<p>카테고리 : ${club.clubCategory}</p>
-				</div>
+			<div class="card-body col-md-6">
 				<div>
 					<p>모임장 : ${club.profileNickname}</p>
 				</div>
 				<div>
-					<p>모임유형 : ${club.clubType}</p>
+					<p>카테고리 : ${club.clubCategory}</p>
 				</div>
 				<div>
-					<p>모임지역 : ${club.majorLocation}</p>
+					<p>모임형태 : ${club.clubType}</p>
+				</div>
+				<div>
+					<p>모임지역 : ${club.majorLocation} ${club.subLocation}</p>
 				</div>
 				<div>
 					<p>현재인원 : ${club.clubNumber } / 전체인원 : ${club.clubTotal }</p>
 				</div>
+				
+				<div>
+					<p>모임소개 : ${club.clubInfo}</p>
+				</div>
 
 			</div>
+			<!-- 소모임 수정 버튼 -->
+			<div class="btn-group">
+				    <c:if test="${member.memberEmail eq profile.memberEmail}">
+				        <button type="button" class="btn btn-primary update-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" id="clubUpdateButton">정보 수정</button>
+				    </c:if>
+				    <c:if test="${member.memberEmail ne profile.memberEmail}">
+				        <button type="button" class="btn btn-success" id="quitBtn">탈퇴</button>
+				    </c:if>
+				</div>
+		</div>
+	</div>
+	<!-- 톱니바퀴 모양 -->
 
-			<!-- 소모임 탈퇴 버튼 -->
-			<div>
-				<c:if test="${member.memberEmail ne profile.memberEmail}">
-					<button type="button" class="btn btn-success" id="quitBtn">탈퇴</button>
-				</c:if>
-				<c:if test="${member.memberEmail eq profile.memberEmail}">
-					<button type="button" class="btn btn-info" id="clubUpdateButton">소모임
-						정보 수정</button>
-				</c:if>
-			</div>
-
-			<!-- 톱니바퀴 모양 -->
+        
 			<c:if test="${member.memberEmail eq profile.memberEmail}">
-
-				<div id="clubUpdate" class="container">
+				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					<!-- 소모임 수정 -->
 					<form action="clubUpdate" method="post" id="updateForm">
-						<div id="updateModal" class="update-modal">
-							<div class="update-body">
-								<div align="center" class="update-top">
-									<h2>소모임 수정</h2>
+						<div id="updateModal" class="update-modal modal-dialog">
+							<div class="update-body modal-content">
+								<div align="center" class="update-top modal-header">
+									<h2 class="modal-title" id="exampleModalLabel">소모임 수정</h2>
 								</div>
 
+                                <div class="modal-body">
 								<div>
 									<input type="hidden" name="clubNumber" class="clubNumber"
 										value="${club.clubNumber }"> <input type="hidden"
 										name="profileNickname" class="ProfileNickname"
 										value="${club.profileNickname }">
 								</div>
-
 								<div>
 									<label>모임이름</label> <input type="text" class="club_input"
-										name="clubName" value="${club.clubName}"><br> <span
-										class="club_input_re1">사용 가능한 모임 이름입니다.</span> <span
-										class="club_input_re2">모임 이름이 이미 존재합니다. </span> <span
-										class="final_club_ck">모임 이름을 정해주세요</span>
+										name="clubName" value="${club.clubName}"><br> 
+										<span class="club_input_re1">사용 가능한 모임 이름입니다.</span>
+										<span class="club_input_re2">모임 이름이 이미 존재합니다. </span> 
+										<span class="final_club_ck">모임 이름을 정해주세요</span>
 								</div>
 
 								<div>
@@ -186,7 +218,7 @@
 									</div>
 
 									<div>
-										<label></label> <select class="sublocation" name="subLocation"
+										<label>구 :</label> <select class="sublocation" name="subLocation"
 											id="subLocation">
 											<option value="${major.literal }">선택</option>
 										</select><br>
@@ -202,43 +234,45 @@
 
 								<div>
 									<div>
-										<label>질문1</label> <input type="text" name="singupQuestion1"
-											value="${club.singupQuestion1 }"><br>
+										<label>질문1</label> 
+										<textarea name="singupQuestion1" placeholder="내용을 입력해 주세요.">
+										"${club.singupQuestion1 }"
+										</textarea><br>
 									</div>
 									<div>
-										<label>질문2</label> <input type="text" name="singupQuestion2"
-											value="${club.singupQuestion2 }"><br>
+										<label>질문2</label> 
+										<textarea name="singupQuestion2" placeholder="내용을 입력해 주세요.">
+										"${club.singupQuestion2 }"
+										</textarea><br>
 									</div>
 									<div>
-										<label>질문3</label> <input type="text" name="singupQuestion3"
-											value="${club.singupQuestion3 }"><br>
+										<label>질문3</label> 
+										<textarea name="singupQuestion3" placeholder="내용을 입력해 주세요.">
+										"${club.singupQuestion3 }"
+										</textarea><br>
 									</div>
 								</div>
 
-								<div id="preview"></div>
+								<div id="preview">
+								 <img class="images" src="${pageContext.request.contextPath}/download/img/${club.clubImg}" alt="ProfileImage" /></div>
 								<input id="imgInput" name="uploadFile" type="file"
 									value="clubImg" onchange="readURL(this);">
 								<button type="button" id="uploadBtn">upload</button>
-								<img class="images" id="preview"
-									src="${pageContext.request.contextPath}/download/img/${club.clubImg}"
-									alt="ProfileImage" />
+								
 							</div>
-
-							<div>
-								<button type="submit" class="update-button">수정하기</button>
-							</div>
-
-							<span class="update-close">&times;</span>
-
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="update-button btn btn-primary">수정하기</button>
+                            </div>
+                            </div>
 						</div>
 					</form>
 				</div>
 
-				<!-- 가입신청리스트(모임장만) modal창으로 확인 -->
 				<div id="clubContainer">
-					<h5>소모임가입 신청 리스트</h5>
-					<table class="table">
-						<thead>
+					<h5 align="center">소모임가입 신청 리스트</h5>
+					<table class="table table-striped table-hover" >
+						<thead class="" align="center">
 							<tr>
 								<th>닉네임</th>
 								<th>가입신청일자</th>
@@ -249,6 +283,8 @@
 							</tr>
 						</thead>
 						<tbody>
+							<c:choose>
+							<c:when test="${not empty beforeMembers}">
 							<c:forEach items="${beforeMembers}" var="members">
 								<tr>
 									<td>${members.profileNickname }</td>
@@ -257,135 +293,30 @@
 									<td>${members.applyAnswer2 }</td>
 									<td>${members.applyAnswer3 }</td>
 									<td>
-										<button type="button" class="accept"
+										<button type="button" class="accept btn btn-success" 
 											data-nickname="${members.profileNickname}"
 											data-clubnumber="${members.clubNumber}">수락</button>
-										<button type="button" class="reject"
+										<button type="button" class="reject btn btn-danger"
 											data-nickname="${members.profileNickname}"
 											data-clubnumber="${members.clubNumber}">거절</button>
 									</td>
 								</tr>
 							</c:forEach>
+							</c:when>
+								<c:otherwise>
+									<tr>
+										<td colspan="6" align="center">신청한 인원이 없습니다.</td>
+									</tr>
+								</c:otherwise>
+							</c:choose>
 						</tbody>
 					</table>
 				</div>
 			</c:if>
-
-		</div>
 	</div>
 
 
-
-		<!-- 가입신청리스트(모임장만) modal창으로 확인 -->
-		<div class="applyList">
-			<table>
-				<thead align="center">
-					<tr>
-						<th>닉네임</th>
-						<th>가입신청일자</th>
-						<th>질문답변 1</th>
-						<th>질문답변 2</th>
-						<th>질문답변 3</th>
-						<th>승인처리</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach items="${beforeMembers}" var="members">
-						<tr>
-							<td>${members.profileNickname }</td>
-							<td>${members.applyDate }</td>
-							<td>${members.applyAnswer1 }</td>
-							<td>${members.applyAnswer2 }</td>
-							<td>${members.applyAnswer3 }</td>
-							<td>
-								<button type="button" class="accept"
-									data-nickname="${members.profileNickname}"
-									data-clubnumber="${members.clubNumber}">수락</button>
-								<button type="button" class="reject"
-									data-nickname="${members.profileNickname}"
-									data-clubnumber="${members.clubNumber}">거절</button>
-							</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-
-
-		</div>
-
-
 	<script type="text/javascript">
-   
-   //======== 소모임 신청인원 =========//
-    let currentPage = 2;  // 현재 페이지 번호 초기화
-	let pageSize = 12;    // 페이지 크기 초기화
-	let isLoading = false; // 중복 요청을 확인
-
-   //페이징
-	$(window).off('scroll').on('scroll', function() {
-	    if (!isLoading && $(window).scrollTop() + $(window).height() == $(document).height()) {
-	        isLoading = true; // 요청 시작 전 플래그 설정
-
-	        $.ajax({
-	        	url: "${pageContext.request.contextPath}/club/clubInfiniteScroll",
-	            data: {
-	            	 startPage: (currentPage - 1) * pageSize + 1,  // 예: 1, 11, 21...
-	                 endPage: currentPage * pageSize               // 예: 10, 20, 30...
-	            },
-	            type: 'GET',
-	            dataType: 'json',
-	            success: function(clubs) {
-	            	console.log("현재페이지:", currentPage);  // 현재 페이지 번호 출력
-	                console.log("반환페이지:", clubs);     // 반환된 소모임 데이터 출력
-	                // 서버에서 반환된 데이터가 있을 경우만 화면에 추가
-	                if (clubs.length > 0) {
-	                    $.each(clubs, function(index, club) {
-	                        $('#clubContainer').append(`
-	                                <table class="table">
-	                                <thead>
-	                                   <tr>
-	                                      <th>닉네임</th>
-	                                      <th>가입신청일자</th>
-	                                      <th>질문답변 1</th>
-	                                      <th>질문답변 2</th>
-	                                      <th>질문답변 3</th>
-	                                      <th>승인처리</th>
-	                                   </tr>
-	                                </thead>
-	                                <tbody>
-	                                	<tr>
-	                                    	<td> \${members.profileNickname}</td>
-	                                    	<td> \${club.clubName}</td>
-	                                    	<td> \${club.clubCategory}</td>
-	                                    	<td> \${club.clubType}</td>
-	                                    	<td> \${club.clubInfo}</td>
-	                                    	<td> \${club.majorLocation}</td>
-	                                    	<td> \${club.subLocation}</td>
-	                                    	<td>
-	                                    		<button type="button" class="accept"
-	                                    	 	 data-nickname="${members.profileNickname}"
-                                             	 data-clubnumber="${members.clubNumber}">수락</button>
-                                             	<button type="button" class="reject"
-                                                 data-nickname="${members.profileNickname}"
-                                                 data-clubnumber="${members.clubNumber}">거절</button>
-                                           </td>    
-	                                    </tr>
-	                                </tbody>
-	                            </table>
-	                        `);
-	                    });
-	                    currentPage++;  // 페이지 증가
-	                }
-	                isLoading = false; // 요청 완료 후 플래그 해제
-	            },
-	            error: function(error) {
-	            	console.error("무한 스크롤 에러", error);
-	                showError("데이터 로딩 중 오류가 발생했습니다. 다시 시도해 주세요.");
-	                isLoading = false; // 요청 완료 후 플래그 해제
-	            }
-	        });
-	    }
-	});
    
    //소모임 신청인원 수락 거절//
    //수락 or 거절 버튼
@@ -415,30 +346,7 @@
    });   
    
    //==========소모임 수정 영역============   
-   // 모달 창과 버튼 요소 선택
-   $(document).ready(function(){
-   let modal = document.getElementById('updateModal');
-   let btn = document.querySelector('#clubUpdateButton');
-   let span = document.querySelector('.update-close');
-   
-   // 버튼 클릭 시 모달 창 표시
-   btn.onclick = function() {
-       console.log("Button 막힘!");
-       modal.style.display = "block";
-   }
-   
-   // 닫기 버튼(X) 클릭 시 모달 창 숨김
-   span.onclick = function() {
-       modal.style.display = "none";
-   }
-   
-   // 모달 창 외부 클릭 시 모달 창 숨김
-   window.onclick = function(event) {
-       if (event.target == modal) {
-           modal.style.display = "none";
-       }
-   }
-   });
+
    
       
    // 유효성 검사 통과 유무 변수 
