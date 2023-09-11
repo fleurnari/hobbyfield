@@ -32,6 +32,7 @@ public class PointController {
 		//포인트상품 조회수 업데이트
 		pointService.updatePointView(findVO);
 		model.addAttribute("point", findVO);
+	//	model.addAttribute("member", memberMapper.loginMember(member))	
 		return "point/pointInfo";
 	}
 

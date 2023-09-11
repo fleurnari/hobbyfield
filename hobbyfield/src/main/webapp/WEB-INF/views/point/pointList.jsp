@@ -12,28 +12,22 @@ body {
 	background-color: #fff;;
 }
 
+.container{
+    margin-bottom: 100px;
+}
+
+.title {
+	margin-bottom: 30px;
+	text-align: center;
+	padding: 20px;
+	margin-bottom: 30px;
+}
+
 .header-left {
 	margin-top: 20px;
 	margin-left: 20px;
 }
-.point {
-	margin-left: 45%;
-	color: #005DFF;
-	display: inline;
-	font-weight: bold;
-}
 
-.sangjum {
-	color: #FF6A00;
-	display: inline;
-font-weight: bold;
-}
-
-.notice-link {
-	margin-left: 12%;
-	font-weight: bold;
-	text-decoration: underline 2px;
-}
 
 .notice-link:hover {
 	color: #FF6A00;
@@ -42,40 +36,47 @@ font-weight: bold;
 }
 
 .write-button {
-	background-color: #007bff;
-	color: white;
-	border: none;
-	padding: 5px 15px;
-	border-radius: 5px;
-	cursor: pointer;
-	float: left;
-	margin-left: 1%;
-}
-
-.sort-right { /*자스 넣고 버튼 스타일 줘*/
-	width: 200px;
-	text-align: right;
-	margin-left: auto;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 3%; 
+    margin-left: 45%;
 }
 
 .state-buttons {
-	 display: flex;
-     justify-content: flex;
-     margin-bottom: 30px;
+    display: flex;
+    gap: 20px;
+    justify-content: center; 
+    margin-bottom: 50px;
+    height: 60px;
 }
 
 .state-button {
-	background-color: #4CAF50;
-	color: white;
-	border: none;
-	padding: 10px 15px;
-	cursor: pointer;
-	transition: background-color 0.3s;
-	margin-left: 10px;
+
+    background: linear-gradient(to right, rgba(164, 246, 194, 0.8), rgba(170, 237, 244, 0.8));
+    color: rgba(0, 0, 0, 0.7);
+    font-size: large;
+    font-weight:bold;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    flex-grow: 1; /* 버튼이 화면을 좌우로 늘어나도록 설정 */
+    text-align: center; 
 }
 
 .state-button:hover {
-	background-color: #45a049;
+    background: linear-gradient(to right, rgba(164, 246, 194, 0.8), rgba(170, 237, 244, 0.8));
+    color: white;
+}
+
+.state-span{
+	font-size: xx-large;
+	margin-top: 2px;
 }
 
 .point-list {
@@ -85,12 +86,16 @@ font-weight: bold;
 }
 
 .point-item {
-	width: calc(25% - 20px);
-	background-color: #fff;
-	padding: 10px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-	transition: transform 0.3s;
-	cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: calc(25% - 20px);
+    background-color: #fff;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s;
+    cursor: pointer;
 }
 
 .point-item:hover {
@@ -101,7 +106,7 @@ font-weight: bold;
 	width:200px;
 	max-width: 100%;
 	height: auto;
-	margin-left: 20%;
+	margin-left: 10%;
 }
 
 .point-details {
@@ -124,29 +129,22 @@ th {
 	background-color: #4CAF50;
 	color: white;
 }
+
+
 </style>
 </head>
 <body>
-		<h2 class="point">포인트</h2><span><h2 class="sangjum">상점</h2></span> 
-<!-- 	<div class="header-left"> -->
-<%-- 		<a href="${pageContext.request.contextPath}/notice/noticeList" class="notice-link">공지사항</a> --%>
-<!-- 	</div> -->
+	<h1 class="title">포인트 상점</h1>
 	<div class="container">
 		<div>
 			<c:if test="${member.memberGrd eq 'A3'}">
-				<button type="button" class="write-button" onclick="location.href='pointInsert'">상품등록</button>
+				<button type="button" class="write-button" onclick="location.href='pointInsert'">아이템등록</button>
 			</c:if>
 		</div>
-<!-- 		<form class="sort-right"> -->
-<!-- 			<select class="form-control" id="sortOption" name="sortOption" onchange="changeOptionSelect()"> -->
-<!-- 				<option disabled selected>▼조회순</option> -->
-<!-- 				<option value="latest">최신순</option> -->
-<!-- 				<option value="oldest">오래된순</option> -->
-<!-- 			</select> -->
-<!-- 		</form> -->
 
 		<div class="state-buttons" role="group">
 			<button class="state-button" type="button" name="state1" value="V1" onclick="changestate('V1')">판매중</button>
+			<span class="state-span">|</span>
 			<button class="state-button" type="button" name="state2" value="V2" onclick="changestate('V2')">판매종료</button>
 		</div>
 		<div class="point-list">
@@ -155,7 +153,8 @@ th {
 					data-state="${point.pointState}" data-sort="${point.pointItemType }">
 					<img src="${pageContext.request.contextPath}${point.pointImgPath}${point.pointImgName}"  alt="상품 이미지"><br>
 					<div class="point-details">
-						<p>${point.pointId}</p><span><p>${point.pointName}</p></span>
+<%-- 						<p>${point.pointId}</p> --%>
+						<p>${point.pointName}</p>
 						<c:if test="${point.pointItemType eq 'W1' }">
 						<p class="time">
 							<jsp:useBean id="now" class="java.util.Date" />
