@@ -167,7 +167,6 @@ img {
 
 	<!-- 사이드바1(왼) 소모임정보 : 소모임 이름, 멤버수, 초대버튼,  소모임 설정버튼(모임장만 보이도록)-->
 	<div class="left-side">
-
 		<div class="club-img">
 			<img
 				src="${pageContext.request.contextPath}${club.clubImgPath}/${club.clubImg}"
