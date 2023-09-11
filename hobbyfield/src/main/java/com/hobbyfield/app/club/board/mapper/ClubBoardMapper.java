@@ -41,4 +41,5 @@ public interface ClubBoardMapper {
 	// 무한스크롤을 위한.
 	//public List<ClubBoardVO> getClubBoardScroll(Map<String,Integer> map);
 
+
 }

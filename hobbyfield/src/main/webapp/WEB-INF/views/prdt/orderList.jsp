@@ -42,24 +42,21 @@
                     <td>${order.prdtName}</td>
                     <td>${order.prdtOption}</td>
                     <td><fmt:formatDate value="${order.orderDate}" pattern="yyyy-MM-dd" /></td>
-                    <td>${order.amount}</td>
-                    <td><button type="button" class="btn btn-danger cancelBtn" data-orderId="${order.orderId}">취소</button></td>
+                    <td>${order.amount}<input type="hidden" value="${order.impUid}" id="impUid"></td> 
+                    <td><button type="button" class="btn btn-danger cancelBtn" data-orderId="${order.orderId}" data-impUid="${order.impUid}">취소</button></td>
+                    
                 </tr>
             </c:forEach>
         </tbody>
     </table>
 </div>
 
-
-
-<button onclick="getToken()">토큰 확인</button>
-  <p id="tokenResult"></p>
 <script>
-function getToken() {
+/* function getToken() {
 	  $.ajax({
-	    url: "${pageContext.request.contextPath}/api/getToken", // 요청할 URL
-	    type: "GET", // GET 요청
-	    dataType: "json", // 응답 데이터 타입
+	    url: "${pageContext.request.contextPath}/api/getToken", 
+	    type: "GET", 
+	    dataType: "json", 
 	    success: function(response) {
 	      if (response) {
 	        console.log("토큰: " + response);
@@ -73,52 +70,49 @@ function getToken() {
 	    }
 	  });
 	}
-</script>
-
-<button onclick="cancelPayment()">카카오페이 결제취소 테스트</button>
-
-
-<script>
-var IMP = window.IMP;
-IMP.init("imp10078031");
 	
-// 결제 취소 함수
-function cancelPayment() {
-  $.ajax({
-    url: "${pageContext.request.contextPath}/api/getToken",
-    type: "POST",
-    contentType: "application/json",
-    data: JSON.stringify({
-      imp_uid: "imp_499584943298",
-      merchant_uid: "20230909103945371"
-    }),
-    dataType: "json",
-    success: function(response) {
-      if (response.success) {
-        alert("결제가 취소되었습니다.");
-      } else {
-        alert("결제 취소 실패: " + response.error_msg);
-      }
-    },
-    error: function() {
-      alert("결제 취소 요청 실패");
-    }
-  });
-}
+function testCancelOrder() {
+	  var impUid = "imp_477713132414"; 
+
+	  $.ajax({
+	    url: "${pageContext.request.contextPath}/api/cancel", 
+	    type: "POST",
+	    contentType: "application/json",
+	    data: JSON.stringify({
+	      accessToken: "73a37af017b354e7492d8244946382cc2fc6fbb0",
+	      impUid: impUid
+	    }),
+	    dataType: "json",
+	    success: function(response) {
+	      if (response.success) {
+	        alert("주문이 취소되었습니다.");
+	        console.log("주문 취소 성공");
+	      } else {
+	        alert("주문 취소 실패: " + response.error_msg);
+	        console.log("주문 취소 실패");
+	      }
+	    },
+	    error: function() {
+	      alert("주문 취소 요청 실패");
+	    }
+	  });
+	} */
 </script>
-
-
 
 
 <script>
 
 $(document).ready(function() {
-	
     // 주문 취소 버튼 클릭 이벤트 처리
     $(".cancelBtn").click(function() {
         var orderId = $(this).attr("data-orderId");  // 주문 번호 가져오기
+        var impUid = $(this).attr("data-impUid");
         var $row = $(this).closest("tr"); 
         
+        console.log("impUid:", impUid);
+        console.log("orderId:", orderId);
+        
+        // 첫 번째 AJAX 요청
         $.ajax({
             url: "getDelivery", 
             type: "post",
@@ -128,18 +122,35 @@ $(document).ready(function() {
                 var deliveryStatus = data.delivery; 
             
                 if (deliveryStatus === "배송준비중") {
-                    
+                    // 두 번째 AJAX 요청
                     $.ajax({
                         url: "cancelOrder", 
                         type: "post",
                         data: { orderId: orderId },
                         success: function(result) {
                             if (result === "success") {
-                                $row.remove();
-                                alert("주문이 취소되었습니다.");
-                                console.log("주문 취소 성공");
+                                // 두 번째 요청이 성공하면 세 번째 요청 실행
+                                $.ajax({
+                                    url: "${pageContext.request.contextPath}/api/cancel", 
+                                    type: "POST",
+                                    contentType: "application/json",
+                                    data: JSON.stringify({
+                                        impUid: impUid 
+                                    }),
+                                    dataType: "json",
+                                    success: function(response) {
+                                        if (response.success) {
+                                            $row.remove();
+                                        } else {
+                                            // 세 번째 요청 실패 처리
+                                        }
+                                    },
+                                    error: function() {
+                                        alert("주문 취소");
+                                    }
+                                });
                             } else {
-                                console.log("주문 취소 실패");
+                                // 두 번째 요청 실패 처리
                             }
                         },
                         error: function() {
@@ -147,7 +158,7 @@ $(document).ready(function() {
                         }
                     });
                 } else {
-                    alert("주문 상태가 배송 준비 중이 아닙니다.");
+                    alert("배송이 시작되어서 취소가 불가능합니다.");
                     console.log(deliveryStatus);
                 }
             },

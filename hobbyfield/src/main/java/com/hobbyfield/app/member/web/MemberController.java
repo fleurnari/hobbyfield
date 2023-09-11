@@ -337,6 +337,36 @@ public class MemberController {
 		return "member/selectJoinClub"; 
 		
 	}
+	
+	// 마이 페이지 - 내가 쓴 소모임 게시글
+	@GetMapping("/selectMyClubBoard")
+	public String selectMyClubList(HttpSession session, Model model) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		model.addAttribute("boardList", memberService.selectMyClubBoard(member.getMemberEmail()));
+		
+		return "member/selectMyClubBoard";
+	}
+	
+	
+	// 마이 페이지 - 내가 쓴 소모임 댓글
+	@GetMapping("/selectMyClubComment")
+	public String selectMyClubComment(HttpSession session, Model model) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		model.addAttribute("commentList", memberService.selectMyClubComment(member.getMemberEmail()));
+		
+		return "member/selectMyClubComment";
+		
+	}
+	
+	
+	// 마이 페이지 - 내가 좋아요 한 소모임 게시글
+	@GetMapping("/selectMyClubLike")
+	public String selectMyClubLike(HttpSession session, Model model) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		model.addAttribute("likeList", memberService.selectMyClubLike(member.getMemberEmail()));
+		
+		return "member/selectMyClubLike";
+	}
 
 	
 	// 마이 페이지 - 기업회원의 판매 중인 상품 조회	
@@ -389,6 +419,8 @@ public class MemberController {
 		
 
 	}
+
+	
 
 
 }

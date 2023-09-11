@@ -4,6 +4,8 @@ import lombok.Data;
 
 @Data
 public class Payment {
-	private String imp_uid;
-    private String merchant_uid;
+    private String accessToken;
+    private String impUid;
+    private String amount;
+
 }

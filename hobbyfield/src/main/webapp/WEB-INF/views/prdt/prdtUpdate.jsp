@@ -11,35 +11,63 @@
 
 <body>
 <br>
-					<br>
-					<br>
-					<br>
-					<br>
-<div align="center">
-	 <form action="prdtUpdate" method="post">
-	 		<input type="hidden" id="prdtId" name="prdtId" value="${prdtInfo.prdtId }" readonly="readonly">
-        <label for="prdtName">상품명</label>
-        	<input type="text" id="prdtName" name="prdtName" value="${prdtInfo.prdtName }"><br>
-        <label for="prdtCate">상품카테고리</label>
-          <select id="prdtCate" name="prdtCate" value="${prdtInfo.prdtCate }">
-            <option value="케이스">케이스</option>
-            <option value="키링">키링</option>
-            <option value="스트랩">스트랩</option>
-        </select><br>
-        <label for="prdtPrice">상품가격</label>
-       	 <input type="number" id="prdtPrice" name="prdtPrice" value="${prdtInfo.prdtPrice }"><br>
-        <label for="prdtCount">재고</label>
-        	<input type="number" id="prdtCount" name="prdtCount" value="${prdtInfo.prdtCount }"><br>
-        <label for="prdtContents">상품상세설명</label>
-        	<textarea id="prdtContents" name="prdtContents" value="${prdtInfo.prdtContents}"></textarea><br>
-        <label for="prdtThum">상품이미지</label>
-       		 <input type="text" id="prdtThum" name="prdtThum"><br>
-       	<label for="prdtSoldout">상품품절여부</label>	 
-       		 <input type="text" id="prdtSoldout" name="prdtSoldout" value="${prdtInfo.prdtSoldout }">
-        <div>
-			<button type="submit" class="update_btn">수정하기</button>
-			<button type="submit" class="cancel_btn">목록으로</button>
-		</div>
+<br>
+<br>
+<br>
+<br>
+<div class="container">
+    <form action="prdtUpdate" method="post" class="form-horizontal">
+        <fieldset>
+            <legend>상품 수정</legend>
+            <div class="form-group row">
+                <label for="prdtName" class="col-sm-2 control-label">상품명</label>
+                <div class="col-sm-3">
+                    <input type="text" id="prdtName" name="prdtName" class="form-control">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="prdtCate" class="col-sm-2 control-label">상품 카테고리</label>
+                <div class="col-sm-3">
+                    <select id="prdtCate" name="prdtCate" class="form-control">
+                        <option value="케이스">케이스</option>
+                        <option value="키링">키링</option>
+                        <option value="스트랩">스트랩</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="prdtPrice" class="col-sm-2 control-label">상품 가격</label>
+                <div class="col-sm-3">
+                    <input type="number" id="prdtPrice" name="prdtPrice" class="form-control" value="${prdtInfo.prdtPrice }">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="prdtCount" class="col-sm-2 control-label">재고</label>
+                <div class="col-sm-3">
+                    <input type="number" id="prdtCount" name="prdtCount" class="form-control">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="prdtContents" class="col-sm-2 control-label">상품 설명</label>
+                <div class="col-sm-5">
+                    <textarea id="prdtContents" name="prdtContents" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="prdtThum" class="col-sm-2 control-label">상품 이미지</label>
+                <div class="col-sm-3">
+                    <input type="text" id="prdtThum" name="prdtThum" class="form-control">
+                    <input name="uploadFile" type="file" value="profileImg" onchange="readURL(this);">
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary">수정하기</button>
+                    <button type="button" class="btn btn-secondary cancel_btn">목록으로</button>
+                </div>
+            </div>
+        </fieldset>
     </form>
 </div>
 <script>
@@ -58,5 +86,17 @@
 	})
 		
 	</script>
+	<script>
+/* 이미지 업로드 */
+function imgUploadHandler(list) {
+			for (i = 0; i < list.length; i++) {
+				let tag = `<input type="hidden" id="prdtThum" name="prdtThum" value="\${list[i].UUID}">
+				           <input type="hidden" id="prdtThumPath" name="prdtThumPath" value="\${list[i].url}">`
+				$('.form-horizontal').append(tag);
+			}
+		}
+</script>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 </body>
 </html>

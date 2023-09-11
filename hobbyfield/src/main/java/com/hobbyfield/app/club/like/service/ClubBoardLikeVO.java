@@ -1,5 +1,7 @@
 package com.hobbyfield.app.club.like.service;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -10,6 +12,12 @@ public class ClubBoardLikeVO {
 	private Integer likeNumber;
 	private String profileNickname;
 	private Integer boardNumber;
+	
+	
+	
+	
+	private String clubBoardContent;
+	private Date clubBoardWdate;
 	
 	
 }

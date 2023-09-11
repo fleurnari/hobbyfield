@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
@@ -9,208 +11,225 @@
 <meta charset="UTF-8">
 <title>소모임 조회 메인 페이지</title>
 <style>
-div, ul, li {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	padding: 0;
-	margin: 0;
+
+/* 지역, 카테고리 정렬 */
+.region-list, .category-list {
+    padding: 1rem 0;
+    display: flex;
+    white-space: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
 }
 
-a {
-	text-decoration: none;
+.region-list::-webkit-scrollbar, .category-list::-webkit-scrollbar {
+    display: none;
 }
 
-.quickmenu {
-	position: fixed; /* 이 부분을 fixed로 변경했습니다. */
-	width: 150px;
-	top: 85%;
-	margin-top: -50px;
-	right: 10px;
-	background: #FFD3A5;;
-	z-index: 100; /* 다른 요소들 위에 표시되도록 z-index 설정 */
+.region-item, .category-item {
+    display: inline-block;
+    padding-right: 1.2rem;
 }
 
-.quickmenu ul {
-	position: relative;
-	float: left;
-	width: 100%;
-	display: inline-block;
-	border: 1px solid #ddd;
+.btn-sm {
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
+    border-radius: 50px;
 }
 
-.quickmenu ul li {
-	float: left;
-	width: 100%;
-	border-bottom: 1px solid #ddd;
-	text-align: center;
-	display: inline-block;
+.center-container{
+	align-content: center;
 }
 
-.quickmenu ul li a {
-	position: relative;
-	float: left;
-	width: 100%;
-	height: 30px;
-	line-height: 30px;
-	text-align: center;
-	color: #999;
-	font-size: 9.5pt;
+/* 카테고리를 화면 가운데에서 시작하게 만들기 */
+.center-container {
+    text-align: center; /* 가운데 정렬 */
 }
 
-.quickmenu ul li a:hover {
-	color: #000;
+.category-list {
+    display: inline-block; /* inline-block으로 설정하여 가운데 정렬이 가능하게 만듭니다. */
 }
 
-.quickmenu ul li:last-child {
-	border-bottom: 0;
+.order {
+	align-content : center;
+    background-color: #f4f6fa;
+    color: black;
+    padding: 0.5rem 1rem;
+    border-radius: 70px;
+    margin-bottom: 5%;
+    font-weight: bold;
+    border-radius: 1 rem;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* 정렬 메인 화면보다 작게  */
+.order-container{
+	max-width: 800px;  
+    margin: 0 auto;    
+    padding: 0 6px;
+    position: relative;     
 }
 
 
+/* 화살표의 공통 스타일 */
+.arrow-left, .arrow-right {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: 49%;
+/*     top: calc(10% - 10px);  /* 화살표의 상단 위치를 조정 */  */
+    transform: translateY(-8%);
+    border-style: solid;
+}
+
+.arrow-left{
+    left: 20px; /* 왼쪽 화살표를 왼쪽으로 추가 이동 */
+    border-width: 10px 15px 10px 0;
+    border-color: transparent #000 transparent transparent; 
+}
+
+.arrow-right{
+    right: 20px; /* 오른쪽 화살표를 오른쪽으로 추가 이동 */
+    border-width: 10px 0 10px 15px;
+    border-color: transparent transparent transparent #000; 
+}
+
+
+
+
+
+/* 소모임 리스트 */
 #clubContainer {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-around;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px; 
+    margin-bottom: 30px;
+    margin-top: 30px;
 }
 
 .clubItem {
-	width: 23%; /* 4개씩 나열될 수 있도록 너비 설정 */
-	margin: 10px;
-	border: 1px solid #ccc;
-	border-radius: 10px; /* 굴곡진 모서리 */
-	overflow: hidden; /* 이미지가 박스를 벗어나지 않도록 함 */
-	transition: transform 0.2s; /* 부드러운 hover 효과 */
-	position: relative; /* 하위 요소의 위치 지정을 위해 */
-}
-
-.clubItem:hover {
-	transform: scale(1.05); /* 이미지를 클릭할 때 크기를 약간 확대 */
+    width: 23%;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    position: relative;
 }
 
 .clubItem img {
-	width: 100%;
-	height: 350px;
-	object-fit: cover; /* 이미지가 박스 내에 꽉 차도록 */
+    width: 100%;
+    height: 220px; 
+    object-fit: cover;
+}
+
+.clubItem:hover {
+     transform: translateY(-10px); 
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 .clubInfo {
-	display: none; /* 기본적으로 정보는 숨김 */
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.7); /* 반투명 배경 */
-	color: white;
-	padding: 10px;
-	box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    height: 150px; 
+    background-color: #fff;
 }
 
-.clubItem:hover .clubInfo {
-	display: block; /* 마우스를 올리면 정보 표시 */
+.clubInfo p {
+    margin-bottom: 2px; 
+    font-size: 14px;
 }
 
+.clubInfo p:nth-child(1) {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.clubInfo p:nth-child(2) {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 90%; 
+}
+
+.rounded-info {
+    background-color: #eee;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin-right: 5px;
+    margin-bottom: : 10px;
+    margin-top: 10px; 
+    line-height: 1.2; 
+}
+
+
+/*모임생성, 프로필 생성 */
+.top-buttons {
+    display: flex;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    margin-bottom: 30px; /* 여백 추가 */
+    margin-top: 30px;
+}
+
+.custom-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    text-decoration: none;
+    margin-left: 10px; /* 버튼 사이의 간격 */
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center; /* 아이콘과 텍스트 중앙으로 정렬 */
+}
+
+.button-icon {
+    margin-right: 10px; /* 아이콘 텍스트 사이의 간격 */
+    font-size: 1.2em; 
+}
+
+.club-create .button-icon {
+    content: "\002B"; /* 플러스 아이콘 */
+}
+
+.profile-create .button-icon {
+    content: "\1F464"; /* 사람 아이콘 */
+}
+
+.btn-primary:hover {
+    background-color: #28a745; /* 초록색 */
+}
+
+.title{
+	font: bold;
+}
+
+
+/* 에디터 부분 */
 .ck.ck-editor {
-	width: 30%;
-	max-width: 50px;
-	margin: 0 auto;
+    width: 30%;
+    max-width: 50px;
+    margin: 0 auto;
 }
 
 .ck-editor__editable {
-	height: 80vh;
+    height: 80vh;
 }
 
-/* 지역 버튼 및 모임분류 버튼 스타일 */
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-
-.region-list {
-	padding: 1rem 0;
-	display: flex;
-	white-space: nowrap;
-	overflow-x: auto;
-	scrollbar-width: none; /* 스크롤바 숨기기 */
-}
-
-/* Chrome, Safari 및 Opera의 스크롤바 숨기기 */
-.region-list::-webkit-scrollbar {
-	display: none; /* 스크롤바 자체를 숨김 */
-}
-
-.region-item {
-	display: inline-block;
-	padding-right: 1rem;
-}
-
-/* 지역 버튼 스타일 */
-.region-btn {
-	list-style: none;
-	user-select: none;
-	margin: 5px;
-	background-color: #FF6F61;
-	color: white;
-	border: none;
-	padding: 1rem;
-	border-radius: 5px;
-	cursor: pointer;
-	text-align: center;
-	width: 150px;
-}
-
-.region-btn:hover {
-	background-color: #FF8B7D;
-}
-
-/* 지역 버튼과 동일한 스타일을 모임 종류 버튼에도 적용 */
-.category-list {
-	padding: 1rem 0;
-	display: flex;
-	white-space: nowrap;
-	overflow-x: auto;
-	scrollbar-width: none; /* 스크롤바 숨기기 */
-}
-
-.category-list::-webkit-scrollbar {
-	display: none; /* Chrome, Safari 및 Opera의 스크롤바 숨기기 */
-}
-
-.category-item {
-	display: inline-block;
-	padding-right: 1rem;
-}
-
-/* 전체 컨테이너를 화면의 중앙에 위치시키기 위한 스타일 */
-.category-btn {
-    list-style: none;
-    user-select: none;
-    margin: 3px;  /* 마진 사이즈 조정 */
-    background-color: #FF6F61;
-    color: white;
-    border: none;
-    padding: 0.5rem;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    width: 100px;
-    font-size: 0.8rem;
-}
-
-/* 카테고리 리스트 스타일 조정 */
-.category-list {
-    display: flex;
-    justify-content: center;  /* 가운데 정렬 */
-    flex-wrap: wrap;  /* 필요한 경우 줄바꿈 */
-    width: 70%;  /* 전체 너비 설정. 필요에 따라 조절 가능 */
-    margin: 0 auto;  /* 중앙 정렬 */
-}
-
-.active{
-	background-color: blue;
-}
-
 
 
 
@@ -219,64 +238,74 @@ a {
 
 <body>
 <section>
-    <div align="center" style="margin-top: 100px;">
-		<a class="btn btn-success" href="${pageContext.request.contextPath}/club/clubInsert">소모임 생성</a>
+    	<img src="${pageContext.request.contextPath}/resources/img/hobbyClub.png" width="1430px;" height="300px;" />
+    	<div class="top-buttons">
+    		<c:if test="${not empty profileList}">
+		    <a href="${pageContext.request.contextPath}/club/clubInsert" class="custom-button club-create btn btn-primary">
+		        <span class="button-icon">&#43;</span> <!-- 플러스 아이콘 -->
+		        소모임 생성
+		    </a>
+		    </c:if>
+		    <a href="${pageContext.request.contextPath}/club/profileInsert" class="custom-button profile-create btn btn-primary">
+		        <span class="button-icon">&#128100;</span> <!-- 사람 아이콘 -->
+		        프로필 생성
+		    </a>
+		</div>
+    
+    	
+    	<div class="order">
+    		<div class="order-container" style="position: relative;">
 		<!-- 지역 정렬 -->
-		<ul class="region-list">
-				<li class="region-item">
-					<button class="region-btn" data-region-code="">지역전체</button>
-				</li>
-			<c:forEach items="${E}" var="region">
-				<li class="region-item">
-					<button class="region-btn" data-region-code="${region.subcode}">${region.literal}</button>
-				</li>
-			</c:forEach>
-		</ul>
-
-		<!-- 모임 종류 정렬 -->
-		<div class="center-container">
-			<ul class="category-list">
-				<li class="category-item">
-					<button class="category-btn" data-type-code="">카테고리전체</button>
-				</li>
-				<c:forEach items="${C}" var="type">
-					<li class="category-item">
-						<button class="category-btn" data-type-code="${type.subcode}">${type.literal}</button>
+			<div class="label" align="center">지역</div>
+			<ul class="region-list">
+			
+					<li class="region-item">
+						<button class="region-btn btn btn-sm btn-outline-primary" data-region-code="">전체지역</button>
+					</li>
+				<c:forEach items="${E}" var="region">
+					<li class="region-item">
+						<button class="region-btn btn btn-sm btn-outline-primary" data-region-code="${region.subcode}">${region.literal}</button>
 					</li>
 				</c:forEach>
 			</ul>
+		<div class="arrow-left"></div>
+		<div class="arrow-right"></div>
+		<!-- 모임 종류 정렬 -->
+			<div class="center-container" style="position: relative;">
+			<div class="label">모임종류</div>
+				<ul class="category-list">
+					<li class="category-item">
+						<button class="category-btn btn btn-sm btn-outline-primary" data-type-code="">전체종류</button>
+					</li>
+					<c:forEach items="${C}" var="type">
+						<li class="category-item">
+							<button class="category-btn btn btn-sm btn-outline-primary" data-type-code="${type.subcode}">${type.literal}</button>
+						</li>
+					</c:forEach>
+				</ul>
+			</div>
+		
+		</div>
 		</div>
 		
-		<!-- 퀵메뉴 -->
-		<div class="quickmenu">
-			<ul>
-				<li><a href="${pageContext.request.contextPath}/club/clubList">소모임 조회</a></li>
-				<li><a href="${pageContext.request.contextPath}/club/clubInsert">소모임 생성</a></li>
-				<li><a href="${pageContext.request.contextPath}/club/profileInsert">프로필 생성</a></li>
-			</ul>
-		</div>
 
 
 			<!-- 소모임 표시 -->    
      <div id="clubContainer">
             <c:forEach items="${clubList}" var="club">
-                <div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${club.clubNumber}'">
-                    <img src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}">
-                    <div class="clubInfo">
-                        <p>모임리더: ${club.profileNickname}</p>
-                        <p>모임이름: ${club.clubName}</p>
-                        <p>카테고리: ${club.clubCategory}</p>
-                        <p>분류: ${club.clubType}</p>
-                        <p>소개글: ${club.clubInfo}</p>
-                        <p>광역시: ${club.majorLocation}</p>
-                        <p>구: ${club.subLocation}</p>
-                    </div>
-                </div>
-            </c:forEach>
+				<div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${club.clubNumber}'">
+					<img src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}">
+					<div class="clubInfo">
+						<p>${club.clubName}</p>
+						<p>${fn:substring(club.clubInfo, 0, 100)}${club.clubInfo.length() > 100 ? '...' : ''}</p>
+						<span class="rounded-info">${club.clubCategory}</span>
+						<span class="rounded-info">${club.majorLocation} ${club.subLocation}</span>
+					</div>
+				</div>
+			</c:forEach>
         </div>
-	</div>
 </section>
-</body>
+
 
 
 
@@ -323,13 +352,10 @@ a {
 	                		<div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=\${club.clubNumber}'">
 	                        	<img src="${pageContext.request.contextPath}/\${club.clubImgPath}\${club.clubImg}">
 	                        <div class="clubInfo">
-	                            <p>모임리더: \${club.profileNickname}</p>
-	                            <p>모임이름: \${club.clubName}</p>
-	                            <p>카테고리: \${club.clubCategory}</p>
-	                            <p>분류: \${club.clubType}</p>
-	                            <p>소개글: \${club.clubInfo}</p>
-	                            <p>광역시: \${club.majorLocation}</p>
-	                            <p>구: \${club.subLocation}</p>
+	                        <p>${club.clubName}</p>
+							<p>${fn:substring(club.clubInfo, 0, 100)}${club.clubInfo.length() > 100 ? '...' : ''}</p>
+							<span class="rounded-info">${club.clubCategory}</span>
+							<span class="rounded-info">${club.majorLocation} ${club.subLocation}</span>
 	                        </div>
 	                    </div>
 	                `);
@@ -371,15 +397,14 @@ a {
 	                    $.each(clubs, function(index, club) {
 	                        $('#clubContainer').append(`
 	                        		<div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=\${club.clubNumber}'">
-	                                <img src="${pageContext.request.contextPath}\${club.clubImgPath}\${club.clubImg}">
+	                                <img src="${pageContext.request.contextPath}/\${club.clubImgPath}\${club.clubImg}">
 	                                <div class="clubInfo">
-	                                    <p>모임리더: \${club.profileNickname}</p>
-	                                    <p>모임이름: \${club.clubName}</p>
-	                                    <p>카테고리: \${club.clubCategory}</p>
-	                                    <p>분류: \${club.clubType}</p>
-	                                    <p>소개글: \${club.clubInfo}</p>
-	                                    <p>광역시: \${club.majorLocation}</p>
-	                                    <p>구: \${club.subLocation}</p>
+	                                <div class="clubInfo">
+									<p>${club.clubName}</p>
+									<p>${fn:substring(club.clubInfo, 0, 100)}${club.clubInfo.length() > 100 ? '...' : ''}</p>
+									<span class="rounded-info">${club.clubCategory}</span>
+									<span class="rounded-info">${club.majorLocation} ${club.subLocation}</span>
+								</div>
 	                                </div>
 	                            </div>
 	                        `);
@@ -478,5 +503,5 @@ a {
 	
 	
 </script>
-
+</body>
 </html>

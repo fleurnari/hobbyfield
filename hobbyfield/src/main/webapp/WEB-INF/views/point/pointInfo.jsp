@@ -11,39 +11,61 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script><!-- 일단 넣어놓음 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
 body {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
-	min-height: 100vh;
-	margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 100vh;
+    margin-top: 100px;
+    
+}
+
+.container{
+    margin-bottom: 100px;
 }
 
 input{
 	border: none;
 }
 
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
 button {
-	background-color: #007bff;
-	color: white;
-	border: none;
-	padding: 5px 15px;
-	border-radius: 5px;
-	cursor: pointer;
-	margin-top: 50px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+
+}
+
+.button-group button {
+    margin: 0 2px;
 }
 
 .jb-division-line {
-	border-top: 1px solid #444444;
-	width: 100%;
-	margin-top: 20px;
-	margin-left: 5%;
+    border-top: 1px solid #444444;
+    width: 100%;
+    margin-top: 40px;
+    text-align: center;
 }
-
-
 
 #purchase {
 	background-color: #007bff;
@@ -56,32 +78,35 @@ button {
 }
 
 .modal {
-	display: none;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.7);
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); 
+    z-index: 1;
+    overflow: auto;
 }
 
 .modal-content {
-	background-color: #fff;
-	margin: 10% auto;
-	padding: 20px;
-	width: 40%;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-	text-align: center;
-	position: relative;
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    width: 40%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
 }
 
 .close {
-	position: absolute;
-	top: 0;
-	right: 0;
-	padding: 10px;
-	cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    cursor: pointer;
 }
+
 
 .purchase-button {
 	gap: 10px;
@@ -103,7 +128,7 @@ button {
 }
 
 .product-img img {
-	width: 100px;
+	width: calc(25% - 20px);
 	display: inlint-block;
 	margin-top: 50px;
 	align-content: center;
@@ -121,9 +146,10 @@ button {
 	width: 260px;
 }
 
-.ck.ck-editor{
-	border: none;
+.ck.ck-editor {
+    border: none; 
 }
+
 
 </style>
 </head>
@@ -183,8 +209,7 @@ button {
 							</font>
 						</p> 
 					</c:if>
-					<div class="purchase-button">
-<!-- 						<button type="button" onclick="location.href='wishList'">위시</button> -->
+					<div class="purchase-button"> 
 						<button type="button" id="purchase" onclick="openModal()">포인트로 구입하기</button>
 					</div>
 				</div> 
@@ -208,8 +233,8 @@ button {
 					<span class="close" id="closeModalBtn">&times;</span> 
 					<div>
 						<h5>${point.pointName}</h5>
-						<br>
-						<p>보유포인트 <span id="memberActpnt">${member.memberActpnt }</span></p>
+						<br><input type="hidden" ${sessionScope.member}>
+						<p>보유포인트 <span id="memberActpnt">${sessionScope.member.memberActpnt }</span></p>
 						<c:if test="${point.pointItemType eq 'W2'}">
 						<p>결제 포인트 <span id="groupPrice">${point.groupPrice }</span></p>
 						<input type="hidden" value="${point.groupPrice }"	name="pointPrice">
@@ -242,28 +267,30 @@ button {
 				</div>
 			</div>
 		</form>
-
+<div class="jb-division-line"></div> 
 		<!-- 버튼 -->
-		<c:if test="${member.memberGrd eq 'A3'}">
-			<button type="submit" onclick="location.href='pointUpdate?pointId=${point.pointId}'">수정</button>
-			<button type="button" onclick="location.href='pointDelete?pointId=${point.pointId}'">삭제</button>
-		</c:if>
-		<button type="button" onclick="location.href='pointList'">목록</button> 
+		<div class="button-group">
+	        <c:if test="${member.memberGrd eq 'A3'}">
+	            <button type="submit" onclick="location.href='pointUpdate?pointId=${point.pointId}'">수정</button>
+	            <button type="button" onclick="location.href='pointDelete?pointId=${point.pointId}'">삭제</button>
+	        </c:if>
+	        <button type="button" onclick="location.href='pointList'">목록</button>
+    	</div>
 	</div>
 
 
 	<script type="text/javascript">
 	
 	//editor
-	   ClassicEditor
-	   .create( document.querySelector( '#editor' ), {
-	       toolbar: [],
-	       readOnly : true
-	   } )
-	   .then(editor => {
+	  ClassicEditor
+	.create( document.querySelector( '#editor' ), {
+		 toolbar: [],
+		 readOnly : true
+	} )
+	.then(editor => {
         const toolbarElement = editor.ui.view.toolbar.element;
         toolbarElement.style.display = 'none'; 
-    	});
+    });
 	
 	 //줄바꿈
 	function replaceBrTag(str) 
@@ -382,25 +409,29 @@ $('form').on('submit', function(e){
 	let objData = serializeObject();
 	
 	$.ajax({
-		url : '${pageContext.request.contextPath}/member/myitemBuy',
-		method : 'POST',
-		data : objData
+	    url: '${pageContext.request.contextPath}/member/myitemBuy',
+	    method: 'POST',
+	    data: objData
 	})
 	.done(data => {
-		if (data){
-			Swal.fire(
-					  '구매완료',
-					  '',
-					  'success'
-					)
-			
-		} else {
-			alert("아이템 구매에 실패 했습니다.");
-			window.location.href = '${pageContext.request.contextPath}/member/myitemList';
-			}
+	    if (data) {
+	        Swal.fire(
+	            '구매 완료되었습니다.',
+	            '',
+	            'success'
+	        ).then(() => {
+	            window.location.href = '${pageContext.request.contextPath}/member/myitemList';
+	        });
+	    } else {
+	        Swal.fire(
+	            '구매에 실패했습니다.',
+	            '다시 시도해주세요.',
+	            'error'
+	        );
+	    }
 	})
+
 	.fail(reject => console.log(reject));
-	window.location.href = '${pageContext.request.contextPath}/member/myitemList';
 	return false;
 	});
 	

@@ -72,48 +72,47 @@ public class ClubController {
 	@Autowired
 	ClubJoinService clubJoinService;
 
-	@Autowired
-	ClubJoinMapper clubJoinMapper;
+    @Autowired 
+    PointService pointService;
 
-	@Autowired
-	PointService pointService;
+    @Autowired
+    ClubCommentService clubCommentService;
+    
+    @Autowired
+    PointRecordService prService;
+    
+    @Autowired
+    ClubBoardLikeService clubBoardLikeService; 
 
-	@Autowired
-	ClubCommentService clubCommentService;
-
-	@Autowired
-	PointRecordService prService;
-
-	@Autowired
-	ClubBoardLikeService clubBoardLikeService;
-
-	@Autowired
-	CreateclubMapper createClubMapper;
-
-	/* ========= 소모임 조회관련 ========= */
-	// 소모임 전체조회(메인페이지)
-	@GetMapping("/clubMain")
-	public String clubMain(Model model) {
-		// 소모임 등록순
-		model.addAttribute("clubList", createClubService.getClubTop());
-		model.addAttribute("board", clubBoardService.getAllClubBoardList());
-		model.addAttribute("clubCategorie", commCodeMapper.clubTypeList("0C"));
-		return "club/clubMain";
-	}
-
-	// 리스트 무한 스크롤(페이징)
-	@ResponseBody
-	@RequestMapping(value = "clubInfiniteScroll", produces = "application/json; charset=UTF-8")
-	public ResponseEntity<List<CreateclubVO>> clubInfiniteScroll(@RequestParam("startPage") int startPage,
-			@RequestParam("endPage") int endPage) {
-		HashMap<String, Integer> map = new HashMap<>();
-		map.put("start", startPage);
-		map.put("end", endPage);
-		List<CreateclubVO> scrollList = createClubService.getClubsForInfiniteScroll(map);
-		return new ResponseEntity<>(scrollList, HttpStatus.OK);
-	}
-
-	// 소모임 전체조회(조회페이지)
+    @Autowired
+    CreateclubMapper createClubMapper;
+    
+    
+    /*========= 소모임 조회관련 =========*/
+    // 소모임 전체조회(메인페이지)
+ 	@GetMapping("/clubMain")
+ 	public String clubMain(Model model) {
+ 		//소모임 등록순
+ 		model.addAttribute("clubList", createClubService.getClubTop());
+ 		model.addAttribute("board", clubBoardService.getAllClubBoardList());
+ 		model.addAttribute("clubCategorie", commCodeMapper.clubTypeList("0C"));
+ 		return "club/clubMain";
+ 	}
+ 	
+ 	// 리스트 무한 스크롤(페이징)
+ 	@ResponseBody
+ 	@RequestMapping(value="clubInfiniteScroll", produces="application/json; charset=UTF-8")
+ 	public ResponseEntity<List<CreateclubVO>> clubInfiniteScroll(@RequestParam("startPage") int startPage, 
+ 	                                                             @RequestParam("endPage") int endPage) {
+ 	    HashMap<String, Integer> map = new HashMap<>();
+ 	    map.put("start", startPage);
+ 	    map.put("end", endPage);
+ 	    List<CreateclubVO> scrollList = createClubService.getClubsForInfiniteScroll(map);
+ 	    return new ResponseEntity<>(scrollList, HttpStatus.OK);
+ 	}
+    
+    
+    // 소모임 전체조회(조회페이지)
 	@GetMapping("/clubList")
 	public String clubList(Model model) {
 		HashMap<String, Integer> map = new HashMap<>();
@@ -504,6 +503,7 @@ public class ClubController {
 	// 소모임 게시물 상세 보기
 	@GetMapping("/clubBoardInfo")
 	public String clubBoardInfo(Model model, ClubBoardVO vo, HttpServletRequest request, EmojiVO emojiVO) {
+		clubBoardService.updateViewClubBoard(vo);
 		ClubBoardVO cvo = clubBoardService.getClubBoardInfo(vo);
 		model.addAttribute("board", cvo);
 		model.addAttribute("commentList", clubCommentService.getBoardComment(vo.getBoardNumber()));
@@ -584,7 +584,12 @@ public class ClubController {
 	@ResponseBody
 	@PostMapping("clubCommentUpdate")
 	public boolean updateClubComment(ClubCommentVO clubCommentVO) {
-
+		if(clubCommentVO == null) {
+			System.out.println("dkdksklksd");
+		}else {
+			
+			System.out.println(clubCommentVO);
+		}
 		int result = clubCommentService.updateComment(clubCommentVO);
 
 		if (result == 0) {
@@ -610,14 +615,12 @@ public class ClubController {
 
 	// 대댓글 작성 폼
 	@GetMapping("clubRecommentInsert")
-	public String recommentInsertForm(HttpServletRequest request, Model model, ClubCommentVO clubCommentVO) {
-
+	@ResponseBody
+	public ClubCommentVO recommentInsertForm(ClubCommentVO clubCommentVO) {
+		
 		ClubCommentVO commentVO = clubCommentService.getComment(clubCommentVO);
-
-		model.addAttribute("comment", commentVO);
-
-		return "comment/clubRecommentInsert";
-
+		
+		return commentVO;
 	}
 
 	// 대댓글 작성 수행

@@ -147,7 +147,7 @@
 							<th>상세주소</th>
 								<td> ${memberInfo.memberDetaaddr} </td>
 						</tr>
-						<c:if test="${memberInfo.memberGrd eq 'A2'}">
+						<c:if test="${memberInfo.memberGrd eq '기업회원'}">
 						<tr>
 							<th>사업자번호</th>
 								<td> ${memberInfo.memberBizno} </td>
@@ -180,7 +180,7 @@
 									</c:otherwise>
 								</c:choose>
 						</tr>
-						<c:if test="${memberInfo.memberGrd eq 'A2' && memberInfo.memberComaccp ne 'AJ2'}">
+						<c:if test="${memberInfo.memberGrd eq '기업회원' && memberInfo.memberComaccp ne '승인완료'}">
 							<tr>
 								<th>기업 회원 승인 여부</th>
 									<td>
@@ -193,14 +193,14 @@
 							</tr>
 						</c:if>
 					</table>
-					<c:if test="${memberInfo.memberGrd eq 'A2' && memberInfo.memberComaccp ne 'AJ2'}">
+					<c:if test="${memberInfo.memberGrd eq '기업회원' && memberInfo.memberComaccp ne '승인완료'}">
 						<button type="button" id="memUpdate" name="memUpdate">승인 여부 수정</button>
 					</c:if>
-					<c:if test="${memberInfo.memberGrd ne 'A3'}">
+					<c:if test="${memberInfo.memberGrd ne '관리자'}">
 						<button type="button" id="memDelete" name="memDelete">강제 탈퇴</button>
 					</c:if>
 					<c:choose>
-						<c:when test="${memberInfo.memberComaccp eq null || memberInfo.memberComaccp eq 'AJ2'}">
+						<c:when test="${memberInfo.memberComaccp eq null || memberInfo.memberComaccp eq '승인완료'}">
 							<button id="memberList" type="button">목록으로</button>
 						</c:when>
 						<c:otherwise>
