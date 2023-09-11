@@ -1,47 +1,61 @@
+@import
+@font-face {
+	font-family: 'GmarketSansMedium';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
 /* 전체 스타일 */
 body {
 	background-color: #f4f4f4;
 	font-family: Arial, sans-serif;
 }
 /* 전체 div */
-.total-css{
+.total-css {
 	margin-top: 150px;
-	
 }
 
 /* 게시글 + 댓글리스트 */
-.board-comment-list{
+.board-comment-list {background-color #fff;
 	width: 800px;
 	margin: 0 auto;
 	text-align: left;
 }
 
 /* 게시글 */
-.board-info{
+.board-info {
 	
 }
 
-.writer-info img{
+.writer-info img {
 	width: 50px;
 	height: 50px;
 	border-radius: 70%;
 	float: left;
 }
-.board-wdate{
-	
-}
-.board-views{
+
+.board-wdate {
 	
 }
 
+.board-views {
+	
+}
+
+.board-content {
+	align-content: left;
+}
 
 /* 댓글리스트 */
-.comment-list{
+.comment-list {
 	margin-top: 20px;
 }
-.comment-info{
+
+.comment-info {
 	border-top: 1px solid #E7E7E7;
-	
 }
 
 /* 이모티콘 출력 사이즈 */
@@ -50,16 +64,25 @@ body {
 	height: 30px;
 }
 /* 댓글입력창 */
-.comment-insert{
+.comment-insert {
 	margin-top: 20px;
 }
 
-
-
 /* 전체 스타일 */
+#btnList button{
+	margin-top: 20px;
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+		
+}
 
-
-
+#btnList button:hover {
+	background-color: #0056b3;
+}
 
 /* modal 모음 */
 .modal {

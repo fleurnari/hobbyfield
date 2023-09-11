@@ -34,32 +34,27 @@ j<%@ page language="java" contentType="text/html; charset=UTF-8"
 #emptyBoard {
 	vertical-align: middel;
 	margin-top: 150px;
-	width: 900px;
-	height: 700px;
+	width: 540px;
+	height: 200px;
 	left: 50%;
 	top: 50%;
+	margin: -50px 0 0 -50px;
+	background-color: white;
 }
 
 #emptyBoard img {
-	width: 150px;
-	height: 150px;
+	width: 90px;
+	height: 90px;
 }
-/* 페이지 배경 스타일 */
+
 body {
 	background-color: #f4f4f4;
 	font-family: Arial, sans-serif;
 }
-/* img 로딩 실패시 */
-.writer-img {
-	float: left;
-	display: inline-block;
-	width: 40px;
-	height: 40px;
-	border-radius: 70%;
-	overflow: hidden;
-}
 
 .board-content img {
+	max-width: 200px;
+	max-height: 200px;
 	
 }
 
@@ -74,7 +69,7 @@ body {
 </style>
 </head>
 <body>
-	<div align="center" style="margin-top: 100px;">
+	<div align="center" style="margin-top: 5px;; margin-bottom: 200px;">
 		<!-- 검색창 구현 : 사용자이름, 글내용으로 검색 : ajax 처리를 통해 검색된 내용만 다시 불러오도록.-->
 		<!-- 검색창 -->
 
@@ -84,19 +79,17 @@ body {
 				action="${pageContext.request.contextPath}/club/searchBoard"
 				method="get">
 				<input type="hidden" name="searchNum" id="searchNum"
-					value="${club.clubNumber}" />
-				
-					<input class="search-text" type="text" id="searchText"
-						name="searchText" placeholder="검색어 입력"> <img
-						class="search-img" id="search-img" name="search-img"
-						src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
-				
+					value="${club.clubNumber}" /> <input class="search-text"
+					type="text" id="searchText" name="searchText" placeholder="검색어 입력">
+				<img class="search-img" id="search-img" name="search-img"
+					src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+
 			</form>
 		</div>
 
 		<div class="insert-bar">
-			<h3>새로운 소식을 남겨보세요</h3>
-			<h3>소모임에 소속된 멤버라면 누구나 작성 가능합니다.</h3>
+			<p>새로운 소식을 남겨보세요</p>
+			<p>소모임에 소속된 멤버라면 누구나 작성 가능합니다.</p>
 		</div>
 
 		<!-- 차단한 유저는 나오지 않도록 추가 조건문 구현하기 -->
@@ -115,8 +108,7 @@ body {
 						<div class="board-head">
 							<div class="writer-img">
 								<img
-									src="${pageContext.request.contextPath}/${board.profileImgPath}${board.profileImg}"
-									style="width: 300px; height: 300px;">
+									src="${pageContext.request.contextPath}/${board.profileImgPath}${board.profileImg}">
 							</div>
 							<div class="writer-info">
 								<p>${board.clubBoardWriter}</p>
@@ -127,7 +119,7 @@ body {
 								</p>
 							</div>
 						</div>
-						<div class="board-content">
+						<div class="board-list-content">
 							<div>${board.clubBoardContent}</div>
 							<p class="club-view">
 								<span></span>${board.clubBoardViews}</p>
@@ -142,17 +134,17 @@ body {
 			</div>
 		</c:if>
 		<div id="emptyBoard">
-			<c:if test="${fn:length(borardList) eq null }">
+			<c:if test="${fn:length(borardList) eq 0 }">
 				<img
 					src="${pageContext.request.contextPath}/resources/images/postcard.png">
-				<h2>그룹 페이지</h2>
-				<h2>새 게시물을 작성해 주세요</h2>
+				<p>그룹 페이지</p>
+				<p>새 게시물을 작성해 주세요</p>
 			</c:if>
 		</div>
 
 		<!-- 사이드바1(왼) 소모임정보 : 소모임 이름, 멤버수, 초대버튼,  소모임 설정버튼(모임장만 보이도록)-->
-		
-		
+
+
 		<div class="left-side">
 			<div class="club-img">
 				<img
@@ -160,7 +152,7 @@ body {
 					style="height: 300px; width: 300px;">
 			</div>
 			<div class="club">
-				<p>모임 이름 : ${club.clubName}</p>
+				<h3>${club.clubName}</h3>
 				<p>모임장 : ${club.profileNickname}</p>
 				<p>모임설명 : ${club.clubInfo}</p>
 				<p>지역 : ${club.majorLocation} ${club.subLocation}</p>
@@ -183,9 +175,9 @@ body {
 					</c:when>
 				</c:choose>
 			</div>
-			
+
 		</div>
-		
+
 		<!-- 사이드바2(오) 최근 사진, 글쓰기 버튼 -->
 
 
@@ -242,7 +234,7 @@ body {
 
 				<div id="boardBtn">
 					<button type="button" id="boardSubmitBtn" class="submit-btn">등록</button>
-					<button type="reset" id="boardResetBtn" class="reset-btn">취소</button>
+					<button type="button" id="boardResetBtn" class="reset-btn">취소</button>
 				</div>
 
 			</form>
@@ -260,11 +252,11 @@ body {
 				<div class="profile-list">
 					<label>프로필</label>
 					<c:if test="${profileList ne null}">
-						<c:forEach items="${profileList}" var="pro">
-							<select name="profileNickname">
+						<select name="profileNickname">
+							<c:forEach items="${profileList}" var="pro">
 								<option value="${pro.profileNickname}">${pro.profileNickname}</option>
-							</select>
-						</c:forEach>
+							</c:forEach>
+						</select>
 					</c:if>
 					<c:if test="${fn:length(profileList) < 3 }">
 						<button type="button" id="profileModalBtn" class="modal-open-btn">
@@ -409,12 +401,7 @@ body {
             $("#boardMainModal").fadeOut();
         }
       });
-     $(document).click(function() {
-    	    var container = $("#container");
-    	    if (!container.is(event.target) && !container.has(event.target).length) {
-    	        container.hide();
-    	    }
-    	});
+
      
      if(sessionStorage.getItem("profile") != null){
     	    $("#boardMainModal").fadeIn();
@@ -463,7 +450,10 @@ body {
        
        // reset 
        $(".reset-btn").on("click", function(e){
-    	 	
+    	   if(event.target == document.getElementById("joinReset")){
+    		   $("#joinMainModal").fadeOut();
+ 	   			$("form[name='clubJoinForms']").reset();        	   
+          }
        });
        
        // isnertbar onclick
@@ -536,7 +526,7 @@ body {
                     	   var formData = new FormData(form);
                     	   $.ajax({
                     		   type: "POST",
-                    		   url: "${pageContext.request.contextPath}/club/profileOnPage"
+                    		   url: "${pageContext.request.contextPath}/club/profileOnPage",
                     		   data : formData,
                     		   success: function(reuslt){
                     			   if(reuslt == "성공"){
@@ -548,7 +538,7 @@ body {
                     				 
                     		   }
                     		   
-                    	   })
+                    	   });
                           
                            
                        }

@@ -58,13 +58,13 @@
 							value="${board.clubBoardWriter}">
 						<p class="board-wdate">${board.clubBoardWriter}</p>
 						<fmt:formatDate value="${board.clubBoardWdate}" dateStyle="full" />
-						<p class="board-views">${board.cluBoardViews}</p>
+						<p class="board-views">${board.clubBoardViews}</p>
 					</div>
 					<div id="editor1">
-						<div id="editor">${board.clubBoardContent}</div>
+						<div class="board-content" id="editor">${board.clubBoardContent}</div>
 					</div>
-					< 좋아요 : ${boardLike} 개
-					<c:if test="${profile.profileNickname ne board.clubBoardWriter}">
+					 <p>좋아요 : ${boardLike} 개</p>
+					<c:if test="${(profile.profileNickname ne board.clubBoardWriter) && (profile ne null)}">
 						<button type="button" id="boardLike">좋아요</button>
 					</c:if>
 				</form>
@@ -120,7 +120,7 @@
 
 			<!-- 댓글 작성용 1.댓글작성, 2. 사진포함 댓글작성 -->
 			<div class="comment-insert">
-
+				<c:if test="${profile ne null}">
 				<form id="commentInsertForm">
 					<input type="hidden" id="boardNumber" name="boardNumber"
 						value="${board.boardNumber}"> <label for="profileNickname">댓글
@@ -137,18 +137,19 @@
 					<button type="button" class="btn btn-primary"
 						data-bs-toggle="modal" data-bs-target="#emojiModal">😊</button>
 				</form>
+				</c:if>
 			</div>
 
 		</div>
 
 		<!-- 글 목록, 수정, 삭제, 이전, 다음글 -->
 		<div id="btnList">
-			<div id="boardNext">다음글</div>
-			<div id="boardList">글목록</div>
-			<div id="boardBefore">이전글</div>
-
-			<div id="boardEdit">수정</div>
-			<div id="boardDel">삭제</div>
+			<button type="button" id="boardNext">다음글</button>
+			<button type="button" id="boardList">목록</button>
+			<c:if test="${profile.profileNickname eq board.clubBoardWriter}">
+				<button type="button" id="boardEdit">수정</button>
+				<button type="button" id="boardDel">삭제</button>
+			</c:if>
 		</div>
 
 

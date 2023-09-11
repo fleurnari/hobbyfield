@@ -1,3 +1,13 @@
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+body{
+	background-color: #f4f4f4;
+	font-family: Arial, sans-serif;
+}
 /* Modal styles */
 .ck.ck-editor {
     width: 80%;
@@ -11,7 +21,7 @@
  
  /* Modal styles */
  /* open button */
- .open-modal-btn, .submit-btn, .reset-btn {
+ .modal-open-btn, .submit-btn, .reset-btn {
    margin-top: 20px;
    padding: 10px 20px;
    background-color: #007bff;
@@ -56,6 +66,7 @@
     margin: 10% auto;
     padding: 20px;
     border: 1px solid #888;
+    border-radius : 10px;
     width: 80%;
     max-width: 800px;
     min-height: 500px;
@@ -64,7 +75,19 @@
 
  
  /* 내용 style */
- 
+/* 작성자 profile */
+.writer-img {
+	float: left;
+	display: inline-block;
+	width: 60px;
+	height: 60px;
+	border-radius: 70%;
+	overflow: hidden;
+}
+..writer-img img{
+	width: 60px;
+	height: 60px;
+}
  #clubBoardList {
    display: flex;
    flex-direction: column;
@@ -120,8 +143,9 @@
     text
 }
  
- .board-modal-head{
-	 
+.board-modal-head{
+	 text-align: left;
+
 }
  /* 검색창 */
  .search-div {
@@ -152,9 +176,10 @@
  /* aside */
  .left-side{
      float: left;
-     position: fixed;
-     top: 200px;
-     left: 80px;
+     position: absolute;
+     top: 150px;
+     left: 110px;
+     text-align: left;
  }
  .left-side img{
      height: 300px;
@@ -173,10 +198,13 @@
  .writer-info{
  	padding-left: 50px;
  	text-align: left;
- 	
+ 	margin-bottom: 10px;
  }
  /* 중앙 입력창 */
  .insert-bar{
+ 	margin-top: 20px;
+ 	margin-bottom: 20px;
+ 	background: #ffffff;
  	width: 540px;
   	height: 150px;
  	padding: 10px;
