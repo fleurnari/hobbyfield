@@ -9,26 +9,46 @@
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link href="../resources/css/prdt/bootstrap.min.css" rel="stylesheet">
 <style>
 
 </style>
 </head>
 <body>
-	<Section>
 	<br><br><br><br>
 	<div class="container">
 			<div class="text-center">
 			<h4>
 			  <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostList'"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></span>&nbsp;&nbsp;
-              <span onclick="location.href='#'">카테고리</span>&nbsp;&nbsp;
+            </div>
+                          <div class="dropdown">
+                <span>
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    카테고리
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+                    <c:forEach items="${category}" var="type">
+                        <li>
+                            <a class="dropdown-item" href="#" data-type-code="${type.literal}">${type.literal}</a>
+                        </li>
+                    </c:forEach>
+                </ul>
+                </span>
               <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
               <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
-              <span onclick="location.href='#'">공지사항</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'" >후원현황</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'" style="color:#5aa5db;">프로젝트만들기</span>
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/notice/noticeList'">공지사항</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'">프로젝트만들기</span>
+           	  <c:if test="${member.memberGrd eq 'A3'}">
+                	<span onclick="location.href='${pageContext.request.contextPath}/fundingPost/adminAccept'">프로젝트 승인</span>
+                </c:if>
             </h4>
             </div>
         </div>
+        <div>
+        </div>
+	<section>
+	
 		<br><br><br>
 			<div class="text-center">
 				<h4><span style="color:red;">프로젝트 설정</span><span> | </span><span  onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostGoods?fndPostNumber=${fundingPostInsert20.fndPostNumber}'">옵션 구성</span></h4>
@@ -100,8 +120,8 @@
 						</div>
 					</div>
 					<br>
-					<input type="text" name="fndStatus" value="0">
-					<input type="text" name="fndPostNumber" value="${ fundingPostInsert20.fndPostNumber}">
+					<input type="hidden" name="fndStatus" value="0">
+					<input type="hidden" name="fndPostNumber" value="${ fundingPostInsert20.fndPostNumber}">
 					<button type="submit" class="btn btn-primary"
 						style="float: right;">저장</button>
 				</form>
@@ -120,7 +140,10 @@ ClassicEditor
     $('form').on('submit', function(e){
 		e.preventDefault();
 		
-		let objData = serializeObject();
+		
+
+	    // 필수 입력 필드가 모두 채워져 있을 때, AJAX 요청을 보냅니다.
+	    let objData = serializeObject();
 		
 		$.ajax({
 			url : 'fundingPostUpdate',
@@ -134,8 +157,6 @@ ClassicEditor
             		title: '저장되었습니다', // 제목 추가
                     text: 'success' // 텍스트 추가
                     }).then(function () {
-                    // 모달 창 닫기
-                    $("#" + modalId).fadeOut();
 
                     // 페이지 새로고침
                     location.reload();
@@ -165,22 +186,15 @@ ClassicEditor
 		
 		return formObject;
 	};
-	// 시작 날짜 문자열에서 날짜 부분만 추출
-	var startDateStr = "${fundingPostInsert20.fndStartDate}";
-	var startDate = startDateStr.split(" ")[0]; // "yyyy-MM-dd"
+	document.addEventListener('DOMContentLoaded', function () {
+        // 서버에서 받아온 날짜 데이터 (예: "2023-09-11 00:00:00")
+// 시작날짜와 종료일자를 가져옵니다.
+const startDateString = "${fundingPostInsert20.fndStartDate}".split(" ")[0];
+const endDateString = "${fundingPostInsert20.fndEndDate}".split(" ")[0];
 
-	// 종료 날짜 문자열에서 날짜 부분만 추출
-	var endDateStr = "${fundingPostInsert20.fndEndDate}";
-	var endDate = endDateStr.split(" ")[0]; // "yyyy-MM-dd"
-
-	// 시작 날짜 input 요소에 설정
-	document.getElementById("fndStartDate").value = startDate;
-
-	// 종료 날짜 input 요소에 설정
-	document.getElementById("fndEndDate").value = endDate;
-	
-
-	
-
+// 시작날짜와 종료일자 input 요소에 설정
+document.querySelector('input[name="fndStartDate"]').value = startDateString;
+document.querySelector('input[name="fndEndDate"]').value = endDateString;
+    });
 </script>
 </html>

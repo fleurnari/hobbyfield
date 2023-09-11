@@ -47,8 +47,9 @@ public class FundingPostController {
 	//전체조회
 	@GetMapping("/fundingPostList")
 	public String FundingPostList(Model model, @ModelAttribute("scri") SearchCriteria scri) {
+		scri.setSearchType("status");
+		scri.setKeyword("2");
 		model.addAttribute("fundingPostList", fundingPostService.getFundingPostList(scri));
-		
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(scri);
 		pageMaker.setTotalCount(fundingPostService.postCount(scri));
