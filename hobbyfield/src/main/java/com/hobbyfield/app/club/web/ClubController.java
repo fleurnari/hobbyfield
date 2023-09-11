@@ -515,6 +515,7 @@ public class ClubController {
 	// 소모임 게시물 상세 보기
 	@GetMapping("/clubBoardInfo")
 	public String clubBoardInfo(Model model, ClubBoardVO vo, HttpServletRequest request, EmojiVO emojiVO) {
+		clubBoardService.updateViewClubBoard(vo);
 		ClubBoardVO cvo = clubBoardService.getClubBoardInfo(vo);
 		model.addAttribute("board", cvo);
 		model.addAttribute("commentList", clubCommentService.getBoardComment(vo.getBoardNumber()));
@@ -595,7 +596,12 @@ public class ClubController {
 	@ResponseBody
 	@PostMapping("clubCommentUpdate")
 	public boolean updateClubComment(ClubCommentVO clubCommentVO) {
-		
+		if(clubCommentVO == null) {
+			System.out.println("dkdksklksd");
+		}else {
+			
+			System.out.println(clubCommentVO);
+		}
 		int result = clubCommentService.updateComment(clubCommentVO);
 		
 		if (result == 0) {
@@ -622,13 +628,12 @@ public class ClubController {
 
 	// 대댓글 작성 폼
 	@GetMapping("clubRecommentInsert")
-	public String recommentInsertForm(HttpServletRequest request, Model model, ClubCommentVO clubCommentVO) {
+	@ResponseBody
+	public ClubCommentVO recommentInsertForm(ClubCommentVO clubCommentVO) {
 		
 		ClubCommentVO commentVO = clubCommentService.getComment(clubCommentVO);
 		
-		model.addAttribute("comment", commentVO);
-		
-		return "comment/clubRecommentInsert";
+		return commentVO;
 
 	}
 	
