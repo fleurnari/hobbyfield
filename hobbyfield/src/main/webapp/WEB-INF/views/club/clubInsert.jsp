@@ -35,7 +35,6 @@ label {
     font-weight: bold; /* 레이블 글씨 굵게 설정 */
     margin-bottom: 10px; /* 아래쪽 여백 설정 */
     display: block; /* 작동오류시 먼저 찾기 */
- 	margin-bottom: 10px;
 }
 
 /* 입력필드 스타일 */
@@ -84,10 +83,11 @@ span {
 }
 
 .question-box{
-    width: 70%;
+    width: 50%;
     height: 6.25em;
     border: medium;
     resize: none;
+    border: solid 1px;
 }
 
 
@@ -199,11 +199,6 @@ span {
 			
 
 			
-			<div id="preview">
-				<img src="noimg.jpg" width="300" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/img/clubImg.jpg';"/>
-			</div>
-
-			
 			<div id="preview"><img src="noimg.jpg" width="300" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/img/clubImg.jpg';"/></div>
 			<input name="uploadFile" type="file" value="" onchange="readURL(this);">
 			<button type="button" id="uploadBtn">upload</button>
@@ -227,87 +222,67 @@ span {
 	var clubNameCheck = false; //모임이름 
     var clubnameChk = false; //모임이름 중복체크
 	
-$(document).ready(function(){
-	//모임생성 버튼(모임생성 기능 작동)
-	$(".join_button").on("click", function() {
-		
-		//입력값 변수
-		var clubName = $('.club_input').val(); //소모임 이름 입력란 
-		
-		/* 모임이름 유효성 검사*/
-		if(clubName == ""){
-			$('.final_club_ck').css('display', 'block');
-			clubnameChk = false;
-		}else{
-			$('.final_club_ck').css('display', 'none');	
-			clubnameChk = true;
-		}
-		
-		/* 최종 유효성 검사를 진행하고 form에 말아서 전달 */
-		if(clubName && clubnameChk){
-		
-        $("#join_form").submit();
-			
-		}
-		
-		return false;
-	});
-});	
-	
+  //소모임 이름 중복체크
+    $('.club_input').on("propertychange change keyup paste input", function() {
+        var clubName = $('.club_input').val();
+        var data = {"clubName" : clubName}
 
-//소모임 이름 중복체크
+        $.ajax({
+            type : "post",
+            url : "${pageContext.request.contextPath}/club/clubnameChk",
+            data : data,
+            success : function(result) {
+                if (result != 'fail') {
+                    $('.club_input_re1').css("display", "inline-block");
+                    $('.club_input_re2').css("display", "none");
+                    clubnameChk = true;
+                } else {
+                    $('.club_input_re2').css("display", "inline-block");
+                    $('.club_input_re1').css("display", "none");
+                    clubnameChk = false;
+                }
+            }
+        });
+    });    
 
-	$('.club_input').on("propertychange change keyup paste input", function() {
+    $(document).ready(function(){
+        // 모임 이름 유효성 검사
+        $('.club_input').on("propertychange change keyup paste input", function() {
+            var clubName = $('.club_input').val();
 
-		var clubName = $('.club_input').val(); //.club_input 입력될 값
-		var data = {"clubName" : clubName} //.컨트롤에 넘길 데이터 이름 데이터(.club_input에 입력되는 값)
+            if(clubName == ""){
+                $('.final_club_ck').css('display', 'block');
+                clubnameChk = false;
+            }else{
+                $('.final_club_ck').css('display', 'none');
+                clubnameChk = true;
+            }
+        });
 
-		$.ajax({
-			type : "post",
-			url : "${pageContext.request.contextPath}/club/clubnameChk",
-			data : data,
-			success : function(result) {
-
-				if (result != 'fail') {
-					$('.club_input_re1').css("display", "inline-block");
-					$('.club_input_re2').css("display", "none");
-					clubnameChk = true;
-				} else {
-					$('.club_input_re2').css("display", "inline-block");
-					$('.club_input_re1').css("display", "none");
-					clubnameChk = false;
-				}
-			}
-
-		});
-	});
-
-	
-	
-	$(document).ready(function() {
-	    // 상위 카테고리가 변경될 때
-	    $("#majorLocation").change(function() {
-	        var selectedMajor = $(this).val();
-	        
-	        // 서버에 AJAX 요청
-	        $.ajax({
-	        //	type: "POST",
-	            url: "${pageContext.request.contextPath}/club/selectCommsubList",
-	            data: { "code": selectedMajor },
-	           // contentType: "application/json; charset=utf-8",
-	            dataType: "json",
-	            success: function(response) {
-	                // 하위 카테고리 내용을 초기화
-	                $("#subLocation").empty();
-	                
-	                // 응답으로 받아온 하위 카테고리를 추가
-	                $.each(response, function(index, item) {
-	                    $("#subLocation").append('<option value="' + item.subcode + '">' + item.literal + '</option>');
-	                });
-	            }
-	        });
-	    });
-	});
+        // 상위 카테고리가 변경될 때
+        $("#majorLocation").change(function() {
+            var selectedMajor = $(this).val();
+            
+            $.ajax({
+                url: "${pageContext.request.contextPath}/club/selectCommsubList",
+                data: { "code": selectedMajor },
+                dataType: "json",
+                success: function(response) {
+                    $("#subLocation").empty();
+                    $.each(response, function(index, item) {
+                        $("#subLocation").append('<option value="' + item.subcode + '">' + item.literal + '</option>');
+                    });
+                }
+            });
+        });
+        
+        // "등록하기" 버튼 클릭 시 유효성 검사 실행
+        $(".join_button").on("click", function(e) {
+            if (!validateForm()) {
+                e.preventDefault();
+            }
+        });
+    });
 	
 
 	function imgUploadHandler(list) {
@@ -333,6 +308,11 @@ $(document).ready(function(){
  if (clubName.value.trim() === '') {
 	 swal('등록 실패','모임 이름을 입력해주세요','error' );
      clubName.focus();
+     return false;
+ }
+ 
+ if (!clubnameChk) {
+     swal('등록 실패','모임 이름이 중복됩니다. 다른 이름을 선택해주세요.','error');
      return false;
  }
 
@@ -388,15 +368,16 @@ $(document).ready(function(){
      return false;
  }
 
+ 	return true;
 }
 	
 
 // "등록하기" 버튼 클릭 시 유효성 검사 실행
-document.querySelector(".join_button").addEventListener("click", function(e) {
-    if (!validateForm()) {
-        e.preventDefault();
-    }
-});
+// document.querySelector(".join_button").addEventListener("click", function(e) {
+//     if (!validateForm()) {
+//         e.preventDefault();
+//     }
+// });
 
 
 

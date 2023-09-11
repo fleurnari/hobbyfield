@@ -225,6 +225,7 @@ h3 {
 </head>
 <body>
 
+		<div class="container" style="margin-top: 150px;">
 		
 
 	
@@ -324,7 +325,7 @@ h3 {
 				</c:forEach>
 			</div>
 		</div>
-
+</div>
     		
 
 <script type="text/javascript">

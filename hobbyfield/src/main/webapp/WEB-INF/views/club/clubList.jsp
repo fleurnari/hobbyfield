@@ -237,7 +237,7 @@
 </head>
 
 <body>
-<section>
+	<div class="container" style="margin-top: 150px;">
     	<img src="${pageContext.request.contextPath}/resources/img/hobbyClub.png" width="1430px;" height="300px;" />
     	<div class="top-buttons">
     		<c:if test="${not empty profileList}">
@@ -304,8 +304,7 @@
 				</div>
 			</c:forEach>
         </div>
-</section>
-
+</div>
 
 
 
@@ -399,7 +398,8 @@
 	                    $.each(clubs, function(index, club) {
 	                        $('#clubContainer').append(`
 	                        		<div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=\${club.clubNumber}'">
-	                                <img src="${pageContext.request.contextPath}/\${club.clubImgPath}\${club.clubImg}">
+	                                <img src="${pageContext.request.contextPath}/\${club.clubImgPath}\${club.clubImg}"
+	                                 onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/img/clubImg.jpg';">
 	                                <div class="clubInfo">
 	                                <div class="clubInfo">
 	    							<p>\${club.clubName}</p>

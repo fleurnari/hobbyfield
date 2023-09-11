@@ -12,8 +12,8 @@
 
    src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/common.js"></script>   
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/club/clubboard.css">   
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club/clubboard.css">   
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <style>
 
@@ -120,6 +120,7 @@ p {
 </style>
 
 <body>
+<div class="container" style="margin-top: 150px;">
 	<div class="top">
 	<div class="club-management-container">
 		<!-- 모임 이름 -->
@@ -318,7 +319,7 @@ p {
 				</div>
 			</c:if>
 	</div>
-
+</div>
 
 	<script type="text/javascript">
    
@@ -473,59 +474,59 @@ p {
        let singupQuestion3 = document.getElementsByName('singupQuestion3')[0];
 
           if (clubName.value.trim() === '') {
-              alert('모임 이름을 입력해주세요.');
+        	  swal('등록 실패','모임 이름을 입력해주세요','error' );
               clubName.focus();
               return false;
           }
 
           if (clubCategory.value.trim() === '') {
-              alert('모임 카테고리를 선택해주세요.');
+        	  swal('등록 실패','모임 카테고리를 선택해주세요','error' 
               clubCategory.focus();
               return false;
           }
 
           if (!clubType) {
-              alert('소모임 분류를 선택해주세요.');
+        	  swal('등록 실패','소모임 분류를 선택해주세요','error' );
               return false;
           }
 
           if (clubInfo.value.trim() === '') {
-              alert('소모임 소개를 입력해주세요.');
+        	  swal('등록 실패','소모임 소개를 입력해주세요','error' );
               clubInfo.focus();
               return false;
           }
 
           if (majorLocation.value.trim() === '') {
-              alert('광역지역을 선택해주세요.');
+        	  swal('등록 실패','광역지역을 선택해주세요','error' );
               majorLocation.focus();
               return false;
           }
 
           if (subLocation.value.trim() === '') {
-              alert('지역구를 선택해주세요.');
+        	  swal('등록 실패','지역구를 선택해주세요','error' );
               subLocation.focus();
               return false;
           }
 
           if (!clubPublic) {
-              alert('공개 여부를 선택해주세요.');
+        	  swal('등록 실패','공개 여부를 선택해주세요','error' );
               return false;
           }
 
           if (singupQuestion1.value.trim() === '') {
-              alert('질문1을 입력해주세요.');
+        	  swal('등록 실패','질문1을 입력해주세요','error' );
               singupQuestion1.focus();
               return false;
           }
 
           if (singupQuestion2.value.trim() === '') {
-              alert('질문2를 입력해주세요.');
+        	  swal('등록 실패','질문2를 입력해주세요','error' );
               singupQuestion2.focus();
               return false;
           }
 
           if (singupQuestion3.value.trim() === '') {
-              alert('질문3을 입력해주세요.');
+        	  swal('등록 실패','질문3을 입력해주세요','error' );
               singupQuestion3.focus();
               return false;
           }
