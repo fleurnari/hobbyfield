@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,26 +31,67 @@
 	height: 80vh;
 }
 
+#emptyBoard {
+	vertical-align: middel;
+	margin-top: 100px;
+	width: 900px;
+	height: 700px;
+}
+
+.emptyBoard {
+	vertical-align: middel;
+	margin-top: 150px;
+	width: 900px;
+	height: 700px;
+	left: 50%;
+	top: 50%;
+}
+
+.emptyBoard img {
+	width: 150px;
+	height: 150px;
+}
 /* 페이지 배경 스타일 */
 body {
 	background-color: #f4f4f4;
 	font-family: Arial, sans-serif;
 }
-
-.writer-img {
-	display: inline-block;
-	width: 50px;
-	height: 50px;
-	width: 50px;
+/* img 로딩 실패시 */
+img {
+	
 }
 
-/* 더 많은 스타일을 원하는 대로 추가하세요. */
+.writer-img {
+	float: left;
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	border-radius: 70%;
+	overflow: hidden;
+}
+
+.board-content img {
+	
+}
+
+.emptyBoard:nth-child(1) {
+	font-weight: bold;
+}
+
+.emptyBoard:nth-child(2) {
+	opacity: 0.5;
+}
+/* 제일 상단 소모임명 표시 */
 </style>
 </head>
 <body>
 	<div align="center" style="margin-top: 150px;">
 		<!-- 검색창 구현 : 사용자이름, 글내용으로 검색 : ajax 처리를 통해 검색된 내용만 다시 불러오도록.-->
 		<!-- 검색창 -->
+
+		<h2 class="head-name">${club.clubName}</h2>
+
+
 		<div class="search-div">
 			<form id="searchForm"
 				action="${pageContext.request.contextPath}/club/searchBoard"
@@ -64,87 +105,96 @@ body {
 						src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
 				</div>
 			</form>
+		</div>   
+
+		<div class="insert-bar">
+			<h3>새로운 소식을 남겨보세요</h3>
+			<h3>소모임에 소속된 멤버라면 누구나 작성 가능합니다.</h3>
 		</div>
-
-		<h1>게시글 목록</h1>
-
-		<!-- Session 확인용 : 추후 삭제 -->
-		<div>
-			<div>email : ${member.memberEmail}</div>
-			<div>닉네임 : ${profile.profileNickname}</div>
-			<div>
-				<img
-					src="${pageContext.request.contextPath}/${profile.profileImgPath}${profile.profileImg}"
-					style="width: 50px; height: 50px;">
-			</div>
-		</div>
-
-
-
 
 		<!-- 차단한 유저는 나오지 않도록 추가 조건문 구현하기 -->
 		<!-- 게시글 리스트 -->
-		<div id="boardList">
-			<c:forEach items="${boardList}" var="board">
-				<div class="boardMain" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardInfo?boardNumber=${board.boardNumber}'">
-					<div class="board-head">
-						<h3>게시글</h3>
+		<c:if test="${boardList ne null}">
+			<div id="boardList">
+				<c:set var="type" value="N"></c:set>
+					<div class="notice-info">
+						<h2>공지사항</h2>
 					</div>
-					<div class="board-writer">
-						<img class="writer-img"
-							src="${pageContext.request.contextPath}/${board.profileImgPath}${board.profileImg}">
-						<p>작성자 : ${board.clubBoardWriter}</p>
-						<p class="write-day">
-							작성일 :
-							<fmt:formatDate value="${board.clubBoardWdate}" dateStyle="full" />
-						</p>
+				<c:forEach items="${boardList}" var="board">
+					
+					<div class="boardMain"
+						onclick="location.href='${pageContext.request.contextPath}/club/clubBoardInfo?boardNumber=${board.boardNumber}'">
+						<div class="board-head">
+							<div class="writer-img">
+								<img
+									src="${pageContext.request.contextPath}/${board.profileImgPath}${board.profileImg}"
+									style="width: 300px; height: 300px;">
+							</div>
+							<div class="writer-info">
+								<p>${board.clubBoardWriter}</p>
+								<p class="write-day">
+									작성일 :
+									<fmt:formatDate value="${board.clubBoardWdate}"
+										pattern="yy-MM-dd" dateStyle="full" />
+								</p>
+							</div>
+						</div>
+						<div class="board-content">
+							<div>${board.clubBoardContent}</div>
+							<p class="club-view">
+								<span></span>${board.clubBoardViews}</p>
+							<c:if test="${board.scheduleDate} ne null">
+								<p>
+									<fmt:formatDate value="${board.scheduleDate}" dateStyle="full" />
+								</p>
+							</c:if>
+						</div>
 					</div>
-					<div class="board-main">
-						<div class="board-content-list">${board.clubBoardContent}</div>
-						<p class="club-view">${board.clubBoardViews}</p>
-						<c:if test="${board.scheduleDate} ne null">
-							<p>
-								<fmt:formatDate value="${board.scheduleDate}" dateStyle="full" />
-							</p>
-						</c:if>
-					</div>
-				</div>
-			</c:forEach>
+				</c:forEach>
+			</div>
+		</c:if>
+		<div class="emptyBoard">
+			<c:if test="${fn:length(borardList) eq 0 }">
+				<img
+					src="${pageContext.request.contextPath}/resources/images/postcard.png">
+				<h2>그룹 페이지</h2>
+				<h2>새 게시물을 작성해 주세요</h2>
+			</c:if>
 		</div>
+
+
 	</div>
 
 	<!-- 사이드바1(왼) 소모임정보 : 소모임 이름, 멤버수, 초대버튼,  소모임 설정버튼(모임장만 보이도록)-->
 	<div class="left-side">
-		<div id="club-info">
-			<div id="club-img">
-				<img
-					src="${pageContext.request.contextPath}${club.clubImgPath}/${club.clubImg}"
-					style="height: 300px; width: 300px;">
-			</div>
-			<div id="info">
-				<p>모임 이름 : ${club.clubName}</p>
-				<p>모임장 : ${club.profileNickname}</p>
-				<p>모임설명 : ${club.clubInfo}</p>
-				<p>지역 : ${club.majorLocation} ${club.subLocation}</p>
-			</div>
-			<!-- 글쓰기버튼 구현 : modal로 글쓰기 창이 나오도록 -->
+		<div class="club-img">
+			<img
+				src="${pageContext.request.contextPath}${club.clubImgPath}/${club.clubImg}"
+				style="height: 300px; width: 300px;">
+		</div>
+		<div class="club">
+			<p>모임 이름 : ${club.clubName}</p>
+			<p>모임장 : ${club.profileNickname}</p>
+			<p>모임설명 : ${club.clubInfo}</p>
+			<p>지역 : ${club.majorLocation} ${club.subLocation}</p>
+		</div>
+		<!-- 글쓰기버튼 구현 : modal로 글쓰기 창이 나오도록 -->
 
-			<div class="button-group">
-				<c:choose>
-					<c:when test="${profile ne null}">
-						<button
-							onclick="location.href='${pageContext.request.contextPath}/club/clubManage?clubNumber=${club.clubNumber}'">관리</button>
-						<button type="button" id="boardModalBtn" class="modal-open-btn">글
-							쓰기</button>
-					</c:when>
-					<c:when test="${profile eq null}">
-						<div class="guest-btn">
-							<button type="button" id="joinModalBtn" class="modal-open-btn">가입
-								신청</button>
-						</div>
-					</c:when>
-				</c:choose>
-			</div>
+		<div class="button-group">
+			<c:choose>
+				<c:when test="${profile ne null}">
+					<button
+						onclick="location.href='${pageContext.request.contextPath}/club/clubManage?clubNumber=${club.clubNumber}'">관리</button>
+					<button type="button" id="boardModalBtn" class="modal-open-btn">글
+						쓰기</button>
+				</c:when>
+				<c:when test="${profile eq null}">
+					<div class="guest-btn">
+						<button type="button" id="joinModalBtn" class="modal-open-btn">가입
+							신청</button>
+					</div>
+				</c:when>
+			</c:choose>
 		</div>
 	</div>
 	<!-- 사이드바2(오) 최근 사진, 글쓰기 버튼 -->
@@ -158,8 +208,8 @@ body {
 	<div id="boardMainModal" class="main-modal">
 		<div id="boardContentModal" class="content-modal">
 			<span id="closeBoardModal" class="close">&times;</span>
-			<form name="insertForm" action="clubBoardInsert" method="post"
-				enctype="multipart/form-data">
+			<form id="insertForm" name="insertForm" action="clubBoardInsert"
+				method="post" enctype="multipart/form-data">
 				<div class="board-head">
 					<h3>게시글 작성</h3>
 				</div>
@@ -178,21 +228,26 @@ body {
 						value="${profile.profileNickname}">
 				</div>
 				<!-- 투표 등록시 투표 값이 들어올 div(투표 modal로 이동하는 창과 input hidden값 -->
-				<div></div>
-				<div>
+				<div id="voteValue"></div>
+				<div id="option button">
 					<button type="button" id="openVoteModal" class="modal-open-btn">투표생성</button>
 				</div>
+				<!-- 공지 설정은 모임장일 경우에만 보이도록 선택되지않을경우 자동으로 N으로-->
 				<div>
-					<!-- 추후 넣을값 : club_number, club_board_type -> -->
+					<c:if test="${profile.profileNickname eq club.profileNickname}">
+						<input type="checkbox" id="" name="clubBoardType">공지사항등록
+					</c:if>
 				</div>
 				<div>
 					<!-- from으로 보내기 위한 데이터 추후 hidden으로 -->
-					<input type="text" id="clubNumber" name="clubNumber"
-						value="${club.clubNumber}"> <input type="text"
-						id="clubBoardType" name="clubBoardType" value="N">
+					<input type="text" id="clubBoardType" name="clubBoardType"
+						value="N">
 				</div>
-				<button type="button" id="insertSubmitBtn">등록</button>
-				<button type="reset">취소</button>
+
+				<div id="boardBtn">
+					<button type="button" id="boardSubmitBtn">등록</button>
+					<button type="reset" id="boardResetBtn">취소</button>
+				</div>
 
 			</form>
 		</div>
@@ -205,60 +260,63 @@ body {
 			<form action="clubJoinProcess" method="POST" id="clubJoinForms">
 				<p class="club-name">${club.clubName}</p>
 				<p class="join-head">가입질문에 대답해주세요</p>
-					<div class="profile-list">
-						<label>프로필</label>
-						<c:forEach items="${profiles}" var="pro">
-							<select name="profileNickname">
-									<option value="${pro.profileNickname}">${pro.profileNickname}</option>
-							</select>
-						</c:forEach>
-						<c:if test="${fn:length(profiles) > 3 }">
-							<button type="button" id="profileModalBtn" class="modal-open-btn">
+				<div class="profile-list">
+					<label>프로필</label>
+					<c:if test="${profileList ne null}">
+						<select name="profileNickname">
+							<c:forEach items="${profileList}" var="pro">
+								<option value="${pro.profileNickname}">${pro.profileNickname}</option>
+							</c:forEach>
+						</select>
+					</c:if>
+					<c:if test="${fn:length(profileList) < 3 }">
+						<button type="button" id="profileModalBtn" class="modal-open-btn">
 							프로필 생성</button>
-						</c:if>
-					</div>
+					</c:if>
+				</div>
 				<div class="join-question">
-					<h3>가입 질문 답변</h3><br> 
-					<label>${club.singupQuestion1}</label><br> 
-					<input type="text" name="applyAnswer1"><br> 
-					<label>${club.singupQuestion2}</label><br>
-					<input type="text" name="applyAnswer2"><br> 
-					<label>${club.singupQuestion3}</label><br>
-					<input type="text" name="applyAnswer3"><br> 
+					<h3>가입 질문 답변</h3>
+					<br> <label>${club.singupQuestion1}</label><br> <input
+						type="text" name="applyAnswer1"><br> <label>${club.singupQuestion2}</label><br>
+					<input type="text" name="applyAnswer2"><br> <label>${club.singupQuestion3}</label><br>
+					<input type="text" name="applyAnswer3"><br>
 					<!-- hidden data -->
-					<input type="hidden" value="H1" name="applyStatus"> 
-					<input type="hidden" name="clubNumber" value="${club.clubNumber}">
+					<input type="hidden" value="H1" name="applyStatus"> <input
+						type="hidden" name="clubNumber" value="${club.clubNumber}">
 				</div>
 				<div>
 					<button type="button" id="joinSubmit" class="submit-btn">신청</button>
-					<button>취소</button>
+					<button type="button" id="joinReset" class="reset-btn">취소</button>
 				</div>
 			</form>
 		</div>
 	</div>
 	<!-- 소모임 가입 modal (끝) -->
 
-	<!-- 투표 modal -->
+	<!-- 투표 modal : -->
 	<div id="voteMainModal" class="main-modal">
 		<div id="voteContentModal" class="content-modal">
-			<span class="close" id="closeVoteModal">&times;</span>
-			<h2>투표</h2>
-			<input type="text" id="voteSubject" name="voteSubject"
-				required="required" placeholder="투표제목">
-			<div id="input-container">
-				<!-- 초기에 2개의 input 태그 생성 -->
-				<input type="text" name="voteOption1" required="required"
-					placeholder="투표 옵션 1"> <input type="text"
-					name="voteOption2" required="required" placeholder="투표 옵션 2">
-			</div>
-			<button type="button" id="addInput">옵션 추가</button>
-			<div id="tpye-checkbox">
-				<input type="checkbox" id="voteMulti" value="">복수 투표 <input
-					type="checkbox" id="voteSecret" value="">무기명 투표
-			</div>
-			<div>
-				<button type="button" id="voteSubmit" class="submit-btn">첨부하기</button>
-			</div>
+			<form action="" method="post" id="voteForm">
+				<span class="close" id="closeVoteModal">&times;</span>
+				<h2>투표</h2>
+				<input type="text" id="voteSubject" name="voteSubject"
+					required="required" placeholder="투표제목">
+				<div id="input-container">
+					<!-- 초기에 2개의 input 태그 생성 -->
+					<input type="text" name="voteOption1" required="required"
+						placeholder="투표 옵션 1"> <input type="text"
+						name="voteOption2" required="required" placeholder="투표 옵션 2">
+				</div>
+				<button type="button" id="addInput">옵션 추가</button>
+				<div id="tpye-checkbox">
+					<input type="checkbox" id="voteMulti" value="">복수 투표 <input
+						type="checkbox" id="voteSecret" value="">무기명 투표
+				</div>
+				<div>
+					<button type="button" id="voteSubmit" class="submit-btn">첨부하기</button>
+					<button type="button" id="voteReset" class="reset-btn">첨부하기</button>
+				</div>
+			</form>
 		</div>
 	</div>
 
@@ -299,8 +357,17 @@ body {
 					<button type="button" id="uploadBtn">upload</button>
 				</div>
 
+				<div class="profileSection input-group mb-3">
+
+					<label class="input-group-text" for="inputGroupFile01">Upload</label>
+					<input type="file" class="form-control" id="uploadBtn"
+						onchange="readURL(this);">
+					<div id="preview"></div>
+				</div>
+
 				<div class="join-button-wrap">
-					<button type="button" id="profileSubmitBtn" class="submit-btn">등록하기</button>
+					<button type="button" id="profileSubmit" class="submit-btn">등록하기</button>
+					<button type="button" id="profileReset" class="reset-btn">취소</button>
 				</div>
 			</form>
 		</div>
@@ -317,29 +384,29 @@ body {
      //Modal 생성  
 
       $(".modal-open-btn").on("click", function(event) {
-    	  if(event.target === document.getElementById("joinModalBtn")) {
+    	  if(event.target == document.getElementById("joinModalBtn")) {
     		  $("#joinMainModal").css("display", "block");
           }
-    	  if(event.target === document.getElementById("profileModalBtn")) {
+    	  if(event.target == document.getElementById("profileModalBtn")) {
     		  $("#profileMianModal").css("display", "block");
           }
-    	  if(event.target === document.getElementById("boardModalBtn")) {
+    	  if(event.target == document.getElementById("boardModalBtn")) {
     		  $("#boardMainModal").css("display", "block");
           }
-    	  if(event.target === document.getElementById("voteModalBtn")) {
+    	  if(event.target == document.getElementById("voteModalBtn")) {
     		  $("#voteMainModal").css("display", "block");
           }
           
        });
      // 닫기버튼
      $(".close").on("click", function(event) {      
-        if (event.target === document.getElementById("closeJoinModal")) {
+        if (event.target == document.getElementById("closeJoinModal")) {
              $("#joinMainModal").css("display", "none");
         }
-        if(event.target === document.getElementById("closeProfileModal")){
+        if(event.target == document.getElementById("closeProfileModal")){
             $("#profileMianModal").css("display", "none");
         }
-        if(event.target === document.getElementById("closeBoardModal")){
+        if(event.target == document.getElementById("closeBoardModal")){
             $("#boardMainModal").css("display", "none");
         }
       });
@@ -350,40 +417,56 @@ body {
     	    }
     	});
      
+     if(sessionStorage.getItem("profile") != null){
+    	    $("#boardMainModal").css("display", "block");
+    	}else if(sessionStorage.getItem("profile") != null){
+    	    $("#joinMainModal").css("display", "block");
+    	}
      
      $(document).mouseup(function (e) {
-          if (event.target === document.getElementById("boardInsertModal")) {
+          if (event.target == document.getElementById("boardInsertModal")) {
               $("#boardInsertModal").css("display", "none");
           }
-          if(event.target === document.getElementById("boardInsertModal")){
+          if(event.target == document.getElementById("boardInsertModal")){
              $("#boardInsertModal").css("display", "none");
           }
-          if(event.target === document.getElementById("boardInsertModal")){
+          if(event.target == document.getElementById("boardInsertModal")){
              $("#boardInsertModal").css("display", "none");
           }
       });
        
-      $("#clubInfo").on("click",function(e){
-         e.preventDefault();
+      $("#emptyBoard").on("click",function(e){
+    	  if(sessionStorage.getItem("profile") != null){
+    		    $("#boardMainModal").css("display", "block");
+    		}else if(sessionStorage.getItem("profile") != null){
+    		    $("#joinMainModal").css("display", "block");
+    		}
       })
-      
        
        $("#search-img").on("click", function(e){
          var search = $("searchText").val();
          //var clubNum = ${club.clubNumber};
+         if(search==""){
+        	 alert("검색어를 입력해주세요.")
+         }
          $("#searchForm").submit();
          
       });
        
        // submit
        $(".submit-btn").on("click", function(e){
-           if(event.target === document.getElementById("boardInsertModal")){
+           if(event.target == document.getElementById("joinSubmit")){
        	   		$("form[name='insertForm']").submit();        	   
            }
-           
+           if(event.target == document.getElementById("joinSubmit")){
+        	   $("form[name='insertForm']").submit();
+           }
        });
        
-       
+       // isnertbar onclick
+       $("").on("click", function(e){
+    	   
+       });
        
        
        // 날짜 자동지정
@@ -469,6 +552,7 @@ body {
                      console.log("반횐된 데이터:", boards);     // 반환된 소모임 데이터 출력
                  
                      if (boards.length > 0) {
+                    	 $('#emptyBoard').empty();
                          $.each(boards, function(index, board) {
                              $('#boardList').append(`
                                    
@@ -523,14 +607,16 @@ body {
    
 	// imgUploadHandler
 	function imgUploadHandler(list) {
-		if(event.target === document.getElementById("profileImg")){
+		if(event.target == document.getElementById("profileImg")){
 			for (i = 0; i < list.length; i++) {
 				let tag = `<input type="hidden" name="profileImg" value="\${list[i].UUID}">
 				           <input type="hidden" name="profileImgPath" value="\${list[i].url}">`
-				$('#join_form').append(tag);
+				$("#join-form").append(tag);
 			}
 		}
 	}
+	
+	// insert bar 클릭용 
    //에디터용
      ClassicEditor
       .create( document.querySelector( '#editorInsert' ), {

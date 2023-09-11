@@ -56,7 +56,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 		if(findVO != null) {
 			request.getSession().setAttribute("profileList", findVO);			
 		}
-		
+		System.out.println(findVO);
 		request.getSession().setAttribute("member", member);
 		response.sendRedirect(request.getContextPath() + "/");
 

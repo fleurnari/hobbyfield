@@ -26,13 +26,13 @@ public class ClubBoardLikeServiceImpl implements ClubBoardLikeService {
 	}
 
 	@Override
-	public int countBoardLike(int boardNumber) {
+	public int countBoardLike(Integer boardNumber) {
 		// TODO Auto-generated method stub
 		return cblm.countBoardLike(boardNumber);
 	}
 
 	@Override
-	public int selectBoardLike(int boardNumber, String profileNickname) {
+	public int selectBoardLike(Integer boardNumber, String profileNickname) {
 		// TODO Auto-generated method stub
 		return cblm.selectBoardLike(boardNumber, profileNickname);
 	}

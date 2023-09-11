@@ -183,6 +183,12 @@ span {
 				<textarea name="singupQuestion3" placeholder="내용을 입력해 주세요." class="question-box"></textarea><br>
 			</div>
 			
+
+			
+			<div id="preview">
+				<img src="noimg.jpg" width="300" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/img/clubImg.jpg';"/>
+			</div>
+
 			
 			<div id="preview"><img src="noimg.jpg" width="300" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/img/clubImg.jpg';"/></div>
 			<input name="uploadFile" type="file" value="" onchange="readURL(this);">

@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
-<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script src="" type="text/javascript"></script>
 
 
@@ -14,15 +14,14 @@
 <meta charset="UTF-8">
 <title>메인 페이지</title>
 <style>
-
 h3 {
     margin-bottom: 30px; 
 }
-
 /*모임생성, 프로필 생성 */
 .top-buttons {
     display: flex;
     justify-content: flex-end; /* 오른쪽 정렬 */
+
     margin-bottom: 20px; 
     margin-top: 30px;
 }
@@ -55,6 +54,9 @@ h3 {
 .btn-primary:hover {
     background-color: #28a745; /* 초록색 */
 }
+
+
+
 
 
 
@@ -155,16 +157,17 @@ h3 {
     margin-bottom: 10px;
     margin-top: 10px; 
     line-height: 1.2; /* 기본 글자 크기의 1.5배로 줄 간격을 설정 <잘리는 현상 발생시 이곳> */
+
 }
 
 .ck.ck-editor {
-	width: 30%;
-	max-width: 50px;
-	margin: 0 auto;
+   width: 30%;
+   max-width: 50px;
+   margin: 0 auto;
 }
 
 .ck-editor__editable {
-	height: 80vh;
+   height: 80vh;
 }
 
 #clubContainer {
@@ -182,8 +185,8 @@ h3 {
     background-color: #f9f9f9;
 }
 .club-board:hover{
-	transform: translateY(-5px);
-	box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+   transform: translateY(-5px);
+   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
 }
 .club-info {
     font-weight: bold;
@@ -207,18 +210,21 @@ h3 {
 }
 
 .writer-img {
-    max-width: 45px;
-    max-height: 45px;
+    width: 45px;
+    height: 45px;
     height: auto;
+    border-radius: 70%;
+    overflow: hidden;
 }
 .board-content img{
-	display: none;
+   display: none;
 }
 
 
 </style>
 </head>
 <body>
+
 		
 
 	
@@ -320,56 +326,32 @@ h3 {
 		</div>
 
     		
+
 <script type="text/javascript">
 
-	$('#clubLink').on("click",function(e){
-		e.stopPropagation();
-		var email = $('#checkClub').
-		// ajax로 해당 소모임에 사용자가 가입되어있는지 확인, 
-		// 가입되어있을시 해당 페이지로 이동, 아닐시 가입페이지로 이동
-		
-		// ajax로 통해 보내야할 데이터는 Session의 member.memberEmail
-		$.ajax({
-			url : 'club/checkClubApply',
-			data : email,
-			type : 'POST',
-			success : function(result) {
-					console.log("ajax 호출, Session의 email : " + email);	
-					if(result == ture){
-						// 해당 소모임 메인페이지 이동 호출 
-					}else{
-						alert("해당 소모임 가입페이지로 이동합니다.")
-					}
-				}
-			
-			})
-		});
+   $('#clubLink').on("click",function(e){
+      e.stopPropagation();
+      var email = $('#checkClub').
+      // ajax로 해당 소모임에 사용자가 가입되어있는지 확인, 
+      // 가입되어있을시 해당 페이지로 이동, 아닐시 가입페이지로 이동
+      
+      // ajax로 통해 보내야할 데이터는 Session의 member.memberEmail
+      $.ajax({
+         url : 'club/checkClubApply',
+         data : email,
+         type : 'POST',
+         success : function(result) {
+               console.log("ajax 호출, Session의 email : " + email);   
+               if(result == ture){
+                  // 해당 소모임 메인페이지 이동 호출 
+               }else{
+                  alert("해당 소모임 가입페이지로 이동합니다.")
+               }
+            }
+         
+         })
+      });
 
-
-
-// 	$(document).ready(function(){
-	
-// 	$('#clubContainer').on('click',function(e){
-// 		var linkta
-// 	});
-	
-// 	ClassicEditor
-//     .create( document.querySelector( '#editor' ), {
-//     	toolbar: []
-//     })
-//     .then(editor => {
-        
-
-//         editor.isReadOnly = true; // 에디터를 읽기 전용으로 설정
-//     })
-//     .catch( error => {
-//         console.error( error );
-//     });
-
-//       editor.isReadOnly = true; // 에디터를 읽기 전용으로 설정
-
-
-// 	bootstrap modal ex
   </script>
 
 </body>

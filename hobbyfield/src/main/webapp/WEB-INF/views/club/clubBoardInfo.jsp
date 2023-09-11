@@ -9,7 +9,8 @@
 </style>
 <meta charset="UTF-8">
 <title>소모임 게시글 상세보기</title>
-<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+<script
+	src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
 
 <style>
 .modal{ 
@@ -127,6 +128,9 @@
     opacity: 0;
 }
 
+#actModal {
+	cursor: pointer;
+}
 
 /* 이모티콘 모달 내부 컨텐츠 스타일 */
 .modal-content {
@@ -387,14 +391,81 @@
 			</div>
 		</form>
 	</div>
-	</div>
-   
-   
-   <script>
-   
 
-   
-   
+
+	<!-- 댓글 수정 모달 -->
+	<div class="modal updateModal">
+		<div class="modal_content">
+			<div class="m_head">
+				<div class="modal_title">
+					<h3>댓글</h3>
+				</div>
+				<div class="close_btn" id="close_btn">X</div>
+			</div>
+			<div class="m_body">
+				<form id="clubCommentUpdate">
+					<input type="hidden" id="updateCommentNumber" name="commentNumber" />
+					<div>
+						<label for="profileNickname">댓글 작성자 :
+							${profile.profileNickname} </label> <br> <label
+							for="updateClubCommentContent">댓글 내용</label>
+						<textarea rows="1" cols="100" id="updateClubCommentContent"
+							name="clubCommentContent"></textarea>
+						<br> <label for="updateClubCommentSecret">비밀 댓글 <input
+							type="checkbox" id="updateClubCommentSecret"
+							name="clubCommentSecret" value=""></label>
+					</div>
+					<div></div>
+				</form>
+			</div>
+			<div class="m_footer">
+				<button type="button" id="commentUpdate"
+					class="btn btn-primary btn-outline btn-lg update_btn">댓글
+					수정</button>
+				&nbsp;&nbsp;
+				<button type="button"
+					class="btn btn-primary btn-outline btn-lg close_btn">취소</button>
+				&nbsp;&nbsp;
+			</div>
+		</div>
+	</div>
+
+	<!-- 대댓 작성 모달 -->
+	<div id="recommentModal" class="modal">
+		<div class="modal_content">
+			<div class="m_head">
+				<div class="modal_title">
+					<h3>댓글</h3>
+				</div>
+				<div class="close_btn" id="close_btn">X</div>
+			</div>
+			<form id="clubRecommentInsert">
+				<input type="hidden" id="recommentBoardNumber" name="boardNumber" />
+				<input type="hidden" id="recommentCommentNumber"
+					name="commentNumber" />
+				<div>
+					<label for="profileNickname"> 댓글 작성자 </label><input type="text"
+						id="recommentProfileNickname" name="profileNickname"
+						value="${profile.profileNickname}" /> <br> <label
+						for="recommentClubCommentContent">댓글 내용</label>
+					<div id="editor2">1515</div>
+					<br> <label for="recommentClubCommentSecret">비밀 댓글</label> <input
+						type="checkbox" id="recommentClubCommentSecret"
+						name="clubCommentSecret" value="">
+				</div>
+				<div>
+					<button type="button" id="recommentInsertBtn"
+						class="btn btn-primary btn-outline btn-lg">작성</button>
+					&nbsp;&nbsp;
+					<button type="button" onclick="closeModal()"
+						class="btn btn-primary btn-outline btn-lg">취소</button>
+					&nbsp;&nbsp;
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<script>
 ClassicEditor
 .create( document.querySelector( '#editor' ), {
     toolbar: []
@@ -430,6 +501,7 @@ ClassicEditor
 });  
   
 
+// 이모티콘 선택 (이모지 선택해서 툴 헤더 없는 editor에 넣을 수 있도록 하기) 코드 완성하면 이모티콘 가장 아래로 이동
 $('#emojis').on("click","img",function(e){
        var selectedImageSrc = $(this).attr('src');
        replyEditor.execute( 'insertImage', { source: selectedImageSrc } );
@@ -437,6 +509,15 @@ $('#emojis').on("click","img",function(e){
     $("#emojiModal").modal("hide");
 });
   
+
+$(document).ready(function() {
+   
+   var userLike = '${userLike}';
+   
+    if (userLike == 1) {
+       $('#boardLike').html("좋아요 취소");
+    }
+
 
 $(document).ready(function() {
    
@@ -511,9 +592,11 @@ $(document).ready(function() {
    // 글 목록, 수정, 삭제 
    // 이전, 다음글
    $("#boardNext").on("click", function(){
+
       
       
    })
+
    
    $("#commentInsert").on("click", function() {
    
@@ -584,7 +667,8 @@ $(document).ready(function() {
                   if (result.clubCommentSecret == 'L1') {
                       $('#updateClubCommentSecret').prop('checked', true);
                   } else {
-                	  $('#updateClubCommentSecret').prop('checked', false);
+                     $('#updateClubCommentSecret').prop('checked', false);
+
                   }
 
            }
@@ -648,59 +732,61 @@ function commentDelete(commentNumber) {
      }
      
    // 대댓 작성 모달창 띄우기
-	function recommentInsert(boardNumber, commentNumber) {
-	  	
-	       $.ajax({
-	           url: 'clubRecommentInsert',
-	           method: 'GET',
-	           data: { 	boardNumber : boardNumber,
-	        	   		commentNumber: commentNumber },
-	           success: function (result) {
+
+   function recommentInsert(boardNumber, commentNumber) {
+        
+          $.ajax({
+              url: 'clubRecommentInsert',
+              method: 'GET',
+              data: {    boardNumber : boardNumber,
+                       commentNumber: commentNumber },
+              success: function (result) {
                    $('#recommentBoardNumber').val(boardNumber);
                    $('#recommentCommentNumber').val(commentNumber);
-	           }
-	       });
-	       $('#recommentModal').fadeIn();
-	  	
-	  }
-	
-	
-	// 대댓 모달 닫기
-	function closeModal() {
-		$("#recommentModal").fadeOut();
-	}
-	
-	// 대댓 작성
-	$('#recommentInsertBtn').on('click', function(){
-		      
-		      var form = document.getElementById("clubRecommentInsert");
-		      
-		      var commentNumber = form.recommentCommentNumber.value;
-			  var boardNumber = form.recommentBoardNumber.value;
-			  var profileNickname = form.recommentProfileNickname.value;
-		      var clubCommentContent = replyEditor.getData();
-		      var commentSecret = recommentClubCommentSecret.checked ? "L1" : "L2";
-		      
-		      $.ajax({
-		         url : 'clubRecommentInsert',
-		         data : {
-						"commentNumber" : commentNumber,
-						"boardNumber" : boardNumber,
-						"profileNickname" : profileNickname,
-						"clubCommentContent" : clubCommentContent,
-						"clubCommentSecret" : commentSecret
-		         },
-		         type : "post",
-		         success : function(result) {
-		            if (result) {
-		               alert("대댓글을 작성 했습니다.");
-		            }
-		         }
-		      });
-		      
-		      $('#recommentModal').fadeOut();
-		      location.reload();
-		});
+              }
+          });
+          $('#recommentModal').fadeIn();
+        
+     }
+   
+   
+   // 대댓 모달 닫기
+   function closeModal() {
+      $("#recommentModal").fadeOut();
+   }
+   
+   // 대댓 작성
+   $('#recommentInsertBtn').on('click', function(){
+            
+            var form = document.getElementById("clubRecommentInsert");
+            
+            var commentNumber = form.recommentCommentNumber.value;
+           var boardNumber = form.recommentBoardNumber.value;
+           var profileNickname = form.recommentProfileNickname.value;
+            var clubCommentContent = replyEditor.getData();
+            var commentSecret = recommentClubCommentSecret.checked ? "L1" : "L2";
+            
+            $.ajax({
+               url : 'clubRecommentInsert',
+               data : {
+                  "commentNumber" : commentNumber,
+                  "boardNumber" : boardNumber,
+                  "profileNickname" : profileNickname,
+                  "clubCommentContent" : clubCommentContent,
+                  "clubCommentSecret" : commentSecret
+               },
+               type : "post",
+               success : function(result) {
+                  if (result) {
+                     alert("대댓글을 작성 했습니다.");
+                  }
+               }
+            });
+            
+            $('#recommentModal').fadeOut();
+            location.reload();
+      });
+
 
 
 // 좋아요
