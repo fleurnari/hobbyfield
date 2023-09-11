@@ -1,0 +1,233 @@
+/* 전체 스타일 */
+body {
+	background-color: #f4f4f4;
+	font-family: Arial, sans-serif;
+}
+/* 전체 div */
+.total-css{
+	margin-top: 150px;
+	
+}
+
+/* 게시글 + 댓글리스트 */
+.board-comment-list{
+	width: 800px;
+	margin: 0 auto;
+	text-align: left;
+}
+
+/* 게시글 */
+.board-info{
+	
+}
+
+.writer-info img{
+	width: 50px;
+	height: 50px;
+	border-radius: 70%;
+	float: left;
+}
+.board-wdate{
+	
+}
+.board-views{
+	
+}
+
+
+/* 댓글리스트 */
+.comment-list{
+	margin-top: 20px;
+}
+.comment-info{
+	border-top: 1px solid #E7E7E7;
+	
+}
+
+/* 이모티콘 출력 사이즈 */
+.comment-list img {
+	width: 30px;
+	height: 30px;
+}
+/* 댓글입력창 */
+.comment-insert{
+	margin-top: 20px;
+}
+
+
+
+/* 전체 스타일 */
+
+
+
+
+/* modal 모음 */
+.modal {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.8);
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	display: none;
+}
+
+.modal_content {
+	width: 600px;
+	height: 600px;
+	background: #fff;
+	border-radius: 10px;
+	position: relative;
+	top: 33%;
+	left: 45%;
+	margin-top: -100px;
+	margin-left: -200px;
+	text-align: center;
+	box-sizing: border-box;
+	line-height: 23px;
+}
+
+.m_head {
+	height: 10%;
+	margin: 0;
+	padding: 17px;
+	display: flex;
+	justify-content: space-between;
+	background-color: #6bb2eb;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
+
+.close_btn {
+	font-size: 20px;
+	color: black;
+	font-weight: 900;
+	cursor: pointer;
+}
+
+.modal_btn {
+	width: 80px;
+	height: 30px;
+	border-radius: 5px;
+	text-align: center;
+	font-size: 14px;
+	font-weight: bolder;
+	padding-top: 5px;
+	margin-left: 5px;
+	font-family: sans-serif;
+}
+
+.m_head {
+	height: 10%;
+	padding: 20px;
+	display: flex;
+	justify-content: space-between;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	font-family: sans-serif;
+}
+
+.m_body {
+	height: 80%;
+	padding: 20px;
+}
+
+.m_footer {
+	height: 10%;
+	padding: 5px;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	display: flex;
+	justify-content: center;
+}
+
+.cancle {
+	background-color: black;
+	color: white;
+}
+
+.save {
+	background-color: black;
+	color: white;
+}
+/* 이모티콘 모달 스타일 */
+#emojiModal {
+	background: transparent;
+}
+
+.modal-backdrop.show {
+	opacity: 0;
+}
+
+#actModal {
+	cursor: pointer;
+}
+
+/* 이모티콘 모달 내부 컨텐츠 스타일 */
+.modal-content {
+	background-color: #fff;
+	border-radius: 10px;
+}
+
+/* 이모티콘 탭 스타일 */
+#emojiTab {
+	background-color: #f0f0f0;
+	border-bottom: 1px solid #ccc;
+}
+
+.nav-tabs .nav-link {
+	color: #333;
+}
+
+.nav-tabs .nav-link.active {
+	background-color: #fff;
+	border-color: #ddd #ddd #fff;
+}
+
+#emojis img {
+	width: 100px;
+	height: auto;
+	margin: 5px;
+}
+
+.modal-dialog {
+	margin: auto;
+	position: absolute;
+	top: 55%;
+	left: 40%;
+	transform: translate(-50%, -50%);
+}
+
+#emojis img {
+	width: calc(25% - 10px);
+	margin: 5px;
+}
+
+.btn.btn-primary[data-bs-toggle="modal"][data-bs-target="#emojiModal"] {
+	border-radius: 5px;
+}
+
+/* 대댓 임시 modal */
+.main-modal {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+/* Modal content */
+.content-modal {
+	background-color: white;
+	margin: 10% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
+	max-width: 800px;
+	min-height: 500px;
+}

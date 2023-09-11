@@ -117,10 +117,12 @@
 /* 메인 이름 */
 .head-name{
   	color: #D3D3D3;
-  
+    text
 }
  
- 
+ .board-modal-head{
+	 
+}
  /* 검색창 */
  .search-div {
    position: relative;
@@ -130,9 +132,9 @@
  }
  
  .search-text {
-   width: 300px;
+   width: 540px;
    border: 1px solid #bbb;
-   border-radius: 8px;
+   border-radius: 5px;
    padding: 10px 12px;
    font-size: 14px;
  }
@@ -169,6 +171,7 @@
  }
  /* 작성글 */
  .writer-info{
+ 	padding-left: 50px;
  	text-align: left;
  	
  }
@@ -179,10 +182,12 @@
  	padding: 10px;
  	color: #D3D3D3;
  	text-align: left;
+ 	cursor: pointer;
  }
  /* 공지사항 */
 .notice-info{
 	border-bottom: 1px solid #e1e1e1;
 	text-align: left;
 }
+
  

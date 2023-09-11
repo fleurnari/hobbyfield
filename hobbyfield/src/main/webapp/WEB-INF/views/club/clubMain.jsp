@@ -55,6 +55,7 @@ h3 {
     background-color: #28a745; /* 초록색 */
 }
 
+/* 게시글 list  */
 
 
 
@@ -219,8 +220,6 @@ h3 {
 .board-content img{
    display: none;
 }
-
-
 </style>
 </head>
 <body>
@@ -272,7 +271,7 @@ h3 {
 		<div>
 			<div id="clubContainer">
 				<c:forEach items="${board}" var="board">
-					<div class="club-board">
+					<div class="club-board" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${board.clubNumber}'">
 						<div class="club-info">
 							<p>${board.clubName}</p>
 						</div>
@@ -292,42 +291,10 @@ h3 {
 				</c:forEach>
 			</div>
 		</div>
-
-	<h3>최신 게시글</h3>
-
-	   <div>
-			<div id="clubContainer">
-				<c:forEach items="${board}" var="board">
-					<div id="clubBoard">
-						<p>
-							<strong>게시글번호:</strong> ${board.boardNumber}
-						</p>
-						<p>
-							<strong>소모임번호:</strong> ${board.clubNumber}
-						</p>
-						<p>
-							<strong>게시글작성자:</strong> ${board.clubBoardWriter}
-						</p>
-						<p>
-							<strong>게시글내용:</strong>
-						</p>
-						<div id="editor">${board.clubBoardContent}</div>
-						<p>
-							<strong>작성일:</strong> ${board.clubBoardWdate}
-						</p>
-						<p>
-							<strong>일정날짜:</strong>
-							<fmt:formatDate value="${board.scheduleDate}"
-								pattern="yyyy-MM-dd" />
-						</p>
-					</div>
-				</c:forEach>
-			</div>
-		</div>
-
-    		
+		
 
 <script type="text/javascript">
+	
 
    $('#clubLink').on("click",function(e){
       e.stopPropagation();
