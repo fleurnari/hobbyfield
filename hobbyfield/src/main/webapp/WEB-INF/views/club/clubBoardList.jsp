@@ -105,7 +105,7 @@ img {
 						src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
 				</div>
 			</form>
-		</div>
+		</div>   
 
 		<div class="insert-bar">
 			<h3>새로운 소식을 남겨보세요</h3>
