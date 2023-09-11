@@ -240,7 +240,7 @@
 <section>
     	<img src="${pageContext.request.contextPath}/resources/img/hobbyClub.png" width="1430px;" height="300px;" />
     	<div class="top-buttons">
-    		<c:if test="${not empty profile.profileNickname}">
+    		<c:if test="${not empty profileList}">
 		    <a href="${pageContext.request.contextPath}/club/clubInsert" class="custom-button club-create btn btn-primary">
 		        <span class="button-icon">&#43;</span> <!-- 플러스 아이콘 -->
 		        소모임 생성

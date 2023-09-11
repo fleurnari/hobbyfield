@@ -16,57 +16,28 @@
 	href="${pageContext.request.contextPath}/resources/css/club/clubboard.css">   
 </head>
 <style>
-/* 소모임 수정 모달  */
-/* 모달 창 전체 스타일 */
- .update-modal { 
-   display: none; 
-   position: fixed; /* 고정 위치 */ 
-   z-index: 1; /* z-index로 다른 내용 위에 위치 */
-   left: 0; 
-   top: 0; 
-   width: 100%; /* 전체 너비 */ 
-   height: 100%; /* 전체 높이 */ 
-   overflow: auto; /* 스크롤 가능 */ 
-   background-color: rgba(0, 0, 0, 0.4); /* 반투명한 검은색 배경 */ 
- } 
-
- /* 모달 창 내용 스타일 */ 
- .update-body { 
-    background-color: #fefefe; 
-    margin: 15% auto; /* 중앙 정렬 */ 
-    padding: 20px; 
-    border: 1px solid #888; 
-    width: 50%; /* 모달 창 너비 */ 
-} 
-
- /* 닫기 버튼 스타일 */
- .update-close { 
-      color: #aaa; 
-    float: right; 
-    font-size: 28px;
-    font-weight: bold;
- } 
-
- .update-close:hover, .update-close:focus { 
-    color: black; 
-    text-decoration: none; 
-    cursor: pointer; 
- } 
 
 .club-img{
 	width: 70%; 
     max-width: 300px; 
-    margin: auto; /* 중앙 정렬 */
+   	margin: 30px auto; /* 중앙 정렬 */
+   	height: 300px;
 
 }
 
-#clubUpdate label{
-	display: inline-block;
+#exampleModal label{
 	width: 100px;
 }
-#clubUpdate input[type=text], #clubUpdate textarea {
+#exampleModal input[type=text], #exampleModal textarea {
 	width: 80%;
 }
+
+ textarea {
+    width: 100%;
+    height: 6.25em;
+    border: none;
+    resize: none;
+  }
 
 /* 중앙 정렬 및 테두리 색상 */
 .club-management-container  {
@@ -83,22 +54,10 @@
     margin-bottom: 30px;
 }
 
-/* 이미지 스타일 */
-.club-img {
-    width: 70%;
-    max-width: 300px;
-    margin: 30px auto; /* 중앙 정렬 */
-    height: 300px;
-}
 
 /* 수정 버튼 스타일 */
 #clubUpdateButton {
     background-color: #007BFF; /* 부트스트랩 파란색 */
-}
-
-/* 탈퇴 버튼 위치 및 스타일 */
-#quitBtn {
-    margin-top: 20px;
 }
 
 .btn-group {
@@ -129,7 +88,14 @@
 	
 }
 
+.modal-body {
+    max-height: 400px; /* 원하는 높이로 조절 */
+    overflow-y: auto;
+}
 
+.btn-secondary{
+	
+	}
 
 </style>
 
@@ -179,7 +145,7 @@
 			<!-- 소모임 수정 버튼 -->
 			<div class="btn-group">
 				    <c:if test="${member.memberEmail eq profile.memberEmail}">
-				        <button type="button" class="btn btn-primary update-btn" id="clubUpdateButton">소모임 정보 수정</button>
+				        <button type="button" class="btn btn-primary update-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" id="clubUpdateButton">정보 수정</button>
 				    </c:if>
 				    <c:if test="${member.memberEmail ne profile.memberEmail}">
 				        <button type="button" class="btn btn-success" id="quitBtn">탈퇴</button>
@@ -188,16 +154,19 @@
 		</div>
 	</div>
 	<!-- 톱니바퀴 모양 -->
+
+        
 			<c:if test="${member.memberEmail eq profile.memberEmail}">
-				<div id="clubUpdate" class="container">
+				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					<!-- 소모임 수정 -->
 					<form action="clubUpdate" method="post" id="updateForm">
-						<div id="updateModal" class="update-modal">
-							<div class="update-body">
-								<div align="center" class="update-top">
-									<h2>소모임 수정</h2>
+						<div id="updateModal" class="update-modal modal-dialog">
+							<div class="update-body modal-content">
+								<div align="center" class="update-top modal-header">
+									<h2 class="modal-title" id="exampleModalLabel">소모임 수정</h2>
 								</div>
 
+                                <div class="modal-body">
 								<div>
 									<input type="hidden" name="clubNumber" class="clubNumber"
 										value="${club.clubNumber }"> <input type="hidden"
@@ -265,34 +234,37 @@
 
 								<div>
 									<div>
-										<label>질문1</label> <input type="text" name="singupQuestion1"
-											value="${club.singupQuestion1 }"><br>
+										<label>질문1</label> 
+										<textarea name="singupQuestion1" placeholder="내용을 입력해 주세요.">
+										"${club.singupQuestion1 }"
+										</textarea><br>
 									</div>
 									<div>
-										<label>질문2</label> <input type="text" name="singupQuestion2"
-											value="${club.singupQuestion2 }"><br>
+										<label>질문2</label> 
+										<textarea name="singupQuestion2" placeholder="내용을 입력해 주세요.">
+										"${club.singupQuestion2 }"
+										</textarea><br>
 									</div>
 									<div>
-										<label>질문3</label> <input type="text" name="singupQuestion3"
-											value="${club.singupQuestion3 }"><br>
+										<label>질문3</label> 
+										<textarea name="singupQuestion3" placeholder="내용을 입력해 주세요.">
+										"${club.singupQuestion3 }"
+										</textarea><br>
 									</div>
 								</div>
 
-								<div id="preview"></div>
+								<div id="preview">
+								 <img class="images" src="${pageContext.request.contextPath}/download/img/${club.clubImg}" alt="ProfileImage" /></div>
 								<input id="imgInput" name="uploadFile" type="file"
 									value="clubImg" onchange="readURL(this);">
 								<button type="button" id="uploadBtn">upload</button>
-								<img class="images" id="preview"
-									src="${pageContext.request.contextPath}/download/img/${club.clubImg}"
-									alt="ProfileImage" />
+								
 							</div>
-
-							<div>
-								<button type="submit" class="update-button">수정하기</button>
-							</div>
-
-							<span class="update-close">&times;</span>
-
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="update-button btn btn-primary">수정하기</button>
+                            </div>
+                            </div>
 						</div>
 					</form>
 				</div>
@@ -374,30 +346,7 @@
    });   
    
    //==========소모임 수정 영역============   
-   // 모달 창과 버튼 요소 선택
-   $(document).ready(function(){
-   let modal = document.getElementById('updateModal');
-   let btn = document.querySelector('#clubUpdateButton');
-   let span = document.querySelector('.update-close');
-   
-   // 버튼 클릭 시 모달 창 표시
-   btn.onclick = function() {
-       console.log("Button 막힘!");
-       modal.style.display = "block";
-   }
-   
-   // 닫기 버튼(X) 클릭 시 모달 창 숨김
-   span.onclick = function() {
-       modal.style.display = "none";
-   }
-   
-   // 모달 창 외부 클릭 시 모달 창 숨김
-   window.onclick = function(event) {
-       if (event.target == modal) {
-           modal.style.display = "none";
-       }
-   }
-   });
+
    
       
    // 유효성 검사 통과 유무 변수 

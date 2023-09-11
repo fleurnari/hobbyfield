@@ -15,48 +15,9 @@
 		height: 150px;
 	}
 
-	/*모달창 */
-    /* ... 기존 스타일 ... */
-   .club-modal {
-	    visibility: hidden;
-	    position: fixed;
-	    top: 0;
-	    left: 0;
-	    width: 100%;
-	    height: 100%;
-	    background-color: rgba(0,0,0,0.5);
-	    z-index: 1;
-	    display: flex;
-	    justify-content: center;
-	    align-items: center;
-	    overflow-y: auto;  /* 스크롤 추가 */
-	}
-
-    .modal-body {
-/* 	    width: 25%;  /* 너비 조정 */ */
-	    background-color: white;
-	    padding: 40px 40px 60px 40px;  /* 패딩을 조정하여 내용이 적절히 들어갈 수 있도록 합니다. */
-	    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-	    border-radius: 10px;
-	    z-index: 1001;
-	    overflow-y: auto;  /* 내용이 많을 때 스크롤 추가 */
-	    position: relative;
-	}
-
-    /* 모달 닫기 버튼 (선택) */
-    .close {
-	    position: absolute;  /* 버튼의 위치를 모달 내부에 절대적으로 설정 */
-	    top: 15px;  /* 상단으로부터의 거리 */
-	    right: 15px;  /* 오른쪽으로부터의 거리 */
-	    cursor: pointer;
-	    font-size: 24px;
-	    z-index: 1002;
-	    color: black;
-	    background-color: white;  /* 버튼의 배경색을 흰색으로 설정 (필요에 따라 조정) */
-	    border-radius: 50%;  /* 버튼을 원형으로 만들기 위해 설정 */
-	    padding: 5px 10px;  /* 버튼 내부의 패딩 조정 */
-	    line-height: 1;  /* 아이콘의 세로 정렬을 위해 설정 */
-	    border: 1px solid #ddd;  /* 버튼의 테두리 설정 (필요에 따라 조정) */
+	.modal-body {
+    height: 500px; /* 원하는 높이로 조절 */
+    overflow-y: auto;
 	}
 	
 	.update-button {
@@ -108,7 +69,7 @@
     cursor: pointer;
   	}	
 
-	 .btn-primary {
+	.create {
         margin-top: 20px;
         margin-right: 0;
         right : 400px;
@@ -121,6 +82,20 @@
 		height: 150px;
 		margin: 0 auto; /* 중앙 정렬 */
 	}
+	
+	.btn-secondary{
+		position: relative;
+		right: -90px;
+		top: 310px;
+	}
+	
+	.save.btn.btn-primary{
+		position: relative;
+		right: 100px;
+		top: 301px;
+		margin: 20px 0px 4px;
+	}
+	
 	
 	
 
@@ -138,7 +113,7 @@
          	</div>
          	 <div style="flex: 1; width: 100%;"> 
          	<div style="text-align: right;">
-         		<a class="btn btn-primary" href="${pageContext.request.contextPath}/club/profileInsert">프로필 생성</a>
+         		<a class="create btn btn-primary" href="${pageContext.request.contextPath}/club/profileInsert">프로필 생성</a>
          	 </div>
          	
 			<table class="table table-striped table-hover">
@@ -172,30 +147,37 @@
 	
 		<!-- modal 창 시작 -->
 		<form action="updateProfile" method="POST" id="uploadForm">
-			<div align="center" id="club-modal" class="club-modal">
-				<div class="modal-body" style="width: 25%;">
-				
-				<input type="text" value="${profileNickname}" name="profileNickname" readonly>
-				
-					<!-- 이미지 선택 인풋 -->
-					<input type="file" id="imgInput" name="uploadFile" onchange="readURL(this);"/>
-					
-					<!-- 이미지 업로드 버튼 -->
-					<button type="button" id="uploadBtn" >Upload</button>
-					
-					<!-- 이미지 미리보기 기본 이미지 -->
-					<img class=images id="preview" src="${pageContext.request.contextPath}/download/img/${profile.profileImg}${profil.profileImgPath}" alt="Profile-Image"/>
-			
-				<div>
-					<button class="join_button" id="changeImageBtn" type="submit">수정</button>
+			<div align="center" id="club-modal" class="club-modal modal fade">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-body">
+
+							<input type="text" value="${profileNickname}"
+								name="profileNickname" readonly>
+
+							<!-- 이미지 선택 인풋 -->
+							<input type="file" id="imgInput" name="uploadFile"
+								onchange="readURL(this);" />
+
+							<!-- 이미지 업로드 버튼 -->
+							<button type="button" class="btn btn-success" id="uploadBtn">업로드</button>
+
+							<div class="modal-footer">
+							<!-- 이미지 미리보기 기본 이미지 -->
+							<img class=images id="preview" src="${pageContext.request.contextPath}/download/img/${profile.profileImg}${profil.profileImgPath}"
+								alt="Profile-Image" />
+							
+								<button type="button" class="btn btn-secondary"
+									data-bs-dismiss="modal">닫기</button>
+								<button type="submit" class="save btn btn-primary">저장</button>
+							</div>
+						</div>
+					</div>
 				</div>
-					<span class="close">&times;</span>
-			</div>
-			
 			</div>
 		</form>
-		
-</section>
+
+	</section>
 	
 <script>
 
@@ -245,11 +227,11 @@
 		});
 		
 		 $('.open-modal').click(function() {
-	        $('.club-modal').css("visibility", "visible"); // 모달 창 보여주기
+			 $('#club-modal').modal('show'); // 모달 창 보여주기
 	    });
 		// 모달 창 닫기
 		 $('.close').click(function() {
-	        $('.club-modal').css("visibility", "hidden"); // 모달 창 숨기기
+			 $('#club-modal').modal('hide'); // 모달 창 숨기기
 	    });
 	});
 	
@@ -287,7 +269,7 @@
 		event.preventDefault();
 		
 		let obj = serializeObject();
-		
+		console.log(obj);
 		$.ajax({
 			url : '${pageContext.request.contextPath}/club/updateProfile',  //contenttype이 제이슨이 아니면 작동안한다. text로 보낼거면 텍스트로 
 			type : 'post',
@@ -295,6 +277,7 @@
 			data : JSON.stringify(obj)
 		})
 		.done( data => {
+			console.log(data);
 			if(data != null && data['결과'] == 'Success'){
 				alert('수정됐습니다.');	
 			}else{

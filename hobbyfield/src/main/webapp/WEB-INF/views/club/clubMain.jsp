@@ -6,8 +6,7 @@
 <!DOCTYPE html>
 <html>
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-	
-	
+
 <script src="" type="text/javascript"></script>
 
 
@@ -153,7 +152,7 @@ h3 {
     border-radius: 20px;
     font-size: 12px;
     margin-right: 5px;
-    margin-bottom: : 10px;
+    margin-bottom: 10px;
     margin-top: 10px; 
     line-height: 1.2; /* 기본 글자 크기의 1.5배로 줄 간격을 설정 <잘리는 현상 발생시 이곳> */
 }
@@ -190,7 +189,7 @@ h3 {
     font-weight: bold;
     font-size: 18px;
     color: #333;
-    border-bottom: 1px; solid; color:black;   
+    border-bottom: 1px solid color black;   
     background-color: gray;
 }
 
@@ -220,10 +219,12 @@ h3 {
 </style>
 </head>
 <body>
+		
+
 	
 		<img src="${pageContext.request.contextPath}/resources/img/hobbyClub.png" width="1430px;" height="300px;" />
 		<div class="top-buttons">
-			<c:if test="${not empty profile.profileNickname}">
+			<c:if test="${not empty profileList}">
 		    <a href="${pageContext.request.contextPath}/club/clubInsert" class="custom-button club-create btn btn-primary">
 		        <span class="button-icon">&#43;</span> <!-- 플러스 아이콘 -->
 		        소모임 생성
@@ -285,22 +286,6 @@ h3 {
 				</c:forEach>
 			</div>
 		</div>
-
-	
-		
-
-    
-    		<!-- 퀵메뉴 -->
-		<div class="quickmenu">
-			<ul>
-				<li><a href="${pageContext.request.contextPath}/club/clubList">소모임 조회</a></li>
-				<li><a href="${pageContext.request.contextPath}/club/clubInsert">소모임 생성</a></li>
-				<li><a href="${pageContext.request.contextPath}/club/profileInsert">프로필 생성</a></li>
-			</ul>
-		</div>
-
-		
-
 
 	<h3>최신 게시글</h3>
 
