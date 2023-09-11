@@ -28,7 +28,7 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
                     <c:forEach items="${category}" var="type">
-                        <li>
+                        <li>   
                             <a class="dropdown-item" href="#" data-type-code="${type.literal}">${type.literal}</a>
                         </li>
                     </c:forEach>
@@ -120,7 +120,7 @@
                   </div>
                </div>
                <br>
-               <input type="hidden" name="fndStatus" value="0">
+               <input type="hidden" name="fndStatus" value="2">
                <input type="hidden" name="fndPostNumber" value="${ fundingPostInsert20.fndPostNumber}">
                <button type="submit" class="btn btn-primary"
                   style="float: right;">저장</button>
@@ -139,7 +139,7 @@ ClassicEditor
 });
     $('form').on('submit', function(e){
       e.preventDefault();
-      
+      const url = '${pageContext.request.contextPath}/fundingPost/fundingPostInsert20?fndPostNumber=${fundingPostInsert20.fndPostNumber}';
       
 
        // 필수 입력 필드가 모두 채워져 있을 때, AJAX 요청을 보냅니다.
@@ -158,8 +158,7 @@ ClassicEditor
                     text: 'success' // 텍스트 추가
                     }).then(function () {
 
-                    // 페이지 새로고침
-                    location.reload();
+                    window.location.href = url;
                 });
          }else{
             alert('저장되지 않았습니다.\n정보를 확인해주세요');
