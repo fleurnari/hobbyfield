@@ -32,18 +32,22 @@
 }
 
 #emptyBoard {
+	vertical-align: middel;
 	margin-top: 100px;
+	width: 900px;
+	height: 700px;
+}
+
+.emptyBoard {
+	vertical-align: middel;
+	margin-top: 150px;
 	width: 900px;
 	height: 700px;
 	left: 50%;
 	top: 50%;
 }
 
-#emptyBoard p {
-	
-}
-
-#emptyBoard img {
+.emptyBoard img {
 	width: 150px;
 	height: 150px;
 }
@@ -52,19 +56,42 @@ body {
 	background-color: #f4f4f4;
 	font-family: Arial, sans-serif;
 }
+/* img 로딩 실패시 */
+img {
+	
+}
 
 .writer-img {
+	float: left;
 	display: inline-block;
 	width: 40px;
 	height: 40px;
+	border-radius: 70%;
+	overflow: hidden;
 }
 
+.board-content img {
+	
+}
+
+.emptyBoard:nth-child(1) {
+	font-weight: bold;
+}
+
+.emptyBoard:nth-child(2) {
+	opacity: 0.5;
+}
+/* 제일 상단 소모임명 표시 */
 </style>
 </head>
 <body>
 	<div align="center" style="margin-top: 150px;">
 		<!-- 검색창 구현 : 사용자이름, 글내용으로 검색 : ajax 처리를 통해 검색된 내용만 다시 불러오도록.-->
 		<!-- 검색창 -->
+
+		<h2 class="head-name">${club.clubName}</h2>
+
+
 		<div class="search-div">
 			<form id="searchForm"
 				action="${pageContext.request.contextPath}/club/searchBoard"
@@ -80,35 +107,42 @@ body {
 			</form>
 		</div>
 
-		<h1>게시글 목록</h1>
-
-
-
-
+		<div class="insert-bar">
+			<h3>새로운 소식을 남겨보세요</h3>
+			<h3>소모임에 소속된 멤버라면 누구나 작성 가능합니다.</h3>
+		</div>
 
 		<!-- 차단한 유저는 나오지 않도록 추가 조건문 구현하기 -->
 		<!-- 게시글 리스트 -->
-		<c:if test="${boardList ne null }">
-
+		<c:if test="${boardList ne null}">
 			<div id="boardList">
+				<c:set var="type" value="N"></c:set>
+					<div class="notice-info">
+						<h2>공지사항</h2>
+					</div>
 				<c:forEach items="${boardList}" var="board">
+					
 					<div class="boardMain"
 						onclick="location.href='${pageContext.request.contextPath}/club/clubBoardInfo?boardNumber=${board.boardNumber}'">
 						<div class="board-head">
-							
+							<div class="writer-img">
+								<img
+									src="${pageContext.request.contextPath}/${board.profileImgPath}${board.profileImg}"
+									style="width: 300px; height: 300px;">
+							</div>
+							<div class="writer-info">
+								<p>${board.clubBoardWriter}</p>
+								<p class="write-day">
+									작성일 :
+									<fmt:formatDate value="${board.clubBoardWdate}"
+										pattern="yy-MM-dd" dateStyle="full" />
+								</p>
+							</div>
 						</div>
-						<div class="board-writer">
-							<img class="writer-img"
-								src="${pageContext.request.contextPath}/${board.profileImgPath}${board.profileImg}">
-							<p>작성자 : ${board.clubBoardWriter}</p>
-							<p class="write-day">
-								작성일 :
-								<fmt:formatDate value="${board.clubBoardWdate}" dateStyle="full" />
-							</p>
-						</div>
-						<div class="board-main">
-							<div class="board-content-list">${board.clubBoardContent}</div>
-							<p class="club-view">${board.clubBoardViews}</p>
+						<div class="board-content">
+							<div>${board.clubBoardContent}</div>
+							<p class="club-view">
+								<span></span>${board.clubBoardViews}</p>
 							<c:if test="${board.scheduleDate} ne null">
 								<p>
 									<fmt:formatDate value="${board.scheduleDate}" dateStyle="full" />
@@ -119,49 +153,49 @@ body {
 				</c:forEach>
 			</div>
 		</c:if>
-		<div id="emptyBoard">
+		<div class="emptyBoard">
 			<c:if test="${fn:length(borardList) eq 0 }">
 				<img
-					src="${pageContext.request.contextPath}/resources/images/postcard.svg">
-				<p>그룹 페이지</p>
-				<p>새 게시물을 작성해 주세요</p>
+					src="${pageContext.request.contextPath}/resources/images/postcard.png">
+				<h2>그룹 페이지</h2>
+				<h2>새 게시물을 작성해 주세요</h2>
 			</c:if>
 		</div>
-	</div>
 
+
+	</div>
 
 	<!-- 사이드바1(왼) 소모임정보 : 소모임 이름, 멤버수, 초대버튼,  소모임 설정버튼(모임장만 보이도록)-->
 	<div class="left-side">
-		<div id="club-info">
-			<div id="club-img">
-				<img
-					src="${pageContext.request.contextPath}${club.clubImgPath}/${club.clubImg}"
-					style="height: 300px; width: 300px;">
-			</div>
-			<div id="info">
-				<p>모임 이름 : ${club.clubName}</p>
-				<p>모임장 : ${club.profileNickname}</p>
-				<p>모임설명 : ${club.clubInfo}</p>
-				<p>지역 : ${club.majorLocation} ${club.subLocation}</p>
-			</div>
-			<!-- 글쓰기버튼 구현 : modal로 글쓰기 창이 나오도록 -->
 
-			<div class="button-group">
-				<c:choose>
-					<c:when test="${profile ne null}">
-						<button
-							onclick="location.href='${pageContext.request.contextPath}/club/clubManage?clubNumber=${club.clubNumber}'">관리</button>
-						<button type="button" id="boardModalBtn" class="modal-open-btn">글
-							쓰기</button>
-					</c:when>
-					<c:when test="${profile eq null}">
-						<div class="guest-btn">
-							<button type="button" id="joinModalBtn" class="modal-open-btn">가입
-								신청</button>
-						</div>
-					</c:when>
-				</c:choose>
-			</div>
+		<div class="club-img">
+			<img
+				src="${pageContext.request.contextPath}${club.clubImgPath}/${club.clubImg}"
+				style="height: 300px; width: 300px;">
+		</div>
+		<div class="club">
+			<p>모임 이름 : ${club.clubName}</p>
+			<p>모임장 : ${club.profileNickname}</p>
+			<p>모임설명 : ${club.clubInfo}</p>
+			<p>지역 : ${club.majorLocation} ${club.subLocation}</p>
+		</div>
+		<!-- 글쓰기버튼 구현 : modal로 글쓰기 창이 나오도록 -->
+
+		<div class="button-group">
+			<c:choose>
+				<c:when test="${profile ne null}">
+					<button
+						onclick="location.href='${pageContext.request.contextPath}/club/clubManage?clubNumber=${club.clubNumber}'">관리</button>
+					<button type="button" id="boardModalBtn" class="modal-open-btn">글
+						쓰기</button>
+				</c:when>
+				<c:when test="${profile eq null}">
+					<div class="guest-btn">
+						<button type="button" id="joinModalBtn" class="modal-open-btn">가입
+							신청</button>
+					</div>
+				</c:when>
+			</c:choose>
 		</div>
 	</div>
 	<!-- 사이드바2(오) 최근 사진, 글쓰기 버튼 -->
@@ -175,8 +209,8 @@ body {
 	<div id="boardMainModal" class="main-modal">
 		<div id="boardContentModal" class="content-modal">
 			<span id="closeBoardModal" class="close">&times;</span>
-			<form id="insertForm" name="insertForm" action="clubBoardInsert" method="post"
-				enctype="multipart/form-data">
+			<form id="insertForm" name="insertForm" action="clubBoardInsert"
+				method="post" enctype="multipart/form-data">
 				<div class="board-head">
 					<h3>게시글 작성</h3>
 				</div>
@@ -195,8 +229,7 @@ body {
 						value="${profile.profileNickname}">
 				</div>
 				<!-- 투표 등록시 투표 값이 들어올 div(투표 modal로 이동하는 창과 input hidden값 -->
-				<div id="voteValue">
-				</div>
+				<div id="voteValue"></div>
 				<div id="option button">
 					<button type="button" id="openVoteModal" class="modal-open-btn">투표생성</button>
 				</div>
@@ -208,13 +241,13 @@ body {
 				</div>
 				<div>
 					<!-- from으로 보내기 위한 데이터 추후 hidden으로 -->
-					<input type="text"
-						id="clubBoardType" name="clubBoardType" value="N">
+					<input type="text" id="clubBoardType" name="clubBoardType"
+						value="N">
 				</div>
-				
+
 				<div id="boardBtn">
-				<button type="button" id="boardSubmitBtn">등록</button>
-				<button type="reset" id="boardResetBtn">취소</button>
+					<button type="button" id="boardSubmitBtn">등록</button>
+					<button type="reset" id="boardResetBtn">취소</button>
 				</div>
 
 			</form>
@@ -230,13 +263,13 @@ body {
 				<p class="join-head">가입질문에 대답해주세요</p>
 				<div class="profile-list">
 					<label>프로필</label>
-						<c:if test="${profileList ne null}">
-							<select name="profileNickname">
-								<c:forEach items="${profileList}" var="pro">
-									<option value="${pro.profileNickname}">${pro.profileNickname}</option>
-								</c:forEach>
-							</select>
-						</c:if>
+					<c:if test="${profileList ne null}">
+						<select name="profileNickname">
+							<c:forEach items="${profileList}" var="pro">
+								<option value="${pro.profileNickname}">${pro.profileNickname}</option>
+							</c:forEach>
+						</select>
+					</c:if>
 					<c:if test="${fn:length(profileList) < 3 }">
 						<button type="button" id="profileModalBtn" class="modal-open-btn">
 							프로필 생성</button>
@@ -264,26 +297,26 @@ body {
 	<!-- 투표 modal : -->
 	<div id="voteMainModal" class="main-modal">
 		<div id="voteContentModal" class="content-modal">
-		<form action="" method="post" id="voteForm">
-			<span class="close" id="closeVoteModal">&times;</span>
-			<h2>투표</h2>
-			<input type="text" id="voteSubject" name="voteSubject"
-				required="required" placeholder="투표제목">
-			<div id="input-container">
-				<!-- 초기에 2개의 input 태그 생성 -->
-				<input type="text" name="voteOption1" required="required"
-					placeholder="투표 옵션 1"> <input type="text"
-					name="voteOption2" required="required" placeholder="투표 옵션 2">
-			</div>
-			<button type="button" id="addInput">옵션 추가</button>
-			<div id="tpye-checkbox">
-				<input type="checkbox" id="voteMulti" value="">복수 투표 <input
-					type="checkbox" id="voteSecret" value="">무기명 투표
-			</div>
-			<div>
-				<button type="button" id="voteSubmit" class="submit-btn">첨부하기</button>
-				<button type="button" id="voteReset" class="reset-btn">첨부하기</button>
-			</div>
+			<form action="" method="post" id="voteForm">
+				<span class="close" id="closeVoteModal">&times;</span>
+				<h2>투표</h2>
+				<input type="text" id="voteSubject" name="voteSubject"
+					required="required" placeholder="투표제목">
+				<div id="input-container">
+					<!-- 초기에 2개의 input 태그 생성 -->
+					<input type="text" name="voteOption1" required="required"
+						placeholder="투표 옵션 1"> <input type="text"
+						name="voteOption2" required="required" placeholder="투표 옵션 2">
+				</div>
+				<button type="button" id="addInput">옵션 추가</button>
+				<div id="tpye-checkbox">
+					<input type="checkbox" id="voteMulti" value="">복수 투표 <input
+						type="checkbox" id="voteSecret" value="">무기명 투표
+				</div>
+				<div>
+					<button type="button" id="voteSubmit" class="submit-btn">첨부하기</button>
+					<button type="button" id="voteReset" class="reset-btn">첨부하기</button>
+				</div>
 			</form>
 		</div>
 	</div>
@@ -324,9 +357,9 @@ body {
 						id="profileImg" onchange="readURL(this);">
 					<button type="button" id="uploadBtn">upload</button>
 				</div>
-				
+
 				<div class="profileSection input-group mb-3">
-				
+
 					<label class="input-group-text" for="inputGroupFile01">Upload</label>
 					<input type="file" class="form-control" id="uploadBtn"
 						onchange="readURL(this);">
@@ -335,8 +368,8 @@ body {
 
 				<div class="join-button-wrap">
 					<button type="button" id="profileSubmit" class="submit-btn">등록하기</button>
-					<button type="button" id="profileReset" class="reset-btn" >취소</button>
- 				</div>
+					<button type="button" id="profileReset" class="reset-btn">취소</button>
+				</div>
 			</form>
 		</div>
 	</div>
@@ -431,7 +464,10 @@ body {
            }
        });
        
-       
+       // isnertbar onclick
+       $("").on("click", function(e){
+    	   
+       });
        
        
        // 날짜 자동지정
@@ -580,6 +616,8 @@ body {
 			}
 		}
 	}
+	
+	// insert bar 클릭용 
    //에디터용
      ClassicEditor
       .create( document.querySelector( '#editorInsert' ), {

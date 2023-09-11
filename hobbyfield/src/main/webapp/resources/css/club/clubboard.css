@@ -114,6 +114,12 @@
    height: 30px;
    margin-right: 10px;
  }
+/* 메인 이름 */
+.head-name{
+  	color: #D3D3D3;
+  
+}
+ 
  
  /* 검색창 */
  .search-div {
@@ -139,7 +145,6 @@
    margin-left: 5px;
    pointer-events: auto;
    cursor: pointer;
-   onerro
  }
  
  /* aside */
@@ -162,4 +167,22 @@
  .button-group{
      margin: 0 auto;
  }
+ /* 작성글 */
+ .writer-info{
+ 	text-align: left;
+ 	
+ }
+ /* 중앙 입력창 */
+ .insert-bar{
+ 	width: 540px;
+  	height: 150px;
+ 	padding: 10px;
+ 	color: #D3D3D3;
+ 	text-align: left;
+ }
+ /* 공지사항 */
+.notice-info{
+	border-bottom: 1px solid #e1e1e1;
+	text-align: left;
+}
  

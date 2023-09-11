@@ -219,9 +219,11 @@
 }
 
 .writer-img {
-    max-width: 45px;
-    max-height: 45px;
+    width: 45px;
+    height: 45px;
     height: auto;
+    border-radius: 70%;
+    overflow: hidden;
 }
 .board-content img{
    display: none;

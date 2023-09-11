@@ -111,7 +111,11 @@
 .ck-editor__editable {
 	min-height: 300px;
 }
-
+body {
+	background-color: #f4f4f4;
+	font-family: Arial, sans-serif;
+	
+}
 #editor1 .ck.ck-editor {
 	width: 80%;
 	max-width: 800px;
@@ -165,25 +169,28 @@
 	max-width: 800px;
 	min-height: 500px;
 }
+.board-info-main{
+	
+
+
+}
 </style>
-
-
 </head>
 <body>
 	<div align="center" style="margin-top: 100px;">
-		<div>
+		<div class="board-info-main">
 			<form id="boardForm" method="post">
 				<!-- 이름, 작성일 이미지  -->
-				<div>
+				<div id="board-se">
 					<!-- 이미지 추후 db에서 경로 가져와서 출력 -->
 					<img alt="프로필이미지"
 						src="${pageContext.request.contextPath}/${board.profileImgPath}${board.profileImg}"
 						style="width: 50px; height: 50px;"> <input type="hidden"
 						id="clubBoardWriter" name="clubBoardWriter"
 						value="${board.clubBoardWriter}">
-					<p>${board.clubBoardWriter}</p>
-					<fmt:formatDate value="${board.clubBoardWdate}" dateStyle="full" />
-					좋아요 : ${boardLike} 개
+					<p>${board.clubBoardWriter}
+					<fmt:formatDate value="${board.clubBoardWdate}" dateStyle="full" /></p>
+					<p>좋아요 : ${boardLike}개</p>
 				</div>
 				<div id="editor1">
 					<div id="editor">${board.clubBoardContent}</div>
@@ -192,11 +199,14 @@
 					<c:if test="${profile.profileNickname ne board.clubBoardWriter}">
 						<button type="button" id="boardLike">좋아요</button>
 					</c:if>
+					<c:if test="${profile.profileNickname eq board.clubBoardWriter }">
+						<button type="button" id="boardEdit">수정</button>
+					</c:if>
 				</c:if>
 			</form>
 		</div>
-
-
+		
+		
 		<div class="comment">
 			<form>
 
@@ -205,6 +215,7 @@
 					id="commentNumber" name="commentNumber">
 
 				<c:forEach items="${commentList}" var="comment">
+					<div class="comment-list">
 					<c:choose>
 						<c:when
 							test="${(comment.clubCommentSecret eq 'L2') || (comment.clubCommentSecret eq 'L1' && profile.profileNickname eq board.clubBoardWriter || member.memberGrd eq 'A3'
@@ -240,12 +251,16 @@
 							<p>비밀 댓글은 게시글, 댓글 작성자와 관리자만 볼 수 있습니다.</p>
 						</c:otherwise>
 					</c:choose>
+					</div>
 				</c:forEach>
 			</form>
 
 
 			<!-- 댓글 작성용 1.댓글작성, 2. 사진포함 댓글작성 -->
-
+			<!-- 댓글 작성은 해당 소모임에 가입되어 있어야지만 가능(아닐경우, 댓글입력창이 보이지 않는다. -->
+			<c:choose>
+			</c:choose>
+			<c:if test=""></c:if>
 			<form id="commentInsertForm">
 				<input type="hidden" id="boardNumber" name="boardNumber"
 					value="${board.boardNumber}"> <label for="profileNickname">댓글
