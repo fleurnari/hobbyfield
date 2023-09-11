@@ -515,6 +515,7 @@ public class ClubController {
 	// 소모임 게시물 상세 보기
 	@GetMapping("/clubBoardInfo")
 	public String clubBoardInfo(Model model, ClubBoardVO vo, HttpServletRequest request, EmojiVO emojiVO) {
+		clubBoardService.updateViewClubBoard(vo);
 		ClubBoardVO cvo = clubBoardService.getClubBoardInfo(vo);
 		model.addAttribute("board", cvo);
 		model.addAttribute("commentList", clubCommentService.getBoardComment(vo.getBoardNumber()));

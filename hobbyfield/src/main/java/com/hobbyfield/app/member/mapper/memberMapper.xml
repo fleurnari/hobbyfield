@@ -159,16 +159,16 @@
 	
 	<!-- 마이 페이지 - 내가 쓴 소모임 글 -->
 	<select id="selectMyClubBoard" resultType="ClubBoardVO">
-		SELECT c.board_number, 
-	        c.club_number, 
-	        c.club_board_writer, 
-	        c.club_board_content,
-	        c.club_board_views, 
-	        c.club_board_type, 
-	        c.schedule_date,
-	        c.club_board_blind,
-	        p.profile_img,
-	        p.profile_img_path
+		SELECT DISTINCT c.board_number, 
+	        			c.club_number, 
+	        			c.club_board_writer, 
+	        			c.club_board_content,
+	        			c.club_board_views, 
+	        			c.club_board_type, 
+	        			c.schedule_date,
+	        			c.club_board_blind,
+	        			p.profile_img,
+	        			p.profile_img_path
 		FROM CLUB_BOARD c JOIN PROFILE p ON(c.club_board_writer=p.profile_nickname)
 		JOIN member m ON(p.member_email = m.member_email)
 		WHERE m.member_email = #{memberEmail}
