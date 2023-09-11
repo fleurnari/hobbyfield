@@ -87,6 +87,9 @@ public class ClubController {
     @Autowired
     CreateclubMapper createClubMapper;
     
+    @Autowired
+    ClubJoinMapper clubJoinMapper;
+    
     
     /*========= 소모임 조회관련 =========*/
     // 소모임 전체조회(메인페이지)
