@@ -99,12 +99,12 @@ button:hover {
 <body>
 
 <div align="center" class="profile_top">
-
-	<div id="box">
 		<div>
 			<jsp:include page="myPageMenu.jsp"></jsp:include>
 		</div>
-
+	<div id="box">
+		
+	</div>
 	<div>
 		<form action="profileInsert" method="post" id="join_form">
       <div class="profile_info">
@@ -142,7 +142,7 @@ button:hover {
       
    </form>
    </div>
-   </div>
+   
 
 </div>
 </body>
@@ -179,7 +179,7 @@ button:hover {
 	            data: { email: "${member.memberEmail}" },
 	            success: function(count) {
 	                if(count >= 3) {
-	                    alert("프로필은 최대 3개까지만 생성할 수 있습니다.");
+	                    alert("프로필은 최대 3개까지만 생성할 수 있습니다."); //alert 디자인처리
 	                    return false;
 	                } else {
 	                    // 모든 검사를 통과한 경우 form 제출
@@ -200,7 +200,7 @@ button:hover {
 	      /* console.log("keyup 테스트"); */
 	      
 	   var profileNickname = $('.nick_input').val();  //.nick_input 입력될값
-	   var data = {profileNickname : profileNickname} //컨트롤에 넘길 데이터 이름 : 데이터(.nick_input에 입력되는 값)
+	   var data = {"profileNickname" : profileNickname} //컨트롤에 넘길 데이터 이름 : 데이터(.nick_input에 입력되는 값)
 	   
 	   $.ajax({
 	      type : "post",

@@ -16,8 +16,9 @@
 	}
 
 	.modal-body {
-    height: 500px; /* 원하는 높이로 조절 */
-    overflow-y: auto;
+    height: 400px; /* 원하는 높이로 조절 */
+    overflow: auto;
+    border-radius: 30px;
 	}
 	
 	.update-button {
@@ -43,26 +44,23 @@
 	}
 	
      #box > div:first-child {
-        margin-right: 50px; /* 카테고리 오른쪽 간격 조절 */
+        margin-right: 20px; /* 카테고리 오른쪽 간격 조절 */
     }
     
     .table td, .table th {
     vertical-align: middle;
-    color: initial;
-    padding: 20px 8px;
    
 	}
-	
-	.tr{
-	width: 20px;
+
+	.table tr, .table th{
+		font-weight: bold;
 	}
 	
     
     .table {
     width: 100%; 
-    margin: 20px 0; /* 표의 위아래 간격 조절 */
+    margin: 10px 0; /* 표의 위아래 간격 조절 */
     font-size: 14px;
-    border-collapse: collapse;
 	}
 	
 	tr:hover {
@@ -75,6 +73,7 @@
         right : 400px;
         align-self: flex-start;
         order: 2;  /* 버튼이 뒤로 오게*/
+        border-radius: 30px;
     }
 	
 	.images{
@@ -83,22 +82,48 @@
 		margin: 0 auto; /* 중앙 정렬 */
 	}
 	
+	.p{
+		margin-bottom: 10px;
+	}
+	
+	/* 모달창 버튼 */
 	.btn-secondary{
-		position: relative;
-		right: -90px;
-		top: 310px;
+	  	width: 100px; 
+	  	display: inline-block;
+	  	margin: 1rem;
 	}
 	
 	.save.btn.btn-primary{
-		position: relative;
-		right: 100px;
-		top: 301px;
-		margin: 20px 0px 4px;
+		float: left; 
+		width: 100px;
+		margin: 1rem;
+		display: inline-block; 
+	}
+	.modal-btn{
+		top: 400px;
+		display: inline-table;
+		padding: 1em;
+		align-items: center;
+		text-align: center;
 	}
 	
+	#uploadBtn{
+		width: 100px;
+	}
 	
+	.modal-footer{
+		text-align: center;
+	}
 	
-
+	.model-body.input{
+		margin-bottom: 10px;	
+	}
+	
+	#imgInput{
+		display: inline-block;
+		width: 200px;
+	}
+	
 </style>
 <script type="text/javascript" src="resources/js/common.js"></script>
 
@@ -135,7 +160,8 @@
 							<td>${profile.profileNickname}</td>
 							<td>${profile.clubName}</td>
 							<td>
-							<img class="images" src="${pageContext.request.contextPath}/download/img/${profile.profileImg}${profile.profileImgPath}"/>
+							<img class="images" src="${pageContext.request.contextPath}${profile.profileImgPath}${profile.profileImg}"
+							onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/img/clubImg.jpg';" />
 							</td>	
 						</tr>
 					</tbody>
@@ -145,31 +171,33 @@
 		</div>
 	</div>
 	
+	
 		<!-- modal 창 시작 -->
 		<form action="updateProfile" method="POST" id="uploadForm">
 			<div align="center" id="club-modal" class="club-modal modal fade">
 				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">
 						<div class="modal-body">
-
+							<p> 닉네임 </p>	
 							<input type="text" value="${profileNickname}"
-								name="profileNickname" readonly>
-
+								name="profileNickname"  readonly="readonly" />
+							
+							
+							<div class="modal-footer">
+							<!-- 이미지 미리보기 기본 이미지 -->
+							<img class=images id="preview" src="${pageContext.request.contextPath}/download/img/${profile.profileImg}${profil.profileImgPath}"
+								alt="Profile-Image" />			
 							<!-- 이미지 선택 인풋 -->
 							<input type="file" id="imgInput" name="uploadFile"
 								onchange="readURL(this);" />
 
 							<!-- 이미지 업로드 버튼 -->
-							<button type="button" class="btn btn-success" id="uploadBtn">업로드</button>
-
-							<div class="modal-footer">
-							<!-- 이미지 미리보기 기본 이미지 -->
-							<img class=images id="preview" src="${pageContext.request.contextPath}/download/img/${profile.profileImg}${profil.profileImgPath}"
-								alt="Profile-Image" />
-							
+								<div class="modal-btn">
+								<button type="button" class="btn btn-success" id="uploadBtn">업로드</button>
 								<button type="button" class="btn btn-secondary"
 									data-bs-dismiss="modal">닫기</button>
 								<button type="submit" class="save btn btn-primary">저장</button>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -278,8 +306,9 @@
 		})
 		.done( data => {
 			console.log(data);
-			if(data != null && data['결과'] == 'Success'){
-				alert('수정됐습니다.');	
+			if(data != null && data['status'] == 'success'){
+				alert('수정됐습니다.');
+				window.location.href='${pageContext.request.contextPath}/club/profileList';
 			}else{
 				alert('수정되지 않았습니다.');
 			}

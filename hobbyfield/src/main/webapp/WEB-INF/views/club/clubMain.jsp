@@ -256,10 +256,10 @@ h3 {
 		<div id="mainContainer">
 			<c:forEach items="${clubList}" var="club">
 				<div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${club.clubNumber}'">
-					<img src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}">
+					<img src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/img/clubImg.jpg';">
 					<div class="clubInfo">
 						<p>${club.clubName}</p>
-						<p>${fn:substring(club.clubInfo, 0, 100)}${club.clubInfo.length() > 100 ? '...' : ''}</p>
+<%-- 						<p>${fn:substring(club.clubInfo, 0, 100)}${club.clubInfo.length() > 100 ? '...' : ''}</p> --%>
 						<span class="rounded-info">${club.clubCategory}</span>
 						<span class="rounded-info">${club.majorLocation} ${club.subLocation}</span>
 					</div>

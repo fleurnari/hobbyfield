@@ -22,14 +22,16 @@
     max-width: 300px; 
    	margin: 30px auto; /* 중앙 정렬 */
    	height: 300px;
+   	border-radius: 80px;
 
 }
 
 #exampleModal label{
 	width: 100px;
 }
-#exampleModal input[type=text], #exampleModal textarea {
+#exampleModal textarea {
 	width: 80%;
+	border: solid 1px;
 }
 
  textarea {
@@ -97,6 +99,24 @@
 	
 	}
 
+p {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-right: 5px;
+	width: 30%;
+	display: inline-block;
+	font-size: 17px;
+}
+
+.input.club_input {
+    display: inline-block; 
+    }
+
+.p-tag{
+	font-weight: bold;
+}
+
+
 </style>
 
 <body>
@@ -121,26 +141,12 @@
 			</div>
 
 			<div class="card-body col-md-6">
-				<div>
-					<p>모임장 : ${club.profileNickname}</p>
-				</div>
-				<div>
-					<p>카테고리 : ${club.clubCategory}</p>
-				</div>
-				<div>
-					<p>모임형태 : ${club.clubType}</p>
-				</div>
-				<div>
-					<p>모임지역 : ${club.majorLocation} ${club.subLocation}</p>
-				</div>
-				<div>
-					<p>현재인원 : ${club.clubNumber } / 전체인원 : ${club.clubTotal }</p>
-				</div>
-				
-				<div>
-					<p>모임소개 : ${club.clubInfo}</p>
-				</div>
-
+				<h5>모임장 : ${club.profileNickname}</h5>
+				<h5>카테고리 : ${club.clubCategory}</h5>
+				<h5>모임형태 : ${club.clubType}</h5>
+				<h5>모임지역 : ${club.majorLocation} ${club.subLocation}</h5>
+				<h5>현재인원 : ${club.clubNumber } / 전체인원 : ${club.clubTotal }</h5>
+				<h5>모임소개 : ${club.clubInfo}</h5>
 			</div>
 			<!-- 소모임 수정 버튼 -->
 			<div class="btn-group">
@@ -173,41 +179,39 @@
 										name="profileNickname" class="ProfileNickname"
 										value="${club.profileNickname }">
 								</div>
-								<div>
-									<label>모임이름</label> <input type="text" class="club_input"
+								
+								
+									<p>모임이름</p> <input type="text" class="club_input"
 										name="clubName" value="${club.clubName}"><br> 
-										<span class="club_input_re1">사용 가능한 모임 이름입니다.</span>
-										<span class="club_input_re2">모임 이름이 이미 존재합니다. </span> 
-										<span class="final_club_ck">모임 이름을 정해주세요</span>
-								</div>
-
-								<div>
-									<label>모임카테고리</label> <select class="club_category"
+									<span class="club_input_re1">사용 가능한 모임 이름입니다.</span>
+									<span class="club_input_re2">모임 이름이 이미 존재합니다. </span> 
+									<span class="final_club_ck">모임 이름을 정해주세요</span>
+								
+									<p>모임카테고리</p> <select class="club_category"
 										name="clubCategory">
 										<c:forEach items="${C}" var="category">
 											<option value="${category.subcode }"
 												<c:if test="${category.subcode eq club.clubCategoryCd }"> selected </c:if>>${category.literal}</option>
 										</c:forEach>
 									</select>
-								</div>
 
 								<div>
-									<label>소모임 분류</label>
+									<p>소모임 분류</p>
 									<c:forEach items="${D}" var="type">
-										<input type="radio" name="clubType" value="${type.subcode}"
-											<c:if test="${type.subcode eq club.clubTypeCd }"> checked="checked" </c:if>>${type.literal}
-                  		   </c:forEach>
+									<input type="radio" name="clubType" value="${type.subcode}"
+									<c:if test="${type.subcode eq club.clubTypeCd }"> checked="checked" </c:if>>${type.literal}
+                  		   			</c:forEach>
 								</div>
 
 								<div>
-									<label>소모임 소개</label>
+									<p class="p-tag">소모임 소개</p>
 									<textarea name="clubInfo">${club.clubInfo}</textarea>
 									<br>
 								</div>
 
 								<div>
 									<div>
-										<label>광역지역 : </label> <select class="majorlocation"
+										<p>광역지역</p> <select class="majorlocation"
 											name="majorLocation" id="majorLocation">
 											<option value="">선택</option>
 											<c:forEach items="${E}" var="major">
@@ -218,7 +222,7 @@
 									</div>
 
 									<div>
-										<label>구 :</label> <select class="sublocation" name="subLocation"
+										<p>구</p> <select class="sublocation" name="subLocation"
 											id="subLocation">
 											<option value="${major.literal }">선택</option>
 										</select><br>
@@ -227,26 +231,26 @@
 								</div>
 
 								<div>
-									<label>공개여부 : </label> <input type="radio" name="clubPublic"
+									<p>공개여부</p> <input type="radio" name="clubPublic"
 										checked="checked" value="G1"
 										${club.clubPublic == 'G1' ? 'checked' : ''} readonly />공개
 								</div>
 
 								<div>
 									<div>
-										<label>질문1</label> 
+										<p class="p-tag">질문1</p> 
 										<textarea name="singupQuestion1" placeholder="내용을 입력해 주세요.">
 										"${club.singupQuestion1 }"
 										</textarea><br>
 									</div>
 									<div>
-										<label>질문2</label> 
+										<p class="p-tag">질문2</p> 
 										<textarea name="singupQuestion2" placeholder="내용을 입력해 주세요.">
 										"${club.singupQuestion2 }"
 										</textarea><br>
 									</div>
 									<div>
-										<label>질문3</label> 
+										<p class="p-tag">질문3</p> 
 										<textarea name="singupQuestion3" placeholder="내용을 입력해 주세요.">
 										"${club.singupQuestion3 }"
 										</textarea><br>
@@ -257,11 +261,11 @@
 								 <img class="images" src="${pageContext.request.contextPath}/download/img/${club.clubImg}" alt="ProfileImage" /></div>
 								<input id="imgInput" name="uploadFile" type="file"
 									value="clubImg" onchange="readURL(this);">
-								<button type="button" id="uploadBtn">upload</button>
+								<button type="button" id="uploadBtn" class="btn btn-success">업로드</button>
 								
 							</div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                                 <button type="submit" class="update-button btn btn-primary">수정하기</button>
                             </div>
                             </div>

@@ -166,7 +166,7 @@
     border-radius: 20px;
     font-size: 12px;
     margin-right: 5px;
-    margin-bottom: : 10px;
+    margin-bottom: 10px;
     margin-top: 10px; 
     line-height: 1.2; 
 }
@@ -294,10 +294,10 @@
      <div id="clubContainer">
             <c:forEach items="${clubList}" var="club">
 				<div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${club.clubNumber}'">
-					<img src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}">
+					<img src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/img/clubImg.jpg';">
 					<div class="clubInfo">
 						<p>${club.clubName}</p>
-						<p>${fn:substring(club.clubInfo, 0, 100)}${club.clubInfo.length() > 100 ? '...' : ''}</p>
+<%-- 						<p>${fn:substring(club.clubInfo, 0, 100)}${club.clubInfo.length() > 100 ? '...' : ''}</p> --%>
 						<span class="rounded-info">${club.clubCategory}</span>
 						<span class="rounded-info">${club.majorLocation} ${club.subLocation}</span>
 					</div>
@@ -350,14 +350,16 @@
 	                //각 소모임의 정보를 표시하는 코드 
 	                $('#clubContainer').append(`
 	                		<div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=\${club.clubNumber}'">
-	                        	<img src="${pageContext.request.contextPath}/\${club.clubImgPath}\${club.clubImg}">
-	                        <div class="clubInfo">
-	                        <p>${club.clubName}</p>
-							<p>${fn:substring(club.clubInfo, 0, 100)}${club.clubInfo.length() > 100 ? '...' : ''}</p>
-							<span class="rounded-info">${club.clubCategory}</span>
-							<span class="rounded-info">${club.majorLocation} ${club.subLocation}</span>
-	                        </div>
-	                    </div>
+                            <img src="${pageContext.request.contextPath}/\${club.clubImgPath}\${club.clubImg}">
+                            <div class="clubInfo">
+                            <div class="clubInfo">
+							<p>\${club.clubName}</p>
+
+							<span class="rounded-info">\${club.clubCategory}</span>
+							<span class="rounded-info">\${club.majorLocation} \${club.subLocation}</span>
+						</div>
+                            </div>
+                        </div>
 	                `);
 	            });
 	            currentPage++;  // 다음 페이지로 이동
@@ -370,7 +372,7 @@
 	});
 
 	
-	
+//		<p class="clubInfo-p">\${club.clubInfo.length>100 ? club.clubInfo.substr(0,100)+'...' : club.clubInfo}</p>
 
 	
 
@@ -400,11 +402,10 @@
 	                                <img src="${pageContext.request.contextPath}/\${club.clubImgPath}\${club.clubImg}">
 	                                <div class="clubInfo">
 	                                <div class="clubInfo">
-									<p>${club.clubName}</p>
-									<p>${fn:substring(club.clubInfo, 0, 100)}${club.clubInfo.length() > 100 ? '...' : ''}</p>
-									<span class="rounded-info">${club.clubCategory}</span>
-									<span class="rounded-info">${club.majorLocation} ${club.subLocation}</span>
-								</div>
+	    							<p>\${club.clubName}</p>
+	    							<span class="rounded-info">\${club.clubCategory}</span>
+	    							<span class="rounded-info">\${club.majorLocation} \${club.subLocation}</span>
+	    						</div>
 	                                </div>
 	                            </div>
 	                        `);

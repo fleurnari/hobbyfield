@@ -7,7 +7,9 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club/insertclub.css">
 <script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style type="text/css">
+
 /* 메인화면에 맞게 css 수정필요 */
 /* 닉네임 체크를 해서 등록가능하게 할것인지. 아니면 프로필이 없으면 접근못하게 할것인지 결정해야함 */
 
@@ -88,10 +90,22 @@ span {
     resize: none;
 }
 
-.form-control{
-	width: 50%;
-}
 
+.form-control {
+	display: block;
+	width: 50%;
+	height: calc(1.5em + .75rem + 2px);
+	padding: .375rem .75rem;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #495057;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #ced4da;
+	border-radius: .25rem;
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out
+}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club/insertclub.css">
@@ -135,7 +149,7 @@ span {
 
 				<div>
 					<label>모임카테고리  </label> 
-					<select class="club_category" name="clubCategory" class="form-control">
+					<select class="club_category form-control" name="clubCategory">
 						<c:forEach items="${C}" var="category">
 							<option value="${category.subcode }">${category.literal}</option>
 						</c:forEach>
@@ -151,7 +165,7 @@ span {
 			
 			<div>
 				<label>소모임 소개</label>
-				<input type="text" name="clubInfo"><br>
+				<textarea name="clubInfo" class="question-box" placeholder="내용을 입력해 주세요"></textarea><br>
 			</div>
 			
 			<div>
@@ -163,7 +177,7 @@ span {
 					</c:forEach>
 				</select>
 				
-				<select class="sublocation" name="subLocation" id="subLocation" class="form-control">
+				<select class="sublocation form-control" name="subLocation" id="subLocation">
 					 <option value="">선택</option>
 				</select><br>
 			</div>
@@ -246,9 +260,7 @@ $(document).ready(function(){
 	$('.club_input').on("propertychange change keyup paste input", function() {
 
 		var clubName = $('.club_input').val(); //.club_input 입력될 값
-		var data = {
-			clubName : clubName
-		} //.컨트롤에 넘길 데이터 이름 데이터(.club_input에 입력되는 값)
+		var data = {"clubName" : clubName} //.컨트롤에 넘길 데이터 이름 데이터(.club_input에 입력되는 값)
 
 		$.ajax({
 			type : "post",
@@ -319,59 +331,59 @@ $(document).ready(function(){
  let singupQuestion3 = document.getElementsByName('singupQuestion3')[0];
 
  if (clubName.value.trim() === '') {
-     alert('모임 이름을 입력해주세요.');
+	 swal('등록 실패','모임 이름을 입력해주세요','error' );
      clubName.focus();
      return false;
  }
 
  if (clubCategory.value.trim() === '') {
-     alert('모임 카테고리를 선택해주세요.');
+	 swal('등록 실패','모임 카테고리를 선택해주세요','error' );
      clubCategory.focus();
      return false;
  }
 
  if (!clubType) {
-     alert('소모임 분류를 선택해주세요.');
+	 swal('등록 실패','소모임 분류를 선택해주세요','error' );
      return false;
  }
 
  if (clubInfo.value.trim() === '') {
-     alert('소모임 소개를 입력해주세요.');
+	 swal('등록 실패','소모임 소개를 입력해주세요','error' );
      clubInfo.focus();
      return false;
  }
 
  if (majorLocation.value.trim() === '') {
-     alert('광역지역을 선택해주세요.');
+	 swal('등록 실패','광역지역을 선택해주세요','error' );
      majorLocation.focus();
      return false;
  }
 
  if (subLocation.value.trim() === '') {
-     alert('지역구를 선택해주세요.');
+	 swal('등록 실패','지역구를 선택해주세요','error' );
      subLocation.focus();
      return false;
  }
 
  if (!clubPublic) {
-     alert('공개 여부를 선택해주세요.');
+	 swal('등록 실패','공개 여부를 선택해주세요','error' );
      return false;
  }
 
  if (singupQuestion1.value.trim() === '') {
-     alert('질문1을 입력해주세요.');
+	 swal('등록 실패','질문1을 입력해주세요','error' );
      singupQuestion1.focus();
      return false;
  }
 
  if (singupQuestion2.value.trim() === '') {
-     alert('질문2를 입력해주세요.');
+	 swal('등록 실패','질문2를 입력해주세요','error' );
      singupQuestion2.focus();
      return false;
  }
 
  if (singupQuestion3.value.trim() === '') {
-     alert('질문3을 입력해주세요.');
+	 swal('등록 실패','질문3을 입력해주세요','error' );
      singupQuestion3.focus();
      return false;
  }
