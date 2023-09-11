@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.hobbyfield.app.fnd.mapper.fundingInterestMapper">
+
+	<!-- 관심 목록 -->
+	<select id="selectFundingInterestList" resultType="FundingInterestVO">
+		SELECT *
+		FROM fnd_post_number
+		WHERE member_email = #{memberEmail}
+	</select>
+
+	<!-- 관심 목록 추가 -->
+	<insert id="insertFundingInterest" parameterType="FundingInterestVO">
+		<selectKey keyProperty="fndInterestNumber" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(fnd_interest_number),0) + 1
+			FROM funding_interest
+		</selectKey>
+		INSERT INTO funding_interest
+		(
+			fnd_interest_number
+			,fnd_post_number
+			,member_email
+		)
+		VALUES
+		(
+			#{fndInterestNumber},
+			#{fndPostNumber},
+			#{memberEmail}
+		)
+	</insert>
+	
+	<!-- 관심 목록 삭제 -->
+	<delete id="deleteFundingInterest" parameterType="FundingInterestVO">
+		DELETE FROM funding_interest
+		WHERE member_email = #{memberEmail}
+		AND fnd_post_number = #{fndInterestNumber}
+	</delete>
+	
+	<!-- 펀딩 게시물의 관심 목록 등록된 수  -->
+	<select id="countFndLike" resultType="int">
+		SELECT COUNT(*)
+		FROM funding_interest
+		WHERE fnd_post_number = #{fndPostNumber}
+	</select>
+	
+	<!-- 관심 목록 눌렀는지 확인 -->
+	<select id="selectFndLike" resultType="int">
+		SELECT COUNT(*)
+		FROM funding_interest
+		WHERE fnd_post_number = #{fndPostNumber}
+		AND member_email = #{memberEmail}
+	</select>
+
+  
+  </mapper>

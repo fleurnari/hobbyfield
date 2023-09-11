@@ -23,6 +23,8 @@ import com.hobbyfield.app.common.SearchCriteria;
 import com.hobbyfield.app.fnd.service.FundingCommentService;
 import com.hobbyfield.app.fnd.service.FundingCommentVO;
 import com.hobbyfield.app.fnd.service.FundingGoodsService;
+import com.hobbyfield.app.fnd.service.FundingInterestService;
+import com.hobbyfield.app.fnd.service.FundingInterestVO;
 import com.hobbyfield.app.fnd.service.FundingPostService;
 import com.hobbyfield.app.fnd.service.FundingPostVO;
 import com.hobbyfield.app.member.service.MemberVO;
@@ -43,6 +45,9 @@ public class FundingPostController {
 	
 	@Autowired
 	FundingCommentService fundingCommentService;
+	
+	@Autowired
+	FundingInterestService fundingInterestService;
 	
 	//전체조회
 	@GetMapping("/fundingPostList")
@@ -233,5 +238,39 @@ public class FundingPostController {
 		List<FundingPostVO> category = fundingPostService.selectFundingPostCate(fndCategory);
 		return category;
 	}
+	
+	// 관심 목록
+	@GetMapping("/fndInterestList")
+	public String fndInterestList(Model model, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		
+		model.addAttribute("fndInterestList", fundingInterestService.selectFundingInterestList(member.getMemberEmail()));
+		
+		return "";
+	}
+	
+	
+	
+	
+	// 관심 목록 추가/삭제
+	@ResponseBody
+	@PostMapping("fndInterest")
+	public int fndLike(FundingInterestVO fndInterestVO, Model model) {
+		
+		int result;
+		int interest = fundingInterestService.selectFundingInterest(fndInterestVO.getFndPostNumber(), fndInterestVO.getMemberEmail());
+		
+		if (interest == 0) {
+			result = 0;
+			fundingInterestService.insertFundingInterest(fndInterestVO);
+		} else {
+			result = 1;
+			fundingInterestService.deleteFundingInterest(fndInterestVO);
+		}
+		
+		return result;
+		
+	}
+	
 
 }
