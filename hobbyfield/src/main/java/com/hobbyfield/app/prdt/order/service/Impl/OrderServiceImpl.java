@@ -20,12 +20,26 @@ import com.hobbyfield.app.prdt.order.mapper.OrderMapper;
 import com.hobbyfield.app.prdt.order.service.OrderService;
 import com.hobbyfield.app.prdt.order.service.OrderVO;
 
+import lombok.Getter;
+import lombok.ToString;
+
 @Service
 public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	OrderMapper orderMapper;
 	
+	@ToString
+	@Getter
+	private class Response{
+		private PaymentInfo response;
+	}
+	
+	@ToString
+	@Getter
+	private class PaymentInfo{
+		private int amount;
+	}
 	
 	@Override
 	public int insertOrderInfo(OrderVO orderVO) {
@@ -107,12 +121,31 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public int paymentInfo(String imp_uid, String access_token) throws IOException {
 	    
-	    return 0;
+		 HttpsURLConnection conn = null;
+		 
+		    URL url = new URL("https://api.iamport.kr/payments/" + imp_uid);
+		 
+		    conn = (HttpsURLConnection) url.openConnection();
+		 
+		    conn.setRequestMethod("GET");
+		    conn.setRequestProperty("Authorization", access_token);
+		    conn.setDoOutput(true);
+		 
+		    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+		    
+		    Gson gson = new Gson();
+		    
+		    Response response = gson.fromJson(br.readLine(), Response.class);
+		    
+		    br.close();
+		    conn.disconnect();
+		    
+		    return response.getResponse().getAmount();
 	}
 	
 	//결제취소
 	@Override
-	public void payMentCancle(String access_token, String imp_uid) throws IOException {
+	public void payMentCancle(String access_token, String imp_uid, String amount) throws IOException {
 		System.out.println("결제 취소");
 		
 		System.out.println(access_token);
@@ -135,6 +168,8 @@ public class OrderServiceImpl implements OrderService {
 		JsonObject json = new JsonObject();
  
 		json.addProperty("imp_uid", imp_uid);
+		json.addProperty("amount", amount);
+		json.addProperty("checksum", amount);
  
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
  

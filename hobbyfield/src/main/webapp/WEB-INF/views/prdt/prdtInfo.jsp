@@ -242,20 +242,25 @@
     }
    .box {
    	margin-top: 200px;
-    margin-left: 20%;
+    margin-left: 10px;
     margin-right: 20%;
-    max-width: 1200px;
+    max-width: 1400px;
     
    
    }
    
    .prdtDetail {
-    width: 60%; 
+    width: 55%; 
     margin-top: 30px; 
     margin-bottom: 10px; 
-    margin-left: 380px;
-    font-size: 20px; /* 글자 크기를 16px로 설정 */
+    margin-left: 405px;
+    font-size: 20px; 
 }
+
+    .button-container .btn {
+        margin-right: 10px; /* 오른쪽 여백을 10px로 설정합니다. */
+    }
+
 </style>
 <link href="<c:url value="/resources/css/bootstrap.min.css"/>"
     rel="stylesheet">
@@ -268,7 +273,7 @@
 
     <div class="box">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-15">
 	            <form name="prdtInfo" method="post">
 							  <input type="hidden" name="prdtId" id="prdtId" value="${prdtInfo.prdtId}">
 				</form>
@@ -313,13 +318,9 @@
         </div>
        
         <hr>
-<div class="row">
-    <div class="col-1">
-        <button type="submit" class="btn btn-primary btn-block" id="delete_btn">삭제</button>
-    </div>
-    <div class="col-1">
-        <button type="submit" class="btn btn-primary btn-block" id="update_btn">수정</button>
-    </div>
+  <div class="d-flex button-container">
+    <button type="submit" class="btn btn-primary" id="delete_btn">삭제</button>
+    <button type="submit" class="btn btn-primary" id="update_btn">수정</button>
 </div>
     </div>
 	    <script>
@@ -541,20 +542,33 @@ $(document).ready(function() {
 });
 
   	// 상품 수정, 삭제 
-    $(document).ready(function(){
-        $(document).on("click", "#delete_btn", function(){
-            let deleteChk = confirm("등록된 상품을 삭제하시겠습니까?");
-            if (deleteChk) {
+   $(document).ready(function() {
+    $(document).on("click", "#delete_btn", function() {
+        Swal.fire({
+            title: '등록된 상품을 삭제하시겠습니까?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: '삭제',
+            cancelButtonText: '취소',
+        }).then((result) => {
+            if (result.isConfirmed) {
                 var formObj = $("form[name='prdtInfo']");
                 formObj.prop("action", "prdtDelete");
                 formObj.prop("method", "post");
                 formObj.submit();
             }
         });
+    });
 
-        $(document).on("click", "#update_btn", function(){
-            let updateChk = confirm("등록된 상품을 수정하시겠습니까?");
-            if (updateChk) {
+    $(document).on("click", "#update_btn", function() {
+        Swal.fire({
+            title: '등록된 상품을 수정하시겠습니까?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: '수정',
+            cancelButtonText: '취소',
+        }).then((result) => {
+            if (result.isConfirmed) {
                 var formObj = $("form[name='prdtInfo']");
                 formObj.prop("action", "prdtUpdate");
                 formObj.prop("method", "get");
@@ -562,6 +576,7 @@ $(document).ready(function() {
             }
         });
     });
+});
   	
   	
   	//수량 조절
@@ -622,7 +637,11 @@ $(document).ready(function() {
 	        data: data,
 	        success: function(result){
 	            if(result == "1") {
-	                alert("장바구니에 담겼습니다.");
+	            	 Swal.fire(
+	             			  '장바구니에 담겼습니다.',
+	             			  '',
+	             			  'success'
+	             			)
 	                $(".numBox").val("1");
 	            } else {
 	                alert("로그인 세션이 만료되었습니다. 로그인 후 이용해주세요.");
@@ -671,14 +690,18 @@ $(document).ready(function() {
              success: function(result) {
                  if (result === "success") {
                      alert("리뷰가 작성되었습니다.");
-                     // 리뷰 작성 완료 후 처리 (예: 모달 닫기)
+                     // 모달 닫기 추가 해야함
                  } else {
-                     alert(result); // 서버에서 반환한 오류 메시지 표시
+                     alert(result); 
                  }
              },
-             error: function(xhr, status, error) {
-                 console.error(xhr.responseText); // 서버에서 반환한 오류 메시지 출력
-                 alert("본인이 구매한 상품만 후기작성이 가능합니다.");
+             error: function(xhr, status, error) { 
+                 console.error(xhr.responseText); 
+                 Swal.fire(
+             			  '본인이 구매한 상품만 후기 작성이 가능합니다.',
+             			  '',
+             			  'error'
+             			)
              }
          });
      });
@@ -871,8 +894,11 @@ function calculateRatingHtml(rating) {
         data: JSON.stringify(data),
         success: function (result) {
             if (result === "success") {
-                location.reload();
-                alert("댓글이 작성되었습니다.");
+                Swal.fire(
+          			  '댓글이 작성 되었습니다.',
+          			  '',
+          			  'success'
+          			)
             } else {
                 alert("댓글 작성에 실패했습니다.");
             }
@@ -888,7 +914,7 @@ function calculateRatingHtml(rating) {
     var commentItem = $(this).closest("li");
     var commentId = commentItem.data("comment-id");
     
-    var confirmDelete = confirm("진짜 삭제하실?");
+    var confirmDelete = confirm("삭제하시겠습니까?");
 
     if (confirmDelete) {
         $.ajax({
@@ -900,7 +926,11 @@ function calculateRatingHtml(rating) {
             },
             error: function (error) {
                 if (error.status === 403) {
-                    alert("본인이 쓴 댓글만 삭제가능합니다.");
+                	Swal.fire(
+              			  '본인이 작성한 댓글만 삭제 가능합니다.',
+              			  '',
+              			  'error'
+              			)
                 } else {
                     console.error("댓글 삭제에 실패했습니다.");
                 }
@@ -990,7 +1020,11 @@ function calculateRatingHtml(rating) {
                 data: { reviewId: reviewId },
                 success: function (result) {
                     if (result === "success") {
-                        alert("글이 삭제되었습니다.");
+                    	Swal.fire(
+                    			  '삭제 되었습니다.',
+                    			  '',
+                    			  'success'
+                    			)
                         reviewItem.remove(); 
                     } else {
                         alert("후기 삭제에 실패했습니다.");
@@ -998,7 +1032,11 @@ function calculateRatingHtml(rating) {
                 },
                 error: function (jqXHR) {
                 	if(jqXHR.status === 403){
-                		alert("본인이 작성한 후기(문의)만 삭제 가능합니다.")
+                		Swal.fire(
+                  			  '본인이 작성한 글만 삭제 가능합니다.',
+                  			  '',
+                  			  'error'
+                  			)
                 	} else{
                 		alert("실패 ㅠ");
                 	}
@@ -1070,7 +1108,11 @@ function calculateRatingHtml(rating) {
         },
         error: function (jqXHR) {
             if (jqXHR.status === 403) {
-                alert("본인이 작성한 후기(문의)만 수정이 가능합니다.");
+            	Swal.fire(
+            			  '본인이 작성한 글만 수정 가능합니다.',
+            			  '',
+            			  'error'
+            			)
             } else {
                 alert("ㅠㅠ.");
             }
