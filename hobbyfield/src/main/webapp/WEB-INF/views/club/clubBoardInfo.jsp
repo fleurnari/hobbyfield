@@ -118,15 +118,63 @@
    width: 30px;
 }
 
-
-/* 이모티콘 모달 */
-.emojiModal {
-   width: 100px; 
+/* 이모티콘 모달 스타일 */
+#emojiModal {
+    background: transparent; 
 }
 
-   #actModal{ 
-   cursor:pointer;
+.modal-backdrop.show {
+    opacity: 0;
 }
+
+
+/* 이모티콘 모달 내부 컨텐츠 스타일 */
+.modal-content {
+    background-color: #fff; 
+    border-radius: 10px; 
+
+}
+
+/* 이모티콘 탭 스타일 */
+#emojiTab {
+    background-color: #f0f0f0; 
+    border-bottom: 1px solid #ccc; 
+}
+
+
+.nav-tabs .nav-link {
+    color: #333; 
+}
+
+.nav-tabs .nav-link.active { 
+    background-color: #fff;
+    border-color: #ddd #ddd #fff;
+}
+
+#emojis img { 
+    width: 100px; 
+    height: auto;
+    margin: 5px; 
+}
+
+.modal-dialog {
+    margin: auto;
+    position: absolute;
+    top: 55%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+}
+
+#emojis img {
+    width: calc(25% - 10px); 
+    margin: 5px;
+}
+.btn.btn-primary[data-bs-toggle="modal"][data-bs-target="#emojiModal"] {
+    border-radius: 5px; 
+    }
+
+ 
+
 <!-- 대댓 임시 modal -->
 .main-modal {
    display: none;
@@ -149,7 +197,6 @@
    max-width: 800px;
    min-height: 500px;
 }
-
 
  
 </style>
@@ -382,7 +429,7 @@ ClassicEditor
     console.log( error );
 });  
   
-   // 이모티콘 선택 (이모지 선택해서 툴 헤더 없는 editor에 넣을 수 있도록 하기) 코드 완성하면 이모티콘 가장 아래로 이동
+
 $('#emojis').on("click","img",function(e){
        var selectedImageSrc = $(this).attr('src');
        replyEditor.execute( 'insertImage', { source: selectedImageSrc } );
@@ -390,7 +437,7 @@ $('#emojis').on("click","img",function(e){
     $("#emojiModal").modal("hide");
 });
   
-   //이모티콘
+
 $(document).ready(function() {
    
    var userLike = '${userLike}';
@@ -398,7 +445,7 @@ $(document).ready(function() {
     if (userLike == 1) {
        $('#boardLike').html("좋아요 취소");
     }
-
+   //이모티콘
     // 탭 클릭 이벤트 핸들러
     $("#emojiTab a").click(function(e) {
         e.preventDefault(); // 기본 동작(페이지 이동) 방지

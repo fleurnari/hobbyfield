@@ -14,7 +14,7 @@ body {
 }
 
 .container {
-	width: 50%; 
+	width: 90%; 
 }
 
 h3 {
