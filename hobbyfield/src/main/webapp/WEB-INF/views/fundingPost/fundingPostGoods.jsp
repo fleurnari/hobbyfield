@@ -9,6 +9,7 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="../resources/css/prdt/bootstrap.min.css" rel="stylesheet">
 <style>
 .container2{
 display:flex;
@@ -48,23 +49,38 @@ flex-wrap:wrap;
 </style>
 </head>
 <body>
-	<Section>
 	<br><br><br><br>
 	<div class="container">
 			<div class="text-center">
 			<h4>
 			  <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostList'"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></span>&nbsp;&nbsp;
-              <span onclick="location.href='#'">카테고리</span>&nbsp;&nbsp;
+            </div>
+                          <div class="dropdown">
+                <span>
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    카테고리
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+                    <c:forEach items="${category}" var="type">
+                        <li>
+                            <a class="dropdown-item" href="#" data-type-code="${type.literal}">${type.literal}</a>
+                        </li>
+                    </c:forEach>
+                </ul>
+                </span>
               <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
               <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
-              <span onclick="location.href='#'">공지사항</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'" >후원현황</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'" style="color:#5aa5db;">프로젝트만들기</span>
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/notice/noticeList'">공지사항</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'">프로젝트만들기</span>
+           	  <c:if test="${member.memberGrd eq 'A3'}">
+                	<span onclick="location.href='${pageContext.request.contextPath}/fundingPost/adminAccept'">프로젝트 승인</span>
+                </c:if>
             </h4>
             </div>
         </div>
-		<br><br><br>
-
+        <div>
+        </div>
 			<div class="text-center">
 				<h4><span   onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsert20?fndPostNumber=${fundingPostGoods.fndPostNumber }'" >프로젝트 설정</span><span> | </span><span style="color:red;">옵션 구성</span></h4>
 						<p>프로젝트를 설정해주세요</p>

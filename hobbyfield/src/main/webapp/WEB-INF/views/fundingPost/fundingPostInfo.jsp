@@ -10,6 +10,7 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<link href="../resources/css/prdt/bootstrap.min.css" rel="stylesheet">
 <style type="text/css">
 table, th, td {
 	border: 1px solid black;
@@ -217,6 +218,38 @@ body.modal-open {
 </head>
 
 <body>
+	<br><br><br><br>
+	<div class="container">
+			<div class="text-center">
+			<h4>
+			  <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostList'"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></span>&nbsp;&nbsp;
+            </div>
+                          <div class="dropdown">
+                <span>
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    카테고리
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+                    <c:forEach items="${category}" var="type">
+                        <li>
+                            <a class="dropdown-item" href="#" data-type-code="${type.literal}">${type.literal}</a>
+                        </li>
+                    </c:forEach>
+                </ul>
+                </span>
+              <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
+              <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/notice/noticeList'">공지사항</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'">프로젝트만들기</span>
+           	  <c:if test="${member.memberGrd eq 'A3'}">
+                	<span onclick="location.href='${pageContext.request.contextPath}/fundingPost/adminAccept'">프로젝트 승인</span>
+                </c:if>
+            </h4>
+            </div>
+        </div>
+        <div>
+        </div>
 	<!-- 옵션선택 모달창 -->
 	<div id="modal" class="modal">
 		<div class="modal_body">
@@ -694,6 +727,29 @@ function remaindTime() {
 		});
 			
 	  }
+	
+	function checkDeadline() {
+		  var now = new Date(); // 현재 시간
+		  var endDate = new Date("${fundingPostInfo.fndEndDate}"); // 마감 시간
+
+		  if (now >= endDate) {
+		    // 마감 시간이 지났을 경우
+		    Swal.fire({
+		      icon: 'error',
+		      title: '마감되었습니다',
+		      text: '이 펀딩은 이미 마감되었습니다.',
+		      confirmButtonColor: '#3085d6',
+		      confirmButtonText: '확인'
+		    }).then(function() {
+		      // 마감 시간이 지났으므로 원하는 동작을 수행
+		      // 예를 들어, 버튼 비활성화 등의 작업을 할 수 있습니다.
+		      // 예시: document.getElementById('btnOpenPopup').disabled = true;
+		    });
+		  }
+		}
+
+		// 페이지 로드 시에 마감 여부를 확인
+		window.onload = checkDeadline;
 </script>
 </body>
 
