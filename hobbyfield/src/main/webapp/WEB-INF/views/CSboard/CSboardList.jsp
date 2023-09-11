@@ -44,7 +44,7 @@ li {
 					<li class="list-group-item"><a href="${pageContext.request.contextPath}/prdt/cartList"><img src="${pageContext.request.contextPath}/resources/svg/cart.svg" alt=""> 장바구니</a></li>
 					<li class="list-group-item"><a href="${pageContext.request.contextPath}/prdt/orderList"><img src="${pageContext.request.contextPath}/resources/svg/card.svg" alt=""> 주문목록</a></li>
 					<li class="list-group-item"><a href="${pageContext.request.contextPath}/prdt/adminOrderList" id="deliveryMenu"><img src="${pageContext.request.contextPath}/resources/svg/truck.svg" alt=""> 배송관리</a></li>
-					<li class="list-group-item"><a href="${pageContext.request.contextPath}/CSboard/CSboardList"><img src="${pageContext.request.contextPath}/resources/svg/person.svg" alt="">  공지사항</a></li>
+					<li class="list-group-item"><a href="${pageContext.request.contextPath}/CSboard/CSboardList"><img src="${pageContext.request.contextPath}/resources/svg/person.svg" alt="">  배송안내</a></li>
                 </div>
             </div>
             <div class="col-md-9">

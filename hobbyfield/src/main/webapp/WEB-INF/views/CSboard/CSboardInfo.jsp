@@ -133,7 +133,7 @@ div.modalContent button.modal_cancel {
 		// 게시글삭제
 		$("#delete_btn").on("click", function(){
 			
-			let deleteChk = confirm("삭제??");
+			let deleteChk = confirm("삭제하시겠습니까??");
 			if(deleteChk == true){
 			formObj.prop("action", "CSboardDelete");
 			formObj.prop("method", "post");
