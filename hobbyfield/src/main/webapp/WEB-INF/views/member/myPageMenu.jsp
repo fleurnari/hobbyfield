@@ -55,6 +55,9 @@
 		<c:if test="${member.memberGrd eq 'A1'}">
 			<div id="myPageMenu">
 				<div class="menu">
+					<a href="${pageContext.request.contextPath}/member/myPage">나의 정보</a>
+				</div>
+				<div class="menu">
 					<a href="${pageContext.request.contextPath}/member/selectJoinClub">나의 소모임</a>
 				</div>
 				<div class="menu">
