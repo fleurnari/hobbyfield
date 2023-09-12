@@ -120,7 +120,7 @@
                   </div>
                </div>
                <br>
-               <input type="hidden" name="fndStatus" value="2">
+               <input type="hidden" name="fndStatus" value="1">
                <input type="hidden" name="fndPostNumber" value="${ fundingPostInsert20.fndPostNumber}">
                <button type="submit" class="btn btn-primary"
                   style="float: right;">저장</button>

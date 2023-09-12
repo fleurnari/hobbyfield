@@ -128,13 +128,13 @@
 							</div>
 						</div>
 			</div>
-			<input type="text" name="fndPostNumber" value="${fundingPostInfo.fndPostNumber }">
-			<input type="text" name="fndGoodsNumber" value="${fundingGoodsInfo.fndGoodsNumber }">
-			<input type="text" name="MemberEmail" value="${member.memberEmail }">
-			<input type="text" name="fndOrderAmount" value="${GoodsAmount }">
-			<input type="text" name="fndTotalPrice" id="calculatedResult3" value="calculatedValue">
-			<input type="text" value="${fundingGoodsInfo.fndGoodsPrice }">
-			<input type="text" value="${fundingPostInfo.fndEndDate }">
+			<input type="hidden" name="fndPostNumber" value="${fundingPostInfo.fndPostNumber }">
+			<input type="hidden" name="fndGoodsNumber" value="${fundingGoodsInfo.fndGoodsNumber }">
+			<input type="hidden" name="MemberEmail" value="${member.memberEmail }">
+			<input type="hidden" name="fndOrderAmount" value="${GoodsAmount }">
+			<input type="hidden" name="fndTotalPrice" id="calculatedResult3" value="calculatedValue">
+			<input type="hidden" value="${fundingGoodsInfo.fndGoodsPrice }">
+			<input type="hidden" value="${fundingPostInfo.fndEndDate }">
 		</form>
 		</div>
 	</Section>
@@ -235,46 +235,46 @@
 
 
   function requestPay() {
-    // IMP.request_pay(param, callback) 결제창 호출
-    IMP.request_pay({ // param
-        pg: 'kakaopay',
-		    merchant_uid : "IMP"+makeMerchantUid,
-		    schedule_at : endDate,
-		    currency: "KRW",
-		    name : '${fundingGoodsInfo.fndGoodsName }'/*상품명*/,
-		    amount : calculatedValue/*상품 가격*/, 
-		    buyer_email : '${member.memberEmail}'/*구매자 이메일*/,
-		    buyer_name : '${member.memberEmail }',
-		    buyer_tel : '${member.memberCntinfo}'/*구매자 연락처*/,
-		    buyer_addr : buyer_addr/*구매자 주소*/,
-		    buyer_postcode : '${member.memberZip}'/*구매자 우편번호*/
-    }, function(rsp) {
-		    if ( rsp.success ) {
-		    	let objData = serializeObject();
-		    	objData.merchantUid = rsp.merchant_uid;
-		    	console.log(objData);
+	    // IMP.request_pay(param, callback) 결제창 호출
+	    IMP.request_pay({ // param
+	        pg: 'kakaopay',
+			    merchant_uid : "IMP"+makeMerchantUid,
+			    schedule_at : endDate,
+			    currency: "KRW",
+			    name : '${fundingGoodsInfo.fndGoodsName }'/*상품명*/,
+			    amount : calculatedValue/*상품 가격*/, 
+			    buyer_email : '${member.memberEmail}'/*구매자 이메일*/,
+			    buyer_name : '${member.memberEmail }',
+			    buyer_tel : '${member.memberCntinfo}'/*구매자 연락처*/,
+			    buyer_addr : buyer_addr/*구매자 주소*/,
+			    buyer_postcode : '${member.memberZip}'/*구매자 우편번호*/
+	    }, function(rsp) {
+			    if ( rsp.success ) {
+			    	let objData = serializeObject();
+			    	objData.merchantUid = rsp.merchant_uid;
+			    	console.log(objData);
 
-		        $.ajax({
-		        	url : 'supportInsert',
-		        	method : 'post',
-		        	data : objData,
-		        })
-				Swal.fire(
-					'결제가 성공했습니다!',
-					'후원현황을 확인해주세요!',
-					'success'
-				);
-
-		    } else {
-		    	Swal.fire(
-		    			  '결제가 실패했습니다!',
-		    			  '결제 정보를 확인해주세요!',
-		    			  'error'
-		    			)
-			
-		    }
-    });
-  }
+			        $.ajax({
+			        	url : 'supportInsert',
+			        	method : 'post',
+			        	data : objData,
+			        })
+					Swal.fire(
+						'결제가 성공했습니다!',
+						'후원현황을 확인해주세요!',
+						'success'
+					);
+			        location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList?memberEmail=${member.memberEmail}'
+			    } else {
+			    	Swal.fire(
+			    			  '결제가 실패했습니다!',
+			    			  '결제 정보를 확인해주세요!',
+			    			  'error'
+			    			)
+				
+			    }
+	    });
+	  }
   console.log(merchant_Uid)
   function serializeObject(){
 		let formData = $('form').serializeArray();
