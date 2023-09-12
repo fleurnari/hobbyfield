@@ -8,7 +8,7 @@
 <style>
 
 body {
-	margin-top: 150px; 
+	margin-top: 100px; 
 	background: fff;
 	font-family: sans-serif;
 	font-weight: 100;

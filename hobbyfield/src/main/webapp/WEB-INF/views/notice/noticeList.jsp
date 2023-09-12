@@ -17,6 +17,7 @@ body {
 li {
  	list-style: none;
  	display: inline-block;
+ 	padding: 5px;
 }
 .container{
 	margin-top: 2px; 
@@ -56,7 +57,7 @@ li {
 .notice-list th {
     border-bottom: 1px solid #ddd;
     padding: 10px;
-    height: 30px;
+    height: 35px;
     text-align: center;
     background-color: #f0f0f0;
     font-weight: bold; 
@@ -67,7 +68,7 @@ li {
     border-right: none;
     border-bottom: 1px solid #ddd;
     padding: 10px;
-    height: 30px;
+    height: 35px;
     text-align: center;
     margin-bottom: 50px;
 }
@@ -136,11 +137,76 @@ li {
     background-color: #0056b3; 
 }
 
-.page-num {
-    text-align: center;
-    margin-top: 2px;
-    font-size: medium;
-    font: bolder;
+
+.pagination{
+	margin: 20px 0;
+	display: flex;
+	justify-content: center;
+}
+
+.pagination ul {
+	list-style: none;
+	padding: 0;
+	display: flex;
+	align-items: center;
+}
+
+.pagination li {
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    width: 45px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 20%; 
+}
+
+.pagination li a {
+    text-decoration: none;
+    color: #333; 
+}
+
+.pagination li.active {
+    background-color: rgba(0, 123, 255, 0.5);
+    border: none;
+}
+
+.pagination li.active a {
+    color: #fff;
+}
+
+.pagination li:hover {
+    background-color: #ccc;
+}
+
+/* Previous and Next buttons */
+.pagination .prev,
+.pagination .next {
+    margin: 0 15px; 
+    border: 1px solid #007bff;
+    color: #007bff;
+    width: 50px;
+    height: 30px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 50%; /* 더 둥글게 설정 */
+}
+
+.pagination .prev a,
+.pagination .next a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.pagination .prev:hover,
+.pagination .next:hover {
+    background-color: #ccc;
 }
 
 
@@ -210,13 +276,17 @@ li {
 
 			</div>
 			
-			<ul class="page-num">
+			<ul class="pagination"> 
 				<c:if test="${pageMaker.prev}">
 			    	<li><a href="javascript:goPage(${pageMaker.startPage - 1})">이전</a></li>
-			    </c:if> 
-				
+			    </c:if>  
 			    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-			    	<li><a href="javascript:goPage(${idx})">${idx}</a></li>
+			    	<c:if test="${idx eq scri.page }">
+			    		<li class="active">${idx}</li>
+			    	</c:if>
+			    	<c:if test="${idx ne scri.page }">
+			    		<li><a href="javascript:goPage(${idx})">${idx}</a></li>			    	
+			    	</c:if>
 			    </c:forEach>
 			
 			    <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
@@ -233,7 +303,7 @@ li {
 	}
 	$(function(){
 		
-		$('#searchBtn').click(function(){
+		$("#search-button").click(function(){
 			self.location = "noticeList" + '${pageMaker.makeQuery(1)}' + "&searchType=" + $("[name=searchType]").val() + "&keyword=" +encodeURIComponent($('#keywordInput').val());
 			noticeSearchForm.submit()
 		});

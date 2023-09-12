@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <title>나의 아이템 구매현황</title>
 <style>
 /* Reset some default margin and padding */
@@ -55,9 +56,9 @@ tr:hover {
 }
 
 /* Style the images */
-img {
-	max-width: 100px;
-	max-height: 100px;
+td img {
+	width: 100px;
+	height: 100px;
 }
 
 /* 박스 스타일 */
@@ -70,6 +71,77 @@ img {
 #box>div {
 	margin-right: 20px;
 }
+
+/* 모달 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 모달 내부 스타일 */
+.modal-content h5 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.modal-content select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.modal-content button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+    background-color: #0056b3;
+}
+
+/* 이미지 스타일 */
+.modal-content img {
+    max-width: 100px;
+    max-height: 100px;
+}
+
 </style>
 
 </head>
@@ -179,10 +251,18 @@ img {
 		    })
 		    .done(data => {
 		    	if(data){
-		    		alert("적용 완료되었습니다.");
+		    		Swal.fire(
+		    	            '소모임 증원권이 적용되었습니다.',
+		    	            '',
+		    	            'success');
 		    	} else {
-		    		alert("적용 실패했습니다.") 
+		    		 Swal.fire(
+		    		            '소모임 증원권 적용에 실패했습니다.',
+		    		            '',
+		    		            'error'
+		    		        );
 		    	}
+
 		    })
 		    .fail(reject => console.log(reject));
 		    return false;

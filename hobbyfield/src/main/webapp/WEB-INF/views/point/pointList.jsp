@@ -151,7 +151,9 @@ th {
 			<c:forEach items="${pointList}" var="point"> 
 				<div class="point-item" onclick="location.href='pointInfo?pointId=${point.pointId}'"
 					data-state="${point.pointState}" data-sort="${point.pointItemType }">
-					<img src="${pageContext.request.contextPath}${point.pointImgPath}${point.pointImgName}"  alt="상품 이미지"><br>
+					<img src="${pageContext.request.contextPath}${point.pointImgPath}${point.pointImgName}"  alt="상품 이미지"
+					onerror="this.onerror=null; this.src=${pageContext.request.contextPath}/resources/images/'alien.png.';"
+					><br>
 					<div class="point-details">
 <%-- 						<p>${point.pointId}</p> --%>
 						<p>${point.pointName}</p>

@@ -4,10 +4,30 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style type="text/css">
+
+#update_btn{
+	margin-top: 20px;
+}
+
+#cancel_btn{
+	margin-top: 20px;
+}
+
+.ck.ck-editor {
+	width: 100%;
+	margin: 0 auto;
+}
+.ck-editor__editable {
+	height: 20vh;
+}
+
+</style>
 <meta charset="UTF-8">
 <title>CS게시글 수정</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
+<link href="../resources/css/prdt/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 	<div align="center">
@@ -27,7 +47,7 @@
 				</tr>
 				<tr>
 					<th>내용</th>
-					<td><textarea name="csContents" class="form-control" id=csContents_textarea>${CSboardInfo.csContents}</textarea></td>
+					<td><textarea class="form-control" name="csContents" id="csContents_textarea"></textarea></td>
 				</tr>
 				<tr>
 					<th>첨부이미지</th>
@@ -40,8 +60,8 @@
 				</tr>
 			</table>
 			<div>
-				<button type="submit" class="update_btn">수정하기</button>
-				<button type="submit" class="cancel_btn">목록으로</button>
+				<button type="submit" class="btn btn-primary" id="update_btn">수정하기</button>
+				<button type="submit" class="btn btn-primary" id="cancel_btn">목록으로</button>
 			</div>
 		</form> 
 	</div>
@@ -52,16 +72,23 @@
 			console.error(error);
 		});
 	</script>
+	<script type="text/javascript">
+	
+	$(document).ready(function() {
+	    $("#csContents_textarea").val("${CSboardInfo.csContents}");
+
+	});
+	</script>
 	<script>
 	$(document).ready(function(){
 		
-		$(".cancel_btn").on("click", function(){
+		$("#cancel_btn").on("click", function(){
 			event.preventDefault();
 			location.href = "CSboardList";
 		})
 	})
 	
-	$(".update_btn").on("click", function(){
+	$("#update_btn").on("click", function(){
 			formObj.prop("action", "CSboardUpdate");
 			formObj.prop("method", "get");
 			formObj.submit();				

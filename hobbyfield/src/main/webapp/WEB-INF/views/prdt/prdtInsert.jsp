@@ -5,6 +5,23 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style type="text/css">
+.custom-file-upload {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-top: 6px;
+    border-radius: 5px; 
+    height: 38px;
+}
+
+#uploadFile {
+    display: none;
+}
+
+</style>
 <meta charset="UTF-8">
 <title>상품등록</title>
 <link href="../resources/css/prdt/bootstrap.min.css" rel="stylesheet">
@@ -12,13 +29,6 @@
 </head>
 
 <body>
-<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					
-					
 					
 <div class="container">
     <form action="prdtInsert" method="post" class="form-horizontal">
@@ -68,9 +78,12 @@
                 <label for="prdtThum" class="col-sm-2 control-label">상품이미지</label>
                 <div class="col-sm-3">
                   <input type="text" id="" name="" class="form-control">
-                  <input name="uploadFile" type="file" value="profileImg" onchange="readURL(this);">
-                  <button type="button" id="uploadBtn">upload</button>
-                </div>
+                  <label for="uploadFile" class="custom-file-upload">
+					    <span>파일 선택</span>
+				</label>
+<input id="uploadFile" type="file" name="uploadFile" onchange="readURL(this);" style="display:none;">
+                  <button type="button" id="uploadBtn" class="btn btn-primary">upload</button>
+             </div>
                 <div id=preview>
                 
                 </div>
