@@ -88,7 +88,7 @@
 									src="${pageContext.request.contextPath}/resources/images/logo1.png"
 									width="180" alt="">
 								</a>
-								<p class="text-center">일반 회원 가입</p>
+								<p class="text-center">기업 회원 가입</p>
 								<form id="join_form" action="memberInsert" method="post">
 									<div class="mb-3">
 										<label for="memberEmail" class="form-label">Email
