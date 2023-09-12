@@ -1,105 +1,191 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member/join.css?after">
+<link rel="shortcut icon" type="image/png"
+	href="${pageContext.request.contextPath}/resources/assets/images/logos/favicon.png" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/assets/css/styles.min.css" />
+
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
+<style>
+	/* 중복아이디 존재하지 않는경우 */
+	#id_input_re_1 {
+		color: green;
+		display: none;
+	}
+	/* 중복아이디 존재하는 경우 */
+	#id_input_re_2 {
+		color: red;
+		display: none;
+	}
+	
+	/* 유효성 검사 문구 */
+	 
+	#final_email_ck{
+	    display: none;
+	}
+	#final_pw_ck{
+	    display: none;
+	}
+	#final_pwck_ck{
+	    display: none;
+	}
+	#final_name_ck{
+	    display: none;
+	}
+	
+	#final_bizno_ck{
+		display: none;
+	}
+	
+	#final_mail_ck{
+	    display: none;
+	}
+	#final_addr_ck{
+	    display: none;
+	}
+	 
+	#final_tel_ck{
+		display: none;
+	}
+	
+	
+	
+	/* 비밀번호 확인 일치 유효성검사 */
+	#pwck_input_re_1{
+	        color : green;
+	        display : none;    
+	}
+	
+	#pwck_input_re_2{
+	        color : red;
+	        display : none;    
+	}    
+	 
+	/* float 속성 해제 */
+	.clearfix{
+		clear: both;
+	}
+</style>
 
-<section id="faqs">
-	<div class="container">
-		<div class="row">
-			<h1 class="text-center lh-sm mb-5 fs-lg-6 fs-xxl-7">기업 회원 가입</h1>
-			<div class="col-12">
-				<div class="card">
-					<div class="card-body px-5 pb-0">
-						<div class="wrapper">
-							<form id="join_form" action="memberInsert" method="post">
-								<div class="wrap">
-									<div class="id_wrap">
-										<div class="id_name">이메일</div>
-										<div class="id_input_box">
-											<input class="id_input" type="email" id="memberEmail" name="memberEmail">
-										</div>
-										<span class="id_input_re_1">사용 가능한 이메일입니다.</span>
-										<span class="id_input_re_2">이미 존재하는 이메일입니다.</span>
-										<span class="final_email_ck">아이디를 입력해주세요.</span>
-										<span class="mail_input_box_warn"></span>
+
+<body>
+	<!--  Body Wrapper -->
+	<div class="page-wrapper" id="main-wrapper" data-layout="vertical"
+		data-navbarbg="skin6" data-sidebartype="full"
+		data-sidebar-position="fixed" data-header-position="fixed">
+		<div
+			class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+			<div class="d-flex align-items-center justify-content-center w-100">
+				<div class="row justify-content-center w-100">
+					<div class="col-md-8 col-lg-6 col-xxl-3">
+						<div class="card mb-0">
+							<div class="card-body">
+								<a href="./index.html"
+									class="text-nowrap logo-img text-center d-block py-3 w-100">
+									<img
+									src="${pageContext.request.contextPath}/resources/images/logo1.png"
+									width="180" alt="">
+								</a>
+								<p class="text-center">기업 회원 가입</p>
+								<form id="join_form" action="memberInsert" method="post">
+									<div class="mb-3">
+										<label for="memberEmail" class="form-label">Email
+											Address</label> <input type="email" class="form-control"
+											name="memberEmail" id="memberEmail"
+											aria-describedby="emailHelp">
+										<p>
+											<span id="id_input_re_1">사용 가능한 이메일입니다.</span> <span
+												id="id_input_re_2">이미 존재하는 이메일입니다.</span> <span
+												id="final_email_ck">아이디를 입력해주세요.</span> <span
+												id="mail_input_box_warn"></span>
+										</p>
 									</div>
-									<div class="pw_wrap">
-										<div class="pw_name">비밀번호</div>
-										<div class="pw_input_box">
-											<input class="pw_input" type="password" id="memberPwd" name="memberPwd">
-										</div>
-										<span class="final_pw_ck">비밀번호를 입력해주세요.</span>
+									<div class="mb-4">
+										<label for="memberPwd" class="form-label">비밀번호</label> <input
+											type="password" class="form-control" id="memberPwd"
+											name="memberPwd">
+										<p>
+											<span id="final_pw_ck">비밀번호를 입력해주세요.</span>
+										</p>
 									</div>
-									<div class="pwck_wrap">
-										<div class="pwck_name">비밀번호 확인</div>
-										<div class="pwck_input_box">
-											<input class="pwck_input" type="password" id="passwordCheck" name="passwordCheck">
-										</div>
-										<span class="final_pwck_ck">비밀번호 확인을 입력해주세요.</span>
-										<span class="pwck_input_re_1">비밀번호가 일치합니다.</span>
-										<span class="pwck_input_re_2">비밀번호가 일치하지 않습니다.</span>
+									<div class="mb-4">
+										<label for="passwordCheck" class="form-label">비밀번호 확인</label> <input
+											type="password" class="form-control" name="passwordCheck"
+											id="passwordCheck">
+										<p>
+											<span id="final_pwck_ck">비밀번호 확인을 입력해주세요.</span> <span
+												id="pwck_input_re_1">비밀번호가 일치합니다.</span> <span
+												id="pwck_input_re_2">비밀번호가 일치하지 않습니다.</span>
+										</p>
 									</div>
-									<div class="user_wrap">
-										<div class="user_info">기업명</div>
-										<div class="user_input_box">
-											<input class="user_input" type="text" id="memberNm" name="memberNm">
-										</div>
-										<span class="final_name_ck">이름을 입력해주세요.</span>
+									<div class="mb-3">
+										<label for="memberNm" class="form-label">기업명</label> <input
+											type="text" class="form-control" name="memberNm"
+											id="memberNm">
+										<p>
+											<span id="final_name_ck">이름을 입력해주세요.</span>
+										</p>
 									</div>
-									<div class="user_wrap">
-										<div class="user_info">사업자번호</div>
-										<div class="user_input_box">
-											<input class="user_input" type="text" id="memberBizno" name="memberBizno" placeholder="000-00-0000">
-										</div>
-										<span class="final_bizno_ck">사업자번호를 입력해주세요.</span>
+									<div class="mb-3">
+										<label for="memberBizno" class="form-label">사업자번호</label> <input
+											type="text" class="form-control" name="memberBizno"
+											id="memberBizno">
+										<p>
+											<span id="final_bizno_ck">사업자번호를 입력해주세요.</span>
+										</p>
 									</div>
-									<div class="address_wrap">
-										<div class="address_name">사업장 주소</div>
-										<div class="address_input_1_wrap">
-											<div class="address_input_1_box">
-												<input class="address_input_1" type="text" id="sample6_postcode" name="memberZip" placeholder="우편번호" readonly="readonly">
-											</div>
-											<div class="address_button">
-												<button type="button" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
-											</div>
-												<div class="clearfix"></div>
+									<div class="mb-3">
+										<label for="address_name" class="form-label">사업장 주소</label> <input
+											type="text" class="form-control" name="memberZip"
+											id="sample6_postcode" placeholder="우편번호" readonly="readonly">
+										<button type="button" class="btn btn-secondary m-1"
+											onclick="sample6_execDaumPostcode()">우편</button>
+										<div class="clearfix"></div>
+										<div class="mb-3">
+											<input type="text" class="form-control" id="sample6_address"
+												name="memberBaseaddr" placeholder="기본주소" readonly="readonly">
 										</div>
-										<div class ="address_input_2_wrap">
-											<div class="address_input_2_box">
-												<input class="address_input_2" type="text" id="sample6_address" name="memberBaseaddr" placeholder="기본주소" readonly="readonly">
-											</div>
+										<div class="mb-3">
+											<input type="text" class="form-control"
+												id="sample6_detailAddress" name="memberDetaaddr"
+												placeholder="상세주소" readonly="readonly">
 										</div>
-										<div class ="address_input_3_wrap">
-											<div class="address_input_3_box">
-												<input class="address_input_3" type="text" id="sample6_detailAddress" name="memberDetaaddr" placeholder="상세주소" readonly="readonly">
-											</div>
-										</div>
-										<span class="final_addr_ck">사업장 주소를 입력해주세요.</span>
+										<p>
+											<span id="final_addr_ck">사업장 주소를 입력해주세요.</span>
+										</p>
 									</div>
-									<div class="user_wrap">
-										<div class="user_info">연락처</div>
-										<div class="user_input_box">
-											<input class="user_input" type="text" id="memberCntinfo" name="memberCntinfo" placeholder="'-'을 포함하여 입력해 주세요.">
-										</div>
-										<span class="final_tel_ck">연락처를 입력해주세요.</span>
+									<div class="mb-3">
+										<label for="user_info" class="form-label">연락처</label> <input
+											type="text" class="form-control" id="memberCntinfo"
+											name="memberCntinfo">
+										<p>
+											<span id="final_tel_ck">연락처를 입력해주세요.</span>
+										</p>
 									</div>
-									<div>
-										<div class="join_button_wrap">
-											<input class="join_button" type="submit" value="가입하기">
-										</div>
+									<button type="submit" id="join_button"
+										class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Sign
+										Up</button>
+									<div class="d-flex align-items-center justify-content-center">
+										<p class="fs-4 mb-0 fw-bold">이미 가입한 아이디가 존재하나요?</p>
+										<a class="text-primary fw-bold ms-2"
+											href="${pageContext.request.contextPath}/member/login">Sign
+											In</a>
 									</div>
-								</div>
-									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-							</form>
+									<input type="hidden" name="${_csrf.parameterName}"
+										value="${_csrf.token}" />
+								</form>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</section>
+	<script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+	<script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 
 
 <script>
@@ -116,78 +202,78 @@
 
 		$(document).ready(function() {	
 			// 회원가입 기능 작동
-			$(".join_button").on("click", function() {
+			$("#join_button").on("click", function() {
 
 				// 입력값 변수
-				var email = $('.id_input').val();
-				var pw = $('.pw_input').val();
-				var pwck = $('.pwck_input').val();
+				var email = $('#memberEmail').val();
+				var pw = $('#memberPwd').val();
+				var pwck = $('#passwordCheck').val();
 				var name = $('#memberNm').val();
 				var bizno = $('#memberBizno').val();
-				var addr = $('.address_input_3').val();
+				var addr = $('#sample6_detailAddress').val();
 				var tel = $('#memberCntinfo').val();
 				
 				// 이메일 유효성 검사
 				if (email == ""){
-					$('.final_email_ck').css('display', 'block');
+					$('#final_email_ck').css('display', 'block');
 					emailCheck = false;
 				} else {
-					$('.final_email_ck').css('display', 'none');
+					$('#final_email_ck').css('display', 'none');
 					emailCheck = true;
 				}
 				
 				// 비밀번호 유효성 검사
 		        if(pw == ""){
-		            $('.final_pw_ck').css('display','block');
+		            $('#final_pw_ck').css('display','block');
 		            pwCheck = false;
 		        }else{
-		            $('.final_pw_ck').css('display', 'none');
+		            $('#final_pw_ck').css('display', 'none');
 		            pwCheck = true;
 		        }
 				
 				// 비밀번호 확인 유효성 검사
 		        if(pwck == ""){
-		            $('.final_pwck_ck').css('display','block');
+		            $('#final_pwck_ck').css('display','block');
 		            pwckCheck = false;
 		        }else{
-		            $('.final_pwck_ck').css('display', 'none');
+		            $('#final_pwck_ck').css('display', 'none');
 		            pwckCheck = true;
 		        }
 				
 				// 이름 유효성 검사
 		        if(name == ""){
-		            $('.final_name_ck').css('display','block');
+		            $('#final_name_ck').css('display','block');
 		            nameCheck = false;
 		        }else{
-		            $('.final_name_ck').css('display', 'none');
+		            $('#final_name_ck').css('display', 'none');
 		            nameCheck = true;
 		        }
 				
 				// 사업자번호 유효성 검사
 		        if(bizno == ""){
-		            $('.final_bizno_ck').css('display','block');
+		            $('#final_bizno_ck').css('display','block');
 		            biznoCheck = false;
 		        }else{
-		            $('.final_bizno_ck').css('display', 'none');
+		            $('#final_bizno_ck').css('display', 'none');
 		            biznoCheck = true;
 		        }
 				
 				// 주소 유효성 검사
 		        if(addr == ""){
-		            $('.final_addr_ck').css('display','block');
+		            $('#final_addr_ck').css('display','block');
 		            addressCheck = false;
 		        }else{
-		            $('.final_addr_ck').css('display', 'none');
+		            $('#final_addr_ck').css('display', 'none');
 		            addressCheck = true;
 		        }
 				
 				
 				// 연락처 유효성 검사
 		        if(tel == ""){
-		            $('.final_tel_ck').css('display','block');
+		            $('#final_tel_ck').css('display','block');
 		            telCheck = false;
 		        }else{
-		            $('.final_tel_ck').css('display', 'none');
+		            $('#final_tel_ck').css('display', 'none');
 		            telCheck = true;
 		        }
 				
@@ -200,11 +286,11 @@
 		});
 		
 		// 아이디 중복 체크
-		$('.id_input').on("propertychange change keyup paste input", function(){
+		$('#memberEmail').on("propertychange change keyup paste input", function(){
 			
-			var memberEmail = $('.id_input').val();
+			var memberEmail = $('#memberEmail').val();
 			var data = {memberEmail : memberEmail}
-			var warnMsg = $(".mail_input_box_warn"); // 이메일 형식 유효성 검사
+			var warnMsg = $("#mail_input_box_warn"); // 이메일 형식 유효성 검사
 			
 			$.ajax({
 				type : "post",
@@ -213,19 +299,19 @@
 				success : function(result){
 					if(result != 'fail'){
 						if (!(mailFormCheck(memberEmail))){
-							$('.id_input_re_1').css("display", "none");
+							$('#id_input_re_1').css("display", "none");
 					        warnMsg.text("올바르지 못한 이메일 형식입니다.");
 					        warnMsg.css("display", "inline-block");				
 					} else {
 						warnMsg.css("display", "none");
-						$('.id_input_re_1').css("display","inline-block");
-						$('.id_input_re_2').css("display", "none");
+						$('#id_input_re_1').css("display","inline-block");
+						$('#id_input_re_2').css("display", "none");
 						emailckCheck = true;
 					}
 					} else {
 						warnMsg.css("display", "none");	
-						$('.id_input_re_2').css("display","inline-block");
-						$('.id_input_re_1').css("display", "none");
+						$('#id_input_re_2').css("display","inline-block");
+						$('#id_input_re_1').css("display", "none");
 						emailckCheck = false;
 					}
 				}
@@ -275,32 +361,32 @@
 		                }
 
 						// 우편번호와 주소 정보를 해당 필드에 넣는다.
-			            $(".address_input_1").val(data.zonecode);
-			            $(".address_input_2").val(addr);
+			            $("#sample6_postcode").val(data.zonecode);
+			            $("#sample6_address").val(addr);
 			            
 						// 커서를 상세주소 필드로 이동한다.
-			            $(".address_input_3").attr("readonly",false);
-			            $(".address_input_3").focus();
+			            $("#sample6_detailAddress").attr("readonly",false);
+			            $("#sample6_detailAddress").focus();
 					}
 				}).open();
 	}
 	
 	// 비밀번호 확인 일치 유효성 검사
 	 
-	$('.pwck_input').on("propertychange change keyup paste input", function(){
-		var pw = $('.pw_input').val();
-	    var pwck = $('.pwck_input').val();
-	    $('.final_pwck_ck').css('display', 'none');
-	    
-	    if(pw == pwck){
-	        $('.pwck_input_re_1').css('display','block');
-	        $('.pwck_input_re_2').css('display','none');
-	        pwckcorCheck = true;
-	    }else{
-	        $('.pwck_input_re_1').css('display','none');
-	        $('.pwck_input_re_2').css('display','block');
-	        pwckcorCheck = false;
-	    } 
+	$('#passwordCheck').on("propertychange change keyup paste input", function() {
+		var pw = $('#memberPwd').val();
+		var pwck = $('#passwordCheck').val();
+		$('#final_pwck_ck').css('display', 'none');
+
+		if (pw == pwck) {
+			$('#pwck_input_re_1').css('display', 'block');
+			$('#pwck_input_re_2').css('display', 'none');
+			pwckcorCheck = true;
+		} else {
+			$('#pwck_input_re_1').css('display', 'none');
+			$('#pwck_input_re_2').css('display', 'block');
+			pwckcorCheck = false;
+		}
 	});
 	
 	 /* 입력 이메일 형식 유효성 검사 */

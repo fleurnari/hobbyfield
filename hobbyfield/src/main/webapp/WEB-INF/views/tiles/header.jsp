@@ -67,7 +67,7 @@
 					href="${pageContext.request.contextPath}/fundingPost/fundingPostList">펀딩</a>
 				</li>
 				<li class="nav-item"><a class="nav-link fw-bold"
-					href="${pageContext.request.contextPath}/point/pointList">공지사항</a>
+					href="${pageContext.request.contextPath}/notice/noticeList">공지사항</a>
 				</li>
 				<li class="nav-item"><a class="nav-link fw-bold"
 					href="${pageContext.request.contextPath}/point/pointList">포인트샵</a>
@@ -106,125 +106,118 @@
 
 
 
-<!-- 모달 창 추가 -->
-<div class="modal" id="pushModal" tabindex="-1"
-	aria-labelledby="pushModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="pushModalLabel">알림</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal"
-					aria-label="Close"></button>
-			</div>
-			<div class="modal-body"></div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary"
-					data-bs-dismiss="modal">닫기</button>
-			</div>
+      <!-- 모달 창 추가 -->
+		<div class="modal" id="pushModal" tabindex="-1" aria-labelledby="pushModalLabel" aria-hidden="true">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <h5 class="modal-title" id="pushModalLabel">알림</h5>
+		                <button type="button" class="btn btn-secondary" onclick="deleteAllPush()">전체 삭제</button>
+		                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		            </div>
+		            <div class="modal-body">    
+		                
+		            </div>
+		            <div class="modal-footer">
+		                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+		            </div>
+		        </div>
+		    </div>
 		</div>
-	</div>
-</div>
-<script>
-	pushCount();
-	function pushList() {
-		var memberEmail = "${member.memberEmail}";
-		$
-				.ajax({
-					url : '${pageContext.request.contextPath}/push/selectPushList',
-					type : 'get',
-					data : {
-						"memberEmail" : memberEmail
-					},
-					dataType : "json",
-					success : function(data) {
-						var a = '';
-						$
-								.each(
-										data,
-										function(key, value) {
-											var pushDatetime = new Date(
-													value.pushDatetime);
-											var formattedDate = pushDatetime
-													.getFullYear()
-													+ '-'
-													+ ('0' + (pushDatetime
-															.getMonth() + 1))
-															.slice(-2)
-													+ '-'
-													+ ('0' + pushDatetime
-															.getDate())
-															.slice(-2);
-											a += '<div>';
-											a += '<div class="small text-gray-500">'
-													+ formattedDate + '</div>';
-											a += '<span class="font-weight-bold"><a href="' + value.pushUrl + '">'
-													+ value.pushCntn
-													+ '</a></span>';
-											a += '<img src="${pageContext.request.contextPath}/resources/img/close.png" width="30px" onclick="deletePush('
-													+ value.pushId + ');">';
-											a += '</div><hr/>';
 
-										});
-
-						$(".modal-body").html(a);
-
-					}
-
-				});
-
-		// 모달 보이기
-		var pushModal = new bootstrap.Modal(document
-				.getElementById('pushModal'));
-		pushModal.show();
-	}
-
-	//목록 끝
-
-	//알림 삭제
-	function deletePush(pushId, element) {
-		event.target.parentNode.nextElementSibling.remove();
-		event.target.parentNode.remove();
-		$('#nemo').text(Number($('#nemo').text()) - 1);
-		$.ajax({
-			url : '${pageContext.request.contextPath}/push/deletePush',
-			type : 'post',
-			data : {
-				'pushId' : pushId
-			},
-			dataType : "json",
-			success : function() {
-
-			}
-		});
-
-	}
-
-	//알림 수 
-	function pushCount() {
-		var memberEmail = "${member.memberEmail}";
-
-		$.ajax({
-			url : '${pageContext.request.contextPath}/push/selectPushCount',
+      <script>
+      pushCount();
+    function pushList() {
+    	var memberEmail = "${member.memberEmail}";
+    	$.ajax({
+    		url : '${pageContext.request.contextPath}/push/selectPushList',
 			type : 'get',
-			data : {
-				"memberEmail" : memberEmail
-			},
+			data : {"memberEmail" : memberEmail},
 			dataType : "json",
-			contentType : 'application/json; charset=utf-8',
-			success : function(push) {
-				console.log(push);
-				$('#nemo').text(push);
-			}
+	        success : function(data){
+	        	$('#nemo').text(0);
+	         	var a='';
+	         	 $.each(data, function(key, value){
+	 	         	var pushDatetime = new Date(value.pushDatetime);
+		         	var formattedDate = pushDatetime.getFullYear() + '-' + ('0' + (pushDatetime.getMonth() + 1)).slice(-2) + '-' + ('0' + pushDatetime.getDate()).slice(-2);
+	         		a += '<div>';
+					a += '<div class="small text-gray-500">'+ formattedDate +'</div>';
+					a += '<span class="font-weight-bold"><a href="' + value.pushUrl + '">' + value.pushCntn + '</a></span>';
+					a += '<img src="${pageContext.request.contextPath}/resources/img/close.png" width="30px" onclick="deletePush(' + value.pushId + ');">';
+					a += '</div><hr/>';	
+					
+	         		 
+	         		 
+	         	 });
+	         	 
+	         	 $(".modal-body").html(a);
+	         	 
+	        }
+    	
+    	
+    	});
+    	
+    	
+        // 모달 보이기
+        var pushModal = new bootstrap.Modal(document.getElementById('pushModal'));
+        pushModal.show();
+    }
+    
+  //목록 끝
 
-		});
-	}
+  	//알림 삭제
+  	function deletePush(pushId, element){
+  		event.target.parentNode.nextElementSibling.remove();
+  		event.target.parentNode.remove();
+  		$.ajax({
+  	        url : '${pageContext.request.contextPath}/push/deletePush',
+  	        type : 'post',
+  	        data : {'pushId' : pushId},
+  	        dataType : "json",
+  	        success : function(){
+  	        	
+  	        	
+  	        }
+  	   	});
+  	
+  	
+  	}
+ 
+    
+    // 알림 전체 삭제
+    function deleteAllPush() {
+    	var memberEmail = "${member.memberEmail}";
+    	
+    	 $(".modal-body").remove();
+    	$.ajax({
+    		url : '${pageContext.request.contextPath}/push/deleteAllPush',
+    		type : 'post',
+    		data : {'memberEmail' : memberEmail},
+    		dataType : "json",
+    		success : function() {
+    			
+    		}
+    		
+    	});
+    }
 
-	$("#chat").on(
-			'click',
-			function(e) {
-				e.preventDefault();
-				window.open("${pageContext.request.contextPath}/chat/chatting",
-						"chat", "width=500, height=800, top=200, left=200");
-				// 경로, 파일, 너비, 높이, 위치 지정
-			});
-</script>
+
+  //알림 수 
+  function pushCount(){
+	  var memberEmail = "${member.memberEmail}";
+
+  	 $.ajax({
+  	        url : '${pageContext.request.contextPath}/push/selectPushCount',
+  	        type : 'get',
+  	        data : {"memberEmail" : memberEmail},
+  	        dataType : "json",
+  	      	contentType : 'application/json; charset=utf-8',
+  	        success : function(push){
+  	        	console.log(push);
+  	        	$('#nemo').text(push);
+  	        }
+  	    
+  	    });
+  }
+ 
+	</script>

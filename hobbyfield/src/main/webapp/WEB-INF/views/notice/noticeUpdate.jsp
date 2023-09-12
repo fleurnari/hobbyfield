@@ -5,11 +5,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>	
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
 body {
-	margin-top: 150px;
+	margin-top: 100px;
 	font-family: Arial, sans-serif;
 }
 
@@ -108,6 +111,23 @@ select {
 	</div>
 
 	<script> 
+	
+	//editor
+	ClassicEditor
+    .create( document.querySelector( '#editor' ), {
+    	language:"ko",
+    	ckfinder: {
+    		uploadUrl : 'ckeditor/upload'
+    	}
+    })
+    .then(editor => {
+    	 editor.isReadOnly = true; // 에디터를 읽기 전용으로 설정
+    })
+    .catch( error => {
+        console.error( error );
+    });
+	
+	
         $('form').on('submit', function(e) {
             let objData = serializeObject();
             $.ajax({
@@ -131,7 +151,7 @@ select {
               			  ' ',
               			  'error'
               		).then(()=>{
-               		 window.location.href = "noticeList";
+               		 window.location.href = '${pageContext.request.contextPath}/notice/noticeList';
               			
               		})
                 }
