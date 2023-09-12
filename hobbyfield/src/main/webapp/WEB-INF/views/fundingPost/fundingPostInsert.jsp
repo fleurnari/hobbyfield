@@ -69,7 +69,7 @@ flex-wrap:wrap;
                 </span>
               <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
               <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/notice/noticeList'">공지사항</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?noticeCate=AA3'">공지사항</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'">프로젝트만들기</span>
            	  <c:if test="${member.memberGrd eq 'A3'}">
@@ -88,20 +88,31 @@ flex-wrap:wrap;
 				<c:if test="${fundingPost.fndStatus eq '0' }">
 				<c:if test="${fundingPost.memberEmail eq member.memberEmail }">
 				
-		<form action="fundingPostDelete" method="post" id="deleteFnd">
-				<div>
-				<div class="option-box">
-					<div class="col-sm-6">
-						<div class="mb-2">
-							<p class="option-name">${fundingPost.fndTitle }</p>
-							<input type="text" id="fndPostNumber" name="fndPostNumber" value="${fundingPost.fndPostNumber }">
-							<button type="button" class="btn btn-dark" onclick="location.href='fundingPostInsert20?fndPostNumber=${fundingPost.fndPostNumber }'">이어서 작성 -></button>
-							<button type="submit" id="fndDelete" name="fndDelete" class="btn btn-dark">삭제</button>
-						</div>
-					</div>
-				</div>
-				</div>
-		</form>	
+<form action="fundingPostDelete" method="post" id="deleteFnd">
+    <div class="option-box text-center">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="mb-2">
+                    <p class="option-name">${fundingPost.fndTitle}</p>
+                    <input type="hidden" id="fndPostNumber" name="fndPostNumber" value="${fundingPost.fndPostNumber}">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="mb-2">
+                    <p>
+                        <span>
+                            <button type="button" class="btn btn-dark" onclick="location.href='fundingPostInsert20?fndPostNumber=${fundingPost.fndPostNumber}'">이어서 작성 -></button>
+                        </span>
+                    	<br>
+                        <span>
+                            <button type="submit" id="fndDelete" name="fndDelete" class="btn btn-dark">삭제</button>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 				</c:if>
 				</c:if>
 			</c:forEach>
@@ -121,6 +132,7 @@ flex-wrap:wrap;
 					<br>
 					<br>
 					<br>
+					<hr>
 					<div class="container">
 						
 						<div class="row">
@@ -142,6 +154,7 @@ flex-wrap:wrap;
 						</div>
 					<br>
 					<br>
+					<hr>
 						<div class="row">
 							<div class="col-sm-6">
 								<h4>
@@ -159,6 +172,7 @@ flex-wrap:wrap;
 							</div>
 						</div>
 					<br>
+					<hr>
 						<div class="row">
 							<div class="col-sm-6">
 								<h4>
@@ -181,7 +195,7 @@ flex-wrap:wrap;
 						</div>
 					</div>
 					<br>
-						<input type="text" name="fndStatus" value=0>
+						<input type="hidden" name="fndStatus" value=0>
                         <button id="submitButton" type="submit" class="btn btn-primary" style="float:right;" disabled>확인</button>
                 </form>
               </div>
@@ -191,9 +205,9 @@ flex-wrap:wrap;
                 /* 이미지 업로드 */
                 function imgUploadHandler(list) {
               			for (i = 0; i < list.length; i++) {
-              				let tag = `<input type="text" name="fndMainImg" value="\${list[i].UUID}">
-              				           <input type="text" name="fndMainImgPath" value="\${list[i].url}">`
-              				$('#frm').append(tag);
+              				let tag = `<input type="hidden" name="fndMainImg" value="\${list[i].UUID}">
+              				           <input type="hidden" name="fndMainImgPath" value="\${list[i].url}">`
+              				$('#insertCateGory').append(tag);
               			}
               		}
   
@@ -299,40 +313,6 @@ flex-wrap:wrap;
                         }
                     });
                 });
-  
-
-/* 				$(document).ready(function(){
-					
-					$('#fndDelete').on("click", function(){
-						
-						$.ajax({
-							url : "fundingPostDelete",
-							type : "POST",
-							dataType : "json"
-						
-						})
-					})
-				}) */
-/*    				//삭제
-   				$('button:contains("삭제")').on('click', ajaxDeletefnd);
-   				function ajaxDeletefnd(e){
-   					let fndPostNumber = e.currentTarget.closest('input').firstElementChild.val;
-   					
-   					$.ajax({
-   						url : 'fundingPostDelete',
-   						type : 'post',
-   						data : {fndPostNumber : fndPostNumber}
-   					})
-   					.done( data => {
-   						remove();
-   					}else{
-   						alert('삭제되지 않았습니다.');
-   					}
-   				})
-   				.fail( reject => console.log(reject));
-   					
-   					return false;
-   			} */
 	</script>
 </body>
 </html>

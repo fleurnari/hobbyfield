@@ -51,5 +51,4 @@ public class FundingSupportVO {
 	private String fndTitle;
 	private Integer fndStatus;
 	private String fndEndDate;
-	
 }

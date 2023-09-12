@@ -44,8 +44,9 @@ public class FundingSupportServiceImpl implements FundingSupportService {
 	
 	@Override
 	public int insertfundingInvoce(FundingSupportVO fundingSupportVO) {
+		fundingSupportVO.getFndPostNumber();
+		System.out.println(fundingSupportVO);
 		int result = fundingSupportMapper.insertfundingInvoce(fundingSupportVO);
-		
 		if (result > 1 ) {
 			return fundingSupportVO.getFndSupportNumber();
 		} else {
