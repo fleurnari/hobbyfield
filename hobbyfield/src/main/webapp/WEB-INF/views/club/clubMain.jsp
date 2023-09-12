@@ -8,7 +8,8 @@
 
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script src="" type="text/javascript"></script>
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 
 <head>
 <meta charset="UTF-8">
@@ -231,12 +232,20 @@ h3 {
 	
 		<img src="${pageContext.request.contextPath}/resources/img/hobbyClub.png" width="1430px;" height="300px;" />
 		<div class="top-buttons">
-			<c:if test="${not empty profileList}">
-		    <a href="${pageContext.request.contextPath}/club/clubInsert" class="custom-button club-create btn btn-primary">
+<%-- 			<c:if test="${not empty profileList}"> --%>
+<%-- 		    <a href="${pageContext.request.contextPath}/club/clubInsert" class="custom-button club-create btn btn-primary"> --%>
+<!-- 		        <span class="button-icon">&#43;</span> 플러스 아이콘 -->
+<!-- 		        소모임 생성 -->
+<!-- 		    </a> -->
+<%-- 		    </c:if> --%>
+		    
+		    <a href="${pageContext.request.contextPath}/club/clubInsert" class="custom-button club-create btn btn-primary" >
 		        <span class="button-icon">&#43;</span> <!-- 플러스 아이콘 -->
 		        소모임 생성
 		    </a>
-		    </c:if>
+		    
+		    
+		    
 		    <a href="${pageContext.request.contextPath}/club/profileInsert" class="custom-button profile-create btn btn-primary">
 		        <span class="button-icon">&#128100;</span> <!-- 사람 아이콘 -->
 		        프로필 생성
@@ -257,7 +266,8 @@ h3 {
 		<div id="mainContainer">
 			<c:forEach items="${clubList}" var="club">
 				<div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${club.clubNumber}'">
-					<img src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/img/clubImg.jpg';">
+<%-- 					<img src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/img/clubImg.jpg';"> --%>
+					<img src="${pageContext.request.contextPath}${club.clubImgPath}${club.clubImg}" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/img/clubImg.jpg';">
 					<div class="clubInfo">
 						<p>${club.clubName}</p>
 <%-- 						<p>${fn:substring(club.clubInfo, 0, 100)}${club.clubInfo.length() > 100 ? '...' : ''}</p> --%>
@@ -293,7 +303,7 @@ h3 {
 				</c:forEach>
 			</div>
 		</div>
-
+	
 	<h3>최신 게시글</h3>
 
 	   <div>
@@ -353,6 +363,30 @@ h3 {
          })
       });
 
+   
+// var profileListNotEmpty = <c:choose><c:when test="\${not empty profileList}">true</c:when><c:otherwise>false</c:otherwise></c:choose>;
+   var profileListNotEmpty = <c:choose><c:when test="\${not empty profileList}">true</c:when><c:otherwise>false</c:otherwise></c:choose>;
+
+if (!profileListNotEmpty) {
+    function preventAccess() {
+        document.querySelector(".club-create").addEventListener("click", function(e) {
+            e.preventDefault();
+            Swal.fire({
+            	  icon: 'error',
+            	  title: '접근 실패',
+            	  text: '프로필을 먼저 생성 하세요',
+            	  footer: ''
+            	})
+            
+//             swal('접근 실패','프로필을 먼저 생성 하세요','error');
+//                   alert("프로필을 먼저 생성 하세요.");
+        });
+    }
+    window.onload = preventAccess;
+}
+
+   
+   
   </script>
 
 </body>

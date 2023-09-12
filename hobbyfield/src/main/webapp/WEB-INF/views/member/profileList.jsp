@@ -5,9 +5,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/insertclub.css">
 <script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <title>프로필 유저정보</title>
 <style type="text/css">
 .images {
@@ -34,11 +36,12 @@
 }
 
 .table {
+
 	border-collapse: collapse;
-	width: 70%;
+	width: 80%;
 	font-size: 14px; 
 	border: 1px solid #ddd;
-	margin: 10px auto;
+/* 	margin: 10px auto; */
 	margin-top: 0;
 }
 
@@ -47,6 +50,10 @@
 	padding: 8px;
 	border-bottom: 1px solid #ddd;
 	text-align: center;
+}
+
+.table th:nth-child(1) {
+    min-width: 150px;
 }
 
 .table th {
@@ -152,7 +159,7 @@ p {
          	
          	
 			<table class="table">
-					<thead align="center">
+					<thead align="center" style=”table-layout:fixed”>
 						<tr>
 							<th>닉네임</th>
 							<th>가입한 모임</th>
@@ -200,7 +207,7 @@ p {
 							<!-- 이미지 미리보기 기본 이미지 -->
 							<img class=images id="preview" src="${pageContext.request.contextPath}/${profile.profileImgPath}${profile.profileImg}"
 							onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/img/clubImg.jpg';"
-								alt="Profile-Image" />			
+								 />			
 							<!-- 이미지 선택 인풋 -->
 							<input type="file" id="imgInput" name="uploadFile"
 								onchange="readURL(this);" />
@@ -321,10 +328,12 @@ p {
 		.done( data => {
 			console.log(data);
 			if(data != null && data['status'] == 'success'){
-				alert('수정됐습니다.');
+				swal('성공','정상적으로 수정 됐습니다','success' );
+// 				alert('수정됐습니다.');
 				window.location.href='${pageContext.request.contextPath}/club/profileList';
 			}else{
-				alert('수정되지 않았습니다.');
+// 				alert('수정되지 않았습니다.');
+				swal('실패','수정에 실패했습니다','error' );
 			}
 		})
 		.fail( reject => console.log(reject));

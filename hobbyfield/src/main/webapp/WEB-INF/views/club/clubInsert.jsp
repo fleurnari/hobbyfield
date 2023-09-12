@@ -31,9 +31,11 @@ div.top {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
 }
 
-label {
-    font-weight: bold; /* 레이블 글씨 굵게 설정 */
-    margin-bottom: 10px; /* 아래쪽 여백 설정 */
+
+
+.lable-text{
+	font-weight: bold !important;
+	margin-bottom: 10px; /* 아래쪽 여백 설정 */
     display: block; /* 작동오류시 먼저 찾기 */
 }
 
@@ -127,7 +129,7 @@ span {
 			<h2>소모임 등록</h2>		
 		</div>
 		<div>
-			<div><label>닉네임 선택</label>
+			<div><label class="lable-text">닉네임 선택</label>
 			    <select id="profile" name="profileNickname" class="form-control">
 			        <c:forEach items="${profileList}" var="profile">
 			            <option value="${profile.profileNickname}">${profile.profileNickname}</option>
@@ -139,7 +141,7 @@ span {
 
 			<div>
 				<div>	
-					<label>모임이름</label>
+					<label class="lable-text">모임이름</label>
 					<input type="text" class="club_input" name="clubName"><br>
 				</div>
 				<span class="club_input_re1">사용 가능한 모임 이름입니다.</span>
@@ -148,7 +150,7 @@ span {
 			</div>
 
 				<div>
-					<label>모임카테고리  </label> 
+					<label class="lable-text">모임카테고리  </label> 
 					<select class="club_category form-control" name="clubCategory">
 						<c:forEach items="${C}" var="category">
 							<option value="${category.subcode }">${category.literal}</option>
@@ -157,19 +159,19 @@ span {
 				</div><br>
 
 				<div>
-				<label>소모임 분류</label>
+				<label class="lable-text">소모임 분류</label>
 				<c:forEach items="${D}" var="type">
 					<input type="radio" name="clubType" value="${type.subcode}" checked="checked" >${type.literal}
 				</c:forEach>
 				</div>
 			
 			<div>
-				<label>소모임 소개</label>
+				<label class="lable-text">소모임 소개</label>
 				<textarea name="clubInfo" class="question-box" placeholder="내용을 입력해 주세요"></textarea><br>
 			</div>
 			
 			<div>
-				<label>광역지역  </label>
+				<label class="lable-text">광역지역  </label>
 				<select class="majorlocation" name="majorLocation" id="majorLocation" class="form-control">
 				    <option value="">선택</option>
 					<c:forEach items="${E}" var="major" >					
@@ -177,23 +179,24 @@ span {
 					</c:forEach>
 				</select>
 				
+				<label class="lable-text">지역구  </label>
 				<select class="sublocation form-control" name="subLocation" id="subLocation">
 					 <option value="">선택</option>
 				</select><br>
 			</div>
 			
 			<div>
-				<label>공개여부 </label>
+				<label class="lable-text" >공개여부 </label>
 				<input type="radio" name="clubPublic" value="G1" checked="checked"/>공개
 				<input type="radio" name="clubPublic" value="G2" />비공개
 			</div><br>
 			
 			<div>
-				<label>질문1</label>
+				<label class="lable-text">질문1</label>
 				<textarea name="singupQuestion1" placeholder="내용을 입력해 주세요." class="question-box" ></textarea><br>
-				<label>질문2</label>
+				<label class="lable-text">질문2</label>
 				<textarea name="singupQuestion2" placeholder="내용을 입력해 주세요." class="question-box"></textarea><br>
-				<label>질문3</label>
+				<label class="lable-text"> 질문3</label>
 				<textarea name="singupQuestion3" placeholder="내용을 입력해 주세요." class="question-box"></textarea><br>
 			</div>
 			

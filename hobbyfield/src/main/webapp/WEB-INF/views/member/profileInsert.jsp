@@ -106,15 +106,19 @@ button:hover {
     max-width: 100%;
     max-height: 100%;
 }
+
+#mypage{
+	padding-left: 100px !important;
+}
+
 </style>
 </head>
 <body>
-	<div>
+	<div id="mypage">
 		<jsp:include page="myPageMenu.jsp"></jsp:include>
 	</div>
 
 	<div align="center" class="profile_top">
-		<div id="box"></div>
 		<div>
 			<form action="profileInsert" method="post" id="join_form">
 				<div class="profile_info">
