@@ -218,8 +218,8 @@
 
 </head>
 <body>
+<div class="container" style="margin-top: 150px;">
 	<!-- 하위 모두 수정해야함 -->
-	<section>
 		<div align="center" class="top">
 
 			<div class="table-title">
@@ -365,7 +365,7 @@
 				</div>
 			</form>
 		</div> 
-	</section>
+		</div>
 
 </body>
 

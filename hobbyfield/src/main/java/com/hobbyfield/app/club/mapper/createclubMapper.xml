@@ -114,9 +114,9 @@
 	             , club_img
 	             , club_img_path
 	             , club_total
-	             , ROWNUM as rnum
+	             , ROW_NUMBER() OVER(ORDER BY club_name) AS RNUM
 	        FROM club
-	        ORDER BY profile_nickname
+	         ORDER BY club_name
 	    ) WHERE rnum BETWEEN #{start} AND #{end}
 	</select>
 	

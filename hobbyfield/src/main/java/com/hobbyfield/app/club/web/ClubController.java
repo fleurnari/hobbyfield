@@ -240,10 +240,6 @@ public class ClubController {
 			redirectAttributes.addFlashAttribute("errorMessage", "클럽을 더 이상 생성할 수 없습니다.");
 			return "redirect:clubInsert";
 		}
-		ClubJoinVO jvo = new ClubJoinVO();
-		jvo.setProfileNickname(clubVO.getProfileNickname());
-		jvo.setClubNumber(clubVO.getClubNumber());
-		clubJoinMapper.insertClubMember(jvo);
 		// 클럽 생성 성공 메시지 추가
 		redirectAttributes.addFlashAttribute("successMessage", "클럽이 성공적으로 생성되었습니다.");
 		return "redirect:clubList";
