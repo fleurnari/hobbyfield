@@ -17,7 +17,7 @@ body {
     min-height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
-    	margin-top: 150px;
+    margin-top: 100px;
 }
 
 .header {
