@@ -17,10 +17,14 @@ li {
 	padding: 6px;
 }
  .custom-container {
-        margin-top: 150px; /* 원하는 여백 크기(px) 설정 */
+        margin-top: 150px;
+        margin-bottom: 50px; 
     }
    a {
-    cursor: pointer; /* 포인터 모양의 커서로 변경 */
+    cursor: pointer; 
+}
+.col-md-9 {
+	margin-left: 50px;
 }
 </style>
 <link href="../resources/css/prdt/bootstrap.min.css" rel="stylesheet">
@@ -29,15 +33,16 @@ li {
     <div class="container custom-container">
         <nav>
                     <div>
-                        <h5>
+                        <h6>
                             카테고리
                             <span>></span>
                             배송관련안내
-                        </h5>
+                        </h6>
                     </div>
                 </nav>
+                <br>
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="list-group">
                     <li class="list-group-item"><a href="#"><img src="${pageContext.request.contextPath}/resources/svg/bars.svg" alt=""> 카테고리</a></li>
 					<li class="list-group-item"><a href="${pageContext.request.contextPath}/prdt/prdtInsert"><img src="${pageContext.request.contextPath}/resources/svg/tags.svg" alt=""> 상품등록</a></li>
@@ -69,7 +74,13 @@ li {
                     </tbody>
                 </table>
                 <div class="text-center">
-                    <button type="button" class="btn btn-primary" onclick="location.href='CSboardInsert'">게시글 등록</button>
+                    <c:choose>
+					    <c:when test="${member.memberGrd == 'A2' || member.memberGrd == 'A3'}">
+					        <button type="button" class="btn btn-primary" onclick="location.href='CSboardInsert'" id="insert">게시글 등록</button>
+					    </c:when>
+					    <c:otherwise>
+					    </c:otherwise>
+					</c:choose>
                 </div>
                 <div class="row">
                     <div class="col-md-12" style="margin-top: 20px;">
@@ -90,24 +101,33 @@ li {
                     </div>
                 </div>
                 <nav aria-label="Page navigation">
-                    <ul class="pagination justify-content-center">
-                        <c:if test="${pageMaker.prev}">
-                            <li class="page-item">
-                                <a class="page-link" href="${pageContext.request.contextPath}/CSboard/CSboardList${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a>
-                            </li>
-                        </c:if>
-                        <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-                            <li class="page-item">
-                                <a class="page-link" href="${pageContext.request.contextPath}/CSboard/CSboardList${pageMaker.makeSearch(idx)}">${idx}</a>
-                            </li>
-                        </c:forEach>
-                        <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-                            <li class="page-item">
-                                <a class="page-link" href="${pageContext.request.contextPath}/CSboard/CSboardList${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a>
-                            </li>
-                        </c:if>
-                    </ul>
-                </nav>
+				    <ul class="pagination justify-content-center">
+				        <c:if test="${pageMaker.prev}">
+				            <li class="page-item">
+				                <a class="page-link" href="${pageContext.request.contextPath}/CSboard/CSboardList${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a>
+				            </li>
+				        </c:if>
+				        <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+				            <c:choose>
+				                <c:when test="${idx eq pageMaker.cri.page}">
+				                    <li class="page-item active">
+				                        <a class="page-link" href="#">${idx}</a>
+				                    </li>
+				                </c:when>
+				                <c:otherwise>
+				                    <li class="page-item">
+				                        <a class="page-link" href="${pageContext.request.contextPath}/CSboard/CSboardList${pageMaker.makeSearch(idx)}">${idx}</a>
+				                    </li>
+				                </c:otherwise>
+				            </c:choose>
+				        </c:forEach>
+				        <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+				            <li class="page-item">
+				                <a class="page-link" href="${pageContext.request.contextPath}/CSboard/CSboardList${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a>
+				            </li>
+				        </c:if>
+				    </ul>
+				</nav>
             </div>
         </div>
     </div>
