@@ -7,6 +7,22 @@
 <title>CS게시글 등록</title>
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<link href="../resources/css/prdt/bootstrap.min.css" rel="stylesheet">
+<style type="text/css">
+
+.button{
+	margin-top: 20px;
+}
+
+.ck.ck-editor {
+	width: 100%;
+	margin: 0 auto;
+}
+.ck-editor__editable {
+	height: 20vh;
+}
+
+</style>
 </head>
 <body>
 
@@ -29,7 +45,7 @@
 			</tr>
 			<tr>
 				<th>작성자</th>
-    <td><input class="form-control" name="csWriter" value="${member.memberEmail }"></td>
+    			<td><input class="form-control" name="csWriter" value="${member.memberEmail }"></td>
 			</tr>
 			<tr>
 				<th>내용</th>
@@ -44,8 +60,10 @@
 				<td><input type="date" class="form-control" name="csDate"></td>
 			</tr>
 		</table>
-		<button type="submit">등록</button>
-		<button type="reset">취소</button>
+		<div class="button">
+		<button type="submit" class="btn btn-primary" >등록</button>
+		<button type="reset" class="btn btn-primary" >취소</button>
+		</div>
 	</div>	
 	</form>
 	<script>

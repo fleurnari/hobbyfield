@@ -36,8 +36,6 @@ li {
 
 </head>
 <body>
-<Section>
-    <br><br><br><br>
 	<div class="container">
 			<div class="text-center">
 			<h4>
@@ -58,7 +56,7 @@ li {
                 </span>
               <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
               <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/notice/noticeList'">공지사항</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?noticeCate=AA3'">공지사항</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'">프로젝트만들기</span>
            	  <c:if test="${member.memberGrd eq 'A3'}">
@@ -119,6 +117,17 @@ li {
             
         </table>
     </div>
+    	<div class="search">
+					    <select name="searchType">
+					      <option value="fndPostNumber"<c:out value="${scri.searchType eq 'fndPostNumber' ? 'selected' : ''}"/>>프로젝트 번호</option>
+					      <option value="nm"<c:out value="${scri.searchType eq 'nm' ? 'selected' : ''}"/>>이름</option>
+					    </select>
+					
+					    <input type="text" name="keyword" id="keywordInput" value="${scri.keyword}"/>
+					
+					    <button id="searchBtn" type="button">검색</button>
+					   
+					  </div>
     <div class="container">
     			<div class="text-center">
 							<ul >
@@ -137,8 +146,23 @@ li {
 				<input type="hidden" name="fndPostNumber" value="${fndPostNumber}">
 						</div>
 	</div>
-</Section>
+	<br>
+	<br>
 </body>
+<script>
+		// 검색 버튼 클릭 시 동작하는 자바스크립트 코드
+		$(function() {
+			$('#searchBtn').click(function() {
+				self.location = "${pageContext.request.contextPath }/fundingPost/supportManagement"
+						+ '${pageMaker.makeQuery(1)}'
+						+ "&searchType="
+						+ $("select option:selected").val()
+						+ "&keyword="
+						+ encodeURIComponent($('#keywordInput').val());
+			});
+		});
+	</script>
+	
 <script type="text/javascript">
 function goToNextPage() {
     var fndPostNumber = document.getElementsByName("fndPostNumber")[0].value;
@@ -148,12 +172,14 @@ function goToNextPage() {
 $('form[name="insertfundingInvoce"]').on('submit', function(e){
     e.preventDefault();
     
- 	// 입력 필드의 값을 확인하고 빈 문자열인 경우 "1"로 설정
     var invoiceInputs = $('input[name="fndInvoice"]');
     invoiceInputs.each(function() {
         if ($(this).val().trim() === "") {
             // fndInvoice 입력 필드가 빈 문자열인 경우, fndOrderState를 "1"로 설정
-            $(this).siblings('input[name="fndOrderState"]').val('1');
+            $(this).siblings('td[name="fndOrderState"]').text('1');
+        } else {
+            // fndInvoice 입력 필드에 값이 있는 경우, fndOrderState를 "2"로 설정
+            $(this).siblings('td[name="fndOrderState"]').text('2');
         }
     });
 

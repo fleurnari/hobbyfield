@@ -32,7 +32,7 @@ public class FundingSupportController {
 	MemberService memberService;
 	//펀딩 후원 목록 페이지
 	@GetMapping("/fundingSupportList")
-	public String fundingSupportList(HttpSession session, FundingSupportVO fundingSupportVO, Model model) {
+	public String fundingSupportList(HttpSession session, FundingSupportVO fundingSupportVO,  @ModelAttribute("scri") SearchCriteria scri, Model model) {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 	    fundingSupportVO.setMemberEmail(member.getMemberEmail());
 
@@ -51,7 +51,8 @@ public class FundingSupportController {
 	    // HttpSession을 이용하여 세션에 값 저장
 	    HttpSession session = request.getSession();
 	    session.setAttribute("fndPostNumber", fundingSupportVO.getFndPostNumber());
-
+	    
+	    
 	    model.addAttribute("supportManagement", fundingSupportList);
 	    model.addAttribute("fundingSupport", fundingSupportVO);
 
@@ -67,9 +68,10 @@ public class FundingSupportController {
 	@PostMapping("/insertfundingInvoce")
 	public String insertfundingInvoce(FundingSupportVO fundingSupportVO, Model model) {
 		fundingSupportService.insertfundingInvoce(fundingSupportVO);
+		System.out.println(fundingSupportVO);
 		List<FundingSupportVO> fundingSupportList = fundingSupportService.getFundingSupportInfo(fundingSupportVO);
 		model.addAttribute("fundingSupportList", fundingSupportList);
 		model.addAttribute("fundingSupport", fundingSupportVO);
-		return "redirect:/supportManagement?fndPostNumber=" + fundingSupportVO.getFndPostNumber();
+		return "redirect:/fundingPost/supportManagement?fndPostNumber=" + fundingSupportVO.getFndPostNumber();
 	}
 }

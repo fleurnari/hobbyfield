@@ -239,7 +239,7 @@ body.modal-open {
                 </span>
               <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
               <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/notice/noticeList'">공지사항</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?noticeCate=AA3'">공지사항</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'">프로젝트만들기</span>
            	  <c:if test="${member.memberGrd eq 'A3'}">
@@ -288,7 +288,7 @@ body.modal-open {
 				<div class="fudning-Img">
 					<figure>
 						<img id="img"
-							src="${fundingPostInfo.fndMainImgPath }${fundingPostInfo.fndMainImg }" alt="img"
+							src="${pageContext.request.contextPath}${fundingPostInfo.fndMainImgPath }${fundingPostInfo.fndMainImg }" alt="img"
 							style="float: left" width="450px" height="350px">
 					</figure>
 				</div>
@@ -374,7 +374,7 @@ body.modal-open {
     				<button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">프로젝트 소개</button>
   					</li>
   					<li class="nav-item" role="presentation">
-    				<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">구매후기</button>
+    				<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">판매자에게 문의하기</button>
   					</li>
   				</ul>
   			<div class="tab-content" id="myTabContent">
