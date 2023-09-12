@@ -11,36 +11,23 @@
 <title>소모임 게시글 상세보기</title>
 <script
 	src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+<script
+	src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
+<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/club/clubboardInfo.css">
-<style>
+	href="${pageContext.request.contextPath}/resources/css/club/clubBoardInfo.css">
+<style type="text/css">
 .ck.ck-editor {
-	max-width: 500px;
-}
-
-.ck-editor__editable {
-	min-height: 300px;
-}
-
-#editor1 .ck.ck-editor {
 	width: 80%;
 	max-width: 800px;
 	margin: 0 auto;
 }
 
-#editor1 .ck-editor__editable {
-	height: 80vh;
-}
-
-/* 댓글 에디터 */
-#editor2 .ck.ck-editor {
-	width: 80%;
-	max-width: 800px;
-	/*    margin: 0 auto; */
+.ck-editor--editable {
+	height: 60vh;
 }
 </style>
-
-
 </head>
 <body>
 	<div class="total-css" align="center">
@@ -63,8 +50,9 @@
 					<div id="editor1">
 						<div class="board-content" id="editor">${board.clubBoardContent}</div>
 					</div>
-					 <p>좋아요 : ${boardLike} 개</p>
-					<c:if test="${(profile.profileNickname ne board.clubBoardWriter) && (profile ne null)}">
+					<p>좋아요 : ${boardLike} 개</p>
+					<c:if
+						test="${(profile.profileNickname ne board.clubBoardWriter) && (profile ne null)}">
 						<button type="button" id="boardLike">좋아요</button>
 					</c:if>
 				</form>
@@ -121,22 +109,23 @@
 			<!-- 댓글 작성용 1.댓글작성, 2. 사진포함 댓글작성 -->
 			<div class="comment-insert">
 				<c:if test="${profile ne null}">
-				<form id="commentInsertForm">
-					<input type="hidden" id="boardNumber" name="boardNumber"
-						value="${board.boardNumber}"> <label for="profileNickname">댓글
-						작성자 : </label> <input type="text" id="profileNickname"
-						name="profileNickname" value="${profile.profileNickname}" readonly>
-					<label for="clubCommentContent">댓글 내용 : </label>
+					<form id="commentInsertForm">
+						<input type="hidden" id="boardNumber" name="boardNumber"
+							value="${board.boardNumber}"> <label
+							for="profileNickname">댓글작성자 :</label> <input type="text"
+							id="profileNickname" name="profileNickname"
+							value="${profile.profileNickname}" readonly > <label
+							for="clubCommentContent">댓글 내용 : </label>
 
-					<div id="editor2"></div>
+						<div id="editor2"></div>
 
-					<label for="clubCommentSecret">비밀 댓글 : </label> <input
-						type="checkbox" id="clubCommentSecret" name="clubCommentSecret"
-						value="">
-					<button type="button" id="commentInsert">댓글 작성</button>
-					<button type="button" class="btn btn-primary"
-						data-bs-toggle="modal" data-bs-target="#emojiModal">😊</button>
-				</form>
+						<label for="clubCommentSecret">비밀 댓글 : </label> <input
+							type="checkbox" id="clubCommentSecret" name="clubCommentSecret"
+							value="">
+						<button type="button" id="commentInsert">댓글 작성</button>
+						<button type="button" class="btn btn-primary"
+							data-bs-toggle="modal" data-bs-target="#emojiModal">😊</button>
+					</form>
 				</c:if>
 			</div>
 
@@ -144,8 +133,11 @@
 
 		<!-- 글 목록, 수정, 삭제, 이전, 다음글 -->
 		<div id="btnList">
+			<!-- 
 			<button type="button" id="boardNext">다음글</button>
-			<button type="button" id="boardList">목록</button>
+		 -->
+			<button type="button" id="boardList"
+				onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${board.clubNumber}'">목록</button>
 			<c:if test="${profile.profileNickname eq board.clubBoardWriter}">
 				<button type="button" id="boardEdit">수정</button>
 				<button type="button" id="boardDel">삭제</button>
@@ -246,7 +238,7 @@
 					id="recommentProfileNickname" name="profileNickname"
 					value="${profile.profileNickname}" /> <br> <label
 					for="recommentClubCommentContent">댓글 내용</label>
-				<div id="editor2">1515</div>
+				<div id="editor3"></div>
 				<br> <label for="recommentClubCommentSecret">비밀 댓글</label> <input
 					type="checkbox" id="recommentClubCommentSecret"
 					name="clubCommentSecret" value="">
@@ -363,13 +355,10 @@ ClassicEditor
 })
 .then( editor => {
    replyEditor = editor;
-   
-    
 })
 .catch( error => {
     console.log( error );
 });  
-  
 
 // 이모티콘 선택 (이모지 선택해서 툴 헤더 없는 editor에 넣을 수 있도록 하기) 코드 완성하면 이모티콘 가장 아래로 이동
 $('#emojis').on("click","img",function(e){
@@ -387,7 +376,7 @@ $(document).ready(function() {
     if (userLike == 1) {
        $('#boardLike').html("좋아요 취소");
     }
-
+});
 
 $(document).ready(function() {
    
@@ -411,7 +400,8 @@ $(document).ready(function() {
 });
   
 $(document).ready(function() {
-
+	
+	
     // 탭 클릭 이벤트 핸들러
     $("#emojiTab a").click(function(e) {
         e.preventDefault(); // 기본 동작(페이지 이동) 방지

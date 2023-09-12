@@ -37,6 +37,7 @@ body{
  
  /* close button */
  .close {
+   right: 20px;
    color: #aaa;
    font-size: 30px;
    cursor: pointer;
@@ -77,17 +78,23 @@ body{
  /* 내용 style */
 /* 작성자 profile */
 .writer-img {
-	float: left;
-	display: inline-block;
 	width: 60px;
 	height: 60px;
+	float: left;
+	display: inline-block;	
+}
+.writer-img img{
+	left: 2px;
+	width: 45px;
+	height: 45px;
 	border-radius: 70%;
 	overflow: hidden;
 }
-..writer-img img{
-	width: 60px;
-	height: 60px;
+#boardList img{
+	max-width: 200px;
+	max-height: 100px; 
 }
+
  #clubBoardList {
    display: flex;
    flex-direction: column;
@@ -111,7 +118,7 @@ body{
  }
  
  .boardMain {
-   width: 600px;
+   width: 800px;
    height: 300px;
    background-color: #ffffff;
    border: 1px solid #e1e1e1;
@@ -120,7 +127,7 @@ body{
    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
    transition: transform 0.2s, box-shadow 0.2s;
    cursor: pointer;
-   margin-top: 50px;
+   margin-top: 30px;
  }
  
  .boardMain:hover {
@@ -133,8 +140,6 @@ body{
  }
  
  .boardMain img {
-   width: 30px;
-   height: 30px;
    margin-right: 10px;
  }
 /* 메인 이름 */
@@ -144,19 +149,22 @@ body{
 }
  
 .board-modal-head{
-	 text-align: left;
-
+	text-align: left;
+	padding-left: 10px;
+}
+.board-modal-head p{
+	
 }
  /* 검색창 */
  .search-div {
    position: relative;
-   width: 540px;
+   width: 800px;
    height: 40px;
    border-radius: 5px;
  }
  
  .search-text {
-   width: 540px;
+   width: 800px;
    border: 1px solid #bbb;
    border-radius: 5px;
    padding: 10px 12px;
@@ -167,23 +175,30 @@ body{
    position : absolute;
    width: 17px;
    top: 10px;
-   right: 12px;
+   right: 17px;
    margin-left: 5px;
    pointer-events: auto;
    cursor: pointer;
  }
- 
+ .board-list-content{
+ 	text-align: left;
+ 	border-bottom: 1px solid #e1e1e1;
+ 	min-height: 300px;
+ }
  /* aside */
- .left-side{
-     float: left;
+ .left-side{ 
      position: absolute;
      top: 150px;
-     left: 110px;
+     left: 80px;
      text-align: left;
  }
  .left-side img{
      height: 300px;
-     width: 200px;
+     width: 250px;
+     border: 1px solid black;
+ }
+ .club-img{
+ 	margin-bottom: 10px;
  }
  .rigth-side{
      float: right;

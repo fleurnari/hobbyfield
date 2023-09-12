@@ -22,29 +22,34 @@ j<%@ page language="java" contentType="text/html; charset=UTF-8"
 
 <style type="text/css">
 .ck.ck-editor {
-	width: 50%;
-	max-width: 500px;
+	width: 80%;
+	max-width: 800px;
 	margin: 0 auto;
 }
 
 .ck-editor--editable {
-	height: 80vh;
+	height: 60vh;
 }
 
 #emptyBoard {
-	vertical-align: middel;
-	margin-top: 150px;
-	width: 540px;
-	height: 200px;
-	left: 50%;
-	top: 50%;
-	margin: -50px 0 0 -50px;
-	background-color: white;
+	width: 800px;
+	height: 500px;
+	background-color: #ffffff;
+	border: 1px solid #e1e1e1;
+	border-radius: 5px;
+	padding: 15px;
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+	transition: transform 0.2s, box-shadow 0.2s;
+	cursor: pointer;
+	margin-top: 50px;
+	
+	
 }
 
 #emptyBoard img {
-	width: 90px;
-	height: 90px;
+	width: 75px;
+	height: 75px;
+	opacity: 0.8;
 }
 
 body {
@@ -55,7 +60,6 @@ body {
 .board-content img {
 	max-width: 200px;
 	max-height: 200px;
-	
 }
 
 #emptyBoard:nth-child(1) {
@@ -69,46 +73,53 @@ body {
 </style>
 </head>
 <body>
-	<div align="center" style="margin-top: 5px;; margin-bottom: 200px;">
+	<div align="center" style="margin-top: 10px; margin-bottom: 600px;">
 		<!-- 검색창 구현 : 사용자이름, 글내용으로 검색 : ajax 처리를 통해 검색된 내용만 다시 불러오도록.-->
 		<!-- 검색창 -->
-
-		<h3 class="head-name">${club.clubName}</h3>
+		
 		<div class="search-div">
 			<form id="searchForm"
 				action="${pageContext.request.contextPath}/club/searchBoard"
 				method="get">
 				<input type="hidden" name="searchNum" id="searchNum"
 					value="${club.clubNumber}" /> <input class="search-text"
-					type="text" id="searchText" name="searchText" placeholder="검색어 입력">
-				<img class="search-img" id="search-img" name="search-img"
+					type="text" id="searchText" name="searchText" placeholder="검색어 입력"
+					value=""> <img class="search-img" id="search-img"
+					name="search-img"
 					src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
 
 			</form>
 		</div>
-
-		<div class="insert-bar">
+		
+		
+		<c:choose>
+		<c:when test="${profile ne null}">
+			<div id="headBoxBoard" class="boardMain"
+				style="width: 800px; height: 100px; text-align: left; padding-top: px; border-radius: 5px;">
+				<p>새로운 소식을 남겨보세요</p>
+				<p>소모임에 소속된 멤버라면 누구나 작성 가능합니다.</p>
+			</div>
+		</c:when>
+		<c:otherwise>
+			<div id="headBoxJoin" class="boardMain"
+			style="width: 800px; height: 100px; text-align: left; padding-top: px; border-radius: 5px;">
 			<p>새로운 소식을 남겨보세요</p>
 			<p>소모임에 소속된 멤버라면 누구나 작성 가능합니다.</p>
 		</div>
+		</c:otherwise>
+		</c:choose>
 
 		<!-- 차단한 유저는 나오지 않도록 추가 조건문 구현하기 -->
 		<!-- 게시글 리스트 -->
 		<c:if test="${boardList ne null}">
 			<div id="boardList">
-				<!-- 만약을 위한 공지사항 -->
-				<%-- 				<c:set var="type" value="N"></c:set> --%>
-				<!-- 					<div class="notice-info"> -->
-				<!-- 						<h2>공지사항</h2> -->
-				<!-- 					</div> -->
 				<c:forEach items="${boardList}" var="board">
-
 					<div class="boardMain"
 						onclick="location.href='${pageContext.request.contextPath}/club/clubBoardInfo?boardNumber=${board.boardNumber}'">
 						<div class="board-head">
 							<div class="writer-img">
 								<img
-									src="${pageContext.request.contextPath}/${board.profileImgPath}${board.profileImg}">
+									src="${pageContext.request.contextPath}${board.profileImgPath}${board.profileImg}">
 							</div>
 							<div class="writer-info">
 								<p>${board.clubBoardWriter}</p>
@@ -133,14 +144,15 @@ body {
 				</c:forEach>
 			</div>
 		</c:if>
-		<div id="emptyBoard">
-			<c:if test="${fn:length(borardList) eq 0 }">
-				<img
+		
+		<c:if test="${(fn:length(borardList) eq 0) || (boardList eq null) }">
+			<div id="emptyBoard">
+				<img style="margin-top: 180px;"
 					src="${pageContext.request.contextPath}/resources/images/postcard.png">
-				<p>그룹 페이지</p>
+				<p style="margin-top: 30px;">그룹 페이지</p>
 				<p>새 게시물을 작성해 주세요</p>
-			</c:if>
-		</div>
+			</div>
+		</c:if>
 
 		<!-- 사이드바1(왼) 소모임정보 : 소모임 이름, 멤버수, 초대버튼,  소모임 설정버튼(모임장만 보이도록)-->
 
@@ -148,8 +160,7 @@ body {
 		<div class="left-side">
 			<div class="club-img">
 				<img
-					src="${pageContext.request.contextPath}${club.clubImgPath}/${club.clubImg}"
-					style="height: 300px; width: 300px;">
+					src="${pageContext.request.contextPath}${club.clubImgPath}${club.clubImg}">
 			</div>
 			<div class="club">
 				<h3>${club.clubName}</h3>
@@ -162,7 +173,7 @@ body {
 			<div class="button-group">
 				<c:choose>
 					<c:when test="${profile ne null}">
-						<button
+						<button type="button" class="modal-open-btn"
 							onclick="location.href='${pageContext.request.contextPath}/club/clubManage?clubNumber=${club.clubNumber}'">관리</button>
 						<button type="button" id="boardModalBtn" class="modal-open-btn">글
 							쓰기</button>
@@ -215,15 +226,15 @@ body {
 						value="${profile.profileNickname}">
 				</div>
 				<!-- 투표 등록시 투표 값이 들어올 div(투표 modal로 이동하는 창과 input hidden값 -->
-				<div id="voteValue"></div>
-				<div id="option button">
-					<button type="button" id="openVoteModal" class="modal-open-btn">투표생성</button>
-				</div>
+<!-- 				<div id="voteValue"></div> -->
+<!-- 				<div id="option button"> -->
+<!-- 					<button type="button" id="openVoteModal" class="modal-open-btn">투표생성</button> -->
+<!-- 				</div> -->
 				<!-- 공지 설정은 모임장일 경우에만 보이도록 선택되지않을경우 자동으로 N으로-->
 				<div>
-					<c:if test="${profile.profileNickname eq club.profileNickname}">
-						<input type="checkbox" id="" name="clubBoardType">공지사항등록
-					</c:if>
+<%-- 					<c:if test="${profile.profileNickname eq club.profileNickname}"> --%>
+<!-- 						<input type="checkbox" id="" name="clubBoardType">공지사항등록 -->
+<%-- 					</c:if> --%>
 				</div>
 				<div>
 					<!-- from으로 보내기 위한 데이터 추후 hidden으로 -->
@@ -309,10 +320,20 @@ body {
 		</div>
 	</div>
 
-
-
-
-
+	<div id="memberModal" class="main-modal">
+		<div id="memberContentModal" class="content-modal">
+			<span class="close" id="closeVoteModal">&times;</span>
+			<div class="">
+				<input type="text" id="memberSearch" placeholder="멤버 검색">
+				<ul>
+					<c:forEach items="${members}" var="member">
+						<li><img class="member-profile" src="">
+							<p class="member-nickname"></p></li>
+					</c:forEach>
+				</ul>
+			</div>
+		</div>
+	</div>
 	<!-- 프로필 생성 modal -->
 	<div id="profileMianModal" class="main-modal">
 		<div id="profileContentModal" class="content-modal">
@@ -373,7 +394,7 @@ body {
 
    $(document).ready(function(){
      //Modal 생성  
-
+	
       $(".modal-open-btn").on("click", function(event) {
     	  if(event.target == document.getElementById("joinModalBtn")) {
     		  $("#joinMainModal").fadeIn();
@@ -401,14 +422,19 @@ body {
             $("#boardMainModal").fadeOut();
         }
       });
-
      
-     if(sessionStorage.getItem("profile") != null){
-    	    $("#boardMainModal").fadeIn();
-    	}else if(sessionStorage.getItem("profile") != null){
-    	    $("#joinMainModal").fadeIn();
-    	}
-     
+	 $("#headBoxBoard").on("click", function(e){   
+    	  $("#boardMainModal").fadeIn();
+	 });  
+	 $("#headBoxJoin").on("click", function(e){
+    	 $("#joinMainModal").fadeIn(); 
+	 });
+		
+	 
+	 $("#emptyBoard").on("click", function(e){
+		 $("#boardMainModal").fadeIn();
+	 });
+	 
      $(document).mouseup(function (e) {
           if (event.target == document.getElementById("boardInsertModal")) {
               $("#boardInsertModal").fadeOut();
@@ -430,9 +456,10 @@ body {
       })
        
        $("#search-img").on("click", function(e){
-         var search = $("searchText").val();
-         if(search==""){
+         var search = $("#searchText").val();
+         if(search == ""){
         	 alert("검색어를 입력해주세요.")
+        	 return false;
          }
          $("#searchForm").submit();
          

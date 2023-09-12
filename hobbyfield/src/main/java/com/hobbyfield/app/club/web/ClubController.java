@@ -499,7 +499,23 @@ public class ClubController {
 		List<ClubBoardVO> scrollList = clubBoardService.getSelectClubBoardList(map);
 		return new ResponseEntity<>(scrollList, HttpStatus.OK);
 	}
-
+	
+	@GetMapping("/clubBoardDelete")
+	public String clubBoardDelete(ClubBoardVO cvo, Model model) {
+		String result = null;
+		
+		return  result;
+	}
+	
+	
+	@PostMapping("/clubBoardEdit")
+	public String clubBoardEdit(ClubBoardVO cvo,Model model) {
+		String result = null;
+		
+		
+		return result;
+	}
+	
 	@GetMapping("/searchBoard")
 	public String searchBoard(Model model, @RequestParam(value = "searchNum") int num,
 			@RequestParam(value = "searchText") String text) {
