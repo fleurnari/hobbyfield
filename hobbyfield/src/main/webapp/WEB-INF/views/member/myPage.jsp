@@ -146,7 +146,7 @@
 				</div>
 				<div class="profile-info">
 					<label for="memberActpnt">활동포인트</label>
-					<span>${info.memberActpnt}</span>
+					<span><fmt:formatNumber value="${info.memberActpnt}" pattern="#,###" /></span>
 				</div>
 				<div class="profile-info">
 					<label for="memberLtstconn">최근 접속일</label>

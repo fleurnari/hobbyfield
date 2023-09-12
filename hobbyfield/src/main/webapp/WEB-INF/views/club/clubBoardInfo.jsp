@@ -510,14 +510,6 @@ $('#emojis').on("click","img",function(e){
 });
   
 
-$(document).ready(function() {
-   
-   var userLike = '${userLike}';
-   
-    if (userLike == 1) {
-       $('#boardLike').html("좋아요 취소");
-    }
-
 
 $(document).ready(function() {
    
