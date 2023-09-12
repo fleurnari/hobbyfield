@@ -122,7 +122,7 @@
 		  
 		JOIN profile p
 		  ON cm.profile_nickname = p.profile_nickname
-		  
+
 		WHERE p.member_email = #{memberEmail}
 	</select>
 	
@@ -168,9 +168,11 @@
 	        			c.schedule_date,
 	        			c.club_board_blind,
 	        			p.profile_img,
-	        			p.profile_img_path
+	        			p.profile_img_path,
+	        			b.club_name
 		FROM CLUB_BOARD c JOIN PROFILE p ON(c.club_board_writer=p.profile_nickname)
 		JOIN member m ON(p.member_email = m.member_email)
+		JOIN club b ON(c.club_number = b.club_number)
 		WHERE m.member_email = #{memberEmail}
 	</select>
 	
@@ -185,9 +187,12 @@
 		        		 c.profile_nickname,
 		        		 p.profile_img,
 		        		 p.profile_img_path
-		FROM CLUB_COMMENT c JOIN profile p ON(c.profile_nickname = p.profile_nickname)
+		        		 b.clubName
+				FROM CLUB_COMMENT c JOIN profile p ON(c.profile_nickname = p.profile_nickname)
 		JOIN member m ON(p.member_email = p.member_email)
-		WHERE p.member_email = #{memberEmail}
+        JOIN club_board u ON(c.board_number = u.board_number)
+		JOIN club b ON(u.club_number = b.club_number)
+		WHERE p.member_email = #{member_email}
 	</select>
 	
 	<!-- 마이 페이지 - 내가 좋아요 한 소모임 글 -->

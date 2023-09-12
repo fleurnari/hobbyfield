@@ -72,50 +72,48 @@ public class ClubController {
 	@Autowired
 	ClubJoinService clubJoinService;
 
-    @Autowired 
-    PointService pointService;
+	@Autowired
+	PointService pointService;
 
-    @Autowired
-    ClubCommentService clubCommentService;
-    
-    @Autowired
-    PointRecordService prService;
-    
-    @Autowired
-    ClubBoardLikeService clubBoardLikeService; 
+	@Autowired
+	ClubCommentService clubCommentService;
 
-    @Autowired
-    CreateclubMapper createClubMapper;
-    
-    @Autowired
-    ClubJoinMapper clubJoinMapper;
-    
-    
-    /*========= 소모임 조회관련 =========*/
-    // 소모임 전체조회(메인페이지)
- 	@GetMapping("/clubMain")
- 	public String clubMain(Model model) {
- 		//소모임 등록순
- 		model.addAttribute("clubList", createClubService.getClubTop());
- 		model.addAttribute("board", clubBoardService.getAllClubBoardList());
- 		model.addAttribute("clubCategorie", commCodeMapper.clubTypeList("0C"));
- 		return "club/clubMain";
- 	}
- 	
- 	// 리스트 무한 스크롤(페이징)
- 	@ResponseBody
- 	@RequestMapping(value="clubInfiniteScroll", produces="application/json; charset=UTF-8")
- 	public ResponseEntity<List<CreateclubVO>> clubInfiniteScroll(@RequestParam("startPage") int startPage, 
- 	                                                             @RequestParam("endPage") int endPage) {
- 	    HashMap<String, Integer> map = new HashMap<>();
- 	    map.put("start", startPage);
- 	    map.put("end", endPage);
- 	    List<CreateclubVO> scrollList = createClubService.getClubsForInfiniteScroll(map);
- 	    return new ResponseEntity<>(scrollList, HttpStatus.OK);
- 	}
-    
-    
-    // 소모임 전체조회(조회페이지)
+	@Autowired
+	PointRecordService prService;
+
+	@Autowired
+	ClubBoardLikeService clubBoardLikeService;
+
+	@Autowired
+	CreateclubMapper createClubMapper;
+
+	@Autowired
+	ClubJoinMapper clubJoinMapper;
+
+	/* ========= 소모임 조회관련 ========= */
+	// 소모임 전체조회(메인페이지)
+	@GetMapping("/clubMain")
+	public String clubMain(Model model) {
+		// 소모임 등록순
+		model.addAttribute("clubList", createClubService.getClubTop());
+		model.addAttribute("board", clubBoardService.getAllClubBoardList());
+		model.addAttribute("clubCategorie", commCodeMapper.clubTypeList("0C"));
+		return "club/clubMain";
+	}
+
+	// 리스트 무한 스크롤(페이징)
+	@ResponseBody
+	@RequestMapping(value = "clubInfiniteScroll", produces = "application/json; charset=UTF-8")
+	public ResponseEntity<List<CreateclubVO>> clubInfiniteScroll(@RequestParam("startPage") int startPage,
+			@RequestParam("endPage") int endPage) {
+		HashMap<String, Integer> map = new HashMap<>();
+		map.put("start", startPage);
+		map.put("end", endPage);
+		List<CreateclubVO> scrollList = createClubService.getClubsForInfiniteScroll(map);
+		return new ResponseEntity<>(scrollList, HttpStatus.OK);
+	}
+
+	// 소모임 전체조회(조회페이지)
 	@GetMapping("/clubList")
 	public String clubList(Model model) {
 		HashMap<String, Integer> map = new HashMap<>();
@@ -306,12 +304,6 @@ public class ClubController {
 		}
 	}
 
-	// 소모임 가입하기 Process
-	@PostMapping("/clubJoinProcess")
-	public String clubJoinProcess(ClubJoinVO joinVO, Model model) {
-		clubJoinService.clubJoinInfo(joinVO);
-		return "redirect:clubList";
-	}
 
 	// 소모임 삭제?
 
@@ -382,12 +374,25 @@ public class ClubController {
 
 	// 프로필 등록 처리
 	@PostMapping("/profileInsert")
-	public String profileInsertProcess(ClubProfileVO profileVO) {
+	public String profileboardProcess(ClubProfileVO profileVO) {
 		// 프로필 정보를 DB에 저장하는 서비스 메서드를 호출합니다.
 		clubprofileService.insertProfile(profileVO);
 
 		// 프로필 정보 저장 후 원하는 페이지로 리다이렉트
 		return "redirect:profileInsert";
+	}
+	@ResponseBody
+	@PostMapping("/profileOnPage")
+	public String profileInsertInClub(ClubProfileVO profileVO) {
+		int count = clubprofileService.insertProfile(profileVO);
+		String result = null;
+		if(count > 0 ) {
+			result = "성공";	
+		}else {
+			result = "실패";
+		}
+		
+		return result;
 	}
 
 	// 프로필 수정 (이미지 포함)
@@ -490,7 +495,23 @@ public class ClubController {
 		List<ClubBoardVO> scrollList = clubBoardService.getSelectClubBoardList(map);
 		return new ResponseEntity<>(scrollList, HttpStatus.OK);
 	}
-
+	
+	@GetMapping("/clubBoardDelete")
+	public String clubBoardDelete(ClubBoardVO cvo, Model model) {
+		String result = null;
+		
+		return  result;
+	}
+	
+	
+	@PostMapping("/clubBoardEdit")
+	public String clubBoardEdit(ClubBoardVO cvo,Model model) {
+		String result = null;
+		
+		
+		return result;
+	}
+	
 	@GetMapping("/searchBoard")
 	public String searchBoard(Model model, @RequestParam(value = "searchNum") int num,
 			@RequestParam(value = "searchText") String text) {
@@ -529,12 +550,12 @@ public class ClubController {
 		if (point != null && point.size() > 0) {
 			model.addAttribute("emojis", pointService.emojis(point.get(0).getPointId()));
 		}
-		if(profile != null) {
+		if (profile != null) {
 			model.addAttribute("userLike",
 					clubBoardLikeService.selectBoardLike(cvo.getBoardNumber(), profile.getProfileNickname()));
 		}
 		model.addAttribute("boardLike", clubBoardLikeService.countBoardLike(cvo.getBoardNumber()));
-		
+		clubBoardService.updateViewClubBoard(cvo);
 		return "club/clubBoardInfo";
 	}
 
@@ -578,15 +599,15 @@ public class ClubController {
 
 		return findVO;
 	}
-
+	
 	// 댓글 수정 수행
 	@ResponseBody
 	@PostMapping("clubCommentUpdate")
 	public boolean updateClubComment(ClubCommentVO clubCommentVO) {
-		if(clubCommentVO == null) {
+		if (clubCommentVO == null) {
 			System.out.println("dkdksklksd");
-		}else {
-			
+		} else {
+
 			System.out.println(clubCommentVO);
 		}
 		int result = clubCommentService.updateComment(clubCommentVO);
@@ -616,9 +637,9 @@ public class ClubController {
 	@GetMapping("clubRecommentInsert")
 	@ResponseBody
 	public ClubCommentVO recommentInsertForm(ClubCommentVO clubCommentVO) {
-		
+
 		ClubCommentVO commentVO = clubCommentService.getComment(clubCommentVO);
-		
+
 		return commentVO;
 	}
 

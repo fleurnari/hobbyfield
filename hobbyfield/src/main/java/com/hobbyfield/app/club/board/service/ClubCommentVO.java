@@ -23,7 +23,9 @@ public class ClubCommentVO {
 	private int clubCommentPartnumber;
 	private String clubCommentLevel;
 	private String profileNickname;
-	
+	private String profileImg;
+	private String profileImgPath;
+	private String clubName;
 	private String parentWriter;
 	
 }
