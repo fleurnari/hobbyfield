@@ -58,7 +58,7 @@
 								<div onclick="location.href='fundingPostInfo?fndPostNumber=${fundingSupportList.fndPostNumber }'">
 								
 								<figure>
-									<img id="img" src="${fundingSupportList.fndGoodsImgPath }${fundingSupportList.fndGoodsImg }"
+									<img id="img" src="${pageContext.request.contextPath}${fundingSupportList.fndGoodsImgPath }${fundingSupportList.fndGoodsImg }"
 									alt="img" style="float: left" width="250px" height="200px">
 								</figure>
 								
@@ -66,7 +66,6 @@
 									<p>${fundingSupportList.fndTitle }</p><br>
 									<p>${fundingSupportList.fndStatus }</p>
 									<p>
-									<span>000%</span>
 									<span class="time">
 										<jsp:useBean id="now" class="java.util.Date" />
 					
@@ -95,7 +94,6 @@
 									</div>
 								</div>
 							<div class="col-sm-6">
-								<div class="input-group mb-3">
 									<div>
 									<Span>후원 물품 이름: </Span><span>${fundingSupportList.fndGoodsName }</span><br>
 									<Span>후원 물품 가격: </Span><span>${fundingSupportList.fndGoodsPrice }</span><a>원</a><br>
@@ -106,8 +104,7 @@
 									</div>
 								</div>
 							</div>
-						</div>
-					
+						<hr>
 								</c:forEach>
 				</div>
 			</div>
