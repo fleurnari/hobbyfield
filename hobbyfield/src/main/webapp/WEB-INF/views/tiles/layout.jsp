@@ -15,9 +15,9 @@
 		<tiles:insertAttribute name="header" />
 	</header>
 	<main>
-	<div class="container" style="margin-top: 150px;">
+
+	<div class="container">
 		<tiles:insertAttribute name="content" />
-	</div>
 	</main>
 	<footer>
 		<tiles:insertAttribute name="footer" />

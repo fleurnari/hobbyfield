@@ -71,6 +71,9 @@
 	#box > div {
 	  margin-right: 20px;
 	}
+.comment-content img{
+	display: none;
+}
 </style>
 </head>
 <body>
@@ -88,7 +91,9 @@
 		 <div>
 				<table>
 					<thead>
-						<tr>
+						<tr>							
+							<th align="center" width="150">소모임 이름</th>
+							<th align="center" width="150">댓글 내용</th>
 							<th align="center" width="150">댓글 내용</th>
 							<th align="center" width="150">작성일</th>
 						</tr>
@@ -96,6 +101,8 @@
 					<tbody>
 						<c:forEach items="${commentList}" var="comment">
 							<tr onclick="location.href='${pageContext.request.contextPath}/club/clubBoardInfo?boardNumber=${comment.boardNumber}'">
+								<td>${comment.clubName}</td>
+								<td class="comment-content">${comment.clubCommentContent}</td>
 								<td>${comment.clubCommentContent}</td>
 								<td><fmt:formatDate value="${comment.clubCommentDate}"
 											pattern="yyyy-MM-dd" /></td>

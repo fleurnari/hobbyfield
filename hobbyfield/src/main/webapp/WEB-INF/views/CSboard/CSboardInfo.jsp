@@ -107,7 +107,7 @@ div.modalContent button.modal_cancel {
                         </nav>					
                         <div class="content">
                             <p>
-                            ${CSboardInfo.csContents }
+                            ${CSboardInfo.csContents}
 							</p>
                         </div>
                         <br>

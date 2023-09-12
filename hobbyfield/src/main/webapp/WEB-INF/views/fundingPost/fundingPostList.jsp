@@ -122,13 +122,14 @@
 .col {
   cursor: pointer;
 }
-.bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
+/* 이미지 주변 공백 제거 */
+.bd-placeholder-img image {
+    display: block; /* 이미지를 블록 요소로 설정 */
+    width: 100%; /* 가로 너비 100% 설정 */
+    height: auto; /* 세로 비율 유지 */
+    margin: 0; /* 외부 여백 제거 */
+    padding: 0; /* 내부 여백 제거 */
+}
 
       @media (min-width: 768px) {
         .bd-placeholder-img-lg {
@@ -219,7 +220,7 @@
                 </span>
               <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
               <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/notice/noticeList'">공지사항</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?noticeCate=AA3'">공지사항</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'">프로젝트만들기</span>
            	  <c:if test="${member.memberGrd eq 'A3'}">
@@ -236,10 +237,13 @@
     <div class="container2">
      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
      <c:forEach items="${fundingPostList}" var="fundingPost">
-     
+     <c:if test="${fundingPost.fndStatus eq '2' }">
         <div class="col" onclick="location.href='fundingPostInfo?fndPostNumber=${fundingPost.fndPostNumber }'">
           <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="${fundingPost.fndMainImgPath}${fundingPost.fndMainImg }" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+<svg class="bd-placeholder-img card-img-top" width="337.78" height="225" role="img" aria-label="Placeholder: Thumbnail" focusable="false">
+  <title>Placeholder</title>
+  <image xlink:href="${pageContext.request.contextPath}${fundingPost.fndMainImgPath}${fundingPost.fndMainImg}" width="337.78" height="225" />
+</svg>
             <div class="card-body">
               <p class="card-text">
               <p>
@@ -264,7 +268,6 @@
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                 </div>
                 <small class="text-body-secondary">					<span>펀딩 마감까지 남은 시간</span>
 					<span class="time">
@@ -293,7 +296,7 @@
             </div>
           </div>
         </div>
-     
+     </c:if>
      </c:forEach>
 	</div>
 		</div>
@@ -336,97 +339,94 @@
 		
 		
 		
-		// 카테고리별 정렬
 		$(document).on('click', '.dropdown-item', function(e) {
-			
-			const fndCategory = $(this).data('type-code');
-			
-			$.ajax({
-				url : "${pageContext.request.contextPath}/fundingPost/selectFundingPostCate",
-				type : 'GET',
-				data : { "fndCategory" : fndCategory},
-				dataType : 'json',
-				success : function(cate){
-					
-					// 펀딩 전체 조회 내용 삭제
-					$(".container2").empty();
-			
-					$.each(cate, function(index, fundingPost) {
-						
-						$(".container2").append(`
-								<c:if test="${fundingPost.fndStatus eq '2' }">
-						        <div class="col" onclick="location.href='fundingPostInfo?fndPostNumber=${fundingPost.fndPostNumber }'">
-						          <div class="card shadow-sm">
-						            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="${fundingPost.fndMainImgPath}${fundingPost.fndMainImg }" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-						            <div class="card-body">
-						              <p class="card-text">
-						              <p>
-											<span>${fundingPost.fndCategory }</span>
-										</p>
-										<p>
-											<span><h3>${fundingPost.fndTitle }</h3></span>
-										</p>
-										<br />
-										<p>
-											<span>${fundingPost.fndStatus}</span>
-										</p>
-										<p>
-											<span><div class="progress">
-						    <div class="progress-bar" role="progressbar" style="width: ${(fundingPost.fndCurrentAmount / fundingPost.fndTargetAmount) * 100}%;" aria-valuenow="${(fundingPost.fndCurrentAmount / fundingPost.fndTargetAmount) * 100}" aria-valuemin="0" aria-valuemax="100">${(fundingPost.fndCurrentAmount / fundingPost.fndTargetAmount) * 100}% 진행중</div>
-						</div><span>        조회수: ${fundingPost.fndViews }</span>
-										</p>
-										<p>
-											<span>${fundingPost.fndCurrentAmount }</span><span>원</span>
-										</p>
+		    const fndCategory = $(this).data('type-code');
+		    const fndPostNumber = $(this).data('${fundingPost.fndPostNumber }');
 
-						              <div class="d-flex justify-content-between align-items-center">
-						                <div class="btn-group">
-						                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-						                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-						                </div>
-						                <small class="text-body-secondary">					<span>펀딩 마감까지 남은 시간</span>
-											<span class="time">
-												<fmt:parseNumber value="${now.time / (1000*60*60*24)}" integerOnly="true" var="nowfmtTime" scope="request"/>
-											
-						    					<fmt:parseDate value="${today}"  pattern="yyyy-MM-dd" var="strPlanDate" />
-						    					<fmt:parseNumber value="${strPlanDate.time / (1000*60*60*24)}" integerOnly="true" var="strDate"/>
-						    				
-						    					<fmt:parseDate value="${fundingPost.fndEndDate}"  pattern="yyyy-MM-dd" var="endPlanDate"/>
-						    					<fmt:parseNumber value="${endPlanDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate"/>
+		    $.ajax({
+		        url: "${pageContext.request.contextPath}/fundingPost/selectFundingPostCate",
+		        type: 'GET',
+		        data: { "fndCategory": fndCategory	},
+		        dataType: 'json',
+		        success: function (cate) {
+		            // 펀딩 전체 조회 내용 삭제
+		            $(".container2").empty();
 
-						    					<c:choose>
-						        					<c:when test="${endDate - nowfmtTime >= 1}">
-						            					${endDate - nowfmtTime + 1}
-						           						<span>일 남음</span>
-						        					</c:when>
-						        					<c:when test="${endDate - nowfmtTime == 0}">
-						                         		<span>오늘 마감</span>
-						        					</c:when>
-						        					<c:otherwise>
-						            					<span>마감</span>
-						        					</c:otherwise>
-						    					</c:choose>
-											</span></small>
-						              </div>
-						            </div>
-						          </div>
-						        </div>
-						      </c:if>
-						`);
-					});
-				},
-				error : function(error) {
-					console.log(error);
-					alert("데이터 로딩 중 오류가 발생 했습니다. 다시 시도해 주세요.");
-				}
-			});
+		            $.each(cate, function (index, fundingPost) {
+		                    $(".container2").append(`
+		                    		<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+		                    	     <c:forEach items="\${fundingPostList}" var="fundingPost">
+		                    	     <c:if test="\${fundingPost.fndStatus eq '2' }">
+		                    	        <div class="col" onclick="location.href='fundingPostInfo?fndPostNumber=\${fundingPost.fndPostNumber }'">
+		                    	          <div class="card shadow-sm">
+		                    	<svg class="bd-placeholder-img card-img-top" width="337.78" height="225" role="img" aria-label="Placeholder: Thumbnail" focusable="false">
+		                    	  <title>Placeholder</title>
+		                    	  <image xlink:href="\${pageContext.request.contextPath}\${fundingPost.fndMainImgPath}\${fundingPost.fndMainImg}" width="337.78" height="225" />
+		                    	</svg>
+		                    	            <div class="card-body">
+		                    	              <p class="card-text">
+		                    	              <p>
+		                    						<span>${fundingPost.fndCategory }</span>
+		                    					</p>
+		                    					<p>
+		                    						<span><h3>${fundingPost.fndTitle }</h3></span>
+		                    					</p>
+		                    					<br />
+		                    					<p>
+		                    						<span>${fundingPost.fndStatus}</span>
+		                    					</p>
+		                    					<p>
+		                    						<span><div class="progress">
+		                    	    <div class="progress-bar" role="progressbar" style="width: \${(fundingPost.fndCurrentAmount / fundingPost.fndTargetAmount) * 100}%;" aria-valuenow="${(fundingPost.fndCurrentAmount / fundingPost.fndTargetAmount) * 100}" aria-valuemin="0" aria-valuemax="100">${(fundingPost.fndCurrentAmount / fundingPost.fndTargetAmount) * 100}% 진행중</div>
+		                    	</div><span>        조회수: ${fundingPost.fndViews }</span>
+		                    					</p>
+		                    					<p>
+		                    						<span>${fundingPost.fndCurrentAmount }</span><span>원</span>
+		                    					</p>
+
+		                    	              <div class="d-flex justify-content-between align-items-center">
+		                    	                <div class="btn-group">
+		                    	                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+		                    	                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+		                    	                </div>
+		                    	                <small class="text-body-secondary">					<span>펀딩 마감까지 남은 시간</span>
+		                    						<span class="time">
+		                    							<fmt:parseNumber value="${now.time / (1000*60*60*24)}" integerOnly="true" var="nowfmtTime" scope="request"/>
+		                    						
+		                    	    					<fmt:parseDate value="${today}"  pattern="yyyy-MM-dd" var="strPlanDate" />
+		                    	    					<fmt:parseNumber value="${strPlanDate.time / (1000*60*60*24)}" integerOnly="true" var="strDate"/>
+		                    	    				
+		                    	    					<fmt:parseDate value="${fundingPost.fndEndDate}"  pattern="yyyy-MM-dd" var="endPlanDate"/>
+		                    	    					<fmt:parseNumber value="${endPlanDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate"/>
+
+		                    	    					<c:choose>
+		                    	        					<c:when test="${endDate - nowfmtTime >= 1}">
+		                    	            					${endDate - nowfmtTime + 1}
+		                    	           						<span>일 남음</span>
+		                    	        					</c:when>
+		                    	        					<c:when test="${endDate - nowfmtTime == 0}">
+		                    	                         		<span>오늘 마감</span>
+		                    	        					</c:when>
+		                    	        					<c:otherwise>
+		                    	            					<span>마감</span>
+		                    	        					</c:otherwise>
+		                    	    					</c:choose>
+		                    						</span></small>
+		                    	              </div>
+		                    	            </div>
+		                    	          </div>
+		                    	        </div>
+		                    	     </c:if>
+		                    	     </c:forEach>
+		                    `);
+		            });
+		        },
+		        error: function (error) {
+		            console.log(error);
+		            alert("데이터 로딩 중 오류가 발생 했습니다. 다시 시도해 주세요.");
+		        }
+		    });
 		});
-		
-		
-		
-		
-		
-		
 		
 	</script>
 </body>

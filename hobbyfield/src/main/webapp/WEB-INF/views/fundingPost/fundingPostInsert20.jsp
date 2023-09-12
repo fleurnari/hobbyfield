@@ -36,7 +36,7 @@
                 </span>
               <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
               <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/notice/noticeList'">공지사항</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?noticeCate=AA3'">공지사항</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'">프로젝트만들기</span>
                 <c:if test="${member.memberGrd eq 'A3'}">
@@ -115,7 +115,7 @@
                         </p>
                      </div>
                      <div class="col-sm-6">
-                        <textarea class="form-control" name="fndContent" id="fndContent"></textarea>
+                        <textarea class="form-control" name="fndContent" id="fndContent" width=610px >${ fundingPostInsert20.fndContent }</textarea>
                      </div>
                   </div>
                </div>
@@ -133,9 +133,18 @@
 
 <script type="text/javascript">
 ClassicEditor
-.create(document.querySelector('#fndContent'))
-.catch(error=>{
-   console.error(error);
+.create( document.querySelector( '#fndContent' ), {
+	language:"ko",
+	ckfinder: {
+		uploadUrl : '${pageContext.request.contextPath}/ckeditor/upload'
+	}
+})
+.then(editor => {
+    // 에디터 인스턴스가 생성되면 호출되는 콜백 함수
+    editor.isReadOnly = true; // 에디터를 읽기 전용으로 설정
+})
+.catch( error => {
+    console.error( error );
 });
     $('form').on('submit', function(e){
       e.preventDefault();

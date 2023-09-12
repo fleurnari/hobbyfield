@@ -27,7 +27,14 @@ public interface ClubJoinMapper {
    public int quitClubMember(ClubJoinVO vo);
    
    // 특정 소모임 가입 멤버
-   public List<ClubJoinVO> clubMemberList(@Param("clubNumber")int clubNumber);
+   public List<ClubJoinVO> clubMember(@Param("clubNumber")int clubNumber);
    
+   
+   
+   
+   // 회원 불러오기
+   public List<ClubJoinVO> memberListClub(@Param("clubNumber")int clubNumber);
+   // 특정 회원 조회
+   public ClubJoinVO memberInfoClub(ClubJoinVO vo);
 }
 

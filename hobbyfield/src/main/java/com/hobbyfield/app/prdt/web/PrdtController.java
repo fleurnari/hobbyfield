@@ -140,31 +140,35 @@ public class PrdtController {
 	public ResponseEntity<String> writeComment(@RequestBody ReviewVO reviewVO, HttpSession session) {
 	    MemberVO member = (MemberVO) session.getAttribute("member");
 
+	    // 후기의 카테고리가 "상품문의"인 경우 바로 작성가능
+	    if ("상품문의".equals(reviewVO.getCategory())) {
+	        reviewVO.setMemberEmail(member.getMemberEmail());
+	        reviewService.writeReview(reviewVO);
+	        System.out.println("상품문의 작성 성공: " + reviewVO.toString());
+	        return new ResponseEntity<>("success", HttpStatus.OK); // 성공 응답 반환
+	    }
+
 	    // 해당 회원의 구매 이력을 조회합니다.
 	    List<OrderVO> orderList = orderService.orderList(member.getMemberEmail());
 
-	    // 구매한 상품의 목록을 저장할 Set을 생성합니다.
 	    Set<Integer> purchasedProducts = new HashSet<>();
 
-	    // 구매 이력을 반복하면서 구매한 상품을 결정합니다.
 	    for (OrderVO order : orderList) {
 	        purchasedProducts.add(order.getPrdtId());
 	    }
 
-	    // reviewVO에 있는 productId를 확인하여 구매한 상품인지 확인합니다.
+	    // reviewVO에 있는 prdtId를 확인하여 구매한 상품인지 확인
 	    if (purchasedProducts.contains(reviewVO.getPrdtId())) {
-	        // 구매한 상품인 경우 후기를 작성합니다.
 	        reviewVO.setMemberEmail(member.getMemberEmail());
 	        reviewService.writeReview(reviewVO);
 	        System.out.println("리뷰 작성 성공: " + reviewVO.toString());
-	        return new ResponseEntity<>("success", HttpStatus.OK); // 성공 응답 반환
+	        return new ResponseEntity<>("success", HttpStatus.OK); 
 	    } else {
-	        // 구매한 상품이 아닌 경우에 대한 처리를 수행합니다.
-	        // 예를 들어, 오류 메시지를 반환합니다.
 	        System.out.println("리뷰 작성 실패 - 구매한 상품이 아님: " + reviewVO.toString());
 	        return new ResponseEntity<>("구매한 사람만 후기를 작성할 수 있습니다.", HttpStatus.BAD_REQUEST);
 	    }
 	}
+
 	
 	//상품후기 목록 (카테고리별)
 	@PostMapping("getReviewsByCategory")

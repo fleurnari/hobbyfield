@@ -207,7 +207,7 @@ li {
                 </span>
               <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
               <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/notice/noticeList'">공지사항</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?noticeCate=AA3'">공지사항</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'">프로젝트만들기</span>
            	  <c:if test="${member.memberGrd eq 'A3'}">
@@ -304,19 +304,6 @@ li {
 <section>
     		<div class="container">
 				<div class="search">
-							<select name="searchType">
-								<option value="t"
-									<c:out value="${scri.searchType eq 't' ? 'selected' : ''}"/>>제목</option>
-								<option value="c"
-									<c:out value="${scri.searchType eq 'c' ? 'selected' : ''}"/>>내용</option>
-								<option value="w"
-									<c:out value="${scri.searchType eq 'w' ? 'selected' : ''}"/>>작성자</option>
-								<option value="tc"
-									<c:out value="${scri.searchType eq 'tc' ? 'selected' : ''}"/>>제목+내용</option>
-							</select> <input type="text" name="keyword" id="keywordInput"
-								value="${scri.keyword}" />
-
-							<button id="searchBtn" type="button">검색</button>
 						</div>
 						<div>
 							<ul >

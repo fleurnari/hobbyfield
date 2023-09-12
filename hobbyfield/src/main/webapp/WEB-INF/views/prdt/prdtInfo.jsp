@@ -14,7 +14,7 @@
 .list-group-item {
     margin-left: 394px;
     margin-right: 394px;
-    position: absolute;
+    position: relative;
 }
 
 #categoryBtn {
@@ -270,7 +270,6 @@
 </head>
 <body>
 
-
     <div class="box">
         <div class="row">
             <div class="col-md-15">
@@ -284,7 +283,7 @@
                 <h3>${prdtInfo.prdtName}</h3>  
                 <p>${prdtInfo.prdtContents}</p>
                 <div id="prdtImg">
-				<img alt="" src="${pageContext.request.contextPath}${prdtInfo.prdtThumPath}${prdtInfo.prdtThum}" style="width: 250px; height: 300px;">
+				<img alt="" onerror="this.onerror=null; this.src=${pageContext.request.contextPath}/resources/images/'dog.png';" src="${pageContext.request.contextPath}${prdtInfo.prdtThumPath}${prdtInfo.prdtThum}" style="width: 250px; height: 300px;">
 				</div>
                 <br>
                 <p><b>상품번호 : </b><span class="badge badge-info">${prdtInfo.prdtId}</span>
@@ -384,7 +383,7 @@
 </div>
 
 <!--리뷰 작성 모달창 불러오는 버튼  -->
-<button type="button" class="btn btn-primary" id="openReviewModal">후기 작성</button>
+<button type="button" class="btn btn-primary" id="openReviewModal">후기(문의) 작성</button>
 
 <!-- 모달 창 -->
 <div class="modal fade" id="writeReviewModal" tabindex="-1" role="dialog" aria-labelledby="writeReviewModalLabel" aria-hidden="true">
@@ -467,7 +466,7 @@
 	                <textarea name="reviewContent" id="updateReviewContent" ></textarea>
 	            </div>
 	            <div class="input_area">
-	                <button type="button" id="updateReview_btn">수정하기</button>
+	                <button type="button" id="updateReview_btn" class="btn btn-primary" >수정하기</button>
 	            </div>
 	        </form>
 	    </div>
@@ -579,8 +578,8 @@ $(document).ready(function() {
 });
   	
   	
-  	//수량 조절
-  	$(".plus").click(function(){
+  //수량 조절
+  $(".plus").click(function(){
 	   var num = $(".numBox").val();
 	   var plusNum = Number(num) + 1;
    
@@ -689,8 +688,12 @@ $(document).ready(function() {
              data: JSON.stringify(data),
              success: function(result) {
                  if (result === "success") {
-                     alert("리뷰가 작성되었습니다.");
-                     // 모달 닫기 추가 해야함
+                	 Swal.fire(
+	             			  '글이 작성되었습니다.',
+	             			  '',
+	             			  'success'
+	             			)
+                     $("#reviewModal").css("display", "none");
                  } else {
                      alert(result); 
                  }
@@ -913,32 +916,39 @@ function calculateRatingHtml(rating) {
     $(document).on("click", ".deleteComment_btn", function () {
     var commentItem = $(this).closest("li");
     var commentId = commentItem.data("comment-id");
-    
-    var confirmDelete = confirm("삭제하시겠습니까?");
 
-    if (confirmDelete) {
-        $.ajax({
-            type: "POST",
-            url: "${pageContext.request.contextPath}/prdt/deleteComment/" + commentId,
-            success: function (data) {
-                console.log("댓글이 삭제되었습니다.");
-                commentItem.remove();
-            },
-            error: function (error) {
-                if (error.status === 403) {
-                	Swal.fire(
-              			  '본인이 작성한 댓글만 삭제 가능합니다.',
-              			  '',
-              			  'error'
-              			)
-                } else {
-                    console.error("댓글 삭제에 실패했습니다.");
+    // SweetAlert2를 사용하여 스타일링된 확인 대화 상자 표시
+    Swal.fire({
+        title: '댓글 삭제',
+        text: '삭제하시겠습니까?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: '삭제',
+        cancelButtonText: '취소'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: "POST",
+                url: "${pageContext.request.contextPath}/prdt/deleteComment/" + commentId,
+                success: function (data) {
+                    console.log("댓글이 삭제되었습니다.");
+                    commentItem.remove();
+                },
+                error: function (error) {
+                    if (error.status === 403) {
+                        Swal.fire(
+                            '본인이 작성한 댓글만 삭제 가능합니다.',
+                            '',
+                            'error'
+                        );
+                    } else {
+                        console.error("댓글 삭제에 실패했습니다.");
+                    }
                 }
-            }
-        });
-    }
+            });
+        }
+    });
 });
-	 	 
  	
    
     
@@ -971,7 +981,11 @@ function calculateRatingHtml(rating) {
 
     // 값이 비어 있는지 확인
     if (!updatedCommentContent) {
-        alert("댓글 내용을 입력해주세요.");
+    	 Swal.fire(
+                 '댓글 내용을 입력해주세요.',
+                 '',
+                 'error'
+             );
         return;
     }
 
@@ -1010,8 +1024,14 @@ function calculateRatingHtml(rating) {
 	    
     // 후기(문의)글 삭제
     $(document).on("click", ".deleteRv_btn", function () {
-        let deleteChk = confirm("이 글을 삭제하시겠습니까?");
-        if (deleteChk) {
+    Swal.fire({
+        title: "이 글을 삭제하시겠습니까?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "삭제",
+        cancelButtonText: "취소",
+    }).then((result) => {
+        if (result.isConfirmed) {
             var reviewItem = $(this).closest("li");
             var reviewId = reviewItem.data("review-id");
             $.ajax({
@@ -1020,31 +1040,33 @@ function calculateRatingHtml(rating) {
                 data: { reviewId: reviewId },
                 success: function (result) {
                     if (result === "success") {
-                    	Swal.fire(
-                    			  '삭제 되었습니다.',
-                    			  '',
-                    			  'success'
-                    			)
-                        reviewItem.remove(); 
+                        Swal.fire(
+                            "삭제 되었습니다.",
+                            "",
+                            "success"
+                        );
+                        reviewItem.remove();
                     } else {
                         alert("후기 삭제에 실패했습니다.");
                     }
                 },
                 error: function (jqXHR) {
-                	if(jqXHR.status === 403){
-                		Swal.fire(
-                  			  '본인이 작성한 글만 삭제 가능합니다.',
-                  			  '',
-                  			  'error'
-                  			)
-                	} else{
-                		alert("실패 ㅠ");
-                	}
+                    if (jqXHR.status === 403) {
+                        Swal.fire(
+                            "본인이 작성한 글만 삭제 가능합니다.",
+                            "",
+                            "error"
+                        );
+                    } else {
+                        alert("실패 ㅠ");
+                    }
                 },
             });
         }
     });
- });
+});
+    
+	});
 </script>
 
 
@@ -1096,10 +1118,13 @@ function calculateRatingHtml(rating) {
         contentType: "application/json",
         success: function (result) {
             if (result === "success") {
-                alert("리뷰가 수정되었습니다.");
+            	Swal.fire(
+          			  '후기(문의)가 수정되었습니다.',
+          			  '',
+          			  'success'
+          			)
                 // 모달 창 닫기
                 $("#updateReviewModal").css("display", "none");
-                location.reload();
             } else if (result === "forbidden") {
                 alert("리뷰 수정 권한이 없습니다.");
             } else {

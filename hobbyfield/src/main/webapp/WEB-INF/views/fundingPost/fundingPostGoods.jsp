@@ -70,7 +70,7 @@ flex-wrap:wrap;
                 </span>
               <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
               <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/notice/noticeList'">공지사항</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?noticeCate=AA3'">공지사항</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'">프로젝트만들기</span>
            	  <c:if test="${member.memberGrd eq 'A3'}">
@@ -187,19 +187,20 @@ flex-wrap:wrap;
 							</div>
 				
 					<br>
-					<input type="text" name="fndPostNumber" value="${fundingPostGoods.fndPostNumber}">
+					<input type="hidden" name="fndPostNumber" value="${fundingPostGoods.fndPostNumber}">
         	<button type="submit" form="frm" class="btn btn-primary" style="float: right;">저장</button>
 				</div>							
 				</form>
 			</div>
-
+	<br>
+	<br>
 	</section>
 	<script>
 	 /* 이미지 업로드 */
     function imgUploadHandler(list) {
     			for (i = 0; i < list.length; i++) {
-    				let tag = `<input type="text" name="fndGoodsImg" value="\${list[i].UUID}">
-    				           <input type="text" name="fndGoodsImgPath" value="\${list[i].url}">`
+    				let tag = `<input type="hidden" name="fndGoodsImg" value="\${list[i].UUID}">
+    				           <input type="hidden" name="fndGoodsImgPath" value="\${list[i].url}">`
     				$('#frm').append(tag);
     			}
     		}

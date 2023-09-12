@@ -162,13 +162,25 @@
 	</delete>
 	
 	<!-- 펀딩 게시글 갯수 -->
-	<select id = "getTotalCount" resultType="int">
-		SELECT COUNT(Fnd_Post_Number)
-		FROM Funding_Post
-		WHERE 1=1
-		<include refid="search"></include>
-		 AND Fnd_Post_Number > 0
-	</select>
+   <select id = "getTotalCount" resultType="int">
+      SELECT COUNT(Fnd_Post_Number)
+      FROM Funding_Post
+      WHERE 1=1
+      And fnd_Status= '2' 
+      <include refid="search"></include>
+       AND Fnd_Post_Number > 0
+   </select>
+   
+   <!-- 펀딩 종료 게시글 -->
+   <select id = "endTotalCount" resultType="int">
+      SELECT COUNT(Fnd_Post_Number)
+      FROM Funding_Post
+      WHERE 1=1
+      And Fnd_Status= '3'
+      <include refid="search"></include>
+      AND Fnd_Post_Number > 0
+   </select>
+
 	
 	<!-- 카테고리별 조회 -->
 	<select id="selectFundingPostCate" resultType="FundingPostVO">

@@ -31,6 +31,10 @@ public class ClubJoinServiceImpl implements ClubJoinService {
       return -1;
    }
    
+	@Override
+	public List<ClubJoinVO> clubMemberList(int clubNumber) {
+	return clubJoinMapper.memberListClub(clubNumber);
+}
    
    //가입신청한 소모임 회원 전체조회
    @Override
@@ -78,11 +82,18 @@ public int quitClubMember(ClubJoinVO vo) {
 	return result;
 }
 
+@Override
+public ClubJoinVO memberInfoClub(ClubJoinVO vo) {
+	return clubJoinMapper.memberInfoClub(vo);
+}
+
 
 @Override
-public List<ClubJoinVO> clubMemberList(int clubNumber) {
-	return clubJoinMapper.clubMemberList(clubNumber);
+public List<ClubJoinVO> memberListClub(int clubNumber) {
+	return clubJoinMapper.memberListClub(clubNumber);
 }
+
+
 
 }
 

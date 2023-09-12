@@ -57,7 +57,7 @@ public class ImgFileController {
 				String newInfImgFileName = "img_" + UUID.randomUUID() + "." + ext;
 				System.out.println("저장파일명 : " + newInfImgFileName);
 				imgPath = loadUrl + newInfImgFileName;
-
+				
 				File file = new File(saveUrl + newInfImgFileName);
 				imgPath = "/app" + imgPath;
 				mf.transferTo(file);
