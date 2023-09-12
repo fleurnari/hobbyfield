@@ -235,7 +235,7 @@ button {
 						<h5>${point.pointName}</h5>
 						<br><input type="hidden" ${sessionScope.member}>
 						<p>보유포인트 <span id="memberActpnt">
-						<fmt:formatNumber type="number" value="${sessionScope.member.memberActpnt }"/></span></p>
+						<fmt:formatNumber type="number" value="${sessionScope.member.memberActpnt }" pattern="#,###" /></span></p>
 						<c:if test="${point.pointItemType eq 'W2'}">
 						<p>결제 포인트 <span id="groupPrice">${point.groupPrice }</span></p>
 						<input type="hidden" value="${point.groupPrice }"	name="pointPrice">

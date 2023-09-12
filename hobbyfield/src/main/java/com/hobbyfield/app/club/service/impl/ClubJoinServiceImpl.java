@@ -33,7 +33,7 @@ public class ClubJoinServiceImpl implements ClubJoinService {
    
 	@Override
 	public List<ClubJoinVO> clubMemberList(int clubNumber) {
-	return clubJoinMapper.clubMember(clubNumber);
+	return clubJoinMapper.memberListClub(clubNumber);
 }
    
    //가입신청한 소모임 회원 전체조회

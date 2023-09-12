@@ -186,9 +186,9 @@
 		        		 c.club_comment_level,
 		        		 c.profile_nickname,
 		        		 p.profile_img,
-		        		 p.profile_img_path
-		        		 b.clubName
-				FROM CLUB_COMMENT c JOIN profile p ON(c.profile_nickname = p.profile_nickname)
+		        		 p.profile_img_path,
+		        		 b.club_name
+		FROM CLUB_COMMENT c JOIN profile p ON(c.profile_nickname = p.profile_nickname)
 		JOIN member m ON(p.member_email = p.member_email)
         JOIN club_board u ON(c.board_number = u.board_number)
 		JOIN club b ON(u.club_number = b.club_number)

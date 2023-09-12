@@ -136,6 +136,13 @@ public class ClubController {
 		List<CreateclubVO> clubs = createClubService.getMixOrder(majorLocation, clubCategory);
 		return clubs;
 	}
+	
+	// 소모임 가입하기 Process
+	   @PostMapping("/clubJoinProcess")
+	   public String clubJoinProcess(ClubJoinVO joinVO ,Model model) {
+	      clubJoinService.clubJoinInfo(joinVO);
+	      return "redirect:clubList";
+	   }
 
 	// 내가 생성한 소모임 조회(데이터불러오기 가능/input태그 들어가지 않음)
 	@ResponseBody
@@ -381,18 +388,16 @@ public class ClubController {
 		// 프로필 정보 저장 후 원하는 페이지로 리다이렉트
 		return "redirect:profileInsert";
 	}
+	
+	
 	@ResponseBody
 	@PostMapping("/profileOnPage")
 	public String profileInsertInClub(ClubProfileVO profileVO) {
-		int count = clubprofileService.insertProfile(profileVO);
-		String result = null;
-		if(count > 0 ) {
-			result = "성공";	
-		}else {
-			result = "실패";
-		}
+		clubprofileService.insertProfile(profileVO);
+
 		
-		return result;
+		
+		return "club/clubBoardList";
 	}
 
 	// 프로필 수정 (이미지 포함)

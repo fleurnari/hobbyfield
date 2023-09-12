@@ -549,23 +549,24 @@ body {
                    } else {
                        // 모든 검사를 통과한 경우 form 제출
                        if(nickCheck && nickchCheck) {
-                    	   var form = $("#join-form");
-                    	   var formData = new FormData(form);
-                    	   $.ajax({
-                    		   type: "POST",
-                    		   url: "${pageContext.request.contextPath}/club/profileOnPage",
-                    		   data : formData,
-                    		   success: function(reuslt){
-                    			   if(reuslt == "성공"){
-                    				   alert("프로필 등록 성공");
-                    				   $("#profileMianModal").fadeOut();
-                    			   }else{
-                    				   alert("프로필 등록 실패");
-                    			   }
+                    	   $("#join-form").submit();
+//                     	   var form = $("#join-form");
+//                     	   var formData = new FormData(form);
+//                     	   $.ajax({
+//                     		   type: "POST",
+//                     		   url: "${pageContext.request.contextPath}/club/profileOnPage",
+//                     		   data : formData,
+//                     		   success: function(reuslt){
+//                     			   if(reuslt == "성공"){
+//                     				   alert("프로필 등록 성공");
+//                     				   $("#profileMianModal").fadeOut();
+//                     			   }else{
+//                     				   alert("프로필 등록 실패");
+//                     			   }
                     				 
-                    		   }
+//                     		   }
                     		   
-                    	   });
+//                     	   });
                           
                            
                        }
