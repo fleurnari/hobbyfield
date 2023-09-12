@@ -159,7 +159,7 @@ button {
 			<div class="row">
 				<div class="col">
 					<div class="first-img">
-						<img src="${pageContext.request.contextPath}${point.pointImgPath}${point.pointImgName}" alt="상품 이미지">
+						<img src="${pageContext.request.contextPath}${point.pointImgPath}${point.pointImgName}" alt="상품 이미지"  onerror="this.onerror=null; this.src=${pageContext.request.contextPath}/resources/images/'alien.png.';">
 					</div>
 				</div> 
 				<div class="col">
@@ -223,7 +223,7 @@ button {
 					<c:forEach items="${point.emojiVO }" var="emoji">
 						<img
 							src="${pageContext.request.contextPath}${emoji.emojiImgPath}${emoji.emojiImgName}"
-							alt="상세조회 이미지">
+							alt="상세조회 이미지" onerror="this.onerror=null; this.src=${pageContext.request.contextPath}/resources/images/'alien.png.';">
 					</c:forEach>
 				</div>
 			</div>
@@ -234,7 +234,8 @@ button {
 					<div>
 						<h5>${point.pointName}</h5>
 						<br><input type="hidden" ${sessionScope.member}>
-						<p>보유포인트 <span id="memberActpnt">${sessionScope.member.memberActpnt }</span></p>
+						<p>보유포인트 <span id="memberActpnt">
+						<fmt:formatNumber type="number" value="${sessionScope.member.memberActpnt }"/></span></p>
 						<c:if test="${point.pointItemType eq 'W2'}">
 						<p>결제 포인트 <span id="groupPrice">${point.groupPrice }</span></p>
 						<input type="hidden" value="${point.groupPrice }"	name="pointPrice">
@@ -251,10 +252,18 @@ button {
 						<td>영구</td>
 						</tr>
 						<tr>
-						<td><input type="radio" name="pointOptId" value="${point.pointOptionVO[0].pointOptId }" data-period="7" data-price="${point.pointOptionVO[0].pointPrice }" checked>${point.pointOptionVO[0].pointPrice }</td>
-						<td><input type="radio" name="pointOptId" value="${point.pointOptionVO[1].pointOptId }" data-period="14" data-price="${point.pointOptionVO[1].pointPrice }">${point.pointOptionVO[1].pointPrice }</td>
-						<td><input type="radio" name="pointOptId" value="${point.pointOptionVO[2].pointOptId }" data-period="30" data-price="${point.pointOptionVO[2].pointPrice }">${point.pointOptionVO[2].pointPrice }</td>
-						<td><input type="radio" name="pointOptId" value="${point.pointOptionVO[3].pointOptId }" data-period="0" data-price="${point.pointOptionVO[3].pointPrice }">${point.pointOptionVO[3].pointPrice }</td>
+						<td><input type="radio" name="pointOptId" value="${point.pointOptionVO[0].pointOptId }" data-period="7" data-price="${point.pointOptionVO[0].pointPrice }" checked>
+							<fmt:formatNumber type="number" value="${point.pointOptionVO[0].pointPrice }" pattern="###,###,###"/> 
+						</td>
+						<td><input type="radio" name="pointOptId" value="${point.pointOptionVO[1].pointOptId }" data-period="14" data-price="${point.pointOptionVO[1].pointPrice }">
+						<fmt:formatNumber type="number" value="${point.pointOptionVO[1].pointPrice }" pattern="###,###,###"/> 
+						</td>
+						<td><input type="radio" name="pointOptId" value="${point.pointOptionVO[2].pointOptId }" data-period="30" data-price="${point.pointOptionVO[2].pointPrice }">
+						<fmt:formatNumber type="number" value="${point.pointOptionVO[2].pointPrice }" pattern="###,###,###"/>  
+						</td>
+						<td><input type="radio" name="pointOptId" value="${point.pointOptionVO[3].pointOptId }" data-period="0" data-price="${point.pointOptionVO[3].pointPrice }">
+							<fmt:formatNumber type="number" value="${point.pointOptionVO[3].pointPrice }" pattern="###,###,###"/> 
+						</td>
 						</tr>
 						
 						</table>
@@ -372,6 +381,14 @@ document.getElementById("purchase").addEventListener("click", function () {
 function openModal() {
     var modal = document.getElementById("myModal");
     modal.style.display = "block";
+    
+    var memberActpnt = document.getElementById("memberActpnt");
+    var formattedPnt = formatNumberWithCommas(parseInt(memberActpnt.textContent));
+    memberActpnt.textContent = formattedPnt;
+    
+    function formatNumberWithCommas(number) {
+        return new Intl.NumberFormat().format(number);
+    }
 }
 
 // 모달 닫기 함수
@@ -400,7 +417,11 @@ $('form').on('submit', function(e){
 	let groupPrice = myitemBuy.pointPrice.value;
 
 	if(pnt < groupPrice){
-		alert("보유 포인트가 부족합니다.");
+		 Swal.fire(
+		            '포인트가 부족합니다.',
+		            '다시 시도해주세요',
+		            'error'
+		        );
 		closeModal();
 		return false;
 	}

@@ -6,6 +6,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>	
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <title>포인트 상점 수정</title>
 <style>
 body {
@@ -86,7 +90,7 @@ button {
 					<label for="pointName">포인트 상품명</label> <input type="text" id="pointName" name="pointName" value="${point.pointName}" placeholder="${point.pointName}">
 					<div class="formp-input">
 						<label for="pointContent">상세설명</label>
-						<textarea id="pointContent" name="pointContent" rows="10" required>${point.pointContent}</textarea>
+						<textarea id="editor" name="pointContent" rows="10" required>${point.pointContent}</textarea>
 					</div>
 					<div class="endterm">
 						<label for="pointEndterm">상품판매 마감일</label><input type="date" id="pointEndterm" name="pointEndterm" required="required">
@@ -105,6 +109,22 @@ button {
 		</div>
 </section>
 	<script type="text/javascript">
+	
+	//editor
+	ClassicEditor
+    .create( document.querySelector( '#editor' ), {
+    	language:"ko",
+    	ckfinder: {
+    		uploadUrl : 'ckeditor/upload'
+    	}
+    })
+    .then(editor => {
+    	 editor.isReadOnly = true; // 에디터를 읽기 전용으로 설정
+    })
+    .catch( error => {
+        console.error( error );
+    });
+	
 	</script>
 </body>
 </html>

@@ -67,7 +67,7 @@
 					href="${pageContext.request.contextPath}/fundingPost/fundingPostList">펀딩</a>
 				</li>
 				<li class="nav-item"><a class="nav-link fw-bold"
-					href="${pageContext.request.contextPath}/point/pointList">공지사항</a>
+					href="${pageContext.request.contextPath}/notice/noticeList">공지사항</a>
 				</li>
 				<li class="nav-item"><a class="nav-link fw-bold"
 					href="${pageContext.request.contextPath}/point/pointList">포인트샵</a>
