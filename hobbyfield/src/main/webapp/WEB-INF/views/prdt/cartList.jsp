@@ -55,29 +55,71 @@
   color: #333;
 }
 
+#box2{
+	margin-top: -100px;
+}
+
+.delBtn{
+	margin-right: 980px;
+	margin-bottom: 10px;
+}
+.allCheck{
+	margin-right: 980px;
+	margin-bottom: -50px;
+}
+
+#orderOpne_bnt{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
 </style>
 <link href="../resources/css/prdt/bootstrap.min.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+<div id="box2">
+ <div class="row align-items-center min-vh-30 min-vh-md-30">
+			<div class="col-12 text-center py-7">
+				<h1 class="lh-sm fs-lg-6 fs-xxl-7">HOBBY SHOP</h1>
+				<p class="text-700">취미 공유 통합 플랫폼</p>
+			</div>
+	</div>
+</div>
+
+<div>
+	<nav class="class=" navbar bg-primary" data-bs-theme="dark"">
+		<div class="container">
+			<ul class="nav justify-content-end">
+				<li class="nav-item"><a class="nav-link fw-bold"
+					href="${pageContext.request.contextPath}/prdt/prdtList">상품목록</a></li>
+				<li class="nav-item"><a class="nav-link fw-bold"
+					href="${pageContext.request.contextPath }/prdt/prdtInsert">상품등록</a></li>
+				<li class="nav-item"><a class="nav-link fw-bold"
+					href="${pageContext.request.contextPath}/prdt/cartList">장바구니</a>
+				</li>
+				<li class="nav-item"><a class="nav-link fw-bold"
+					href="${pageContext.request.contextPath}/prdt/orderList">주문내역</a>
+				</li>
+				<li class="nav-item"><a class="nav-link fw-bold"
+					href="${pageContext.request.contextPath}/CSboard/CsboardList">배송안내</a>
+				</li>
+						</div>
+			</ul>
+		</div>
+	<div class="delBtn" align="center">
+		<button type="button" class="btn btn-danger" id="selectDelete_btn">선택 삭제</button>
+	</div>
 	<div class="allCheck" align="center">
 		<input type="checkbox" name="allCheck" id="allCheck" /><label
 			for="allCheck">모두 선택</label>
 	</div>
 
-	<div class="delBtn" align="center">
-		<button type="button" class="btn btn-danger" id="selectDelete_btn">선택 삭제</button>
-	</div>
+	
 	<div class="container" >
     <div style="padding-top: 50px">
         <table class="table table-hover">
@@ -108,7 +150,7 @@
         </table>
          <div class="listResult">
 			 <div class="sum">
-			  <h2>총 결제금액 : <fmt:formatNumber pattern="###,###,###" value="${sum}" />원</h2>
+			  <h2 id="totalAmount">총 결제금액 : <fmt:formatNumber pattern="###,###,###" value="${sum}" />원</h2>
 			 </div>
 			 <div class="orderOpne">
 			  <button type="button" class="btn btn-success" id="orderOpne_bnt">장바구니 결제하기</button>
@@ -167,6 +209,32 @@
 </div>
 </div>
 <script>
+function calculateTotalAmount() {
+    var sum = 0;
+    $(".chBox:checked").each(function () {
+        var row = $(this).closest("tr");
+        var prdtPrice = parseFloat(row.find("td:eq(3)").text().replace(/[^0-9.-]+/g, "")); // 가격 값을 추출하고 파싱
+        var cartStock = parseInt(row.find("td:eq(5)").text()); // 수량 값을 추출하고 파싱
+        sum += prdtPrice * cartStock;
+    });
+    return sum;
+}
+
+// 체크박스가 클릭될 때마다 합계를 업데이트
+$(".chBox").click(function () {
+    var totalAmount = calculateTotalAmount();
+    $("#totalAmount").text("총 결제금액 : " + totalAmount.toLocaleString() + "원");
+});
+
+// 페이지 로드 시 합계를 초기화
+$(document).ready(function () {
+    var totalAmount = calculateTotalAmount();
+    $("#totalAmount").text("총 결제금액 : " + totalAmount.toLocaleString() + "원");
+});
+
+
+
+
 
 //모두선택
 $("#allCheck").click(function(){
@@ -185,32 +253,39 @@ $(".chBox").click(function(){
 	 
 	 
 //장바구니에서 삭제
-$("#selectDelete_btn").click(function(){
-	  var confirm_val = confirm("정말 삭제하시겠습니까?");
-	  
-	  if(confirm_val) {
-	   var checkArr = new Array();
-	   
-	   $("input[class='chBox']:checked").each(function(){
-	    checkArr.push($(this).attr("data-cartId"));
-	   });
-	    
-	   $.ajax({
-	    url : "deleteCart",
-	    type : "post",
-	    data : { chbox : checkArr },
-	    success : function(result){
-	    	
-	   		if(result ==1){
-	   		   location.href = "cartList";
-	   		} else{
-	   			alert("삭제 실패")
-	   		}
-	     }
-	  });
-	} 
- });
+$("#selectDelete_btn").click(function () {
+    Swal.fire({
+        title: "정말 삭제하시겠습니까?",
+        text: "한 번 삭제하면 되돌릴 수 없습니다.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "예, 삭제합니다",
+        cancelButtonText: "아니요, 취소합니다"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var checkArr = new Array();
 
+            $("input[class='chBox']:checked").each(function () {
+                checkArr.push($(this).attr("data-cartId"));
+            });
+
+            $.ajax({
+                url: "deleteCart",
+                type: "post",
+                data: { chbox: checkArr },
+                success: function (result) {
+                    if (result == 1) {
+                        location.href = "cartList";
+                    } else {
+                        Swal.fire("삭제 실패", "문제가 발생했습니다.", "error");
+                    }
+                }
+            });
+        }
+    });
+});
 
 //주문정보 입력시 주문정보 입력할 수 있게
 $("#orderOpne_bnt").click(function(){
@@ -250,11 +325,11 @@ $(document).ready(function() {
             orderMemo: $("#orderMemo").val(),
             prdtName: selectedPrdtName.join(','),
             prdtOption: selectedPrdtOption.join(','), 
-            amount: ${sum},
+            amount: calculateTotalAmount(),
             iamUid: generateUniqueMerchantUid(),
             prdtId: selectedPrdtId.join(',') 
         };
-
+		
 
         // 아임포트 API 초기화
         var IMP = window.IMP;

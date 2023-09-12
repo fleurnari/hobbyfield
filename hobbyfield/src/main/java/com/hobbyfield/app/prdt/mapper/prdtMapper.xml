@@ -36,14 +36,15 @@
   	
   	<!-- 상품리스트 조회(페이징,검색) -->
 	<select id="selectAllPrdt" resultType="PrdtVO" parameterType="Criteria">
-	    SELECT prdt_name, prdt_id, prdt_price, prdt_thum, prdt_thum_path 
+	    SELECT prdt_name, prdt_id, prdt_price, prdt_thum, prdt_thum_path
 	    FROM ( 
             SELECT  
                    prdt_name,
                    prdt_id, 
                    prdt_price, 
                    prdt_thum,
-                   prdt_thum_path,  
+                   prdt_thum_path,
+                    
                    ROW_NUMBER() OVER(ORDER BY prdt_id DESC) AS RNUM
              FROM prdt
              WHERE 1=1
@@ -54,17 +55,18 @@
 	</select>
 	<!-- 상품수정하기  -->
 	<update id="updatePrdt" parameterType="PrdtVO">
-		UPDATE prdt
-		SET 
-			prdt_name = #{prdtName},
-		  	prdt_contents = #{prdtContents},
-		  	prdt_cate = #{prdtCate},
-		  	prdt_price = #{prdtPrice},
-		  	prdt_soldout = #{prdtSoldout},
-		  	prdt_thum = #{prdtThum}
-		  
-		WHERE  prdt_id = #{prdtId}
-	</update>
+    UPDATE prdt
+    SET 
+        prdt_name = #{prdtName},
+        prdt_contents = #{prdtContents},
+        prdt_detail = #{prdtDetail},
+        prdt_cate = #{prdtCate},
+        prdt_price = #{prdtPrice},
+        prdt_soldout = #{prdtSoldout},
+        prdt_thum = #{prdtThum},
+        prdt_thum_path = #{prdtThumPath}
+    WHERE  prdt_id = #{prdtId}
+</update>
 	
 	<!--등록된 상품 삭제 -->
 	<delete id="deletePrdt" parameterType="int">
