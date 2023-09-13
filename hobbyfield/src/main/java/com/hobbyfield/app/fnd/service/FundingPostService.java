@@ -7,7 +7,13 @@ import com.hobbyfield.app.common.SearchCriteria;
 public interface FundingPostService {
 	//전체조회
 	public List<FundingPostVO> getFundingPostList(SearchCriteria scri);
-		
+	
+	//인기조회
+	public List<FundingPostVO> ParticipantsList(FundingPostVO fundingPostVO);
+	
+	//마감일자 조회
+	public List<FundingPostVO> endDateList();
+	
 	//상세보기
 	public FundingPostVO getFundingPostInfo(FundingPostVO fundingPostVO);
 		
@@ -35,4 +41,6 @@ public interface FundingPostService {
 	// 카테고리별 펀딩 정렬
 	public List<FundingPostVO> selectFundingPostCate(String fndCategory);
 
+	//펀딩 속성 변경
+	public int updateFundingStatus(FundingPostVO fundingPostVO);
 }

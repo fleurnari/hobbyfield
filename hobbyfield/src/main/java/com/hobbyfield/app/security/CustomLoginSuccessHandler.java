@@ -41,7 +41,8 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 		member = memberMapper.loginMember(member);		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 		
-		if ((member.getMemberLtstconn() == null) || !(dateFormat.format(new Date()).equals(dateFormat.format(member.getMemberLtstconn())))) {
+		if ((member.getMemberLtstconn() == null) ||
+				!(dateFormat.format(new Date()).equals(dateFormat.format(member.getMemberLtstconn())))) {
 			memberMapper.updateMemberLtst(member);
 			memberMapper.updateMemberPnt(member);
 			

@@ -205,8 +205,8 @@ li {
                     </c:forEach>
                 </ul>
                 </span>
-              <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
-              <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/ParticipantsList'">   |  인기</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/endDateList'"> |  마감임박</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?noticeCate=AA3'">공지사항</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'">프로젝트만들기</span>
@@ -360,7 +360,7 @@ li {
 	            
 	            // Ajax 요청을 이용하여 승인 처리
 	            $.ajax({
-	                url: 'fundingAdminUpdate', // 실제 승인 처리를 수행할 URL로 변경해야 합니다.
+	                url: 'updateFundingStatus', // 실제 승인 처리를 수행할 URL로 변경해야 합니다.
 	                type: 'POST',
 	                data: { fndPostNumber: fndPostNumber, fndStatus: fndStatus },
 	                success: function (response) {
@@ -387,21 +387,20 @@ li {
 	        $('.btn-reject').click(function () {
 	            var modalId = $(this).data('modal-id');
 	            var fndPostNumber = modalId.split('-')[1]; // 모달의 ID에서 fndPostNumber 추출
-	            var fndStatus = 4;
+	            var fndStatus = 0;
 	            // Ajax 요청을 이용하여 반려 처리
 	            $.ajax({
 	                url: 'fundingAdminUpdate', // 실제 반려 처리를 수행할 URL로 변경해야 합니다.
 	                type: 'POST',
-	                data: { fndPostNumber: fndPostNumber },
+	                data: { fndPostNumber: fndPostNumber, fndStatus: 0},
 	                success: function (response) {
-	                    // 성공 시 처리
-	                	let message = '반려 완료';
-	                    alert(message);
-	                 // 모달 창 닫기
-	                    $("#" + modalId).fadeOut();
-
-	                    // 페이지 새로고침
-	                    location.reload();
+	                	Swal.fire({
+	                		title: '반려성공!', // 제목 추가
+	                        text: 'error' // 텍스트 추가
+	                        }).then(function () {
+	                        // 페이지 새로고침
+	                        location.reload();
+	                    });
 	                },
 	                error: function (error) {
 	                    // 실패 시 처리

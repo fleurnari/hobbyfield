@@ -11,16 +11,24 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link href="../resources/css/prdt/bootstrap.min.css" rel="stylesheet">
 <style>
+.ck.ck-editor {
+	width: 100%;
+	margin: 0 auto;
+}
+.ck-editor__editable {
+	height: 30vh;
+}
 
 </style>
 </head>
 <body>
-   <br><br><br><br>
-   <div class="container">
-         <div class="text-center">
-         <h4>
-           <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostList'"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></span>&nbsp;&nbsp;
+	<br><br><br><br>
+	<div class="container">
+			<div class="text-center">
+			  <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostList'"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></span>&nbsp;&nbsp;
             </div>
+            <br>
+            <br>
                           <div class="dropdown">
                 <span>
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -28,33 +36,29 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
                     <c:forEach items="${category}" var="type">
-                        <li>   
+                        <li>
                             <a class="dropdown-item" href="#" data-type-code="${type.literal}">${type.literal}</a>
                         </li>
                     </c:forEach>
                 </ul>
                 </span>
-              <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
-              <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?noticeCate=AA3'">공지사항</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'">프로젝트만들기</span>
-                <c:if test="${member.memberGrd eq 'A3'}">
-                   <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/adminAccept'">프로젝트 승인</span>
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/ParticipantsList'">   |  인기</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/endDateList'"> |  마감임박</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?noticeCate=AA3'"> |  공지사항</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'"> |  후원현황</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'"> |  프로젝트만들기</span>
+           	  <c:if test="${member.memberGrd eq 'A3'}">
+                	<span onclick="location.href='${pageContext.request.contextPath}/fundingPost/adminAccept'"> |  프로젝트 승인</span>
                 </c:if>
-            </h4>
             </div>
         </div>
-        <div>
-        </div>
    <section>
-   
-      <br><br><br>
          <div class="text-center">
             <h4><span style="color:red;">프로젝트 설정</span><span> | </span><span  onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostGoods?fndPostNumber=${fundingPostInsert20.fndPostNumber}'">옵션 구성</span></h4>
                   <p>프로젝트를 설정해주세요</p>
                </div>
                <br>
+               <hr>
          <div class="text-center">
             <form id="frm" name="fundingPostUpdate" action="fundingPostUpdate"
                method="post">
@@ -83,7 +87,9 @@
                         </div>
                      </div>
                   </div>
-                  <br> <br>
+                  <br> 
+                  <hr>
+                  <br>
                   <div class="row">
                      <div class="col-sm-6">
                         <h4>
@@ -94,24 +100,27 @@
                            즉시 펀딩을 시작할 수 있습니다.<br>
                         </p>
                      </div>
-                     <div class="col-sm-6">
-                        <div class="mb-3">
-                           시작날짜: <input type="date" name="fndStartDate" value="${fundingPostInsert20.fndStartDate }">
-                        </div>
-                        <br>
-                        <div class="mb-3">
-                           종료일자: <input type="date" name="fndEndDate" value="${fundingPostInsert20.fndEndDate }">
-                        </div>
-                     </div>
+                    <div class="col-sm-6">
+  <div class="mb-3">
+    시작 날짜: 
+    <input type="date" name="fndStartDate" value="${fundingPostInsert20.fndStartDate}" id="startDate">
+  </div>
+  <br>
+  <div class="mb-3">
+    종료 날짜: 
+    <input type="date" name="fndEndDate" value="${fundingPostInsert20.fndEndDate}" id="endDate">
+  </div>
+</div>
                   </div>
+                  <hr>
                   <div class="row">
                      <div class="col-sm-6">
                         <h4>
                            펀딩 내용<a style="color: red">*</a>
                         </h4>
                         <p>
-                           설정한 일시가 되면 펀딩이 자동 시작됩니다.<br> 펀딩 시작 전까지 날짜를 변경할 수 있고<br>
-                           즉시 펀딩을 시작할 수 있습니다.<br>
+                           펀딩을 설명하는 상세 내용을 자유롭게 등록해주세요.<br> 펀딩 내용은 상세보기의 하단에 위치하며<br>
+                           이미지와 텍스트로 자유롭게 프로젝트를 설명할 수 있습니다.<br>
                         </p>
                      </div>
                      <div class="col-sm-6">
@@ -120,7 +129,7 @@
                   </div>
                </div>
                <br>
-               <input type="hidden" name="fndStatus" value="2">
+               <input type="hidden" name="fndStatus" value="0">
                <input type="hidden" name="fndPostNumber" value="${ fundingPostInsert20.fndPostNumber}">
                <button type="submit" class="btn btn-primary"
                   style="float: right;">저장</button>
@@ -194,15 +203,19 @@ ClassicEditor
       
       return formObject;
    };
+   var today = new Date().toISOString().split("T")[0];
+   document.getElementById("startDate").setAttribute("min", today);
+   document.getElementById("endDate").setAttribute("min", today);
+   
    document.addEventListener('DOMContentLoaded', function () {
-        // 서버에서 받아온 날짜 데이터 (예: "2023-09-11 00:00:00")
-// 시작날짜와 종료일자를 가져옵니다.
+       // 서버에서 받아온 날짜 데이터 (예: "2023-09-11 00:00:00")
+//시작날짜와 종료일자를 가져옵니다.
 const startDateString = "${fundingPostInsert20.fndStartDate}".split(" ")[0];
 const endDateString = "${fundingPostInsert20.fndEndDate}".split(" ")[0];
 
-// 시작날짜와 종료일자 input 요소에 설정
+//시작날짜와 종료일자 input 요소에 설정
 document.querySelector('input[name="fndStartDate"]').value = startDateString;
 document.querySelector('input[name="fndEndDate"]').value = endDateString;
-    });
+   });
 </script>
 </html>

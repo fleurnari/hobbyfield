@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
 	/* 기본 스타일 */
 	body {
@@ -216,6 +217,7 @@
 	  	$('#memUpdate').on('click', function(e){
 	  		
 	  		let objData = serializeObject();
+	  		const url = '${pageContext.request.contextPath}/admin/comMemberList';
 	  		
 	  		$.ajax({
 	  			url : 'updateComMember',
@@ -224,10 +226,19 @@
 	  		})
 	  		.done(data => {
 	  			if (data){
-	  				alert("기업 회원 승인 여부 처리를 완료 했습니다.");
-	  				$('form').submit;
+	  				Swal.fire({
+	                    title: '기업 회원 승인 여부 처리를 완료 했습니다.', // 제목 추가
+	                      text: 'success' // 텍스트 추가
+	                      }).then(function () {
+
+	                    	  window.location.href = url;
+	                  });
 	  			} else {
-	  				alert("기업 회원 승인 여부 처리에 실패 했습니다.");
+	  				Swal.fire(
+			  	    		  '기업 회원 승인 여부 처리에 실패 했습니다.',
+			  	    		  '',
+			  	    		  'error'
+			  	    		)
 	  				return;
 	  			}
 	  		})
@@ -238,28 +249,45 @@
 	  	
 	  	$('#memDelete').on('click', function(e) {
 	  	  let objData = serializeObject();
+	  	  const url = '${pageContext.request.contextPath}/admin/memberList';
+			
+	  	Swal.fire({
+	  	    title: '강제 탈퇴 처리',
+	  	    text: '해당 회원을 강제 탈퇴 처리 하시겠습니까?',
+	  	    icon: 'warning',
+	  	    showCancelButton: true,
+	  	    confirmButtonText: '예',
+	  	    cancelButtonText: '아니요'
+	  	  }).then((result) => {
+	  	    if (result.isConfirmed) {
+	  	      $.ajax({
+	  	        url: 'forcedDeleteMember',
+	  	        method: 'POST',
+	  	        data: objData
+	  	      })
+	  	      .done(data => {
+	  	        if (data) {
+	  	        	Swal.fire({
+	                    title: '강제 탈퇴 되었습니다', // 제목 추가
+	                      text: 'success' // 텍스트 추가
+	  	        		}).then(function () {
 
-	  	  if (confirm("해당 회원을 강제 탈퇴 처리 하시겠습니까?")) {
-	  	    $.ajax({
-	  	      url: 'forcedDeleteMember',
-	  	      method: 'POST',
-	  	      data: objData
-	  	    })
-	  	    .done(data => {
-	  	      if (data) {
-	  	        alert("강제 탈퇴 처리를 완료 했습니다.");
-	  	        $('form').submit;
-	  	      } else {
-	  	        alert("강제 탈퇴 처리에 실패 했습니다.");
-	  	        return;
-	  	      }
-	  	    })
-	  	    .fail(reject => console.log(reject));
-	  	  }
-
-	  	  return false;
+	                    window.location.href = url;
+	                  });
+	  	        } else {
+	  	          Swal.fire(
+	  	            '강제 탈퇴 처리에 실패했습니다!',
+	  	            '',
+	  	            'error'
+	  	          );
+	  	          return;
+	  	        }
+	  	      })
+	  	      .fail(reject => console.log(reject));
+	  	    }
+	  	  });
 	  	});
-	  	
+
 		function serializeObject(){
 			let formData = $('form').serializeArray();
 			
