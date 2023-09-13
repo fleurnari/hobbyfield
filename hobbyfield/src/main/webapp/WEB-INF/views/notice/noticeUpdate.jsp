@@ -71,7 +71,9 @@ select {
 	font-size: 16px;
 }
 
-
+	.ck-editor__editable {
+		height: 20vh;
+	}
 
 </style>
 </head>

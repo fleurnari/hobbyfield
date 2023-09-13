@@ -123,8 +123,7 @@
 							type="checkbox" id="clubCommentSecret" name="clubCommentSecret"
 							value="">
 						<button type="button" id="commentInsert">댓글 작성</button>
-						<button type="button" class="btn btn-primary"
-							data-bs-toggle="modal" data-bs-target="#emojiModal">😊</button>
+						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#emojiModal">😊</button>
 					</form>
 				</c:if>
 			</div>
@@ -165,13 +164,9 @@
 					<!-- 이모티콘 헤더 -->
 					<ul class="nav nav-tabs" id="emojiTab" role="tablist">
 						<c:forEach items="${point}" var="point" varStatus="status">
-							<li class="nav-item" role="presentation"><a
-								class="nav-link ${status.index == 0 ? 'active' : ''}"
-								id="emojiTabs-${status.index}" data-toggle="tab"
-								href="#emoji-content-${status.index}"
-								data-pointid="${point.pointId}" role="tab"
-								aria-controls="emoji-content-${status.index}"
-								aria-selected="${status.index == 0 ? 'true' : 'false'}">
+							<li class="nav-item" role="presentation">
+								<a class="nav-link ${status.index == 0 ? 'active' : ''}" id="emojiTabs-${status.index}" data-toggle="tab" href="#emoji-content-${status.index}"
+								data-pointid="${point.pointId}" role="tab" aria-controls="emoji-content-${status.index}" aria-selected="${status.index == 0 ? 'true' : 'false'}">
 									${point.pointId}${point.pointName} </a></li>
 						</c:forEach>
 					</ul>
