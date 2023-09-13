@@ -15,9 +15,10 @@
 	<br><br><br><br>
 	<div class="container">
 			<div class="text-center">
-			<h4>
 			  <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostList'"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></span>&nbsp;&nbsp;
             </div>
+            <br>
+            <br>
                           <div class="dropdown">
                 <span>
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -31,22 +32,19 @@
                     </c:forEach>
                 </ul>
                 </span>
-              <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
-              <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/notice/noticeList'">공지사항</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'">프로젝트만들기</span>
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/ParticipantsList'">   |  인기</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/endDateList'"> |  마감임박</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?noticeCate=AA3'"> |  공지사항</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'"> |  후원현황</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'"> |  프로젝트만들기</span>
            	  <c:if test="${member.memberGrd eq 'A3'}">
-                	<span onclick="location.href='${pageContext.request.contextPath}/fundingPost/adminAccept'">프로젝트 승인</span>
+                	<span onclick="location.href='${pageContext.request.contextPath}/fundingPost/adminAccept'"> |  프로젝트 승인</span>
                 </c:if>
-            </h4>
             </div>
         </div>
-        <div>
-        </div>
+        <br>
 			<div class="text-center">
-			
-			<div>
+					<div>
 						<h4><span onclick="location.href='fundingSupportList'">후원현황</span><span> | </span><span style="color:#5aa5db;">내 프로젝트</span></h4>
 						<p>프로젝트를 설정해주세요</p>
 					</div>
@@ -62,29 +60,21 @@
 						onclick="location.href='fundingPostInfo?fndPostNumber=${fundingMyProject.fndPostNumber }'" width="400">
 					</figure>
 				</p>
-		</form>
-		<form>
-				<p>
-					<span>${fundingMyProject.fndCategory }</span>
-				</p>
 				<p>
 					<span><h3>프로젝트 이름</h3></span>
 					<span>${fundingMyProject.fndTitle }</span>
 				</p>
 				<br />
 				<p>
-					<span>${fundingMyProject.fndStatus}</span>
-				</p>
-				<p>
 					<span><fmt:formatNumber value="${(fundingMyProject.fndCurrentAmount / fundingMyProject.fndTargetAmount) * 100 }" pattern="#.##" />
         %</span><span>        조회수: ${fundingMyProject.fndViews }</span>
 				</p>
 				<p>
-					<span>${fundingMyProject.fndCurrentAmount }</span>
+					<span>후원자 수 : </span><span>${fundingMyProject.fndCurrentAmount }</span>
 				</p>
 				<p>
-					<span>펀딩 마감까지 남은 시간</span>
-				<p>
+					<span>펀딩 마감까지 남은 시간 : </span>
+				
 					<span class="time">
 						<jsp:useBean id="now" class="java.util.Date" />
 					

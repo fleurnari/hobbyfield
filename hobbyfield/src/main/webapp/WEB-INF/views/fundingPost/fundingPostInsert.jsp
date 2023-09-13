@@ -51,9 +51,10 @@ flex-wrap:wrap;
 	<br><br><br><br>
 	<div class="container">
 			<div class="text-center">
-			<h4>
 			  <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostList'"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></span>&nbsp;&nbsp;
             </div>
+            <br>
+            <br>
                           <div class="dropdown">
                 <span>
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -67,18 +68,15 @@ flex-wrap:wrap;
                     </c:forEach>
                 </ul>
                 </span>
-              <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
-              <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?noticeCate=AA3'">공지사항</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'">프로젝트만들기</span>
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/ParticipantsList'">   |  인기</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/endDateList'"> |  마감임박</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?noticeCate=AA3'"> |  공지사항</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'"> |  후원현황</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'"> |  프로젝트만들기</span>
            	  <c:if test="${member.memberGrd eq 'A3'}">
-                	<span onclick="location.href='${pageContext.request.contextPath}/fundingPost/adminAccept'">프로젝트 승인</span>
+                	<span onclick="location.href='${pageContext.request.contextPath}/fundingPost/adminAccept'"> |  프로젝트 승인</span>
                 </c:if>
-            </h4>
             </div>
-        </div>
-        <div>
         </div>
 <Section>
 	<div class="container">
@@ -93,6 +91,7 @@ flex-wrap:wrap;
         <div class="row">
             <div class="col-sm-6">
                 <div class="mb-2">
+                	<p class="option-name">${fundingPost.fndCategory }</p>
                     <p class="option-name">${fundingPost.fndTitle}</p>
                     <input type="hidden" id="fndPostNumber" name="fndPostNumber" value="${fundingPost.fndPostNumber}">
                 </div>
@@ -100,13 +99,10 @@ flex-wrap:wrap;
             <div class="col-sm-6">
                 <div class="mb-2">
                     <p>
-                        <span>
                             <button type="button" class="btn btn-dark" onclick="location.href='fundingPostInsert20?fndPostNumber=${fundingPost.fndPostNumber}'">이어서 작성 -></button>
-                        </span>
-                    	<br>
-                        <span>
+                     </p>   
+                      <p> 
                             <button type="submit" id="fndDelete" name="fndDelete" class="btn btn-dark">삭제</button>
-                        </span>
                     </p>
                 </div>
             </div>
@@ -277,12 +273,11 @@ flex-wrap:wrap;
             			}
             		})
             		.done(data => {
-            				let message = '삭제되었습니다.';
-            				alert(message);
-            				
-            				location.reload();
+            			Swal.fire('삭제되었습니다.');
             		})
             		.fail(reject => console.log(reject));
+
+            		location.reload();
             		
             	});
             	

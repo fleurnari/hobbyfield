@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
 	/* Reset some default styling */
 	* {
@@ -246,9 +247,17 @@
   		})
   		.done(data => {
   			if (data){
-  				alert("회원 정보 수정이 완료 되었습니다.");
+  				Swal.fire(
+  					  '회원 정보 수정이 완료 되었습니다.',
+  					  '!',
+  					  'success'
+  					);
   			} else {
-  				alert("회원 정보 수정에 실패 했습니다.");
+  				Swal.fire(
+    					  '회원 정보 수정에 실패 했습니다.',
+    					  '!',
+    					  'error'
+    					);
   			}
   		})
   		.fail(reject => console.log(reject));

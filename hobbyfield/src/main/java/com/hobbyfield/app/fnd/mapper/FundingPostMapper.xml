@@ -44,7 +44,50 @@
     WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
     ORDER BY Fnd_Post_Number DESC
 </select>
-  	<!-- 전체조회 -->
+
+  	<!-- 인기조회 -->
+  	<select id="ParticipantsList" resultType="FundingPostVO">
+  		SELECT
+  			Fnd_Main_Img,
+  			Fnd_Main_ImgPath,
+  			Fnd_Category,
+  			Fnd_Post_Number, 
+  			Fnd_Title,
+  			Fnd_Start_Date,
+  			Fnd_End_Date,
+  			Fnd_Status,
+  			Fnd_Target_Amount,
+  			Fnd_Participants,
+  			Fnd_Current_Amount,
+  			Fnd_Views,
+  			Member_Email
+  		FROM Funding_Post
+  		WHERE Fnd_Status = '2'
+  		ORDER BY Fnd_Participants DESC
+  	</select>	
+	
+	<!-- 마감일자 조회 -->
+	<select id="endDateList" resultType="FundingPostVO">
+	 SELECT
+	    Fnd_Main_Img,
+	    Fnd_Main_ImgPath,
+	    Fnd_Category,
+	    Fnd_Post_Number, 
+	    Fnd_Title,
+	    Fnd_Start_Date,
+	    Fnd_End_Date,
+	    Fnd_Status,
+	    Fnd_Target_Amount,
+	    Fnd_Participants,
+	    Fnd_Current_Amount,
+	    Fnd_Views,
+	    Member_Email
+  	FROM Funding_Post
+  	WHERE Fnd_Status = '2' AND Fnd_End_Date >= SYSDATE
+  	ORDER BY Fnd_End_Date ASC
+	</select>
+	
+	<!-- 전체조회 -->
   	<select id="selectMyProjectList" resultType="FundingPostVO">
   		SELECT
   			Fnd_Main_Img,
@@ -62,7 +105,6 @@
   		FROM Funding_Post
   		WHERE Member_Email = #{memberEmail}
   	</select>	
-
   	
   	<!-- 단건조회 -->
   	<select id="selectFundingPost" resultType="FundingPostVO">
@@ -134,6 +176,13 @@
 		
 	</update>
 	
+	<!-- 펀딩 상태 변경 -->
+	<update id="updateFundingStatus" parameterType="FundingPostVO">
+		UPDATE Funding_Post
+		SET Fnd_Status = #{fndStatus}
+		WHERE fnd_Post_Number = #{fndPostNumber}
+	</update>
+	
 	<!-- 결제 후 모인금액 및 참여인원 업데이트 -->
 	<update id="updateFundingPostPayment" parameterType="FundingPostVO">
 		
@@ -200,6 +249,15 @@
         	FROM funding_post
         	WHERE FIND_CODE_NM(fnd_category) = #{fndCategory}
 	</select>
+	
+	<!-- 스케쥴러 마감 -->
+	<update id="fundingPostDeadLine">
+		UPDATE Funding_Post
+  		<set>
+  		Fnd_Status = '3'
+  		</set>
+  		WHERE Fnd_Status = '2' AND SYSDATE >= Fnd_End_Date
+	</update>
 	
 	<sql id="search">
 		<if test="searchType != null">

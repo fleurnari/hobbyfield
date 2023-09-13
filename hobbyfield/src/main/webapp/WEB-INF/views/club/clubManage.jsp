@@ -486,7 +486,6 @@ p {
 	          }
 
 	          if (clubCategory.value.trim() === '') {
-// 	              alert('모임 카테고리를 선택해주세요.');
 	              Swal.fire({
         			  icon: 'error',
         			  title: '모임 카테고리를 선택해주세요',
@@ -498,7 +497,6 @@ p {
 	          }
 
 	          if (!clubType) {
-// 	              alert('소모임 분류를 선택해주세요.');
 	             Swal.fire({
         			  icon: 'error',
         			  title: '모임 분류를 선택해주세요',
@@ -509,7 +507,6 @@ p {
 	          }
 
 	          if (clubInfo.value.trim() === '') {
-// 	              alert('소모임 소개를 입력해주세요.');
 	              Swal.fire({
         			  icon: 'error',
         			  title: '소모임 소개를 입력해주세요',
@@ -521,7 +518,6 @@ p {
 	          }
 
 	          if (majorLocation.value.trim() === '') {
-// 	              alert('광역지역을 선택해주세요.');
 	              Swal.fire({
         			  icon: 'error',
         			  title: '광역지역을 선택해주세요',
@@ -545,7 +541,6 @@ p {
 	          }
 
 	          if (!clubPublic) {
-// 	              alert('공개 여부를 선택해주세요.');
 				  Swal.fire({
         			  icon: 'error',
         			  title: '공개 여부를 선택해주세요',
@@ -556,7 +551,6 @@ p {
 	          }
 
 	          if (singupQuestion1.value.trim() === '') {
-// 	              alert('질문1을 입력해주세요.');
 	              Swal.fire({
         			  icon: 'error',
         			  title: '질문1을 입력해주세요',
@@ -568,7 +562,6 @@ p {
 	          }
 
 	          if (singupQuestion2.value.trim() === '') {
-// 	              alert('질문2를 입력해주세요.');
 	              Swal.fire({
         			  icon: 'error',
         			  title: '질문2를 입력해주세요',
@@ -580,7 +573,6 @@ p {
 	          }
 
 	          if (singupQuestion3.value.trim() === '') {
-// 	              alert('질문3을 입력해주세요.');
 	              Swal.fire({
         			  icon: 'error',
         			  title: '질문3을 입력해주세요',
@@ -591,11 +583,20 @@ p {
 	              return false;
 	          }
 
-	          if (confirm("수정하시겠습니까?")) {
-	              return true;
-	          } else {
-	              return false;
-	          }
+	          Swal.fire({
+	                 title: '수정하시겠습니까?',
+	                 icon: 'warning',
+	                 showCancelButton: true,
+	                 confirmButtonText: '네',
+	                 cancelButtonText: '아니요'
+	             }).then((result) => {
+	                 if (result.isConfirmed) {
+	                     // 유효성 검사가 통과되면 폼 제출
+	                     document.querySelector("#updateForm").submit();
+	                 }
+	             });
+	             return false;
+
 	      }
 
 	      // "수정하기" 버튼 클릭 시 유효성 검사 실행

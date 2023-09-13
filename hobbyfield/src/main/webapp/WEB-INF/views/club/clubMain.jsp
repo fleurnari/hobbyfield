@@ -231,7 +231,7 @@ h3 {
 		
 
 	
-		<img src="${pageContext.request.contextPath}/resources/img/hobbyClub.png" width="1430px;" height="300px;" />
+		<img src="${pageContext.request.contextPath}/resources/img/hobbyClub.png" width="1383px;" height="400px;" />
 		<div class="top-buttons">
 <%-- 			<c:if test="${not empty profileList}"> --%>
 <%-- 		    <a href="${pageContext.request.contextPath}/club/clubInsert" class="custom-button club-create btn btn-primary"> --%>
@@ -332,7 +332,7 @@ h3 {
 
    
 // var profileListNotEmpty = <c:choose><c:when test="\${not empty profileList}">true</c:when><c:otherwise>false</c:otherwise></c:choose>;
-   var profileListNotEmpty = <c:choose><c:when test="\${not empty profileList}">true</c:when><c:otherwise>false</c:otherwise></c:choose>;
+   var profileListNotEmpty = <c:choose><c:when test="${not empty profileList}">true</c:when><c:otherwise>false</c:otherwise></c:choose>;
 
 if (!profileListNotEmpty) {
     function preventAccess() {

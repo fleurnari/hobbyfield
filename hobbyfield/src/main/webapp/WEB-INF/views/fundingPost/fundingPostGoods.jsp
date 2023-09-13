@@ -52,9 +52,10 @@ flex-wrap:wrap;
 	<br><br><br><br>
 	<div class="container">
 			<div class="text-center">
-			<h4>
 			  <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostList'"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></span>&nbsp;&nbsp;
             </div>
+            <br>
+            <br>
                           <div class="dropdown">
                 <span>
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -68,21 +69,20 @@ flex-wrap:wrap;
                     </c:forEach>
                 </ul>
                 </span>
-              <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
-              <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?noticeCate=AA3'">공지사항</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'">프로젝트만들기</span>
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/ParticipantsList'">   |  인기</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/endDateList'"> |  마감임박</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?noticeCate=AA3'"> |  공지사항</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'"> |  후원현황</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'"> |  프로젝트만들기</span>
            	  <c:if test="${member.memberGrd eq 'A3'}">
-                	<span onclick="location.href='${pageContext.request.contextPath}/fundingPost/adminAccept'">프로젝트 승인</span>
+                	<span onclick="location.href='${pageContext.request.contextPath}/fundingPost/adminAccept'"> |  프로젝트 승인</span>
                 </c:if>
-            </h4>
             </div>
         </div>
-        <div>
-        </div>
+      <section>
 			<div class="text-center">
 				<h4><span   onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsert20?fndPostNumber=${fundingPostGoods.fndPostNumber }'" >프로젝트 설정</span><span> | </span><span style="color:red;">옵션 구성</span></h4>
+					                  <button type="button" class="btn btn-primary" id="fundingInsertAcc" style="float: right;">프로젝트 등록 완료하기</button>
 						<p>프로젝트를 설정해주세요</p>
 					</div>
 					<br>
@@ -96,8 +96,8 @@ flex-wrap:wrap;
 						<p class="option-name">${fundingGoods.fndGoodsName }<br>${fundingGoods.fndGoodsAmount }<br>${fundingGoods.fndGoodsPrice }<br>텍스트
 						</p>
 						<p class="option-description">${fundingGoods.fndGoodsContent }</p>
-						<input type="text" id="fndGoodsNumber" name="fndGoodsNumber" value="${fundingGoods.fndGoodsNumber }">
-						<input type="text" id="fndPostNumber" name="fndPostNumber" value="${fundingGoods.fndPostNumber }"> 
+						<input type="hidden" id="fndGoodsNumber" name="fndGoodsNumber" value="${fundingGoods.fndGoodsNumber }">
+						<input type="hidden" id="fndPostNumber" name="fndPostNumber" value="${fundingGoods.fndPostNumber }"> 
 						<button type="submit" id="goodsDelete" name="goodsDelete" class="btn btn-dark">삭제</button>
 					</div>
 				</div>
@@ -105,7 +105,8 @@ flex-wrap:wrap;
 			</c:forEach>
 		</div>
 	</div>
-	<br><br>
+	<br>
+	<hr>
 			<div class="text-center">
 				<form id="frm" name="fundingPostGoods" action="fundingPostInsertGoods"
 					method="post">
@@ -121,39 +122,36 @@ flex-wrap:wrap;
 								<p>
 							</div>
 							<div class="col-sm-6">
-								<div class="input-group mb-3">
-								
-							
-									옵션이름: <input type="text" name="fndGoodsName" value="">
-								
-								</div>
+									옵션이름 <input type="text" class="form-control" name="fndGoodsName" value="">
 							</div>
 						</div>
-						<br> <br>
+						<br>
+						<hr>
+						<br>
 						<div class="row">
 							<div class="col-sm-6">
 								<h4>
-									펀딩 설명<a style="color: red">*</a>
+									옵션 설명<a style="color: red">*</a>
 								</h4>
 								<p>
-									설정한 일시가 되면 펀딩이 자동 시작됩니다.<br> 펀딩 시작 전까지 날짜를 변경할 수 있고<br>
-									즉시 펀딩을 시작할 수 있습니다.<br>
+									옵션에 대한 간략한 설명을 적어주세요<br> 옵션 설명란은 옵션선택시 간략하게 보여주는<br>
+									옵션 선택 창에 기입되는 란입니다.<br>
 								</p>
 							</div>
 							<div class="col-sm-6">
 								<div class="mb-3">
-									펀딩설명: <input type="text" name="fndGoodsContent" value="">
+									펀딩설명 <input type="text" class="form-control" name="fndGoodsContent" value="">
 								</div>
 							</div>
 						</div>
+						<hr>
 						<div class="row">
 							<div class="col-sm-6">
 								<h4>
 									상품 가격<a style="color: red">*</a>
 								</h4>
 								<p>
-									설정한 일시가 되면 펀딩이 자동 시작됩니다.<br> 펀딩 시작 전까지 날짜를 변경할 수 있고<br>
-									즉시 펀딩을 시작할 수 있습니다.<br>
+									옵션 상품의 가격을 설정해주세요.<br>
 								</p>
 							</div>
 							<div class="col-sm-6">
@@ -165,14 +163,14 @@ flex-wrap:wrap;
 								</div>
 							</div>
 						</div>
+						<hr>
 						<div class="row">
 							<div class="col-sm-6">
 								<h4>
 									상품 이미지<a style="color: red">*</a>
 								</h4>
 								<p>
-									설정한 일시가 되면 펀딩이 자동 시작됩니다.<br> 펀딩 시작 전까지 날짜를 변경할 수 있고<br>
-									즉시 펀딩을 시작할 수 있습니다.<br>
+									옵션 상품의 이미지를 설정해주세요.<br>
 								</p>
 							</div>
 							<div class="col-sm-6">
@@ -208,7 +206,7 @@ flex-wrap:wrap;
     $('#deleteGoods').on('submit', function(e){
 		e.preventDefault();
 		
-		
+		const url = '${pageContext.request.contextPath}/fundingPost/fundingMyProject';
 		let fndGoodsNumber = $(this).find('input[name="fndGoodsNumber"]').val();
 		let fndPostNumber = $(this).find('input[name="fndPostNumber"]').val();
 		
@@ -225,12 +223,48 @@ flex-wrap:wrap;
 				let message = '삭제되었습니다.';
 				alert(message);
 				
-				document.location.reload();
+				window.location.href ='${pageContext.request.contextPath}/fundingPost/fundingPostGoods?fndPostNumber='+fndPostNumber;
 		})
 		.fail(reject => console.log(reject));
-		document.location.reload();
+		window.location.href ='${pageContext.request.contextPath}/fundingPost/fundingPostGoods?fndPostNumber='+fndPostNumber;
 	});
 	
+    //등록하기 버튼 눌렀을때
+    var fundingInsertButton = document.getElementById("fundingInsertAcc");
+    fundingInsertButton.addEventListener("click", function() {
+ 
+    		
+    		let fndPostNumber = ${fundingPostGoods.fndPostNumber };
+    		let fndStatus = 1;
+			
+    		$.ajax({
+				url : "updateFundingStatus",
+				method : "POST",
+				data : {
+					fndPostNumber : fndPostNumber,
+					fndStatus : fndStatus
+				}
+			})
+			.done(data => {
+		         if(data.result){
+		            Swal.fire({
+		                  title: '저장되었습니다', // 제목 추가
+		                    text: 'success' // 텍스트 추가
+		                    }).then(function () {
+
+		                    window.location.href = '${pageContext.request.contextPath}/fundingPost/fundingMyProject';
+		                });
+		         }else{
+
+		        	 		window.location.href = '${pageContext.request.contextPath}/fundingPost/fundingMyProject';
+
+		          }
+		      })
+		      .fail(reject => console.log(reject));
+		      
+		      return false;
+    	});
+    
 	</script>
 </body>
 </html>
