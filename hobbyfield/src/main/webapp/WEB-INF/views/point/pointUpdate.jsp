@@ -76,6 +76,10 @@ button {
 	margin-bottom: 30px;
 }
 
+.ck-editor__editable {
+	height: 20vh;
+}
+
 </style>
 </head>
 <body>

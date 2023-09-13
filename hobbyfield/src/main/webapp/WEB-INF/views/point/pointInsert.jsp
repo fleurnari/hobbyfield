@@ -87,6 +87,10 @@
 	margin-top: 7px; 
 	padding: 3px;
 }
+
+	.ck-editor__editable {
+		height: 20vh;
+	}
     
 </style>
 
@@ -138,23 +142,21 @@
 				<input type="date" id="pointEndterm" name="pointEndterm">
 			</div>
 			<div>
-				7일<input type="hidden" name="pointOptionVO[0].pointPeriod" value="7"><span><input
-					type="text" name="pointOptionVO[0].pointPrice"></span>
+				7일<input type="hidden" name="pointOptionVO[0].pointPeriod" value="7"><span>
+				<input type="text" name="pointOptionVO[0].pointPrice"></span>
 			</div>
 			<div>
-				14일<input type="hidden" name="pointOptionVO[1].pointPeriod"
-					value="14"><span> <input type="text"
-					name="pointOptionVO[1].pointPrice">
+				14일<input type="hidden" name="pointOptionVO[1].pointPeriod" value="14"><span> 
+				<input type="text" name="pointOptionVO[1].pointPrice">
 				</span>
 			</div>
 			<div>
-				30일<input type="hidden" name="pointOptionVO[2].pointPeriod"
-					value="30"><span><input type="text"
-					name="pointOptionVO[2].pointPrice"></span>
+				30일<input type="hidden" name="pointOptionVO[2].pointPeriod" value="30"><span>
+				<input type="text" name="pointOptionVO[2].pointPrice"></span>
 			</div>
 			<div>
-				영구<input type="hidden" name="pointOptionVO[3].pointPeriod" value="0"><span><input
-					type="text" name="pointOptionVO[3].pointPrice"></span>
+				영구<input type="hidden" name="pointOptionVO[3].pointPeriod" value="0"><span
+				><input type="text" name="pointOptionVO[3].pointPrice"></span>
 			</div>
 		</div>
 
