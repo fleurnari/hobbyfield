@@ -203,8 +203,21 @@ ClassicEditor
       
       return formObject;
    };
+   /*
+   var today = new Date().toISOString().split("T")[0];
+   document.getElementById("startDate").setAttribute("min", today);
+   document.getElementById("endDate").setAttribute("min", today);
+  
+   document.addEventListener('DOMContentLoaded', function () {
+       // 서버에서 받아온 날짜 데이터 (예: "2023-09-11 00:00:00")
+//시작날짜와 종료일자를 가져옵니다.
+const startDateString = "${fundingPostInsert20.fndStartDate}".split(" ")[0];
+const endDateString = "${fundingPostInsert20.fndEndDate}".split(" ")[0];
 
-   
-
+//시작날짜와 종료일자 input 요소에 설정
+document.querySelector('input[name="fndStartDate"]').value = startDateString;
+document.querySelector('input[name="fndEndDate"]').value = endDateString;
+   });
+   */
 </script>
 </html>
