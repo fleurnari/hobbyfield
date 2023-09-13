@@ -56,8 +56,7 @@
 								<div onclick="location.href='fundingPostInfo?fndPostNumber=${fundingSupportList.fndPostNumber }'">
 								
 								<figure>
-									<img id="img" src="${pageContext.request.contextPath}${fundingSupportList.fndGoodsImgPath }${fundingSupportList.fndGoodsImg }"
-									alt="img" style="float: left" width="250px" height="200px">
+									<img id="img" src="${pageContext.request.contextPath}${fundingSupportList.fndGoodsImgPath }${fundingSupportList.fndGoodsImg }" alt="img" style="float: left" width="250px" height="200px">
 								</figure>
 								
 									<p>${fundingSupportList.fndCategory }</p> <br>
