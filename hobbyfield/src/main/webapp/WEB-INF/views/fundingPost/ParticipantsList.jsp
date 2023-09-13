@@ -253,7 +253,7 @@
       <img src="${pageContext.request.contextPath}/resources/캠핑.jpg" class="d-block w-100" alt="...">
     </div>
     <div class="carousel-item">
-      <img src="${pageContext.request.contextPath}/resources/sp.jpg" class="d-block w-100" alt="...">
+      <img src="${pageContext.request.contextPath}/resources/캠핑.jpg" class="d-block w-100" alt="...">
     </div>
     <div class="carousel-item">
       <img src="${pageContext.request.contextPath}/resources/캠핑.jpg" class="d-block w-100" alt="...">

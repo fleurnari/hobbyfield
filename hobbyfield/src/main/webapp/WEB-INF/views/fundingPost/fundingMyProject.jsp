@@ -61,7 +61,6 @@
 					</figure>
 				</p>
 				<p>
-					<span><h3>프로젝트 이름</h3></span>
 					<span>${fundingMyProject.fndTitle }</span>
 				</p>
 				<br />
@@ -70,7 +69,7 @@
         %</span><span>        조회수: ${fundingMyProject.fndViews }</span>
 				</p>
 				<p>
-					<span>후원자 수 : </span><span>${fundingMyProject.fndCurrentAmount }</span>
+					<span>총 후원 금액 : </span><span>${fundingMyProject.fndCurrentAmount }</span>
 				</p>
 				<p>
 					<span>펀딩 마감까지 남은 시간 : </span>
