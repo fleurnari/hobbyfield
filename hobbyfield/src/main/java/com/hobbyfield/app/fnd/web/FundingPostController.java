@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -170,7 +169,7 @@ public class FundingPostController {
 	@GetMapping("/adminAccept")
 	public String adminAcceptForm(Model model,  @ModelAttribute("scri") SearchCriteria scri) {
 		scri.setSearchType("status");
-		scri.setKeyword("0");
+		scri.setKeyword("1");
 		model.addAttribute("fundingPostList", fundingPostService.getFundingPostList(scri));
 	
 		
@@ -272,6 +271,28 @@ public class FundingPostController {
 		return result;
 		
 	}
+	@ResponseBody
+	@PostMapping("/updateFundingStatus")
+	public int updateFundingStatus(FundingPostVO fundingPostVO) {
+		int result = fundingPostService.updateFundingStatus(fundingPostVO);
+		
+		return result;
+	}
 	
-
+	//인기별 조회
+	@GetMapping("/ParticipantsList")
+	public String ParticipantsList(FundingPostVO fundingPostVO, Model model) {
+		List<FundingPostVO> findVO = fundingPostService.ParticipantsList(fundingPostVO);
+		model.addAttribute("ParticipantsList",findVO);
+		return "fundingPost/ParticipantsList";
+	}
+	
+	//마감일자별 조회
+	@GetMapping("/endDateList")
+	public String endDateList(Model model) {
+		List<FundingPostVO> findVO = fundingPostService.endDateList();
+		model.addAttribute("endDateList", findVO);
+		return "fundingPost/endDateList";
+				
+	}
 }

@@ -51,7 +51,7 @@ public class FundingGoodsController {
 			@PostMapping("/goodsDelete")
 			public String fundingDeleteGoods(FundingGoodsVO fundingGoodsVO,FundingPostVO fundingPostVO, RedirectAttributes redirectAttributes) {
 				fundingGoodsService.deleteGoods(fundingGoodsVO);
-				redirectAttributes.addAttribute("fundingPostVO", fundingPostVO.getFndPostNumber());
+				redirectAttributes.addAttribute("fundingPostNumber", fundingPostVO.getFndPostNumber());
 				return "redirect:/fundingPostGoods";
 			}
 			

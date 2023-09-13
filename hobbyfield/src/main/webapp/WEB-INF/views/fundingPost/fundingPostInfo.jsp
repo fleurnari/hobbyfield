@@ -237,8 +237,8 @@ body.modal-open {
                     </c:forEach>
                 </ul>
                 </span>
-              <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
-              <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/ParticipantsList'">   |  인기</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/endDateList'"> |  마감임박</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?noticeCate=AA3'">공지사항</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'">프로젝트만들기</span>
@@ -256,11 +256,11 @@ body.modal-open {
 			<c:forEach items="${fundingGoodsInfo }" var="fundingGoods">
 				<div class="product-option">
 					<div class="option-box" onclick="toggleDetails(this)">
-						<p class="option-name">${fundingGoods.fndGoodsName }<br>${fundingGoods.fndGoodsAmount }<br>${fundingGoods.fndGoodsPrice }<br>텍스트
+						<p class="option-name">${fundingGoods.fndGoodsName }<br>${fundingGoods.fndGoodsAmount }<br><span>${fundingGoods.fndGoodsPrice }</span><span>원</span><br>
 						</p>
 						<p class="option-description">${fundingGoods.fndGoodsContent }</p>
 						<div class="option-details">
-							<p class="option-details-content">상세 설명이 여기에 나타납니다.</p>
+							<p class="option-details-content"></p>
 							<div class="quantity">
 								<button class="decrement">-</button>
 								<span class="quantity-value">1</span>
@@ -358,8 +358,7 @@ body.modal-open {
     </font>
 </div>
 <br>
-					<button type="button" class="btn btn-dark"
-								onclick="location.href=''">관심목록</button>
+					
 							<!-- 공유하기 모달창 -->
 							<button type="button" class="btn btn-secondary" id="modal-open">공유하기</button>
 							<!-- 옵션선택 모달창 -->

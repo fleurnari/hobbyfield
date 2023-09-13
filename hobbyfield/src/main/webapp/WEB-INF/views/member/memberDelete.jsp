@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<style>
 	  /* Reset some default styling */
 	  * {
@@ -109,19 +110,19 @@
 		$("#memDelete").on("click", function(){
 			
 			if($("#memberPwd").val()==""){
-				alert("비밀번호를 입력해주세요");
+				Swal.fire("비밀번호를 입력해주세요");
 				$("#memberPwd").focus();
 				return false;
 			}
 			
 			if($("#memberPwdChk").val()==""){
-				alert("비밀번호 확인을 입력해주세요");
+				Swal.fire("비밀번호 확인을 입력해주세요");
 				$("memberPwdChk").focus();
 				return false;
 			}
 			
 			if ($("#memberPwd").val() !== $("#memberPwdChk").val()) {
-				alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+				Swal.fire("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
 				$("#memberPwd").focus();
 				 
 				return false;

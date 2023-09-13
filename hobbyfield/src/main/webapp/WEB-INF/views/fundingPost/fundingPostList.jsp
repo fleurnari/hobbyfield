@@ -194,6 +194,22 @@
       .bd-mode-toggle {
         z-index: 1500;
       }
+      
+     /* 캐러셀(이미지슬라이드) 이미지 크기변경 */
+      .carousel-inner{
+        width:1100px;
+        height:350px; /* 이미지 높이 변경 */
+      }
+      .carousel-item{
+        width: 1100px;
+        height:100%;
+      }
+      .d-block {
+        display:block;
+        width: auto;
+        height: 100%;
+      }
+      
 </style>
 
 </head>
@@ -202,9 +218,10 @@
 <br><br><br><br>
 	<div class="container">
 			<div class="text-center">
-			<h4>
 			  <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostList'"><span class="fs-2 fw-bold text-primary ms-2">HOBBY<span class="text-warning">FUNDING</span></span></span>&nbsp;&nbsp;
             </div>
+            <br>
+            <br>
                           <div class="dropdown">
                 <span>
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -218,19 +235,41 @@
                     </c:forEach>
                 </ul>
                 </span>
-              <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
-              <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?noticeCate=AA3'">공지사항</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
-              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'">프로젝트만들기</span>
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/ParticipantsList'">   |  인기</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/endDateList'"> |  마감임박</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?noticeCate=AA3'"> |  공지사항</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'"> |  후원현황</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'"> |  프로젝트만들기</span>
            	  <c:if test="${member.memberGrd eq 'A3'}">
-                	<span onclick="location.href='${pageContext.request.contextPath}/fundingPost/adminAccept'">프로젝트 승인</span>
+                	<span onclick="location.href='${pageContext.request.contextPath}/fundingPost/adminAccept'"> |  프로젝트 승인</span>
                 </c:if>
-            </h4>
             </div>
         </div>
-        <div>
-        </div>
+        <br>
+        <div class="container">
+ <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="${pageContext.request.contextPath}/resources/캠핑.jpg" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="${pageContext.request.contextPath}/resources/sp.jpg" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="${pageContext.request.contextPath}/resources/캠핑.jpg" class="d-block w-100" alt="...">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+</div>
+        
 	<Section>
 	 <div class="album py-5 bg-body-tertiary">
     <div class="container">
@@ -247,14 +286,10 @@
             <div class="card-body">
               <p class="card-text">
               <p>
-					<span>${fundingPost.fndCategory }</span>
+					<span>${fundingPost.fndCategory }</span><span> | </span><span>${fundingPost.memberEmail }</span>
 				</p>
 				<p>
 					<span><h3>${fundingPost.fndTitle }</h3></span>
-				</p>
-				<br />
-				<p>
-					<span>${fundingPost.fndStatus}</span>
 				</p>
 				<p>
 					<span><div class="progress">
@@ -338,8 +373,11 @@
 		});
 		
 		
+		$(document).ready(function(){
+			
 		
 		$(document).on('click', '.dropdown-item', function(e) {
+			console.log("test")
 		    const fndCategory = $(this).data('type-code');
 		    const fndPostNumber = $(this).data('${fundingPost.fndPostNumber }');
 
@@ -353,41 +391,38 @@
 		            $(".container2").empty();
 
 		            $.each(cate, function (index, fundingPost) {
+		            	console.log(fundingPost)
 		                    $(".container2").append(`
-		                    		<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-		                    	     <c:forEach items="\${fundingPostList}" var="fundingPost">
-		                    	     <c:if test="\${fundingPost.fndStatus eq '2' }">
+		                    	     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 		                    	        <div class="col" onclick="location.href='fundingPostInfo?fndPostNumber=\${fundingPost.fndPostNumber }'">
 		                    	          <div class="card shadow-sm">
 		                    	<svg class="bd-placeholder-img card-img-top" width="337.78" height="225" role="img" aria-label="Placeholder: Thumbnail" focusable="false">
 		                    	  <title>Placeholder</title>
-		                    	  <image xlink:href="\${pageContext.request.contextPath}\${fundingPost.fndMainImgPath}\${fundingPost.fndMainImg}" width="337.78" height="225" />
+		                    	  <image xlink:href="${pageContext.request.contextPath}\${fundingPost.fndMainImgPath}\${fundingPost.fndMainImg}" width="337.78" height="225" />
 		                    	</svg>
 		                    	            <div class="card-body">
 		                    	              <p class="card-text">
 		                    	              <p>
-		                    						<span>${fundingPost.fndCategory }</span>
+		                    						<span>\${fundingPost.fndCategory }</span><span> | </span><span>\${fundingPost.memberEmail }</span>
 		                    					</p>
 		                    					<p>
-		                    						<span><h3>${fundingPost.fndTitle }</h3></span>
+		                    						<span><h3>\${fundingPost.fndTitle }</h3></span>
 		                    					</p>
-		                    					<br />
 		                    					<p>
-		                    						<span>${fundingPost.fndStatus}</span>
+		                    						<span>\${fundingPost.fndStatus}</span>
 		                    					</p>
 		                    					<p>
 		                    						<span><div class="progress">
-		                    	    <div class="progress-bar" role="progressbar" style="width: \${(fundingPost.fndCurrentAmount / fundingPost.fndTargetAmount) * 100}%;" aria-valuenow="${(fundingPost.fndCurrentAmount / fundingPost.fndTargetAmount) * 100}" aria-valuemin="0" aria-valuemax="100">${(fundingPost.fndCurrentAmount / fundingPost.fndTargetAmount) * 100}% 진행중</div>
-		                    	</div><span>        조회수: ${fundingPost.fndViews }</span>
+		                    	    <div class="progress-bar" role="progressbar" style="width: ${(fundingPost.fndCurrentAmount / fundingPost.fndTargetAmount) * 100}%;" aria-valuenow="${(fundingPost.fndCurrentAmount / fundingPost.fndTargetAmount) * 100}" aria-valuemin="0" aria-valuemax="100">\${(fundingPost.fndCurrentAmount / fundingPost.fndTargetAmount) * 100}% 진행중</div>
+		                    	</div><span>        조회수: \${fundingPost.fndViews }</span>
 		                    					</p>
 		                    					<p>
-		                    						<span>${fundingPost.fndCurrentAmount }</span><span>원</span>
+		                    						<span>\${fundingPost.fndCurrentAmount }</span><span>원</span>
 		                    					</p>
 
 		                    	              <div class="d-flex justify-content-between align-items-center">
 		                    	                <div class="btn-group">
 		                    	                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-		                    	                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
 		                    	                </div>
 		                    	                <small class="text-body-secondary">					<span>펀딩 마감까지 남은 시간</span>
 		                    						<span class="time">
@@ -401,7 +436,7 @@
 
 		                    	    					<c:choose>
 		                    	        					<c:when test="${endDate - nowfmtTime >= 1}">
-		                    	            					${endDate - nowfmtTime + 1}
+		                    	            					\${endDate - nowfmtTime + 1}
 		                    	           						<span>일 남음</span>
 		                    	        					</c:when>
 		                    	        					<c:when test="${endDate - nowfmtTime == 0}">
@@ -416,8 +451,9 @@
 		                    	            </div>
 		                    	          </div>
 		                    	        </div>
-		                    	     </c:if>
-		                    	     </c:forEach>
+		                    		</div>
+		                    			</div>
+		                    		</div>
 		                    `);
 		            });
 		        },
@@ -427,6 +463,7 @@
 		        }
 		    });
 		});
+	});
 		
 	</script>
 </body>

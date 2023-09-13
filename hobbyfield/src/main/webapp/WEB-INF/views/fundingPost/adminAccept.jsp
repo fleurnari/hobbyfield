@@ -205,8 +205,8 @@ li {
                     </c:forEach>
                 </ul>
                 </span>
-              <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
-              <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/ParticipantsList'">   |  인기</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/endDateList'"> |  마감임박</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?noticeCate=AA3'">공지사항</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'">프로젝트만들기</span>
@@ -360,7 +360,7 @@ li {
 	            
 	            // Ajax 요청을 이용하여 승인 처리
 	            $.ajax({
-	                url: 'fundingAdminUpdate', // 실제 승인 처리를 수행할 URL로 변경해야 합니다.
+	                url: 'updateFundingStatus', // 실제 승인 처리를 수행할 URL로 변경해야 합니다.
 	                type: 'POST',
 	                data: { fndPostNumber: fndPostNumber, fndStatus: fndStatus },
 	                success: function (response) {

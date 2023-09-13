@@ -9,6 +9,12 @@ public interface FundingPostMapper {
 	//전체조회
 	public List<FundingPostVO> selectFundingPostList(SearchCriteria scri);
 	
+	//인기조회
+	public List<FundingPostVO> ParticipantsList(FundingPostVO fundingPostVO);
+	
+	//마감일자 조회
+	public List<FundingPostVO> endDateList();
+	
 	//상세조회
 	public FundingPostVO selectFundingPost(FundingPostVO fundingPostVO);
 	
@@ -35,4 +41,10 @@ public interface FundingPostMapper {
 	
 	// 카테고리별 펀딩 정렬
 	public List<FundingPostVO> selectFundingPostCate(String fndCategory);
+	
+	//펀딩 상태 변경
+	public int updateFundingStatus(FundingPostVO fundingPostVO);
+
+	//스케쥴러 마감
+	public int fundingPostDeadLine();
 }
