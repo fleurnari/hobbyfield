@@ -130,8 +130,6 @@
 							data-bs-toggle="modal" data-bs-target="#emojiModal">😊</button>
 						</div>
 
-						//<button type="button" id="commentInsert">댓글 작성</button>
-						//<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#emojiModal">😊</button>
 
 					</form>
 				</c:if>

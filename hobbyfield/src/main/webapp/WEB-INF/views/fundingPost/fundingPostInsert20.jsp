@@ -103,12 +103,12 @@
                     <div class="col-sm-6">
   <div class="mb-3">
     시작 날짜: 
-    <input type="date" name="fndStartDate" value="${fundingPostInsert20.fndStartDate}" id="startDate">
+    <input type="date" name="fndStartDate" value="${fundingPostInsert20.fndStartDate.split(' ')[0]}" id="startDate">
   </div>
   <br>
   <div class="mb-3">
     종료 날짜: 
-    <input type="date" name="fndEndDate" value="${fundingPostInsert20.fndEndDate}" id="endDate">
+    <input type="date" name="fndEndDate" value="${fundingPostInsert20.fndEndDate.split(' ')[0]}" id="endDate">
   </div>
 </div>
                   </div>
