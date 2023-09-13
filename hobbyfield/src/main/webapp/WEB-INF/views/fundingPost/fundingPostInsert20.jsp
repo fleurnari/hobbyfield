@@ -103,14 +103,16 @@
                     <div class="col-sm-6">
   <div class="mb-3">
     시작 날짜: 
-    <input type="date" name="fndStartDate" value="${fundingPostInsert20.fndStartDate.split(' ')[0]}" id="startDate">
+    <input type="datetime-local" name="fndStartDate" value="${fundingPostInsert20.fndStartDate}">
   </div>
   <br>
   <div class="mb-3">
     종료 날짜: 
-    <input type="date" name="fndEndDate" value="${fundingPostInsert20.fndEndDate.split(' ')[0]}" id="endDate">
+    <input type="datetime-local" name="fndEndDate" value="${fundingPostInsert20.fndEndDate}">
   </div>
 </div>
+<input type="date" name="fndStartDate" value="${fundingPostInsert20.fndStartDate.split(' ')}" id="startDate">
+<input type="date" name="fndEndDate" value="${fundingPostInsert20.fndEndDate.split(' ')}" id="endDate">
                   </div>
                   <hr>
                   <div class="row">
@@ -164,7 +166,7 @@ ClassicEditor
        let objData = serializeObject();
       
       $.ajax({
-         url : 'fundingPostUpdate',
+         url : 'fundingPost/fundingPostUpdate',
          method : 'post',
          //비동기라고 json 방식으로 안보내도됨! 
          data : objData

@@ -102,6 +102,7 @@ public class FundingPostController {
 	}
 		@PostMapping("/fundingPostInsert")
 		public String fundingPostInsertProcess(HttpSession session, FundingPostVO fundingPostVO, Model model) {
+			
 			MemberVO member = (MemberVO) session.getAttribute("member");
 			fundingPostVO.setMemberEmail(member.getMemberEmail());
 			fundingPostService.insertFundingPostInfo(fundingPostVO);
@@ -116,7 +117,7 @@ public class FundingPostController {
 	//두개의 데이터를 돌려받기위해
 	public Map<String, Object>fundingPostUpdate(FundingPostVO fundingPostVO) {
 		boolean result = false;
-		
+		System.out.println(fundingPostVO);
 		int fundingNo = fundingPostService.updateFundingPostInfo(fundingPostVO);
 		if(fundingNo > 0) {
 			result = true;

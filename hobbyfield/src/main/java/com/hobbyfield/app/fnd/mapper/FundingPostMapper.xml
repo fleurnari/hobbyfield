@@ -169,6 +169,7 @@
 			Fnd_Target_Amount = #{fndTargetAmount}
 		  , Fnd_Start_Date = #{fndStartDate}
 		  , Fnd_End_Date = #{fndEndDate}
+		  , Fnd_Wdate = SYSDATE
 		  , Fnd_Status = #{fndStatus}
 		  , Fnd_Content = #{fndContent}
 		WHERE fnd_Post_Number = #{fndPostNumber}
