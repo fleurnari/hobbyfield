@@ -164,7 +164,7 @@ body {
                   		<!-- 카카오 로그인 -->
                   		<div style="text-align:center">
 						<spring:eval var="key" expression="@property['key.KAKAO']" />
-						<a class="p-2" href="https://kauth.kakao.com/oauth/authorize?client_id=${key}&redirect_uri=http://localhost/app/member/kakaoLogin&response_type=code">
+						<a class="p-2" href="https://kauth.kakao.com/oauth/authorize?client_id=${key}&redirect_uri=http://15.164.193.6:85/app/member/kakaoLogin&response_type=code">
 							<img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" style="width:223px; height:48.22px;">
 						</a>
                   		</div>
