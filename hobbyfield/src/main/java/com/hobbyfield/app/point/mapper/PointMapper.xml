@@ -94,7 +94,7 @@
 					'V1',
 						SYSDATE,
 					<if test="pointItemType.equals('W1')">
-					point_endterm = to_date(#{pointEndterm},'yyyy-MM-dd'),
+					to_date(#{pointEndterm},'yyyy-MM-dd'),
 					</if>
 					
 					#{pointImgName},
