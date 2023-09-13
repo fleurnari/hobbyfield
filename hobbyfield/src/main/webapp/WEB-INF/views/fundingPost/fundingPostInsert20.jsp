@@ -143,10 +143,10 @@
 <script type="text/javascript">
 ClassicEditor
 .create( document.querySelector( '#fndContent' ), {
-	language:"ko",
-	ckfinder: {
-		uploadUrl : '${pageContext.request.contextPath}/ckeditor/upload'
-	}
+   language:"ko",
+   ckfinder: {
+      uploadUrl : '${pageContext.request.contextPath}/ckeditor/upload'
+   }
 })
 .then(editor => {
     // 에디터 인스턴스가 생성되면 호출되는 콜백 함수
