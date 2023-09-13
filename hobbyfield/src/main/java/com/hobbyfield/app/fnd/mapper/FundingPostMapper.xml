@@ -167,8 +167,8 @@
 		UPDATE Funding_Post
 		SET 
 			Fnd_Target_Amount = #{fndTargetAmount}
-		  , Fnd_Start_Date = #{fndStartDate}
-		  , Fnd_End_Date = #{fndEndDate}
+		  , Fnd_Start_Date = to_date(#{fndStartDate},'yyyy-MM-dd')
+		  , Fnd_End_Date = to_date(#{fndEndDate},'yyyy-MM-dd')
 		  , Fnd_Wdate = SYSDATE
 		  , Fnd_Status = #{fndStatus}
 		  , Fnd_Content = #{fndContent}

@@ -205,7 +205,7 @@ ClassicEditor
       
       return formObject;
    };
-   /*
+  
    var today = new Date().toISOString().split("T")[0];
    document.getElementById("startDate").setAttribute("min", today);
    document.getElementById("endDate").setAttribute("min", today);
@@ -220,6 +220,6 @@ const endDateString = "${fundingPostInsert20.fndEndDate}".split(" ")[0];
 document.querySelector('input[name="fndStartDate"]').value = startDateString;
 document.querySelector('input[name="fndEndDate"]').value = endDateString;
    });
-   */
+  
 </script>
 </html>
