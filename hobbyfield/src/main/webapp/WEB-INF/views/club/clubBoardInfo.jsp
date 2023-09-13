@@ -16,14 +16,13 @@
 <script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/club/clubBoardInfo.css">
+	href="${pageContext.request.contextPath}/resources/css/club/clubBoardInfo.css?after">
 <style type="text/css">
 .ck.ck-editor {
 	width: 80%;
 	max-width: 800px;
 	margin: 0 auto;
 }
-
 .ck-editor--editable {
 	height: 60vh;
 }
@@ -47,10 +46,8 @@
 						<fmt:formatDate value="${board.clubBoardWdate}" dateStyle="full" />
 						<p class="board-views">${board.clubBoardViews}</p>
 					</div>
-					<div id="editor1">
-						<div class="board-content" id="editor">${board.clubBoardContent}</div>
-					</div>
-					<p>좋아요 : ${boardLike} 개</p>
+					<div class="board-content">${board.clubBoardContent}</div>
+					<p class="board-like">좋아요 : ${boardLike} 개</p>
 					<c:if
 						test="${(profile.profileNickname ne board.clubBoardWriter) && (profile ne null)}">
 						<button type="button" id="boardLike">좋아요</button>
@@ -74,12 +71,14 @@
 										<c:if test="${comment.clubCommentLevel eq 'M2'}">
                         &nbsp;&nbsp;&nbsp;&nbsp;<p>Re:</p>
 										</c:if>
-										<p>${comment.profileNickname}</p>
-										<p>${comment.clubCommentContent}</p>
-										<p>
+										<div class="comment-info">
+										<p class="comment-writer">${comment.profileNickname}</p>
+										<p class="comment-content">${comment.clubCommentContent}</p>
+										<p class="comment-wdate">
 											<fmt:formatDate value="${comment.clubCommentDate}"
 												pattern="yyyy-MM-dd" />
 										</p>
+										</div>
 										<c:if test="${comment.clubCommentLevel eq 'M1'}">
 											<button type="button"
 												onclick="recommentInsert('${comment.boardNumber}', '${comment.commentNumber}')">대댓</button>
@@ -111,20 +110,24 @@
 				<c:if test="${profile ne null}">
 					<form id="commentInsertForm">
 						<input type="hidden" id="boardNumber" name="boardNumber"
-							value="${board.boardNumber}"> <label
-							for="profileNickname">댓글작성자 :</label> <input type="text"
+							value="${board.boardNumber}">
+							<label for="profileNickname"></label>
+							<input type="hidden"
 							id="profileNickname" name="profileNickname"
-							value="${profile.profileNickname}" readonly > <label
-							for="clubCommentContent">댓글 내용 : </label>
-
+							value="${profile.profileNickname}" readonly > 
+							<label for="clubCommentContent"><img class="comment-img" src="${pageContext.request.contextPath}${profile.profileImgPath}${board.profileImg}"
+							onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/resources/images/common.png'"></label>
+						<div class="insert-box">
 						<div id="editor2"></div>
-
+						</div>
+						<div style="margin-top: 5px;">
 						<label for="clubCommentSecret">비밀 댓글 : </label> <input
 							type="checkbox" id="clubCommentSecret" name="clubCommentSecret"
 							value="">
-						<button type="button" id="commentInsert">댓글 작성</button>
+						<button type="button" class="btn btn-primary" id="commentInsert">댓글 작성</button>
 						<button type="button" class="btn btn-primary"
 							data-bs-toggle="modal" data-bs-target="#emojiModal">😊</button>
+						</div>
 					</form>
 				</c:if>
 			</div>
@@ -207,7 +210,7 @@
 						<label for="profileNickname">댓글 작성자 :
 							${profile.profileNickname} </label> <br> <label
 							for="updateClubCommentContent">댓글 내용</label>
-						<textarea rows="1" cols="100" id="updateClubCommentContent"
+						<textarea rows="30" cols="30" id="updateClubCommentContent"
 							name="clubCommentContent"></textarea>
 						<br> <label for="updateClubCommentSecret">비밀 댓글 <input
 							type="checkbox" id="updateClubCommentSecret"
@@ -271,7 +274,7 @@
 						<label for="profileNickname">댓글 작성자 :
 							${profile.profileNickname} </label> <br> <label
 							for="updateClubCommentContent">댓글 내용</label>
-						<textarea rows="1" cols="100" id="updateClubCommentContent"
+						<textarea rows="10" cols="30" id="updateClubCommentContent"
 							name="clubCommentContent"></textarea>
 						<br> <label for="updateClubCommentSecret">비밀 댓글 <input
 							type="checkbox" id="updateClubCommentSecret"
