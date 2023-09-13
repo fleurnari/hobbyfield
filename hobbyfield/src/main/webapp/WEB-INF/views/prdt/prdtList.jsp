@@ -163,7 +163,7 @@ body {
             <div class="row" align="center">
                <c:forEach items="${prdtList}" var="prdt"> 
                   <div class="col-md-4">
-                     <img onerror="this.onerror=null; this.src=${pageContext.request.contextPath}/resources/images/'dog.png';" src="${pageContext.request.contextPath}${prdt.prdtThumPath}/${prdt.prdtThum}" style="width: 200px; height: 250px;">
+                     <img onerror="this.onerror=null; this.src=${pageContext.request.contextPath}/resources/images/'dog.png';" src="${pageContext.request.contextPath}${prdt.prdtThumPath}${prdt.prdtThum}" style="width: 200px; height: 250px;">
                      <h3 class="lh-sm fs-lg-1 fs-xxl-2"><a href="prdtInfo?prdtId=${prdt.prdtId}">${prdt.prdtName}</a></h3>
                      <br>
                      <p class="text-600"><fmt:formatNumber type="number" value="${prdt.prdtPrice}" pattern="###,###,###원"/></p>
