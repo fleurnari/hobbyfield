@@ -202,8 +202,8 @@ span {
 			
 
 			
-			<div id="preview"><img src="noimg.jpg" width="300" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/img/clubImg.jpg';"/></div>
-			<input name="uploadFile" type="file" value="" onchange="readURL(this);">
+			<div id="preview"><img src="noimg.jpg" width="300"  src="" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/img/clubImg.jpg';"/></div>
+			<input name="uploadFile" type="file" value="">
 			<button type="button" id="uploadBtn">upload</button>
 			
 			<!-- 소모임 정원 default값 50 -->

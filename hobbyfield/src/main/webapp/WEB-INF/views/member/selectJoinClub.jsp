@@ -100,7 +100,7 @@
 					<tbody>
 						<c:forEach items="${clubList}" var="club">
 							<tr onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=${club.clubNumber}'">
-								<td><img src="${pageContext.request.contextPath}/${club.clubImgPath}${club.clubImg}"></td>
+								<td><img src="${pageContext.request.contextPath}${club.clubImgPath}${club.clubImg}"></td>
 								<td>${club.clubName}</td>
 								<td>${club.clubCategory}</td>
 								<td>${club.clubType}</td>
