@@ -195,12 +195,13 @@ h3 {
     font-size: 18px;
     color: #333;
     border-bottom: 1px solid color black;   
-    background-color: gray;
+
 }
 
 .board-writer {
     font-style: italic;
-    color: #666;
+    border-bottom: 1px solid #e1e1e1;
+    margin-bottom: 2px;
 }
 
 .board-content {
@@ -216,7 +217,8 @@ h3 {
     height: 45px;
     height: auto;
     border-radius: 70%;
-    overflow: hidden;
+    overflow: hidden; 
+    float: left;
 }
 .board-content img{
    display: none;
@@ -287,7 +289,7 @@ h3 {
 							<p>${board.clubName}</p>
 						</div>
 						<div class="board-writer">
-							<p>게시글작성자: ${board.clubBoardWriter}</p>
+							<p>${board.clubBoardWriter}</p>
 							<img alt="writerImg"
 								src="${pageContext.request.contextPath}/${board.profileImgPath}${board.profileImg}"
 								class="writer-img">
