@@ -238,14 +238,14 @@
 
 <body>
 	<div class="container" style="margin-top: 150px;">
-    	<img src="${pageContext.request.contextPath}/resources/img/hobbyClub.png" width="1430px;" height="300px;" />
+    	<img src="${pageContext.request.contextPath}/resources/img/hobbyClub.png" width="1383px;" height="400px;" />
     	<div class="top-buttons">
-    		<c:if test="${not empty profileList}">
+<%--     		<c:if test="${not empty profileList}"> --%>
 		    <a href="${pageContext.request.contextPath}/club/clubInsert" class="custom-button club-create btn btn-primary">
 		        <span class="button-icon">&#43;</span> <!-- 플러스 아이콘 -->
 		        소모임 생성
 		    </a>
-		    </c:if>
+<%-- 		    </c:if> --%>
 		    <a href="${pageContext.request.contextPath}/club/profileInsert" class="custom-button profile-create btn btn-primary">
 		        <span class="button-icon">&#128100;</span> <!-- 사람 아이콘 -->
 		        프로필 생성
