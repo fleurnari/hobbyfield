@@ -28,7 +28,7 @@ public class NaverLoginBO {
     private String CLIENT_ID;
 	@Value("${key.NAVER}")
     private String CLIENT_SECRET;
-    private final static String REDIRECT_URI = "http://localhost/app/member/naverLogin";
+    private final static String REDIRECT_URI = "http://15.164.193.6:85/app/member/naverLogin";
     private final static String SESSION_STATE = "oauth_state";
     /* 프로필 조회 API URL */
     private final static String PROFILE_API_URL = "https://openapi.naver.com/v1/nid/me";

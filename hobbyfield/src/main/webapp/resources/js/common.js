@@ -59,7 +59,7 @@
 						for(mv of list) {
 							var preview = document.getElementById("preview");
 							var imgTag = document.createElement("img");
-							imgTag.src = "/app" + mv.url + "/" +mv.UUID; 
+							imgTag.src = "/app" + mv.url +mv.UUID; 
 							console.log( imgTag.src );
 							imgTag.style.width=200+'px';
 							imgTag.style.height=200+'px';							

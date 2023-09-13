@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <style>
 	/* Reset some default styling */
@@ -121,22 +122,22 @@
    $(document).ready(function(){
 	    $("#pwdUpdate").on("click", function(){
 	        if($("#memberPwd").val() === ""){
-	            alert("현재 비밀번호를 입력해주세요");
+	        	Swal.fire('현재 비밀번호를 입력해주세요');
 	            $("#memberPwd").focus();
 	            return false;
 	        }
 	        if($("#newMemberPwd").val() === ""){
-	            alert("새 비밀번호를 입력해주세요");
+	        	Swal.fire('새 비밀번호를 입력해주세요');
 	            $("#newMemberPwd").focus();
 	            return false;
 	        }
 	        if($("#newPwdChk").val() === ""){
-	            alert("새 비밀번호를 다시 입력해주세요");
+	        	Swal.fire("새 비밀번호를 다시 입력해주세요");
 	            $("#newPwdChk").focus();
 	            return false;
 	        }
 	        if ($("#newMemberPwd").val() !== $("#newPwdChk").val()) {
-	            alert("새 비밀번호가 일치하지 않습니다.");
+	        	Swal.fire("새 비밀번호가 일치하지 않습니다.");
 	            $("#newPwdChk").focus();
 	            return false;
 	        }

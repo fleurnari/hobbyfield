@@ -88,5 +88,22 @@ public class FundingPostServiceImpl implements FundingPostService {
 	public List<FundingPostVO> selectFundingPostCate(String fndCategory) {
 		return fundingPostMapper.selectFundingPostCate(fndCategory);
 	}
-
+	
+	//펀딩 속성 변경
+	@Override
+	public int updateFundingStatus(FundingPostVO fundingPostVO) {
+		return fundingPostMapper.updateFundingStatus(fundingPostVO);
+	}
+	
+	//인기별 조회
+	@Override
+	public List<FundingPostVO> ParticipantsList(FundingPostVO fundingPostVO) {
+		return fundingPostMapper.ParticipantsList(fundingPostVO);
+	}
+	
+	//마감일자 조회
+	@Override
+	public List<FundingPostVO> endDateList(){
+		return fundingPostMapper.endDateList();
+	}
 }

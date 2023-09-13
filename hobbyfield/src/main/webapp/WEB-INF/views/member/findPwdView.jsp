@@ -84,7 +84,7 @@
 	<div class="p-5">
 		<div class="text-center">
 			<h1 class="h4 text-gray-900 mb-2">비밀번호 찾기</h1>
-			<p class="mb-4">아이디와 이메일을 입력해주세요!</p>
+			<p class="mb-4">이메일과 이름을 입력해주세요!</p>
 		</div>
 		<form class="user" action="${pageContext.request.contextPath}/member/findPwd" method="post">
 			<div class="form-group">

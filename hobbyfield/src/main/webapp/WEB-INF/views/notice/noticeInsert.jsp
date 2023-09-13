@@ -72,6 +72,10 @@ h3{
 	cursor: pointer;
 }
 
+	.ck-editor__editable {
+		height: 20vh;
+	}
+
 </style>
 </head>
 <body>

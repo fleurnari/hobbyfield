@@ -32,8 +32,8 @@
                     </c:forEach>
                 </ul>
                 </span>
-              <span onclick="location.href='#'">인기</span>&nbsp;&nbsp;
-              <span onclick="location.href='#'">마감임박</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/ParticipantsList'">   |  인기</span>&nbsp;&nbsp;
+              <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/endDateList'"> |  마감임박</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/notice/noticeList?noticeCate=AA3'">공지사항</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingSupportList'">후원현황</span>&nbsp;&nbsp;
               <span onclick="location.href='${pageContext.request.contextPath}/fundingPost/fundingPostInsertForm'">프로젝트만들기</span>
@@ -67,7 +67,7 @@
 					<tr>
 					<td>
 					<figure>
-					<img id="img" src="${fundingGoodsInfo.fndGoodsImgPath }${fundingGoodsInfo.fndGoodsImg }"
+					<img id="img" src="${pageContext.request.contextPath}${fundingGoodsInfo.fndGoodsImgPath }${fundingGoodsInfo.fndGoodsImg }"
 						alt="img" style="float: left" width="450px" height="350px">
 					</figure>
 					</td>
