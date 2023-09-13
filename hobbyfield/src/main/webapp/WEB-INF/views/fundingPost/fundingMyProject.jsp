@@ -60,29 +60,21 @@
 						onclick="location.href='fundingPostInfo?fndPostNumber=${fundingMyProject.fndPostNumber }'" width="400">
 					</figure>
 				</p>
-		</form>
-		<form>
-				<p>
-					<span>${fundingMyProject.fndCategory }</span>
-				</p>
 				<p>
 					<span><h3>프로젝트 이름</h3></span>
 					<span>${fundingMyProject.fndTitle }</span>
 				</p>
 				<br />
 				<p>
-					<span>${fundingMyProject.fndStatus}</span>
-				</p>
-				<p>
 					<span><fmt:formatNumber value="${(fundingMyProject.fndCurrentAmount / fundingMyProject.fndTargetAmount) * 100 }" pattern="#.##" />
         %</span><span>        조회수: ${fundingMyProject.fndViews }</span>
 				</p>
 				<p>
-					<span>${fundingMyProject.fndCurrentAmount }</span>
+					<span>후원자 수 : </span><span>${fundingMyProject.fndCurrentAmount }</span>
 				</p>
 				<p>
-					<span>펀딩 마감까지 남은 시간</span>
-				<p>
+					<span>펀딩 마감까지 남은 시간 : </span>
+				
 					<span class="time">
 						<jsp:useBean id="now" class="java.util.Date" />
 					
