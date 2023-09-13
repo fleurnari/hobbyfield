@@ -1,236 +1,258 @@
 @font-face {
-    font-family: 'GmarketSansMedium';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+	font-family: 'GmarketSansMedium';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
 }
-body{
+
+body {
 	background-color: #f4f4f4;
 	font-family: Arial, sans-serif;
 }
 /* Modal styles */
 .ck.ck-editor {
-    width: 80%;
-    max-width: 800px;
-    margin: 0 auto;
- }
- 
- .ck-editor__editable {
-    height: 80vh;
- }
- 
- /* Modal styles */
- /* open button */
- .modal-open-btn, .submit-btn, .reset-btn {
-   margin-top: 20px;
-   padding: 10px 20px;
-   background-color: #007bff;
-   color: #fff;
-   border: none;
-   border-radius: 5px;
-   cursor: pointer;
- }
- 
- .open-modal-btn:hover .submit-btn:hover, .reset-btn:hover{
-   background-color: #0056b3;
- }
- 
- /* close button */
- .close {
-   right: 20px;
-   color: #aaa;
-   font-size: 30px;
-   cursor: pointer;
-   right: 100px;
+	width: 80%;
+	max-width: 800px;
+	margin: 0 auto;
+}
 
- }
- 
- .close:hover {
-   color: #555;
- }
- 
- /* Modalmain  */
- .main-modal {
-    display: none;
-    position: fixed;
-    z-index: 4;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
- }
- /* Modal content */
- .content-modal {
-    background-color: white;
-    margin: 10% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    border-radius : 10px;
-    width: 80%;
-    max-width: 800px;
-    min-height: 500px;
- }
- /* submit-btn */
+.ck-editor__editable {
+	height: 80vh;
+}
 
- 
- /* 내용 style */
+/* Modal styles */
+/* open button */
+.modal-open-btn, .submit-btn, .reset-btn {
+	margin-top: 20px;
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.open-modal-btn:hover .submit-btn:hover, .reset-btn:hover {
+	background-color: #0056b3;
+}
+
+/* close button */
+.close {
+	right: 20px;
+	color: #aaa;
+	font-size: 30px;
+	cursor: pointer;
+	right: 100px;
+}
+
+.close:hover {
+	color: #555;
+}
+
+/* Modalmain  */
+.main-modal {
+	display: none;
+	position: fixed;
+	z-index: 4;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+/* Modal content */
+.content-modal {
+	background-color: white;
+	margin: 10% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	border-radius: 10px;
+	width: 80%;
+	max-width: 800px;
+	min-height: 500px;
+}
+/* submit-btn */
+
+/* 내용 style */
 /* 작성자 profile */
 .writer-img {
 	width: 60px;
 	height: 60px;
 	float: left;
-	display: inline-block;	
+	display: inline-block;
 }
-.writer-img img{
+
+.writer-img img {
 	left: 2px;
 	width: 45px;
 	height: 45px;
 	border-radius: 70%;
 	overflow: hidden;
 }
-#boardList img{
+
+#boardList img {
 	max-width: 200px;
-	max-height: 100px; 
+	max-height: 100px;
 }
 
- #clubBoardList {
-   display: flex;
-   flex-direction: column;
-   align-items: stretch;
-   gap: 20px;
-   width: 40%;
- }
- #clubBoardInsert {
-   display: flex;
-   flex-direction: column;
-   align-items: stretch;
-   gap: 20px;
-   width: 40%;
- }
- #profileInsert {
-   display: flex;
-   flex-direction: column;
-   align-items: stretch;
-   gap: 20px;
-   width: 40%;
- }
- 
- .boardMain {
-   width: 800px;
-   height: 300px;
-   background-color: #ffffff;
-   border: 1px solid #e1e1e1;
-   border-radius: 5px;
-   padding: 15px;
-   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-   transition: transform 0.2s, box-shadow 0.2s;
-   cursor: pointer;
-   margin-top: 30px;
- }
- 
- .boardMain:hover {
-   transform: translateY(-5px);
-   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
- }
- 
- .boardMain p {
-   margin: 5px 0;
- }
- 
- .boardMain img {
-   margin-right: 10px;
- }
-/* 메인 이름 */
-.head-name{
-  	color: #D3D3D3;
-    text
+#clubBoardList {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 20px;
+	width: 40%;
 }
- 
-.board-modal-head{
+
+#clubBoardInsert {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 20px;
+	width: 40%;
+}
+
+#profileInsert {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 20px;
+	width: 40%;
+}
+
+.board--main {
+	width: 800px;
+	height: 100px;
+	text-align: left;
+	padding-top: px;
+	border-radius: 5px;
+	background-color: #ffffff;
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+	transition: transform 0.2s, box-shadow 0.2s;
+	cursor: pointer;
+	margin-top: 30px;
+}
+.board--main:hover {
+	transform: translateY(-5px);
+	box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+}
+.boardMain{
+	width: 800px;
+	min-height: 400px;
+	max-height: 800px;
+	background-color: #ffffff;
+	border: 1px solid #e1e1e1;
+	border-radius: 5px;
+	padding: 15px;
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+	transition: transform 0.2s, box-shadow 0.2s;
+	cursor: pointer;
+	margin-top: 30px;
+}
+
+.boardMain:hover {
+	transform: translateY(-5px);
+	box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.boardMain p {
+	margin: 5px 0;
+}
+
+.boardMain img {
+	margin-right: 10px;
+}
+
+
+.board-modal-head {
 	text-align: left;
 	padding-left: 10px;
 }
-.board-modal-head p{
+
+.board-modal-head p {
 	
 }
- /* 검색창 */
- .search-div {
-   position: relative;
-   width: 800px;
-   height: 40px;
-   border-radius: 5px;
- }
- 
- .search-text {
-   width: 800px;
-   border: 1px solid #bbb;
-   border-radius: 5px;
-   padding: 10px 12px;
-   font-size: 14px;
- }
- 
- .search-img {
-   position : absolute;
-   width: 17px;
-   top: 10px;
-   right: 17px;
-   margin-left: 5px;
-   pointer-events: auto;
-   cursor: pointer;
- }
- .board-list-content{
- 	text-align: left;
- 	border-bottom: 1px solid #e1e1e1;
- 	min-height: 300px;
- }
- /* aside */
- .left-side{ 
-     position: absolute;
-     top: 150px;
-     left: 80px;
-     text-align: left;
- }
- .left-side img{
-     height: 300px;
-     width: 250px;
-     border: 1px solid black;
- }
- .club-img{
- 	margin-bottom: 10px;
- }
- .rigth-side{
-     float: right;
-     position: fixed;
-     top: 200px;
-     right: 150px;
- }
- .button-group{
-     margin: 0 auto;
- }
- /* 작성글 */
- .writer-info{
- 	padding-left: 50px;
- 	text-align: left;
- 	margin-bottom: 10px;
- }
- /* 중앙 입력창 */
- .insert-bar{
- 	margin-top: 20px;
- 	margin-bottom: 20px;
- 	background: #ffffff;
- 	width: 540px;
-  	height: 150px;
- 	padding: 10px;
- 	color: #D3D3D3;
- 	text-align: left;
- 	cursor: pointer;
- }
- /* 공지사항 */
-.notice-info{
+/* 검색창 */
+.search-div {
+	position: relative;
+	width: 800px;
+	height: 40px;
+	border-radius: 5px;
+}
+
+.search-text {
+	width: 800px;
+	border: 1px solid #bbb;
+	border-radius: 5px;
+	padding: 10px 12px;
+	font-size: 14px;
+}
+
+.search-img {
+	position: absolute;
+	width: 17px;
+	top: 10px;
+	right: 17px;
+	margin-left: 5px;
+	pointer-events: auto;
+	cursor: pointer;
+}
+
+.board-list-content {
+	text-align: left;
 	border-bottom: 1px solid #e1e1e1;
+	max-height: 1000px;
+}
+/* aside */
+.left-side {
+	position: absolute;
+	top: 150px;
+	left: 80px;
 	text-align: left;
 }
 
- 
+.left-side img {
+	height: 300px;
+	width: 250px;
+	border: 1px solid black;
+}
+
+.club-img {
+	margin-bottom: 10px;
+}
+
+.rigth-side {
+	float: right;
+	position: fixed;
+	top: 200px;
+	right: 150px;
+}
+
+.button-group {
+	margin: 0 auto;
+}
+/* 작성글 */
+.writer-info {
+	padding-left: 50px;
+	text-align: left;
+	margin-bottom: 10px;
+}
+/* 중앙 입력창 */
+.insert-bar {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	background: #ffffff;
+	width: 540px;
+	height: 150px;
+	padding: 10px;
+	color: #D3D3D3;
+	text-align: left;
+	cursor: pointer;
+}
+/* 공지사항 */
+.notice-info {
+	border-bottom: 1px solid #e1e1e1;
+	text-align: left;
+}

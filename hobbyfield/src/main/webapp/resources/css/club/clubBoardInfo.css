@@ -5,16 +5,17 @@ body {
 }
 /* 전체 div */
 .total-css {
-	background-color #fff;
+
 }
 
 /* 게시글 + 댓글리스트 */
 .board-comment-list {
-	
-	width: 800px;
+	background-color: white;
+	width: 1000px;
+	min-height:500px;
 	margin: 0 auto;
 	text-align: left;
-	margin-top: 150px;
+	margin-top: 100px;
 	border-radius: 5px;
 	padding: 15px;
 	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
@@ -47,13 +48,16 @@ body {
 
 /* 댓글리스트 */
 .comment-list {
+	background-color: #fcfcfc;
 	margin-top: 20px;
 }
 
 .comment-info {
 	border-top: 1px solid #E7E7E7;
 }
-
+.recomment-info{
+	padding-left: 10px;
+}
 /* 이모티콘 출력 사이즈 */
 .comment-list img{
 	width: 30px;
@@ -61,9 +65,13 @@ body {
 }
 /* 댓글입력창 */
 .comment-insert {
+	background-color: window;
 	margin-top: 20px;
 }
-
+.board-like{
+	text-align: left;
+	
+}
 /* 전체 스타일 */
 #btnList button {
 	margin-top: 20px;
@@ -74,11 +82,21 @@ body {
 	border-radius: 5px;
 	cursor: pointer;
 }
-
+#editor2{
+	left: 
+}
 #btnList button:hover {
 	background-color: #0056b3;
 }
-
+.comment-img{
+	width: 60px;
+	height: 60px;
+	float: left;
+	display: inline-block;
+}
+.insert-box{
+	padding-left: 50px;
+}
 /* modal 모음 */
 .modal {
 	position: fixed;
@@ -225,6 +243,26 @@ body {
 
 .btn.btn-primary[data-bs-toggle="modal"][data-bs-target="#emojiModal"] {
 	border-radius: 5px;
+}
+writer-info{
+	width: 60px;
+	height: 60px;
+	float: left;
+	display: inline-block;
+}
+.writer-info img{
+    left: 2px;
+	width: 45px;
+	height: 45px;
+	border-radius: 70%;
+	overflow: hidden;
+}
+.writer-info p{
+	font-weight: bold;
+	margin-bottom: 2px;
+}
+.recomment{
+	
 }
 
 /* 대댓 임시 modal */

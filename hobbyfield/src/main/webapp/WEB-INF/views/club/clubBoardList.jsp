@@ -1,4 +1,4 @@
-j<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -17,8 +17,6 @@ j<%@ page language="java" contentType="text/html; charset=UTF-8"
 	src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
 <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/club/clubboard.css">
 
 <style type="text/css">
 .ck.ck-editor {
@@ -33,7 +31,7 @@ j<%@ page language="java" contentType="text/html; charset=UTF-8"
 
 #emptyBoard {
 	width: 800px;
-	height: 500px;
+	height: 400px;
 	background-color: #ffffff;
 	border: 1px solid #e1e1e1;
 	border-radius: 5px;
@@ -69,12 +67,18 @@ body {
 #emptyBoard:nth-child(2) {
 	opacity: 0.5;
 }
+.writer-info p{
+	font-weight: bolder;
+}
 /* 제일 상단 소모임명 표시 */
 </style>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/club/clubboard.css?after">
 </head>
 <body>
+
 	<div align="center" style="margin-top: 10px; margin-bottom: 600px;">
-		<!-- 검색창 구현 : 사용자이름, 글내용으로 검색 : ajax 처리를 통해 검색된 내용만 다시 불러오도록.-->
+		<!-- 검색창 구현 : 사용자이름, 글내용으로 검색 :  처리를 통해 검색된 내용만 다시 불러오도록.-->
 		<!-- 검색창 -->
 		
 		<div class="search-div">
@@ -91,24 +95,23 @@ body {
 			</form>
 		</div>
 		
-		
-		<c:choose>
-		<c:when test="${profile ne null}">
-			<div id="headBoxBoard" class="boardMain"
-				style="width: 800px; height: 100px; text-align: left; padding-top: px; border-radius: 5px;">
+			<c:choose>
+			<c:when test="${profile ne null}">
+				<div id="headBoxBoard" class="board--main"
+					style="width: 800px; height: 100px; text-align: left; padding-top: 10px; border-radius: 5px;">
+					<p>새로운 소식을 남겨보세요</p>
+					<p>소모임에 소속된 멤버라면 누구나 작성 가능합니다.</p>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<div id="headBoxJoin" class="board--main"
+				style="width: 800px; height: 100px; text-align: left; padding-top: 10px; border-radius: 5px;">
 				<p>새로운 소식을 남겨보세요</p>
 				<p>소모임에 소속된 멤버라면 누구나 작성 가능합니다.</p>
 			</div>
-		</c:when>
-		<c:otherwise>
-			<div id="headBoxJoin" class="boardMain"
-			style="width: 800px; height: 100px; text-align: left; padding-top: px; border-radius: 5px;">
-			<p>새로운 소식을 남겨보세요</p>
-			<p>소모임에 소속된 멤버라면 누구나 작성 가능합니다.</p>
-		</div>
-		</c:otherwise>
-		</c:choose>
-
+			</c:otherwise>
+			</c:choose>
+	
 		<!-- 차단한 유저는 나오지 않도록 추가 조건문 구현하기 -->
 		<!-- 게시글 리스트 -->
 		<c:if test="${boardList ne null}">
@@ -119,7 +122,8 @@ body {
 						<div class="board-head">
 							<div class="writer-img">
 								<img
-									src="${pageContext.request.contextPath}${board.profileImgPath}${board.profileImg}">
+									src="${pageContext.request.contextPath}${board.profileImgPath}${board.profileImg}"
+									onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/resources/images/common.png'">
 							</div>
 							<div class="writer-info">
 								<p>${board.clubBoardWriter}</p>
@@ -132,8 +136,8 @@ body {
 						</div>
 						<div class="board-list-content">
 							<div>${board.clubBoardContent}</div>
-							<p class="club-view">
-								<span></span>${board.clubBoardViews}</p>
+							<p class="club-view" style="text-align: right; font-weight: bold;">
+							조회수:${board.clubBoardViews}</p>
 							<c:if test="${board.scheduleDate} ne null">
 								<p>
 									<fmt:formatDate value="${board.scheduleDate}" dateStyle="full" />
@@ -145,7 +149,7 @@ body {
 			</div>
 		</c:if>
 		
-		<c:if test="${(fn:length(borardList) eq 0) || (boardList eq null) }">
+		<c:if test="${ boardList eq null}">
 			<div id="emptyBoard">
 				<img style="margin-top: 180px;"
 					src="${pageContext.request.contextPath}/resources/images/postcard.png">
@@ -160,7 +164,8 @@ body {
 		<div class="left-side">
 			<div class="club-img">
 				<img
-					src="${pageContext.request.contextPath}${club.clubImgPath}${club.clubImg}">
+					src="${pageContext.request.contextPath}${club.clubImgPath}${club.clubImg}" 
+					onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/resources/images/nomalClubImg.jpg'">
 			</div>
 			<div class="club">
 				<h3>${club.clubName}</h3>
@@ -220,27 +225,16 @@ body {
 					<label>일정설정</label> <input type="date" id="insertScheduleDate"
 						name="scheduleDate" value="">
 				</div>
-
 				<div>
-					<input type="text" name="clubBoardWriter"
-						value="${profile.profileNickname}">
-				</div>
-				<!-- 투표 등록시 투표 값이 들어올 div(투표 modal로 이동하는 창과 input hidden값 -->
-<!-- 				<div id="voteValue"></div> -->
-<!-- 				<div id="option button"> -->
-<!-- 					<button type="button" id="openVoteModal" class="modal-open-btn">투표생성</button> -->
-<!-- 				</div> -->
-				<!-- 공지 설정은 모임장일 경우에만 보이도록 선택되지않을경우 자동으로 N으로-->
-				<div>
-<%-- 					<c:if test="${profile.profileNickname eq club.profileNickname}"> --%>
-<!-- 						<input type="checkbox" id="" name="clubBoardType">공지사항등록 -->
-<%-- 					</c:if> --%>
+					작성자 : ${profile.profileNickname}
 				</div>
 				<div>
 					<!-- from으로 보내기 위한 데이터 추후 hidden으로 -->
-					<input type="text" id="clubBoardType" name="clubBoardType"
+					<input type="hidden" id="clubBoardType" name="clubBoardType"
 						value="N"> <input type="hidden" id="clubNumber"
 						name="clubNumber" value="${club.clubNumber}">
+					<input type="hidden" name="clubBoardWriter"
+						value="${profile.profileNickname}">
 				</div>
 
 				<div id="boardBtn">
@@ -361,13 +355,6 @@ body {
 				</div>
 
 
-				<!-- 				<div class="profileSection"> -->
-				<!-- 					<label>첨부이미지</label> -->
-				<!-- 					<div id="preview"></div> -->
-				<!-- 					<input name="uploadFile" type="file" value="profileImg" -->
-				<!-- 						id="profileImg" onchange="readURL(this);"> -->
-				<!-- 					<button type="button" id="uploadBtn">upload</button> -->
-				<!-- 				</div> -->
 
 				<div class="profileSection input-group mb-3">
 
@@ -456,6 +443,7 @@ body {
       })
        
        $("#search-img").on("click", function(e){
+    	   e.preventDefault();
          var search = $("#searchText").val();
          if(search == ""){
         	 alert("검색어를 입력해주세요.")
@@ -468,9 +456,11 @@ body {
        // submit
        $(".submit-btn").on("click", function(e){
            if(event.target == document.getElementById("joinSubmit")){
+        	   e.preventDefault();
   	   			$("form[name='clubJoinForms']").submit();        	   
            }
            if(event.target == document.getElementById("boardSubmitBtn")){
+        	   e.preventDefault();
         	    $("form[name='insertForm']").submit();
            }
        });
@@ -613,7 +603,8 @@ body {
                             	          작성일:
                             	          <fmt:formatDate value="${board.clubBoardWdate}" pattern="yyyy-MM-dd" />
                             	        </p>
-                            	        <p>\${board.clubBoardViews}</p>
+                            	        <p class="club-view" style="text-align: right; font-weight: bold;">
+            							조회수:\${board.clubBoardViews}</p>
                             	        <p>\${board.clubBoardType}</p>
                             	        <c:if test="${board.scheduleDate ne null}">
                             	          <p>
