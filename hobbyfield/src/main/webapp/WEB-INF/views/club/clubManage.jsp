@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -289,12 +290,12 @@ p {
 							</tr>
 						</thead>
 						<tbody>
-							<c:choose>
+							<c:choose> 
 							<c:when test="${not empty beforeMembers}">
 							<c:forEach items="${beforeMembers}" var="members">
 								<tr>
 									<td>${members.profileNickname }</td>
-									<td>${members.applyDate }</td>
+									<td>${members.applyDate}</td>
 									<td>${members.applyAnswer1 }</td>
 									<td>${members.applyAnswer2 }</td>
 									<td>${members.applyAnswer3 }</td>

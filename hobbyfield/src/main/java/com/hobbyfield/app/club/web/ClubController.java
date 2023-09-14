@@ -151,7 +151,7 @@ public class ClubController {
 		return createClubService.selectMadeClub(clubVO);
 	}
 
-	// 가입신청한 소모임 회원 조회(info 또는 clubMain에서 조회) <모임장>
+	// 가입신청한 소모임 회원 조회(info 또는 에서 조회) <모임장>
 	@GetMapping("/clubManage")
 	public String clubConfirmMember(HttpSession session, CreateclubVO createclubVO, ClubProfileVO clubProfileVO,
 			ClubJoinVO clubJoinVO, Model model) {

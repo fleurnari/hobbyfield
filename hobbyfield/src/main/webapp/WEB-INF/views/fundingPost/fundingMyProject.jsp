@@ -54,12 +54,13 @@
 	<c:forEach items="${fundingMyProject }" var="fundingMyProject">
 	<div class="col-sm-6">
 		<form>
-				<p>
+				
 					<figure>
-						<img id="img" src="${pageContext.request.contextPath}${fundingMyProject.fndMainImgPath}${fundingMyProject.fndMainImg }" alt=""
-						onclick="location.href='fundingPostInfo?fndPostNumber=${fundingMyProject.fndPostNumber }'" width="400">
+						<img id="img" src="${pageContext.request.contextPath}${fundingMyProject.fndMainImgPath}${fundingMyProject.fndMainImg }" 
+						onclick="location.href='fundingPostInfo?fndPostNumber=${fundingMyProject.fndPostNumber }'" alt="img" style="float: left" width="250px" height="200px">
 					</figure>
-				</p>
+				<br>
+				<br>
 				<p>
 					<span>${fundingMyProject.fndTitle }</span>
 				</p>
@@ -108,6 +109,7 @@
 			<button type="button" id="supportListBtn" class="btn btn-primary" onclick="location.href='supportManagement?fndPostNumber=${fundingMyProject.fndPostNumber }'">후원자관리</button>
 		</div>
 		</div>
+
 		<hr>
 			</c:forEach>
 	</div>

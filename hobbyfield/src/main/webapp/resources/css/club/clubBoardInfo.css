@@ -39,7 +39,7 @@ body {
 }
 
 .board-views {
-	
+	text-align: right;
 }
 
 .board-content {
@@ -54,6 +54,7 @@ body {
 
 .comment-info {
 	border-top: 1px solid #E7E7E7;
+	margin-top: 5px;
 }
 .recomment-info{
 	padding-left: 10px;
@@ -66,10 +67,11 @@ body {
 /* 댓글입력창 */
 .comment-insert {
 	background-color: window;
-	margin-top: 20px;
+	margin-top: 10px;
 }
+
 .board-like{
-	text-align: left;
+	text-align: right;
 	
 }
 /* 전체 스타일 */
@@ -83,8 +85,22 @@ body {
 	cursor: pointer;
 }
 #editor2{
-	left: 
+
 }
+.like-btn{
+	margin-top: 20px;
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+.like-btn:hover {
+	background-color: #0056b3;
+	
+}
+
 #btnList button:hover {
 	background-color: #0056b3;
 }
@@ -93,6 +109,7 @@ body {
 	height: 60px;
 	float: left;
 	display: inline-block;
+
 }
 .insert-box{
 	padding-left: 50px;
@@ -244,22 +261,22 @@ body {
 .btn.btn-primary[data-bs-toggle="modal"][data-bs-target="#emojiModal"] {
 	border-radius: 5px;
 }
-writer-info{
-	width: 60px;
-	height: 60px;
-	float: left;
-	display: inline-block;
+.writer-info{
+	margin-bottom: 10px;
 }
+
 .writer-info img{
     left: 2px;
 	width: 45px;
 	height: 45px;
 	border-radius: 70%;
 	overflow: hidden;
+	margin-right: 5px;
 }
 .writer-info p{
 	font-weight: bold;
 	margin-bottom: 2px;
+	margin-left: 2px;
 }
 .recomment{
 	
