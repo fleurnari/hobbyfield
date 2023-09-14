@@ -93,7 +93,7 @@ flex-wrap:wrap;
 				<form action="goodsDelete" method="post" id="deleteGoods">
 				<div class="product-option">
 					<div class="option-box">
-						<p class="option-name">${fundingGoods.fndGoodsName }<br>${fundingGoods.fndGoodsAmount }<br>${fundingGoods.fndGoodsPrice }<br>텍스트
+						<p class="option-name">${fundingGoods.fndGoodsName }<br>${fundingGoods.fndGoodsAmount }<br>${fundingGoods.fndGoodsPrice }원<br>
 						</p>
 						<p class="option-description">${fundingGoods.fndGoodsContent }</p>
 						<input type="hidden" id="fndGoodsNumber" name="fndGoodsNumber" value="${fundingGoods.fndGoodsNumber }">
