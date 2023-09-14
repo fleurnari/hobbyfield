@@ -290,7 +290,7 @@ p {
 							</tr>
 						</thead>
 						<tbody>
-							<c:choose>
+							<c:choose> 
 							<c:when test="${not empty beforeMembers}">
 							<c:forEach items="${beforeMembers}" var="members">
 								<tr>
