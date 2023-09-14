@@ -399,7 +399,7 @@
 	                    $.each(clubs, function(index, club) {
 	                        $('#clubContainer').append(`
 	                        		<div class="clubItem" onclick="location.href='${pageContext.request.contextPath}/club/clubBoardList?clubNumber=\${club.clubNumber}'">
-	                                <img src="${pageContext.request.contextPath}/\${club.clubImgPath}\${club.clubImg}"
+	                                <img src="${pageContext.request.contextPath}\${club.clubImgPath}\${club.clubImg}"
 	                                 onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/img/clubImg.jpg';">
 	                                <div class="clubInfo">
 	                                <div class="clubInfo">
