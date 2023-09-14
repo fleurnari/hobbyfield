@@ -1,5 +1,6 @@
 package com.hobbyfield.app.point.service;
 
+import java.util.Date;
 import java.util.List;
 
 import lombok.Data;
@@ -15,7 +16,7 @@ public class PointVO {
 	private String pointState;
 	private String pointStateNm;
 	private Integer pointView;
-	private String pointRegdate;
+	private Date pointRegdate;
 	private String pointEndterm;
 	private String pointImgName;
 	private String pointImgPath;

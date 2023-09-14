@@ -39,7 +39,7 @@
 					<div class="writer-info">
 						<!-- 이미지 추후 db에서 경로 가져와서 출력 -->
 						<img alt="프로필이미지"
-							src="${pageContext.request.contextPath}/${board.profileImgPath}${board.profileImg}">
+							src="${pageContext.request.contextPath}${board.profileImgPath}${board.profileImg}">
 						<input type="hidden" id="clubBoardWriter" name="clubBoardWriter"
 							value="${board.clubBoardWriter}">
 						<p class="board-wdate">${board.clubBoardWriter}</p>
@@ -130,8 +130,6 @@
 							data-bs-toggle="modal" data-bs-target="#emojiModal">😊</button>
 						</div>
 
-						//<button type="button" id="commentInsert">댓글 작성</button>
-						//<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#emojiModal">😊</button>
 
 					</form>
 				</c:if>

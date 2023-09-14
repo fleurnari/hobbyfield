@@ -186,6 +186,9 @@ h3 {
     padding: 10px;
     background-color: #f9f9f9;
 }
+.club-board img{
+	display: none;
+}
 .club-board:hover{
    transform: translateY(-5px);
    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);

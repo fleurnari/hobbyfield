@@ -103,14 +103,16 @@
                     <div class="col-sm-6">
   <div class="mb-3">
     시작 날짜: 
-    <input type="date" name="fndStartDate" value="${fundingPostInsert20.fndStartDate}" id="startDate">
+    <input type="date" name="fndStartDate" value="${fundingPostInsert20.fndStartDate}">
   </div>
   <br>
   <div class="mb-3">
     종료 날짜: 
-    <input type="date" name="fndEndDate" value="${fundingPostInsert20.fndEndDate}" id="endDate">
+    <input type="date" name="fndEndDate" value="${fundingPostInsert20.fndEndDate}">
   </div>
 </div>
+<%-- <input type="date" name="fndStartDate" value="${fundingPostInsert20.fndStartDate.split(' ')}" id="startDate">
+<input type="date" name="fndEndDate" value="${fundingPostInsert20.fndEndDate.split(' ')}" id="endDate"> --%>
                   </div>
                   <hr>
                   <div class="row">
@@ -143,10 +145,10 @@
 <script type="text/javascript">
 ClassicEditor
 .create( document.querySelector( '#fndContent' ), {
-	language:"ko",
-	ckfinder: {
-		uploadUrl : '${pageContext.request.contextPath}/ckeditor/upload'
-	}
+   language:"ko",
+   ckfinder: {
+      uploadUrl : '${pageContext.request.contextPath}/ckeditor/upload'
+   }
 })
 .then(editor => {
     // 에디터 인스턴스가 생성되면 호출되는 콜백 함수
@@ -203,10 +205,11 @@ ClassicEditor
       
       return formObject;
    };
+  
    var today = new Date().toISOString().split("T")[0];
    document.getElementById("startDate").setAttribute("min", today);
    document.getElementById("endDate").setAttribute("min", today);
-   
+  
    document.addEventListener('DOMContentLoaded', function () {
        // 서버에서 받아온 날짜 데이터 (예: "2023-09-11 00:00:00")
 //시작날짜와 종료일자를 가져옵니다.
@@ -217,5 +220,6 @@ const endDateString = "${fundingPostInsert20.fndEndDate}".split(" ")[0];
 document.querySelector('input[name="fndStartDate"]').value = startDateString;
 document.querySelector('input[name="fndEndDate"]').value = endDateString;
    });
+  
 </script>
 </html>

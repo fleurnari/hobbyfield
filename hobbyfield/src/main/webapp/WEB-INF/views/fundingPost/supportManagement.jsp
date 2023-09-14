@@ -106,8 +106,9 @@ li {
                         <td>${supportManagement.fndOrderRequest }</td>
                         <td><input type="text" name="fndInvoice" value="${supportManagement.fndInvoice }"></td>
                         <td name="fndOrderState">${supportManagement.fndOrderState }</td>
-                        <td><input type="hidden" name="fndPostNumber" value="${fndPostNumber}"></td>
+                        <td><button type="submit" class="btn btn-primary">저장</button></td>
 						<td>                        
+                        <input type="hidden" name="fndPostNumber" value="${fndPostNumber}"></td>
                                 <input type="hidden" name="fndSupportNumber" value="${supportManagement.fndSupportNumber }">
                                 <button type="submit" class="btn btn-primary">저장</button>
                             </form>

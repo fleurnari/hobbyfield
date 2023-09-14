@@ -253,10 +253,10 @@
       <img src="${pageContext.request.contextPath}/resources/캠핑.jpg" class="d-block w-100" alt="...">
     </div>
     <div class="carousel-item">
-      <img src="${pageContext.request.contextPath}/resources/캠핑.jpg" class="d-block w-100" alt="...">
+      <img src="${pageContext.request.contextPath}/resources/images/home.jpg" class="d-block w-100" alt="...">
     </div>
     <div class="carousel-item">
-      <img src="${pageContext.request.contextPath}/resources/캠핑.jpg" class="d-block w-100" alt="...">
+      <img src="${pageContext.request.contextPath}/resources/images/djin.jpg" class="d-block w-100" alt="...">
     </div>
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -351,7 +351,7 @@
 				    			<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
 				    			<li><a href="fundingPostList${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a></li>
 				    			</c:if> 
-									</ul>
+							</ul>
 						</div>
 		
 			</div>
