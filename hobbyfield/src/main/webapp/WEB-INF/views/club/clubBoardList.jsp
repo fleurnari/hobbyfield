@@ -149,7 +149,7 @@ body {
 			</div>
 		</c:if>
 		
-		<c:if test="${ boardList eq null}">
+		<c:if test="${ fn:length(boardList) eq 0}">
 			<div id="emptyBoard">
 				<img style="margin-top: 180px;"
 					src="${pageContext.request.contextPath}/resources/images/postcard.png">
