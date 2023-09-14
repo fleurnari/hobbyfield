@@ -39,18 +39,19 @@
 					<div class="writer-info">
 						<!-- 이미지 추후 db에서 경로 가져와서 출력 -->
 						<img alt="프로필이미지"
-							src="${pageContext.request.contextPath}${board.profileImgPath}${board.profileImg}">
+							src="${pageContext.request.contextPath}${board.profileImgPath}${board.profileImg}"
+							onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/resources/images/common.png'">
 						<input type="hidden" id="clubBoardWriter" name="clubBoardWriter"
 							value="${board.clubBoardWriter}">
 						<p class="board-wdate">${board.clubBoardWriter}</p>
 						<fmt:formatDate value="${board.clubBoardWdate}" dateStyle="full" />
-						<p class="board-views">${board.clubBoardViews}</p>
 					</div>
 					<div class="board-content">${board.clubBoardContent}</div>
-					<p class="board-like">좋아요 : ${boardLike} 개</p>
+					<p class="board-views">view : ${board.clubBoardViews}</p>
+					<p class="board-like">좋아요 : ${boardLike}개</p>
 					<c:if
 						test="${(profile.profileNickname ne board.clubBoardWriter) && (profile ne null)}">
-						<button type="button" id="boardLike">좋아요</button>
+						<button class="like-btn" type="button" id="boardLike">좋아요</button>
 					</c:if>
 				</form>
 			</div>
@@ -72,6 +73,8 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;<p>Re:</p>
 										</c:if>
 										<div class="comment-info">
+										<img class="comment-img" src="${pageContext.request.contextPath}${board.profileImgPath}${board.profileImg}"
+										onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/resources/img/common2.jpg'">
 										<p class="comment-writer">${comment.profileNickname}</p>
 										<p class="comment-content">${comment.clubCommentContent}</p>
 										<p class="comment-wdate">
