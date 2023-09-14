@@ -45,7 +45,10 @@ body {
 .board-content {
 	align-content: left;
 }
-
+.board-content img{
+	max-height: 300px;
+	max-width: 300px;
+}
 /* 댓글리스트 */
 .comment-list {
 	background-color: #fcfcfc;
